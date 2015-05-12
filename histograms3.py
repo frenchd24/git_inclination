@@ -161,7 +161,7 @@ def main():
     if getpass.getuser() == 'David':
         galaxyFilename = '/Users/David/Research_Documents/NewGalaxyTable3.csv'
         filename = '/Users/David/Research_Documents/inclination/LG_correlation_combined3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/pilot_paper/figures/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/pilot_paper/figures'
 
     elif getpass.getuser() == 'frenchd':
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable3.csv'
@@ -182,7 +182,7 @@ def main():
     
     
     # save each plot?
-    save = False
+    save = True
     
     # create and write output table header and fieldnames
 #     fieldnames = ('preferredName','oldName','J2000RA_Dec','alternativeNames')
@@ -303,10 +303,16 @@ def main():
             lyaErr = float(str(lyaW.split('pm')[1]))
             
             b = float(b)
+            if isNumber(impact):
+                impact = float(impact)
             
             if isNumber(vcorr):
                 vcorr = float(vcorr)
-                dif = float(lyaV) - vcorr
+                
+                # difference in velocity between the absorption and the galaxy
+                # if dif >0, then the absorber is BLUESHIFTED
+                # if dif <0, then the absorber is REDSHIFTED
+                dif = vcorr - float(lyaV)
             else:
                 vcorr = 'x'
                 dif = 'x'
@@ -489,7 +495,7 @@ def main():
 ########################################################################################
 
     # make a histogram of all the azimuth angles (old, hand measured ones)
-    plotAzHist = False
+    plotAzHist = True
     
     if plotAzHist:
         fig = figure()
@@ -532,7 +538,7 @@ def main():
 
     # make a histogram of the position angle distribution for both the associated galaxy
     # sample and the full galaxy table
-    plotPAHist = False
+    plotPAHist = True
     
     if plotPAHist:
         fig = figure()
@@ -566,10 +572,11 @@ def main():
 
 #########################################################################################
     
-    # make a histogram of the distribution of impact parameters for associated galaxies
-    plotImpactHist = False
+    # make a histogram of the distribution of impact parameters for associated galaxies 
+    # normalized by major diameter
+    plotImpactHist_Diam = True
     
-    if plotImpactHist:
+    if plotImpactHist_Diam:
         fig = figure(figsize=(10,2))
 #         subplots_adjust(hspace=0.200)
         ax = fig.add_subplot(111)
@@ -577,7 +584,21 @@ def main():
 #         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
     #     bins = [5,15,25,35,45,55,65,75,85]
     #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(array(impactList)/array(majList),bins=10,histtype='bar')
+    
+        
+        impactArray = np.array([])
+        majArray = np.array([])
+        
+        # make sure all the values are okay
+        for i,m in zip(impactList,majList):
+            if isNumber(i) and isNumber(m):
+                if i !=-99 and m !=-99:
+                    impactArray = append(impactArray,float(i))
+                    majArray = append(majArray,float(m))
+        
+        normalizedImpactArray = impactArray/majArray
+        
+        plot1 = hist(normalizedImpactArray,bins=10,histtype='bar')
         
         title('Distribution of impact parameters')
         xlabel('Impact Parameter (kpc)')
@@ -587,7 +608,7 @@ def main():
 #         ylim(0,5)
 
         if save:
-            savefig('{0}/hist(Impact).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(Impact_Diameter).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
@@ -595,7 +616,7 @@ def main():
 
     # make a histogram of the distribution of Lyalpha equivalent widths for both the 
     # associated and ambiguous samples
-    plotLyaWHist_both = False
+    plotLyaWHist_both = True
     
     if plotLyaWHist_both:
         fig = figure(figsize=(2,8))
@@ -692,7 +713,7 @@ def main():
 
     # plot histograms of the associated galaxies' inclinations along with that of the full
     # galaxy set
-    plotIncHist_full = False
+    plotIncHist_full = True
     
     if plotIncHist_full:
         fig = figure()
@@ -729,7 +750,7 @@ def main():
 
     # plot histograms of the cos(inclinations) for both associated galaxies and the 
     # full galaxy data set
-    plotCosIncHist_full = False
+    plotCosIncHist_full = True
     
     if plotCosIncHist_full:
         fig = figure()
@@ -766,7 +787,7 @@ def main():
 
     # plot histograms of the fancy inclination for both associated galaxies and the 
     # full galaxy data set
-    plotFancyIncHist_full = False
+    plotFancyIncHist_full = True
     
     if plotFancyIncHist_full:
         fig = figure()
@@ -802,7 +823,7 @@ def main():
 ########################################################################################
 
     # cos(inclination) histograms for redshifted vs blueshifted distributions of absorbers
-    plotCosIncDifHist_full = False
+    plotCosIncDifHist_full = True
     
     if plotCosIncDifHist_full:
     
@@ -906,7 +927,7 @@ def main():
 ########################################################################################
 
     # plot equivalent width as a function of galaxy diameter
-    plotW_Diameter = False
+    plotW_Diameter = True
     
     if plotW_Diameter:
         fig = figure()
@@ -950,7 +971,7 @@ def main():
     
     # plot equivalent width as a function of impact parameter, splitting up red and 
     # blue shifted absorption
-    plotW_b = False
+    plotW_b = True
     
     if plotW_b:
         fig = figure()
@@ -993,7 +1014,7 @@ def main():
 
     # plot equivalent width as a function of impact parameter/diameter, split between
     # red and blue shifted absorption
-    plotW_b_diam= False
+    plotW_b_diam= True
     
     if plotW_b_diam:
         fig = figure()
@@ -1004,21 +1025,24 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,i,w,m in zip(difList,impactList,lyaWList,majList):
-            count +=1
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr)
+        
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d !=-99 and i !=-99 and w!=-99 and m!=-99:
+                    count +=1
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr)
                     
-            plot1 = scatter(i/m,w,c=color,s = 50)
+                    plot1 = scatter(i/m,w,c=color,s = 50)
             
         # make the legend work properly
 #         labelr = 'Red Shifted Absorber'
@@ -1036,7 +1060,7 @@ def main():
         ax.legend(scatterpoints=1)
         
         if save:
-            savefig('{0}/W(impact-diam)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(impact_diam)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
         
@@ -1044,7 +1068,7 @@ def main():
 
     # plot apparent column density as a function of impact parameter, split between red and
     # blue shifted absorption
-    plotNaV_b = False
+    plotNaV_b = True
     
     if plotNaV_b:
         fig = figure()
@@ -1055,20 +1079,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,i,n in zip(difList,impactList,naList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(i,n,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(i,n,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(i) and isNumber(n):
+                if d !=-99 and i !=-99 and n!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i,n,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i,n,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(i,n,c=color,s=50)
+                    plot1 = scatter(i,n,c=color,s=50)
             
         title('Apparent N(HI) vs impact parameter for red vs blue absorption')
         xlabel('Impact Parameter (kpc)')
@@ -1087,7 +1113,7 @@ def main():
 
     # plot apparent column density as a function of impact parameter/diameter for red
     # and blue shifted absorption
-    plotNaV_b_diam = False
+    plotNaV_b_diam = True
     
     if plotNaV_b_diam:
         fig = figure()
@@ -1098,20 +1124,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,i,n,m in zip(difList,impactList,naList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(i/m,n,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(i/m,n,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(i) and isNumber(n) and isNumber(m):
+                if d !=-99 and i !=-99 and n!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i/m,n,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i/m,n,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(i/m,n,c=color,s=50)
+                    plot1 = scatter(i/m,n,c=color,s=50)
             
         title('Apparent N(HI) vs impact/diameter for red vs blue absorption')
         xlabel(r'Impact Parameter / Diameter')
@@ -1122,7 +1150,7 @@ def main():
         xlim(-1,70)
         
         if save:
-            savefig('{0}/NaV(impact/diameter)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/NaV(impact_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
              
@@ -1130,7 +1158,7 @@ def main():
     
     # plot equivalent width as a function of azimuth angle (old one) for red vs blue
     # shifted absorption
-    plotW_Az = False
+    plotW_Az = True
     
     if plotW_Az:
         fig = figure()
@@ -1141,20 +1169,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,a,w,m in zip(difList,azList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
-                
-            plot1 = scatter(a,w,c=color,s=50)
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+            
+                    plot1 = scatter(a,w,c=color,s=50)
             
         title('W(azimuth_old) for red vs blue shifted absorption')
         xlabel(r'Azimuth (deg)')
@@ -1173,7 +1203,7 @@ def main():
 
     # plot equivalent width as a function of azimuth normalized by galaxy size, separated
     # into red and blue shifted absorption samples
-    plotW_Az_major = False
+    plotW_Az_major = True
     
     if plotW_Az_major:
         fig = figure()
@@ -1193,20 +1223,22 @@ def main():
         print 'average, median azimuth: ',average(azList),', ',median(azList)
         
         for d,a,w,m in zip(difList,azList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(a/m,w,c=color,s=50)
+                    plot1 = scatter(a/m,w,c=color,s=50)
             
         title('W(azimuth_old/diameter) for red vs blue absorption')
         xlabel(r'Azimuth / Major Axis')
@@ -1217,7 +1249,7 @@ def main():
 #         xlim(0,90)
 
         if save:
-            savefig('{0}/W(azimuth_old/diameter)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(azimuth_old_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
@@ -1225,7 +1257,7 @@ def main():
 
     # plot equivalent width as a function of inclination for red and blue shifted
     # absorption
-    plotW_Inc = False
+    plotW_Inc = True
     
     if plotW_Inc:
         fig = figure()
@@ -1236,20 +1268,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,a,w,m in zip(difList,incList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(a,w,c=color,s=50)
+                    plot1 = scatter(a,w,c=color,s=50)
             
         title('W(inclination) for red vs blue shifted absorption')
         xlabel(r'Inclination (deg)')
@@ -1268,7 +1302,7 @@ def main():
 
     # plot equivalent width as a function of cos(inclination) for red and blue shifted
     # absorption
-    plotW_CosInc = False
+    plotW_CosInc = True
     
     if plotW_CosInc:
         fig = figure()
@@ -1279,20 +1313,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,a,w,m in zip(difList,cosIncList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(a,w,c=color,s=50)
+                    plot1 = scatter(a,w,c=color,s=50)
             
         title('W(cos(inclination)) for red vs blue shifted absorption')
         xlabel(r'Cos(inclination) = b/a')
@@ -1311,7 +1347,7 @@ def main():
 
     # plot equivalent width as a function of cos(inclination) with red and blue shifted
     # absorption represented by a color bar
-    plotW_CosInc_colorbar= False
+    plotW_CosInc_colorbar= True
     
     if plotW_CosInc_colorbar:
         # colormap the velocity difference of the absorber
@@ -1336,25 +1372,27 @@ def main():
         blyaW = []
         bMaj = []
         for d,i,w,m in zip(difList,cosIncList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    bdif.append(d)
-                    bcosInc.append(i)
-                    blyaW.append(w)
-                    bMaj.append(m)
-#                     plotb = ax.scatter(a, w, cmap=blueMap, c=d, s=50, vmin=0, vmax=400)
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            bdif.append(d)
+                            bcosInc.append(i)
+                            blyaW.append(w)
+                            bMaj.append(m)
+        #                     plotb = ax.scatter(a, w, cmap=blueMap, c=d, s=50, vmin=0, vmax=400)
 
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-#                     plotr = ax.scatter(a, w, cmap=redMap, c=d, s=50, vmin=0, vmax=400)
-                    rdif.append(d)
-                    rcosInc.append(i)
-                    rlyaW.append(w)
-                    rMaj.append(m)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+        #                     plotr = ax.scatter(a, w, cmap=redMap, c=d, s=50, vmin=0, vmax=400)
+                            rdif.append(d)
+                            rcosInc.append(i)
+                            rlyaW.append(w)
+                            rMaj.append(m)
 
 
         print
@@ -1397,7 +1435,7 @@ def main():
 
     # equivalent width as a function of position angle for both red and blue shifted
     # absorption features
-    plotPA = False
+    plotPA = True
     
     if plotPA:
         fig = figure()
@@ -1408,20 +1446,22 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,a,w,m in zip(difList,paList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
                 
-            plot1 = scatter(a,w,c=color,s=50)
+                    plot1 = scatter(a,w,c=color,s=50)
             
         title('W vs position angle for red vs blue shifted absorption')
         xlabel(r'Position Angle (deg)')
@@ -1440,7 +1480,7 @@ def main():
 
     # plot equivalent width as a function of cos(fancy-inclination) with red and blue shifted
     # absorption represented by a color bar
-    plotW_FancyCosInc_colorbar= False
+    plotW_FancyCosInc_colorbar= True
     
     if plotW_FancyCosInc_colorbar:
         # colormap the velocity difference of the absorber
@@ -1465,25 +1505,27 @@ def main():
         blyaW = []
         bMaj = []
         for d,i,w,m in zip(difList,fancyCosIncList,lyaWList,majList):
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    bdif.append(d)
-                    bcosInc.append(i)
-                    blyaW.append(w)
-                    bMaj.append(m)
-#                     plotb = ax.scatter(a, w, cmap=blueMap, c=d, s=50, vmin=0, vmax=400)
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d !=-99 and i !=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            bdif.append(d)
+                            bcosInc.append(i)
+                            blyaW.append(w)
+                            bMaj.append(m)
+        #                     plotb = ax.scatter(a, w, cmap=blueMap, c=d, s=50, vmin=0, vmax=400)
 
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-#                     plotr = ax.scatter(a, w, cmap=redMap, c=d, s=50, vmin=0, vmax=400)
-                    rdif.append(d)
-                    rcosInc.append(i)
-                    rlyaW.append(w)
-                    rMaj.append(m)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+        #                     plotr = ax.scatter(a, w, cmap=redMap, c=d, s=50, vmin=0, vmax=400)
+                            rdif.append(d)
+                            rcosInc.append(i)
+                            rlyaW.append(w)
+                            rMaj.append(m)
 
 
         print
