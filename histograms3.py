@@ -495,7 +495,7 @@ def main():
 ########################################################################################
 
     # make a histogram of all the azimuth angles (old, hand measured ones)
-    plotAzHist = True
+    plotAzHist = False
     
     if plotAzHist:
         fig = figure()
@@ -516,7 +516,7 @@ def main():
 ########################################################################################
  
     # make a histogram of all the azimuth angles (new, automatic ones)
-    plotNewAzHist = True
+    plotNewAzHist = False
     
     if plotNewAzHist:
         fig = figure()
@@ -538,7 +538,7 @@ def main():
 
     # make a histogram of the position angle distribution for both the associated galaxy
     # sample and the full galaxy table
-    plotPAHist = True
+    plotPAHist = False
     
     if plotPAHist:
         fig = figure()
@@ -574,7 +574,7 @@ def main():
     
     # make a histogram of the distribution of impact parameters for associated galaxies 
     # normalized by major diameter
-    plotImpactHist_Diam = True
+    plotImpactHist_Diam = False
     
     if plotImpactHist_Diam:
         fig = figure(figsize=(10,2))
@@ -616,7 +616,7 @@ def main():
 
     # make a histogram of the distribution of Lyalpha equivalent widths for both the 
     # associated and ambiguous samples
-    plotLyaWHist_both = True
+    plotLyaWHist_both = False
     
     if plotLyaWHist_both:
         fig = figure(figsize=(2,8))
@@ -713,7 +713,7 @@ def main():
 
     # plot histograms of the associated galaxies' inclinations along with that of the full
     # galaxy set
-    plotIncHist_full = True
+    plotIncHist_full = False
     
     if plotIncHist_full:
         fig = figure()
@@ -750,7 +750,7 @@ def main():
 
     # plot histograms of the cos(inclinations) for both associated galaxies and the 
     # full galaxy data set
-    plotCosIncHist_full = True
+    plotCosIncHist_full = False
     
     if plotCosIncHist_full:
         fig = figure()
@@ -823,7 +823,7 @@ def main():
 ########################################################################################
 
     # cos(inclination) histograms for redshifted vs blueshifted distributions of absorbers
-    plotCosIncDifHist_full = True
+    plotCosIncDifHist_full = False
     
     if plotCosIncDifHist_full:
     
@@ -927,7 +927,7 @@ def main():
 ########################################################################################
 
     # plot equivalent width as a function of galaxy diameter
-    plotW_Diameter = True
+    plotW_Diameter = False
     
     if plotW_Diameter:
         fig = figure()
@@ -971,7 +971,7 @@ def main():
     
     # plot equivalent width as a function of impact parameter, splitting up red and 
     # blue shifted absorption
-    plotW_b = True
+    plotW_b = False
     
     if plotW_b:
         fig = figure()
@@ -1014,7 +1014,7 @@ def main():
 
     # plot equivalent width as a function of impact parameter/diameter, split between
     # red and blue shifted absorption
-    plotW_b_diam= True
+    plotW_b_diam= False
     
     if plotW_b_diam:
         fig = figure()
@@ -1068,7 +1068,7 @@ def main():
 
     # plot apparent column density as a function of impact parameter, split between red and
     # blue shifted absorption
-    plotNaV_b = True
+    plotNaV_b = False
     
     if plotNaV_b:
         fig = figure()
@@ -1113,7 +1113,7 @@ def main():
 
     # plot apparent column density as a function of impact parameter/diameter for red
     # and blue shifted absorption
-    plotNaV_b_diam = True
+    plotNaV_b_diam = False
     
     if plotNaV_b_diam:
         fig = figure()
@@ -1158,7 +1158,7 @@ def main():
     
     # plot equivalent width as a function of azimuth angle (old one) for red vs blue
     # shifted absorption
-    plotW_Az = True
+    plotW_Az = False
     
     if plotW_Az:
         fig = figure()
@@ -1203,7 +1203,7 @@ def main():
 
     # plot equivalent width as a function of azimuth normalized by galaxy size, separated
     # into red and blue shifted absorption samples
-    plotW_Az_major = True
+    plotW_Az_major = False
     
     if plotW_Az_major:
         fig = figure()
@@ -1257,7 +1257,7 @@ def main():
 
     # plot equivalent width as a function of inclination for red and blue shifted
     # absorption
-    plotW_Inc = True
+    plotW_Inc = False
     
     if plotW_Inc:
         fig = figure()
@@ -1302,7 +1302,7 @@ def main():
 
     # plot equivalent width as a function of cos(inclination) for red and blue shifted
     # absorption
-    plotW_CosInc = True
+    plotW_CosInc = False
     
     if plotW_CosInc:
         fig = figure()
@@ -1347,7 +1347,7 @@ def main():
 
     # plot equivalent width as a function of cos(inclination) with red and blue shifted
     # absorption represented by a color bar
-    plotW_CosInc_colorbar= True
+    plotW_CosInc_colorbar= False
     
     if plotW_CosInc_colorbar:
         # colormap the velocity difference of the absorber
@@ -1435,9 +1435,9 @@ def main():
 
     # equivalent width as a function of position angle for both red and blue shifted
     # absorption features
-    plotPA = True
+    plotW_PA_dif = False
     
-    if plotPA:
+    if plotW_PA_dif:
         fig = figure()
         ax = fig.add_subplot(111)
         countb = 0
