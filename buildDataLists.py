@@ -76,14 +76,14 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        galaxyFilename = '/Users/David/Research_Documents/NewGalaxyTable3.csv'
-        filename = '/Users/David/Research_Documents/inclination/LG_correlation_combined3.csv'
+        galaxyFilename = '/Users/David/Research_Documents/NewGalaxyTable5.csv'
+        filename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined3.csv'
         pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
 
     elif getpass.getuser() == 'frenchd':
-        galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable3.csv'
-        filename = '/usr/users/frenchd/inclination/LG_correlation_combined2.csv'
-        pickleFilename = '/usr/users/inclination/pilotData.p'
+        galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
+        filename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined3.csv'
+        pickleFilename = '/usr/users/frenchd/inclination/pilotData.p'
 
     else:
         print 'Could not determine username. Exiting.'
