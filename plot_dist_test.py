@@ -63,8 +63,8 @@ def main():
         saveDirectory = '/Users/David/Research_Documents/inclination/pilot_paper/figures'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        saveDirectory = '/usr/users/inclination/pilot_paper/figures'
+        pickleFilename = '/usr/users/frenchd/inclination/pilotData.p'
+        saveDirectory = '/usr/users/frenchd/inclination/pilot_paper/figures'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -170,7 +170,7 @@ def main():
             maj_blue.append(majList[c])
             dif_blue.append(difList[c])
             env_blue.append(envList[c])
-            morph_blue.append([c])
+            morph_blue.append(morphList[c])
             
         else:
             # redshifted absorption
