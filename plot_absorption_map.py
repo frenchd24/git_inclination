@@ -53,11 +53,11 @@ def returnAngDiameters(major,minor,distance):
 def main():
         
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
+        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData2.p'
         saveDirectory = '/Users/David/Research_Documents/inclination/pilot_paper/figures'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/frenchd/inclination/pilotData.p'
+        pickleFilename = '/usr/users/frenchd/inclination/pilotData2.p'
         saveDirectory = '/usr/users/frenchd/inclination/pilot_paper/figures'
 
     else:
@@ -103,6 +103,8 @@ def main():
     envList = fullDict['envList']
     morphList = fullDict['morphList']
     galaxyNameList = fullDict['galaxyNameList']
+    raList = fullDict['raList']
+    decList = fullDict['decList']
     
     
     lyaV_blue = []
@@ -141,6 +143,10 @@ def main():
     env_red = []
     morph_blue = []
     morph_red = []
+    ra_blue = []
+    ra_red = []
+    dec_blue = []
+    dec_red = []
     
     c = -1
     for d in difList:
@@ -165,6 +171,8 @@ def main():
             dif_blue.append(difList[c])
             env_blue.append(envList[c])
             morph_blue.append(morphList[c])
+            ra_blue.append(raList[c])
+            dec_blue.append(decList[c])
             
         else:
             # redshifted absorption
@@ -186,6 +194,8 @@ def main():
             dif_red.append(difList[c])
             env_red.append(envList[c])
             morph_red.append(morphList[c])
+            ra_red.append(raList[c])
+            dec_red.append(decList[c])
     
         
         
@@ -212,6 +222,8 @@ def main():
     envListAmb = fullDict['envListAmb']
     morphListAmb = fullDict['morphListAmb']
     galaxyNameListAmb = fullDict['galaxyNameListAmb']
+    raListAmb = fullDict['raListAmb']
+    decListAmb = fullDict['decListAmb']
     
     lyaV_blueAmb = []
     lyaV_redAmb = []
@@ -249,6 +261,10 @@ def main():
     env_redAmb = []
     morph_blueAmb = []
     morph_redAmb = []
+    ra_blueAmb = []
+    ra_redAmb = []
+    dec_blueAmb = []
+    dec_redAmb = []
     
     
     c = -1
@@ -274,6 +290,8 @@ def main():
             dif_blueAmb.append(difListAmb[c])
             env_blueAmb.append(envListAmb[c])
             morph_blueAmb.append(morphListAmb[c])
+            ra_blueAmb.append(raListAmb[c])
+            dec_blueAmb.append(decListAmb[c])
             
         else:
             # redshifted absorption
@@ -295,7 +313,8 @@ def main():
             dif_redAmb.append(difListAmb[c])
             env_redAmb.append(envListAmb[c])
             morph_redAmb.append(morphListAmb[c])
-    
+            ra_redAmb.append(raListAmb[c])
+            dec_redAmb.append(decListAmb[c])
     
 ##########################################################################################
 ##########################################################################################
@@ -323,29 +342,91 @@ def main():
     plot_edge_on = True
     
     if plot_edge_on:
-    
         
-        # remove -99 'no-data' values
-        for i in rvs1all:
-            if float(i) >=0:
-                rvs1.append(i)
+        # new coordinates of absorption for plotting (w/ galaxy at (0,0))
+        yList = []
+        xList = []
+        
+        # new coordinates normalized for diameter
+        y_dList = []
+        x_dList = []
+        
+        # new coordinates normalized for virial radius
+        y_vList = []
+        x_vList = []
+        
+        # calculate the position on the sky for each absorption feature wrt to the galaxy
+        for r,d,i,a,fInc,maj in zip(raList,decList,impactList,newAzList,fancyIncList,majList):
+            if float(a) >= 0 and float(fInc)>=0 and float(fInc)<=90:
+                
+                # y coordinate
+                y = float(i) * sin(a*pi/180.)
+                yList.append(y)
+                
+                # x coordinate
+                x = float(i) * cos(a*pi/180.)
+                xList.append(x)
+                
+                # normalize by diameter
+                # y coordinate
+                y_d = (float(i)/float(maj)) * sin(a*pi/180.)
+                y_dList.append(y_d)
 
-        for k in rvs2all:
-            if float(k) >=0:
-                rvs2.append(k)
+                # x coordinate
+                x_d = (float(i)/float(maj)) * cos(a*pi/180.)
+                x_dList.append(x_d)
+                
+                # normalize by virial radius
+                # 
+                # this to be completed later
+                                        
+                                        
+            else:
+                print 'float(a) <0: ',r,d,i,a,fInc
+
+        # calculate the average red vs blue azimuth line
+        blueAvg = mean(newAz_blue)
+        print 'blueAvg: ',blueAvg
+        redAvg = mean(newAz_red)
+        print 'redAvg: ',redAvg
+        print
+        
+        xyBlueAvg = (500.* cos(blueAvg * pi/180.), 500.* sin(blueAvg * pi/180.))
+        xyRedAvg = (500.* cos(redAvg * pi/180.), 500.* sin(redAvg * pi/180.))
+        print 'xyBlueAvg: ',xyBlueAvg
+        print 'xyRedAvg: ',xyRedAvg
 
         
         # plot the distributions 
         fig = figure(figsize=(8,8))
         subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+        
+        ax1 = fig.add_subplot(111)
+        # plot the flat galaxy line
+        plot1 = plot((-10,10),(0,0),c='black',linewidth=5)
+        
+        maxW = 120
+        minW = 5
+        newLyaWList = []
+        for w in lyaWList:
+            newW = ((float(w) - min(lyaWList)) / (max(lyaWList) - min(lyaWList)))*(maxW - minW)
+            newLyaWList.append(newW)
 
-        bins = 15
+#         colmap = cm.RdBu
+#         norm = matplotlib.colors.Normalize(vmin = minW, vmax = maxW)
+#         m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
         
-        ax1 = fig.add_subplot(311)
-        plot1 = hist(rvs1,bins=bins)
-        title('blueshifted Cos(inc)')
-        
-        
+        # plot the absorption features
+        for x,y,s,d in zip(x_dList,y_dList,newLyaWList,difList):
+            if d>0:
+                # blueshifted
+                plot2 = scatter(x,y,marker='*',color='blue',s=s)
+            else:
+                # redshifted
+                plot3 = scatter(x,y,marker='*',color='red',s=s)
+
+#         plot4 = plot((0,xyBlueAvg[0]), (0,xyBlueAvg[1]), color = 'blue')
+#         plot5 = plot((0,xyRedAvg[0]), (0,xyRedAvg[1]), color = 'red')
         show()
 
 

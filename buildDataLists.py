@@ -20,6 +20,8 @@ Previous (from histograms3.py):
     Updated for the pilot paper (05/06/15)
 
 
+v5: Include AGN and galaxy ra and dec
+
 '''
 
 import sys
@@ -76,14 +78,14 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        galaxyFilename = '/Users/David/Research_Documents/NewGalaxyTable5.csv'
+        galaxyFilename = '/Users/David/Research_Documents/gt/NewGalaxyTable5.csv'
         filename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined3.csv'
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
+        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData2.p'
 
     elif getpass.getuser() == 'frenchd':
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
         filename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined3.csv'
-        pickleFilename = '/usr/users/frenchd/inclination/pilotData.p'
+        pickleFilename = '/usr/users/frenchd/inclination/pilotData2.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -135,6 +137,8 @@ def main():
     envList = []
     morphList = []
     galaxyNameList = []
+    raList = []
+    decList = []
     
     # all the lists to be used for ambiguous lines
     lyaVListAmb = []
@@ -156,6 +160,8 @@ def main():
     envListAmb = []
     morphListAmb = []
     galaxyNameListAmb = []
+    raListAmb = []
+    decListAmb = []
     
     
     total = 0
@@ -332,6 +338,8 @@ def main():
                 envList.append(float(env))
                 morphList.append(localType)
                 galaxyNameList.append(galaxyName)
+                raList.append(AGNra_dec[0])
+                decList.append(AGNra_dec[1])
 
             # for ambiguous lines that have a measured galaxy velocity
             if include == 'no' and isNumber(dif):
@@ -354,6 +362,8 @@ def main():
                 envListAmb.append(float(env))
                 morphListAmb.append(localType)
                 galaxyNameListAmb.append(galaxyName)
+                raListAmb.append(AGNra_dec[0])
+                decListAmb.append(AGNra_dec[1])
 
 
 
@@ -399,7 +409,10 @@ def main():
     fullDict['envList'] = envList
     fullDict['morphList'] = morphList
     fullDict['galaxyNameList'] = galaxyNameList
+    fullDict['raList'] = raList
+    fullDict['decList'] = decList
         
+    # now ambiguous lists
     fullDict['lyaVListAmb'] = lyaVListAmb
     fullDict['lyaWListAmb'] = lyaWListAmb
     fullDict['lyaErrorListAmb'] = lyaErrorListAmb
@@ -419,6 +432,8 @@ def main():
     fullDict['envListAmb'] = envListAmb
     fullDict['morphListAmb'] = morphListAmb
     fullDict['galaxyNameListAmb'] = galaxyNameListAmb
+    fullDict['raListAmb'] = raListAmb
+    fullDict['decListAmb'] = decListAmb
 
 
     # grab all inclinations and position angles in the galaxy dataset

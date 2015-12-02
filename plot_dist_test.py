@@ -5,8 +5,18 @@ By David French (frenchd@astro.wisc.edu)
 
 $Id:  plot_dist_test.py, v 1.0 08/25/2015
 
-Compare the distributions of inclination angles between the datasets: full galaxy table,
-blueshifted, and redshifted absorption
+Compare the distributions of quantities between the datasets: 
+full galaxy table vs blueshifted vs redshifted absorption
+
+Comparing:
+Inclination - all estimations = ratio, fancy, cos(ratio), cos(fancy)
+Azimuth
+Impact parameter
+b - value
+morphology
+velocity
+major axis
+environment
 
 
 '''
@@ -558,7 +568,7 @@ def main():
 
     # plot histograms of the inclinations for both associated galaxies and the 
     # full galaxy data set, combining both redshifted and blueshifted
-    plot_dist_cosInc_red_blue = True
+    plot_dist_cosInc_red_blue = False
     
     if plot_dist_cosInc_red_blue:
     
@@ -581,14 +591,22 @@ def main():
                 
         # perform the K-S test
         ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
         ans1a = stats.anderson_ksamp([rvs1,rvs2])
-        print 'blue vs red: ',ans1, ans1a
+        print 'blue vs red, A-D:', ans1a
+        print
         
         ans2 = stats.ks_2samp(rvs1, rvs3)
-        print 'blue vs all: ',ans2
+        print 'blue vs all, KS: ',ans2
+        ans2a = stats.anderson_ksamp([rvs1,rvs3])
+        print 'blue vs all, A-D: ',ans2a
+        print
         
         ans3 = stats.ks_2samp(rvs2, rvs3)
-        print 'red vs all: ',ans3
+        print 'red vs all, KS: ',ans3
+        ans3a = stats.anderson_ksamp([rvs2,rvs3])
+        print 'red vs all, A-D: ',ans3a
+        print
         
         # plot the distributions 
         fig = figure(figsize=(8,8))
@@ -636,7 +654,330 @@ def main():
 #             savefig('{0}/inc_dist.pdf'.format(saveDirectory),format='pdf')
 #         else:
 #             show()
+
+
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the azimuths of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
     
+    plot_dist_az_red_blue = False
+    
+    if plot_dist_az_red_blue:
+    
+        # define the datasets
+        rvs1all = newAz_blue
+        rvs1 = []
+        rvs2all = newAz_red
+        rvs2 = []
+        
+        # remove -99 'no-data' values
+        for i in rvs1all:
+            if float(i) >=0:
+                rvs1.append(i)
+
+        for k in rvs2all:
+            if float(k) >=0:
+                rvs2.append(k)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
+        ans1a = stats.anderson_ksamp([rvs1,rvs2])
+        print 'blue vs red, A-D:', ans1a
+        print
+        
+        # plot the distributions
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(211)
+        plot1 = hist(rvs1,bins=bins)
+        title('blueshifted Azimuths')
+        
+        ax2 = fig.add_subplot(212)
+        plot2 = hist(rvs2,bins=bins)
+        title('redshifted Azimuths')
+        
+        show()
+    
+    
+    
+########################################################################################
+########################################################################################
+
+    # plot histograms of the azimuths of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
+    
+    plot_dist_ew_red_blue = False
+    
+    if plot_dist_ew_red_blue:
+    
+        # define the datasets
+        rvs1all = lyaW_blue
+        rvs1 = []
+        rvs2all = lyaW_red
+        rvs2 = []
+        
+        # remove -99 'no-data' values
+        for i in rvs1all:
+            if float(i) >=0:
+                rvs1.append(i)
+
+        for k in rvs2all:
+            if float(k) >=0:
+                rvs2.append(k)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
+        ans1a = stats.anderson_ksamp([rvs1,rvs2])
+        print 'blue vs red, A-D:', ans1a
+        print
+        
+        # plot the distributions 
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(211)
+        plot1 = hist(rvs1,bins=bins)
+        title('blueshifted LyaW')
+        
+        ax2 = fig.add_subplot(212)
+        plot2 = hist(rvs2,bins=bins)
+        title('redshifted LyaW')
+        
+        show()
+        
+        
+########################################################################################
+########################################################################################
+
+    # plot histograms of the impact parameters of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
+    
+    plot_dist_impact_red_blue = False
+    
+    if plot_dist_impact_red_blue:
+    
+        # define the datasets
+        rvs1all = impact_blue
+        rvs1 = []
+        rvs2all = impact_red
+        rvs2 = []
+        
+        # remove -99 'no-data' values
+        for i in rvs1all:
+            if float(i) >=0:
+                rvs1.append(i)
+
+        for k in rvs2all:
+            if float(k) >=0:
+                rvs2.append(k)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
+        ans1a = stats.anderson_ksamp([rvs1,rvs2])
+        print 'blue vs red, A-D:', ans1a
+        print
+        
+        # plot the distributions 
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(211)
+        plot1 = hist(rvs1,bins=bins)
+        title('blueshifted impact parameter (kpc)')
+        
+        ax2 = fig.add_subplot(212)
+        plot2 = hist(rvs2,bins=bins)
+        title('redshifted impact parameter (kpc)')
+        
+        show()
+        
+        
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the b-parameter of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
+    
+    plot_dist_b_red_blue = False
+    
+    if plot_dist_b_red_blue:
+    
+        # define the datasets
+        rvs1all = b_blue
+        rvs1 = []
+        rvs2all = b_red
+        rvs2 = []
+        
+        # remove -99 'no-data' values
+        for i in rvs1all:
+            if float(i) >=0:
+                rvs1.append(i)
+
+        for k in rvs2all:
+            if float(k) >=0:
+                rvs2.append(k)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
+        ans1a = stats.anderson_ksamp([rvs1,rvs2])
+        print 'blue vs red, A-D:', ans1a
+        print
+        
+        # plot the distributions 
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(211)
+        plot1 = hist(rvs1,bins=bins)
+        title('blueshifted dopplar b-parameter')
+        
+        ax2 = fig.add_subplot(212)
+        plot2 = hist(rvs2,bins=bins)
+        title('redshifted dopplar b-parameter')
+        
+        show()
+        
+        
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the major axis of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
+    
+    plot_dist_maj_red_blue = False
+    
+    if plot_dist_maj_red_blue:
+    
+        # define the datasets
+        rvs1all = maj_blue
+        rvs1 = []
+        rvs2all = maj_red
+        rvs2 = []
+        
+        # remove -99 'no-data' values
+        for i in rvs1all:
+            if float(i) >=0:
+                rvs1.append(i)
+
+        for k in rvs2all:
+            if float(k) >=0:
+                rvs2.append(k)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(rvs1, rvs2)
+        print 'blue vs red, KS: ',ans1
+        ans1a = stats.anderson_ksamp([rvs1,rvs2])
+        print 'blue vs red, A-D:', ans1a
+        print
+        
+        # plot the distributions 
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(211)
+        plot1 = hist(rvs1,bins=bins)
+        title('blueshifted major axis (kpc)')
+        
+        ax2 = fig.add_subplot(212)
+        plot2 = hist(rvs2,bins=bins)
+        title('redshifted major axis (kpc)')
+        
+        show()
+
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the major axis of the red vs blue shifted absorber samples
+    # conduct KS and AD tests of these distributions
+    # 
+    
+    plot_dist_morphs = True
+    
+    if plot_dist_morphs:
+    
+        # define the datasets
+        rvs1all = morph_blue
+        rvs1 = []
+        rvs2all = morph_red
+        rvs2 = []
+        
+        print 'blue absorbers morphology: ',
+        for b in morph_blue:
+            print b
+        
+        print
+        print
+        print 'red absorbers morphology: ',
+        for r in morph_red:
+            print r
+            
+        
+        
+        # remove -99 'no-data' values
+#         for i in rvs1all:
+#             if float(i) >=0:
+#                 rvs1.append(i)
+# 
+#         for k in rvs2all:
+#             if float(k) >=0:
+#                 rvs2.append(k)
+                
+                
+        # perform the K-S test
+#         ans1 = stats.ks_2samp(rvs1, rvs2)
+#         print 'blue vs red, KS: ',ans1
+#         ans1a = stats.anderson_ksamp([rvs1,rvs2])
+#         print 'blue vs red, A-D:', ans1a
+#         print
+#         
+#         # plot the distributions 
+#         fig = figure(figsize=(8,8))
+#         subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+# 
+#         bins = 15
+#         
+#         ax1 = fig.add_subplot(211)
+#         plot1 = hist(rvs1,bins=bins)
+#         title('blueshifted major axis (kpc)')
+#         
+#         ax2 = fig.add_subplot(212)
+#         plot2 = hist(rvs2,bins=bins)
+#         title('redshifted major axis (kpc)')
+#         
+#         show()
+
+
     
 ###############################################################################
 ###############################################################################
