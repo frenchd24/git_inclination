@@ -82,7 +82,7 @@ def main():
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -104,7 +104,7 @@ def main():
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
     # regardless of the others
-    match = True
+    match = False
     
     # all the lists to be used for associated lines
     lyaVList = []
@@ -114,6 +114,7 @@ def main():
     impactList = []
     azList = []
     incList = []
+    cosIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -168,8 +169,9 @@ def main():
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
-            na = eval(l['Na'].partition(' ')[0])
-            na_err = eval(l['Na'].partition(' ')[2])
+            na = eval(l['Na'].partition(' pm ')[0])
+            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+            na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
             virialRadius = l['virialRadius']
@@ -182,21 +184,23 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
             else:
-                cosInc = 'x'
+                cosInc = -99
+                inc = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW)
+            lyaWList.append(float(lyaW))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
             azList.append(az)
-            incList.append(inc)
+            incList.append(float(inc))
+            cosIncList.append(cosInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
-            difList.append(vel_diff)
-            envList.append(env)
+            difList.append(float(vel_diff))
+            envList.append(float(env))
             morphList.append(morph)
             m15List.append(m15)
             virList.append(virialRadius)
@@ -220,6 +224,16 @@ def main():
     plotW_CosInc = True
     
     if plotW_CosInc:
+        
+        print
+        print
+        print "cosIncList: ",cosIncList
+        print
+        print
+        print "lyaWList: ",lyaWList
+        print
+        print "difList: ", difList
+    
         fig = figure()
         ax = fig.add_subplot(111)
         countb = 0

@@ -1,2 +1,2 @@
 AGNname,center,galaxyName,environment,degreesJ2000RA_DecAGN,degreesJ2000RA_DecGalaxy,likelihood,likelihood_1.5,virialRadius,d^1.5,impactParameter (kpc),redshiftDistances,vcorrGalaxy (km/s),vel_diff,distGalaxy (Mpc),AGN S/N,majorAxis (kpc),minorAxis (kpc),inclination (deg),positionAngle (deg),azimuth (deg),RC3flag,RC3type,RC3inc (deg),RC3pa (deg),morphology,final_morphology,galaxyRedshift
-RX_J1330.8+3119,2660,RCS05100405241,x,"('202.72167', '31.32556')","(202.1176, 30.6804)",-99,-99,-99,-99,483.11576003118745,x,2375.8,284.1999999999998,33.46156499,x,x,x,x,x,x,0,x,x,x,x,x,0.007
+RX_J1330.8+3119,2660,RCS05100405241,1,"('202.72167', '31.32556')","(202.1176, 30.6804)",-99,-99,-99,-99,483.115760031,x,2375.8,-284.2,33.46156499,x,x,x,x,x,x,0,x,x,x,x,x,0.007
