@@ -49,24 +49,6 @@ from matplotlib import rc
 # rc('text', usetex=True)
 
 
-    
-def returnLinDiameters(major,minor,distance):
-    # input major and minor in arcsec, distance in Mpc
-    # outputs major and minor in kpc
-    newMajor = math.tan(math.radians(float(major)))*(distance*1000)
-    newMinor = math.tan(math.radians(float(minor)))*(distance*1000)
-    return (newMajor,newMinor)
-    
-    
-
-def returnAngDiameters(major,minor,distance):
-    # input distances in mpc, major and minor is in kpc
-    # outputs angular diameters in arcsec
-    newMajor = math.atan((float(major)/1000)/float(distance))*(1/3600)
-    newMinor = math.atan((float(minor)/1000)/float(distance))*(1/3600)
-    return (newMajor,newMinor)
-    
-    
 
 ###########################################################################
 
