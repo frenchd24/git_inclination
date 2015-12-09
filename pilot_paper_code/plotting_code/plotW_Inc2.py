@@ -95,7 +95,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    virInclude = False
+    virInclude = True
     cusInclude = True
     finalInclude = False
     
@@ -103,7 +103,7 @@ def main():
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
     # regardless of the others
-    match = False
+    match = True
     
     # all the lists to be used for associated lines
     lyaVList = []
@@ -142,7 +142,7 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
                 go = True
             
             else:
