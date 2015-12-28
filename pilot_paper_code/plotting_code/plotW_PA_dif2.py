@@ -3,7 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_PA_dif.py, v 4.0 05/13/2015
+$Id:  plotW_PA_dif2.py, v 4.0 05/13/2015
+
+Plots EW vs PA, separates red and blue shifted absorbers
 
 This is the plotW_PA_dif bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -55,13 +57,13 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData2.p'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/usr/users/inclination/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -82,8 +84,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -115,7 +117,7 @@ def main():
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -128,7 +130,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:

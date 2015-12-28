@@ -60,11 +60,11 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -79,8 +79,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -110,9 +110,10 @@ def main():
     
     
     for l in reader:
+        print 'l: ',l
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -125,7 +126,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+            
+            elif finalInclude and include:
                 go = True
             
             else:
