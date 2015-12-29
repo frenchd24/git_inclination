@@ -50,7 +50,7 @@ def main():
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 

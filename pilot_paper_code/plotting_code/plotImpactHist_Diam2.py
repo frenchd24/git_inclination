@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam2.py, v 5.0 12/28/2015
+$Id:  plotImpactHist_Diam2.py, v 5.1 12/29/2015
 
 This is the plotImpactHist_Diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -18,6 +18,8 @@ Previous (from histograms3.py):
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15) - original updates to the individual files
+
+v5.1: included a second option, to normalize by virial radius or d^1.5 instead (12/29/15)
 
 '''
 
@@ -63,7 +65,7 @@ def main():
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
@@ -236,7 +238,9 @@ def main():
     
     # make a histogram of the distribution of impact parameters for associated galaxies 
     # normalized by major diameter
-    plotImpactHist_Diam = True
+    #
+    
+    plotImpactHist_Diam = False
     
     if plotImpactHist_Diam:
         fig = figure(figsize=(10,2))
@@ -277,8 +281,105 @@ def main():
 
 ###############################################################################
 ###############################################################################
-###############################################################################
-###############################################################################
+
+
+    # make a histogram of the distribution of impact parameters for associated galaxies 
+    # normalized by virial radius
+    #
+    
+    plotImpactHist_Vir = False
+    
+    if plotImpactHist_Vir:
+        fig = figure(figsize=(10,2))
+#         subplots_adjust(hspace=0.200)
+        ax = fig.add_subplot(111)
+        
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+    #     bins = [5,15,25,35,45,55,65,75,85]
+    #     bins = [0,15,30,45,60,75,90]
+#         bins = [0,5,10,15,20,25,30,35,40]
+        bins = arange(0,35,0.5)
+        
+        impactArray = np.array([])
+        virArray = np.array([])
+        
+        # make sure all the values are okay
+        for i,v in zip(impactList,virList):
+            if isNumber(i) and isNumber(v):
+                if i !=-99 and v !=-99:
+                    impactArray = append(impactArray,float(i))
+                    virArray = append(virArray,float(v))
+        
+        normalizedImpactArray = impactArray/virArray
+        
+        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
+        
+        title('Distribution of impact parameters')
+        xlabel('Impact Parameter/R_vir')
+        ylabel('Number')
+        ax.tick_params(axis='x', labelsize=0)
+        ax.tick_params(axis='y',labelsize=8)
+#         ylim(0,5)
+
+        if save:
+            savefig('{0}/hist(Impact_vir).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+
+
+    # make a histogram of the distribution of impact parameters for associated galaxies 
+    # normalized by (major diameter)^1.5
+    #
+    
+    plotImpactHist_m15 = True
+    
+    if plotImpactHist_m15:
+        fig = figure(figsize=(10,2))
+#         subplots_adjust(hspace=0.200)
+        ax = fig.add_subplot(111)
+        
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+    #     bins = [5,15,25,35,45,55,65,75,85]
+    #     bins = [0,15,30,45,60,75,90]
+#         bins = [0,10,20,30,40,50,60,70,80,90]
+        bins = arange(0,35,0.5)
+
+        impactArray = np.array([])
+        m15Array = np.array([])
+        
+        # make sure all the values are okay
+        for i,m in zip(impactList,m15List):
+            if isNumber(i) and isNumber(m):
+                if i !=-99 and m !=-99:
+                    impactArray = append(impactArray,float(i))
+                    m15Array = append(m15Array,float(m))
+        
+        normalizedImpactArray = impactArray/m15Array
+        
+        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
+        
+        title('Distribution of impact parameters')
+        xlabel('Impact Parameter/m15')
+        ylabel('Number')
+        ax.tick_params(axis='x', labelsize=0)
+        ax.tick_params(axis='y',labelsize=8)
+#         ylim(0,5)
+
+        if save:
+            savefig('{0}/hist(Impact_m15).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
 
 
 if __name__=="__main__":
