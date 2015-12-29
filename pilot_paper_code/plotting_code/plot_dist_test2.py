@@ -8,6 +8,8 @@ $Id:  plot_dist_test2.py, v 2.0 12/28/2015
 Compare the distributions of inclination angles between the datasets: full galaxy table,
 blueshifted, and redshifted absorption
 
+Also for inclination, fancy_inclination, cos(inclination), cos(fancy_inclination)
+
 
 '''
 
@@ -43,7 +45,7 @@ def main():
 
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData.p'
+        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
@@ -86,7 +88,9 @@ def main():
     impactList = []
     azList = []
     incList = []
+    fancyIncList = []
     cosIncList = []
+    cosFancyIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -158,9 +162,19 @@ def main():
             
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(min):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
@@ -170,7 +184,9 @@ def main():
             impactList.append(float(impact))
             azList.append(az)
             incList.append(float(inc))
+            fancyIncList.append(fancyInc)
             cosIncList.append(cosInc)
+            cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
@@ -194,7 +210,7 @@ def main():
     allInclinations = fullDict['allInclinations']
     allCosInclinations = fullDict['allCosInclinations']
     allFancyInclinations = fullDict['allFancyInclinations']
-    allFancyCosInclinations = fullDict['allCosFancyInclinations']
+    allCosFancyInclinations = fullDict['allCosFancyInclinations']
     
     total = 0
     totalNo = 0
@@ -240,7 +256,7 @@ def main():
                 
         # do the K-S test and print the results
         ans = stats.ks_2samp(rvs1, rvs2)
-        print 'real ans: ',ans 
+        print 'KS for cosIncList vs all: ',ans 
         
         
         # plot the distributions
@@ -282,7 +298,7 @@ def main():
                 
         # perform the K-S test
         ans = stats.ks_2samp(rvs1, rvs2)
-        print 'real ans: ',ans 
+        print 'KS for incList vs all: ',ans 
         
         
         # plot the distributions 
@@ -322,7 +338,7 @@ def main():
                 
         # perform the K-S test
         ans = stats.ks_2samp(rvs1, rvs2)
-        print 'real ans: ',ans 
+        print 'KS for fancyIncList vs all: ',ans 
         
         
         # plot the distributions 
@@ -349,9 +365,9 @@ def main():
     if plot_dist_fancyCosInc:
     
         # define the datasets
-        rvs1all = fancyCosIncList
+        rvs1all = cosFancyIncList
         rvs1 = []
-        rvs2 = allFancyCosInclinations
+        rvs2 = allCosFancyInclinations
         
         # remove -99 'no-data' values
         for i in rvs1all:
@@ -361,7 +377,7 @@ def main():
                 
         # perform the K-S test
         ans = stats.ks_2samp(rvs1, rvs2)
-        print 'real ans: ',ans 
+        print 'KS for cosFancyIncList vs all: ',ans
         
         
         # plot the distributions 
@@ -387,32 +403,32 @@ def main():
     
     if plot_dist_fancyCosInc_red_blue:
     
-        # define the datasets
-        rvs1all = fancyCosInc_blue
-        rvs1 = []
-        rvs2all = fancyCosInc_red
-        rvs2 = []
-        rvs3 = allFancyCosInclinations
+        blues = []
+        reds = []
+        all = allCosFancyInclinations
         
-        # remove -99 'no-data' values
-        for i in rvs1all:
-            if float(i) >=0:
-                rvs1.append(i)
-
-        for k in rvs2all:
-            if float(k) >=0:
-                rvs2.append(k)
-                
+        # remove null "-99" values and split into red and blue groups
+        for i,d in zip(cosFancyIncList,difList):
+            # check for != -99
+            if i>=0:
+                # d = vel_galaxy - vel_absorber --> positive = blue shifted absorber (closer to us)
+                if d>=0:
+                    blues.append(i)
+                if d<0:
+                    reds.append(i)
+    
                 
         # perform the K-S test
-        ans1 = stats.ks_2samp(rvs1, rvs2)
-        print 'blue vs red: ',ans1
+        ans1 = stats.ks_2samp(blues, reds)
+        ans1a = stats.anderson_ksamp([blues,reds])
+        print 'KS for blue vs red: ',ans1
+        print 'AD for blue vs red: ',ans1a
         
-        ans2 = stats.ks_2samp(rvs1, rvs3)
-        print 'blue vs all: ',ans2
+        ans2 = stats.ks_2samp(blues, all)
+        print 'KS for blue vs all: ',ans2
         
-        ans3 = stats.ks_2samp(rvs2, rvs3)
-        print 'red vs all: ',ans3
+        ans3 = stats.ks_2samp(reds, all)
+        print 'KS for red vs all: ',ans3
         
         # plot the distributions 
         fig = figure()
@@ -420,15 +436,15 @@ def main():
         bins = 15
         
         ax1 = fig.add_subplot(311)
-        plot1 = hist(rvs1,bins=bins)
+        plot1 = hist(blues,bins=bins)
         title('blueshifted Cos(fancy_inc)')
         
         ax2 = fig.add_subplot(312)
-        plot2 = hist(rvs2,bins=bins)
+        plot2 = hist(reds,bins=bins)
         title('redshifted Cos(fancy_inc)')
         
         ax3 = fig.add_subplot(313)
-        plot3 = hist(rvs3,bins=bins)
+        plot3 = hist(all,bins=bins)
         title('Full galaxy table Cos(fancy_inc)')
         
         show()
@@ -440,37 +456,36 @@ def main():
 
     # plot histograms of the inclinations for both associated galaxies and the 
     # full galaxy data set, combining both redshifted and blueshifted
-    plot_dist_cosInc_red_blue = True
+    plot_dist_cosInc_red_blue = False
     
     if plot_dist_cosInc_red_blue:
     
-        # define the datasets
-        rvs1all = cosInc_blue
-        rvs1 = []
-        rvs2all = cosInc_red
-        rvs2 = []
-        rvs3 = allCosInclinations
+        blues = []
+        reds = []
+        all = allCosInclinations
         
-        # remove -99 'no-data' values
-        for i in rvs1all:
-            if float(i) >=0:
-                rvs1.append(i)
-
-        for k in rvs2all:
-            if float(k) >=0:
-                rvs2.append(k)
+        # remove null "-99" values and split into red and blue groups
+        for i,d in zip(cosIncList,difList):
+            # check for != -99
+            if i>=0:
+                # d = vel_galaxy - vel_absorber --> positive = blue shifted absorber (closer to us)
+                if d>=0:
+                    blues.append(i)
+                if d<0:
+                    reds.append(i)
                 
                 
         # perform the K-S test
-        ans1 = stats.ks_2samp(rvs1, rvs2)
-        ans1a = stats.anderson_ksamp([rvs1,rvs2])
-        print 'blue vs red: ',ans1, ans1a
+        ans1 = stats.ks_2samp(blues, reds)
+        ans1a = stats.anderson_ksamp([blues,reds])
+        print 'KS for blue vs red: ',ans1
+        print 'AD for blue vs red: ',ans1a
         
-        ans2 = stats.ks_2samp(rvs1, rvs3)
-        print 'blue vs all: ',ans2
+        ans2 = stats.ks_2samp(blues, all)
+        print 'KS for blue vs all: ',ans2
         
-        ans3 = stats.ks_2samp(rvs2, rvs3)
-        print 'red vs all: ',ans3
+        ans3 = stats.ks_2samp(reds, all)
+        print 'KS for red vs all: ',ans3
         
         # plot the distributions 
         fig = figure(figsize=(8,8))
@@ -479,19 +494,75 @@ def main():
         bins = 15
         
         ax1 = fig.add_subplot(311)
-        plot1 = hist(rvs1,bins=bins)
+        plot1 = hist(blues,bins=bins)
         title('blueshifted Cos(inc)')
         
         ax2 = fig.add_subplot(312)
-        plot2 = hist(rvs2,bins=bins)
+        plot2 = hist(reds,bins=bins)
         title('redshifted Cos(inc)')
         
         ax3 = fig.add_subplot(313)
-        plot3 = hist(rvs3,bins=bins)
+        plot3 = hist(all,bins=bins)
         title('Full galaxy table Cos(inc)')
         
         show()
 
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the inclinations for both associated galaxies and the 
+    # full galaxy data set, combining both redshifted and blueshifted
+    plot_dist_fancy_inc_red_blue = True
+    
+    if plot_dist_fancy_inc_red_blue:
+    
+        blues = []
+        reds = []
+        all = allFancyInclinations
+        
+        # remove null "-99" values and split into red and blue groups
+        for i,d in zip(fancyIncList,difList):
+            # check for != -99
+            if i>=0:
+                # d = vel_galaxy - vel_absorber --> positive = blue shifted absorber (closer to us)
+                if d>=0:
+                    blues.append(i)
+                if d<0:
+                    reds.append(i)
+                
+                
+        # perform the K-S test
+        ans1 = stats.ks_2samp(blues, reds)
+        ans1a = stats.anderson_ksamp([blues,reds])
+        print 'KS for blue vs red: ',ans1
+        print 'AD for blue vs red: ',ans1a
+        
+        ans2 = stats.ks_2samp(blues, all)
+        print 'KS for blue vs all: ',ans2
+        
+        ans3 = stats.ks_2samp(reds, all)
+        print 'KS for red vs all: ',ans3
+        
+        # plot the distributions 
+        fig = figure(figsize=(8,8))
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        bins = 15
+        
+        ax1 = fig.add_subplot(311)
+        plot1 = hist(blues,bins=bins)
+        title('blueshifted fancy_inc')
+        
+        ax2 = fig.add_subplot(312)
+        plot2 = hist(reds,bins=bins)
+        title('redshifted fancy_inc')
+        
+        ax3 = fig.add_subplot(313)
+        plot3 = hist(all,bins=bins)
+        title('Full galaxy table fancy_inc')
+        
+        show()
 
 
         

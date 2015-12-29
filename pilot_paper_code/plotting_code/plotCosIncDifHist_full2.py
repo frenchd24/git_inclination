@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotCosIncDifHist_full.py, v 4.0 05/13/2015
+$Id:  plotCosIncDifHist_full2.py, v 5.0 12/28/2015
 
 This is the plotCosIncDifHist_full bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -16,7 +16,11 @@ Previous (from histograms3.py):
 
     Updated for the pilot paper (05/06/15)
 
-
+v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
+    (12/04/15)
+    
+    - more updates on 12/28/15
+    
 '''
 
 import sys

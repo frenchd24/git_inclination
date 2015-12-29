@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzHist.py, v 4.0 05/13/2015
+$Id:  plotAzHist2.py, v 5.0 12/28/2015
 
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -18,6 +18,8 @@ Previous (from histograms3.py):
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15)
+
+
 
 '''
 
@@ -58,11 +60,11 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -77,8 +79,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -110,7 +112,7 @@ def main():
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -123,7 +125,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:
@@ -163,9 +168,24 @@ def main():
             
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(min):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
+                
+            if isNumber(az):
+                az = float(az)
+            else:
+                az = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
@@ -195,25 +215,45 @@ def main():
     totalIsolated = 0
     totalGroup = 0
     
-    for a,n,g in zip(azList,newAzList,galaxyNameList):
-        if a != -99 and n !=-99:
-            if abs(a-n) >5:
-                print "{0} : old = {1}, new = {2}".format(g,a,n)
+#     for a,n,g in zip(azList,newAzList,galaxyNameList):
+#         if a != -99 and n !=-99:
+#             if abs(a-n) >5:
+#                 print "{0} : old = {1}, new = {2}".format(g,a,n)
                 
     
 
 ########################################################################################
 
-    # make a histogram of all the azimuth angles (old, hand measured ones)
-    plotAzHist = False
+    # make a histogram of all the azimuth angles
+    plotAzHist = True
     
     if plotAzHist:
         fig = figure()
         ax = fig.add_subplot(111)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-
+#         bins = [0,10,20,30,40,50,60,70,80,90]
+        bins = array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90])
+#         bins +=4
+#         bins = 45
+        print 'bins:' ,bins
+        print 'stdev: ',std(azList)
+        
+        bot = 15
+        top = 60
+        count = 0
+        for a in azList:
+            if a <=top and a>=bot:
+                count+=1
+        print 'between {0} and {1} = {2}'.format(top,bot,count)
+        print 'total number: ',len(azList)
+        print 'ratio = ',float(count)/len(azList)
+        
+        print 'mean: ',mean(azList)
+        print 'median: ',median(azList)
+        
         plot1 = hist(azList,bins=bins,histtype='bar')
-        title('Distribution of old azimuths')
+#         print 'azList: ',azList
+#         hist(azList)
+        title('Distribution of azimuths')
         xlabel('Azimuth (deg)')
         ylabel('Number')
         xlim(0,90)
@@ -223,64 +263,7 @@ def main():
         else:
             show()
       
-########################################################################################
- 
-    # make a histogram of all the azimuth angles (new, automatic ones)
-    plotNewAzHist = False
-    
-    if plotNewAzHist:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-
-        plot1 = hist(newAzList,bins=bins,histtype='bar')
-        title("Distribution of new azimuths")
-        xlabel('Azimuth (deg)')
-        ylabel('Number')
-        xlim(0,90)
-        
-        if save:
-            savefig('{0}/hist(new_azimuth).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-    
-###############################################################################
-
-    # plot both in the same window
-    plotAzHist_both = True
-    
-    if plotAzHist_both:
-        fig = figure()
-        ax = fig.add_subplot(211)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-#         bins = [0,5,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90]
-
-#         bins = 20
-
-        plot1 = hist(newAzList,bins=bins,histtype='bar')
-        title("Distribution of new azimuths")
-#         xlabel('Azimuth (deg)')
-        ylabel('Number')
-        xlim(0,90)
-        ylim(0,10)
-        
-        ax = fig.add_subplot(212)
-        plot1 = hist(azList,bins=bins,histtype='bar')
-        title('Distribution of old azimuths')
-        xlabel('Azimuth (deg)')
-        ylabel('Number')
-        xlim(0,90)
-        ylim(0,10)
-        
-        
-        
-        if save:
-            savefig('{0}/hist(both_azimuth).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
+#####################################################################################
 ###############################################################################
 ###############################################################################
 ###############################################################################

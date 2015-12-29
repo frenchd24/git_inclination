@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam.py, v 4.0 05/13/2015
+$Id:  plotImpactHist_Diam2.py, v 5.0 12/28/2015
 
 This is the plotImpactHist_Diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -16,6 +16,8 @@ Previous (from histograms3.py):
 
     Updated for the pilot paper (05/06/15)
 
+v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
+    (12/04/15) - original updates to the individual files
 
 '''
 
@@ -56,13 +58,13 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/usr/users/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -83,8 +85,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -95,12 +97,15 @@ def main():
     # all the lists to be used for associated lines
     lyaVList = []
     lyaWList = []
+    lyaErrList = []
     naList = []
     bList = []
     impactList = []
     azList = []
     incList = []
+    fancyIncList = []
     cosIncList = []
+    cosFancyIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -116,7 +121,7 @@ def main():
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -129,7 +134,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:
@@ -169,19 +177,32 @@ def main():
             
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(min):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
+            lyaErrList.append(float(lyaW_err))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
             azList.append(az)
             incList.append(float(inc))
+            fancyIncList.append(fancyInc)
             cosIncList.append(cosInc)
+            cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
@@ -195,6 +216,7 @@ def main():
 
     results.close()
     
+        
     # lists for the full galaxy dataset
     allPA = fullDict['allPA']
     allInclinations = fullDict['allInclinations']
