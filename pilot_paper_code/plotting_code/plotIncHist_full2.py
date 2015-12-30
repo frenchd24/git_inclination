@@ -3,6 +3,11 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
+
+DEPRECIATED: SEE "plot_inc_hist_all2.py" FOR CURRENT VERSION
+
+
+
 $Id:  plotIncHist_full.py, v 4.0 05/13/2015
 
 This is the plotIncHist_full bit from histograms3.py. Now is separated, and loads in a pickle

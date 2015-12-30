@@ -335,7 +335,7 @@ def main():
     # normalized by (major diameter)^1.5
     #
     
-    plotImpactHist_m15 = True
+    plotImpactHist_m15 = False
     
     if plotImpactHist_m15:
         fig = figure(figsize=(10,2))
@@ -371,6 +371,68 @@ def main():
 
         if save:
             savefig('{0}/hist(Impact_m15).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+
+##########################################################################################
+##########################################################################################
+
+
+    # make a histogram of the distribution of impact parameters for associated galaxies 
+    # normalized by virial radius, and split into red and blue shifted bins
+    #
+    
+    plotImpactHist_Vir_dif = True
+    save = True
+    
+    if plotImpactHist_Vir_dif:
+        fig = figure(figsize=(10,5))
+        ax = fig.add_subplot(211)
+        subplots_adjust(hspace=0.300)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+    #     bins = [5,15,25,35,45,55,65,75,85]
+    #     bins = [0,15,30,45,60,75,90]
+#         bins = [0,5,10,15,20,25,30,35,40]
+        bins = arange(0,35,0.5)
+        
+        reds = np.array([])
+        blues = np.array([])
+        
+        # make sure all the values are okay
+        for i,v,d in zip(impactList,virList,difList):
+            if isNumber(i) and isNumber(v):
+                if i !=-99 and v !=-99:
+                    val = float(i)/float(v)
+                    
+                    # if blueshifted
+                    if d>=0:
+                        blues = append(blues,val)
+                    
+                    # for redshifted
+                    else:
+                        reds = append(reds,val)
+        
+        title('Distribution of impact parameters')
+
+        plot1 = hist(blues,bins=bins,histtype='bar',color='blue')
+        xlabel('Impact Parameter/R_vir (blueshifted)')
+        ylabel('Number')
+
+        ax = fig.add_subplot(212)
+
+        plot2 = hist(reds,bins=bins,histtype='bar',color="red")
+        xlabel('Impact Parameter/R_vir (redshifted)')
+        ylabel('Number')
+        
+        ax.tick_params(axis='x', labelsize=0)
+        ax.tick_params(axis='y',labelsize=8)
+#         ylim(0,5)
+
+        if save:
+            savefig('{0}/hist(Impact_vir_dif).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 

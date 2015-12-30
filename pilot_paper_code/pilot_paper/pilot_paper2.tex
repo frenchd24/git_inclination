@@ -148,58 +148,58 @@ We chose sight lines based on high S/N (generally $>$10), ease of spectral ident
 
 All COS spectra for the target sight lines was obtained through the Barbara A. Mikulski Archive for Space Telescopes (MAST), and processed with the latest available version of the CALCOS pipeline \textbf{WHICH IS??}. We combined individual exposures by the method of Wakker et al. (2015, submitted), which corrects the COS wavelength scale by cross-correlating all ISM and IGM lines in each exposure. This method addresses the up to $\pm40$ km/s misalignments produced by CALCOS, and produces a corrected error array based on Poisson noise, which better matches the measured errors. We then combine multiple exposure by aligning Galactic absorption lines with 21-cm spectra, and adding up the total counts in each pixel before converting to flux using the original, average flux-count ratio at each wavelength.
 
-\begin{table}[ht]\footnotesize
+\begin{table*}[ht]\footnotesize
 \begin{center}
-\begin{tabular}{| l | c | c |}
- \hline
-  AGN name & \textit{z} & S/N  \\
-	\hline
-  
- MRK290 					 	 &  0.0296	 	 &  32  \\
- SBS1537+577  				 &  0.0734	 	 &  12  \\
- 3C66A 						 &  0.444		 &  24  \\
- MRC2251-178 				 &  0.0661	 	 &  29  \\
- SBS1503+570 				 &  0.3589	 	 &  11  \\
- SDSSJ080838.80+051440.0 	 	 &  0.361		 &  8  \\
- 2dFGRS\_S393Z082 			 &  ERR 		 &  ERR  \\ 
- PG1211+143					 &  0.0804	 	 &  19   \# STIS DATA!!!!!\\
- TON488 					 	 &  0.2564 	 &  7  \\
- SDSSJ135341.03+361948.0 	 	 &  0.147 		 &  11  \\
- MRK1014 					 &  0.163 		 &  14  \\
- RX\_J1503.2+6810 			 	 &  0.114 		 &  8  \\
- PG1302-102 					 &  0.2784 	 &  6  \\
- SBS1108+560 				 &  0.765 		 &  17  \\
- PG1216+069					 &  0.3313 	 &  24  \\
- IRAS\_Z06229-6434 			 &  0.1289 	 &  18  \\
- SDSSJ080908.13+461925.6 	 	 &  0.6563 	 &  9  \\
- TON1009 					 &  0.809 		 &  10  \\
- RX\_J1330.8+3119 			 	 &  0.241 		 &  11  \\
- SDSSJ140428.30+335342.0 	 	 &  0.549 		 &  8  \\
- RX\_J0714.5+7408 			 	 &  0.371 		 &  17  \\
- PG1121+423 					 &  0.234 		 &  24  \\
- RBS2070 					 &  0.165 		 &  25  \\
- 3C351.0 						 &  0.3719 	 &  ERR  \\
- HE1228+0131 				 &  0.117 		 &  69  \\
- 3C273.0 					 	 &  0.1583 	 &  97  \\
- PG1626+554 				 	 &  0.133 		 &  20  \\
- PG1307+085 				 	 &  0.155 		 &  23  \\
- PKS2005-489 				 	 &  0.071 		 &  32  \\
- CSO395 					 	 &  0.169 		 &  10  \\
- HS0624+6907 				 &  0.37 		 &  8  \\
- HE0238-1904 				 	 &  0.631 		 &  36  \\
- RBS1795 					 &  0.344 		 &  35  \\
- H1101-232 					 &  0.186 		 &  16  \\
- 1H0717+714 				 	 &  0.5003 	 &  40  \\
- PG0003+158 				 	 &  0.4509 	 &  29  \\
- SBS1122+594 				 &  0.858 		 &  10  \\
+\begin{tabular}{l c c c c c c c c c}
+ \hline \hline
+  Target & R.A. & Dec. & \textit{z} & Program & PI & Obs ID & Obs Date & $T_{exp}$ [ks] & S/N  \\ \hline
+   
+\\
+ MRK290					& 15 35 52.3  &  +57 54 09  &  0.0296  & 11524 & Green       & LB4Q02 & 2009 10 28 &   3.9 &  32  \\
+ SBS1537+577 			& 15 38 10.0  &  +57 36 13  &  0.0734  & 12276 & Wakker     & LBI606   & 2011 10 19 &   5.2 &  12  \\
+ 3C66A 					& 02 22 39.6  &  +43 02 08  &  0.4440  & 12612 & Stocke	     & XXXXX   &  XXXXXXX  & 26.4 &  24  \\
+ MRC2251-178 			& 22 54 05.9  &  -17 34 55   &  0.0661  & 12029 & Green       & XXXXX   & XXXXXXX   &   4.6 &  29  \\
+ SBS1503+570 			& 15 04 55.6  &  +56 49 20  &  0.3589  & 12276 & Wakker     & LBI617   & 2011 10 19 &   5.2 & 11  \\
+ SDSSJ080838.80+051440.0 	& 08 08 38.8  &  +05 14 40  &  0.3610  & 12603 & Heckman & XXXXXX & XXXXXXX  &    4.7 &  8  \\
+ 2dFGRS\_S393Z082 		& 02 45 00.8  &  -30 07 23   &  0.3400  & 12988 & Bowen      & XXXXXX & XXXXXXX  & 17.7 & 11  \\ 
+ PG1211+143 (STIS)		& 12 14 17.7  &  +14 03 13  &  0.0804  &  8571 & Shull           & XXXXXX & XXXXXXX  & 67.4 &  19  \\ 
+ TON488 					& 10 10 00.7  &  +30 03 21  &  0.2564  & 12025 & Green       & XXXXXX & XXXXXXX  &  10.8  &  17  \\
+ SDSSJ135341.03+361948.0 	& 13 53 41.0  &  +36 19 48  &  0.1470  & 13444 & Wakker     & XXXXXX & XXXXXXX  &     4.6 &  11  \\
+ MRK1014 				& 01 59 50.2  &  +00 23 41  &  0.1630  &12569 & Veilleux     & XXXXXX & XXXXXXX  &     1.8 &  14  \\
+ RX\_J1503.2+6810 	 		& 15 03 16.5  &  +68 10 06  &  0.1140  & 12276 & Wakker     & LBI609   & 2010 12 31 &     1.9 &  8  \\
+ PG1302-102 				& 13 05 33.0  &  -10 33 20   &  0.2784  & 12038 & Green	     & XXXXXX & XXXXXXX  &     6.0 &  28  \\
+ SBS1108+560 			& 11 11 32.1  &  +55 47 25  &  0.7650  & 12025 & Green	     & XXXXXX & XXXXXXX  &     8.4 & 17  \\
+ PG1216+069				& 12 19 20.9  &  +06 38 38  &  0.3313 & 12025	 & Green	     & XXXXXX & XXXXXXX  &     5.1 &  24  \\
+ IRAS\_Z06229-6434 		& 06 23 07.7  &  -64 36 19   &  0.1289 & 11692	 & Howk	     & XXXXXX & XXXXXXX  &     8.7 &  18  \\
+ SDSSJ080908.13+461925.6 	& 08 09 08.1  &  +46 19 26  &  0.6563 & 12248	 & Tumlinson & XXXXX   & XXXXXXX  & 	  3.1 &  9  \\
+ TON1009 				& 09 09 06.1  &  +32 36 31  &  0.8090 & 12603 & Heckman  & XXXXXX & XXXXXXX  &     4.7 &  10  \\
+ RX\_J1330.8+3119 			& 13 30 53.2  &  +31 19 32  &  0.2410 & 12248	 & Tumlinson & XXXXX   & XXXXXXX  & 	  4.3 &  11  \\
+ SDSSJ140428.30+335342.0 	& 14 04 28.3  &  +33 53 42 &  0.5490  & 12603	 & Heckman  & XXXXXX & XXXXXXX  &     7.7 &  8  \\
+ RX\_J0714.5+7408 			& 07 14 36.2  &  +74 08 11  &  0.3710 & 12275 & Wakker      & XXXXXX & XXXXXXX  &     8.3 &  17  \\
+ PG1121+423 				& 11 24 39.2  &  +42 01 45  &  0.2340 & 12024	 & Green	     & XXXXXX & XXXXXXX  &     5.0 & 24  \\
+ RBS2070 				& 23 59 07.8  &  -30 37 39  &  0.1650  & 12864 & Fang	     & XXXXXX & XXXXXXX  &   17.0 &  25  \\
+ 3C351.0 					& 17 04 41.4  &  +60 44 31  &  0.3719 &  8015  & Jenkins      & O57901  & 1999 06 27 &  77.0 &  ERR  \\
+ HE1228+0131 			& 12 30 50.0  &  +01 15 21  &  0.1170 & 11686 & Arav 	     & XXXXXX & XXXXXXX  &   11.0 &  69  \\
+ 3C273.0 					& 12 29 06.7  &  +02 03 08  &  0.1583 & 12038 & Green	     & XXXXXX & XXXXXXX  &     4.0 &  97  \\
+ PG1626+554 				& 16 27 56.2  &  +55 22 32  &  0.1330 & 12029 & Green	     & XXXXXX & XXXXXXX  &     3.3 &  20  \\
+ PG1307+085 				& 13 09 47.0  &  +08 19 47  &  0.1550 & 12569 & Veilleux     & XXXXXX & XXXXXXX  &     1.8 &  23  \\
+ PKS2005-489 				& 20 09 25.4  &  -48 49 53   &  0.0710 & 11520 & Green 	     & XXXXXX & XXXXXXX  &     2.5 &  32  \\
+ CSO395 					& 12 11 14.6  &  +36 57 39  &  0.1690 & 12248	 & Tumlinson & XXXXX   & XXXXXXX  & 	  3.0 &  10  \\
+ HS0624+6907 			& 06 30 02.6  &  +69 05 03  &  0.3700 & 9184	 & Tripp 	     & XXXXXX & XXXXXXX  &   62.0 &  8  \\
+ HE0238-1904 				& 02 40 32.6  &  -18 51 51   &  0.6310 & 11541 & Green	     & XXXXXX & XXXXXXX  &   14.4 &  36  \\
+ RBS1795 				& 21 54 51.0  &  -44 14 05   &  0.3440 & 11541	 & Green	     & XXXXXX & XXXXXXX  &     8.2 &  35  \\
+ H1101-232 				& 11 03 37.7  &  -23 29 31   &  0.1860 & 12025 & Green  	     & XXXXXX & XXXXXXX  &   13.3 &  16  \\
+ 1H0717+714 				& 07 21 53.3  &  +71 20 36  &  0.5003 & 12025	 & Green	     & XXXXXX & XXXXXXX  &     6.0 &  40  \\
+ PG0003+158 				& 00 05 59.3  &  +16 09 49  &  0.4509 & 12038 & Green	     & XXXXXX & XXXXXXX  &   10.4 &  29  \\
+ SBS1122+594 			& 11 25 53.7  &  +59 10 22  &  0.8580 & 11520	 & Green	     & XXXXXX & XXXXXXX  &   10.0 &  10  \\
+ \\
 \hline
 
 \end{tabular}
 \end{center}
-  \vspace{-10pt}
-  \caption{\small{Names, redshifts, and S/N of AGN targets.}}
+  \caption{\small{Observations}}
   \label{target_table}
-\end{table}
+\end{table*}
 
 
 \section{Results}

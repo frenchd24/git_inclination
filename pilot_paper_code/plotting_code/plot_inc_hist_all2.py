@@ -6,8 +6,8 @@ By David French (frenchd@astro.wisc.edu)
 $Id:  plot_inc_hist_all2.py, v 5.0 12/28/2015
 
     - this now combines plotCosIncDifHist_full2.py, plotFancyIncHist_full2.py, 
-    plotFancyCosIncDifHist_full2.py, plotCosIncHist_full2.py, and plotFancyCosIncHist_full2.py
-    all into this one program (split into sections below)
+    plotFancyCosIncDifHist_full2.py, plotCosIncHist_full2.py, plotIncHist_full2.py,
+    and plotFancyCosIncHist_full2.py all into this one program (split into sections below)
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15) - original updates to the individual files
@@ -541,7 +541,7 @@ def main():
     # originally from plotFancyCosIncHist_full2.py
     #
     
-    plotFancyCosIncHist_full = True
+    plotFancyCosIncHist_full = False
     
     if plotFancyCosIncHist_full:
         fig = figure()
@@ -571,6 +571,42 @@ def main():
 
         if save:
             savefig('{0}/hist(cos(fancy_inclination)).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+########################################################################################
+########################################################################################
+
+    # plot histograms of the associated galaxies' inclinations along with that of the full
+    # galaxy set
+    plotIncHist_full = True
+    
+    if plotIncHist_full:
+        fig = figure()
+#         subplots_adjust(hspace=0.200)
+        ax = fig.add_subplot(211)
+        bins = [0,10,20,30,40,50,60,70,80,90]
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+
+        plot1 = hist(incList,bins=bins,histtype='bar')
+        title('Absorber-associated galaxies inclinations')
+        xlabel('Inclination (deg)')
+        ylabel('Number')
+#         ylim(0,5)
+        
+        ax = fig.add_subplot(212)
+        bins = [0,10,20,30,40,50,60,70,80,90]
+
+        plot1 = hist(allInclinations,bins=bins,histtype='bar')
+        title('Full Galaxy Sample inclinations')
+        xlabel('Inclination (deg)')
+        ylabel('Number')
+#         ylim(0,8000)
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(inclination).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 

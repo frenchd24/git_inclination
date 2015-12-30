@@ -3,6 +3,11 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
+
+DEPRECIATED: SEE "plot_inc_hist_all2.py" FOR CURRENT VERSION
+
+
+
 $Id:  plotFancyCosIncDifHist_full.py, v 4.0 05/18/2015
 
 This is the plotFancyCosIncDifHist_full bit from histograms3.py. Now is separated, and loads in a pickle
