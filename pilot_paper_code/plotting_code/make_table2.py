@@ -36,6 +36,11 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
+
+def round_to_n(x,n):
+    # round to the nth sig fig
+    print 'trying: ',x
+    return round(x, -int(floor(log10(x))) + (n - 1))
     
 
 ###########################################################################
@@ -61,7 +66,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table2.txt'
+    outFilename = 'table2_3.txt'
     outFile = open(saveDirectory+outFilename,'wt')
     
     virInclude = False
@@ -104,8 +109,8 @@ def main():
         
         
         if go:
-            agnName = str(l['AGNname'])
-            galaxyName = str(l['galaxyName'])
+            agnName = str(l['AGNname']).replace('_','\_')
+            galaxyName = str(l['galaxyName']).replace('_','\_')
             env = str(l['environment'])
             AGNra_dec = str(l['degreesJ2000RA_DecAGN'])
             galaxyRA_Dec = str(l['degreesJ2000RA_DecGalaxy'])
@@ -123,7 +128,7 @@ def main():
             pa = str(l['positionAngle (deg)'])
             az = str(l['azimuth (deg)'])
             RC3pa = str(l['RC3pa (deg)'])
-            morph = str(l['morphology'])
+            morph = str(l['morphology']).replace('_','\_')
             agnRedshift = str(l['AGNredshift'])
 
             lyaV = str(l['Lya_v'])
@@ -140,20 +145,41 @@ def main():
             # the spacer between values
             s = ' & '
             
+            if float(likelihood) >0:
+                likelihood = str(round_to_n(float(likelihood),2))
+                
+            if float(likelihoodm15) >0:
+                likelihoodm15 = str(round_to_n(float(likelihoodm15),2))
+                
+            if float(virialRadius) >0:
+                virialRadius = str(round(float(virialRadius),0)).replace('.0','')
+                
+            impact = str(round(float(impact),0)).replace('.0','')
+            vcorr = str(round(float(vcorr),0)).replace('.0','')
+            vel_diff = vel_diff
+            
+            if isNumber(inc):
+                inc = str(round(float(inc),0)).replace('.0','')
+            
+            if isNumber(az):
+                az = str(round(float(az),0)).replace('.0','')
+                
+            if float(likelihood) >= float(likelihoodm15):
+                final_likelihood = likelihood
+            else:
+                final_likelihood = likelihoodm15 + '*'
+                
+            
             # the line to be written to file
-            line = agnName + s + galaxyName + s + galaxyRA_Dec + s + likelihood + s + \
-            likelihoodm15 + s + \
+            line = agnName + s + galaxyName + s + final_likelihood + s + \
             virialRadius + s + \
-            m15 + s + \
             impact + s + \
             vcorr + s + \
             vel_diff + s + \
             inc + s + \
             az + s + \
-            morph + s + \
             lyaV + s + \
-            lyaWplusErr + '\\'
-            
+            lyaWplusErr + '\\\\'
             
             
             outFile.write(line + '\n')
