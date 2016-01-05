@@ -50,7 +50,7 @@
 
 \begin{abstract}
 
-We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz < 10,000$km/s), using archival Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) spectra of background QSOs. This initial sample contains 35 sight lines, yielding 154 Ly$\alpha$ systems, 46 of which we have paired with nearby galaxies. We introduce a likelihood parameter to quantitatively predict the galaxy responsible for measured absorption in a reproducible way. We find a dichotomy in the equivalent widths (EW) of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption EW = $366 \pm 15$m\AA, and negative $\Delta v$  absorption EW = $192 \pm 12$m\AA. We also find a preference for absorption around highly inclined galaxies, but little evidence of azimuthal dependence.
+We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz < 10,000$km/s), using archival Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) spectra of background QSOs. This initial sample contains 35 sight lines, yielding 176 Ly$\alpha$ systems, 56 of which we have paired with nearby galaxies. We introduce a likelihood parameter to quantitatively predict the galaxy responsible for measured absorption in a reproducible way. We find a dichotomy in the equivalent widths (EW) of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption EW = $321 \pm 13$m\AA, and negative $\Delta v$  absorption EW = $153 \pm 14$m\AA. We also find a preference for absorption around highly inclined galaxies, but little evidence of azimuthal dependence.
 
 
 %Galaxies must accrete gas from the intergalactic medium (IGM) in order to sustain star formation at observed levels. In order to understand this complex process, and how it influences galaxy evolution, it is necessary to understand the physical conditions and distribution of the gas around galaxies, known as the circumgalactic medium (CGM). For my thesis, I propose to use archival spectra of bright background QSOs taken by the Cosmic Origins Spectrograph (COS) on the Hubble Space Telescope (HST) to directly probe the CGM of galaxies in the nearby Universe. I will supplement this spectral data with observations of these galaxies taken by the WIYN and SALT telescopes. This proposed program will be the largest and most statistically significant survey of the local CGM to date.
@@ -115,13 +115,13 @@ Each final, combined, and identified sightline is correlated with the galaxy env
         \label{completeness}
 \end{figure} 
 
-In addition, we have homogenized the galaxy data beyond the steps taken by NED by normalizing all measurements of galaxy inclination, position angle, and diameter to 2MASS $K$-band values. 2MASS values were chosen for this because it was an all-sky survey, and represents the largest fraction of available galaxy data. Physical galaxy diameters are derived from 2MASS $K_s$ ``total" angular diameter measurements and galaxy distances. 2MASS $K_s$ ``total" diameter estimates are surface brightness extrapolation measurements and are derived as 
+In addition, we have homogenized the galaxy data beyond the steps taken by NED by normalizing all measurements of galaxy inclination, position angle, and diameter to 2MASS $K$-band values. Most galaxies in NED have measures of inclination, position angle and diameter available in several different bands, so in order to make meaningful comparisons, it is necessary to choose one band for all measurements. We chose 2MASS values for this because it was an all-sky survey, and represents the largest fraction of available galaxy data. Physical galaxy diameters are derived from 2MASS $K_s$ ``total" angular diameter measurements and galaxy distances. 2MASS $K_s$ ``total" diameter estimates are surface brightness extrapolation measurements and are derived as 
 
 \begin{equation}
 r_{tot} = r' + a(ln(148)^b,
 \end{equation}
 
-\noindent where $r_{tot}$ is defined as the point where the surface brightness extends to 5 disk scale lengths, $r'$ is the starting point radius ($>5" - 10"$ beyond the nucleus, or core influence), and $a$ and $b$ are Sersic exponential function scale length parameters ($f = f_0 \exp{(-r/a)}^{(1/b)}$, see Jarret et al. 2003 for a full description). \textbf{NEEDS TO BE CHECK FOR FULL SKY} Approximately $50\%$ of all the galaxies have this 2MASS $K_s$ ``total" diameter. Of the remainder, $20\%$ have SDSS diameters, $27\%$ have no published diameter, and $3\%$ have diameters from other surveys. We convert these other estimates to 2MASS $K_s$ ``total" diameters via a simple least squares linear fit. 
+\noindent where $r_{tot}$ is defined as the point where the surface brightness extends to 5 disk scale lengths, $r'$ is the starting point radius ($>5" - 10"$ beyond the nucleus, or core influence), and $a$ and $b$ are Sersic exponential function scale length parameters ($f = f_0 \exp{(-r/a)}^{(1/b)}$, see Jarret et al. 2003 for a full description). \textbf{NEEDS TO BE CHECK FOR FULL SKY} Approximately $50\%$ of all the galaxies have this 2MASS $K_s$ ``total" diameter. Of the remainder, $20\%$ have SDSS diameters, $27\%$ have no published diameter, and $3\%$ have diameters from other surveys. We convert values in these other bands to 2MASS $K_s$ ``total" diameters via a simple least squares linear fit when necessary.
 
 We used $B$-band magnitudes to estimate each galaxy's luminosity as a ratio of $L_{\**}$ as follows:
 
@@ -131,7 +131,7 @@ We used $B$-band magnitudes to estimate each galaxy's luminosity as a ratio of $
 
 We adopt the CfA galaxy luminosity function by Marzke et al. (1994), which sets $B_{\**} $ = -19.57. Direct $B$ band measurements are available for $\sim 30\%$ of galaxies, and most of the rest have SDSS $g$ and $r$ magnitudes, which can be converted to $B$ via $B = g + 0.39 (g-r) + 0.21$ (Jester et al. 2005). Finally, we also compute an estimate of the virial radius of each galaxy as $log R_{vir} = 0.69 log D + 1.24$. This follows the parametrization of Stocke et al. (2013) relating a galaxy's luminosity to its virial radius, and the Wakker $\&$ Savage (2009) empirical relation between diameter and luminosity (see Wakker et al. 2015 and references therein for further details).
 
-This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies, with unprecedented completeness.
+This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies, with unprecedented completeness. The full dataset will be publicly released and discussed in further detail in a forthcoming paper.
 
 \begin{figure}[h!]
 \centering
@@ -309,7 +309,7 @@ SBS1122+594 & IC0691 & 0.53 & 66 & 45 & 1399 & 185.4 & 42 & 56 & 1214 & 830$\pm$
 
 
 \subsection{W-$\rho$ Anti-correlation}
-As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width (EW) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find this to be true only when normalizing impact parameters by the galaxy diameter. Figure \ref{ew_vs_impact} shows a straight comparison between Ly$\alpha$ $EW$ and $\rho$, where no correlation either way is apparent. Figure \ref{ew_vs_impact-d} shows that the expected anti-correlation clearly emerges when plotting $EW$ vs $\rho/diameter$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. \textbf{NEED TO PLOT $\rho/R_{VIR}$ INSTEAD}
+As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width (EW) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_vs_impact}. However, we find a much stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_vs_impact-d} shows this expected anti-correlation when plotting $EW$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. \textbf{NEED TO PLOT $\rho/R_{VIR}$ INSTEAD}
 
 
 %\begin{figure*}[h!]

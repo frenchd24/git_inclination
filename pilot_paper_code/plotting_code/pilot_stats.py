@@ -156,7 +156,7 @@ def main():
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -255,10 +255,181 @@ def main():
     # print all the things
     #
     
+    # absorber info lists
+    blues = []
+    reds = []
+    blueW = []
+    redW = []
+    blueErr = []
+    redErr = []
+    blueV = []
+    redV = []
+    blueImpact = []
+    redImpact = []
+    
+    # galaxy info lists
+    blueInc = []
+    redInc = []
+    blueFancyInc = []
+    redFancyInc = []
+    blueAz = []
+    redAz = []
+    bluePA = []
+    redPA = []
+    blueVcorr = []
+    redVcorr = []
+    blueEnv = []
+    redEnv = []
+    blueVir = []
+    redVir = []
+    
+
+    
+    # for absorbers
+    for d,w,e,v,i in zip(difList,lyaWList,lyaErrList,lyaVList,impactList):
+        if d>=0:
+            blues.append(float(d))
+            blueW.append(float(w))
+            blueErr.append(float(e))
+            blueV.append(float(v))
+            blueImpact.append(float(i))
+        else:
+            reds.append(float(d))
+            redW.append(float(w))
+            redErr.append(float(e))
+            redV.append(float(v))
+            redImpact.append(float(i))
+            
+    # for galaxies
+    for d,inc,finc,az,pa,vcorr,e,vir in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList):
+        if d>=0:
+            if inc !=-99:
+                blueInc.append(float(inc))
+            if finc !=-99:
+                blueFancyInc.append(float(finc))
+            if az !=-99:
+                blueAz.append(float(az))
+            if pa !=-99:
+                bluePA.append(float(pa))
+            if vcorr !=-99:
+                blueVcorr.append(float(vcorr))
+            blueEnv.append(float(e))
+            if vir !=-99:
+                blueVir.append(float(vir))
+        else:
+            if inc !=-99:
+                redInc.append(float(inc))
+            if finc !=-99:
+                redFancyInc.append(float(finc))
+            if az !=-99:
+                redAz.append(float(az))
+            if pa !=-99:
+                redPA.append(float(pa))
+            if vcorr !=-99:
+                redVcorr.append(float(vcorr))
+            redEnv.append(float(e))
+            if vir !=-99:
+                redVir.append(float(vir))
+            
+    print
     print '------------------------ Pilot Data ------------------------------'
     print
-    print 'total number of lines: ', len(lyaW)
-    print 'total number of 
+    print ' FOR THE FOLLOWING INCLUDE SET:'
+    print ' Virial radius include = ',virInclude
+    print ' Custom include =        ',cusInclude
+    print ' Final include =         ',finalInclude
+    print ' Match =                 ',match
+    print
+    print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
+    print 'total number of associated lines: ',len(difList)
+    print '# of redshifted lines: ',len(reds)
+    print reds
+    print '# of blueshifted lines: ',len(blues)
+    print
+    print '----------------------- Absorber info ----------------------------'
+    print
+    print 'avg blueshifted EW: ',mean(blueW)
+    print 'median blueshifted EW: ',median(blueW)
+
+    print 'avg blueshifted vel_diff: ',mean(blues)
+    print 'median blueshifted vel_diff: ',median(blues)
+
+    print 'avg blue velocity: ',mean(blueV)
+    print 'median blue velocity: ',median(blueV)
+
+    print 'avg blue err: ',mean(blueErr)
+    print 'median blue err: ',median(blueErr)
+    
+    print 'avg blue impact: ',mean(blueImpact)
+    print 'median blue impact: ',median(blueImpact)
+
+    print
+    
+    print 'avg redshifted EW: ',mean(redW)
+    print 'median redshifted EW: ',median(redW)
+
+    print 'avg redshifted vel_diff: ',mean(reds)
+    print 'median redshifted vel_diff: ',median(reds)
+
+    print 'avg red velocity: ',mean(redV)
+    print 'median red velocity: ',median(redV)
+
+    print 'avg red err: ',mean(redErr)
+    print 'median red err: ',median(redErr)
+    
+    print 'avg red impact: ',mean(redImpact)
+    print 'median red impact: ',median(redImpact)
+    
+    print
+    print '----------------------- Galaxy info ----------------------------'
+    print
+    
+    print 'avg blue inclination: ',mean(blueInc)
+    print 'median blue inclination: ',median(blueInc)
+    
+    print 'avg blue fancy inclination: ',mean(blueFancyInc)
+    print 'median blue fancy inclination: ',median(blueFancyInc)
+    
+    print 'avg blue azimuth: ',mean(blueAz)
+    print 'median blue azimuth: ',median(blueAz)
+    
+    print 'avg blue PA: ',mean(bluePA)
+    print 'median blue PA: ',median(bluePA)
+    
+    print 'avg blue vcorr: ',mean(blueVcorr)
+    print 'median blue vcorr: ',median(blueVcorr)
+    
+    print 'avg blue environment: ',mean(blueEnv)
+    print 'median blue environment: ',median(blueEnv)
+    
+    print 'avg blue R_vir: ',mean(blueVir)
+    print 'median blue R_vir: ',median(blueVir)
+    
+    print
+
+    print 'avg red inclination: ',mean(redInc)
+    print 'median red inclination: ',median(redInc)
+    
+    print 'avg red fancy inclination: ',mean(redFancyInc)
+    print 'median red fancy inclination: ',median(redFancyInc)
+    
+    print 'avg red azimuth: ',mean(redAz)
+    print 'median red azimuth: ',median(redAz)
+    
+    print 'avg red PA: ',mean(redPA)
+    print 'median red PA: ',median(redPA)
+    
+    print 'avg red vcorr: ',mean(redVcorr)
+    print 'median red vcorr: ',median(redVcorr)
+    
+    print 'avg red environment: ',mean(redEnv)
+    print 'median red environment: ',median(redEnv)
+    
+    print 'avg red R_vir: ',mean(redVir)
+    print 'median red R_vir: ',median(redVir)
+    
+    print
+    print 'Complete'
     
     
 

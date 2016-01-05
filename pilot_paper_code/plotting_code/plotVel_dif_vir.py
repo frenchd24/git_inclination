@@ -3,22 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_env.py, v 5.0 01/04/2016
+$Id:  plotVel_dif_vir.py, v 1.0 01/05/2016
 
-This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
-file of the relevant data, as created by "buildDataLists.py"
-
-Plots equivalent width as a function of # of galaxies nearby
-
-Previous (from histograms3.py):
-    Plot some stuff for the 100largest initial results
-
-    Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
-
-    Updated for the pilot paper (05/06/15)
-
-v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15)
+Plot the velocity difference as a function of galaxy size
     
 '''
 
@@ -269,14 +256,13 @@ def main():
 ########################################################################################
 ########################################################################################
 
-    # plot equivalent width as a function of environment number, separated into red and 
-    # blue shifted absorption samples
-    #
+    # plot velocity difference as a function of virial radius 
+    # 
     
-    plotW_env = True
+    plotVel_dif_vir = True
     save = False
     
-    if plotW_env:
+    if plotVel_dif_vir:
         fig = figure()
         ax = fig.add_subplot(111)
         
@@ -287,14 +273,6 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         
-        # give some stats:
-        lessThan45 = 0
-        for a in azList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
-        print 'average, median azimuth: ',average(azList),', ',median(azList)
-        
         for d,e,w,v in zip(difList,envList,lyaWList,virList):
             # check if all the values are okay
             if isNumber(d) and isNumber(e) and isNumber(w) and isNumber(v):
@@ -304,26 +282,28 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(e/v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(v,d,c='Blue',s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(e/v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(v,abs(d),c='Red',s=50,label= labelr)
                 
-                    plot1 = scatter(e/v,w,c=color,s=50)
+                    plot1 = scatter(v,abs(d),c=color,s=50)
             
-        title('W(env) for red vs blue absorption')
-        xlabel('Environment')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        title(r'$\rm \Delta v(R_{vir})$ for red vs blue absorption')
+        xlabel(r'$\rm R_{vir}$')
+        ylabel(r'$\rm \Delta v$')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
+        ylim(0,400)
+        xlim(0,max(virList)+10)
+#         ylim(0,max(lyaWList)+50)
 #         xlim(0,10)
 
         if save:
-            savefig('{0}/W(env)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vel_dif(vir).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
@@ -331,14 +311,13 @@ def main():
 ########################################################################################
 ########################################################################################
 
-    # plot dopplar parameter as a function of environment, 
-    # separated into red and blue shifted absorption samples
+    # plot velocity difference as a function of environment 
     #
     
-    plotB_env = True
+    plotVel_dif_env = True
     save = False
     
-    if plotB_env:
+    if plotVel_dif_env:
         fig = figure()
         ax = fig.add_subplot(111)
         
@@ -361,25 +340,26 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(e,b,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(e,d,c='Blue',s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(e,b,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(e,abs(d),c='Red',s=50,label= labelr)
                 
-                    plot1 = scatter(e,b,c=color,s=50)
+                    plot1 = scatter(e,abs(d),c=color,s=50)
             
-        title('b(env) for red vs blue absorption')
+        title(r'$\rm \Delta v(env)$ for red vs blue absorption')
         xlabel('Environment')
-        ylabel(r'Dopplar parameter')
+        ylabel(r'$\rm \Delta v$')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        
+        ylim(0,400)
+        xlim(0,max(envList)+1)
 
         if save:
-            savefig('{0}/b(env)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vel_dif(env).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
