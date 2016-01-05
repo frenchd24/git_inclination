@@ -3,19 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_newAz_major.py, v 4.0 05/18/2015
+$Id:  pilot_stats.py, v 1.0 01/04/2016
 
-This is the plotW_newAz_major bit from histograms3.py. Now is separated, and loads in a pickle
-file of the relevant data, as created by "buildDataLists.py"
-
-
-Previous (from histograms3.py):
-    Plot some stuff for the 100largest initial results
-
-    Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
-
-    Updated for the pilot paper (05/06/15)
-
+Print out all the relevant stats on the dataset for the pilot paper
 
 '''
 
@@ -56,13 +46,13 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -83,8 +73,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -95,12 +85,15 @@ def main():
     # all the lists to be used for associated lines
     lyaVList = []
     lyaWList = []
+    lyaErrList = []
     naList = []
     bList = []
     impactList = []
     azList = []
     incList = []
+    fancyIncList = []
     cosIncList = []
+    cosFancyIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -112,11 +105,15 @@ def main():
     likeList = []
     likem15List = []
     
+    # for ambiguous lines
+    lyaVAmbList = []
+    lyaWAmbList = []
+    envAmbList = []
     
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -129,7 +126,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:
@@ -150,7 +150,7 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -164,24 +164,53 @@ def main():
             m15 = l['d^1.5']
             vel_diff = l['vel_diff']
             
-            if isNumber(RC3pa) and not isNumber(pa):
-                pa = RC3pa
-            
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(minor):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
+        
+            if isNumber(pa):
+                pa = float(pa)
+            elif isNumber(RC3pa):
+                pa = float(RC3pa)
+            else:
+                pa = -99
+                
+            if isNumber(az):
+                az = float(az)
+            else:
+                az = -99
+                
+            if isNumber(maj):
+                maj = float(maj)
+                virialRadius = float(virialRadius)
+            else:
+                maj = -99
+                virialRadius = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
+            lyaErrList.append(float(lyaW_err))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
             azList.append(az)
             incList.append(float(inc))
+            fancyIncList.append(fancyInc)
             cosIncList.append(cosInc)
+            cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
@@ -192,9 +221,20 @@ def main():
             virList.append(virialRadius)
             likeList.append(likelihood)
             likem15List.append(likelihoodm15)
+            
+        else:
+            lyaV = l['Lya_v']
+            lyaW = l['Lya_W'].partition('pm')[0]
+            lyaW_err = l['Lya_W'].partition('pm')[2]
+            env = l['environment']
+            
+            lyaVAmbList.append(float(lyaV))
+            lyaWAmbList.append(float(lyaW))
+            envAmbList.append(float(env))
 
     results.close()
     
+        
     # lists for the full galaxy dataset
     allPA = fullDict['allPA']
     allInclinations = fullDict['allInclinations']
@@ -210,63 +250,18 @@ def main():
     
 
 ########################################################################################
-########################################################################################
+#########################################################################################
+    
+    # print all the things
+    #
+    
+    print '------------------------ Pilot Data ------------------------------'
+    print
+    print 'total number of lines: ', len(lyaW)
+    print 'total number of 
+    
+    
 
-    # plot equivalent width as a function of azimuth normalized by galaxy size, separated
-    # into red and blue shifted absorption samples
-    plotW_Az_major = True
-    
-    if plotW_Az_major:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        # give some stats:
-        lessThan45 = 0
-        for a in newAzList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(newAzList))
-        print 'average, median azimuth: ',average(azList),', ',median(newAzList)
-        
-        for d,a,w,m in zip(difList,newAzList,lyaWList,majList):
-        
-            # check if all the values are okay
-            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
-                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(a/m,w,c=color,s=50)
-            
-        title('W(azimuth_new/diameter) for red vs blue absorption')
-        xlabel(r'Azimuth / Major Axis')
-        ylabel(r'Equivalent Width ($\rm \AA$)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,14)
-
-        if save:
-            savefig('{0}/W(azimuth_new_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-    
-    
 ###############################################################################
 ###############################################################################
 ###############################################################################

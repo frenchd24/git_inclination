@@ -3,13 +3,13 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Az_major2.py, v 5.0 01/04/2016
+$Id:  plotW_az_hist.py, v 5.0 01/04/2016
 
-This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
+Sum the EW into bins in azimuth and average, plotting the step histogram over the data
+
+This is adapted from the plotW_Az bit from histograms3.py. Now loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
 
-Plots equivalent width as a function of azimuth, also normalized by galaxy size, separated 
-into red and blue shifted absorption samples
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -18,10 +18,11 @@ Previous (from histograms3.py):
 
     Updated for the pilot paper (05/06/15)
 
-v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15)
-    
-        
+v5: Updated for the final pilot paper results (12/04/15)
+    - changed name from plotW_newAz_hist2.py to plotW_az_hist.py, and combined with
+    plotW_newAz_hist2.py because they were similar
+    (1/4/16)
+
 '''
 
 import sys
@@ -51,7 +52,7 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-    
+
 
 ###########################################################################
 
@@ -165,7 +166,7 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -182,9 +183,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -262,186 +263,247 @@ def main():
     totalYes = 0
     totalIsolated = 0
     totalGroup = 0
+    
 
 ########################################################################################
-########################################################################################
-
-    # plot equivalent width as a function of azimuth normalized by galaxy size, separated
-    # into red and blue shifted absorption samples
-    #
-    
-    plotW_Az_major = True
-    save = True
-    
-    if plotW_Az_major:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        # give some stats:
-        lessThan45 = 0
-        for a in azList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
-        print 'average, median azimuth: ',average(azList),', ',median(azList)
-        
-        for d,a,w,m in zip(difList,azList,lyaWList,majList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
-                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(a/m,w,c=color,s=50)
-            
-        title('W(azimuth/diameter) for red vs blue absorption')
-        xlabel(r'Azimuth / Major Axis')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,10)
-
-        if save:
-            savefig('{0}/W(azimuth_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
 #########################################################################################
-#########################################################################################
-
-    # plot equivalent width as a function of azimuth normalized by galaxy size, separated
-    # into red and blue shifted absorption samples
-    #
     
-    plotW_Az_vir = True
-    save = True
-    
-    if plotW_Az_vir:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        # give some stats:
-        lessThan45 = 0
-        for a in azList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
-        print 'average, median azimuth: ',average(azList),', ',median(azList)
-        
-        for d,a,w,m in zip(difList,azList,lyaWList,virList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
-                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(a/m,w,c=color,s=50)
-            
-        title('W(azimuth/R_vir) for red vs blue absorption')
-        xlabel(r'$\rm Azimuth / R_{vir}$')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,1)
-
-        if save:
-            savefig('{0}/W(azimuth_vir)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-#########################################################################################
-#########################################################################################
-
-    # plot equivalent width as a function of azimuth angle (old one) for red vs blue
+    # plot equivalent width as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotW_Az = True
-    save = True
+    plotW_Az_avg = True
+    save = False
     
-    if plotW_Az:
+    if plotW_Az_avg:
         fig = figure()
         ax = fig.add_subplot(111)
+        
         countb = 0
         countr = 0
         count = -1
+        
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        print 'len(newAzList): ',len(azList)
+
         print 'len(azList): ',len(azList)
+        print
+        print azList
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
         
         for d,a,w,m in zip(difList,azList,lyaWList,majList):
             # check if all the values are good
             if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
                 if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    count +=1
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        print 'place: ',place
+                        placeArrayb[place] += float(w)
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
                         if countb == 0:
                             countb +=1
                             plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        placeArrayr[place] += float(w)
+                        placeCountr[place] +=1.
+                        
                         if countr == 0:
                             countr +=1
                             plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
             
                     plot1 = scatter(a,w,c=color,s=50)
                     
-        print 'countr: ',countr
-        print 'countb: ',countb
-        print 'count: ',count
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
+        
+#         rHist = placeArrayr
+#         bHist = placeArrayb
+        
+        totalrHist = []
+        totalrAz = []
+        totalbHist = []
+        totalbAz = []
+        
+        for r,a in zip(rHist,range(0,100,10)):
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrAz.append(a)
+            totalrAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[r,r],c='Red')
+            
+        for b,a in zip(bHist,range(0,100,10)):
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbAz.append(a)
+            totalbAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[b,b],c='Blue')
+            
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+        
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+        plot2 = ax.plot(totalrAz,totalrHist,c='Red',lw=5)
+        plot3 = ax.plot(totalbAz,totalbHist,c='Blue',lw=5)
+        
         title('W(azimuth) for red vs blue shifted absorption')
         xlabel(r'Azimuth (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
+        ylim(0,1300)
         xlim(0,90)
 
         if save:
-            savefig('{0}/W(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(azimuth)_dif_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
+########################################################################################
+########################################################################################
 
+    # plot equivalent width as a function of azimuth angle for red vs blue
+    # shifted absorption
+    #
+    
+    plotW_Az_total = True
+    save = False
+    
+    if plotW_Az_total:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
 
+        print 'len(azList): ',len(azList)
+        print
+        print azList
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
+        
+        for d,a,w,m in zip(difList,azList,lyaWList,majList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        print 'place: ',place
+                        placeArrayb[place] += float(w)
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        placeArrayr[place] += float(w)
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+            
+                    plot1 = scatter(a,w,c=color,s=50)
+                    
+        rHist = placeArrayr
+        print 'rHist: ',rHist
+        bHist = placeArrayb
+        print 'bHist: ',bHist
+        
+        totalrHist = []
+        totalrAz = []
+        totalbHist = []
+        totalbAz = []
+        
+        for r,a in zip(rHist,range(0,100,10)):
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrAz.append(a)
+            totalrAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[r,r],c='Red')
+            
+        for b,a in zip(bHist,range(0,100,10)):
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbAz.append(a)
+            totalbAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[b,b],c='Blue')
+            
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+        
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+        plot2 = ax.plot(totalrAz,totalrHist,c='Red',lw=5)
+        plot3 = ax.plot(totalbAz,totalbHist,c='Blue',lw=5)
+        
+        title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'Azimuth (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,2100)
+        xlim(0,90)
+
+        if save:
+            savefig('{0}/W(azimuth)_dif_totalHistograms.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+###############################################################################
+###############################################################################
 ###############################################################################
 ###############################################################################
 
