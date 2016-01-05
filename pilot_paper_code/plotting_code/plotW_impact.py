@@ -3,11 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_b_diam.py, v 4.0 05/13/2015
+$Id:  plotW_impact.py, v 5.0 01/04/2016
 
 This is the plotW_b_diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
 
+Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -15,6 +16,7 @@ Previous (from histograms3.py):
     Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
 
     Updated for the pilot paper (05/06/15)
+
 
 
 '''
@@ -56,13 +58,13 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -83,8 +85,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -95,12 +97,15 @@ def main():
     # all the lists to be used for associated lines
     lyaVList = []
     lyaWList = []
+    lyaErrList = []
     naList = []
     bList = []
     impactList = []
     azList = []
     incList = []
+    fancyIncList = []
     cosIncList = []
+    cosFancyIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -112,11 +117,15 @@ def main():
     likeList = []
     likem15List = []
     
+    # for ambiguous lines
+    lyaVAmbList = []
+    lyaWAmbList = []
+    envAmbList = []
     
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -129,7 +138,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:
@@ -164,24 +176,53 @@ def main():
             m15 = l['d^1.5']
             vel_diff = l['vel_diff']
             
-            if isNumber(RC3pa) and not isNumber(pa):
-                pa = RC3pa
-            
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(min):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
+        
+            if isNumber(pa):
+                pa = float(pa)
+            elif isNumber(RC3pa):
+                pa = float(RC3pa)
+            else:
+                pa = -99
+                
+            if isNumber(az):
+                az = float(az)
+            else:
+                az = -99
+                
+            if isNumber(maj):
+                maj = float(maj)
+                virialRadius = float(virialRadius)
+            else:
+                maj = -99
+                virialRadius = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
+            lyaErrList.append(float(lyaW_err))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
             azList.append(az)
             incList.append(float(inc))
+            fancyIncList.append(fancyInc)
             cosIncList.append(cosInc)
+            cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
@@ -192,9 +233,20 @@ def main():
             virList.append(virialRadius)
             likeList.append(likelihood)
             likem15List.append(likelihoodm15)
+            
+        else:
+            lyaV = l['Lya_v']
+            lyaW = l['Lya_W'].partition('pm')[0]
+            lyaW_err = l['Lya_W'].partition('pm')[2]
+            env = l['environment']
+            
+            lyaVAmbList.append(float(lyaV))
+            lyaWAmbList.append(float(lyaW))
+            envAmbList.append(float(env))
 
     results.close()
     
+        
     # lists for the full galaxy dataset
     allPA = fullDict['allPA']
     allInclinations = fullDict['allInclinations']
@@ -211,10 +263,62 @@ def main():
 
 ########################################################################################
 ########################################################################################
+    
+    # plot equivalent width as a function of impact parameter, splitting up red and 
+    # blue shifted absorption
+    #
+    
+    plotW_b = True
+    save = True
+    
+    if plotW_b:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        for d,i,w in zip(difList,impactList,lyaWList):
+            count +=1
+            if d>0:
+                # galaxy is behind absorber, so gas is blue shifted
+                color = 'Blue'
+                if countb == 0:
+                    countb +=1
+                    plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+            if d<0:
+                # gas is red shifted compared to galaxy
+                color = 'Red'
+                if countr == 0:
+                    countr +=1
+                    plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                    
+            plot1 = scatter(i,w,c=color,s = 50)
+        
+        title('W(impact parameter) for red and blue shifted absorption')
+        xlabel('Impact Parameter (kpc)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-1,1200)
+        xlim(-1,501)
+        ax.legend(scatterpoints=1)
+        
+        if save:
+            savefig('{0}/W(impact)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+########################################################################################
+########################################################################################
 
     # plot equivalent width as a function of impact parameter/diameter, split between
     # red and blue shifted absorption
+    #
+    
     plotW_b_diam= True
+    save = True
     
     if plotW_b_diam:
         fig = figure()
@@ -255,21 +359,81 @@ def main():
         xlabel('Impact Parameter / Diameter')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
-        xlim(-1,70)
+        ylim(-1,1200)
+        xlim(-1,150)
 
         ax.legend(scatterpoints=1)
         
         if save:
-            savefig('{0}/W(impact_diam)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(impact_diam)_dif_cut.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     
     
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+########################################################################################
+########################################################################################
+
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # red and blue shifted absorption
+    #
+    
+    plotW_b_vir= True
+    save = True
+    
+    if plotW_b_vir:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        for d,i,w,m in zip(difList,impactList,lyaWList,virList):
+        
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d !=-99 and i !=-99 and w!=-99 and m!=-99:
+                    count +=1
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr)
+                    
+                    plot1 = scatter(i/m,w,c=color,s = 50)
+            
+        # make the legend work properly
+#         labelr = 'Red Shifted Absorber'
+#         labelb = "Blue Shifted Absorber"
+#         plotb = scatter(i[countb]/m[countb],w[countb],c='Blue',s=50,label= labelb)
+#         plotr = scatter(i[countr]/m[countr],w[countr],c='Red',s=50,label= labelr)
+        
+        title('W(impact/R_vir) for red and blue shifted absorption')
+        xlabel(r'$\rm Impact Parameter / R_{vir}$')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-1,1200)
+        xlim(0,13)
+
+        ax.legend(scatterpoints=1)
+        
+        if save:
+            savefig('{0}/W(impact_vir)_dif_cut.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+    
+#########################################################################################
+#########################################################################################
+#########################################################################################
+#########################################################################################
 
 
 if __name__=="__main__":

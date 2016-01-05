@@ -8,6 +8,7 @@ $Id:  plotAzHist2.py, v 5.0 12/28/2015
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
 
+Plots a histogram of azimuth angles for red and blue shifted absorbers
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -18,7 +19,6 @@ Previous (from histograms3.py):
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15)
-
 
 
 '''
@@ -225,6 +225,8 @@ def main():
 ########################################################################################
 
     # make a histogram of all the azimuth angles
+    #
+    
     plotAzHist = True
     
     if plotAzHist:

@@ -257,6 +257,7 @@ def main():
     #
     
     plotLyaWHist_both = True
+    save = False
     
     if plotLyaWHist_both:
 #         fig = figure(figsize=(2,8))

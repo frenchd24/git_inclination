@@ -3,11 +3,13 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_FancyCosInc.py, v 4.0 05/18/2015
+$Id:  plotNaV_impact.py, v 5.0 01/04/2016
 
-This is the plotW_FancyCosInc bit from histograms3.py. Now is separated, and loads in a pickle
+This is the plotNaV_b_diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
 
+plots apparent column density vs impact parameter, and also vs impact / diameter and 
+impact parameter / R_vir
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -16,6 +18,16 @@ Previous (from histograms3.py):
 
     Updated for the pilot paper (05/06/15)
 
+
+v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
+    (12/04/15) - original updates to the individual files
+    
+    - added second function to normalize impact parameter by R_vir instead of maj axis
+        (1/3/16)
+        
+    - combined plotNaV_b_diam2.py and plotNaV_b2.py into this single file that contains
+        all the previous functions (they were all related)
+        (1/3/16)
 
 '''
 
@@ -45,7 +57,7 @@ from matplotlib import rc
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
-    
+
     
 
 ###########################################################################
@@ -56,13 +68,13 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/pilotData.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/pilotData.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5.csv'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
 
     else:
@@ -83,8 +95,8 @@ def main():
     reader = csv.DictReader(results)
     
     virInclude = False
-    cusInclude = True
-    finalInclude = False
+    cusInclude = False
+    finalInclude = True
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -95,12 +107,15 @@ def main():
     # all the lists to be used for associated lines
     lyaVList = []
     lyaWList = []
+    lyaErrList = []
     naList = []
     bList = []
     impactList = []
     azList = []
     incList = []
+    fancyIncList = []
     cosIncList = []
+    cosFancyIncList = []
     paList = []
     vcorrList = []
     majList = []
@@ -116,7 +131,7 @@ def main():
     for l in reader:
         include_vir = eval(l['include_vir'])
         include_cus = eval(l['include_custom'])
-        include = l['include']
+        include = eval(l['include'])
         
         go = False
         if match:
@@ -129,7 +144,10 @@ def main():
             if virInclude and include_vir:
                 go = True
                 
-            if cusInclude and include_cus:
+            elif cusInclude and include_cus:
+                go = True
+                
+            elif finalInclude and include:
                 go = True
             
             else:
@@ -169,19 +187,39 @@ def main():
             
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
+                
+                if isNumber(maj) and isNumber(min):
+                    q0 = 0.2
+                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    cosFancyInc = cos(fancyInc * pi/180)
+                else:
+                    fancyInc = -99
+                    cosFancyInc = -99
             else:
                 cosInc = -99
                 inc = -99
+                fancyInc = -99
+                cosFancyInc = -99
+                
+            if isNumber(maj):
+                virialRadius = float(virialRadius)
+                maj = float(maj)
+            else:
+                virialRadius = -99
+                maj = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
+            lyaErrList.append(float(lyaW_err))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
             azList.append(az)
             incList.append(float(inc))
+            fancyIncList.append(fancyInc)
             cosIncList.append(cosInc)
+            cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
             majList.append(maj)
@@ -195,6 +233,7 @@ def main():
 
     results.close()
     
+        
     # lists for the full galaxy dataset
     allPA = fullDict['allPA']
     allInclinations = fullDict['allInclinations']
@@ -208,15 +247,19 @@ def main():
     totalIsolated = 0
     totalGroup = 0
     
-
-########################################################################################
-########################################################################################
-
-    # plot equivalent width as a function of cos(inclination) for red and blue shifted
-    # absorption
-    plotW_CosInc = True
     
-    if plotW_CosInc:
+    
+########################################################################################
+########################################################################################
+
+    # plot apparent column density as a function of impact parameter, split between red and
+    # blue shifted absorption
+    #
+    
+    plotNaV_b = True
+    save = False
+    
+    if plotNaV_b:
         fig = figure()
         ax = fig.add_subplot(111)
         countb = 0
@@ -224,39 +267,143 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        for d,i,w,m in zip(difList,fancyCosIncList,lyaWList,majList):
+        for d,i,n in zip(difList,impactList,naList):
         
-            # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
-                if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+            # make sure all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(n):
+                if d !=-99 and i !=-99 and n!=-99:
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,n,c='Blue',s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,n,c='Red',s=50,label= labelr)
                 
-                    plot1 = scatter(i,w,c=color,s=50)
+                    plot1 = scatter(i,n,c=color,s=50)
             
-        title('W(cos(inclination)) for red vs blue shifted absorption')
-        xlabel(r'Cos(inclination) = b/a')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        title('Apparent N(HI) vs impact parameter for red vs blue absorption')
+        xlabel('Impact Parameter (kpc)')
+        ylabel(r'Na(v) (cm$^{\rm -2}$)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
-        xlim(-0.01,1)
+        ylim(-1,5e14)
+        xlim(0,500)
         
         if save:
-            savefig('{0}/W(cos(fancy_inclination))_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/NaV(impact)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+        
+
+########################################################################################
+########################################################################################        
+
+    # plot apparent column density as a function of impact parameter/diameter for red
+    # and blue shifted absorption
+    #
     
+    plotNaV_b_diam = False
+    save = False
+    
+    if plotNaV_b_diam:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        for d,i,n,m in zip(difList,impactList,naList,majList):
+        
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(n) and isNumber(m):
+                if d !=-99 and i !=-99 and n!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i/m,n,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i/m,n,c='Red',s=50,label= labelr)
+                
+                    plot1 = scatter(i/m,n,c=color,s=50)
+            
+        title('Apparent N(HI) vs impact/diameter for red vs blue absorption')
+        xlabel(r'Impact Parameter / Diameter')
+        ylabel(r'Na(v) (cm$^{\rm -2}$)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-1,5e14)
+        xlim(-1,70)
+        
+        if save:
+            savefig('{0}/NaV(impact_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+                 
+
+########################################################################################
+########################################################################################        
+
+    # plot apparent column density as a function of impact parameter/R_virial for red
+    # and blue shifted absorption
+    #
+    
+    plotNaV_b_vir = False
+    save = False
+    
+    if plotNaV_b_vir:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        for d,i,n,v in zip(difList,impactList,naList,virList):
+        
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(n) and isNumber(v):
+                if d !=-99 and i !=-99 and n!=-99 and v!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i/v,n,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i/v,n,c='Red',s=50,label= labelr)
+                
+                    plot1 = scatter(i/v,n,c=color,s=50)
+            
+        title('Apparent N(HI) vs impact/R_vir for red vs blue absorption')
+        xlabel(r'Impact Parameter / R_vir')
+        ylabel(r'Na(v) (cm$^{\rm -2}$)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(-1,5e14)
+#         xlim(-1,70)
+        
+        if save:
+            savefig('{0}/NaV(impact_vir)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+                 
     
 ###############################################################################
 ###############################################################################
