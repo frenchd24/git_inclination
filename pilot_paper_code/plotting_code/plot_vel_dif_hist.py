@@ -5,8 +5,7 @@ By David French (frenchd@astro.wisc.edu)
 
 $Id:  plot_vel_dif_hist.py, v 1.0 01/04/2016
 
-Plots a histogram of position angles for associated galaxies and the full table
-
+Plots a histogram of the velocity differences for red and blue shifted absorbers
 
 
 Previous (from histograms3.py):
@@ -272,12 +271,12 @@ def main():
         for d,l,e in zip(difList,lyaWList,lyaErrList):
             if d >=0:
                 # blue shifted absorber, but galaxy is REDSHIFTED
-                blue.append(d)
+                blue.append(abs(d))
                 blueLya.append(l)
                 blueLyaErr.append(e)
             else:
                 # red shifted absorber, but galaxy is BLUESHIFTED
-                red.append(d)
+                red.append(abs(d))
                 redLya.append(l)
                 redLyaErr.append(e)
                 
@@ -286,7 +285,9 @@ def main():
 #         fig.subplots_adjust(left=0.01, bottom=0.01, right=0.01, top=0.01, wspace=0.01, hspace=0.01)
         fig.subplots_adjust(hspace=0.4)
         
-        bins = arange(-400,450,50)
+#         bins = arange(-400,450,50)
+
+        bins = arange(0,450,25)
         
         plot1 = hist(difList,bins=bins,histtype='bar',alpha=0.9,color='green')
         title('Absorber-associated galaxies')
@@ -294,14 +295,14 @@ def main():
         ylabel('Number')
         
         fig.add_subplot(312)
-        bins = arange(-400,50,50)
+#         bins = arange(-400,50,50)
         plot1 = hist(red,bins=bins,histtype='bar',alpha=0.9,color='red')
         title('Absorber-associated galaxies: Redshifted')
         xlabel(r'$\rm \Delta v$ (km/s)')
         ylabel('Number')
 
         fig.add_subplot(313)
-        bins = arange(0,450,50)
+#         bins = arange(0,450,50)
         plot1 = hist(blue,bins=bins,histtype='bar',alpha=0.9,color='blue')
         title('Absorber-associated galaxies: Blueshifted')
         xlabel(r'$\rm \Delta v$ (km/s)')

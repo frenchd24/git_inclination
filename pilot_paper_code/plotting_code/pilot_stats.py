@@ -14,6 +14,7 @@ import os
 import csv
 
 from pylab import *
+from scipy import stats
 # import atpy
 from math import *
 from utilities import *
@@ -258,8 +259,12 @@ def main():
     # absorber info lists
     blues = []
     reds = []
+    blueAbs = []
+    redAbs = []
     blueW = []
     redW = []
+    blueB = []
+    redB = []
     blueErr = []
     redErr = []
     blueV = []
@@ -286,19 +291,23 @@ def main():
 
     
     # for absorbers
-    for d,w,e,v,i in zip(difList,lyaWList,lyaErrList,lyaVList,impactList):
+    for d,w,e,v,i,b in zip(difList,lyaWList,lyaErrList,lyaVList,impactList,bList):
         if d>=0:
             blues.append(float(d))
             blueW.append(float(w))
             blueErr.append(float(e))
             blueV.append(float(v))
             blueImpact.append(float(i))
+            blueAbs.append(abs(d))
+            blueB.append(float(b))
         else:
             reds.append(float(d))
             redW.append(float(w))
             redErr.append(float(e))
             redV.append(float(v))
             redImpact.append(float(i))
+            redAbs.append(abs(d))
+            redB.append(float(b))
             
     # for galaxies
     for d,inc,finc,az,pa,vcorr,e,vir in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList):
@@ -389,6 +398,31 @@ def main():
     
     print 'avg blue fancy inclination: ',mean(blueFancyInc)
     print 'median blue fancy inclination: ',median(blueFancyInc)
+    print
+    
+    incCut = 50
+    totalBlueInc = len(blueFancyInc)
+    totalRedInc = len(redFancyInc)
+    
+    blueIncCount = 0
+    for i in blueFancyInc:
+        if i >= incCut:
+            blueIncCount +=1
+            
+    redIncCount = 0
+    for i in redFancyInc:
+        if i >= incCut:
+            redIncCount +=1
+            
+    totalInc = len(allFancyInclinations)
+    totalCount = 0
+    for i in allFancyInclinations:
+        if i >= incCut:
+            totalCount +=1
+            
+    print 'Blue: {0} % of associated galaxies have >={1}% inclination'.format(float(blueIncCount)/float(totalBlueInc),incCut)
+    print 'Red: {0} % of associated galaxies have >={1}% inclination'.format(float(redIncCount)/float(totalRedInc),incCut)
+    print 'All: {0} % of associated galaxies have >={1}% inclination'.format(float(totalCount)/float(totalInc),incCut)
     
     print 'avg blue azimuth: ',mean(blueAz)
     print 'median blue azimuth: ',median(blueAz)
@@ -431,6 +465,103 @@ def main():
     print
     print 'Complete'
     
+    print
+    print
+    print '-------------------- Distribution analysis ----------------------'
+    print
+    print
+    
+    print ' FANCY INCLINATIONS: '
+    print
+    
+    # perform the K-S and AD tests for inclination
+    ans1 = stats.ks_2samp(blueFancyInc, redFancyInc)
+    ans1a = stats.anderson_ksamp([blueFancyInc,redFancyInc])
+
+    print 'KS for blue vs red inclinations: ',ans1
+    print 'AD for blue vs red inclinations: ',ans1a
+    
+    ans2 = stats.ks_2samp(blueFancyInc, allFancyInclinations)
+    print 'KS for blue vs all inclinations: ',ans2
+    
+    ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
+    print 'KS for red vs all inclinations: ',ans3
+    
+    print
+    print ' EW Distributions: '
+    print
+    
+    # perform the K-S and AD tests for EW
+    ans1 = stats.ks_2samp(blueW, redW)
+    ans1a = stats.anderson_ksamp([blueW,redW])
+    print 'KS for blue vs red EW: ',ans1
+    print 'AD for blue vs red EW: ',ans1a
+    
+
+    print
+    print ' Impact parameter Distributions: '
+    print
+    
+    # perform the K-S and AD tests for impact parameter
+    ans1 = stats.ks_2samp(blueImpact, redImpact)
+    ans1a = stats.anderson_ksamp([blueImpact,redImpact])
+    print 'KS for blue vs red impact parameters: ',ans1
+    print 'AD for blue vs red impact parameters: ',ans1a
+    
+    print
+    print ' \Delta v Distributions: '
+    print
+    
+    # perform the K-S and AD tests for \delta v
+    ans1 = stats.ks_2samp(blueAbs, redAbs)
+    ans1a = stats.anderson_ksamp([blueAbs,redAbs])
+    print 'KS for blue vs red \Delta v: ',ans1
+    print 'AD for blue vs red \Delta v: ',ans1a
+    
+    print
+    print ' Azimuth Distributions: '
+    print
+    
+    # perform the K-S and AD tests for azimuth
+    ans1 = stats.ks_2samp(blueAz, redAz)
+    ans1a = stats.anderson_ksamp([blueAz,redAz])
+    print 'KS for blue vs red azimuth: ',ans1
+    print 'AD for blue vs red azimuth: ',ans1a
+    
+    print
+    print ' Environment Distributions: '
+    print
+    
+    # perform the K-S and AD tests for environment
+    ans1 = stats.ks_2samp(blueEnv, redEnv)
+    ans1a = stats.anderson_ksamp([blueEnv,redEnv])
+    print 'KS for blue vs red environment: ',ans1
+    print 'AD for blue vs red environment: ',ans1a
+    
+    print
+    print ' R_vir Distributions: '
+    print
+    
+    # perform the K-S and AD tests for r_vir
+    ans1 = stats.ks_2samp(blueVir, redVir)
+    ans1a = stats.anderson_ksamp([blueVir,redVir])
+    print 'KS for blue vs red R_vir: ',ans1
+    print 'AD for blue vs red R_vir: ',ans1a
+    
+    print
+    print ' Doppler parameter Distributions: '
+    print
+    
+    # perform the K-S and AD tests for doppler parameter
+    ans1 = stats.ks_2samp(blueB, redB)
+    ans1a = stats.anderson_ksamp([blueB,redB])
+    print 'KS for blue vs red doppler parameter: ',ans1
+    print 'AD for blue vs red doppler parameter: ',ans1a
+    
+    print
+    print ' COMPLETED. '
+
+
     
 
 ###############################################################################
