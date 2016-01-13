@@ -268,7 +268,7 @@ def main():
     # blue shifted absorption
     #
     
-    plotW_b = True
+    plotW_b = False
     save = True
     
     if plotW_b:
@@ -296,11 +296,11 @@ def main():
                     
             plot1 = scatter(i,w,c=color,s = 50)
         
-        title('W(impact parameter) for red and blue shifted absorption')
+#         title('W(impact parameter) for red and blue shifted absorption')
         xlabel('Impact Parameter (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
+        ylim(-1,max(lyaWList)+100)
         xlim(-1,501)
         ax.legend(scatterpoints=1)
         
@@ -317,7 +317,7 @@ def main():
     # red and blue shifted absorption
     #
     
-    plotW_b_diam= True
+    plotW_b_diam= False
     save = True
     
     if plotW_b_diam:
@@ -355,11 +355,11 @@ def main():
 #         plotb = scatter(i[countb]/m[countb],w[countb],c='Blue',s=50,label= labelb)
 #         plotr = scatter(i[countr]/m[countr],w[countr],c='Red',s=50,label= labelr)
         
-        title('W(impact/diameter) for red and blue shifted absorption')
+#         title('W(impact/diameter) for red and blue shifted absorption')
         xlabel('Impact Parameter / Diameter')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
+        ylim(-1,max(lyaWList)+100)
         xlim(-1,150)
 
         ax.legend(scatterpoints=1)
@@ -415,17 +415,27 @@ def main():
 #         plotb = scatter(i[countb]/m[countb],w[countb],c='Blue',s=50,label= labelb)
 #         plotr = scatter(i[countr]/m[countr],w[countr],c='Red',s=50,label= labelr)
         
-        title('W(impact/R_vir) for red and blue shifted absorption')
+#         title('W(impact/R_vir) for red and blue shifted absorption')
         xlabel(r'$\rm Impact Parameter / R_{vir}$')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
-        xlim(0,13)
+        ylim(-1,max(lyaWList)+100)
+        
+        # cut out the one outlier?
+#         xlim(0,13)
 
+        # or plot the whole range?
+        xlim(-0.2,30)
+        
         ax.legend(scatterpoints=1)
         
         if save:
-            savefig('{0}/W(impact_vir)_dif_cut.pdf'.format(saveDirectory),format='pdf')
+            # cut off the one outlier?
+#             savefig('{0}/W(impact_vir)_dif_cut.pdf'.format(saveDirectory),format='pdf')
+            
+            # or plot the whole range?
+            savefig('{0}/W(impact_vir)_dif.pdf'.format(saveDirectory),format='pdf')
+
         else:
             show()
 

@@ -263,7 +263,9 @@ def main():
 #         fig = figure(figsize=(2,8))
         fig = figure()
         ax = fig.add_subplot(211)
-        bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+#         bins = arange(0,max(max(lyaWList),max(lyaWAmbList)),20)
+        bins = 15
         
         lyaWArray = array(lyaWList)
         lyaWAmbArray = array(lyaWAmbList)
@@ -278,21 +280,21 @@ def main():
         normByEnv = False
         
         if normByEnv:
-            plot1 = hist(lyaWArray/envArray,bins=10,histtype='bar',orientation = 'vertical')
+            plot1 = hist(lyaWArray/envArray,bins=bins,histtype='bar',orientation = 'vertical')
             title('Distribution of Lya W - Associated')
 
             ax = fig.add_subplot(212)
-            plot1 = hist(lyaWAmbArray/envAmbArray,bins=10,histtype='bar',orientation = 'vertical')
+            plot1 = hist(lyaWAmbArray/envAmbArray,bins=bins,histtype='bar',orientation = 'vertical')
 
         else:
-            plot1 = hist(lyaWList,bins=10,histtype='bar',orientation = 'vertical')
+            plot1 = hist(lyaWList,bins=bins,histtype='bar',orientation = 'vertical')
             title('Distribution of Lya W - Associated')
 
             ax = fig.add_subplot(212)
-            plot1 = hist(lyaWAmbList,bins=10,histtype='bar',orientation = 'vertical')
+            plot1 = hist(lyaWAmbList,bins=bins,histtype='bar',orientation = 'vertical')
 
         
-        title('Distribution of Lya W - Ambiguous')
+#         title('Distribution of Lya W - Ambiguous')
         xlabel(r'Equivalent Width ($\rm m\AA$)')
         ylabel('Number')
         ax.tick_params(axis='x', labelsize=8)
@@ -301,7 +303,7 @@ def main():
 #         tight_layout()
         
         if save:
-            savefig('{0}/hist(lyaW_ass_vs_amb).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(lyaW_assoc_vs_ambig).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 

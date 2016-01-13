@@ -3,13 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Az.py, v 5.0 01/04/2016
+$Id:  plotVel_dif_Az.py, v 5.0 01/12/2016
 
-This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
-file of the relevant data, as created by "buildDataLists.py"
-
-Plots equivalent width as a function of azimuth, also normalized by galaxy size, separated 
-into red and blue shifted absorption samples
+Plots Delta v as a function of azimuth
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -263,137 +259,18 @@ def main():
     totalIsolated = 0
     totalGroup = 0
 
-########################################################################################
-########################################################################################
-
-    # plot equivalent width as a function of azimuth normalized by galaxy size, separated
-    # into red and blue shifted absorption samples
-    #
-    
-    plotW_Az_major = True
-    save = True
-    
-    if plotW_Az_major:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        # give some stats:
-        lessThan45 = 0
-        for a in azList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
-        print 'average, median azimuth: ',average(azList),', ',median(azList)
-        
-        for d,a,w,m in zip(difList,azList,lyaWList,majList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
-                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(a/m,w,c=color,s=50)
-            
-        title('W(azimuth/diameter) for red vs blue absorption')
-        xlabel(r'Azimuth / Major Axis')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,10)
-
-        if save:
-            savefig('{0}/W(azimuth_diameter)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
 
 #########################################################################################
 #########################################################################################
 
-    # plot equivalent width as a function of azimuth normalized by galaxy size, separated
-    # into red and blue shifted absorption samples
-    #
-    
-    plotW_Az_vir = True
-    save = True
-    
-    if plotW_Az_vir:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        # give some stats:
-        lessThan45 = 0
-        for a in azList:
-            if a <=45:
-                lessThan45 +=1
-        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
-        print 'average, median azimuth: ',average(azList),', ',median(azList)
-        
-        for d,a,w,m in zip(difList,azList,lyaWList,virList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
-                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(a/m,w,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(a/m,w,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(a/m,w,c=color,s=50)
-            
-        title('W(azimuth/R_vir) for red vs blue absorption')
-        xlabel(r'$\rm Azimuth / R_{vir}$')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,1)
-
-        if save:
-            savefig('{0}/W(azimuth_vir)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-#########################################################################################
-#########################################################################################
-
-    # plot equivalent width as a function of azimuth angle (old one) for red vs blue
+    # plot Delta v as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotW_Az = True
-    save = True
+    plotVel_dif_Az = True
+    save = False
     
-    if plotW_Az:
+    if plotVel_dif_Az:
         fig = figure()
         ax = fig.add_subplot(111)
         countb = 0
@@ -401,8 +278,6 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        print 'len(newAzList): ',len(azList)
-        print 'len(azList): ',len(azList)
         
         for d,a,w,m in zip(difList,azList,lyaWList,majList):
             # check if all the values are good
@@ -414,29 +289,25 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(a,d,c='Blue',s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(a,d,c='Red',s=50,label= labelr)
             
-                    plot1 = scatter(a,w,c=color,s=50)
+                    plot1 = scatter(a,d,c=color,s=50)
                     
-        print 'countr: ',countr
-        print 'countb: ',countb
-        print 'count: ',count
-        title('W(azimuth) for red vs blue shifted absorption')
         xlabel(r'Azimuth (deg)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ylabel(r'$\Delta v$ (km/s)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-        xlim(0,90)
+#         ylim(0,max(difList)+10)
+#         xlim(0,90)
 
         if save:
-            savefig('{0}/W(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vel_dif(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 

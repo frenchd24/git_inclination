@@ -61,11 +61,8 @@ We present initial results from an ongoing large-scale study of the circumgalact
 
 %\section{THINGS I STILL NEED}
 %
-%- target list table
 %- galaxy table completeness plot
 %- breakdown of systems into single galaxy (certain), multiple galaxies (probable), multiple galaxies (ambiguous)
-%- mean azimuth, blue and red azimuths
-%- mean inclination, blue and red inclinations
 %- mean Lstar for associated galaxies of each type
 
 
@@ -99,55 +96,6 @@ This paper presents initial results from our pilot study of 35 sight lines, chos
 %The relationship between the galaxies and the IGM is usually studied by looking for galaxies that lie near the redshift of detected absorption lines. This approach has value, but is incomplete; it does not allow for an unbiased understanding of the distribution of the gas around galaxies, which requires looking for both detections and non-detections of gas, both near as well as far away from galaxies.
 
 %There are many other ongoing studies of the IGM/CGM using QSO absorption to probe galaxy halos, but this is the only study that concentrates on \textit{Ly$\alpha$ absorption in the nearby} Universe, where the galaxy sample is nearly complete, and where large angular impact parameters between absorbers and galaxies can be physically meaningful, while also being of sufficiently large scale to produce robust statistics. 
-
-
-\section{Data and Analysis}
-
-\subsection{Galaxy Data}
-Each final, combined, and identified sightline is correlated with the galaxy environment in order to match absorption features with galaxies near the sightline. To facilitate this, we have constructed a dataset of all $z\leq 0.033$ ($v\leq 10,000$km/s) galaxies with published data available through the NASA Extragalactic Database (NED\footnote{This research has made use of the NASA/IPAC Extragalactic Database (NED) which is operated by the Jet Propulsion Laboratory, California Institute of Technology, under contract with the National Aeronautics and Space Administration.}). This dataset contains over 108,000 entries, and includes data from SDSS, 2MASS, 2dF, 6dF, RC3, and many other, smaller surveys. Our criteria for including a galaxy in this dataset is only an accurate, spectroscopic redshift which places the galaxy in the $400 \leq v \leq 10,000$km/s velocity range. This restriction naturally leads to a completeness limit of $B \lesssim 18.7$ mag \textbf{CHECK THIS}, or $\sim0.1 L_*$ on average across the sky (see Figure \ref{completeness}). For any particular region of the sky, this limit will vary some depending upon which of the larger surveys cover the region. 
-
-\begin{figure}[ht!]
-        \centering
-        \vspace{-10pt}
-        \includegraphics[width=0.52\textwidth]{completeness_hist.pdf}
-        \caption{\small{Distribution of $L/L_{\**}$ values for all galaxies in the dataset. Black vertical lines highlight 1, 0.5, 0.1, 0.05 and 0.01 $L_{\**}$. The turnoff around 0.1$L_{\**}$ shows that on average, the dataset is complete to 0.1$L_{\**}$.}}
-%        \vspace{-5pt}
-        \label{completeness}
-\end{figure} 
-
-In addition, we have homogenized the galaxy data beyond the steps taken by NED by normalizing all measurements of galaxy inclination, position angle, and diameter to 2MASS $K$-band values. Most galaxies in NED have measures of inclination, position angle and diameter available in several different bands, so in order to make meaningful comparisons, it is necessary to choose one band for all measurements. We chose 2MASS values for this because it was an all-sky survey, and represents the largest fraction of available galaxy data. Physical galaxy diameters are derived from 2MASS $K_s$ ``total" angular diameter measurements and galaxy distances. 2MASS $K_s$ ``total" diameter estimates are surface brightness extrapolation measurements and are derived as 
-
-\begin{equation}
-r_{tot} = r' + a(ln(148)^b,
-\end{equation}
-
-\noindent where $r_{tot}$ is defined as the point where the surface brightness extends to 5 disk scale lengths, $r'$ is the starting point radius ($>5" - 10"$ beyond the nucleus, or core influence), and $a$ and $b$ are Sersic exponential function scale length parameters ($f = f_0 \exp{(-r/a)}^{(1/b)}$, see Jarret et al. 2003 for a full description). \textbf{NEEDS TO BE CHECK FOR FULL SKY} Approximately $50\%$ of all the galaxies have this 2MASS $K_s$ ``total" diameter. Of the remainder, $20\%$ have SDSS diameters, $27\%$ have no published diameter, and $3\%$ have diameters from other surveys. We convert values in these other bands to 2MASS $K_s$ ``total" diameters via a simple least squares linear fit when necessary.
-
-We used $B$-band magnitudes to estimate each galaxy's luminosity as a ratio of $L_{\**}$ as follows:
-
-\begin{equation}
-	\frac{L}{L_{\**}} = 10^{-0.4 (M_{B} - M_{B_{\**}})}. 
-\end{equation}
-
-We adopt the CfA galaxy luminosity function by Marzke et al. (1994), which sets $B_{\**} $ = -19.57. Direct $B$ band measurements are available for $\sim 30\%$ of galaxies, and most of the rest have SDSS $g$ and $r$ magnitudes, which can be converted to $B$ via $B = g + 0.39 (g-r) + 0.21$ (Jester et al. 2005). Finally, we also compute an estimate of the virial radius of each galaxy as $log R_{vir} = 0.69 log D + 1.24$. This follows the parametrization of Stocke et al. (2013) relating a galaxy's luminosity to its virial radius, and the Wakker $\&$ Savage (2009) empirical relation between diameter and luminosity (see Wakker et al. 2015 and references therein for further details).
-
-This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies, with unprecedented completeness. The full dataset will be publicly released and discussed in further detail in a forthcoming paper.
-
-\begin{figure}[h!]
-\centering
-  \subfigure[]{\includegraphics[width=1.\linewidth]{figTON1009_crop.pdf}}{\label{line}}
-  \subfigure[]{\includegraphics[width=1.\linewidth]{map2_TON1009_4295_newlabels_crop_hires2.png}\label{impactmap}}
-  \caption{\small{a) An example Ly$\alpha$ line found in a sightline towards target TON1009 at 4295 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter target TON1009 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 4295 km/s (central black star). The galaxy IC2439 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
-\vspace{5pt}
-\end{figure}
-
-\subsection{Spectra}
-
-This initial pilot study contains 35 sightlines to bright QSOs observed with COS (34 of 35) and STIS (1 of 35). We chose sightlines by first sorting the galaxy data table described above by diameter. This sorted list is then correlated with the full list of available sightlines, and only systems with impact parameter less than 500 Mpc are kept. Finally, we reject any messy, overly complicated sightlines, or low S/N sightlines and select the top 35 (again, sorted by galaxy diameter). 
-
-We chose sight lines based on high S/N (generally $>$10), ease of spectral identification, and proximity to large, nearby galaxies. Several are included simply because they already have published identifications. There were no strict cutoffs for galaxy size or brightness, we simply selected the top 35 sight lines after rejecting those with lower S/N and/or more complicated features. Table \ref{target_table} summarizes the properties of the QSO targets we selected. \textbf{Should this just be a single table with all absorption features, associated galaxies and QSO info combined?}
-
-All COS spectra for the target sight lines was obtained through the Barbara A. Mikulski Archive for Space Telescopes (MAST), and processed with the latest available version of the CALCOS pipeline \textbf{WHICH IS??}. We combined individual exposures by the method of Wakker et al. (2015, submitted), which corrects the COS wavelength scale by cross-correlating all ISM and IGM lines in each exposure. This method addresses the up to $\pm40$ km/s misalignments produced by CALCOS, and produces a corrected error array based on Poisson noise, which better matches the measured errors. We then combine multiple exposure by aligning Galactic absorption lines with 21-cm spectra, and adding up the total counts in each pixel before converting to flux using the original, average flux-count ratio at each wavelength.
 
 \begin{table*}[ht]\footnotesize
 \begin{center}
@@ -202,37 +150,56 @@ All COS spectra for the target sight lines was obtained through the Barbara A. M
   \label{target_table}
 \end{table*}
 
+\section{Data and Analysis}
 
-\section{Results}
+\subsection{Galaxy Data}
+Each final, combined, and identified sightline is correlated with the galaxy environment in order to match absorption features with galaxies near the sightline. To facilitate this, we have constructed a dataset of all $z\leq 0.033$ ($v\leq 10,000$km/s) galaxies with published data available through the NASA Extragalactic Database (NED\footnote{This research has made use of the NASA/IPAC Extragalactic Database (NED) which is operated by the Jet Propulsion Laboratory, California Institute of Technology, under contract with the National Aeronautics and Space Administration.}). This dataset contains over 108,000 entries, and includes data from SDSS, 2MASS, 2dF, 6dF, RC3, and many other, smaller surveys. Our criteria for including a galaxy in this dataset is only an accurate, spectroscopic redshift which places the galaxy in the $400 \leq v \leq 10,000$km/s velocity range. This restriction naturally leads to a completeness limit of $B \lesssim 18.7$ mag \textbf{CHECK THIS}, or $\sim0.1 L_*$ on average across the sky (see Figure \ref{completeness}). For any particular region of the sky, this limit will vary some depending upon which of the larger surveys cover the region. 
 
-We have identified 154 Ly$\alpha$ absorption lines in the spectra of 35 background QSOs. Of these, $32\%$ can be unambiguously associated with a single nearby galaxy, while $51\%$ reside in relative voids. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
+\begin{figure}[ht!]
+        \centering
+        \vspace{-10pt}
+        \includegraphics[width=0.52\textwidth]{completeness_hist.pdf}
+        \caption{\small{Distribution of $L/L_{\**}$ values for all galaxies in the dataset. Black vertical lines highlight 1, 0.5, 0.1, 0.05 and 0.01 $L_{\**}$. The turnoff around 0.1$L_{\**}$ shows that on average, the dataset is complete to 0.1$L_{\**}$.}}
+%        \vspace{-5pt}
+        \label{completeness}
+\end{figure} 
 
-To facilitate this decision, we compute the likelihood, $\mathcal{L}$, of every possible galaxy-absorber pairing as follows:
+In addition, we have homogenized the galaxy data beyond the steps taken by NED by normalizing all measurements of galaxy inclination, position angle, and diameter to 2MASS $K$-band values. Most galaxies in NED have measures of inclination, position angle and diameter available in several different bands, so in order to make meaningful comparisons, it is necessary to choose one band for all measurements. We chose 2MASS values for this because it was an all-sky survey, and represents the largest fraction of available galaxy data. Physical galaxy diameters are derived from 2MASS $K_s$ ``total" angular diameter measurements and galaxy distances. 2MASS $K_s$ ``total" diameter estimates are surface brightness extrapolation measurements and are derived as 
 
 \begin{equation}
-	\mathcal{L} = A e^{-(\frac{\rho}{R})^2} e^{-(\frac{\Delta v}{200})^2}.
+r_{tot} = r' + a(ln(148)^b,
 \end{equation}
 
-\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $R \geq \rho$ (in which case $A = 2$, otherwise $A = 1$). We compute $\mathcal{L}$ for two different values of $R$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association. 
+\noindent where $r_{tot}$ is defined as the point where the surface brightness extends to 5 disk scale lengths, $r'$ is the starting point radius ($>5" - 10"$ beyond the nucleus, or core influence), and $a$ and $b$ are Sersic exponential function scale length parameters ($f = f_0 \exp{(-r/a)}^{(1/b)}$, see Jarret et al. 2003 for a full description). \textbf{NEEDS TO BE CHECK FOR FULL SKY} Approximately $50\%$ of all the galaxies have this 2MASS $K_s$ ``total" diameter. Of the remainder, $20\%$ have SDSS diameters, $27\%$ have no published diameter, and $3\%$ have diameters from other surveys. We convert values in these other bands to 2MASS $K_s$ ``total" diameters via a simple least squares linear fit when necessary.
 
-Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption feature at $4295km/s$ toward TON1009 and galaxy IC2439 ($\mathcal{L} = 0.45$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems.
+We used $B$-band magnitudes to estimate each galaxy's luminosity as a ratio of $L_{\**}$ as follows:
+
+\begin{equation}
+	\frac{L}{L_{\**}} = 10^{-0.4 (M_{B} - M_{B_{\**}})}. 
+\end{equation}
+
+We adopt the CfA galaxy luminosity function by Marzke et al. (1994), which sets $B_{\**} $ = -19.57. Direct $B$ band measurements are available for $\sim 30\%$ of galaxies, and most of the rest have SDSS $g$ and $r$ magnitudes, which can be converted to $B$ via $B = g + 0.39 (g-r) + 0.21$ (Jester et al. 2005). Finally, we also compute an estimate of the virial radius of each galaxy as $log R_{vir} = 0.69 log D + 1.24$. This follows the parametrization of Stocke et al. (2013) relating a galaxy's luminosity to its virial radius, and the Wakker $\&$ Savage (2009) empirical relation between diameter and luminosity (see Wakker et al. 2015 and references therein for further details).
+
+This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies, with unprecedented completeness. The full dataset will be publicly released and discussed in further detail in a forthcoming paper.
+
+
+\begin{figure}[h!]
+\centering
+  \subfigure[]{\includegraphics[width=1.\linewidth]{figTON1009_crop.pdf}}{\label{line}}
+  \subfigure[]{\includegraphics[width=1.\linewidth]{map2_TON1009_4295_newlabels_crop_hires2.png}\label{impactmap}}
+  \caption{\small{a) An example Ly$\alpha$ line found in a sightline towards target TON1009 at 4295 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter target TON1009 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 4295 km/s (central black star). The galaxy IC2439 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
+\vspace{5pt}
+\end{figure}
 
 
 
-%\begin{figure}[h!]
-%\centering
-%  \includegraphics[width=1.\linewidth]{figTON1009_crop.pdf}
-%  \caption{\small{An example Ly$\alpha$ line found in a sightline towards target TON1009 at 4295 km/s.}}
-%  \label{line}
-%\end{figure}
-%\begin{figure}[h!]
-%  \centering
-%  \includegraphics[width=1.\linewidth]{map2_TON1009_4295_newlabels_crop_hires2.png}
-%  \caption{\small{A map of \textit{all} galaxies within a 500 kpc impact parameter target TON1009 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 4295 km/s (central black star). The galaxy IC2439 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
-%  \label{impactmap}
-%\label{TON1009}
-%\vspace{5pt}
-%\end{figure}
+\subsection{Spectra}
+
+This initial pilot study contains 35 sightlines to bright QSOs observed with COS (34 of 35) and STIS (1 of 35). We chose sightlines by first sorting the galaxy data table described above by diameter. This sorted list is then correlated with the full list of available sightlines, and only systems with impact parameter less than 500 Mpc are kept. Finally, we reject any messy, overly complicated sightlines, or low S/N sightlines and select the top 35 (again, sorted by galaxy diameter). 
+
+We chose sight lines based on high S/N (generally $>$10), ease of spectral identification, and proximity to large, nearby galaxies. Several are included simply because they already have published identifications. There were no strict cutoffs for galaxy size or brightness, we simply selected the top 35 sight lines after rejecting those with lower S/N and/or more complicated features. Table \ref{target_table} summarizes the properties of the QSO targets we selected. \textbf{Should this just be a single table with all absorption features, associated galaxies and QSO info combined?}
+
+All COS spectra for the target sight lines was obtained through the Barbara A. Mikulski Archive for Space Telescopes (MAST), and processed with the latest available version of the CALCOS pipeline \textbf{WHICH IS??}. We combined individual exposures by the method of Wakker et al. (2015, submitted), which corrects the COS wavelength scale by cross-correlating all ISM and IGM lines in each exposure. This method addresses the up to $\pm40$ km/s misalignments produced by CALCOS, and produces a corrected error array based on Poisson noise, which better matches the measured errors. We then combine multiple exposure by aligning Galactic absorption lines with 21-cm spectra, and adding up the total counts in each pixel before converting to flux using the original, average flux-count ratio at each wavelength.
 
 
 
@@ -308,8 +275,41 @@ SBS1122+594 & IC0691 & 0.53 & 66 & 45 & 1399 & 185.4 & 42 & 56 & 1214 & 830$\pm$
 \end{table*}
 
 
+\section{Results}
+
+We have identified 154 Ly$\alpha$ absorption lines in the spectra of 35 background QSOs. Of these, $32\%$ can be unambiguously associated with a single nearby galaxy, while $51\%$ reside in relative voids. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
+
+To facilitate this decision, we compute the likelihood, $\mathcal{L}$, of every possible galaxy-absorber pairing as follows:
+
+\begin{equation}
+	\mathcal{L} = A e^{-(\frac{\rho}{R})^2} e^{-(\frac{\Delta v}{200})^2}.
+\end{equation}
+
+\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $R \geq \rho$ (in which case $A = 2$, otherwise $A = 1$). We compute $\mathcal{L}$ for two different values of $R$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association. Finally, all systems are visually inspected.
+
+Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption feature at $4295km/s$ toward TON1009 and galaxy IC2439 ($\mathcal{L} = 0.45$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems.
+
+
+
+%\begin{figure}[h!]
+%\centering
+%  \includegraphics[width=1.\linewidth]{figTON1009_crop.pdf}
+%  \caption{\small{An example Ly$\alpha$ line found in a sightline towards target TON1009 at 4295 km/s.}}
+%  \label{line}
+%\end{figure}
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=1.\linewidth]{map2_TON1009_4295_newlabels_crop_hires2.png}
+%  \caption{\small{A map of \textit{all} galaxies within a 500 kpc impact parameter target TON1009 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 4295 km/s (central black star). The galaxy IC2439 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
+%  \label{impactmap}
+%\label{TON1009}
+%\vspace{5pt}
+%\end{figure}
+
+
+
 \subsection{W-$\rho$ Anti-correlation}
-As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width (EW) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_vs_impact}. However, we find a much stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_vs_impact-d} shows this expected anti-correlation when plotting $EW$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. \textbf{NEED TO PLOT $\rho/R_{VIR}$ INSTEAD}
+As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width (EW) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_vs_impact}. However, we find a much stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_vs_impact-d} shows this expected anti-correlation when plotting $EW$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos.
 
 
 %\begin{figure*}[h!]
@@ -348,6 +348,7 @@ As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equiv
 %        \label{ew_vs_impact-d}
 %\end{figure} 
 
+
 Most interestingly, new results emerge when we split the absorber-galaxy catalog based on the velocity difference of the two. We define the differential velocity between the absorption and an associated galaxy as follows:
 
 \begin{equation}
@@ -359,19 +360,35 @@ With this scheme, we refer to an absorber with a velocity \textit{lower} than th
 \begin{figure}[ht!]
   \centering
   \subfigure[]{\includegraphics[scale=0.44]{W(impact)_dif.pdf}}{\label{ew_vs_impact}}
-  \subfigure[]{\includegraphics[scale=0.44]{W(impact_diam)_dif.pdf}}{\label{ew_vs_impact-d}}
+  \subfigure[]{\includegraphics[scale=0.44]{W(impact_vir)_dif.pdf}}{\label{ew_vs_impact-d}}
   \vspace{-2pt}
-  \caption{a) Equivalent width ($W$) of each absorber as a function of $\rho$ (kpc), the physical impact parameter between the galaxy and the sightline toward the absorption feature. b) ($W$) as a function of $\rho$/D, the ratio of the physical impact parameter and the galaxy diameter. A strong anti-correlation is evident only when scaling $\rho$ by the galaxy diameter.}
+  \caption{a) Equivalent width ($W$) of each absorber as a function of $\rho$ (kpc), the physical impact parameter between the galaxy and the sightline toward the absorption feature. b) ($W$) as a function of $\rho/R_{vir}$, the ratio of the physical impact parameter and the galaxy diameter. The anti-correlation is strongest when scaling $\rho$ by the galaxy virial radius.}
 \end{figure}
 \vspace{10pt}
 
 
 \subsection{Inclination}
-In this section we examine the inclinations of the associated galaxies compared to the red and blueshifted distributions of absorbers. Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' EW plotted against the inclinations of their associated galaxies. We note that there is a clear dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers only appear near highly-inclined galaxies (i.e. inclination $>$ 50 deg). In addition, redshifted absorbers appear with lower $W$ than those blueshifted across all inclinations. The average equivalent width of all redshifted absorbers is $\langle W \rangle$ = $192 \pm 12 \textrm{m\AA}$, compared to $\langle W \rangle$ = $366 \pm 15\textrm{m\AA}$ for blueshifted absorbers. We can reject the null hypothesis that red and blue shifted absorbers come from the same underlying distribution at the $95\%$ level (results of both KS and AD tests).
+In this section we examine the inclinations of the associated galaxies compared to the red and blueshifted distributions of absorbers. We compute galaxy inclination, $i$, as follows:
+
+\begin{equation}
+	\cos(i) = \sqrt{\frac{q^2 - q_0^2}{1 - q_0^2}},
+\end{equation}
+
+\noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies.
+Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is a clear dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies (i.e. inclination $>$ 50 deg). In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The average $EW$ of all redshifted absorbers is $\langle EW \rangle$ = $153 \pm 14 \textrm{m\AA}$, compared to $\langle W \rangle$ = $321 \pm 13$m\AA for blueshifted absorbers. We can reject the null hypothesis that red and blue shifted absorbers come from the same underlying distribution at the $98\%$ level (results of both KS and AD tests).
+
 
 
 \subsection{Azimuth}
-In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth} illustrates this. The mean azimuth angle for all absorption systems is \textbf{MEAN AZIMUTH ANGLE}. Again splitting the results into blue and redshifted bins leads to a slight separation in azimuth. We find a mean azimuth angle of \textbf{BLUESHIFTED AZIMUTH} for blue shifted absorbers, and \textbf{RED SHIFTED AZIMUTH} for redshifted absorbers. 
+In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth_illustration} illustrates this. The mean azimuth angle for blueshifted absorbers is $41^{\circ}$, and $42^{\circ}$ for redshifted absorbers. We additionally find no significant correlation between azimuth angle and equivalent width or $\Delta v$. 
+
+\begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.35\textwidth]{azimuth_illustration_cut.jpg}
+        \caption{\small{Azimuth is the angle, $\alpha$, between the major axis of the galaxy, $a$, and a vector extending from the AGN target to the galaxy center.}}
+        \label{azimuth_illustration}
+\end{figure} 
+
 
 %Here's the deets:
 %bins: [ 0  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90]
@@ -385,7 +402,7 @@ In this section we examine properties of absorbers as a function of their azimut
 
 \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.52\textwidth]{Wvsinclinationfinal3.jpg}
+        \includegraphics[width=0.52\textwidth]{W(fancy_inclination)_dif_annotated.jpg}
         \caption{\small{Equivalent width ($W$) of each absorber as a function of the inclination angle of the associated galaxy in the pilot study sample. The dashed black line is drawn to highlight the separation between red and blue shifted absorption systems (with respect to the systemic velocity of the galaxy).}}
         \label{ew_vs_inclination}
 \end{figure} 
@@ -476,7 +493,7 @@ We have measured 176 $\rm Ly\alpha$ absorption lines in the spectra of 35 COS an
 
 \indent \textbullet \indent We find a dichotomy in the EW of absorption blue-ward vs red-ward of associated galaxies. Redshifted absorbers are far weaker, with EW = $153 \pm 14$m\AA compared to EW = $321 \pm 13$m\AA for blueshifted absorbers. KS and AD test show at the 98\% confidence level that these two sets of absorbers are drawn from different distributions. 
 
-\textbullet 
+\textbullet \indent $\rm Ly\alpha$ absorbers are most associated with inclined galaxies.
 
 \nocite{*}
 \bibliography{paper_bib}

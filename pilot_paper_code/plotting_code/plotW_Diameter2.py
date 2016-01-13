@@ -164,8 +164,8 @@ def main():
             RC3pa = l['RC3pa (deg)']
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
-            maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            major = l['majorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -182,9 +182,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(major) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(major,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -207,11 +207,11 @@ def main():
             else:
                 az = -99
                 
-            if isNumber(maj):
-                maj = float(maj)
+            if isNumber(major):
+                major = float(major)
                 virialRadius = float(virialRadius)
             else:
-                maj = -99
+                major = -99
                 virialRadius = -99
                 
             if isNumber(b):
@@ -233,7 +233,7 @@ def main():
             cosFancyIncList.append(cosFancyInc)
             paList.append(pa)
             vcorrList.append(vcorr)
-            majList.append(maj)
+            majList.append(major)
             difList.append(float(vel_diff))
             envList.append(float(env))
             morphList.append(morph)
@@ -276,7 +276,7 @@ def main():
     #
     
     plotW_Diameter = True
-    save = False
+    save = True
     
     if plotW_Diameter:
         fig = figure()
@@ -326,7 +326,7 @@ def main():
     #
     
     plotW_vir = True
-    save = False
+    save = True
     
     if plotW_vir:
         fig = figure()
@@ -376,7 +376,7 @@ def main():
     #
     
     plotB_vir = True
-    save = False
+    save = True
     
     if plotB_vir:
         fig = figure()
@@ -409,7 +409,7 @@ def main():
         xlabel(r'$\rm R_{vir}$ (kpc)')
         ylabel(r'Doppler Parameter (km/s)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+100)
+        ylim(min(bList)-5,max(bList)+5)
         xlim(0,max(virList)+5)
         ax.legend(scatterpoints=1)
         

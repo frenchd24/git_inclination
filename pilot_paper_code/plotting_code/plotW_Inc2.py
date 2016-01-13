@@ -295,7 +295,7 @@ def main():
     #
     
     plotW_Inc = True
-    save = False
+    save = True
     
     if plotW_Inc:
         fig = figure()
@@ -325,7 +325,7 @@ def main():
                 
                     plot1 = scatter(i,w,c=color,s=50)
             
-        title('W(inclination) for red vs blue shifted absorption')
+#         title('W(inclination) for red vs blue shifted absorption')
         xlabel(r'Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         legend(scatterpoints=1)
@@ -346,7 +346,7 @@ def main():
     # absorption represented by a color bar
     #
     
-    plotW_CosInc_colorbar= True
+    plotW_CosInc_colorbar= False
     save = False
     
     if plotW_CosInc_colorbar:
@@ -447,7 +447,7 @@ def main():
     #
     
     plotW_fancyInc = True
-    save = False
+    save = True
     
     if plotW_fancyInc:
         fig = figure()
@@ -458,10 +458,11 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         for d,i,w,m in zip(difList,fancyIncList,lyaWList,majList):
-        
             # check if all the values are okay
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
                 if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+                    if i ==90:
+                        print d, i, w, m
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
@@ -477,13 +478,13 @@ def main():
                 
                     plot1 = scatter(i,w,c=color,s=50)
             
-        title('W(fancy_inclination) for red vs blue shifted absorption')
-        xlabel(r'Fancy Inclination (deg)')
+#         title('W(fancy_inclination) for red vs blue shifted absorption')
+        xlabel(r'Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,1200)
-        xlim(0,91)
+        xlim(0,90)
         
         if save:
             savefig('{0}/W(fancy_inclination)_dif.pdf'.format(saveDirectory),format='pdf')
@@ -498,7 +499,7 @@ def main():
     # absorption
     #
     
-    plotW_CosFancyInc = True
+    plotW_CosFancyInc = False
     save = False
     
     if plotW_CosFancyInc:
@@ -550,7 +551,7 @@ def main():
     # represented by a color bar
     #
     
-    plotW_FancyCosInc_colorbar= True
+    plotW_FancyCosInc_colorbar= False
     save = False
     
     if plotW_FancyCosInc_colorbar:
@@ -647,7 +648,7 @@ def main():
     # absorption
     #
     
-    plotW_CosInc = True
+    plotW_CosInc = False
     save = False
     
     if plotW_CosInc:

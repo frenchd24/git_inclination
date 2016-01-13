@@ -339,6 +339,21 @@ def main():
             redEnv.append(float(e))
             if vir !=-99:
                 redVir.append(float(vir))
+                
+    # how many absorbers above vs below vel_cut?
+    redVelCount = 0
+    blueVelCount = 0
+    vel_cut = 200
+    
+    for b in blues:
+        if b >=200:
+            blueVelCount +=1
+    
+    for r in reds:
+        if abs(r) >=200:
+            redVelCount +=1
+    
+    
             
     print
     print '------------------------ Pilot Data ------------------------------'
@@ -352,7 +367,7 @@ def main():
     print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
     print 'total number of associated lines: ',len(difList)
     print '# of redshifted lines: ',len(reds)
-    print reds
+#     print reds
     print '# of blueshifted lines: ',len(blues)
     print
     print '----------------------- Absorber info ----------------------------'
@@ -362,6 +377,7 @@ def main():
 
     print 'avg blueshifted vel_diff: ',mean(blues)
     print 'median blueshifted vel_diff: ',median(blues)
+    print '% blueshifted which have vel_diff >= 200 km/s: {0}'.format(float(blueVelCount)/len(blues))
 
     print 'avg blue velocity: ',mean(blueV)
     print 'median blue velocity: ',median(blueV)
@@ -379,6 +395,8 @@ def main():
 
     print 'avg redshifted vel_diff: ',mean(reds)
     print 'median redshifted vel_diff: ',median(reds)
+    print '% redshifted which have abs(vel_diff) >= 200 km/s: {0}'.format(float(redVelCount)/len(reds))
+
 
     print 'avg red velocity: ',mean(redV)
     print 'median red velocity: ',median(redV)
@@ -393,36 +411,73 @@ def main():
     print '----------------------- Galaxy info ----------------------------'
     print
     
-    print 'avg blue inclination: ',mean(blueInc)
-    print 'median blue inclination: ',median(blueInc)
-    
-    print 'avg blue fancy inclination: ',mean(blueFancyInc)
-    print 'median blue fancy inclination: ',median(blueFancyInc)
-    print
-    
+    # regular inclinations
     incCut = 50
-    totalBlueInc = len(blueFancyInc)
-    totalRedInc = len(redFancyInc)
+    totalBlueInc = len(blueInc)
+    totalRedInc = len(redInc)
     
     blueIncCount = 0
-    for i in blueFancyInc:
+    for i in blueInc:
         if i >= incCut:
             blueIncCount +=1
             
     redIncCount = 0
-    for i in redFancyInc:
+    for i in redInc:
         if i >= incCut:
             redIncCount +=1
             
-    totalInc = len(allFancyInclinations)
+    totalInc = len(allInclinations)
     totalCount = 0
-    for i in allFancyInclinations:
+    for i in allInclinations:
         if i >= incCut:
             totalCount +=1
             
+            
+    # fancy inclinations
+    totalBlueFancyInc = len(blueFancyInc)
+    totalRedFancyInc = len(redFancyInc)
+    
+    blueFancyIncCount = 0
+    for i in blueFancyInc:
+        if i >= incCut:
+            blueFancyIncCount +=1
+            
+    redFancyIncCount = 0
+    for i in redFancyInc:
+        if i >= incCut:
+            redFancyIncCount +=1
+            
+    totalFancyInc = len(allFancyInclinations)
+    totalFancyCount = 0
+    for i in allFancyInclinations:
+        if i >= incCut:
+            totalFancyCount +=1
+    
+    print
+    print ' INCLINATIONS: '
+    print 
     print 'Blue: {0} % of associated galaxies have >={1}% inclination'.format(float(blueIncCount)/float(totalBlueInc),incCut)
     print 'Red: {0} % of associated galaxies have >={1}% inclination'.format(float(redIncCount)/float(totalRedInc),incCut)
     print 'All: {0} % of associated galaxies have >={1}% inclination'.format(float(totalCount)/float(totalInc),incCut)
+    print
+    print ' FANCY INCLINATIONS: '
+    print
+    print 'Blue: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(blueFancyIncCount)/float(totalBlueFancyInc),incCut)
+    print 'Red: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(redFancyIncCount)/float(totalRedFancyInc),incCut)
+    print 'All: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
+    print
+    
+    print
+    print 'avg blue inclination: ',mean(blueInc)
+    print 'median blue inclination: ',median(blueInc)
+    print 'avg blue fancy inclination: ',mean(blueFancyInc)
+    print 'median blue fancy inclination: ',median(blueFancyInc)
+    print
+    print 'avg red inclination: ',mean(redInc)
+    print 'median red inclination: ',median(redInc)
+    print 'avg red fancy inclination: ',mean(redFancyInc)
+    print 'median red fancy inclination: ',median(redFancyInc)
+    print
     
     print 'avg blue azimuth: ',mean(blueAz)
     print 'median blue azimuth: ',median(blueAz)
@@ -440,12 +495,6 @@ def main():
     print 'median blue R_vir: ',median(blueVir)
     
     print
-
-    print 'avg red inclination: ',mean(redInc)
-    print 'median red inclination: ',median(redInc)
-    
-    print 'avg red fancy inclination: ',mean(redFancyInc)
-    print 'median red fancy inclination: ',median(redFancyInc)
     
     print 'avg red azimuth: ',mean(redAz)
     print 'median red azimuth: ',median(redAz)
@@ -478,13 +527,30 @@ def main():
     ans1 = stats.ks_2samp(blueFancyInc, redFancyInc)
     ans1a = stats.anderson_ksamp([blueFancyInc,redFancyInc])
 
+    print 'KS for blue vs red fancy inclinations: ',ans1
+    print 'AD for blue vs red fancy inclinations: ',ans1a
+    
+    ans2 = stats.ks_2samp(blueFancyInc, allFancyInclinations)
+    print 'KS for blue vs all fancy inclinations: ',ans2
+    
+    ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
+    print 'KS for red vs all fancy inclinations: ',ans3
+    
+    print
+    print ' INCLINATIONS: '
+    print
+    
+    # perform the K-S and AD tests for inclination
+    ans1 = stats.ks_2samp(blueInc, redInc)
+    ans1a = stats.anderson_ksamp([blueInc,redInc])
+
     print 'KS for blue vs red inclinations: ',ans1
     print 'AD for blue vs red inclinations: ',ans1a
     
-    ans2 = stats.ks_2samp(blueFancyInc, allFancyInclinations)
+    ans2 = stats.ks_2samp(blueInc, allInclinations)
     print 'KS for blue vs all inclinations: ',ans2
     
-    ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
+    ans3 = stats.ks_2samp(redInc, allInclinations)
     print 'KS for red vs all inclinations: ',ans3
     
     print
