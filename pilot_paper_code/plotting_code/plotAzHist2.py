@@ -91,6 +91,7 @@ def main():
     # all the lists to be used for associated lines
     lyaVList = []
     lyaWList = []
+    lyaErrList = []
     naList = []
     bList = []
     impactList = []
@@ -190,6 +191,7 @@ def main():
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
+            lyaErrList.append(float(lyaW_err))
             naList.append(na)
             bList.append(float(b))
             impactList.append(float(impact))
@@ -222,12 +224,14 @@ def main():
                 
     
 
-########################################################################################
+##########################################################################################
+##########################################################################################
 
     # make a histogram of all the azimuth angles
     #
     
-    plotAzHist = True
+    plotAzHist = False
+    save = False
     
     if plotAzHist:
         fig = figure()
@@ -236,6 +240,7 @@ def main():
         bins = array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90])
 #         bins +=4
 #         bins = 45
+
         print 'bins:' ,bins
         print 'stdev: ',std(azList)
         
@@ -245,6 +250,7 @@ def main():
         for a in azList:
             if a <=top and a>=bot:
                 count+=1
+                
         print 'between {0} and {1} = {2}'.format(top,bot,count)
         print 'total number: ',len(azList)
         print 'ratio = ',float(count)/len(azList)
@@ -253,9 +259,11 @@ def main():
         print 'median: ',median(azList)
         
         plot1 = hist(azList,bins=bins,histtype='bar')
+        
 #         print 'azList: ',azList
 #         hist(azList)
-        title('Distribution of azimuths')
+#         title('Distribution of azimuths')
+
         xlabel('Azimuth (deg)')
         ylabel('Number')
         xlim(0,90)
@@ -265,10 +273,175 @@ def main():
         else:
             show()
       
-#####################################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+#########################################################################################
+#########################################################################################
+
+
+    # make histograms for red and blue shifted azimuth angles
+    #
+    
+    plotAzHist_dif = True
+    save = True
+    
+    if plotAzHist_dif:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,15,30,45,60,75,90]
+#         bins = arange(0,90,10)
+        bins = arange(0,90,12)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,a,l,e in zip(difList,azList,lyaWList,lyaErrList):
+            if a != -99:
+                if d >=0:
+                    # blue shifted absorber, but galaxy is REDSHIFTED
+                    print 'd: ',d
+                    blue.append(a)
+                    blueLya.append(l)
+                    blueLyaErr.append(e)
+                else:
+                    # red shifted absorber, but galaxy is BLUESHIFTED
+                    red.append(a)
+                    redLya.append(l)
+                    redLyaErr.append(e)
+        
+        ax = fig.add_subplot(211)        
+        hist(red,bins=bins,histtype='bar',color='red',alpha = 0.65,label='Redshifted absorbers')
+#         title('Red shifted absorption: Galaxies')    
+        ylabel("Number")
+        ylim(0,7)
+        xlim(0,90)
+        legend()
+
+        ax = fig.add_subplot(212)
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = 0.65,label='Blueshifted absorbers')
+#         title('Blue shifted absorption: Galaxies')
+        ylabel('Number')
+        xlabel("Azimuth (deg)")
+        xlim(0,90)
+        ylim(0,7)
+        legend()
+
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+#########################################################################################
+#########################################################################################
+
+
+    # make histograms for red and blue shifted azimuth angles vs flat distributions
+    #
+    
+    plotAzHist_dif_flat = False
+    save = False
+    
+    if plotAzHist_dif_flat:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,15,30,45,60,75,90]
+#         bins = arange(0,90,10)
+        bins = arange(0,90,12)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,a,l,e in zip(difList,azList,lyaWList,lyaErrList):
+            if a != -99:
+                if d >=0:
+                    # blue shifted absorber, but galaxy is REDSHIFTED
+                    blue.append(a)
+                    blueLya.append(l)
+                    blueLyaErr.append(e)
+                else:
+                    # red shifted absorber, but galaxy is BLUESHIFTED
+                    red.append(a)
+                    redLya.append(l)
+                    redLyaErr.append(e)
+        
+        
+#         flatRedNum = len(red)/9.0
+#         print 'flatRedNum: ',flatRedNum
+#         flatRed = ones(9)*flatRedNum
+#     
+#         flatBlueNum = len(blue)/9.0
+#         flatBlue = ones(9)*flatBlueNum
+
+        flatRed = arange(0,90,5)
+        flatBlue = arange(0,90,5)
+        
+        print 'flatRed: ',flatRed
+        print
+        print 'flatBlue: ',flatBlue
+        print
+        
+        ax = fig.add_subplot(411)        
+        hist(red,bins=bins,histtype='bar',color='red',alpha = 0.80,label='Redshifted absorbers')
+#         title('Red shifted absorption: Galaxies')    
+        ylabel("Number")
+        ylim(0,6)
+        xlim(0,90)
+        legend()
+        
+        ax = fig.add_subplot(412)        
+        hist(flatRed,bins=bins,histtype='bar',color='red',alpha = 0.80,label='Flat Redshifted absorbers')
+#         title('Red shifted absorption: Galaxies')    
+        ylabel("Number")
+        ylim(0,6)
+        xlim(0,90)
+        legend()
+
+        ax = fig.add_subplot(413)
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = 0.80,label='Blueshifted absorbers')
+#         title('Blue shifted absorption: Galaxies')
+        ylabel('Number')
+        xlabel("Azimuth (deg)")
+        xlim(0,90)
+        ylim(0,6)
+        legend()
+
+        ax = fig.add_subplot(414)
+        hist(flatBlue,bins=bins,histtype='bar',color='Blue',alpha = 0.80,label='Flat Blueshifted absorbers')
+#         title('Blue shifted absorption: Galaxies')
+        ylabel('Number')
+        xlabel("Azimuth (deg)")
+        xlim(0,90)
+        ylim(0,6)
+        legend()
+        
+
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
 
 
 if __name__=="__main__":

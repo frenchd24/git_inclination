@@ -289,6 +289,15 @@ def main():
     redVir = []
     
 
+    # ambiguous stuff
+    void = []
+    ambig = []
+    for v,w,e in zip(lyaVAmbList,lyaWAmbList,envAmbList):
+        if e == 0:
+            void.append(w)
+        else:
+            ambig.append(w)
+    
     
     # for absorbers
     for d,w,e,v,i,b in zip(difList,lyaWList,lyaErrList,lyaVList,impactList,bList):
@@ -366,6 +375,8 @@ def main():
     print
     print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
     print 'total number of associated lines: ',len(difList)
+    print 'total number of ambiguous lines: ',len(ambig)
+    print 'total number of void lines: ',len(void)
     print '# of redshifted lines: ',len(reds)
 #     print reds
     print '# of blueshifted lines: ',len(blues)
@@ -593,7 +604,24 @@ def main():
     ans1a = stats.anderson_ksamp([blueAz,redAz])
     print 'KS for blue vs red azimuth: ',ans1
     print 'AD for blue vs red azimuth: ',ans1a
+    print
     
+    # now against a flat distribution
+    flatRed = arange(0,90,1)
+    flatBlue = arange(0,90,1)
+
+    ans1 = stats.ks_2samp(blueAz, flatBlue)
+    ans1a = stats.anderson_ksamp([blueAz,flatBlue])
+    print 'KS for blue vs flat azimuth: ',ans1
+    print 'AD for blue vs flat azimuth: ',ans1a
+    print
+    ans1 = stats.ks_2samp(redAz, flatRed)
+    ans1a = stats.anderson_ksamp([redAz,flatRed])
+    print 'KS for red vs flat azimuth: ',ans1
+    print 'AD for erd vs flat azimuth: ',ans1a
+    print
+    
+            
     print
     print ' Environment Distributions: '
     print

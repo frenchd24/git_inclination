@@ -295,9 +295,9 @@ def main():
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(a,d,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(a,abs(d),c='Red',s=50,label= labelr)
             
-                    plot1 = scatter(a,d,c=color,s=50)
+                    plot1 = scatter(a,abs(d),c=color,s=50)
                     
         xlabel(r'Azimuth (deg)')
         ylabel(r'$\Delta v$ (km/s)')
@@ -308,6 +308,59 @@ def main():
 
         if save:
             savefig('{0}/vel_dif(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
+
+#########################################################################################
+#########################################################################################
+
+    # plot Delta v as a function of azimuth angle for red vs blue
+    # shifted absorption
+    #
+    
+    plotVir_Az = True
+    save = False
+    
+    if plotVir_Az:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        
+        for d,a,w,v in zip(difList,azList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(v):
+                if d!=-99 and a!=-99 and w!=-99 and v!=-99:
+                    count +=1
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,v,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,v,c='Red',s=50,label= labelr)
+            
+                    plot1 = scatter(a,v,c=color,s=50)
+                    
+        xlabel(r'Azimuth (deg)')
+        ylabel(r'$R_{vir}$ (kpc)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(0,max(difList)+10)
+#         xlim(0,90)
+
+        if save:
+            savefig('{0}/vir(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
