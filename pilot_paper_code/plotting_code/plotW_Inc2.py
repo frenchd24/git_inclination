@@ -294,7 +294,7 @@ def main():
     # absorption
     #
     
-    plotW_Inc = True
+    plotW_Inc = False
     save = True
     
     if plotW_Inc:
@@ -446,7 +446,7 @@ def main():
     # absorption
     #
     
-    plotW_fancyInc = True
+    plotW_fancyInc = False
     save = True
     
     if plotW_fancyInc:
@@ -692,6 +692,73 @@ def main():
             savefig('{0}/W(cos(inclination))_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+
+
+
+##########################################################################################
+##########################################################################################
+
+    # plot equivalent width as a function of cos(inclination) for red and blue shifted
+    # absorption
+    #
+    
+    plotW_inc_az = True
+    save = False
+    
+    if plotW_inc_az:
+    
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        labelrless = 'Red Shifted Absorber <45 az'
+        labelbless = "Blue Shifted Absorber <45 az"
+        
+        for d,i,w,a in zip(difList,fancyIncList,lyaWList,azList):
+        
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(a):
+                if d!=-99 and i!=-99 and w!=-99 and a!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+
+                        if a >=45:
+                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+                        else:
+                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelbless,marker='*',lw=0)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+
+                        if a >=45:
+                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                        else:
+                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelrless,marker='*',lw=0)
+
+                
+#                     plot1 = scatter(i,w,c=color,s=10)
+            
+#         title('W(cos(inclination)) for red vs blue shifted absorption')
+        xlabel(r'Inclination')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+#         legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(-1,1200)
+#         xlim(0,1)
+        
+        if save:
+            savefig('{0}/W(inclination)_dif_az.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+##########################################################################################
+##########################################################################################
+
+
 
 ##########################################################################################
 ##########################################################################################

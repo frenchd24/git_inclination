@@ -366,6 +366,70 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
+
+
+
+
+
+########################################################################################
+########################################################################################
+
+    # plot velocity difference as a function of environment 
+    #
+    
+    plot_impact_vir = True
+    save = False
+    
+    if plot_impact_vir:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr)
+                
+                    plot1 = scatter(v,i,c=color,s=50)
+            
+#         title(r'$\rm \Delta v(env)$ for red vs blue absorption')
+        xlabel(r'$\rm R_{vir}$ (kpc)')
+        ylabel(r'$\rm \rho$ (kpc)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(0,400)
+#         xlim(0,max(envList)+1)
+
+        if save:
+            savefig('{0}/impact(vir).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+
+##########################################################################################
+##########################################################################################
+
+
+
+
 ##########################################################################################
 ##########################################################################################
 

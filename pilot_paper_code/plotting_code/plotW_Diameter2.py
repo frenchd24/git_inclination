@@ -171,7 +171,7 @@ def main():
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -275,7 +275,7 @@ def main():
     # plot equivalent width as a function of galaxy diameter
     #
     
-    plotW_Diameter = True
+    plotW_Diameter = False
     save = True
     
     if plotW_Diameter:
@@ -305,7 +305,7 @@ def main():
                     
                     plot1 = scatter(m,w,c=color,s = 50)
         
-        title('Equivalent width vs. galaxy diameter')
+#         title('Equivalent width vs. galaxy diameter')
         xlabel('Major Axis (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
@@ -314,7 +314,7 @@ def main():
         ax.legend(scatterpoints=1)
         
         if save:
-            savefig('{0}/LyaW(diameter).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(diameter).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     
@@ -325,7 +325,7 @@ def main():
     # plot equivalent width as a function of galaxy R_vir
     #
     
-    plotW_vir = True
+    plotW_vir = False
     save = True
     
     if plotW_vir:
@@ -355,7 +355,7 @@ def main():
                     
                     plot1 = scatter(v,w,c=color,s = 50)
         
-        title(r'Equivalent width vs. $\rm R_{vir}$')
+#         title(r'Equivalent width vs. $\rm R_{vir}$')
         xlabel(r'$\rm R_{vir}$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
@@ -364,7 +364,7 @@ def main():
         ax.legend(scatterpoints=1)
         
         if save:
-            savefig('{0}/LyaW(vir).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(vir).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     
@@ -375,7 +375,7 @@ def main():
     # plot doppler parameter as a function of galaxy R_vir
     #
     
-    plotB_vir = True
+    plotB_vir = False
     save = True
     
     if plotB_vir:
@@ -405,9 +405,9 @@ def main():
                     
                     plot1 = scatter(v,b,c=color,s = 50)
         
-        title(r'Doppler Parameter vs. $\rm R_{vir}$')
+#         title(r'Doppler Parameter vs. $\rm R_{vir}$')
         xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'Doppler Parameter (km/s)')
+        ylabel(r'Doppler b Parameter (km/s)')
         ax.grid(b=None,which='major',axis='both')
         ylim(min(bList)-5,max(bList)+5)
         xlim(0,max(virList)+5)
@@ -417,7 +417,121 @@ def main():
             savefig('{0}/B(vir).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+
+
+
+########################################################################################
+#########################################################################################
     
+    # plot equivalent width as a function of azimuth angle for red vs blue
+    # shifted absorption
+    #
+    
+    plotW_vir_avg = True
+    save = True
+    
+    if plotW_vir_avg:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 50
+        
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
+        
+        for d,v,w,m in zip(difList,virList,lyaWList,majList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(v) and isNumber(w) and isNumber(m):
+                if d!=-99 and v!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = v/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += float(w)
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(v,w,c='Blue',s=50)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = v/binSize
+                        placeArrayr[place] += float(w)
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(v,w,c='Red',s=50)
+
+            
+                    plot1 = scatter(v,w,c=color,s=50)
+                    
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
+        
+        totalrHist = []
+        totalrVir = []
+        totalbHist = []
+        totalbVir = []
+        
+        for r,v in zip(rHist,arange(0,max(virList),binSize)):
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrVir.append(v)
+            totalrVir.append(v+binSize)
+            
+        for b,v in zip(bHist,arange(0,max(virList),binSize)):
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbVir.append(v)
+            totalbVir.append(v+binSize)
+        
+        print 'totalrVir: ',totalrVir
+        print 'totalrHist: ',totalrHist
+        print
+        print 'totalbVir: ',totalbVir
+        print 'totalbHist: ',totalbHist
+        print
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average redshifted histogram')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average blueshifted histogram')
+        
+        xlabel(r'$\rm R_{vir}$ (kpc)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,max(lyaWList)+100)
+        xlim(0,max(virList)+10)
+
+        if save:
+            savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
     
     
 ###############################################################################

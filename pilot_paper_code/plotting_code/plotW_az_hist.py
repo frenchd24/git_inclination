@@ -377,8 +377,8 @@ def main():
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1300)
-        xlim(0,90)
+#         ylim(0,1300)
+#         xlim(0,90)
 
         if save:
             savefig('{0}/W(azimuth)_dif_avgHistograms.pdf'.format(saveDirectory),format='pdf')
@@ -494,8 +494,8 @@ def main():
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         legend(scatterpoints=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,2100)
-        xlim(0,90)
+#         ylim(0,2100)
+#         xlim(0,90)
 
         if save:
             savefig('{0}/W(azimuth)_dif_totalHistograms.pdf'.format(saveDirectory),format='pdf')
