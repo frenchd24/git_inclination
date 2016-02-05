@@ -269,7 +269,7 @@ def main():
     #
     
     plotW_b = False
-    save = True
+    save = False
     
     if plotW_b:
         fig = figure()
@@ -318,7 +318,7 @@ def main():
     #
     
     plotW_b_diam= False
-    save = True
+    save = False
     
     if plotW_b_diam:
         fig = figure()
@@ -379,6 +379,7 @@ def main():
     
     plotW_b_vir= True
     save = True
+    alpha = 0.75
     
     if plotW_b_vir:
         fig = figure()
@@ -399,15 +400,15 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb,alpha=alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr,alpha=alpha)
                     
-                    plot1 = scatter(i/m,w,c=color,s = 50)
+                    plot1 = scatter(i/m,w,c=color,s = 50,alpha=alpha)
             
         # make the legend work properly
 #         labelr = 'Red Shifted Absorber'
@@ -422,10 +423,10 @@ def main():
         ylim(-1,max(lyaWList)+100)
         
         # cut out the one outlier?
-#         xlim(0,13)
+        xlim(0,13)
 
         # or plot the whole range?
-        xlim(-0.2,30)
+#         xlim(-0.2,30)
         
         ax.legend(scatterpoints=1)
         
@@ -434,7 +435,7 @@ def main():
 #             savefig('{0}/W(impact_vir)_dif_cut.pdf'.format(saveDirectory),format='pdf')
             
             # or plot the whole range?
-            savefig('{0}/W(impact_vir)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(impact_vir)_dif_cut_lighter.pdf'.format(saveDirectory),format='pdf')
 
         else:
             show()

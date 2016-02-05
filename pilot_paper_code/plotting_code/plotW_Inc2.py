@@ -295,7 +295,7 @@ def main():
     #
     
     plotW_Inc = False
-    save = True
+    save = False
     
     if plotW_Inc:
         fig = figure()
@@ -446,8 +446,9 @@ def main():
     # absorption
     #
     
-    plotW_fancyInc = False
+    plotW_fancyInc = True
     save = True
+    alpha = 0.75
     
     if plotW_fancyInc:
         fig = figure()
@@ -468,15 +469,15 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
                 
-                    plot1 = scatter(i,w,c=color,s=50)
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
             
 #         title('W(fancy_inclination) for red vs blue shifted absorption')
         xlabel(r'Inclination (deg)')
@@ -487,7 +488,7 @@ def main():
         xlim(0,90)
         
         if save:
-            savefig('{0}/W(fancy_inclination)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(fancy_inclination)_dif2.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
@@ -702,7 +703,7 @@ def main():
     # absorption
     #
     
-    plotW_inc_az = True
+    plotW_inc_az = False
     save = False
     
     if plotW_inc_az:
