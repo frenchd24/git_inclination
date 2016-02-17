@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_inc_hist_all2.py, v 5.0 12/28/2015
+$Id:  plot_inc_hist_all2.py, v 5.1 02/17/2016
 
     - this now combines plotCosIncDifHist_full2.py, plotFancyIncHist_full2.py, 
     plotFancyCosIncDifHist_full2.py, plotCosIncHist_full2.py, plotIncHist_full2.py,
@@ -11,6 +11,9 @@ $Id:  plot_inc_hist_all2.py, v 5.0 12/28/2015
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15) - original updates to the individual files
+    
+v5.1: updated for LG_correlation_combined5_8_edit2.csv
+    (2/17/2016)
     
 '''
 
@@ -52,13 +55,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -382,7 +385,6 @@ def main():
 #########################################################################################
 #########################################################################################
 
-
     # cos(inclination) histograms for redshifted vs blueshifted distributions of absorbers
     #
     # originally from plotFancyCosIncDifHist_full2.py
@@ -496,12 +498,11 @@ def main():
 #########################################################################################
 #########################################################################################
 
-
     # fancyInclination histograms for redshifted vs blueshifted distributions of absorbers
     # as well as the whole table
     #
     
-    plotFancyIncDifHist_full = True
+    plotFancyIncDifHist_full = False
     save = False
     
     if plotFancyIncDifHist_full:
@@ -649,8 +650,8 @@ def main():
     # galaxy set
     #
     
-    plotIncHist_full = False
-    save = False
+    plotIncHist_full = True
+    save = True
     
     if plotIncHist_full:
         fig = figure()

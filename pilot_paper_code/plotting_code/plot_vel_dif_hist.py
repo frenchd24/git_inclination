@@ -3,9 +3,13 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_vel_dif_hist.py, v 1.0 01/04/2016
+$Id:  plot_vel_dif_hist.py, v 1.1 02/17/2016
 
 Plots a histogram of the velocity differences for red and blue shifted absorbers
+    (01/04/2016)
+    
+v1.1: updated for LG_correlation_combined5_8_edit2.csv results with l_min = 0.001
+    (02/17/2016)
 
 
 Previous (from histograms3.py):
@@ -14,6 +18,7 @@ Previous (from histograms3.py):
     Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
 
     Updated for the pilot paper (05/06/15)
+    
 
 '''
 
@@ -55,13 +60,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'

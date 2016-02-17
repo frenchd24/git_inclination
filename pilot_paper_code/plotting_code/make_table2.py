@@ -3,9 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  make_table2.py, v 1.0 12/30/2015
+$Id:  make_table2.py, v 1.1 02/17/2016
 
 Make table 2 for the pilot paper - list of targets with associated galaxies and line info
+
+v1.1: updates for LG_correlation_combined5_8_edit2.csv, where l_min = 0.001
+
 
 '''
 
@@ -51,12 +54,12 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -66,7 +69,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table2_3.txt'
+    outFilename = 'table5_8_edit2.txt'
     outFile = open(saveDirectory+outFilename,'wt')
     
     virInclude = False
