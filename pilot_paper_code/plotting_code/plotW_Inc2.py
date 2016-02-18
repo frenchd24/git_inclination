@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Inc2.py, v 5.0 12/04/2015
+$Id:  plotW_Inc2.py, v 5.1 02/18/2016
 
 This is the plotW_Inc bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -26,6 +26,9 @@ v5: Updated for the final pilot paper results (12/04/15)
     - all the versions of W_vs_inc are here now: plotW_Inc2.py, plotW_CosInc_colorbar2.py,
     plotW_fancyInc2.py, plotW_FancyCosInc2.py, plotW_FancyCosInc_colorbar2.py,
     plotW_CosInc2.py
+    
+v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001
+    (02/18/2016)
     
 '''
 
@@ -85,13 +88,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -328,7 +331,7 @@ def main():
 #         title('W(inclination) for red vs blue shifted absorption')
         xlabel(r'Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,1200)
         xlim(0,90)
@@ -446,8 +449,8 @@ def main():
     # absorption
     #
     
-    plotW_fancyInc = True
-    save = True
+    plotW_fancyInc = False
+    save = False
     alpha = 0.75
     
     if plotW_fancyInc:
@@ -482,7 +485,7 @@ def main():
 #         title('W(fancy_inclination) for red vs blue shifted absorption')
         xlabel(r'Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,1200)
         xlim(0,90)
@@ -700,10 +703,10 @@ def main():
 ##########################################################################################
 
     # plot equivalent width as a function of cos(inclination) for red and blue shifted
-    # absorption
+    # absorption, separating azimuth >45 and <45 absorbers
     #
     
-    plotW_inc_az = False
+    plotW_inc_az = True
     save = False
     
     if plotW_inc_az:
@@ -718,32 +721,48 @@ def main():
         labelrless = 'Red Shifted Absorber <45 az'
         labelbless = "Blue Shifted Absorber <45 az"
         
-        for d,i,w,a in zip(difList,fancyIncList,lyaWList,azList):
+        
+        rless = []
+        rmore = []
+        bless = []
+        bmore = []
+        
+        for d,i,w,a,v,imp in zip(difList,fancyIncList,lyaWList,azList,virList,impactList):
         
             # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(a):
-                if d!=-99 and i!=-99 and w!=-99 and a!=-99:
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(a) and isNumber(v) and isNumber(imp):
+                if d!=-99 and i!=-99 and w!=-99 and a!=-99 and float(imp)/float(v)<=1.4:
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
 
                         if a >=45:
                             plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+                            bmore.append(float(w))
                         else:
                             plotb = ax.scatter(i,w,c='Blue',s=50,label= labelbless,marker='*',lw=0)
+                            bless.append(float(w))
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
 
                         if a >=45:
                             plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                            rmore.append(float(w))
                         else:
                             plotr = ax.scatter(i,w,c='Red',s=50,label= labelrless,marker='*',lw=0)
+                            rless.append(float(w))
 
                 
 #                     plot1 = scatter(i,w,c=color,s=10)
             
-#         title('W(cos(inclination)) for red vs blue shifted absorption')
+        print 'average bmore: ',mean(bmore)
+        print 'average bless: ',mean(bless)
+        print
+        print 'average rmore: ',mean(rmore)
+        print 'average rless: ',mean(rless)
+
+
         xlabel(r'Inclination')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
 #         legend(scatterpoints=1)

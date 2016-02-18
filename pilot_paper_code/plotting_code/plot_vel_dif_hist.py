@@ -260,7 +260,7 @@ def main():
     #
     
     plot_vel_dif_hist = True
-    save = False
+    save = True
     
     if plot_vel_dif_hist:
         fig = figure()
@@ -288,31 +288,37 @@ def main():
         
         ax = fig.add_subplot(311)        
 #         fig.subplots_adjust(left=0.01, bottom=0.01, right=0.01, top=0.01, wspace=0.01, hspace=0.01)
-        fig.subplots_adjust(hspace=0.4)
+        fig.subplots_adjust(hspace=0.5)
+        
         
 #         bins = arange(-400,450,50)
 
         bins = arange(0,450,25)
         
-        plot1 = hist(difList,bins=bins,histtype='bar',alpha=0.9,color='green')
-        title('Absorber-associated galaxies')
+        plot1 = hist(difList,bins=bins,histtype='bar',alpha=0.9,color='green',label="All")
+#         title('Absorber-associated galaxies')
         xlabel(r'$\rm \Delta v$ (km/s)')
         ylabel('Number')
+        legend(scatterpoints=0,prop={'size':10})
+        ylim(0,6)
         
         fig.add_subplot(312)
 #         bins = arange(-400,50,50)
-        plot1 = hist(red,bins=bins,histtype='bar',alpha=0.9,color='red')
-        title('Absorber-associated galaxies: Redshifted')
+        plot1 = hist(red,bins=bins,histtype='bar',alpha=0.9,color='red',label='Redshifted')
+#         title('Absorber-associated galaxies: Redshifted')
         xlabel(r'$\rm \Delta v$ (km/s)')
         ylabel('Number')
+        legend(scatterpoints=0,prop={'size':10})
+        ylim(0,6)
 
         fig.add_subplot(313)
 #         bins = arange(0,450,50)
-        plot1 = hist(blue,bins=bins,histtype='bar',alpha=0.9,color='blue')
-        title('Absorber-associated galaxies: Blueshifted')
+        plot1 = hist(blue,bins=bins,histtype='bar',alpha=0.9,color='blue',label='Blueshifted')
+#         title('Absorber-associated galaxies: Blueshifted')
         xlabel(r'$\rm \Delta v$ (km/s)')
         ylabel('Number')
-
+        legend(scatterpoints=0,prop={'size':10})
+        ylim(0,6)
 
         if save:
             savefig('{0}/hist(vel_dif).pdf'.format(saveDirectory),format='pdf')
