@@ -444,7 +444,6 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-
     # plot equivalent width as a function of fancy_inclination for red and blue shifted
     # absorption
     #
@@ -497,8 +496,7 @@ def main():
             
             
 ##########################################################################################
-##########################################################################################          
-            
+##########################################################################################
     # plot equivalent width as a function of cos(fancy_inclination) for red and blue shifted
     # absorption
     #
@@ -706,7 +704,7 @@ def main():
     # absorption, separating azimuth >45 and <45 absorbers
     #
     
-    plotW_inc_az = True
+    plotW_inc_az = False
     save = False
     
     if plotW_inc_az:
@@ -779,6 +777,59 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
+    # plot equivalent width as a function of fancy_inclination for red and blue shifted
+    # absorption, include an overlying histogram
+    #
+    
+    plotW_fancyInc_hist = False
+    save = False
+    alpha = 0.75
+    
+    if plotW_fancyInc:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        for d,i,w,m in zip(difList,fancyIncList,lyaWList,majList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+                    if i ==90:
+                        print d, i, w, m
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
+                
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+            
+#         title('W(fancy_inclination) for red vs blue shifted absorption')
+        xlabel(r'Inclination (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-1,1200)
+        xlim(0,90)
+        
+        if save:
+            savefig('{0}/W(fancy_inclination)_dif2.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+##########################################################################################
+##########################################################################################  
 
 
 

@@ -3,11 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotLyaWHist_both2.py, v 5.0 12/29/2015
+$Id:  plotLyaWHist_both2.py, v 5.1 02/23/2016
+
+
 
 This is the plotLyaWHist_both bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
-
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -19,6 +20,8 @@ Previous (from histograms3.py):
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15) - original updates to the individual files
+    
+v5.1: update for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/23/2016)
 
 '''
 
@@ -60,13 +63,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -169,7 +172,7 @@ def main():
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -247,8 +250,7 @@ def main():
     
 
 #########################################################################################
-########################################################################################
-
+#########################################################################################
     # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
     # associated and ambiguous samples
     #
@@ -257,7 +259,7 @@ def main():
     #
     
     plotLyaWHist_both = True
-    save = False
+    save = True
     
     if plotLyaWHist_both:
 #         fig = figure(figsize=(2,8))
@@ -287,18 +289,19 @@ def main():
             plot1 = hist(lyaWAmbArray/envAmbArray,bins=bins,histtype='bar',orientation = 'vertical')
 
         else:
-            plot1 = hist(lyaWList,bins=bins,histtype='bar',orientation = 'vertical')
-            title('Distribution of Lya W - Associated')
+            plot1 = hist(lyaWList,bins=bins,histtype='bar',orientation = 'vertical',label='Associated')
+            legend(scatterpoints=1,prop={'size':12},loc=1)
+            ylabel('Number')
 
             ax = fig.add_subplot(212)
-            plot1 = hist(lyaWAmbList,bins=bins,histtype='bar',orientation = 'vertical')
+            plot1 = hist(lyaWAmbList,bins=bins,histtype='bar',orientation = 'vertical',label='Ambiguous')
+            legend(scatterpoints=1,prop={'size':12},loc=1)
 
         
-#         title('Distribution of Lya W - Ambiguous')
         xlabel(r'Equivalent Width ($\rm m\AA$)')
         ylabel('Number')
-        ax.tick_params(axis='x', labelsize=8)
-        ax.tick_params(axis='y',labelsize=0)
+        ax.tick_params(axis='x', labelsize=11)
+        ax.tick_params(axis='y',labelsize=11)
 #         xlim(0,11)
 #         tight_layout()
         
@@ -307,6 +310,78 @@ def main():
         else:
             show()
 
+
+#########################################################################################
+#########################################################################################
+
+    # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
+    # associated sample, splitting on red vs blue shifted absorbers
+    #
+    #
+    # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
+    #
+    
+    plotLyaWHist_dif = False
+    save = False
+    
+    if plotLyaWHist_dif:
+#         fig = figure(figsize=(2,8))
+        fig = figure()
+        ax = fig.add_subplot(211)
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+#         bins = arange(0,max(max(lyaWList),max(lyaWAmbList)),20)
+        bins = arange(0,1300,100)
+        
+        lyaWArray = array(lyaWList)
+        lyaWAmbArray = array(lyaWAmbList)
+        
+        envArray = array(envList)
+        envAmbArray = array(envAmbList)
+    
+        print 'lyaWAmbArray: ',lyaWAmbArray
+        print 'envAmbArray: ',envAmbArray
+        
+        blues = []
+        reds = []
+        for d,l in zip(difList,lyaWList):
+            if float(d) >0:
+                # blueshifted
+                blues.append(float(l))
+            else:
+                reds.append(float(l))
+    
+        # see above, does not work the for the ambigous ones
+        normByEnv = False
+        
+        if normByEnv:
+            plot1 = hist(lyaWArray/envArray,bins=bins,histtype='bar',orientation = 'vertical')
+            title('Distribution of Lya W - Associated')
+
+            ax = fig.add_subplot(212)
+            plot1 = hist(lyaWAmbArray/envAmbArray,bins=bins,histtype='bar',orientation = 'vertical')
+
+        else:
+            plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
+            legend(scatterpoints=1,prop={'size':12},loc=1)
+            ylabel('Number')
+            ylim(0,10)
+
+            ax = fig.add_subplot(212)
+            plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
+            legend(scatterpoints=1,prop={'size':12},loc=1)
+            ylabel('Number')
+            ylim(0,10)
+
+        
+        xlabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.tick_params(axis='x', labelsize=11)
+        ax.tick_params(axis='y',labelsize=11)
+        xlim(0,1200)
+        
+        if save:
+            savefig('{0}/hist(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
     
 ###############################################################################
 ###############################################################################
