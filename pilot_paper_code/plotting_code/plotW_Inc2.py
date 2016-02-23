@@ -721,6 +721,8 @@ def main():
         labelrless = 'Red Shifted Absorber <45 az'
         labelbless = "Blue Shifted Absorber <45 az"
         
+        # limit how far away the absorbers can be: impact / virial <= distLimit
+        distLimit = 1.4
         
         rless = []
         rmore = []
@@ -731,7 +733,7 @@ def main():
         
             # check if all the values are good
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(a) and isNumber(v) and isNumber(imp):
-                if d!=-99 and i!=-99 and w!=-99 and a!=-99 and float(imp)/float(v)<=1.4:
+                if d!=-99 and i!=-99 and w!=-99 and a!=-99 and float(imp)/float(v)<= distLimit:
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
