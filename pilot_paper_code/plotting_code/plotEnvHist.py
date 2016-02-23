@@ -3,10 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotEnvHist.py, v 1.0 01/04/2016
+$Id:  plotEnvHist.py, v 1.0 02/22/2016
 
 Plot a histogram of the 'environment' column - how many galaxies are within a 500 kpc 
-impact parameter and 400 km/s of each line
+impact parameter and 400 km/s of each line (01/04/2016)
+
+v1.1: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/22/2016)
 
 '''
 
@@ -48,13 +50,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -253,12 +255,12 @@ def main():
 ########################################################################################
 #########################################################################################
     
-    # plot equivalent width as a function of azimuth angle for red vs blue
-    # shifted absorption
+    # plot histograms of the environment (# of nearby galaxies) for red and blue
+    # shifted absorbers
     #
     
     plotEnvHist = True
-    save = False
+    save = True
     
     if plotEnvHist:
         fig = figure(figsize=(10,5))
@@ -282,17 +284,23 @@ def main():
         
         ax = fig.add_subplot(311)
         subplots_adjust(hspace=0.700)
-        plot1 = hist(envList,bins=bins,histtype='bar',color='green',alpha = 0.85)
+        plot1 = hist(envList,bins=bins,histtype='bar',color='green',alpha = 0.85,label='All')
+        ylim(0,16)
+        legend()
         
         ax = fig.add_subplot(312)
-        plot2 = hist(blues,bins=bins,histtype='bar',color='blue',alpha = 0.85)
+        plot2 = hist(blues,bins=bins,histtype='bar',color='blue',alpha = 0.85,label='Blueshifted')
         ylabel('Number')
+        ylim(0,12)
+        legend()
 
         ax = fig.add_subplot(313)
-        plot3 = hist(reds,bins=bins,histtype='bar',color="red",alpha = 0.85)        
+        plot3 = hist(reds,bins=bins,histtype='bar',color="red",alpha = 0.85,label='Redshifted')        
         xlabel('Environment')
+        ylim(0,6)
+        legend()
         
-        title('Histogram of absorber environment number')
+#         title('Histogram of absorber environment number')
 
 
 #         legend(scatterpoints=1)

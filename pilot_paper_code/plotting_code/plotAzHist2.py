@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzHist2.py, v 5.0 12/28/2015
+$Id:  plotAzHist2.py, v 5.1 02/22/2016
 
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -18,7 +18,10 @@ Previous (from histograms3.py):
     Updated for the pilot paper (05/06/15)
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15)
+    (12/04/15) more on (12/28/2015)
+    
+v5.1: updated to work with LG_correlation_combined5_8_edit2.csv and l_min = 0.001
+    (02/22/2016)
 
 
 '''
@@ -60,12 +63,12 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -150,7 +153,7 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -170,9 +173,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -237,15 +240,16 @@ def main():
         fig = figure()
         ax = fig.add_subplot(111)
 #         bins = [0,10,20,30,40,50,60,70,80,90]
-        bins = array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90])
+#         bins = array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90])
 #         bins +=4
 #         bins = 45
 
+        bins = arange(0,100,10)
         print 'bins:' ,bins
         print 'stdev: ',std(azList)
         
-        bot = 15
-        top = 60
+        bot = 0
+        top = 45
         count = 0
         for a in azList:
             if a <=top and a>=bot:
@@ -267,6 +271,7 @@ def main():
         xlabel('Azimuth (deg)')
         ylabel('Number')
         xlim(0,90)
+        ylim(0,10)
         
         if save:
             savefig('{0}/hist(azimuth).pdf'.format(saveDirectory),format='pdf')
@@ -275,8 +280,6 @@ def main():
       
 #########################################################################################
 #########################################################################################
-
-
     # make histograms for red and blue shifted azimuth angles
     #
     
@@ -290,7 +293,8 @@ def main():
 
 #         bins = [0,15,30,45,60,75,90]
 #         bins = arange(0,90,10)
-        bins = arange(0,90,12)
+        binsize = 15
+        bins = arange(0,100,binsize)
         blue = []
         red = []
         
@@ -314,6 +318,12 @@ def main():
                     redLya.append(l)
                     redLyaErr.append(e)
         
+        print 'stats-----'
+        print 'max red: ',max(red)
+        print 'min red: ',min(red)
+        print 'max blue:' ,max(blue)
+        print 'min blue: ',min(blue)
+        
         ax = fig.add_subplot(211)        
         hist(red,bins=bins,histtype='bar',color='red',alpha = 0.65,label='Redshifted absorbers')
 #         title('Red shifted absorption: Galaxies')    
@@ -334,14 +344,66 @@ def main():
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(azimuth)_dif_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
         else:
             show()
 
 #########################################################################################
 #########################################################################################
+    # make histograms for red and blue shifted azimuth angles overlaid on each other
+    #
+    
+    plotAzHist_over_dif = False
+    save = False
+    
+    if plotAzHist_over_dif:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
 
+        bins = arange(0,100,10)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
 
+        redLya = []
+        redLyaErr = []
+        
+        for d,a,l,e in zip(difList,azList,lyaWList,lyaErrList):
+            if a != -99:
+                if d >=0:
+                    # blue shifted absorber, but galaxy is REDSHIFTED
+                    print 'd: ',d
+                    blue.append(a)
+                    blueLya.append(l)
+                    blueLyaErr.append(e)
+                else:
+                    # red shifted absorber, but galaxy is BLUESHIFTED
+                    red.append(a)
+                    redLya.append(l)
+                    redLyaErr.append(e)
+        
+        ax = fig.add_subplot(111)        
+        hist(red,bins=bins,histtype='bar',color='red',alpha = 0.65,hatch = '/',label='Redshifted absorbers')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = 0.65,label='Blueshifted absorbers')
+
+        ylabel('Number')
+        xlabel("Azimuth (deg)")
+        xlim(0,90)
+        ylim(0,7)
+        legend()
+
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(azimuth)_overlaid_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+#########################################################################################
+#########################################################################################
     # make histograms for red and blue shifted azimuth angles vs flat distributions
     #
     

@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam2.py, v 5.1 12/29/2015
+$Id:  plotImpactHist_Diam2.py, v 5.2 02/22/2016
 
 This is the plotImpactHist_Diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -20,6 +20,8 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     (12/04/15) - original updates to the individual files
 
 v5.1: included a second option, to normalize by virial radius or d^1.5 instead (12/29/15)
+
+v5.2: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/22/2016)
 
 '''
 
@@ -61,13 +63,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -160,13 +162,12 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -180,9 +181,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -241,6 +242,7 @@ def main():
     #
     
     plotImpactHist_Diam = False
+    save = False
     
     if plotImpactHist_Diam:
         fig = figure(figsize=(10,2))
@@ -288,6 +290,7 @@ def main():
     #
     
     plotImpactHist_Vir = False
+    save = False
     
     if plotImpactHist_Vir:
         fig = figure(figsize=(10,2))
@@ -336,6 +339,7 @@ def main():
     #
     
     plotImpactHist_m15 = False
+    save = 
     
     if plotImpactHist_m15:
         fig = figure(figsize=(10,2))
@@ -384,8 +388,8 @@ def main():
     # normalized by virial radius, and split into red and blue shifted bins
     #
     
-    plotImpactHist_Vir_dif = True
-    save = True
+    plotImpactHist_Vir_dif = False
+    save = False
     
     if plotImpactHist_Vir_dif:
         fig = figure(figsize=(10,5))
