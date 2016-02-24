@@ -3,11 +3,14 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotInc_vs_dif2.py, v 5.0 12/29/2015
+$Id:  plotInc_vs_dif2.py, v 5.1 02/23/2016
+
+Plot histograms of inclination/EW for red and blue shifted absorbers. Doesn't really show
+anything interesting.
+
 
 This is the plotInc_vs_dif bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
-
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -20,6 +23,8 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     (12/29/15) - original updates to the individual files
     
     - This plots histograms of inclination/EW for red and blue shifted absorbers
+    
+v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/23/2016)
     
 '''
 
@@ -61,13 +66,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -160,13 +165,13 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -180,9 +185,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -235,43 +240,51 @@ def main():
 
 ########################################################################################
 ########################################################################################
-
     # This plots histograms of inclination/EW for red and blue shifted absorbers
     #
     
     plotInc_vs_dif = True
-    save = True
+    save = False
     
     if plotInc_vs_dif:
         fig = figure()
-#         subplots_adjust(hspace=0.200)
+        subplots_adjust(hspace=0.200)
         ax = fig.add_subplot(211)
 
-#         bins = [0,30,60,90]
-        bins = arange(0,90,10)
+        print 'incList: ', incList
+        print 'len(incList): ',len(incList)
+        
+        normEW = 379.6/163.0
+        
+        bins = arange(0,2.2,0.2)
         incBlue = []
         incRed = []
-        for i,d,l in zip(incList,difList,lyaWList):
+        for i,d,l in zip(fancyIncList,difList,lyaWList):
             if d>0:
-                incBlue.append(i)
+                # blue shifted absorbers have higher EW
+                incBlue.append(float(i)/float(l))
             else:
-                incRed.append(i)
+                # red shifted absorbers need to be normalized by the difference
+                normedRatio = float(i)/(float(l) * normEW)
+                incRed.append(normedRatio)
+        
+        print 'reds: ',incRed
+        print 'blues: ',incBlue
                 
         n, bins, patches = hist(incBlue, bins)
-        setp(patches, 'facecolor', 'blue', 'alpha', 0.5)               
+        setp(patches, 'facecolor', 'blue', 'alpha', 0.8)               
 #         plot1 = hist(incBlue,bins=bins,histtype='bar',c='blue',alpha=0.5)
         title('Blue Shifted Absorbers')
-        xlabel('Inclination (deg) / W (AA)')
         ylabel('Number')
 #         xlim(0,90)
         
         ax = fig.add_subplot(212)
     
         n, bins, patches = hist(incRed, bins)
-        setp(patches, 'facecolor', 'red', 'alpha', 0.5)
+        setp(patches, 'facecolor', 'red', 'alpha', 0.8)
 #         plot2 = hist(incRed,bins=bins,histtype='bar',c='red',alpha=0.5)
         title('Red Shifted Absorbers')
-        xlabel('Inclination (deg) / W (AA)')
+        xlabel(r'$\rm Inclination / W$ $(deg/m\AA)$')
         ylabel('Number')
 #         ylim(0,1)
 #         xlim(0,90)
@@ -281,12 +294,15 @@ def main():
         # give me the stats:
         incList2 = []
         azList2 = []
-        for i,a in zip(incList,azList):
+        for i,a in zip(fancyIncList,azList):
             if i>=50:
                 incList2.append(i)
             if a>50:
                 azList2.append(a)
-        print '{0} of {1} are inclined >=50%'.format(len(incList2),len(incList))
+                
+        print 'azList: ',azList
+        print
+        print '{0} of {1} are inclined >=50%'.format(len(incList2),len(fancyIncList))
         print '{0} of {1} have azimuth >=50%'.format(len(azList2),len(azList))
         print 'a: ',a
         print 'len: ',len(incList)

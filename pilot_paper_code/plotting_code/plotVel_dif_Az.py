@@ -3,9 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVel_dif_Az.py, v 5.0 01/12/2016
+$Id:  plotVel_dif_Az.py, v 5.1 02/23/2016
 
-Plots Delta v as a function of azimuth
+Plots Delta v as a function of azimuth - doesn't really show anything interesting
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -15,9 +15,9 @@ Previous (from histograms3.py):
     Updated for the pilot paper (05/06/15)
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15)
+    (12/04/15) more on (01/12/2016)
     
-        
+v5.1: updated for LG_correlation_combined5_8_edit2.csv (02/23/2016)
 '''
 
 import sys
@@ -58,13 +58,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -161,7 +161,7 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -178,9 +178,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -262,12 +262,11 @@ def main():
 
 #########################################################################################
 #########################################################################################
-
     # plot Delta v as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotVel_dif_Az = True
+    plotVel_dif_Az = False
     save = False
     
     if plotVel_dif_Az:
@@ -316,11 +315,11 @@ def main():
 #########################################################################################
 #########################################################################################
 
-    # plot Delta v as a function of azimuth angle for red vs blue
+    # plot virial radius as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotVir_Az = True
+    plotVir_Az = False
     save = False
     
     if plotVir_Az:
