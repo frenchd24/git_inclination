@@ -3,9 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVel_dif_vir.py, v 1.0 01/05/2016
+$Id:  plotVel_dif_vir.py, v 1.1 02/24/2016
 
-Plot the velocity difference as a function of galaxy size
+Plot the velocity difference as a function of galaxy size (01/05/2016)
+
+v1.1: update for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/24/2016)
+    - doesn't show much of interest
     
 '''
 
@@ -47,13 +50,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -150,13 +153,13 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -167,9 +170,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -255,11 +258,10 @@ def main():
 
 ########################################################################################
 ########################################################################################
-
     # plot velocity difference as a function of virial radius 
     # 
     
-    plotVel_dif_vir = True
+    plotVel_dif_vir = False
     save = False
     
     if plotVel_dif_vir:
@@ -310,11 +312,10 @@ def main():
             
 ########################################################################################
 ########################################################################################
-
     # plot velocity difference as a function of environment 
     #
     
-    plotVel_dif_env = True
+    plotVel_dif_env = False
     save = False
     
     if plotVel_dif_env:
@@ -366,70 +367,6 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-
-
-
-
-
-########################################################################################
-########################################################################################
-
-    # plot velocity difference as a function of environment 
-    #
-    
-    plot_impact_vir = True
-    save = False
-    
-    if plot_impact_vir:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
-                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(v,i,c=color,s=50)
-            
-#         title(r'$\rm \Delta v(env)$ for red vs blue absorption')
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'$\rm \rho$ (kpc)')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-#         ylim(0,400)
-#         xlim(0,max(envList)+1)
-
-        if save:
-            savefig('{0}/impact(vir).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-            
-
-##########################################################################################
-##########################################################################################
-
-
-
-
 ##########################################################################################
 ##########################################################################################
 
