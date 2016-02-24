@@ -332,14 +332,12 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-
-
     # make a histogram of the distribution of impact parameters for associated galaxies 
     # normalized by (major diameter)^1.5
     #
     
     plotImpactHist_m15 = False
-    save = 
+    save = False
     
     if plotImpactHist_m15:
         fig = figure(figsize=(10,2))
