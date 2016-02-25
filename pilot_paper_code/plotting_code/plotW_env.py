@@ -3,12 +3,14 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_env.py, v 5.0 01/04/2016
+$Id:  plotW_env.py, v 5.1 02/24/2016
+
+Plots equivalent width as a function of # of galaxies nearby
+    - doesn't show much of interest
+    
 
 This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
-
-Plots equivalent width as a function of # of galaxies nearby
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -18,7 +20,9 @@ Previous (from histograms3.py):
     Updated for the pilot paper (05/06/15)
 
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15)
+    (12/04/15) more in (01/04/2016)
+    
+v5.1: updated for LG_correlation_combined5_8_edit2.csv for l_min = 0.001 (02/24/2016)
     
 '''
 
@@ -60,13 +64,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -163,7 +167,7 @@ def main():
             morph = l['morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
-            min = l['minorAxis (kpc)']
+            minor = l['minorAxis (kpc)']
             inc = l['inclination (deg)']
             az = l['azimuth (deg)']
             b = l['b'].partition('pm')[0]
@@ -180,9 +184,9 @@ def main():
             if isNumber(inc):
                 cosInc = cos(float(inc) * pi/180.)
                 
-                if isNumber(maj) and isNumber(min):
+                if isNumber(maj) and isNumber(minor):
                     q0 = 0.2
-                    fancyInc = calculateFancyInclination(maj,min,q0)
+                    fancyInc = calculateFancyInclination(maj,minor,q0)
                     cosFancyInc = cos(fancyInc * pi/180)
                 else:
                     fancyInc = -99
@@ -266,14 +270,14 @@ def main():
     totalIsolated = 0
     totalGroup = 0
 
-########################################################################################
-########################################################################################
 
-    # plot equivalent width as a function of environment number, separated into red and 
-    # blue shifted absorption samples
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of environment number, 
+    # separated into red and blue shifted absorption samples
     #
     
-    plotW_env = True
+    plotW_env = False
     save = False
     
     if plotW_env:
@@ -283,9 +287,9 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.85
         
         # give some stats:
         lessThan45 = 0
@@ -304,38 +308,103 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(e/v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(e,w,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(e/v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(e,w,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
                 
-                    plot1 = scatter(e/v,w,c=color,s=50)
+                    plot1 = scatter(e,w,c=color,s=50, alpha = alpha)
             
-        title('W(env) for red vs blue absorption')
+#         title('W(env) for red vs blue absorption')
         xlabel('Environment')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
-#         xlim(0,10)
+        ylim(0,1200)
+#         xlim(0,0.2)
 
         if save:
             savefig('{0}/W(env)_dif.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
-            
-            
-########################################################################################
-########################################################################################
 
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of environment number/ virial radius, 
+    # separated into red and blue shifted absorption samples
+    #
+    
+    plotW_env_vir = False
+    save = False
+    
+    if plotW_env_vir:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.85
+        
+        # give some stats:
+        lessThan45 = 0
+        for a in azList:
+            if a <=45:
+                lessThan45 +=1
+        print '{0}/{1} have az <= 45 degrees'.format(lessThan45,len(azList))
+        print 'average, median azimuth: ',average(azList),', ',median(azList)
+        
+        for d,e,w,v in zip(difList,envList,lyaWList,virList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(e) and isNumber(w) and isNumber(v):
+                if d!=-99 and e!=-99 and w!=-99 and v!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(e/v,w,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(e/v,w,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
+                
+                    plot1 = scatter(e/v,w,c=color,s=50, alpha = alpha)
+            
+#         title('W(env) for red vs blue absorption')
+        xlabel(r'\rm Environment$ / R_{vir}$')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,0.2)
+
+        if save:
+            savefig('{0}/W(env_vir)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+##########################################################################################
+##########################################################################################
     # plot dopplar parameter as a function of environment, 
     # separated into red and blue shifted absorption samples
     #
     
-    plotB_env = True
+    plotB_env = False
     save = False
     
     if plotB_env:

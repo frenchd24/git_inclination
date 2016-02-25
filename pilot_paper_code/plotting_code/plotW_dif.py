@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_dif.py, v 1.0 01/04/2016
+$Id:  plotW_dif.py, v 1.1 02/24/2016
 
 Plot EW as a function of velocity difference
 
@@ -15,6 +15,9 @@ Previous (from histograms3.py):
     Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
 
     Updated for the pilot paper (05/06/15)
+    
+    
+v1.1: updated for LG_correlation_combined5_8_edit2.csv for l_min 0.001 (02/24/2016)
     
 '''
 
@@ -44,25 +47,6 @@ from matplotlib import rc
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
-
-
-    
-# def returnLinDiameters(major,minor,distance):
-#     # input major and minor in arcsec, distance in Mpc
-#     # outputs major and minor in kpc
-#     newMajor = math.tan(math.radians(float(major)))*(distance*1000)
-#     newMinor = math.tan(math.radians(float(minor)))*(distance*1000)
-#     return (newMajor,newMinor)
-#     
-#     
-# 
-# def returnAngDiameters(major,minor,distance):
-#     # input distances in mpc, major and minor is in kpc
-#     # outputs angular diameters in arcsec
-#     newMajor = math.atan((float(major)/1000)/float(distance))*(1/3600)
-#     newMinor = math.atan((float(minor)/1000)/float(distance))*(1/3600)
-#     return (newMajor,newMinor)
-    
     
 
 ###########################################################################
@@ -71,16 +55,15 @@ from matplotlib import rc
 def main():
     # assuming 'theFile' contains one name per line, read the file
     
-    
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -91,7 +74,6 @@ def main():
     fullDict = pickle.load(pickleFile)
     
     pickleFile.close()
-    
     
     # save each plot?
     save = False
@@ -278,7 +260,6 @@ def main():
     
 ##########################################################################################
 ##########################################################################################
-
     # plot equivalent width as a function of vel_diff for red and blue shifted
     # absorption
     #
@@ -294,6 +275,7 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
+        alpha = 0.85
         
         for d,w,m in zip(difList,lyaWList,majList):
             # check if all the values are okay
@@ -304,20 +286,22 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(d,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(d,w,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(d,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(d,w,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
                 
-                    plot1 = scatter(d,w,c=color,s=50)
+                    plot1 = scatter(d,w,c=color,s=50,alpha = alpha)
             
-        title('W(vel_diff) for red vs blue shifted absorption')
+#         title('W(vel_diff) for red vs blue shifted absorption')
         xlabel(r'$\rm \Delta v$ (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,1200)
 #         xlim(0,90)

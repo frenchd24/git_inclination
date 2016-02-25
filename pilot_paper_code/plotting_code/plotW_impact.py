@@ -3,12 +3,14 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_impact.py, v 5.0 01/04/2016
+$Id:  plotW_impact.py, v 5.1 02/24/2016
+
+Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
+    (01/04/2016)
+
 
 This is the plotW_b_diam bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
-
-Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -18,6 +20,7 @@ Previous (from histograms3.py):
     Updated for the pilot paper (05/06/15)
 
 
+v5.1: updated for LG_correlation_combined5_8_edit2.csv for l_min = 0.001 (02/24/2016)
 
 '''
 
@@ -59,13 +62,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -277,8 +280,10 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.85
+        
         for d,i,w in zip(difList,impactList,lyaWList):
             count +=1
             if d>0:
@@ -286,26 +291,154 @@ def main():
                 color = 'Blue'
                 if countb == 0:
                     countb +=1
-                    plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb)
+                    plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
             if d<0:
                 # gas is red shifted compared to galaxy
                 color = 'Red'
                 if countr == 0:
                     countr +=1
-                    plotr = ax.scatter(i,w,c='Red',s=50,label= labelr)
+                    plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
                     
-            plot1 = scatter(i,w,c=color,s = 50)
+            plot1 = scatter(i,w,c=color,s = 50,alpha = alpha)
         
 #         title('W(impact parameter) for red and blue shifted absorption')
-        xlabel('Impact Parameter (kpc)')
+        xlabel(r'$\rm \rho$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,max(lyaWList)+100)
+        ylim(-1,1200)
         xlim(-1,501)
-        ax.legend(scatterpoints=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
         
         if save:
             savefig('{0}/W(impact)_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter, split between
+    # red and blue shifted absorption, overplot average histograms
+    #
+    
+    plotW_impact_hist = True
+    save = False
+    
+    if plotW_impact_hist:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 100
+        alpha = 0.85
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        placeArrayr = zeros(5)
+        placeCountr = zeros(5)
+        placeArrayb = zeros(5)
+        placeCountb = zeros(5)
+        
+        xVals = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += yVal
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        placeArrayr[place] += yVal
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
+                    
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
+        
+        totalrHist = []
+        totalrVir = []
+        totalbHist = []
+        totalbVir = []
+        
+        print 'xvals: ',xVals
+        
+        for r,v in zip(rHist,arange(0,max(xVals),binSize)):
+            if not isNumber(r):
+                r = 0
+            
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrVir.append(v)
+            totalrVir.append(v+binSize)
+            
+        for b,v in zip(bHist,arange(0,max(xVals),binSize)):
+            if not isNumber(b):
+                b = 0
+                
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbVir.append(v)
+            totalbVir.append(v+binSize)
+        
+        print 'totalrVir: ',totalrVir
+        print 'totalrHist: ',totalrHist
+        print
+        print 'totalbVir: ',totalbVir
+        print 'totalbHist: ',totalbHist
+        print
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+        label='Average Redshifted EW',alpha=alpha)
+        
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+        label='Average Blueshifted EW',alpha=alpha)
+        
+        xlabel(r'$\rm \rho$ (kpc)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-5,1200)
+        xlim(-1,501)
+
+        if save:
+            savefig('{0}/W(impact)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
@@ -446,8 +579,7 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    
-    plotW_impact_vir_hist = True
+    plotW_impact_vir_hist = False
     save = False
     
     if plotW_impact_vir_hist:
@@ -457,15 +589,16 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        binSize = 10
+        binSize = 0.5
+        alpha = 0.85
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         
-        placeArrayr = zeros(10)
-        placeCountr = zeros(10)
-        placeArrayb = zeros(10)
-        placeCountb = zeros(10)
+        placeArrayr = zeros(6)
+        placeCountr = zeros(6)
+        placeArrayb = zeros(6)
+        placeCountb = zeros(6)
         
         xVals = []
         
@@ -493,7 +626,7 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
@@ -507,9 +640,9 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,c='Red',s=50)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
 
-                    plot1 = scatter(xVal,yVal,c=color,s=50)
+                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
                     
         rHist = placeArrayr/placeCountr
         print 'rHist: ',rHist
@@ -520,6 +653,8 @@ def main():
         totalrVir = []
         totalbHist = []
         totalbVir = []
+        
+        print 'xvals: ',xVals
         
         for r,v in zip(rHist,arange(0,max(xVals),binSize)):
             if not isNumber(r):
@@ -532,8 +667,9 @@ def main():
             totalrVir.append(v+binSize)
             
         for b,v in zip(bHist,arange(0,max(xVals),binSize)):
-            if not isNumber(r):
-                r = 0
+            if not isNumber(b):
+                b = 0
+                
             totalbHist.append(b)
             totalbHist.append(b)
 
@@ -547,15 +683,18 @@ def main():
         print 'totalbHist: ',totalbHist
         print
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+        label='Average Redshifted EW',alpha=alpha)
+        
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+        label='Average Blueshifted EW',alpha=alpha)
         
         xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
         ylim(-5,1200)
-#         xlim(0,100)
+        xlim(0,3)
 
         if save:
             savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
