@@ -456,7 +456,7 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        alpha = 0.75
+        alpha = 0.85
 
         for d,i,v in zip(difList,impactList,virList):
             # check if all the values are okay

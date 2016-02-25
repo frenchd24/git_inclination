@@ -3,13 +3,15 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_az_hist.py, v 5.0 01/04/2016
+$Id:  plotW_az_hist.py, v 5.1 02/24/2016
 
 Sum the EW into bins in azimuth and average, plotting the step histogram over the data
 
+ - doesn't yield anything too interesting
+
+
 This is adapted from the plotW_Az bit from histograms3.py. Now loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
-
 
 Previous (from histograms3.py):
     Plot some stuff for the 100largest initial results
@@ -22,6 +24,9 @@ v5: Updated for the final pilot paper results (12/04/15)
     - changed name from plotW_newAz_hist2.py to plotW_az_hist.py, and combined with
     plotW_newAz_hist2.py because they were similar
     (1/4/16)
+
+
+v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/24/2016)
 
 '''
 
@@ -63,13 +68,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -265,14 +270,13 @@ def main():
     totalGroup = 0
     
 
-########################################################################################
-#########################################################################################
-    
+##########################################################################################
+##########################################################################################
     # plot equivalent width as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotW_Az_avg = True
+    plotW_Az_avg = False
     save = False
     
     if plotW_Az_avg:
@@ -385,14 +389,13 @@ def main():
         else:
             show()
 
-########################################################################################
-########################################################################################
-
+##########################################################################################
+##########################################################################################
     # plot equivalent width as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotW_Az_total = True
+    plotW_Az_total = False
     save = False
     
     if plotW_Az_total:
@@ -502,10 +505,10 @@ def main():
         else:
             show()
 
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
 
 
 if __name__=="__main__":

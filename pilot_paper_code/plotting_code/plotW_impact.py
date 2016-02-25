@@ -370,15 +370,14 @@ def main():
             show()
     
     
-########################################################################################
-########################################################################################
-
+##########################################################################################
+##########################################################################################
     # plot equivalent width as a function of impact parameter/R_vir, split between
     # red and blue shifted absorption
     #
     
-    plotW_b_vir= True
-    save = True
+    plotW_b_vir= False
+    save = False
     alpha = 0.75
     
     if plotW_b_vir:
@@ -440,7 +439,130 @@ def main():
         else:
             show()
 
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # red and blue shifted absorption, overplot average histograms
+    #
     
+    
+    plotW_impact_vir_hist = True
+    save = False
+    
+    if plotW_impact_vir_hist:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 10
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
+        
+        xVals = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)/float(v)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += yVal
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        placeArrayr[place] += yVal
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50)
+
+                    plot1 = scatter(xVal,yVal,c=color,s=50)
+                    
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
+        
+        totalrHist = []
+        totalrVir = []
+        totalbHist = []
+        totalbVir = []
+        
+        for r,v in zip(rHist,arange(0,max(xVals),binSize)):
+            if not isNumber(r):
+                r = 0
+            
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrVir.append(v)
+            totalrVir.append(v+binSize)
+            
+        for b,v in zip(bHist,arange(0,max(xVals),binSize)):
+            if not isNumber(r):
+                r = 0
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbVir.append(v)
+            totalbVir.append(v+binSize)
+        
+        print 'totalrVir: ',totalrVir
+        print 'totalrHist: ',totalrHist
+        print
+        print 'totalbVir: ',totalbVir
+        print 'totalbHist: ',totalbHist
+        print
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-5,1200)
+#         xlim(0,100)
+
+        if save:
+            savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+
+
 #########################################################################################
 #########################################################################################
 #########################################################################################

@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Diameter2.py, v 5.0 01/05/2016
+$Id:  plotW_Diameter2.py, v 5.1 02/24/2016
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
 
@@ -21,6 +21,8 @@ Previous (from histograms3.py):
 
 v5: updated for pilot paper.
     (1/5/16)
+    
+v5.1: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/24/2016)
     
 '''
 
@@ -62,13 +64,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -269,14 +271,13 @@ def main():
     totalGroup = 0
     
 
-########################################################################################
-########################################################################################
-
+##########################################################################################
+##########################################################################################
     # plot equivalent width as a function of galaxy diameter
     #
     
     plotW_Diameter = False
-    save = True
+    save = False
     
     if plotW_Diameter:
         fig = figure()
@@ -309,9 +310,9 @@ def main():
         xlabel('Major Axis (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+100)
-        xlim(0,max(majList)+5)
-        ax.legend(scatterpoints=1)
+        ylim(0,1200)
+        xlim(0,max(majList)+1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
         
         if save:
             savefig('{0}/W(diameter).pdf'.format(saveDirectory),format='pdf')
@@ -319,14 +320,13 @@ def main():
             show()
     
     
-########################################################################################
-########################################################################################
-
+##########################################################################################
+##########################################################################################
     # plot equivalent width as a function of galaxy R_vir
     #
     
     plotW_vir = False
-    save = True
+    save = False
     
     if plotW_vir:
         fig = figure()
@@ -359,9 +359,9 @@ def main():
         xlabel(r'$\rm R_{vir}$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+100)
+        ylim(0,1200)
         xlim(0,max(virList)+5)
-        ax.legend(scatterpoints=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
         
         if save:
             savefig('{0}/W(vir).pdf'.format(saveDirectory),format='pdf')
@@ -369,14 +369,13 @@ def main():
             show()
     
     
-########################################################################################
-########################################################################################
-
+##########################################################################################
+##########################################################################################
     # plot doppler parameter as a function of galaxy R_vir
     #
     
     plotB_vir = False
-    save = True
+    save = False
     
     if plotB_vir:
         fig = figure()
@@ -411,7 +410,7 @@ def main():
         ax.grid(b=None,which='major',axis='both')
         ylim(min(bList)-5,max(bList)+5)
         xlim(0,max(virList)+5)
-        ax.legend(scatterpoints=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
         
         if save:
             savefig('{0}/B(vir).pdf'.format(saveDirectory),format='pdf')
@@ -420,15 +419,14 @@ def main():
 
 
 
-########################################################################################
-#########################################################################################
-    
-    # plot equivalent width as a function of azimuth angle for red vs blue
-    # shifted absorption
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of virial radius for red vs blue
+    # shifted absorption, include average histograms
     #
     
-    plotW_vir_avg = True
-    save = True
+    plotW_vir_avg = False
+    save = False
     
     if plotW_vir_avg:
         fig = figure()
@@ -442,10 +440,10 @@ def main():
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
         
-        placeArrayr = zeros(10)
-        placeCountr = zeros(10)
-        placeArrayb = zeros(10)
-        placeCountb = zeros(10)
+        placeArrayr = zeros(7)
+        placeCountr = zeros(7)
+        placeArrayb = zeros(7)
+        placeCountb = zeros(7)
         
         for d,v,w,m in zip(difList,virList,lyaWList,majList):
             # check if all the values are good
@@ -496,6 +494,9 @@ def main():
         totalbVir = []
         
         for r,v in zip(rHist,arange(0,max(virList),binSize)):
+            if not isNumber(r):
+                r = 0
+            
             totalrHist.append(r)
             totalrHist.append(r)
 
@@ -503,6 +504,8 @@ def main():
             totalrVir.append(v+binSize)
             
         for b,v in zip(bHist,arange(0,max(virList),binSize)):
+            if not isNumber(r):
+                r = 0
             totalbHist.append(b)
             totalbHist.append(b)
 
@@ -516,29 +519,27 @@ def main():
         print 'totalbHist: ',totalbHist
         print
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average redshifted histogram')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average blueshifted histogram')
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
         
         xlabel(r'$\rm R_{vir}$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+100)
-        xlim(0,max(virList)+10)
+        ylim(-5,1200)
+        xlim(0,350)
 
         if save:
             savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+            
 
 
-    
-    
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
 
 if __name__=="__main__":
     # do the work

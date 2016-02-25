@@ -780,58 +780,116 @@ def main():
     # plot equivalent width as a function of fancy_inclination for red and blue shifted
     # absorption, include an overlying histogram
     #
+    #
+    # this is not very enlightening
     
-    plotW_fancyInc_hist = False
+    plotW_inc_hist = False
     save = False
-    alpha = 0.75
     
-    if plotW_fancyInc:
+    if plotW_inc_hist:
         fig = figure()
         ax = fig.add_subplot(111)
+        
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        for d,i,w,m in zip(difList,fancyIncList,lyaWList,majList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
-                if d!=-99 and i!=-99 and w!=-99 and m!=-99:
-                    if i ==90:
-                        print d, i, w, m
+        binSize = 10
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
+        
+        for d,i,w,v in zip(difList,fancyIncList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = i/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += float(w)
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,w,c='Blue',s=50)
+
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = i/binSize
+                        placeArrayr[place] += float(w)
+                        placeCountr[place] +=1.
+                        
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
-                
-                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
-            
-#         title('W(fancy_inclination) for red vs blue shifted absorption')
-        xlabel(r'Inclination (deg)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1,prop={'size':12},loc=2)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
-        xlim(0,90)
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,w,c='Red',s=50)
+
+                    plot1 = scatter(i,w,c=color,s=50)
+                    
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
         
+        totalrHist = []
+        totalrVir = []
+        totalbHist = []
+        totalbVir = []
+        
+        for r,v in zip(rHist,arange(0,100,binSize)):
+            if not isNumber(r):
+                r = 0
+            
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrVir.append(v)
+            totalrVir.append(v+binSize)
+            
+        for b,v in zip(bHist,arange(0,100,binSize)):
+            if not isNumber(r):
+                r = 0
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbVir.append(v)
+            totalbVir.append(v+binSize)
+        
+        print 'totalrVir: ',totalrVir
+        print 'totalrHist: ',totalrHist
+        print
+        print 'totalbVir: ',totalbVir
+        print 'totalbHist: ',totalbHist
+        print
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
+        
+        xlabel(r'$\rm Inclination$ (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-5,1200)
+        xlim(0,100)
+
         if save:
-            savefig('{0}/W(fancy_inclination)_dif2.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(inc)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
-            
-            
-##########################################################################################
-##########################################################################################  
-
-
 
 ##########################################################################################
 ##########################################################################################
