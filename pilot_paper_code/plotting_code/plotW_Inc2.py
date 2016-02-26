@@ -494,6 +494,86 @@ def main():
         else:
             show()
             
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of fancy_inclination for red and blue shifted
+    # absorption and include the dashed line w/ equation
+    #
+    
+    plotW_fancyInc_line = True
+    save = True
+    
+    if plotW_fancyInc_line:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        alpha = 0.85
+
+        for d,i,w,m in zip(difList,fancyIncList,lyaWList,majList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
+                if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+                    if i ==90:
+                        print d, i, w, m
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
+                
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+            
+#         title('W(fancy_inclination) for red vs blue shifted absorption')
+
+        def lineFunc(yInt,slope):
+            
+            ys = []
+            xs = []
+            for x in arange(0,91,1):
+                y = slope* x + yInt
+                ys.append(y)
+                xs.append(x)
+        
+            return xs,ys
+        
+        # steeper line
+#         yInt = -100
+#         slope = round(500./79.,2)
+        
+        # shallower line
+        yInt = -25
+        slope = round(500./129.,2)
+        
+        lineX,lineY = lineFunc(yInt,slope)
+        plot2 = plot(lineX,lineY,c='Black',ls='dashed',alpha=alpha,lw=2)
+        
+        print
+        print 'y = {0}*inc + {1}'.format(slope,yInt)
+        print
+        
+        xlabel(r'Inclination (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-1,1200)
+        xlim(0,90)
+        
+        if save:
+            savefig('{0}/W(fancy_inclination)_line_shallow.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
             
 ##########################################################################################
 ##########################################################################################

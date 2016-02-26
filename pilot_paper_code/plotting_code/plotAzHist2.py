@@ -297,6 +297,7 @@ def main():
         bins = arange(0,100,binsize)
         blue = []
         red = []
+        alpha = 0.80
         
         blueLya = []
         blueLyaErr = []
@@ -325,7 +326,7 @@ def main():
         print 'min blue: ',min(blue)
         
         ax = fig.add_subplot(211)        
-        hist(red,bins=bins,histtype='bar',color='red',alpha = 0.65,label='Redshifted absorbers')
+        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,label='Redshifted absorbers')
 #         title('Red shifted absorption: Galaxies')    
         ylabel("Number")
         ylim(0,7)
@@ -333,7 +334,7 @@ def main():
         legend()
 
         ax = fig.add_subplot(212)
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = 0.65,label='Blueshifted absorbers')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,label='Blueshifted absorbers')
 #         title('Blue shifted absorption: Galaxies')
         ylabel('Number')
         xlabel("Azimuth (deg)")
@@ -494,7 +495,7 @@ def main():
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(azimuth)_dif_flat.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
