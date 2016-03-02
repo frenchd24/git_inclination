@@ -3,32 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam2.py, v 5.3 03/02/2016
+$Id:  plotVirHist.py, v 1.0 03/02/2016
 
-Plots histograms of impact parameter, and various versions of normalized impact parameters
-also plots impact parameter vs R_vir
-
-
-
-This is the plotImpactHist_Diam bit from histograms3.py. Now is separated, and loads in a pickle
-file of the relevant data, as created by "buildDataLists.py"
-
-Previous (from histograms3.py):
-    Plot some stuff for the 100largest initial results
-
-    Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
-
-    Updated for the pilot paper (05/06/15)
-
-v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
-    (12/04/15) - original updates to the individual files
-
-v5.1: included a second option, to normalize by virial radius or d^1.5 instead (12/29/15)
-
-v5.2: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/22/2016)
-
-v5.3: included a function to plot JUST impact parameter alone (no normalizing)
-    - (03/02/2016)
+Plots histograms of virial radii for associated galaxies
 
 '''
 
@@ -201,6 +178,11 @@ def main():
                 fancyInc = -99
                 cosFancyInc = -99
             
+            if isNumber(virialRadius):
+                virialRadius = float(virialRadius)
+            else:
+                virialRadius = -99
+            
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
             lyaWList.append(float(lyaW))
@@ -242,69 +224,22 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-    # make a histogram of the distribution of impact parameters for associated galaxies 
-    # normalized by major diameter
+    # make a histogram of the distribution of R_vir for associated galaxies 
     #
     
-    plotImpactHist_Diam = False
+    plotR_vir= False
     save = False
     
-    if plotImpactHist_Diam:
+    if plotR_vir:
         fig = figure(figsize=(10,2))
 #         subplots_adjust(hspace=0.200)
         ax = fig.add_subplot(111)
         
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-        bins = [0,10,20,30,40,50,60,70,80,90]
+#         bins = [0,10,20,30,40,50,60,70,80,90]
+        print virList
         
-        impactArray = np.array([])
-        majArray = np.array([])
-        
-        # make sure all the values are okay
-        for i,m in zip(impactList,majList):
-            if isNumber(i) and isNumber(m):
-                if i !=-99 and m !=-99:
-                    impactArray = append(impactArray,float(i))
-                    majArray = append(majArray,float(m))
-        
-        normalizedImpactArray = impactArray/majArray
-        
-        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
-        
-        title('Distribution of impact parameters')
-        xlabel('Impact Parameter (kpc)')
-        ylabel('Number')
-        ax.tick_params(axis='x', labelsize=0)
-        ax.tick_params(axis='y',labelsize=8)
-#         ylim(0,5)
-
-        if save:
-            savefig('{0}/hist(Impact_Diameter).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-##########################################################################################
-##########################################################################################
-    # make a histogram of the distribution of impact parameters for associated galaxies 
-    # normalized by virial radius
-    #
-    
-    plotImpactHist_Vir = False
-    save = False
-    
-    if plotImpactHist_Vir:
-        fig = figure(figsize=(10,2))
-#         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(111)
-        
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-#         bins = [0,5,10,15,20,25,30,35,40]
-        bins = arange(0,3.5,0.2)
+        binsize = 25
+        bins = arange(min(virList),max(virList)+binsize,binsize)   
         
         impactArray = np.array([])
         virArray = np.array([])
@@ -316,153 +251,38 @@ def main():
                     impactArray = append(impactArray,float(i))
                     virArray = append(virArray,float(v))
         
-        normalizedImpactArray = impactArray/virArray
         
-        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
+        plot1 = hist(virArray,bins=bins,histtype='bar')
         
-        title('Distribution of impact parameters')
-        xlabel(r'$\rho / R_{vir}$')
-        ylabel('Number')
-#         ax.tick_params(axis='x', labelsize=0)
-#         ax.tick_params(axis='y',labelsize=8)
-#         ylim(0,5)
-
-        if save:
-            savefig('{0}/hist(Impact_vir).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-##########################################################################################
-##########################################################################################
-    # make a histogram of the distribution of impact parameters for associated galaxies 
-    # normalized by (major diameter)^1.5
-    #
-    
-    plotImpactHist_m15 = False
-    save = False
-    
-    if plotImpactHist_m15:
-        fig = figure(figsize=(10,2))
-#         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(111)
-        
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-#         bins = [0,10,20,30,40,50,60,70,80,90]
-        bins = arange(0,35,0.5)
-
-        impactArray = np.array([])
-        m15Array = np.array([])
-        
-        # make sure all the values are okay
-        for i,m in zip(impactList,m15List):
-            if isNumber(i) and isNumber(m):
-                if i !=-99 and m !=-99:
-                    impactArray = append(impactArray,float(i))
-                    m15Array = append(m15Array,float(m))
-        
-        normalizedImpactArray = impactArray/m15Array
-        
-        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
-        
-        title('Distribution of impact parameters')
-        xlabel('Impact Parameter/m15')
+        xlabel(r'$\rm \rho$ (kpc)')
         ylabel('Number')
         ax.tick_params(axis='x', labelsize=0)
         ax.tick_params(axis='y',labelsize=8)
 #         ylim(0,5)
 
         if save:
-            savefig('{0}/hist(Impact_m15).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-
-##########################################################################################
-##########################################################################################
-    # make a histogram of the distribution of impact parameters for associated galaxies 
-    # normalized by virial radius, and split into red and blue shifted bins
-    #
-    
-    plotImpactHist_Vir_dif = False
-    save = False
-    
-    if plotImpactHist_Vir_dif:
-        fig = figure(figsize=(10,5))
-        ax = fig.add_subplot(211)
-        subplots_adjust(hspace=0.200)
-
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-#         bins = [0,5,10,15,20,25,30,35,40]
-
-        binsize = 0.2
-        bins = arange(0,3.0,binsize)
-        
-        reds = np.array([])
-        blues = np.array([])
-        
-        # make sure all the values are okay
-        for i,v,d in zip(impactList,virList,difList):
-            if isNumber(i) and isNumber(v):
-                if i !=-99 and v !=-99:
-                    val = float(i)/float(v)
-                    
-                    # if blueshifted
-                    if d>=0:
-                        blues = append(blues,val)
-                    
-                    # for redshifted
-                    else:
-                        reds = append(reds,val)
-        
-#         title('Distribution of impact parameters')
-
-        plot1 = hist(blues,bins=bins,histtype='bar',color='blue',label='Blueshifted',alpha=0.75)
-#         xlabel('Impact Parameter/R_vir (blueshifted)')
-        ylabel('Number')
-        legend(scatterpoints=1,prop={'size':12})
-        ax.tick_params(axis='y',labelsize=11)
-        ax.tick_params(axis='x', labelsize=0)
-
-        ax = fig.add_subplot(212)
-        plot2 = hist(reds,bins=bins,histtype='bar',color="red",label='Redshifted',alpha=0.75)
-        xlabel(r'$\rho / R_{vir}$')
-        ylabel('Number')
-        
-        legend(scatterpoints=1,prop={'size':12})
-        
-        ax.tick_params(axis='x', labelsize=11)
-        ax.tick_params(axis='y',labelsize=11)
-#         ylim(0,5)
-
-        if save:
-            savefig('{0}/hist(Impact_vir_dif)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
+            savefig('{0}/hist(vir).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
 
 ##########################################################################################
 ##########################################################################################
-    # make a histogram of the distribution of impact parameters for associated galaxies, 
-    # and split into red and blue shifted bins
+    # make a histogram of the distribution of R_vi for associated galaxies, split
+    # into red and blue shifted bins
     #
     
-    plotImpactHist_dif = True
+    plotVirHist__dif = False
     save = False
     
-    if plotImpactHist_dif:
+    if plotVirHist__dif:
         fig = figure(figsize=(10,5))
         ax = fig.add_subplot(211)
         subplots_adjust(hspace=0.200)
         alpha = 0.85
 
-        binsize = 50
-        bins = arange(0,500+binsize,binsize)
+        binsize = 25
+        bins = arange(min(virList),max(virList)+binsize,binsize)
         
         reds = np.array([])
         blues = np.array([])
@@ -471,7 +291,7 @@ def main():
         for i,v,d in zip(impactList,virList,difList):
             if isNumber(i) and isNumber(v):
                 if i !=-99 and v !=-99:
-                    val = float(i)
+                    val = float(v)
                     
                     # if blueshifted
                     if d>=0:
@@ -492,8 +312,9 @@ def main():
 
         ax = fig.add_subplot(212)
         plot2 = hist(reds,bins=bins,histtype='bar',color="red",label='Redshifted',alpha=alpha)
-        xlabel(r'$\rho$ (kpc)')
+        xlabel(r'$\rm R_{vir}$')
         ylabel('Number')
+        
         legend(scatterpoints=1,prop={'size':12})
         
         ax.tick_params(axis='x', labelsize=11)
@@ -501,7 +322,7 @@ def main():
 #         ylim(0,5)
 
         if save:
-            savefig('{0}/hist(Impact_dif)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
+            savefig('{0}/hist(vir)_dif_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
         else:
             show()
 
@@ -512,53 +333,54 @@ def main():
     # galaxy
     #
     
-    plotImpact_vs_virial = False
+    plotImpact_Vir_vs_vel_dif = True
     save = False
     
-    if plotImpact_vs_virial:
+    if plotImpact_Vir_vs_vel_dif:
         fig = figure()
         ax = fig.add_subplot(111)
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
         alpha = 0.85
 
         for d,i,v in zip(difList,impactList,virList):
             # check if all the values are okay
-            print 'd: ',d
             if isNumber(d) and isNumber(i) and isNumber(v):
                 if d!=-99 and i!=-99 and v!=-99:
 #                     print 'd: ',d
+                    xVal = float(i)/float(v)
+                    yVal = d
+                    
                     if d>0:
                         # galaxy is 'behind' absorber, so GAS = blue shifted
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,label= labelb,alpha=alpha)
                     if d<0:
                         # gas is RED shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,label= labelr,alpha=alpha)
                 
-                    plot1 = scatter(v,i,c=color,s=50,alpha=alpha)
+                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
             
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'$\rm \rho$ (kpc)')
-        legend(scatterpoints=1,prop={'size':12},loc=2)
+        xlabel(r'$\rm \rho/R_{vir}$ (kpc)')
+        ylabel(r'$\rm \Delta v$ (km/s)')
+        legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
+        xlim(0,3)
+        ylim(-400,400)
 
         if save:
-            savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vel_dif(impact_vir).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
-            
-##########################################################################################
-##########################################################################################  
 
 ##########################################################################################
 ##########################################################################################

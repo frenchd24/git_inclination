@@ -1,4 +1,4 @@
-\begin{thebibliography}{53}
+\begin{thebibliography}{57}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Carswell} {et~al.}(2002){Carswell}, {Schaye}, \&
@@ -83,6 +83,10 @@
 {Lanzetta}, K.~M., {Bowen}, D.~V., {Tytler}, D., \& {Webb}, J.~K. 1995, \apj,
   442, 538
 
+\bibitem[{{Lehner} {et~al.}(2007){Lehner}, {Savage}, {Richter}, {Sembach},
+  {Tripp}, \& {Wakker}}]{2007ApJ...658..680L}
+{Lehner}, N., {Savage}, B.~D., {Richter}, P., {et~al.} 2007, \apj, 658, 680
+
 \bibitem[{{Liang} \& {Chen}(2014)}]{2014MNRAS.445.2061L}
 {Liang}, C.~J., \& {Chen}, H.-W. 2014, \mnras, 445, 2061
 
@@ -112,6 +116,14 @@
   {Kollmeier}, \& {Weinberg}}]{2012MNRAS.420..829O}
 {Oppenheimer}, B.~D., {Dav{\'e}}, R., {Katz}, N., {Kollmeier}, J.~A., \&
   {Weinberg}, D.~H. 2012, \mnras, 420, 829
+
+\bibitem[{{Penton} {et~al.}(2002){Penton}, {Stocke}, \&
+  {Shull}}]{2002ApJ...565..720P}
+{Penton}, S.~V., {Stocke}, J.~T., \& {Shull}, J.~M. 2002, \apj, 565, 720
+
+\bibitem[{{Penton} {et~al.}(2004){Penton}, {Stocke}, \&
+  {Shull}}]{2004ApJS..152...29P}
+---. 2004, \apjs, 152, 29
 
 \bibitem[{{Prochaska} {et~al.}(2011){Prochaska}, {Weiner}, {Chen}, {Mulchaey},
   \& {Cooksey}}]{2011ApJ...740...91P}
@@ -155,6 +167,10 @@
   {Law}}]{2012ApJ...750...67R}
 {Rudie}, G.~C., {Steidel}, C.~C., {Trainor}, R.~F., {et~al.}
   2012{\natexlab{b}}, \apj, 750, 67
+
+\bibitem[{{Savage} {et~al.}(2014){Savage}, {Kim}, {Wakker}, {Keeney}, {Shull},
+  {Stocke}, \& {Green}}]{2014ApJS..212....8S}
+{Savage}, B.~D., {Kim}, T.-S., {Wakker}, B.~P., {et~al.} 2014, \apjs, 212, 8
 
 \bibitem[{{Shull} {et~al.}(2012){Shull}, {Smith}, \&
   {Danforth}}]{2012ApJ...759...23S}
