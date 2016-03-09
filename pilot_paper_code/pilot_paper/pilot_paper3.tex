@@ -286,7 +286,9 @@ This initial pilot study contains 35 sightlines to bright QSOs observed with COS
 
 All COS spectra for the target sightlines were obtained through the Barbara A. Mikulski Archive for Space Telescopes (MAST), and processed with CALCOS v3.0. We combined individual exposures by the method of Wakker et al. (2015), which corrects the COS wavelength scale by cross-correlating all ISM and IGM lines in each exposure. This method addresses the up to $\pm40$ km/s misalignments produced by CALCOS, and produces a corrected error array based on Poisson noise, which better matches the measured errors then the errors delivered in the x1d files. We then combine multiple exposure by aligning Galactic absorption lines with 21-cm spectra, and adding up the total counts in each pixel before converting to flux using the original, average flux-count ratio at each wavelength.
 
-STIS spectra were ..... \textbf{FINISH THIS - SEE W\&S 2009}
+For STIS observations, the calibrated fits files were downloaded from MAST, and STIS-E140M echelle orders were combined into a single spectrum. The photon counts and errors were interpolated onto a common grid, 
+
+Spectra taken with the STIS-E140M echelle were ..... \textbf{FINISH THIS - SEE W\&S 2009}
 
 
 \begin{table*}[ht]\footnotesize
@@ -497,6 +499,7 @@ In total, $70\%$ of blueshifted and $73\%$ of redshifted absorbers are associate
         \includegraphics[width=0.51\textwidth]{hist(azimuth)_dif_10.pdf}
         \caption{\small{The distributions of azimuth angles for redshifted systems (top, red), and blueshifted systems (bottom, blue).}}
         \label{azimuth_dist}
+        \vspace{5pt}
 \end{figure} 
 
 \subsection{Azimuth}
