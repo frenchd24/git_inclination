@@ -64,14 +64,14 @@ def main():
     if getpass.getuser() == 'David':
         filename = '/Users/David/Research_Documents/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
         file = open(filename,'rU')
-        outFilename = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3_full.csv'
-        outFilename_SALT = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3.csv'
+        outFilename = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_20cut4_full.csv'
+        outFilename_SALT = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_20cut4.csv'
         
     elif getpass.getuser() == 'frenchd':
         filename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
         file = open(filename,'rU')
-        outFilename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3_full.csv'
-        outFilename_SALT = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3.csv'
+        outFilename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_20cut4_full.csv'
+        outFilename_SALT = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_20cut4.csv'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -93,7 +93,7 @@ def main():
     minDec = -76.
     
     # minimum size for a galaxy to be considered (in kpc)
-    minSize = 25.
+    minSize = 20.
     
     # currently not used
     l_min = 0.001
@@ -102,14 +102,43 @@ def main():
     minSep = 4000
     
     # list of AGN targets that aren't any good
-    avoidList = ['UM228',\
-    'SDSSJ143004.07+022213.3',\
-    'SDSSJ130524.30+035731.0',\
+#     avoidList = ['UM228',\
+#     'SDSSJ143004.07+022213.3',\
+#     'SDSSJ130524.30+035731.0',\
+#     'SDSSJ124423.37+021540.4',\
+#     'SDSSJ123647.80+060048.0',\
+#     'SDSSJ123426.80+072411.0',\
+#     'SDSSJ122018.43+064119.6',\
+#     'SDSSJ121640.60+071224.0',\
+#     'SBS0335-052',\
+#     'RX_J1232.5+0603',\
+#     'RX_J1223.2+0922',\
+#     'RX_J1218.8+1015',\
+#     'RBS1089',\
+#     'QSO0246-3050',\
+#     'PHL1444',\
+#     'PG1115+080',\
+#     'NVSSJ152511-171436',\
+#     'NGC7552',\
+#     'NGC4696',\
+#     'NGC4593',\
+#     'NGC3783',\
+#     'MS0244.6-3020',\
+#     'LBQS1230-0015',\
+#     'LBQS1222+0901',\
+#     'LBQS0302-0019',\
+#     'IRAS11598-0112',\
+#     'HE0241-3043',\
+#     'ESO031-G08',\
+#     '4C10.34',\
+#     '2dFGRS_S394Z150']
+
+
+    avoidList = ['SDSSJ143004.07+022213.3',\
     'SDSSJ124423.37+021540.4',\
     'SDSSJ123647.80+060048.0',\
     'SDSSJ123426.80+072411.0',\
     'SDSSJ122018.43+064119.6',\
-    'SDSSJ121640.60+071224.0',\
     'SBS0335-052',\
     'RX_J1232.5+0603',\
     'RX_J1223.2+0922',\
@@ -131,7 +160,11 @@ def main():
     'HE0241-3043',\
     'ESO031-G08',\
     '4C10.34',\
-    '2dFGRS_S394Z150']
+    '2dFGRS_S394Z150',\
+    'RX_J1429.6+0321',\
+    'LBQS1206+1052',\
+    'QSO1502-4154',\
+    'SDSSJ125013.50+073441.5']
 
     count =-1
     entryDict = {}
@@ -219,8 +252,8 @@ def main():
             
             targetList = [galaxyName,\
             AGNname,\
-            galaxyPosition,\
             AGNposition,\
+            galaxyPosition,\
             separation,\
             galaxyVcorr,\
             galaxyDist,\
