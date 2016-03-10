@@ -20,6 +20,8 @@ from math import *
 import numpy
 import correlateSingle6 as correlateSingle
 from utilities import *
+import getpass
+
 
     
 ################################################################
@@ -42,6 +44,14 @@ def isNumber_andGreater(s,n):
         return False
 
 
+def calculateLikelihood(impact, diameter):
+    # return likelihood
+    
+    rVir = calculateVirialRadius(float(diameter))
+    l = math.exp(-(float(impact)/rVir)**2)
+    
+    return l
+    
 
 def main():
     # This function reformats Bart's file
@@ -51,11 +61,21 @@ def main():
     
     # open the files
     
-    filename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
-    file = open(filename,'rU')        
-    outFilename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_30cut2_full.csv'
-    outFilename_SALT = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_30cut2.csv'
+    if getpass.getuser() == 'David':
+        filename = '/Users/David/Research_Documents/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
+        file = open(filename,'rU')
+        outFilename = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3_full.csv'
+        outFilename_SALT = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3.csv'
+        
+    elif getpass.getuser() == 'frenchd':
+        filename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
+        file = open(filename,'rU')
+        outFilename = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3_full.csv'
+        outFilename_SALT = '/usr/users/frenchd/gt/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_25cut3.csv'
 
+    else:
+        print 'Could not determine username. Exiting.'
+        sys.exit()
     
     # read in the csv files as dictionary csv files
     reader = csv.DictReader(file)
@@ -72,7 +92,46 @@ def main():
     maxDec = 11.
     minDec = -76.
     
-    minSize = 30.
+    # minimum size for a galaxy to be considered (in kpc)
+    minSize = 25.
+    
+    # currently not used
+    l_min = 0.001
+    
+    # minimum separation between the galaxy and the AGN (in km/s)
+    minSep = 4000
+    
+    # list of AGN targets that aren't any good
+    avoidList = ['UM228',\
+    'SDSSJ143004.07+022213.3',\
+    'SDSSJ130524.30+035731.0',\
+    'SDSSJ124423.37+021540.4',\
+    'SDSSJ123647.80+060048.0',\
+    'SDSSJ123426.80+072411.0',\
+    'SDSSJ122018.43+064119.6',\
+    'SDSSJ121640.60+071224.0',\
+    'SBS0335-052',\
+    'RX_J1232.5+0603',\
+    'RX_J1223.2+0922',\
+    'RX_J1218.8+1015',\
+    'RBS1089',\
+    'QSO0246-3050',\
+    'PHL1444',\
+    'PG1115+080',\
+    'NVSSJ152511-171436',\
+    'NGC7552',\
+    'NGC4696',\
+    'NGC4593',\
+    'NGC3783',\
+    'MS0244.6-3020',\
+    'LBQS1230-0015',\
+    'LBQS1222+0901',\
+    'LBQS0302-0019',\
+    'IRAS11598-0112',\
+    'HE0241-3043',\
+    'ESO031-G08',\
+    '4C10.34',\
+    '2dFGRS_S394Z150']
 
     count =-1
     entryDict = {}
@@ -103,20 +162,32 @@ def main():
         AGNz = galaxyRow['AGNredshift']
         galaxyRedshift = galaxyRow['galaxyRedshift']
         group = eval(str(galaxyRow['groups_dist_std (Mpc)']))
-        
 
         # convert ra and dec to sexagesimal
         ra_g,dec_g = galaxyPosition
         ra_g2, dec_g2 = convertRAandDec(ra_g,dec_g,'sexagesimal')
+        
+        # calculate the separation between the galaxy and the AGN
+        AGNvel = float(AGNz)* 3*10**5
+        sep = AGNvel - float(galaxyVcorr)
 
         go = False
-        if float(dec_g) >=minDec:
-            if float(dec_g) <= maxDec:
-                # avoid the 10-11 HR range in RA for SALT
-                if float(ra_g2[0]) >= maxRA or float(ra_g2[0]) < minRA:
-                    print '{0} >= {1} or {2} < {3}'.format(float(ra_g2[0]),maxRA,float(ra_g2[0]),minRA)
-                    if float(major) >= minSize:
-                        go = True
+        goAGN = True
+        
+        # does this AGN suck?
+        for a in avoidList:
+            if AGNname == a:
+                goAGN = False
+                break
+                
+        if goAGN and sep >= minSep:
+            if float(dec_g) >=minDec:
+                if float(dec_g) <= maxDec:
+                    # avoid the 10-11 HR range in RA for SALT
+                    if float(ra_g2[0]) >= maxRA or float(ra_g2[0]) < minRA:
+                        print '{0} >= {1} or {2} < {3}'.format(float(ra_g2[0]),maxRA,float(ra_g2[0]),minRA)
+                        if float(major) >= minSize:
+                            go = True
         
         if go:
             print
@@ -125,17 +196,27 @@ def main():
                    
             line = '"{0}" {1} {2} {3} {4} {5} {6} {7} {8}\n'.format(galaxyName,'Galaxy',ra_g2[0],ra_g2[1], ra_g2[2],dec_g2[0],dec_g2[1],dec_g2[2],2000.0)
 
+            if isNumber(major):
+                likelihood = calculateLikelihood(separation,major)
+            else:
+                likelihood = -99
+
             if entryDict.has_key(galaxyName):
-                # i is [count,line], so add to the count
+                # i is [likelihood,line], so see if this one is any better than the last
                 i = entryDict[galaxyName]
-                count = int(i[0]) +1
-                entryDict[galaxyName] = [count,line]
+                old_likelihood = i[0]
+                
+                # if the new association has a higher likelihood, use it instead
+                if likelihood > old_likelihood:
+                    entryDict[galaxyName] = [likelihood,line]
+                else:
+                    pass
 
             # otherwise make a new dictionary entry for this galaxy
             else:
                 # name, 'n' in dictionary is now associated with list containing 'p' photometry value
-                entryDict[galaxyName] = [1,line]
-                
+                entryDict[galaxyName] = [likelihood,line]
+            
             targetList = [galaxyName,\
             AGNname,\
             galaxyPosition,\
@@ -146,6 +227,7 @@ def main():
             major,\
             minor,\
             lstar,\
+            likelihood,\
             inclination,\
             positionAngle,\
             azimuth,\
@@ -156,7 +238,7 @@ def main():
             galaxyRedshift,\
             group]
             
-            fullTargetList.append(targetList)
+            fullTargetList.append([likelihood,targetList])
 
     names = entryDict.keys()
     lines = entryDict.values()
@@ -184,6 +266,7 @@ def main():
     'majorAxis (kpc)',\
     'minorAxis (kpc)',\
     'Lstar',\
+    'likelihood',\
     'inclination (deg)',\
     'positionAngle (deg)',\
     'azimuth (deg)',\
@@ -199,9 +282,11 @@ def main():
     headers = dict((n,n) for n in fieldnames)
     writer.writerow(headers)
 
+    fullTargetList.sort(reverse=True)
 
     for object in fullTargetList:
-        row = dict((f,o) for f,o in zip(fieldnames,object))
+        likelihood, rest = object
+        row = dict((f,o) for f,o in zip(fieldnames,rest))
         writer.writerow(row)
 
                                         
