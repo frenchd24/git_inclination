@@ -22,7 +22,6 @@ import correlateSingle6 as correlateSingle
 from utilities import *
 import getpass
 
-
     
 ################################################################
 
@@ -161,6 +160,7 @@ def main():
     'ESO031-G08',\
     '4C10.34',\
     '2dFGRS_S394Z150',\
+    '2dFGRSS394Z150',\
     'RX_J1429.6+0321',\
     'LBQS1206+1052',\
     'QSO1502-4154',\
