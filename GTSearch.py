@@ -186,7 +186,9 @@ def main():
             alternatives = eval(line['alternativeNames'])
             found = False
             if response == preferredName or response == oldName:
-                typeResponse = 'n'
+#                 typeResponse = 'n'
+                typeResponse = 'f'
+
                 while typeResponse != 'b' and typeResponse != 'f':
                     typeResponse = raw_input("Return basic data (b) or full (f)?: ")
                     
