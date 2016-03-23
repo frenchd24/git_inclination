@@ -508,60 +508,6 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-    # plot impact parameters of absorbers as a function of virial radius of the associated
-    # galaxy
-    #
-    
-    plotImpact_vs_virial = False
-    save = False
-    
-    if plotImpact_vs_virial:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        alpha = 0.85
-
-        for d,i,v in zip(difList,impactList,virList):
-            # check if all the values are okay
-            print 'd: ',d
-            if isNumber(d) and isNumber(i) and isNumber(v):
-                if d!=-99 and i!=-99 and v!=-99:
-#                     print 'd: ',d
-                    if d>0:
-                        # galaxy is 'behind' absorber, so GAS = blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb,alpha=alpha)
-                    if d<0:
-                        # gas is RED shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr,alpha=alpha)
-                
-                    plot1 = scatter(v,i,c=color,s=50,alpha=alpha)
-            
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'$\rm \rho$ (kpc)')
-        legend(scatterpoints=1,prop={'size':12},loc=2)
-        ax.grid(b=None,which='major',axis='both')
-
-        if save:
-            savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-            
-            
-##########################################################################################
-##########################################################################################  
-
-##########################################################################################
-##########################################################################################
 ##########################################################################################
 ##########################################################################################
 
