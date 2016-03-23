@@ -1,0 +1,102 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    phase1-AR.tex  (use only for Archival Research and Theory proposals; use phase1-GO.tex
+%                     for General Observer and Snapshot proposals and phase1-DD.tex for GO/DD 
+%                     proposals or use phase1-MC.tex for GO/MC rapid response proposals.
+%                     
+%
+%    HUBBLE SPACE TELESCOPE
+%    PHASE I ARCHIVAL & THEORETICAL RESEARCH PROPOSAL TEMPLATE 
+%    FOR CYCLE 24 (2016)
+%
+%    Version 1.1, August 12,  2015.
+%
+%    Guidelines and assistance
+%    =========================
+%     Cycle 23 Announcement Web Page:
+%
+%         http://www.stsci.edu/hst/proposing/docs/cycle23announce 
+%
+%    Please contact the STScI Help Desk if you need assistance with any
+%    aspect of proposing for and using HST. Either send e-mail to
+%    help@stsci.edu, or call 1-800-544-8125; from outside the United
+%    States, call [1] 410-338-1082.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The template begins here. Please do not modify the font size from 12 point.
+
+\documentclass[12pt]{article}
+\usepackage{phase1}
+
+\begin{document}
+
+%   1. SCIENTIFIC JUSTIFICATION
+%       (see Section 9.1 of the Call for Proposals)
+%
+%
+\justification          % Do not delete this command.
+% Enter your scientific justification here.
+
+The majority of the baryons in the universe are found in the intergalactic medium (IGM). The properties of this important reservoir of matter are most directly measured via absorption in the spectra of UV-bright background QSOs. The UV initiatives undertaken by the Cosmic Origins Spectrograph and the S and T Imaging Spectrograph on HST have produced a wealth of high resolution and high signal-to-noise spectra that are ideal for a wide variety of IGM studies. However, the identification and measurement of spectral features is a major undertaking, and limits the viability of large-scale studies using archival HST data. We propose to create a legacy data archive of all archival COS and STIS sightlines, complete with line identifications and measurements. In addition, we will match nearby ($cz \leq 10,000$ km/s) spectral features with probable associated galaxies using the likelihood method we have developed (French et al. 2016, in prep). This will be the first large, publicly accessible IGM absorber dataset, and will provide a legacy artifact directly in line with the NASA Mission Directive whatever-it's-call-thing.
+
+\textbf{Archival data}
+
+Put a breakdown of what the current data looks like, how many targets we would have, etc here.
+
+\textbf{Line Identification}
+
+Description of the identification code and method.
+
+\textbf{Galaxy Matching: Likelihood Method}
+
+Description of likelihood method and how we aim to match galaxies with absorbers.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   2. ANALYSIS PLAN
+%       (see Section 9.6 of the Call for Proposals)
+%
+%
+\describearchival       % Do not delete this command.
+% Enter your analysis plan here.
+
+\textbf{Line Identifications and Measurements}
+\indent The first step will be aligning and combining multiple exposures to produce a single, clean spectrum. We will then apply the line identification code and method described above. This will result in a dataset of all absorption lines with ID's, velocities, equivalent widths, linewidths, and column density estimates. 
+
+\textbf{Galaxy Matching}
+\indent Second, we will correlate our galaxy dataset with the newly produced absorber dataset. This will produce matched absorber-galaxy systems, complete with association likelihood estimates.
+
+\textbf{Publication}
+\indent The final data set will be made available publicly in a machine readable format.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   3. MANAGEMENT PLAN
+%       (see Section 9.7 of the Call for Proposals)
+%
+%  Provide a concise, but complete, management plan. This plan will be used
+%  by the review panels to assess the likely scale of the proposed research
+%  program. Proposers should include a schedule of the work required to
+%  achieve the scientific goals of the program, a description of the roles of the
+%  PI, CoIs, postdocs, and students who will perform the work, and a plan to
+%  disseminate the results to the community.
+%
+\budgetnarrative       % Do not delete this command. CALLS the Management Plan header in the Style File (IGNORE the command name of budgetnarrative
+% Enter your management plan here.
+
+\textbf{Line Identifications and Measurements}
+\indent Spectra prep and line IDing will be led by Wakker, with additional input by French.
+
+\textbf{Galaxy Matching}
+\indent Galaxy matching and final dataset preparation will be led by French.
+
+
+
+\end{document}          % End of proposal. Do not delete this line.
+                        % Everything after this command is ignored.
+
