@@ -128,6 +128,7 @@ def printOutInfo(line,t):
         print 'Equatorial Coordiantes: ',J2000
         print 'Galactic Coordinates: ',gLongLat
         print 'Radial Velocity: ',radVel
+        print 'Redshift independent dist (Mean_sd_min_max): ',rid
         print 'RC3flag: ',RC3flag
         print 'RC3type: ',RC3type
         print 'RC3 Inclination: ',RC3inc
