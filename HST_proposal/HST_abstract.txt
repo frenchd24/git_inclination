@@ -1,0 +1,6 @@
+Galaxies evolve through complex interactions with their gaseous environment, the intergalactic medium, by both ejecting enriched material into it and drawing new fuel for star formation from it. Studying these processes observationally is challenging, yet crucial for understanding and effectively modeling global galaxy evolution. Numerous studies have probed this material via Ly-alpha absorption in the spectra of background QSOs, but suffer from issues with incompleteness, sample size, and reproducibility. To overcome these issues we are proposing a large-scale study using 300 archival COS spectra and limiting ourselves to cz < 10,000 km/s, where we can take advantage of highly complete nearby-galaxy catalogs. We aim to understand two key questions: a) how do the properties of Ly-alpha absorbers (e.g. equivalent width, location, velocity) depend on the properties of the galaxies they are associated with (e.g. size, inclination, morphology)? b) do absorbers tend to follow the rotation direction and velocity of the associated galaxies? This proposal aims to take large steps towards answering these questions and providing new constraints on the galaxy-absorber relationship.
+
+
+
+
+
