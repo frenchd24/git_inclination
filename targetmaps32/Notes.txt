@@ -18,5 +18,15 @@ SDSSJ080908.13+461925.6 -- SDSSJ080842.74+461828.9 (6774 - true) = only galaxy, 
 
 RBS2070	-- MCG-05-01-020 (8966 - false) = appears to be two galaxies right next to each other (but maybe the same galaxy?)
 
+3C351.0	-- SDSSJ170325.13+603944.4 (7192 - false) = just at the edge (L =0.0006), but alone
+
+HE1228+0131 -- NGC4517 (1488 - false) = one method gives false, the other true
+
+HE1228+0131 -- NGC4536 (1556 - false) = two galaxies are very close
+
+HE1228+0131 -- NGC4536 (1707 - false) = same as above
+
+HE1228+0131 -- NGC4536 (1854 - false) = same as above
+
 
 
