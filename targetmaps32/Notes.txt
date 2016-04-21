@@ -1,14 +1,14 @@
 QUESTIONABLE:
 
-SBS1537+577 -- NGC5987 (3279 - true) = big far, or small close?
+SBS1537+577 -- NGC5987 (3279 - false) = big far, or small close?
 
-SBS1537+577 -- SDSSJ153802.75+573018.3 (3549 - true) = same as above
+SBS1537+577 -- SDSSJ153802.75+573018.3 (3549 - true) = same as above, but now NGC5987 is out of the velocity window
 
 3C66A -- UGC01832 (5965 - true) = UGC01841 is just out of the 400km/s window, and huge + close
 
 3C66A -- UGC01832 (6076 - false) = UGC01841 is now in the 400km/s window, and huge + close
 
-SBS1503+570 -- NGC5907 (706 - true) = crowded field, but his is a huge galaxy
+SBS1503+570 -- NGC5907 (706 - false) = crowded field, but this is a huge galaxy
 
 SDSSJ080838.80+051440.0 -- UGC04239 (8927 - true) = other, closer options
 
@@ -20,7 +20,7 @@ PG1216+069 -- NGC4260 (1903 - false) = super crowded field
 
 PG1216+069 -- SDSSJ121903.72+063342.9 (3813 - true) = small, but close and alone
 
-RX_J1330.8+3119 -- UGC08496NED02 (4839 - true) = crowded little group
+RX_J1330.8+3119 -- UGC08496NED02 (4839 - true) = crowded little group, what about UGC08496NED01?
 
 RX_J1330.8+3119 -- UGC08492 (7401 - true) = crowded, but the large one seems probable
 
