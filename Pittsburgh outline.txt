@@ -1,0 +1,18 @@
+Pittsburgh talk outline:
+
+1) this is work I’m doing with my advisor, Bart. It’s some of the results from a pilot study
+
+2) General idea: COS-Halos, etc., look at the CGM-galaxy connection at higher redshift. We’d like to look at lower redshift, so that we can take advantage of an already available, complete galaxy sample. 
+
+	- Big questions = How do the properties of absorbers (velocity, EW, azimuth) and the properties of galaxies (inclination, size, type) correlate?
+
+3) We started the survey by selecting 35 sightlines. 1) What are the largest 50 galaxies within 500 kpc of a sightline, then which of these has S/N >10? Take the top 35
+
+4) Another issue we wanted to address is reproducibility - how to choose a galaxy?
+	- likelihood method
+
+5) Results
+
+6) There’s a difference between red and blue shifted absorbers, but we’re not sure why. We are getting some rotation curves, to see if this has something to do with it.
+
+7) Next step is to increase the sample size - reduce more sightlines
