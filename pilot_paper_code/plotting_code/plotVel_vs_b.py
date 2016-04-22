@@ -3,10 +3,13 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVel_vs_b.py, v 1.0 03/02/2016
+$Id:  plotVel_vs_b.py, v 1.1 04/21/2016
 
 Plot the velocity and velocity difference as a function of dopplar b-parameter
     - (03/02/2016)
+    
+v1.1: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -48,13 +51,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -259,7 +266,7 @@ def main():
     # plot velocity difference as a function of dopplar b-parameter
     # 
     
-    plotVeldif_vs_b = False
+    plotVeldif_vs_b = True
     save = False
     
     if plotVeldif_vs_b:
@@ -312,7 +319,7 @@ def main():
     # plot dopplar b-parameter as a function of Lyalpha absorption velocity
     #
     
-    plotVel_vs_b = True
+    plotVel_vs_b = False
     save = False
     
     if plotVel_vs_b:

@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam2.py, v 5.3 03/02/2016
+$Id:  plotImpactHist_Diam2.py, v 5.4 04/21/2016
 
 Plots histograms of impact parameter, and various versions of normalized impact parameters
 also plots impact parameter vs R_vir
@@ -29,6 +29,8 @@ v5.2: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/22
 
 v5.3: included a function to plot JUST impact parameter alone (no normalizing)
     - (03/02/2016)
+    
+v5.4: remake plots with v_hel instead of vcorr (4/21/16)
 
 '''
 
@@ -70,13 +72,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -296,9 +302,9 @@ def main():
     save = False
     
     if plotImpactHist_Vir:
-        fig = figure(figsize=(10,2))
-#         subplots_adjust(hspace=0.200)
+        fig = figure(figsize=(10,4))
         ax = fig.add_subplot(111)
+        alpha = 0.75
         
 #         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
     #     bins = [5,15,25,35,45,55,65,75,85]
@@ -318,13 +324,15 @@ def main():
         
         normalizedImpactArray = impactArray/virArray
         
-        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar')
+        plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar',alpha=alpha)
         
-        title('Distribution of impact parameters')
+#         title('Distribution of impact parameters')
         xlabel(r'$\rho / R_{vir}$')
         ylabel('Number')
-#         ax.tick_params(axis='x', labelsize=0)
-#         ax.tick_params(axis='y',labelsize=8)
+    
+        ax.tick_params(axis='x', labelsize=10)
+        ax.tick_params(axis='y',labelsize=10)
+        tight_layout()
 #         ylim(0,5)
 
         if save:
@@ -452,14 +460,14 @@ def main():
     # and split into red and blue shifted bins
     #
     
-    plotImpactHist_dif = True
+    plotImpactHist_dif = False
     save = False
     
     if plotImpactHist_dif:
         fig = figure(figsize=(10,5))
         ax = fig.add_subplot(211)
         subplots_adjust(hspace=0.200)
-        alpha = 0.85
+        alpha = 0.75
 
         binsize = 50
         bins = arange(0,500+binsize,binsize)
@@ -489,6 +497,7 @@ def main():
         legend(scatterpoints=1,prop={'size':12})
         ax.tick_params(axis='y',labelsize=11)
         ax.tick_params(axis='x', labelsize=0)
+        ylim(0,10)
 
         ax = fig.add_subplot(212)
         plot2 = hist(reds,bins=bins,histtype='bar',color="red",label='Redshifted',alpha=alpha)
@@ -498,7 +507,7 @@ def main():
         
         ax.tick_params(axis='x', labelsize=11)
         ax.tick_params(axis='y',labelsize=11)
-#         ylim(0,5)
+        ylim(0,10)
 
         if save:
             savefig('{0}/hist(Impact_dif)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')

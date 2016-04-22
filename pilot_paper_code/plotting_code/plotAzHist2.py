@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzHist2.py, v 5.1 02/22/2016
+$Id:  plotAzHist2.py, v 5.2 04/21/2016
 
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -22,6 +22,8 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     
 v5.1: updated to work with LG_correlation_combined5_8_edit2.csv and l_min = 0.001
     (02/22/2016)
+
+v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 
 
 '''
@@ -63,12 +65,16 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -229,7 +235,6 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-
     # make a histogram of all the azimuth angles
     #
     
@@ -283,8 +288,8 @@ def main():
     # make histograms for red and blue shifted azimuth angles
     #
     
-    plotAzHist_dif = True
-    save = True
+    plotAzHist_dif = False
+    save = False
     
     if plotAzHist_dif:
     
@@ -293,7 +298,7 @@ def main():
 
 #         bins = [0,15,30,45,60,75,90]
 #         bins = arange(0,90,10)
-        binsize = 15
+        binsize = 10
         bins = arange(0,100,binsize)
         blue = []
         red = []
@@ -361,6 +366,8 @@ def main():
     
         fig = figure(figsize=(10,6))
         subplots_adjust(hspace=0.200)
+        
+        alpha = 0.75
 
         bins = arange(0,100,10)
         blue = []
@@ -387,8 +394,8 @@ def main():
                     redLyaErr.append(e)
         
         ax = fig.add_subplot(111)        
-        hist(red,bins=bins,histtype='bar',color='red',alpha = 0.65,hatch = '/',label='Redshifted absorbers')
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = 0.65,label='Blueshifted absorbers')
+        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,hatch = '/',label='Redshifted absorbers')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,label='Blueshifted absorbers')
 
         ylabel('Number')
         xlabel("Azimuth (deg)")

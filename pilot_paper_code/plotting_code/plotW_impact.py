@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_impact.py, v 5.1 02/24/2016
+$Id:  plotW_impact.py, v 5.2 04/21/2016
 
 Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
     (01/04/2016)
@@ -21,6 +21,9 @@ Previous (from histograms3.py):
 
 
 v5.1: updated for LG_correlation_combined5_8_edit2.csv for l_min = 0.001 (02/24/2016)
+
+v5.2: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -62,13 +65,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -320,7 +327,7 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    plotW_impact_hist = True
+    plotW_impact_hist = False
     save = False
     
     if plotW_impact_hist:
@@ -450,8 +457,8 @@ def main():
     # red and blue shifted absorption
     #
     
-    plotW_b_diam= False
-    save = False
+    plotW_b_diam= True
+    save = True
     
     if plotW_b_diam:
         fig = figure()
@@ -461,6 +468,7 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
+        alpha = 0.85
         for d,i,w,m in zip(difList,impactList,lyaWList,majList):
         
             # check if all the values are good
@@ -472,15 +480,15 @@ def main():
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb,alpha=alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr,alpha=alpha)
                     
-                    plot1 = scatter(i/m,w,c=color,s = 50)
+                    plot1 = scatter(i/m,w,c=color,s = 50,alpha=alpha)
             
         # make the legend work properly
 #         labelr = 'Red Shifted Absorber'
@@ -493,7 +501,7 @@ def main():
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,max(lyaWList)+100)
-        xlim(-1,150)
+#         xlim(-1,150)
 
         ax.legend(scatterpoints=1)
         
@@ -555,7 +563,7 @@ def main():
         ylim(-1,max(lyaWList)+100)
         
         # cut out the one outlier?
-        xlim(0,13)
+#         xlim(0,13)
 
         # or plot the whole range?
 #         xlim(-0.2,30)

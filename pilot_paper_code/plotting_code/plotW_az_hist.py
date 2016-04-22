@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_az_hist.py, v 5.1 02/24/2016
+$Id:  plotW_az_hist.py, v 5.2 04/21/2016
 
 Sum the EW into bins in azimuth and average, plotting the step histogram over the data
 
@@ -27,6 +27,9 @@ v5: Updated for the final pilot paper results (12/04/15)
 
 
 v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/24/2016)
+
+v5.2: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -68,13 +71,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -375,6 +382,126 @@ def main():
         
         plot2 = ax.plot(totalrAz,totalrHist,c='Red',lw=5)
         plot3 = ax.plot(totalbAz,totalbHist,c='Blue',lw=5)
+        
+        title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'Azimuth (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        legend(scatterpoints=1)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(0,1300)
+#         xlim(0,90)
+
+        if save:
+            savefig('{0}/W(azimuth)_dif_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+            
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of azimuth angle for red vs blue
+    # shifted absorption, include median histograms
+    #
+    # DOESN'T WORK YET
+    
+    plotW_Az_med = True
+    save = False
+    
+    if plotW_Az_med:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.75
+
+        print 'len(azList): ',len(azList)
+        print
+        print azList
+        
+        placeArrayr = zeros(10)
+        placeCountr = zeros(10)
+        placeArrayb = zeros(10)
+        placeCountb = zeros(10)
+        
+        for d,a,w,m in zip(difList,azList,lyaWList,majList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(a) and isNumber(w) and isNumber(m):
+                if d!=-99 and a!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        placeArrayb[place] += float(w)
+                        placeCountb[place] +=1.
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb,alpha=alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = a/10
+                        placeArrayr[place] += float(w)
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr,alpha=alpha)
+            
+                    plot1 = scatter(a,w,c=color,s=50,alpha=alpha)
+                    
+        rHist = placeArrayr/placeCountr
+        print 'rHist: ',rHist
+        bHist = placeArrayb/placeCountb
+        print 'bHist: ',bHist
+        
+#         rHist = placeArrayr
+#         bHist = placeArrayb
+        
+        totalrHist = []
+        totalrAz = []
+        totalbHist = []
+        totalbAz = []
+        
+        for r,a in zip(rHist,range(0,100,10)):
+            totalrHist.append(r)
+            totalrHist.append(r)
+
+            totalrAz.append(a)
+            totalrAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[r,r],c='Red')
+            
+        for b,a in zip(bHist,range(0,100,10)):
+            totalbHist.append(b)
+            totalbHist.append(b)
+
+            totalbAz.append(a)
+            totalbAz.append(a+10)
+
+#             plot2 = ax.plot([a,a+10],[b,b],c='Blue')
+            
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+        
+        print 'totalbHist: ',totalbHist
+        print
+        print 'totalbAz: ',totalbAz
+        
+#         plot2 = ax.plot(totalrAz,totalrHist,c='Red',lw=5)
+#         plot3 = ax.plot(totalbAz,totalbHist,c='Blue',lw=5)
         
         title('W(azimuth) for red vs blue shifted absorption')
         xlabel(r'Azimuth (deg)')

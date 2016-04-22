@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Inc2.py, v 5.1 02/18/2016
+$Id:  plotW_Inc2.py, v 5.2 04/21/2016
 
 This is the plotW_Inc bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -29,6 +29,8 @@ v5: Updated for the final pilot paper results (12/04/15)
     
 v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001
     (02/18/2016)
+    
+v5.2: remake plots with v_hel instead of vcorr (4/21/16)
     
 '''
 
@@ -88,13 +90,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -375,10 +381,17 @@ def main():
         blyaW = []
         bMaj = []
         
+        allLyaW = []
+        allInc = []
+        allDif = []
+        
         for d,i,w,m in zip(difList,cosIncList,lyaWList,majList):
             # check if all the values are okay
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
                 if d!=-99 and i!=-99 and w!=-99 and m!=-99:
+                    allLyaW.append(w)
+                    allInc.append(i)
+                    allDif.append(d)
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
@@ -408,16 +421,26 @@ def main():
         print 'max, min red dif: ',max(rdif), ', ',min(rdif)
         print 'max, min blue dif: ',max(bdif), ', ', min(bdif)
         
-        plotr = ax.scatter(rcosInc, rlyaW, cmap=redMap, c=rdif, s=50, vmin=-400, vmax=0)
-        norm = matplotlib.colors.Normalize(vmin = 0, vmax = 400)
-        cbarRed = plt.colorbar(plotr,cmap=redMap,orientation='vertical')
-        cbarRed.set_label('galaxy - absorber velocity (km/s)')
-        
-        plotb = ax.scatter(bcosInc, blyaW, cmap=blueMap, c=bdif, s=50, vmin=0, vmax=400)
-        cbarBlue = plt.colorbar(plotb,cmap=blueMap,orientation='vertical')
-        cbarBlue.set_label('galaxy - absorber velocity (km/s)')
+#         plotr = ax.scatter(rcosInc, rlyaW, cmap=redMap, c=rdif, s=50, vmin=-400, vmax=0)
+#         norm = matplotlib.colors.Normalize(vmin = 0, vmax = 400)
+#         cbarRed = plt.colorbar(plotr,cmap=redMap,orientation='vertical')
+#         cbarRed.set_label('galaxy - absorber velocity (km/s)')
+#         
+#         plotb = ax.scatter(bcosInc, blyaW, cmap=blueMap, c=bdif, s=50, vmin=0, vmax=400)
+#         cbarBlue = plt.colorbar(plotb,cmap=blueMap,orientation='vertical')
+#         cbarBlue.set_label('galaxy - absorber velocity (km/s)')
 #       cbar.ax.set_yticklabels(ticks)
                     
+        plot = ax.scatter(allInc, allLyaW, cmap=cm.RdBu, c=allDif, s=50, vmin=-400, vmax=400)
+        norm = matplotlib.colors.Normalize(vmin = -400, vmax = 400)
+        cbarRed = plt.colorbar(plot,cmap=cm.RdBu,orientation='vertical')
+        cbarRed.set_label('galaxy - absorber velocity (km/s)')
+        
+#         plotb = ax.scatter(bcosInc, blyaW, cmap=cm.RdBu, c=bdif, s=50, vmin=0, vmax=400)
+#         cbarBlue = plt.colorbar(plotb,cmap=cm.RdBu,orientation='vertical')
+#         cbarBlue.set_label('galaxy - absorber velocity (km/s)')
+                    
+
         title("Equivalent Width vs Cos(inclination)")
         xlabel(r'Cos(inclination) = b/a')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
@@ -448,7 +471,7 @@ def main():
     # absorption
     #
     
-    plotW_fancyInc = False
+    plotW_fancyInc = True
     save = False
     alpha = 0.75
     
@@ -500,8 +523,8 @@ def main():
     # absorption and include the dashed line w/ equation
     #
     
-    plotW_fancyInc_line = True
-    save = True
+    plotW_fancyInc_line = False
+    save = False
     
     if plotW_fancyInc_line:
         fig = figure()

@@ -3,9 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVirHist.py, v 1.0 03/02/2016
+$Id:  plotVirHist.py, v 1.1 4/21/16
 
 Plots histograms of virial radii for associated galaxies
+
+v1.1: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -47,13 +50,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -227,8 +234,8 @@ def main():
     # make a histogram of the distribution of R_vir for associated galaxies 
     #
     
-    plotR_vir= False
-    save = False
+    plotR_vir= True
+    save = True
     
     if plotR_vir:
         fig = figure(figsize=(10,2))
@@ -272,10 +279,10 @@ def main():
     # into red and blue shifted bins
     #
     
-    plotVirHist__dif = False
-    save = False
+    plotVirHist_dif = True
+    save = True
     
-    if plotVirHist__dif:
+    if plotVirHist_dif:
         fig = figure(figsize=(10,5))
         ax = fig.add_subplot(211)
         subplots_adjust(hspace=0.200)
@@ -329,11 +336,11 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-    # plot impact parameters of absorbers as a function of virial radius of the associated
-    # galaxy
+    # plot the velocity difference of absorbers as a function of impact/ virial radius of 
+    # the associated galaxy
     #
     
-    plotImpact_Vir_vs_vel_dif = True
+    plotImpact_Vir_vs_vel_dif = False
     save = False
     
     if plotImpact_Vir_vs_vel_dif:

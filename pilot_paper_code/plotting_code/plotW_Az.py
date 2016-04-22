@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Az.py, v 5.0 01/04/2016
+$Id:  plotW_Az.py, v 5.1 04/21/2016
 
 This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -21,6 +21,7 @@ Previous (from histograms3.py):
 v5: updated to work with the new, automatically updated LG_correlation_combined5.csv
     (12/04/15)
     
+v5.1: remake plots with v_hel instead of vcorr (4/21/16)
         
 '''
 

@@ -3,9 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_b_Hist.py, v 1.0 03/02/2016
+$Id:  plot_b_Hist.py, v 1.1 04/21/2016
 
 Plots histograms of dopplar b parameters for red and blue shifted absorbers (03/02/2016)
+
+v1.1: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -46,12 +49,14 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -241,15 +246,15 @@ def main():
     # make histograms for red and blue shifted dopplar b parameters
     #
     
-    plot_b_Hist_dif = True
-    save = True
+    plot_b_Hist_dif = False
+    save = False
     
     if plot_b_Hist_dif:
     
         fig = figure(figsize=(10,6))
         subplots_adjust(hspace=0.200)
 
-        binsize = 4
+        binsize = 5
         bins = arange(min(bList),max(bList)+binsize,binsize)
         alpha = 0.85
 
@@ -308,7 +313,7 @@ def main():
     # make histograms for red and blue shifted dopplar b-parameters overlaid on each other
     #
     
-    plot_b_Hist_over_dif = False
+    plot_b_Hist_over_dif = True
     save = False
     
     if plot_b_Hist_over_dif:

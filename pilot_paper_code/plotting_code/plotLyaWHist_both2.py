@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotLyaWHist_both2.py, v 5.1 02/23/2016
+$Id:  plotLyaWHist_both2.py, v 5.2 04/21/2016
 
 
 
@@ -22,6 +22,9 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     (12/04/15) - original updates to the individual files
     
 v5.1: update for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/23/2016)
+
+v5.2: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -63,13 +66,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -321,8 +328,8 @@ def main():
     # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
     #
     
-    plotLyaWHist_dif = False
-    save = False
+    plotLyaWHist_dif = True
+    save = True
     
     if plotLyaWHist_dif:
 #         fig = figure(figsize=(2,8))

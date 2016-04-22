@@ -3,13 +3,16 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpact_vir.py, v 1.0 03/16/2016
+$Id:  plotImpact_vir.py, v 1.1 04/21/2016
 
 Plots histograms of impact parameter, and various versions of normalized impact parameters
 also plots impact parameter vs R_vir
 
 v1: separated from plotImpactHist_Diam2.py, include a new function to plot Wakker & Savage
     2009 data as well. (03/16/16)
+    
+v1.1: remake plots with v_hel instead of vcorr (4/21/16)
+
 
 '''
 
@@ -51,14 +54,18 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
     else:
@@ -329,8 +336,8 @@ def main():
     # galaxy, add in the Wakker & Savage 2009 data 
     #
     
-    plotImpact_vs_virial_WS2009 = True
-    save = True
+    plotImpact_vs_virial_WS2009 = False
+    save = False
     
     if plotImpact_vs_virial_WS2009:
         fig = figure()
@@ -422,7 +429,115 @@ def main():
         ylabel(r'$\rm \rho$ (kpc)')
         legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
+        ylim(0,500)
 
+        if save:
+            savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+
+##########################################################################################
+##########################################################################################
+    # plot impact parameters of absorbers as a function of virial radius of the associated
+    # galaxy with marginal histograms
+    #
+    
+    plotImpact_vs_virial_marginal = True
+    save = False
+    
+    if plotImpact_vs_virial_marginal:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Red Shifted Absorber'
+        labelb = "Blue Shifted Absorber"
+        alpha = 0.85
+
+        goodImpact = []
+        goodVir = []
+        for d,i,v in zip(difList,impactList,virList):
+            # check if all the values are okay
+            print 'd: ',d
+            if isNumber(d) and isNumber(i) and isNumber(v):
+                if d!=-99 and i!=-99 and v!=-99:
+                
+                    goodImpact.append(i)
+                    goodVir.append(v)
+                    
+                    if d>0:
+                        # galaxy is 'behind' absorber, so GAS = blue shifted
+                        color = 'Blue'
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb,alpha=alpha)
+                    if d<0:
+                        # gas is RED shifted compared to galaxy
+                        color = 'Red'
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,i,c='Red',s=50,label= labelr,alpha=alpha)
+                
+#                     plot1 = scatter(v,i,c=color,s=50,alpha=alpha)
+            
+#         xlabel(r'$\rm R_{vir}$ (kpc)')
+#         ylabel(r'$\rm \rho$ (kpc)')
+#         legend(scatterpoints=1,prop={'size':12},loc=2)
+#         ax.grid(b=None,which='major',axis='both')
+#         ylim(0,500)
+        
+        import numpy as np
+        import matplotlib.pyplot as plt
+        from matplotlib.ticker import NullFormatter
+
+        # the random data
+#         x = np.random.randn(1000)
+#         y = np.random.randn(1000)
+        x = np.array(goodVir)
+        y = np.array(goodImpact)
+
+        nullfmt = NullFormatter()         # no labels
+
+        # definitions for the axes
+        left, width = 0.1, 0.65
+        bottom, height = 0.1, 0.65
+        bottom_h = left_h = left + width + 0.02
+
+        rect_scatter = [left, bottom, width, height]
+        rect_histx = [left, bottom_h, width, 0.2]
+        rect_histy = [left_h, bottom, 0.2, height]
+
+        # start with a rectangular Figure
+        plt.figure(1, figsize=(8, 8))
+
+        axScatter = plt.axes(rect_scatter)
+        axHistx = plt.axes(rect_histx)
+        axHisty = plt.axes(rect_histy)
+
+        # no labels
+        axHistx.xaxis.set_major_formatter(nullfmt)
+        axHisty.yaxis.set_major_formatter(nullfmt)
+
+        # the scatter plot:
+        axScatter.scatter(x, y)
+
+        # now determine nice limits by hand:
+        binwidth = 0.25
+        xymax = np.max([np.max(np.fabs(x)), np.max(np.fabs(y))])
+        lim = (int(xymax/binwidth) + 1) * binwidth
+
+        axScatter.set_xlim((-lim, lim))
+        axScatter.set_ylim((-lim, lim))
+
+        bins = np.arange(-lim, lim + binwidth, binwidth)
+        axHistx.hist(x, bins=bins)
+        axHisty.hist(y, bins=bins, orientation='horizontal')
+
+        axHistx.set_xlim(axScatter.get_xlim())
+        axHisty.set_ylim(axScatter.get_ylim())
+        
         if save:
             savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
         else:
