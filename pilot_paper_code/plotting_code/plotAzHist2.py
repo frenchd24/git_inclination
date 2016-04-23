@@ -56,10 +56,50 @@ from matplotlib.ticker import NullFormatter
 # rc('text', usetex=True)
 
 from matplotlib import rc
-rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+# rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 ## for Palatino and other serif fonts use:
 #rc('font',**{'family':'serif','serif':['Palatino']})
+
+# plt.clf()
+# plt.rcdefaults()
+# fontScale = 18
+# params = {'axes.labelsize': fontScale,
+# 'axes.titlesize': fontScale,
+# 'font.size': fontScale,
+# 'xtick.labelsize': fontScale,
+# 'ytick.labelsize': fontScale,
+# 'font.weight': 450,
+# 'axes.labelweight': 450,
+# 'xtick.major.size': 4,
+# 'xtick.major.width': 1.2,
+# 'xtick.minor.size': 3,
+# 'xtick.minor.width': 1.2,
+# 'ytick.major.size': 4,
+# 'ytick.major.width': 1.2,
+# 'ytick.minor.size': 3,
+# 'ytick.minor.width': 1.2
+# }
+
 rc('text', usetex=True)
+
+
+# plt.rcParams.update(params)
+
+rc('text', usetex=True)
+# rc('font',size=16,weight='bold')
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=18)
+rc('ytick',labelsize=18)
+
+
+# 'xtick.major.width'=1.2,'xtick.minor.size'=3,\
+# 'xtick.minor.width'=1.2,'ytick.major.size'=4,'ytick.major.width'=1.2,\
+# 'ytick.minor.size'=3,'ytick.minor.width'=1.2)
+
+
 
 ###########################################################################
 
@@ -242,10 +282,9 @@ def main():
     # make a histogram of all the azimuth angles
     #
     
-    plotAzHist = True
-    save = True
+    plotAzHist = False
+    save = False
     
-    rc('text',usetex=True)
     #font = {'family':'serif','size':16}
 #     font = {'family':'serif','size':18, 'serif': ['computer modern roman']}
 #     rc('font',**font)
@@ -428,6 +467,68 @@ def main():
 
         if save:
             savefig('{0}/hist(azimuth)_overlaid_dif.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+#########################################################################################
+#########################################################################################
+    # make histograms for all azimuth angles, with red and blue shifted overlaid
+    #
+    
+    plotAzHist_all_over = True
+    save = False
+    
+    if plotAzHist_all_over:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        
+        alpha = 0.55
+
+        bins = arange(0,100,10)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,a,l,e in zip(difList,azList,lyaWList,lyaErrList):
+            if a != -99:
+                if d >=0:
+                    # blue shifted absorber, but galaxy is REDSHIFTED
+                    print 'd: ',d
+                    blue.append(a)
+                    blueLya.append(l)
+                    blueLyaErr.append(e)
+                else:
+                    # red shifted absorber, but galaxy is BLUESHIFTED
+                    red.append(a)
+                    redLya.append(l)
+                    redLyaErr.append(e)
+        
+        
+        ax = fig.add_subplot(111)
+        
+        # all first
+        plot1 = hist(azList,bins=bins,histtype='step',lw=2,alpha=1,color='black',label="All")
+
+        hist(red,bins=bins,histtype='step',color='red',alpha = alpha,lw=2,ls='dashed',label='Redshifted absorbers')
+        hist(blue,bins=bins,histtype='step',color='Blue',alpha = alpha,lw=2,ls='dashed',label='Blueshifted absorbers')
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth (deg)$')
+        xlim(0,90)
+        ylim(0,10)
+        legend(fontsize=16)
+
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
