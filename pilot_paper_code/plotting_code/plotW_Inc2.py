@@ -39,17 +39,11 @@ import os
 import csv
 
 from pylab import *
-# import atpy
+from scipy import stats
 from math import *
 from utilities import *
 import getpass
 import pickle
-
-# from astropy.io.votable import parse,tree
-
-# from vo.table import parse
-# import vo.tree
-
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -471,7 +465,7 @@ def main():
     # absorption
     #
     
-    plotW_fancyInc = True
+    plotW_fancyInc = False
     save = False
     alpha = 0.75
     
@@ -896,36 +890,43 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        binSize = 10
+        binSize = 15
+        alpha = 0.75
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         
-        placeArrayr = zeros(10)
-        placeCountr = zeros(10)
-        placeArrayb = zeros(10)
-        placeCountb = zeros(10)
+        placeArrayr = zeros(int(90/binSize)+1)
+        placeCountr = zeros(int(90/binSize)+1)
+        placeArrayb = zeros(int(90/binSize)+1)
+        placeCountb = zeros(int(90/binSize)+1)
+        
+        placeArray = zeros(int(90/binSize)+1)
+        placeCount = zeros(int(90/binSize)+1)
         
         for d,i,w,v in zip(difList,fancyIncList,lyaWList,virList):
             # check if all the values are good
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
                 if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                
+                    # do totals first
+                    place = i/binSize
+                    placeArray[place] += float(w)
+                    placeCount[place] +=1.
+                        
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
                         
                         # which bin does it belong too?
                         place = i/binSize
-                        print 'place: ',place
                         placeArrayb[place] += float(w)
-                        print 'placeArrayb: ',placeArrayb
                         placeCountb[place] +=1.
-                        print 'placecountb: ',placeCountb
                         
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(i,w,c='Blue',s=50)
+                            plotb = ax.scatter(i,w,c='Blue',s=50,alpha = alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
@@ -939,24 +940,34 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(i,w,c='Red',s=50)
+                            plotr = ax.scatter(i,w,c='Red',s=50,alpha = alpha)
 
-                    plot1 = scatter(i,w,c=color,s=50)
-                    
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+        
+#         print
+#         print 'placeArrayTotal: ',placeArrayTotal
+#         print 'placeCountTotal: ',placeCountTotal
+#         print
+#         print 'placeArrayr: ',placeArrayr
+#         print 'placeCountr: ',placeArrayr
+#         print
+        
         rHist = placeArrayr/placeCountr
-        print 'rHist: ',rHist
         bHist = placeArrayb/placeCountb
-        print 'bHist: ',bHist
+        allHist = placeArray/placeCount
+        
+#         print 'totalHist: ',totalHist
         
         totalrHist = []
         totalrVir = []
         totalbHist = []
         totalbVir = []
+        totalHist = []
+        totalVir = []
         
         for r,v in zip(rHist,arange(0,100,binSize)):
             if not isNumber(r):
                 r = 0
-            
             totalrHist.append(r)
             totalrHist.append(r)
 
@@ -964,35 +975,204 @@ def main():
             totalrVir.append(v+binSize)
             
         for b,v in zip(bHist,arange(0,100,binSize)):
-            if not isNumber(r):
-                r = 0
+            if not isNumber(b):
+                b = 0
             totalbHist.append(b)
             totalbHist.append(b)
 
             totalbVir.append(v)
             totalbVir.append(v+binSize)
+            
+            
+        print 'hello'
+        print 'allHist: ',allHist
+        for h,v in zip(allHist,arange(0,100,binSize)):
+            if not isNumber(h):
+                h = 0
+                
+            print 'h: ',h
+            print 'v: ',v
+            print
+            
+            totalHist.append(h)
+            totalHist.append(h)
+
+            totalVir.append(v)
+            totalVir.append(v+binSize)
+            
+        print 'hello 2'
         
-        print 'totalrVir: ',totalrVir
-        print 'totalrHist: ',totalrHist
-        print
-        print 'totalbVir: ',totalbVir
-        print 'totalbHist: ',totalbHist
-        print
+#         print 'totalrVir: ',totalrVir
+#         print 'totalrHist: ',totalrHist
+#         print
+#         print 'totalbVir: ',totalbVir
+#         print 'totalbHist: ',totalbHist
+#         print
+#         print 'totalVir: ',totalVir
+#         print 'totalHist: ',totalHist
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+        label='Average Redshifted EW',alpha=alpha)
+        
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+        label='Average Blueshifted EW',alpha=alpha)
+
+        plot4 = ax.plot(totalVir,totalHist,c='Black',lw=2,ls='dashed',\
+        label='Average Total EW',alpha=alpha)
         
         xlabel(r'$\rm Inclination$ (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-5,1200)
+        ylim(-5,max(lyaWList)+100)
         xlim(0,100)
 
         if save:
             savefig('{0}/W(inc)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of fancy_inclination for red and blue shifted
+    # absorption, include an overlying median histograms
+    #
+    #
+    
+    plotW_inc_hist_median = True
+    save = False
+    
+    if plotW_inc_hist_median:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 10
+        numBins = 9
+        alpha = 0.75
+#         bins = [0,15,30,45,60,75,90,105]
+        bins = arange(0,100,10)
+
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        allInc = []
+        allW = []
+        allVir = []
+        
+        rInc = []
+        bInc = []
+        rW = []
+        bW = []
+        rVir = []
+        bVir = []
+        
+        for d,i,w,v in zip(difList,fancyIncList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    
+                    allInc.append(float(i))
+                    allW.append(float(w))
+                    allVir.append(float(v))
+                        
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        bInc.append(float(i))
+                        bW.append(float(w))
+                        bVir.append(float(v))
+                                            
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,w,c='Blue',s=50,alpha = alpha)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        rInc.append(float(i))
+                        rW.append(float(w))
+                        rVir.append(float(v))
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,w,c='Red',s=50,alpha = alpha)
+
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+                            
+        print 'rInc: ,',rInc
+        print
+        print 'bInc: ',bInc
+
+        # totals
+        bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = np.array([left,right]).T.flatten()
+        Y = np.array([bin_means,bin_means]).T.flatten()
+        plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+        
+        # red shifted
+#         bin_means,edges,binNumber = stats.binned_statistic(array(rInc), array(rW), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = np.array([left,right]).T.flatten()
+#         Y = np.array([bin_means,bin_means]).T.flatten()
+#         plt.plot(X,Y, c='red',ls='dotted',lw=2,alpha=alpha,label="Mean redshifted EW")
+        
+        # blue shifted
+#         bin_means,edges,binNumber = stats.binned_statistic(array(bInc), array(bW), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = np.array([left,right]).T.flatten()
+#         Y = np.array([bin_means,bin_means]).T.flatten()
+#         plt.plot(X,Y, c='blue',ls='dotted',lw=2,alpha=alpha,label="Mean blueshifted EW")
+        
+#         plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+#         label='Average Redshifted EW',alpha=alpha)
+#         
+#         plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+#         label='Average Blueshifted EW',alpha=alpha)
+
+#         plot4 = ax.plot(totalVir,totalHist,c='Black',lw=2,ls='dashed',\
+#         label='Average Total EW',alpha=alpha)
+
+        
+        xlabel(r'Galaxy Inclination (deg)')
+        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-5,max(lyaWList)+100)
+        xlim(0,90)
+
+        if save:
+            savefig('{0}/W(inc)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+        
+        includeHist = False
+        if includeHist:
+        
+            fig = figure(figsize=(10,4))
+            ax = fig.add_subplot(111)
+            bins = [0,15,30,45,60,75,90,105]
+
+            bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), statistic='count', bins=bins)
+    
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+
+            plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+            show()
+
 
 ##########################################################################################
 ##########################################################################################

@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_inc_hist_all2.py, v 5.1 02/17/2016
+$Id:  plot_inc_hist_all2.py, v 5.2 04/22/2016
 
     - this now combines plotCosIncDifHist_full2.py, plotFancyIncHist_full2.py, 
     plotFancyCosIncDifHist_full2.py, plotCosIncHist_full2.py, plotIncHist_full2.py,
@@ -14,6 +14,9 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     
 v5.1: updated for LG_correlation_combined5_8_edit2.csv
     (2/17/2016)
+    
+v5.2: remake plots with v_hel instead of vcorr (4/22/16)
+
     
 '''
 
@@ -55,13 +58,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -229,7 +236,6 @@ def main():
 
 ########################################################################################
 ########################################################################################
-
     # cos(inclination) histograms for redshifted and blueshifted distributions of absorbers
     # as well as the full data table
     # 
@@ -341,7 +347,6 @@ def main():
 
 #########################################################################################
 #########################################################################################
-
     # plot histograms of the fancy inclination for both associated galaxies and the 
     # full galaxy data set
     #
@@ -384,7 +389,6 @@ def main():
 
 #########################################################################################
 #########################################################################################
-
     # cos(inclination) histograms for redshifted vs blueshifted distributions of absorbers
     #
     # originally from plotFancyCosIncDifHist_full2.py
@@ -560,7 +564,7 @@ def main():
     # as well as the whole table
     #
     
-    plotIncDifHist_all = True
+    plotIncDifHist_all = False
     save = False
     
     if plotIncDifHist_all:
@@ -740,6 +744,63 @@ def main():
             show()
 
 
+#########################################################################################
+#########################################################################################
+    # plot histograms of the fancy inclination for associated galaxies, normalizing by
+    # the full galaxy table
+    #
+    # originally from: plotFancyIncHist_full2.py
+    #
+    # All this shows is that the associated galaxies sample the full distribution pretty 
+    # well
+    
+    plotFancyIncHist_full_norm = True
+    save = False
+    
+    if plotFancyIncHist_full_norm:
+        fig = figure()
+        ax = fig.add_subplot(211)
+        bins = [0,10,20,30,40,50,60,70,80,90]
+        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
+        
+        normCounts, normBins= histogram(allFancyInclinations, bins=bins,normed= True)
+        print "normCounts: ",normCounts
+        
+        dataCounts, dataBins = histogram(fancyIncList,bins=bins)
+        
+        normedCounts = dataCounts/normCounts
+        print 'normedCounts: ',normedCounts
+        print len(normedCounts)
+        print len(bins)
+        
+#         plot1 = hist(normedCounts,bins=bins,histtype='bar')
+        plot1 = bar([0,10,20,30,40,50,60,70,80],normedCounts)
+        ylabel('Number')
+
+        ax = fig.add_subplot(212)
+        plot2 = bar([0,10,20,30,40,50,60,70,80],dataCounts)
+        xlabel('Galaxy Inclination (deg)')
+        ylabel('Number')
+
+
+#         plot1 = hist(fancyIncList,bins=bins,histtype='bar',weights=normCounts)
+#         title('Absorber-associated galaxies')
+# #         xlabel('Inclination (deg)')
+#         ylabel('Number')
+
+#         ax = fig.add_subplot(212)
+#         plot1 = hist(allFancyInclinations,bins=bins,histtype='bar')
+#         title('Total galaxy inclination distribution')
+#         xlabel('Galaxy Inclination (deg)')
+#         ylabel('Number')
+
+
+        if save:
+            savefig('{0}/hist(fancy_inclination_norm).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
 #########################################################################################
 #########################################################################################
 #########################################################################################

@@ -19,6 +19,7 @@ v1.1: remake plots with v_hel instead of vcorr (4/21/16)
 import sys
 import os
 import csv
+from scipy import stats
 
 from pylab import *
 # import atpy
@@ -41,7 +42,8 @@ from matplotlib import rc
 # rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
+rc('text', usetex=True)
+rc('font',size=16,weight='bold')
 
     
 
@@ -436,6 +438,101 @@ def main():
         else:
             show()
             
+            
+##########################################################################################
+##########################################################################################
+    # plot impact parameters of absorbers as a function of virial radius of the associated
+    # galaxy, include median histograms
+    #
+    # NOT FINISHED YET
+    
+    plotImpact_vs_virial_median = True
+    save = True
+    
+    if plotImpact_vs_virial_median:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.85
+        
+        rImpact = []
+        rVir = []
+        bImpact = []
+        bVir = []
+        allImpact = []
+        allVir = []
+
+        for d,i,v in zip(difList,impactList,virList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(i) and isNumber(v):
+                if d!=-99 and i!=-99 and v!=-99:
+                    i = float(i)
+                    v = float(v)
+                    allImpact.append(i)
+                    allVir.append(v)
+
+                    if d>0:
+                        # galaxy is 'behind' absorber, so GAS = blue shifted
+                        color = 'Blue'
+                        bImpact.append(i)
+                        bVir.append(v)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb,alpha=alpha)
+                    if d<0:
+                        # gas is RED shifted compared to galaxy
+                        color = 'Red'
+                        rImpact.append(i)
+                        rVir.append(v)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr,alpha=alpha)
+                
+                    plot1 = scatter(v,i,c=color,s=50,alpha=alpha)
+                    
+                    
+        # totals
+        print 'allImpact: ',allImpact
+        print 'allVir:' ,allVir
+        bins = arange(0,400,50)
+        bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact), statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]
+        print nan_to_num(bin_means)
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, c='Black',ls='dashed',lw=1,alpha=alpha,label='Mean Impact Parameter')
+           
+#         bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([bin_means,bin_means]).T.flatten()
+#         plot(X,Y, c='red',ls='dotted',lw=2,alpha=alpha,label="Mean Redshifted Impact")
+#             
+#         bin_means,edges,binNumber = stats.binned_statistic(array(bVir), array(bImpact), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([bin_means,bin_means]).T.flatten()
+#         plot(X,Y, c='blue',ls='dotted',lw=2,alpha=alpha,label="Mean Blueshifted Impact")
+            
+        xlabel(r'$\rm R_{vir}$ (kpc)')
+        ylabel(r'Impact Parameter (kpc)')
+        legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,500)
+        xlim(0,350)
+        tight_layout()
+
+        if save:
+            savefig('{0}/impact(virial)_avgHist.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
 
 ##########################################################################################
 ##########################################################################################
@@ -443,12 +540,12 @@ def main():
     # galaxy with marginal histograms
     #
     
-    plotImpact_vs_virial_marginal = True
+    plotImpact_vs_virial_marginal = False
     save = False
     
     if plotImpact_vs_virial_marginal:
-        fig = figure()
-        ax = fig.add_subplot(111)
+#         fig = figure()
+#         ax = fig.add_subplot(111)
         countb = 0
         countr = 0
         count = -1
@@ -464,8 +561,8 @@ def main():
             if isNumber(d) and isNumber(i) and isNumber(v):
                 if d!=-99 and i!=-99 and v!=-99:
                 
-                    goodImpact.append(i)
-                    goodVir.append(v)
+                    goodImpact.append(float(i))
+                    goodVir.append(float(v))
                     
                     if d>0:
                         # galaxy is 'behind' absorber, so GAS = blue shifted
@@ -495,8 +592,8 @@ def main():
         # the random data
 #         x = np.random.randn(1000)
 #         y = np.random.randn(1000)
-        x = np.array(goodVir)
-        y = np.array(goodImpact)
+        x = goodVir
+        y = goodImpact
 
         nullfmt = NullFormatter()         # no labels
 
@@ -524,24 +621,28 @@ def main():
         axScatter.scatter(x, y)
 
         # now determine nice limits by hand:
-        binwidth = 0.25
+        binwidth = 25
+
         xymax = np.max([np.max(np.fabs(x)), np.max(np.fabs(y))])
         lim = (int(xymax/binwidth) + 1) * binwidth
 
-        axScatter.set_xlim((-lim, lim))
-        axScatter.set_ylim((-lim, lim))
+        axScatter.set_xlim((min(x)-10, max(x)+10))
+        axScatter.set_ylim((min(y)-10, max(y)+10))
 
-        bins = np.arange(-lim, lim + binwidth, binwidth)
+#         bins = np.arange(-lim, lim + binwidth, binwidth)
+        bins = 10
         axHistx.hist(x, bins=bins)
         axHisty.hist(y, bins=bins, orientation='horizontal')
 
         axHistx.set_xlim(axScatter.get_xlim())
         axHisty.set_ylim(axScatter.get_ylim())
         
-        if save:
-            savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
+        plt.show()
+        
+#         if save:
+#             savefig('{0}/impact(virial).pdf'.format(saveDirectory),format='pdf')
+#         else:
+#             plt.show()
             
             
 ##########################################################################################

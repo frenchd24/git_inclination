@@ -571,6 +571,10 @@ def main():
     ans3 = stats.ks_2samp(redInc, allInclinations)
     print 'KS for red vs all inclinations: ',ans3
     
+    assocInc = blueInc + redInc
+    ans4 = stats.ks_2samp(assocInc, allInclinations)
+    print 'KS for associated vs all inclinations: ',ans4
+    
     print
     print ' EW Distributions: '
     print

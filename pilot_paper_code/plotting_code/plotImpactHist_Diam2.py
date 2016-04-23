@@ -60,7 +60,8 @@ from matplotlib import rc
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
-
+rc('text', usetex=True)
+rc('font',size=16,weight='bold')
     
 
 ###########################################################################
@@ -298,8 +299,8 @@ def main():
     # normalized by virial radius
     #
     
-    plotImpactHist_Vir = False
-    save = False
+    plotImpactHist_Vir = True
+    save = True
     
     if plotImpactHist_Vir:
         fig = figure(figsize=(10,4))
@@ -328,10 +329,11 @@ def main():
         
 #         title('Distribution of impact parameters')
         xlabel(r'$\rho / R_{vir}$')
-        ylabel('Number')
+        ylabel(r'$\rm Number$')
+#         grid(True)
     
-        ax.tick_params(axis='x', labelsize=10)
-        ax.tick_params(axis='y',labelsize=10)
+#         ax.tick_params(axis='x', labelsize=10)
+#         ax.tick_params(axis='y',labelsize=10)
         tight_layout()
 #         ylim(0,5)
 
@@ -464,8 +466,8 @@ def main():
     save = False
     
     if plotImpactHist_dif:
-        fig = figure(figsize=(10,5))
-        ax = fig.add_subplot(211)
+        fig = figure(figsize=(10,2))
+        ax = fig.add_subplot(111)
         subplots_adjust(hspace=0.200)
         alpha = 0.75
 
@@ -494,12 +496,20 @@ def main():
         plot1 = hist(blues,bins=bins,histtype='bar',color='blue',label='Blueshifted',alpha=alpha)
 #         xlabel('Impact Parameter/R_vir (blueshifted)')
         ylabel('Number')
+        xlabel(r'$\rho$ (kpc)')
         legend(scatterpoints=1,prop={'size':12})
         ax.tick_params(axis='y',labelsize=11)
         ax.tick_params(axis='x', labelsize=0)
         ylim(0,10)
+        tight_layout()
+        
+        if save:
+            savefig('{0}/hist(Impact_blue)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
+        else:
+            show()
 
-        ax = fig.add_subplot(212)
+        fig = figure(figsize=(10,2))
+        ax = fig.add_subplot(111)
         plot2 = hist(reds,bins=bins,histtype='bar',color="red",label='Redshifted',alpha=alpha)
         xlabel(r'$\rho$ (kpc)')
         ylabel('Number')
@@ -508,9 +518,10 @@ def main():
         ax.tick_params(axis='x', labelsize=11)
         ax.tick_params(axis='y',labelsize=11)
         ylim(0,10)
-
+        tight_layout()
+        
         if save:
-            savefig('{0}/hist(Impact_dif)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
+            savefig('{0}/hist(Impact_red)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
         else:
             show()
 

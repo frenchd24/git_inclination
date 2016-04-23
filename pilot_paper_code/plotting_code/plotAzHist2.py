@@ -49,13 +49,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
 
-from matplotlib import rc
+# from matplotlib import rc
 # rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-
+from matplotlib import rc
+rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+## for Palatino and other serif fonts use:
+#rc('font',**{'family':'serif','serif':['Palatino']})
+rc('text', usetex=True)
 
 ###########################################################################
 
@@ -238,12 +242,22 @@ def main():
     # make a histogram of all the azimuth angles
     #
     
-    plotAzHist = False
-    save = False
+    plotAzHist = True
+    save = True
+    
+    rc('text',usetex=True)
+    #font = {'family':'serif','size':16}
+#     font = {'family':'serif','size':18, 'serif': ['computer modern roman']}
+#     rc('font',**font)
+#     rc('legend',**{'fontsize':18})
+#     rcParams['text.latex.preamble']=[r'\usepackage{amsmath}']
+    
     
     if plotAzHist:
-        fig = figure()
+        fig = figure(figsize=(10,8))
         ax = fig.add_subplot(111)
+        alpha = 0.85
+        
 #         bins = [0,10,20,30,40,50,60,70,80,90]
 #         bins = array([0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90])
 #         bins +=4
@@ -267,16 +281,23 @@ def main():
         print 'mean: ',mean(azList)
         print 'median: ',median(azList)
         
-        plot1 = hist(azList,bins=bins,histtype='bar')
+#         rc('text', usetex=True)
+#         rc('font', family='serif',weight='bold')
+        
+        plot1 = hist(azList,bins=bins,histtype='bar',alpha=alpha)
+#         ax.tick_params(axis='both', which='major', labelsize=20)
         
 #         print 'azList: ',azList
 #         hist(azList)
 #         title('Distribution of azimuths')
 
-        xlabel('Azimuth (deg)')
-        ylabel('Number')
+#         xlabel(r'Azimuth (deg)',fontsize=20,weight='bold')
+#         ylabel(r'Number',fontsize=20,weight='bold')
+        xlabel(r'Azimuth (deg)')
+        ylabel(r'Number')
         xlim(0,90)
         ylim(0,10)
+        tight_layout()
         
         if save:
             savefig('{0}/hist(azimuth).pdf'.format(saveDirectory),format='pdf')
