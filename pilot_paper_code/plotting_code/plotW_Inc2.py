@@ -55,24 +55,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-
-    
-# def returnLinDiameters(major,minor,distance):
-#     # input major and minor in arcsec, distance in Mpc
-#     # outputs major and minor in kpc
-#     newMajor = math.tan(math.radians(float(major)))*(distance*1000)
-#     newMinor = math.tan(math.radians(float(minor)))*(distance*1000)
-#     return (newMajor,newMinor)
-#     
-#     
-# 
-# def returnAngDiameters(major,minor,distance):
-#     # input distances in mpc, major and minor is in kpc
-#     # outputs angular diameters in arcsec
-#     newMajor = math.atan((float(major)/1000)/float(distance))*(1/3600)
-#     newMinor = math.atan((float(minor)/1000)/float(distance))*(1/3600)
-#     return (newMajor,newMinor)
-    
+fontScale = 16
+rc('text', usetex=True)
+rc('font',size=18)
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=16)
+rc('ytick',labelsize=16)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
     
 
 ###########################################################################
@@ -499,8 +496,8 @@ def main():
                     plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
             
 #         title('W(fancy_inclination) for red vs blue shifted absorption')
-        xlabel(r'Inclination (deg)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        xlabel(r'$\rm Inclination (deg)$')
+        ylabel(r'$ \rm Equivalent Width ($\rm m\AA$)$')
         legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(-1,1200)
@@ -1041,7 +1038,7 @@ def main():
     #
     #
     
-    plotW_inc_hist_median = True
+    plotW_inc_hist_median = False
     save = False
     
     if plotW_inc_hist_median:
@@ -1054,10 +1051,9 @@ def main():
         binSize = 10
         numBins = 9
         alpha = 0.75
-#         bins = [0,15,30,45,60,75,90,105]
-        bins = arange(0,100,10)
+        bins = [0,15,30,45,60,75,90,105]
+#         bins = arange(0,100,10)
 
-        
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         
@@ -1143,6 +1139,22 @@ def main():
 #         plot4 = ax.plot(totalVir,totalHist,c='Black',lw=2,ls='dashed',\
 #         label='Average Total EW',alpha=alpha)
 
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
         
         xlabel(r'Galaxy Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
@@ -1155,6 +1167,7 @@ def main():
             savefig('{0}/W(inc)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+            
             
         
         includeHist = False

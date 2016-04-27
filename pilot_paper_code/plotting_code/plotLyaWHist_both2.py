@@ -55,6 +55,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
+fontScale = 16
+rc('text', usetex=True)
+rc('font',size=18)
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=16)
+rc('ytick',labelsize=16)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 
 ###########################################################################
@@ -265,8 +280,8 @@ def main():
     # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
     #
     
-    plotLyaWHist_both = True
-    save = True
+    plotLyaWHist_both = False
+    save = False
     
     if plotLyaWHist_both:
 #         fig = figure(figsize=(2,8))
@@ -329,7 +344,7 @@ def main():
     #
     
     plotLyaWHist_dif = True
-    save = True
+    save = False
     
     if plotLyaWHist_dif:
 #         fig = figure(figsize=(2,8))
@@ -360,6 +375,24 @@ def main():
         # see above, does not work the for the ambigous ones
         normByEnv = False
         
+        
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
         if normByEnv:
             plot1 = hist(lyaWArray/envArray,bins=bins,histtype='bar',orientation = 'vertical')
             title('Distribution of Lya W - Associated')
@@ -370,13 +403,13 @@ def main():
         else:
             plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
             legend(scatterpoints=1,prop={'size':12},loc=1)
-            ylabel('Number')
+            ylabel(r'Number')
             ylim(0,10)
 
             ax = fig.add_subplot(212)
             plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
             legend(scatterpoints=1,prop={'size':12},loc=1)
-            ylabel('Number')
+            ylabel(r'Number')
             ylim(0,10)
 
         

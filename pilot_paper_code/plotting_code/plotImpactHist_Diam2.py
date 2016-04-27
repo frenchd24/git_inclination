@@ -60,9 +60,25 @@ from matplotlib import rc
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
-rc('text', usetex=True)
-rc('font',size=16,weight='bold')
+# rc('text', usetex=True)
+# rc('font',size=16,weight='bold')
     
+fontScale = 16
+rc('text', usetex=True)
+rc('font',size=18)
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=16)
+rc('ytick',labelsize=16)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
+
 
 ###########################################################################
 
@@ -300,7 +316,7 @@ def main():
     #
     
     plotImpactHist_Vir = True
-    save = True
+    save = False
     
     if plotImpactHist_Vir:
         fig = figure(figsize=(10,4))
@@ -324,6 +340,9 @@ def main():
                     virArray = append(virArray,float(v))
         
         normalizedImpactArray = impactArray/virArray
+        
+        print 'median: ',median(normalizedImpactArray)
+        print 'mean: ',mean(normalizedImpactArray)
         
         plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar',alpha=alpha)
         

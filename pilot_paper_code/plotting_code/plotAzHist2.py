@@ -82,23 +82,22 @@ from matplotlib import rc
 
 rc('text', usetex=True)
 
-
 # plt.rcParams.update(params)
-
+fontScale = 18
 rc('text', usetex=True)
-# rc('font',size=16,weight='bold')
+rc('font',size=18)
 rc('xtick.major',size=5,width=1.2)
 rc('xtick.minor',size=3,width=1.2)
 rc('ytick.major',size=5,width=1.2)
 rc('ytick.minor',size=3,width=1.2)
 rc('xtick',labelsize=18)
 rc('ytick',labelsize=18)
-
-
-# 'xtick.major.width'=1.2,'xtick.minor.size'=3,\
-# 'xtick.minor.width'=1.2,'ytick.major.size'=4,'ytick.major.width'=1.2,\
-# 'ytick.minor.size'=3,'ytick.minor.width'=1.2)
-
+rc('axes',labelsize=18)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+rc('axes',labelweight = 400)
+rc('axes',linewidth = 2)
 
 
 ###########################################################################
@@ -477,11 +476,11 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = False
+    save = True
     
     if plotAzHist_all_over:
     
-        fig = figure(figsize=(10,6))
+        fig = figure(figsize=(10,8))
         subplots_adjust(hspace=0.200)
         
         alpha = 0.55
@@ -518,6 +517,23 @@ def main():
 
         hist(red,bins=bins,histtype='step',color='red',alpha = alpha,lw=2,ls='dashed',label='Redshifted absorbers')
         hist(blue,bins=bins,histtype='step',color='Blue',alpha = alpha,lw=2,ls='dashed',label='Blueshifted absorbers')
+
+#         ax.xaxis.grid(True, which='minor')
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
 
         ylabel(r'$\rm Number$')
         xlabel(r'$\rm Azimuth (deg)$')

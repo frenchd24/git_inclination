@@ -47,6 +47,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
+fontScale = 16
+rc('text', usetex=True)
+rc('font',size=16)
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=16)
+rc('ytick',labelsize=16)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 
 ###########################################################################
@@ -355,34 +370,76 @@ def main():
     # All this shows is that the associated galaxies sample the full distribution pretty 
     # well
     
-    plotFancyIncHist_full = False
-    save = False
+    plotFancyIncHist_full = True
+    save = True
     
     if plotFancyIncHist_full:
-        fig = figure()
+        fig = figure(figsize=(10,3))
 #         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(211)
+        ax = fig.add_subplot(111)
+        alpha=0.75
+        
         bins = [0,10,20,30,40,50,60,70,80,90]
         subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
 
     #     bins = [5,15,25,35,45,55,65,75,85]
     #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(fancyIncList,bins=bins,histtype='bar')
-        title('Absorber-associated galaxies fancy inclination')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,5)
-
-        ax = fig.add_subplot(212)
-        plot1 = hist(allFancyInclinations,bins=bins,histtype='bar')
-        title('Full galaxy sample fancy inclination')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,8000)
+    
+#         x-axis
+#         majorLocator   = MultipleLocator(10)
+#         majorFormatter = FormatStrFormatter('%d')
+#         minorLocator   = MultipleLocator(2)
+#         ax.xaxis.set_major_locator(majorLocator)
+#         ax.xaxis.set_major_formatter(majorFormatter)
+#         ax.xaxis.set_minor_locator(minorLocator)
+#         
+#         y-axis
+#         majorLocator   = MultipleLocator(.08)
+#         majorFormatter = FormatStrFormatter('%d')
+#         minorLocator   = MultipleLocator(.01)
+#         ax.yaxis.set_major_locator(majorLocator)
+#         ax.yaxis.set_major_formatter(majorFormatter)
+#         ax.yaxis.set_minor_locator(minorLocator)
+#     
+#         plot1 = hist(fancyIncList,bins=bins,histtype='bar',label='Associated Galaxies',\
+#         normed=True,alpha=alpha)
+#         xlabel(r'Galaxy Inclination (deg)')
+#         ylabel(r'Number')
+#         legend(loc=2,fontsize=16)
+# 
 #         tight_layout()
+# 
+#         if save:
+#             savefig('{0}/hist(fancy_inclination)_associated2.pdf'.format(saveDirectory),format='pdf')
+#         else:
+#             show()
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5000)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1000)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        plot1 = hist(allFancyInclinations,bins=bins,histtype='bar',label="All Galaxies",alpha=alpha,color='green')
+        
+        xlabel(r'Galaxy Inclination (deg)')
+        ylabel(r'Number')
+        legend(loc=2,fontsize=16)
+        
+        tight_layout()
 
         if save:
-            savefig('{0}/hist(fancy_inclination).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(fancy_inclination)_all2.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
@@ -754,7 +811,7 @@ def main():
     # All this shows is that the associated galaxies sample the full distribution pretty 
     # well
     
-    plotFancyIncHist_full_norm = True
+    plotFancyIncHist_full_norm = False
     save = False
     
     if plotFancyIncHist_full_norm:
