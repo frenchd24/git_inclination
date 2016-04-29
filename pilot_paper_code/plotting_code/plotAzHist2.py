@@ -476,7 +476,7 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = True
+    save = False
     
     if plotAzHist_all_over:
     

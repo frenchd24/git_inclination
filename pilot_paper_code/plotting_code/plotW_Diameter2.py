@@ -56,7 +56,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
     
-    
+fontScale = 16
+rc('text', usetex=True)
+rc('font',size=18)
+rc('xtick.major',size=5,width=1.2)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.2)
+rc('ytick.minor',size=3,width=1.2)
+rc('xtick',labelsize=16)
+rc('ytick',labelsize=16)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 ###########################################################################
 
@@ -333,7 +347,7 @@ def main():
     # plot equivalent width as a function of galaxy R_vir
     #
     
-    plotW_vir = False
+    plotW_vir = True
     save = False
     
     if plotW_vir:
@@ -382,7 +396,7 @@ def main():
     # plot doppler parameter as a function of galaxy R_vir
     #
     
-    plotB_vir = False
+    plotB_vir = True
     save = False
     
     if plotB_vir:

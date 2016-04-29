@@ -4,24 +4,21 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pilot_make_histograms.py v 1.0 11/17/2015
+$Id: pilot_make_histograms.py v 1.1 04/27/2015
 
 Comes from: filament_make_histograms.py, v 1.0 08/11/2015
 
 but updated for the entire data set for the pilot paper. Makes photometry plots for the 
-full galaxy table.
+full galaxy table. (11/17/2015)
 
+v1.1 Make nicer looking Texify'd plots (4/27/16)
 
 
 '''
 
 import sys
-import os
+# import os
 import csv
-# import string
-# import warnings
-# import urllib
-# import numpy
 from pylab import *
 # import atpy
 import math
@@ -32,6 +29,19 @@ import itertools
 from utilities import *
 from matplotlib import rc
 
+fontScale = 18
+rc('text', usetex=True)
+rc('font',size=18)
+rc('xtick.major',size=5,width=1.5)
+rc('xtick.minor',size=3,width=1.2)
+rc('ytick.major',size=5,width=1.5)
+rc('ytick.minor',size=3,width=1.2)
+rc('axes',labelsize=16)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('font', weight = 450)
+rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 
 def schechter(m,phi,mstar,alpha):
@@ -471,9 +481,12 @@ def make_histogram_lstar(d1,vlo,vhi,saveDirectory,save):
     maxHeight = max(counts)+(max(counts)*0.25)
     ylim(0,maxHeight)
     
-    ylabel('Number',fontsize=14)
-    xlabel(r'$log_{10} (L/L_*)$',fontsize=14)
-    title(r'$L_*$ Histogram for vcorr range = ({0}, {1})'.format(vlo,vhi))
+#     ylabel(r'\rm Number',fontsize=14)
+    ylabel(r'$\rm Number$')
+#     xlabel(r'$\rm log_{10} (L/L_*)$',fontsize=14)
+    xlabel(r'$\rm log_{10} (L/L_*)$')
+
+#     title(r'$L_*$ Histogram for vcorr range = ({0}, {1})'.format(vlo,vhi))
     
     # x coordinate adjustment for annotations
     xAn = -0.1
@@ -648,12 +661,12 @@ def main():
     if getpass.getuser() == 'David':
         photFilename = '/Users/David/Research_Documents/inclination/fullPhotPickle.p'
         galaxyFilename = '/Users/David/Research_Documents/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/plots/'    
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
         
     elif getpass.getuser() == 'frenchd':
         photFilename = '/usr/users/frenchd/inclination/fullPhotPickle.p'
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/plots/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
     else:
         print 'Could not determine username. Exiting.'
         sys.exit()
@@ -725,7 +738,7 @@ def main():
         label = 'gt'
         bins = 40
         
-        save = True
+        save = False
         make_histogram_band_apparent(d1,vlo,vhi,label,bins,saveDirectory,save)
     
 

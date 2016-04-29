@@ -65,13 +65,13 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
         galaxyFilename = '/Users/David/Research_Documents/gt/NewGalaxyTable5.csv'
-        pickle_outFilename = '/Users/David/Research_Documents/inclination/rand_pickle.p'
+        pickle_outFilename = '/Users/David/Research_Documents/inclination/rand_pickle2.p'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
-        pickle_outFilename = '/usr/users/frenchd/inclination/rand_pickle.p'
+        pickle_outFilename = '/usr/users/frenchd/inclination/rand_pickle2.p'
 
 
     else:
@@ -154,7 +154,14 @@ def main():
     randAz = []
     randInc = []
     
+    # ignore likelihood, just include the closest galaxy in all cases
+    randImpact_nolike = []
+    randImpact_rho_nolike = []
+    randDelV_nolike = []
+    
+    
     while count <=num:
+        count +=1
         sys.stdout.write('Finished {0}\r'.format(count))
         sys.stdout.flush()
         
@@ -168,25 +175,49 @@ def main():
             dec = random.random()*90.
             
         possible = []
+        
+        sImp = 999999
+        sImp_rho = 999999
+        sDelV = 999999
         for gRA,gDec,gVel,r,pa,inc,dist in zip(galRA,galDec,galVel,galR,galPA,galInc,galDist):
             
             # calculate impact parameter to this random sightline
             imp = calculateImpactParameter(gRA,gDec,ra,dec,dist)
             
+            imp_r = imp/r
+            
             # calculate likelihood
             delV = gVel - vel
             likelihood = math.exp(-(imp/r)**2) * math.exp(-(delV/200.)**2)
             
-            if r>= imp:
-                likelihood = likelihood*2
+            # is this the smallest impact parameter yet?
+            if imp < sImp:
+                # if yes, set it as sImp
+                sImp = imp
             
-            if likelihood>=0.001:
-                az = -99
-                if isNumber(galPA):
-                    if float(galPA) >=0:
-                        az = calculateAzimuth(galRA,galDec,ra,dec,galDist,galPA)
+            if imp_r < sImp_rho:
+                sImp_rho = imp_r
+            
+            if delV < sDelV:
+                sDelV = delV
+                
+            # now likelihood
+            if abs(delV) <=400:
+                if r>= imp:
+                    likelihood = likelihood*2
+            
+                if likelihood>=0.001:
+                    az = -99
+                    if isNumber(galPA):
+                        if float(galPA) >=0:
+                            az = calculateAzimuth(galRA,galDec,ra,dec,galDist,galPA)
                         
-                possible.append([likelihood,[imp,delV,r,inc,az]])
+                    possible.append([likelihood,[imp,delV,r,inc,az]])
+        
+        # append the minimum values to the nolike lists
+        randImpact_nolike.append(sImp)
+        randImpact_rho_nolike.append(sImp_rho)
+        randDelV_nolike.append(sDelV)
         
         possible.sort(reverse=True)
         
@@ -205,9 +236,7 @@ def main():
                 randImpact_rho.append(impact_rho)
                 randAz.append(rest[4])
                 randInc.append(rest[3])
-                
-                count +=1
-                
+                                
         elif len(possible) >0:
             best = possible[0]
 
@@ -220,11 +249,10 @@ def main():
             randImpact_rho.append(impact_rho)
             randAz.append(rest[4])
             randInc.append(rest[3])
-            
-            count +=1
-            
+                        
 
-    pickle.dump([randVel,randLike,randRho,randImpact_rho,randAz,randInc],pickle_outFile)
+    pickle.dump([randVel,randLike,randRho,randImpact_rho,randAz,randInc, randImpact_nolike,\
+    randImpact_rho_nolike,randDelV_nolike],pickle_outFile)
     pickle_outFile.close()
 
             
@@ -276,7 +304,7 @@ def main():
 #         ylim(0,5)
 
         if save:
-            savefig('{0}/hist(random_impact_vir)_{1}.pdf'.format(saveDirectory,num),format='pdf')
+            savefig('{0}/hist(random_impact_vir)update_{1}.pdf'.format(saveDirectory,num),format='pdf')
         else:
             show()
 

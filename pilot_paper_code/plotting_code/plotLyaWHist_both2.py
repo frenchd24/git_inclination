@@ -335,7 +335,6 @@ def main():
 
 #########################################################################################
 #########################################################################################
-
     # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
     # associated sample, splitting on red vs blue shifted absorbers
     #
@@ -420,6 +419,91 @@ def main():
         
         if save:
             savefig('{0}/hist(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+
+
+
+#########################################################################################
+#########################################################################################
+    # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
+    # associated sample, splitting on red vs blue shifted absorbers
+    #
+    #
+    # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
+    #
+    
+    plotLyaWHist_dif = True
+    save = False
+    
+    if plotLyaWHist_dif:
+#         fig = figure(figsize=(2,8))
+        fig = figure()
+        ax = fig.add_subplot(211)
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+#         bins = arange(0,max(max(lyaWList),max(lyaWAmbList)),20)
+        bins = arange(0,1300,100)
+        
+        lyaWArray = array(lyaWList)
+        lyaWAmbArray = array(lyaWAmbList)
+        
+        envArray = array(envList)
+        envAmbArray = array(envAmbList)
+        
+        blues = []
+        reds = []
+        for d,l in zip(difList,lyaWList):
+            if float(d) >0:
+                # blueshifted
+                blues.append(float(l))
+            else:
+                reds.append(float(l))
+
+        sorted_data = sort(randImpact_nolike)
+    
+        # compute the CDF y-values
+        yvals=np.arange(len(sorted_data)) / float(len(sorted_data))
+        
+        # format all the axis and stuff
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ylabel(r'Number')
+        ylim(0,10)
+
+        ax = fig.add_subplot(212)
+        plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ylabel(r'Number')
+        ylim(0,10)
+    
+        # plot the y-values against the sorted data
+        plt.plot(sorted_data,yvals)
+                
+        xlabel(r'$\rm Equivalent Width (m\AA)$')
+        ylabel(r'$\rm Number$')
+
+        tight_layout()
+#         ylim(0,5)
+
+        if save:
+            savefig('{0}/CDF(lyaW_blue_red_amb).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     
