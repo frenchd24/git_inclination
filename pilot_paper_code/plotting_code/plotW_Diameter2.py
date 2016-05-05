@@ -56,16 +56,16 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
     
-fontScale = 16
+fontScale = 13
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=16)
-rc('ytick',labelsize=16)
-rc('axes',labelsize=16)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
@@ -347,7 +347,7 @@ def main():
     # plot equivalent width as a function of galaxy R_vir
     #
     
-    plotW_vir = True
+    plotW_vir = False
     save = False
     
     if plotW_vir:
@@ -396,7 +396,7 @@ def main():
     # plot doppler parameter as a function of galaxy R_vir
     #
     
-    plotB_vir = True
+    plotB_vir = False
     save = False
     
     if plotB_vir:
@@ -448,7 +448,7 @@ def main():
     #
     
     plotW_vir_avg = True
-    save = False
+    save = True
     
     if plotW_vir_avg:
         fig = figure()
@@ -459,8 +459,8 @@ def main():
         count = -1
         binSize = 50
         
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
         
         placeArrayr = zeros(7)
         placeCountr = zeros(7)
@@ -526,8 +526,8 @@ def main():
             totalrVir.append(v+binSize)
             
         for b,v in zip(bHist,arange(0,max(virList),binSize)):
-            if not isNumber(r):
-                r = 0
+            if not isNumber(b):
+                b = 0
             totalbHist.append(b)
             totalbHist.append(b)
 
@@ -541,12 +541,29 @@ def main():
         print 'totalbHist: ',totalbHist
         print
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',label='Average Redshifted EW')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',label='Average Blueshifted EW')
+        
+        # x-axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(10)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',label='Mean Redshifted EW')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',label='Mean Blueshifted EW')
         
         xlabel(r'$\rm R_{vir}$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True, framealpha=0.)
         ax.grid(b=None,which='major',axis='both')
         ylim(-5,1200)
         xlim(0,350)

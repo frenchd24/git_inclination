@@ -553,6 +553,10 @@ def main():
     
     ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
     print 'KS for red vs all fancy inclinations: ',ans3
+
+    assocFancyInc = blueFancyInc + redFancyInc
+    ans4 = stats.ks_2samp(assocFancyInc, allFancyInclinations)
+    print 'KS for associated vs all fancy inclinations: ',ans4
     
     print
     print ' INCLINATIONS: '

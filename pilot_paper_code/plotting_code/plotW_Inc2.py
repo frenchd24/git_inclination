@@ -55,16 +55,16 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 16
+fontScale = 13
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=16)
-rc('ytick',labelsize=16)
-rc('axes',labelsize=16)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
@@ -496,6 +496,21 @@ def main():
                     plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
             
 #         title('W(fancy_inclination) for red vs blue shifted absorption')
+
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
         xlabel(r'$\rm Inclination (deg)$')
         ylabel(r'$ \rm Equivalent Width ($\rm m\AA$)$')
         legend(scatterpoints=1,prop={'size':12},loc=2)
@@ -1038,8 +1053,8 @@ def main():
     #
     #
     
-    plotW_inc_hist_median = False
-    save = False
+    plotW_inc_hist_median = True
+    save = True
     
     if plotW_inc_hist_median:
         fig = figure()
@@ -1139,18 +1154,18 @@ def main():
 #         plot4 = ax.plot(totalVir,totalHist,c='Black',lw=2,ls='dashed',\
 #         label='Average Total EW',alpha=alpha)
 
+        # x axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(2)
-
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
+        # y axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(50)
-        
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -1158,13 +1173,14 @@ def main():
         
         xlabel(r'Galaxy Inclination (deg)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+#         ax.legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-5,max(lyaWList)+100)
-        xlim(0,90)
+#         ylim(-5,max(lyaWList)+100)
+        ylim(0,1200)
+        xlim(0,91)
 
         if save:
-            savefig('{0}/W(inc)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(inc)_medHistogram.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
