@@ -54,6 +54,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
+fontScale = 13
+rc('text', usetex=True)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
     
 
 ###########################################################################
@@ -327,8 +342,8 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    plotW_impact_hist = False
-    save = False
+    plotW_impact_hist = True
+    save = True
     
     if plotW_impact_hist:
         fig = figure()
@@ -431,18 +446,35 @@ def main():
         print 'totalbHist: ',totalbHist
         print
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(20)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
         label='Average Redshifted EW',alpha=alpha)
         
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
         label='Average Blueshifted EW',alpha=alpha)
         
         xlabel(r'$\rm \rho$ (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-5,1200)
-        xlim(-1,501)
+        ylim(0,1200)
+        xlim(0,500)
 
         if save:
             savefig('{0}/W(impact)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
@@ -457,8 +489,8 @@ def main():
     # red and blue shifted absorption
     #
     
-    plotW_b_diam= True
-    save = True
+    plotW_b_diam= False
+    save = False
     
     if plotW_b_diam:
         fig = figure()
@@ -587,8 +619,8 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    plotW_impact_vir_hist = False
-    save = False
+    plotW_impact_vir_hist = True
+    save = True
     
     if plotW_impact_vir_hist:
         fig = figure()
@@ -691,18 +723,36 @@ def main():
         print 'totalbHist: ',totalbHist
         print
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2,ls='dashed',\
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter('%0.1f')
+        minorLocator   = MultipleLocator(0.1)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
         label='Average Redshifted EW',alpha=alpha)
         
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=2,ls='dotted',\
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
         label='Average Blueshifted EW',alpha=alpha)
         
         xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-5,1200)
-        xlim(0,3)
+        ylim(0,1200)
+        xlim(0,3.0)
 
         if save:
             savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')

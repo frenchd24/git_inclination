@@ -47,16 +47,16 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 16
+fontScale = 13
 rc('text', usetex=True)
-rc('font',size=16)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=16)
-rc('ytick',labelsize=16)
-rc('axes',labelsize=16)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
@@ -370,8 +370,8 @@ def main():
     # All this shows is that the associated galaxies sample the full distribution pretty 
     # well
     
-    plotFancyIncHist_full = True
-    save = True
+    plotFancyIncHist_full = False
+    save = False
     
     if plotFancyIncHist_full:
         fig = figure(figsize=(10,3))
@@ -612,6 +612,105 @@ def main():
 
         if save:
             savefig('{0}/hist(fancy_inclination)_red_blue_all.pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+#########################################################################################
+#########################################################################################
+#########################################################################################
+#########################################################################################
+    # fancyInclination histograms for redshifted vs blueshifted distributions of absorbers
+    # plotted together and separately all in one, then the whole table as a subplot
+    #
+    
+    plotFancyIncDifHist_full_all = True
+    save = True
+    
+    if plotFancyIncDifHist_full_all:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+        bins = arange(0,100,10)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,i,l,e in zip(difList,fancyIncList,lyaWList,lyaErrList):
+            if d >=0:
+                # blue shifted absorber, but galaxy is REDSHIFTED
+                print 'd: ',d
+                blue.append(i)
+                blueLya.append(l)
+                blueLyaErr.append(e)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                red.append(i)
+                redLya.append(l)
+                redLyaErr.append(e)
+                
+                
+        # just associated
+        ax = fig.add_subplot(211)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label='Blueshifted')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label='Redshifted')        
+        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label='All Associated')
+        
+        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        ylabel(r'Number')
+        
+
+        # full table
+        ax = fig.add_subplot(212)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5000)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(1000)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label='All')
+        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        xlabel(r'Galaxy Inclination (deg)')
+        ylabel(r'Number')
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(fancy_inclination)_red_blue_full_all.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
 
