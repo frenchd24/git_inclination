@@ -31,7 +31,7 @@ import os
 import csv
 
 from pylab import *
-# import atpy
+from scipy import stats
 from math import *
 from utilities import *
 import getpass
@@ -48,11 +48,22 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
 
 from matplotlib import rc
-# rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# ## for Palatino and other serif fonts use:
-# #rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
-    
+
+fontScale = 14
+rc('text', usetex=True)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 ###########################################################################
 
@@ -284,7 +295,12 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        alpha = 0.85
+        alpha = 0.7
+        
+        rdif = []
+        bdif = []
+        rW = []
+        bW = []
         
         for d,w,m in zip(difList,lyaWList,majList):
             # check if all the values are okay
@@ -293,6 +309,9 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        bdif.append(float(d))
+                        bW.append(float(w))
+                        
                         if countb == 0:
                             countb +=1
                             plotb = ax.scatter(d,w,c='Blue',s=50,label= labelb,\
@@ -300,20 +319,57 @@ def main():
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        rdif.append(float(d))
+                        rW.append(float(w))
+                        
                         if countr == 0:
                             countr +=1
                             plotr = ax.scatter(d,w,c='Red',s=50,label= labelr,\
                             alpha = alpha)
                 
                     plot1 = scatter(d,w,c=color,s=50,alpha = alpha)
-            
-#         title('W(vel_diff) for red vs blue shifted absorption')
-        xlabel(r'$\rm \Delta v$ (deg)')
+        
+        includeHist = False
+
+        if includeHist:
+            bins = arange(-400,100,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(rdif), array(rW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+        
+        
+            bins = arange(0,500,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(bdif), array(bW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        xlabel(r'$\rm \Delta v$ (km/s)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1,prop={'size':12},loc=1)
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
-#         xlim(0,90)
+        ylim(0,1200)
+        xlim(-400,400)
         
         if save:
             savefig('{0}/W(vel_diff).pdf'.format(saveDirectory),format='pdf')

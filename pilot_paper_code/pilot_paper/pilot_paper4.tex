@@ -297,7 +297,7 @@ HE1228+0131 & 2MASXJ12303439+0116243 & 0.0063 & 127 & 159 & 9613 & 373.8 & 28 & 
   \centering
   \subfigure[]{\includegraphics[scale=0.46]{W(impact)_avgHistograms.pdf}}{\label{ew_vs_impact}}
   \subfigure[]{\includegraphics[scale=0.46]{W(impact_vir)_avgHistograms.pdf}}{\label{ew_vs_impact-d}}
-  \caption{a) Equivalent width ($W$) of each absorber as a function of $\rho$ (kpc), the physical impact parameter between the galaxy and the sightline toward the absorption feature. b) ($W$) as a function of $\rho/R_{vir}$, the ratio of the physical impact parameter and the galaxy diameter. The anti-correlation is strongest when scaling $\rho$ by the galaxy virial radius.}
+  \caption{\small{a) Equivalent width ($W$) of each absorber as a function of $\rho$ (kpc), the physical impact parameter between the galaxy and the sightline toward the absorption feature. b) ($W$) as a function of $\rho/R_{vir}$, the ratio of the physical impact parameter and the galaxy diameter. The anti-correlation is strongest when scaling $\rho$ by the galaxy virial radius.}}
  \label{ew_both}
 \end{figure}
 \vspace{10pt}
@@ -305,7 +305,7 @@ HE1228+0131 & 2MASXJ12303439+0116243 & 0.0063 & 127 & 159 & 9613 & 373.8 & 28 & 
 
 \section{Results}
 
-We have identified 175 Ly$\alpha$ absorption lines in the spectra of 35 background QSOs. Of these, $24\%$ can be unambiguously associated with a single nearby galaxy, while $53\%$ reside greater than $\rho = 500$ kpc and $\Delta v = 400$ km/s from any galaxy. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
+We have identified 175 Ly$\alpha$ absorption lines in the spectra of 35 background QSOs. Of these, 41 can be unambiguously associated with a single nearby galaxy, 46 are near more than one galaxy, and 88 reside greater than $\rho = 500$ kpc and $\Delta v = 400$ km/s from any galaxy. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
 
 To facilitate this decision, we compute the likelihood, $\mathcal{L}$, of every possible galaxy-absorber pairing as follows:
 
@@ -352,7 +352,7 @@ With this scheme, we refer to an absorber with a velocity \textit{lower} than th
 
 
 \subsection{W-$\rho$ Anti-correlation}
-As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width ($W$) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_both}(a). However, we find a stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_both}(b) shows this expected anti-correlation when plotting $W$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. We would thus expect $W$ to also correlate positively with $R_{vir}$. Figure \ref{w_vir} shows $W$ as a function of $R_{vir}$, with the blue-dotted and red-dashed lines show the average $W$ in bins of 50 kpc of $R_{vir}$. A slight, positive correlation is evident between equivalent width and galaxy virial radius.
+As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width ($W$) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_both}(a). However, we find a stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_both}(b) shows this expected anti-correlation when plotting $W$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. We would thus expect $W$ to also correlate positively with $R_{vir}$. Figure \ref{w_vir} shows $W$ as a function of $R_{vir}$, with the blue-dashed and red-dotted lines show the average $W$ in bins of 50 kpc of $R_{vir}$. A slight positive correlation is evident between $W$ and $R_{vir}$ for the blueshifted absorbers, but no matching correlation can be seen for the redshifted sample.
 
 
 %\begin{figure*}[h!]
@@ -406,6 +406,16 @@ As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equiv
         \vspace{2pt}
 \end{figure}
 
+\subsection{Velocity Difference \rm($\Delta v$\rm)}
+Additionally, we find evidence for an anti-correlation between $W$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $W$ of absorption increases with decreasing $\Delta v$.
+
+\begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.51\textwidth]{W(vel_diff).pdf}
+        \caption{\small{Equivalent width as a function of the velocity separation between the galaxy and absorption line.}}
+        \label{azimuth_dist}
+        \vspace{5pt}
+\end{figure} 
 
 
 % for steeper line:
@@ -449,7 +459,7 @@ In total, $70\%$ of blueshifted and $73\%$ of redshifted absorbers are associate
 
 \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.51\textwidth]{hist(azimuth)_dif_10.pdf}
+        \includegraphics[width=0.51\textwidth]{hist(azimuth)_overlaid_all.pdf}
         \caption{\small{The distributions of azimuth angles for redshifted systems (top, red), and blueshifted systems (bottom, blue).}}
         \label{azimuth_dist}
         \vspace{5pt}
@@ -457,6 +467,7 @@ In total, $70\%$ of blueshifted and $73\%$ of redshifted absorbers are associate
 
 \subsection{Azimuth}
 In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth_illustration} illustrates this. The mean azimuth angle for blueshifted absorbers is $40^{\circ}$, and $47^{\circ}$ for redshifted absorbers. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for both red and blue-shifted absorbers. Contrary to the findings of Kacprzak et al. (2011, 2012), who claim to find a bimodal distribution of Mg\,{\sc ii} absorbers around galaxies, our distributions of Ly$\alpha$ absorbers are consistent with a flat, random distribution. There is a slight overabundance of absorbers around $0^{\circ}$ and $45^{\circ}$ azimuth in the blueshifted sample, but we cannot assign this observation much significance given the small sample size. We additionally find no significant correlation between azimuth angle and $W$ or $\Delta v$. 
+
 
 
 %Here's the deets:
@@ -482,7 +493,6 @@ In this section we examine properties of absorbers as a function of their azimut
 \section{Discussion}
 
 It is important to note here that the majority of our sample of absorbers are measured far from galaxies (mean $\rho = 185$ kpc for blueshifted absorbers and $\rho = 266$ kpc for redshifted absorbers, the difference here is not significant). Additionally, the differential velocity between galaxy and absorber ($\Delta v$) is on the order of the rotation velocity for spiral galaxies (average $\Delta v = 210$ km/s for blueshifted, $\Delta v = -159$ km/s for redshifted absorbers). Without further knowledge of the rotation velocity and orientation of each galaxy, we can only speculate at the origins of the dichotomy between red and blue-shifted absorbers.
-
 
 Why would there be a preference for gas blue-ward of galaxies, or equivalently, gas falling onto a galaxy from behind? If the gas is co-rotating, then this would mean that most absorbers we detect are on the side of the galaxy moving toward us, and that they tend to be higher equivalent width clouds. What about infall vs outflows? Would infalling gas be higher equivalent width?
 

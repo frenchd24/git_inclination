@@ -80,24 +80,22 @@ from matplotlib import rc
 # 'ytick.minor.width': 1.2
 # }
 
-rc('text', usetex=True)
 
-# plt.rcParams.update(params)
-fontScale = 18
+fontScale = 14
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=18)
-rc('ytick',labelsize=18)
-rc('axes',labelsize=18)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
-rc('axes',labelweight = 400)
-rc('axes',linewidth = 2)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 
 ###########################################################################
@@ -476,14 +474,14 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = False
+    save = True
     
     if plotAzHist_all_over:
     
-        fig = figure(figsize=(10,8))
+        fig = figure(figsize=(10,5))
         subplots_adjust(hspace=0.200)
         
-        alpha = 0.55
+        alpha = 0.7
 
         bins = arange(0,100,10)
         blue = []
@@ -513,33 +511,32 @@ def main():
         ax = fig.add_subplot(111)
         
         # all first
-        plot1 = hist(azList,bins=bins,histtype='step',lw=2,alpha=1,color='black',label="All")
+        plot1 = hist(azList,bins=bins,histtype='step',lw=2.5,alpha=0.9,color='black',label="All")
 
-        hist(red,bins=bins,histtype='step',color='red',alpha = alpha,lw=2,ls='dashed',label='Redshifted absorbers')
-        hist(blue,bins=bins,histtype='step',color='Blue',alpha = alpha,lw=2,ls='dashed',label='Blueshifted absorbers')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,label='Blueshifted absorbers')
+        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label='Redshifted absorbers')
 
-#         ax.xaxis.grid(True, which='minor')
+        # x-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(2)
-
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
+        # y axis
         majorLocator   = MultipleLocator(2)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(1)
-        
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
-        ylabel(r'$\rm Number$')
-        xlabel(r'$\rm Azimuth (deg)$')
+        ylabel(r'Number')
+        xlabel(r'Azimuth (deg)')
         xlim(0,90)
-        ylim(0,10)
-        legend(fontsize=16)
+        ylim(0,9)
+        legend(fontsize=14, fancybox=True)
 
 #         tight_layout()
 
