@@ -56,13 +56,14 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
     
-fontScale = 13
+
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -545,7 +546,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(10)
+        minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -553,23 +554,23 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',label='Mean Redshifted EW')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',label='Mean Blueshifted EW')
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',label=r'$\rm Average ~ Redshifted ~ EW$')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',label=r'$\rm Average ~ Blueshifted ~ EW$')
         
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True, framealpha=0.)
+        xlabel(r'$\rm R_{vir} ~ [kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(-5,1200)
         xlim(0,350)
 
         if save:
-            savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             

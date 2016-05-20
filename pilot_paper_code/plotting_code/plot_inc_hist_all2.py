@@ -47,13 +47,13 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 13
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -663,25 +663,25 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(5)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(1)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
-        hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label='Blueshifted')
-        hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label='Redshifted')        
-        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label='All Associated')
+        hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label=r'$\rm Redshifted$')        
+        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label=r'$\rm All ~ Associated$')
         
-        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
-        ylabel(r'Number')
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        ylabel(r'$\rm Number$')
         
 
         # full table
@@ -690,7 +690,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -703,14 +703,14 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label='All')
-        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
-        xlabel(r'Galaxy Inclination (deg)')
-        ylabel(r'Number')
+        hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All$')
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Number$')
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(fancy_inclination)_red_blue_full_all.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(fancy_inclination)_red_blue_full_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

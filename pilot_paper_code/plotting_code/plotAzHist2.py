@@ -81,13 +81,13 @@ from matplotlib import rc
 # }
 
 
-fontScale = 14
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -511,15 +511,15 @@ def main():
         ax = fig.add_subplot(111)
         
         # all first
-        plot1 = hist(azList,bins=bins,histtype='step',lw=2.5,alpha=0.9,color='black',label="All")
+        plot1 = hist(azList,bins=bins,histtype='step',lw=2.0,alpha=0.9,color='black',label=r'$\rm All$')
 
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,label='Blueshifted absorbers')
-        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label='Redshifted absorbers')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label=r'$\rm Redshifted$')
 
         # x-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -532,8 +532,8 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
-        ylabel(r'Number')
-        xlabel(r'Azimuth (deg)')
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
         xlim(0,90)
         ylim(0,9)
         legend(fontsize=14, fancybox=True)
@@ -541,7 +541,7 @@ def main():
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

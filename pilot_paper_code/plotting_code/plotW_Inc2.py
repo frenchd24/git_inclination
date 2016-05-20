@@ -55,13 +55,13 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 13
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -1069,8 +1069,8 @@ def main():
         bins = [0,15,30,45,60,75,90,105]
 #         bins = arange(0,100,10)
 
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
+        labelr = r'$\rm Redshifted$'
+        labelb = r'$\rm Blueshifted$'
         
         allInc = []
         allW = []
@@ -1129,7 +1129,7 @@ def main():
         left,right = edges[:-1],edges[1:]
         X = np.array([left,right]).T.flatten()
         Y = np.array([bin_means,bin_means]).T.flatten()
-        plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+        plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Average ~ EW$')
         
         # red shifted
 #         bin_means,edges,binNumber = stats.binned_statistic(array(rInc), array(rW), statistic='mean', bins=bins)
@@ -1157,7 +1157,7 @@ def main():
         # x axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -1165,22 +1165,22 @@ def main():
         # y axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
         
-        xlabel(r'Galaxy Inclination (deg)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-#         ax.legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(-5,max(lyaWList)+100)
         ylim(0,1200)
         xlim(0,91)
 
         if save:
-            savefig('{0}/W(inc)_medHistogram.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(inc)_medHistogram.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             

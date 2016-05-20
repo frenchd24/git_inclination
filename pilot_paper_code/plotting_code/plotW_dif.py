@@ -49,13 +49,13 @@ from matplotlib.ticker import NullFormatter
 
 from matplotlib import rc
 
-fontScale = 14
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -295,7 +295,7 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        alpha = 0.7
+        alpha = 0.8
         
         rdif = []
         bdif = []
@@ -337,7 +337,7 @@ def main():
             left,right = edges[:-1],edges[1:]
             X = np.array([left,right]).T.flatten()
             Y = np.array([bin_means,bin_means]).T.flatten()
-            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
         
         
             bins = arange(0,500,100)
@@ -345,12 +345,12 @@ def main():
             left,right = edges[:-1],edges[1:]
             X = np.array([left,right]).T.flatten()
             Y = np.array([bin_means,bin_means]).T.flatten()
-            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
 
         # x-axis
         majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(50)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -358,21 +358,21 @@ def main():
         # y axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
 
-        xlabel(r'$\rm \Delta v$ (km/s)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        xlabel(r'$\rm \Delta v ~ [km ~ s^{-1}]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
 #         legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(-400,400)
         
         if save:
-            savefig('{0}/W(vel_diff).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(vel_diff).pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
     

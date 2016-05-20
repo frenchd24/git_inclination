@@ -2,12 +2,11 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap10.py, v 10.0 04/16/2016
+$Id: plotCorrelationMap11.py, v 11.0 05/12/2016
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
 
-NOT FINISHED YET WITH V9.0 UPGRADES!!!!
 
 Adapted from:
 '
@@ -98,13 +97,13 @@ v9.1: 'include' now requires a hard L limit (L>=0.001 etc)
 v10: correlate with galaxy v_helio, not vcorr - using correlateSingle7 now
     - (03/24/16 - 4/13/16)
     
-v11: moved to .../inclination/git_inclination/ so it can be updated with git
+v11: moved to .../inclination/git_inclination/ so it can be updated with git, and 
+    now including rc tex formating for the plots (05/12/2016)
 
 """
 
 import sys
 import os
-# import tempfile
 import csv
 import string
 import math
@@ -117,6 +116,22 @@ from astropy import units as u
 from utilities import *
 import getpass
 
+from matplotlib import rc
+fontScale = 14
+rc('text', usetex=True)
+rc('font', size=14)
+rc('xtick.major',size=5,width=0.6)
+rc('xtick.minor',size=3,width=0.6)
+rc('ytick.major',size=5,width=0.6)
+rc('ytick.minor',size=3,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 # from matplotlib.patches import Ellipse
 
@@ -225,10 +240,22 @@ def main():
     agnSeparation = False
     
     # include name tags on galaxies? They don't scale very well...
-    includeNameTags = True
+    includeNameTags = False
+    
+    # include a title on the plots?
+    includeTitle = False
     
     # also make a plot of just real positions of galaxies on the sky in RA and Dec coords?
     includeSkyPlot = False
+    
+    # Save the map plots?
+    saveMaps = True
+    
+    # Save the individual map plot tables?
+    saveMapTables = True
+    
+    # Save the full results with "include" tags?
+    saveResults = False
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -244,12 +271,16 @@ def main():
     user = getpass.getuser()
     if user == "David":
         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps32/'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps33/'
+#         outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9.csv'
+        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_10.csv'
+
     elif user == "frenchd":
         targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps32/'
-        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps33/'
+#         outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9.csv'
+        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_10.csv'
+
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -554,286 +585,283 @@ def main():
 
 #########################################################################################
 #########################################################################################
+            # prepare all the stuff for writing. Deciding to write happens later
 
-            # write results to file? - almost always True, unless testing
-            write = True
-            if write:
-                fieldnames = ('AGNname',\
-                'center',\
-                'galaxyName',\
-                'environment',\
-                'degreesJ2000RA_DecAGN',\
-                'degreesJ2000RA_DecGalaxy',\
-                'likelihood',\
-                'likelihood_1.5',\
-                'virialRadius',\
-                'd^1.5',\
-                'impactParameter (kpc)',\
-                'redshiftDistances',\
-                'vcorrGalaxy (km/s)',\
-                'radialVelocity (km/s)',\
-                'vel_diff',\
-                'distGalaxy (Mpc)',\
-                'AGN S/N',\
-                'majorAxis (kpc)',\
-                'minorAxis (kpc)',\
-                'inclination (deg)',\
-                'positionAngle (deg)',\
-                'azimuth (deg)',\
-                'RC3flag',\
-                'RC3type',\
-                'RC3inc (deg)',\
-                'RC3pa (deg)',\
-                'morphology',\
-                'final_morphology',\
-                'galaxyRedshift')
-                
-                virList = []
-                customList = []
-                environment = numberGalaxies
-                
-                for number in range(numberGalaxies):
-                    if mapping[number].find("*")!=-1:
-                        infoRow = infoDict[mapping[number].strip('*')]
-                    else:
-                        infoRow = infoDict[mapping[number]]
-                        
-                    inc = infoRow['inclination (deg)']
-                    RC3inc = infoRow['RC3inc (deg)']
-                    if isNumber(inc):
-                        inc = round(float(inc),1)
-                    if isNumber(RC3inc) and str(RC3inc) != '-99':
-                        RC3inc = round(float(RC3inc),1)
-                        
-                    pa = infoRow['positionAngle (deg)']
-                    RC3pa = infoRow['RC3pa (deg)']
-                    if isNumber(pa):
-                        pa = round(float(pa),1)
-                    if isNumber(RC3pa) and str(RC3pa) != '-99':
-                        RC3pa = round(float(RC3pa),1)
-                        
-                    az = infoRow['azimuth (deg)']
-                    if isNumber(az):
-                        az = round(float(az),1)
-                    else:
-                        az = 'x'
-                        
-                    vcorr = infoRow['vcorrGalaxy (km/s)']
-                    vhel = infoRow['radialVelocity (km/s)']
-                    if isNumber(vcorr):
-                        vcorr = round(float(vcorr),1)
-                        vhel = round(float(vhel),1)
-                        vel_dif = vhel - float(center)
-                    else:
-                        vcorr = 'x'
-                        vhel = 'x'
-                        vel_dif = 'x'
-                    
-                    major,minor = eval(infoRow['linDiameters (kpc)'])
-                    if isNumber(major):
-                        major = round(float(major),1)
-                    if isNumber(minor):
-                        minor = round(float(minor),1)
-        
-                    agn_sn = 'x'
-                    corrected_az = az
-                    redshiftDistance = 'x'
-                    impact = float(infoRow['impactParameter (kpc)'])
-                    
-                    if isNumber(major):
-                        rVir = calculateVirialRadius(major)
-
-                        # try this "sphere of influence" value instead
-                        m15 = major**1.5
-
-                        # first for the virial radius
-                        likelihood = math.exp(-(impact/rVir)**2) * math.exp(-(vel_dif/200.)**2)
-                        
-                        if rVir>= impact:
-                            likelihood = likelihood*2
-                            
-                        # then for the second 'virial like' m15 radius
-                        likelihoodm15 = math.exp(-(impact/m15)**2) * math.exp(-(vel_dif/200.)**2)
-                        
-                        if m15>= impact:
-                            likelihoodm15 = likelihoodm15*2
-                            
-                        # should be like 33% at 1R_v, and linear down after that.
-                        # 66% at 0.5R_v, something quadratic, or logarithmic
-                        # look up the "sphere of influence" for where the probability drops
-                        # down to 10%
-                        
-                        # use M/L, surpress environment by M/L ratios
-                        # also include velocity difference to make the virial radius 3D - 
-                        # really a 3D impact parameter
-                        
-                    else:
-                        likelihood = -99
-                        likelihoodm15 = -99
-                        rVir = -99
-                        m15 = -99
-                    
-                    objectInfoList = [AGNname,\
-                    center,\
-                    infoRow['galaxyName'],\
-                    environment,\
-                    infoRow['degreesJ2000RA_DecAGN'],\
-                    infoRow['degreesJ2000RA_DecGalaxy'],\
-                    likelihood,\
-                    likelihoodm15,\
-                    rVir,\
-                    m15,\
-                    impact,\
-                    redshiftDistance,\
-                    vcorr,\
-                    vhel,\
-                    vel_dif,\
-                    infoRow['distGalaxy (Mpc)'],\
-                    agn_sn,\
-                    major,\
-                    minor,\
-                    inc,\
-                    pa,\
-                    az,\
-                    infoRow['RC3flag'],\
-                    infoRow['RC3type'],\
-                    RC3inc,\
-                    RC3pa,\
-                    infoRow['morphology'],\
-                    infoRow['morphology'],\
-                    infoRow['galaxyRedshift']]
-                    
-                    virList.append([likelihood,objectInfoList])
-                    customList.append([likelihoodm15,objectInfoList])
-                    
-                # now sort the list of galaxies by likelihood:
-                sorted_virList = sorted(virList,reverse=True)
-                sorted_cusList = sorted(customList,reverse=True)
-                
-                print AGNname,' - ',center,': ', sorted_virList
-                print 'and : ', sorted_cusList
-                
-                # if there are enough galaxies, compare the best two : VIRIAL
-                if len(sorted_virList) >=2:
-                    first_vir = sorted_virList[0][0]
-                    second_vir = sorted_virList[1][0]
-                
-                    # the most likely galaxy must have rigor * the likelihood of the #2 galaxy
-                    if second_vir*rigor <= first_vir:
-                        # larger than the min?
-                        if first_vir >= l_min:
-                            include_vir = True
-                        else:
-                            include_vir = False
-                    else:
-                        include_vir = False
-                
-                
-                # include lone galaxies if loner = TRUE, otherwise same l_min requirement
-                elif len(sorted_virList) == 1:
-                    first_vir = sorted_virList[0][0]
-                    
-                    if loner:
-                        # include by default
-                        include_vir = True
-                        
-                    elif first_vir >= l_min:
-                        # include only if above l_min threshold
-                        print 'first_vir >= l_min: ',first_vir
-                        print 'AGNname, center = ',AGNname, center
-                        include_vir = True
-                    else:
-                        include_vir = False
-                        print 'first_vir < l_min: ',first_vir
-                        print 'AGNname, center = ',AGNname, center
-                
-                else:
-                    # if there are no galaxies, don't include
-                    include_vir = False
-                    
-
-                # if there are enough galaxies, compare the best two : CUSTOM
-                if len(sorted_cusList) >=2:
-                    first_cus = sorted_cusList[0][0]
-                    second_cus = sorted_cusList[1][0]
-                
-                    # the most likely galaxy must have rigor * the likelihood of the #2 galaxy
-                    if second_cus*rigor <= first_cus:
-                        # above the hard lower limit?
-                        if first_cus >= l_min:
-                            include_cus = True
-                        else:
-                            include_cus = False
-                    else:
-                        include_cus = False                
-                
-                # include lone galaxies if loner = TRUE
-                elif len(sorted_cusList) == 1:
-                    first_cus = sorted_cusList[0][0]
-                    
-                    if loner:
-                        # include by default
-                        include_cus = True
-                        
-                    elif first_cus >= l_min:
-                        # include only if above l_min threshold
-                        print 'first_cus >= l_min: ',first_cus
-                        print 'AGNname, center = ',AGNname, center
-                        include_cus = True
-                    else:
-                        # don't include
-                        include_cus = False
-                        print 'first_cus < l_min: ',first_cus
-                        print 'AGNname, center = ',AGNname, center
-                
-                else:
-                    # if there are no galaxies, don't include
-                    include_cus = False
-                    
-                    
-                # where to put it?
-                if include_cus and include_vir:
-                    include_folder = 'associated'
-                elif include_cus or include_vir:
-                    include_folder = 'ambiguous'
-                    print 'include_cus, include_vir = ',include_cus, include_vir
-                else:
-                    include_folder = 'nonassociated'
-                    
-                    
-                # include a simple position skyplot?
-                if includeSkyPlot:
-                    # plot
-                    fig = figure(figsize=(12,10))
-                    ax = fig.add_subplot(111)
-                    plot1 = ax.scatter(plotRA,plotDec,marker='d')
-                    plot2 = ax.scatter(float(AGNposition[0]),float(AGNposition[1]),marker='*')
-                    ax.set_xlabel('RA')
-                    ax.set_ylabel('Dec')
+            fieldnames = ('AGNname',\
+            'center',\
+            'galaxyName',\
+            'environment',\
+            'degreesJ2000RA_DecAGN',\
+            'degreesJ2000RA_DecGalaxy',\
+            'likelihood',\
+            'likelihood_1.5',\
+            'virialRadius',\
+            'd^1.5',\
+            'impactParameter (kpc)',\
+            'redshiftDistances',\
+            'vcorrGalaxy (km/s)',\
+            'radialVelocity (km/s)',\
+            'vel_diff',\
+            'distGalaxy (Mpc)',\
+            'AGN S/N',\
+            'majorAxis (kpc)',\
+            'minorAxis (kpc)',\
+            'inclination (deg)',\
+            'positionAngle (deg)',\
+            'azimuth (deg)',\
+            'RC3flag',\
+            'RC3type',\
+            'RC3inc (deg)',\
+            'RC3pa (deg)',\
+            'morphology',\
+            'final_morphology',\
+            'galaxyRedshift')
             
-                    savefig('{0}{1}/map2_{2}_{3}_simple.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
+            virList = []
+            customList = []
+            environment = numberGalaxies
+            
+            for number in range(numberGalaxies):
+                if mapping[number].find("*")!=-1:
+                    infoRow = infoDict[mapping[number].strip('*')]
+                else:
+                    infoRow = infoDict[mapping[number]]
+                    
+                inc = infoRow['inclination (deg)']
+                RC3inc = infoRow['RC3inc (deg)']
+                if isNumber(inc):
+                    inc = round(float(inc),1)
+                if isNumber(RC3inc) and str(RC3inc) != '-99':
+                    RC3inc = round(float(RC3inc),1)
+                    
+                pa = infoRow['positionAngle (deg)']
+                RC3pa = infoRow['RC3pa (deg)']
+                if isNumber(pa):
+                    pa = round(float(pa),1)
+                if isNumber(RC3pa) and str(RC3pa) != '-99':
+                    RC3pa = round(float(RC3pa),1)
+                    
+                az = infoRow['azimuth (deg)']
+                if isNumber(az):
+                    az = round(float(az),1)
+                else:
+                    az = 'x'
+                    
+                vcorr = infoRow['vcorrGalaxy (km/s)']
+                vhel = infoRow['radialVelocity (km/s)']
+                if isNumber(vcorr):
+                    vcorr = round(float(vcorr),1)
+                    vhel = round(float(vhel),1)
+                    vel_dif = vhel - float(center)
+                else:
+                    vcorr = 'x'
+                    vhel = 'x'
+                    vel_dif = 'x'
+                
+                major,minor = eval(infoRow['linDiameters (kpc)'])
+                if isNumber(major):
+                    major = round(float(major),1)
+                if isNumber(minor):
+                    minor = round(float(minor),1)
+    
+                agn_sn = 'x'
+                corrected_az = az
+                redshiftDistance = 'x'
+                impact = float(infoRow['impactParameter (kpc)'])
+                
+                if isNumber(major):
+                    rVir = calculateVirialRadius(major)
 
+                    # try this "sphere of influence" value instead
+                    m15 = major**1.5
 
-                # save the maps to the right folder
+                    # first for the virial radius
+                    likelihood = math.exp(-(impact/rVir)**2) * math.exp(-(vel_dif/200.)**2)
+                    
+                    if rVir>= impact:
+                        likelihood = likelihood*2
+                        
+                    # then for the second 'virial like' m15 radius
+                    likelihoodm15 = math.exp(-(impact/m15)**2) * math.exp(-(vel_dif/200.)**2)
+                    
+                    if m15>= impact:
+                        likelihoodm15 = likelihoodm15*2
+                        
+                    # should be like 33% at 1R_v, and linear down after that.
+                    # 66% at 0.5R_v, something quadratic, or logarithmic
+                    # look up the "sphere of influence" for where the probability drops
+                    # down to 10%
+                    
+                    # use M/L, surpress environment by M/L ratios
+                    # also include velocity difference to make the virial radius 3D - 
+                    # really a 3D impact parameter
+                    
+                else:
+                    likelihood = -99
+                    likelihoodm15 = -99
+                    rVir = -99
+                    m15 = -99
+                
+                objectInfoList = [AGNname,\
+                center,\
+                infoRow['galaxyName'],\
+                environment,\
+                infoRow['degreesJ2000RA_DecAGN'],\
+                infoRow['degreesJ2000RA_DecGalaxy'],\
+                likelihood,\
+                likelihoodm15,\
+                rVir,\
+                m15,\
+                impact,\
+                redshiftDistance,\
+                vcorr,\
+                vhel,\
+                vel_dif,\
+                infoRow['distGalaxy (Mpc)'],\
+                agn_sn,\
+                major,\
+                minor,\
+                inc,\
+                pa,\
+                az,\
+                infoRow['RC3flag'],\
+                infoRow['RC3type'],\
+                RC3inc,\
+                RC3pa,\
+                infoRow['morphology'],\
+                infoRow['morphology'],\
+                infoRow['galaxyRedshift']]
+                
+                virList.append([likelihood,objectInfoList])
+                customList.append([likelihoodm15,objectInfoList])
+                
+            # now sort the list of galaxies by likelihood:
+            sorted_virList = sorted(virList,reverse=True)
+            sorted_cusList = sorted(customList,reverse=True)
+            
+            print AGNname,' - ',center,': ', sorted_virList
+            print 'and : ', sorted_cusList
+            
+            # if there are enough galaxies, compare the best two : VIRIAL
+            if len(sorted_virList) >=2:
+                first_vir = sorted_virList[0][0]
+                second_vir = sorted_virList[1][0]
+            
+                # the most likely galaxy must have rigor * the likelihood of the #2 galaxy
+                if second_vir*rigor <= first_vir:
+                    # larger than the min?
+                    if first_vir >= l_min:
+                        include_vir = True
+                    else:
+                        include_vir = False
+                else:
+                    include_vir = False
+            
+            
+            # include lone galaxies if loner = TRUE, otherwise same l_min requirement
+            elif len(sorted_virList) == 1:
+                first_vir = sorted_virList[0][0]
+                
+                if loner:
+                    # include by default
+                    include_vir = True
+                    
+                elif first_vir >= l_min:
+                    # include only if above l_min threshold
+                    print 'first_vir >= l_min: ',first_vir
+                    print 'AGNname, center = ',AGNname, center
+                    include_vir = True
+                else:
+                    include_vir = False
+                    print 'first_vir < l_min: ',first_vir
+                    print 'AGNname, center = ',AGNname, center
+            
+            else:
+                # if there are no galaxies, don't include
+                include_vir = False
+                
+
+            # if there are enough galaxies, compare the best two : CUSTOM
+            if len(sorted_cusList) >=2:
+                first_cus = sorted_cusList[0][0]
+                second_cus = sorted_cusList[1][0]
+            
+                # the most likely galaxy must have rigor * the likelihood of the #2 galaxy
+                if second_cus*rigor <= first_cus:
+                    # above the hard lower limit?
+                    if first_cus >= l_min:
+                        include_cus = True
+                    else:
+                        include_cus = False
+                else:
+                    include_cus = False                
+            
+            # include lone galaxies if loner = TRUE
+            elif len(sorted_cusList) == 1:
+                first_cus = sorted_cusList[0][0]
+                
+                if loner:
+                    # include by default
+                    include_cus = True
+                    
+                elif first_cus >= l_min:
+                    # include only if above l_min threshold
+                    print 'first_cus >= l_min: ',first_cus
+                    print 'AGNname, center = ',AGNname, center
+                    include_cus = True
+                else:
+                    # don't include
+                    include_cus = False
+                    print 'first_cus < l_min: ',first_cus
+                    print 'AGNname, center = ',AGNname, center
+            
+            else:
+                # if there are no galaxies, don't include
+                include_cus = False
+                
+                
+            # where to put it?
+            if include_cus and include_vir:
+                include_folder = 'associated'
+            elif include_cus or include_vir:
+                include_folder = 'ambiguous'
+                print 'include_cus, include_vir = ',include_cus, include_vir
+            else:
+                include_folder = 'nonassociated'
+                
+            # append this result to the master lists
+            masterVirList.append(sorted_virList)
+            masterCustomList.append(sorted_cusList)
+                
+            # include a simple position skyplot?
+            if includeSkyPlot:
+                # plot
+                fig = figure(figsize=(12,10))
+                ax = fig.add_subplot(111)
+                plot1 = ax.scatter(plotRA,plotDec,marker='d')
+                plot2 = ax.scatter(float(AGNposition[0]),float(AGNposition[1]),marker='*')
+                ax.set_xlabel('RA')
+                ax.set_ylabel('Dec')
+        
+                savefig('{0}{1}/map2_{2}_{3}_simple.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
+
+            # save the map plot tables
+            if saveMapTables:
                 writerOutFile = open('{0}{1}/map_{2}_{3}_table.csv'.format(saveDirectory,include_folder,AGNname,center),'wt')
-                
-                
-                masterVirList.append(sorted_virList)
-                masterCustomList.append(sorted_cusList)
-                
+            
                 writer = csv.DictWriter(writerOutFile, fieldnames=fieldnames)
                 headers = dict((n,n) for n in fieldnames)
                 writer.writerow(headers)
-                   
+               
                 for s in sorted_virList:
                     likelihood, rest = s
                     row = dict((f,o) for f,o in zip(fieldnames,rest))
                     writer.writerow(row)
-        
+    
                 writerOutFile.close()
             
-    #########################################################################################
-    #########################################################################################
+##########################################################################################
+##########################################################################################
 
             # plot AGN target in center
             ax.scatter(0,0,s=200,c='black',marker='*')
@@ -848,14 +876,32 @@ def main():
             ax.set_ylim(-500,500)
             ax.set_xlim(-500,500)
             
-            ax.set_xlabel('RA separation (kpc)')
-            ax.set_ylabel('Dec separation (kpc)')
-            title("{0} sightline map at absorber velocity: {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
-    #       tight_layout()
+            ax.set_xlabel('RA Separation (kpc)')
+            ax.set_ylabel('Dec Separation (kpc)')
+            if includeTitle:
+                title("{0} sightline map velocity = {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
+
+            # format the axes:
+            #
+            # x-axis
+            majorLocator   = MultipleLocator(100)
+            majorFormatter = FormatStrFormatter('%d')
+            minorLocator   = MultipleLocator(25)
+            ax.xaxis.set_major_locator(majorLocator)
+            ax.xaxis.set_major_formatter(majorFormatter)
+            ax.xaxis.set_minor_locator(minorLocator)
+        
+            # y axis
+            majorLocator   = MultipleLocator(100)
+            majorFormatter = FormatStrFormatter('%d')
+            minorLocator   = MultipleLocator(25)
+            ax.yaxis.set_major_locator(majorLocator)
+            ax.yaxis.set_major_formatter(majorFormatter)
+            ax.yaxis.set_minor_locator(minorLocator)
+
     
             # now write it all to file, or display the finished figure
-            
-            if write:
+            if saveMaps:
                 savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
             else:
                 show()
@@ -1259,8 +1305,15 @@ def main():
         f.close()
         writerOutFile.close()
             
+            
+##########################################################################################
+##########################################################################################
+       
     # now actually do it
-    writeFullResults(masterVirList,masterCustomList)
+    if saveResults:
+        writeFullResults(masterVirList,masterCustomList)
+    
+    print "Finished."
     
 
 if __name__=="__main__":

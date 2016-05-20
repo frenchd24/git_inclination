@@ -52,7 +52,7 @@
 
 \begin{abstract}
 
-We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) spectra of background QSOs. This initial sample contains 35 sight lines, yielding 175 Ly$\alpha$ systems, 41 of which we have paired with nearby galaxies. We introduce a likelihood parameter to quantitatively predict the galaxy responsible for measured absorption in a reproducible way. Results from this sample suggest an anti-correlation between Ly$\alpha$ equivalent width ($W$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). Absorption is detected in excess near galaxies with inclination $>60^\circ$, and near $\rho= 1.2 R_{vir}$. We also detect a dichotomy in the equivalent widths of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption median $W$ = $343 \pm 10$ m\AA, and negative $\Delta v$  absorption median $W$ = $124 \pm 9$ m\AA. 
+We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) spectra of background QSOs. This initial sample contains 35 sight lines, yielding 175 Ly$\alpha$ systems, 41 of which we have paired with nearby galaxies. We introduce a likelihood parameter to quantitatively predict the galaxy responsible for measured absorption in a reproducible way. Results from this sample suggest an anti-correlation between Ly$\alpha$ equivalent width ($EW$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). Absorption is detected in excess near galaxies with inclination $>60^\circ$, and near $\rho= 1.2 R_{vir}$. We also detect a dichotomy in the equivalent widths of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption median $EW$ = $343 \pm 10$ m\AA, and negative $\Delta v$  absorption median $EW$ = $124 \pm 9$ m\AA. 
 
 %This $W$ difference is significant at a greater than $99\%$ confidence limit. We also find a positive correlation between absorber-galaxy impact parameter and galaxy $R_{vir}$, a preference for absorption around highly inclined galaxies, but little evidence of azimuthal dependence.
 
@@ -230,9 +230,7 @@ This initial pilot study contains 35 sightlines to bright QSOs observed with COS
 
 All COS spectra for the target sightlines were obtained through the Barbara A. Mikulski Archive for Space Telescopes (MAST), and processed with CALCOS v3.0. We combined individual exposures by the method of Wakker et al. (2015), which corrects the COS wavelength scale by cross-correlating all ISM and IGM lines in each exposure. This method addresses the up to $\pm40$ km/s misalignments produced by CALCOS, and produces a corrected error array based on Poisson noise, which better matches the measured errors then the errors delivered in the x1d files. We then combine multiple exposure by aligning Galactic absorption lines with 21-cm spectra, and adding up the total counts in each pixel before converting to flux using the original, average flux-count ratio at each wavelength.
 
-For STIS observations, the calibrated fits files were downloaded from MAST, and STIS-E140M echelle orders were combined into a single spectrum. The photon counts and errors were interpolated onto a common grid, 
-
-Spectra taken with the STIS-E140M echelle were ..... \textbf{FINISH THIS - SEE W\&S 2009}
+The STIS data was processed in the same manner as described in Wakker $\&$ Savage (2009), and thus we only give a short summary here. The STIS calibrated fits files were downloaded from MAST, and STIS-E140M echelle orders were combined into a single spectrum. The photon counts and errors were interpolated onto a common grid, counts were added and weighted by the rms at each pixel, and finally converted back to flux.
 
 
 \begin{table*}[ht]\footnotesize
@@ -324,16 +322,18 @@ To facilitate this decision, we compute the likelihood, $\mathcal{L}$, of every 
 \end{figure} 
 
 
-Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption feature at $4295$ km/s toward TON1009 and galaxy IC2439 ($\mathcal{L} = 0.45$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems.
+Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption feature at $4295$ km/s toward TON1009 and galaxy IC2439 ($\mathcal{L} = 0.45$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems. 
 
-
-Most interestingly, new results emerge when we split the absorber-galaxy catalog based on the velocity difference of the two. We define the differential velocity between the absorption feature and an associated galaxy as follows:
+Additionally, we split the absorber-galaxy catalog based on the velocity difference of the two. We define the differential velocity between the absorption feature and an associated galaxy as follows:
 
 \begin{equation}
 	\Delta v = v_{galaxy} - v_{absorber}.
 \end{equation}
 
-With this scheme, we refer to an absorber with a velocity \textit{lower} than the associated galaxy as \textit{blueshifted}, while an absorber with a velocity \textit{higher} is referred to as \textit{redshifted}. The rest of the results will be analyzed based upon this splitting. For all distributions, we employ and quote the results of both the Kolmogorov-Smirnov (KS) and the Anderson-Darling (AD) statistical tests.
+With this scheme, we refer to an absorber with a velocity \textit{lower} than the associated galaxy as \textit{blueshifted}, while an absorber with a velocity \textit{higher} is referred to as \textit{redshifted}. The rest of the results will be analyzed based upon this splitting. 
+
+%For all distributions, we employ and quote the results of both the Kolmogorov-Smirnov (KS) and the Anderson-Darling (AD) statistical tests.
+
 
 %\begin{figure}[h!]
 %\centering
@@ -351,8 +351,8 @@ With this scheme, we refer to an absorber with a velocity \textit{lower} than th
 %\end{figure}
 
 
-\subsection{W-$\rho$ Anti-correlation}
-As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width ($W$) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_both}(a). However, we find a stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_both}(b) shows this expected anti-correlation when plotting $W$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. We would thus expect $W$ to also correlate positively with $R_{vir}$. Figure \ref{w_vir} shows $W$ as a function of $R_{vir}$, with the blue-dashed and red-dotted lines show the average $W$ in bins of 50 kpc of $R_{vir}$. A slight positive correlation is evident between $W$ and $R_{vir}$ for the blueshifted absorbers, but no matching correlation can be seen for the redshifted sample.
+\subsection{EW-$\rho$ Anti-correlation}
+As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equivalent width ($EW$) is anti-correlated with impact parameter ($\rho$) to the nearest galaxy. We find a weak correlation, as shown in Figure \ref{ew_both}(a). However, we find a stronger anti-correlation when we normalize $\rho$ by $R_{vir}$. Figure \ref{ew_both}(b) shows this expected anti-correlation when plotting $EW$ vs $\rho/R_{vir}$. The obvious explanation for this is that larger galaxies host larger, more physically extent CGM halos. We would thus expect $EW$ to also correlate positively with $R_{vir}$. Figure \ref{w_vir} shows $EW$ as a function of $R_{vir}$, with the blue-dashed and red-dotted lines show the average $EW$ in bins of 50 kpc of $R_{vir}$. A slight positive correlation is evident between $EW$ and $R_{vir}$ for the blueshifted absorbers, but no matching correlation can be seen for the redshifted sample.
 
 
 %\begin{figure*}[h!]
@@ -393,7 +393,7 @@ As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equiv
 \begin{figure}[h!]
         \centering
         \includegraphics[width=0.52\textwidth]{W(inc)_medHistogram.pdf}
-        \caption{\small{Equivalent width ($W$) of each absorber as a function of the inclination angle of the associated galaxy in the pilot study sample. The dashed black line is drawn to highlight the separation between red and blue shifted absorption systems (with respect to the systemic velocity of the galaxy).}}
+        \caption{\small{Equivalent width of each absorber as a function of the inclination angle of the associated galaxy in the pilot study sample. The dashed black line is drawn to highlight the separation between red and blue shifted absorption systems (with respect to the systemic velocity of the galaxy).}}
         \label{ew_vs_inclination}
         \vspace{2pt}
 \end{figure}
@@ -407,7 +407,7 @@ As mentioned earlier, numerous previous studies have found that Ly$\alpha$ equiv
 \end{figure}
 
 \subsection{Velocity Difference \rm($\Delta v$\rm)}
-Additionally, we find evidence for an anti-correlation between $W$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $W$ of absorption increases with decreasing $\Delta v$.
+Additionally, we find evidence for an anti-correlation between $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$.
 
 \begin{figure}[h!]
         \centering
@@ -446,7 +446,7 @@ In this section we examine the inclinations of the associated galaxies compared 
 
 \noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies.
 
-Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $W$ plotted against the inclinations of their associated galaxies. We note that there is a clear dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies ($i \geq$ 50 deg). In addition, redshifted absorbers appear with lower $W$ than those blueshifted across all inclinations. The average $W$ of all redshifted absorbers is $\langle W \rangle$ = $163 \pm 15$  $\textrm{m\AA}$, compared to $\langle W \rangle$ = $380 \pm 14$ $\textrm{m\AA}$ for blueshifted absorbers. We can reject the null hypothesis that red and blue shifted absorbers come from the same underlying distribution at the $99\%$ level (results of both KS and AD tests). 
+Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is an apparent dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies ($i \geq$ 50 deg). In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The mean $EW$ of all redshifted absorbers is $\overline{EW}$ = $237 \pm 16$  $\textrm{m\AA}$, compared to $\overline{EW}$ = $353 \pm 12$ $\textrm{m\AA}$ for blueshifted absorbers. To test if the distributions of red and blue-shifted absorbers are actually different we performed KS and AD statistical distribution tests, which both yielded p-values $=0.05$. While $p=0.05$ is often quoted as a threshold for significance, we believe a larger sample size is needed before we can claim the presence of a true, physical dichotomy.
 
 In total, $70\%$ of blueshifted and $73\%$ of redshifted absorbers are associated with high inclined galaxies ($i \geq$ 50 deg). $56\%$ of all galaxies in the survey volume are highly inclined, indicating a slight preference for detecting absorption around inclined galaxies. However, KS and AD tests do not assign high significance to this result (p-values $\sim0.06$).
 
@@ -466,7 +466,7 @@ In total, $70\%$ of blueshifted and $73\%$ of redshifted absorbers are associate
 \end{figure} 
 
 \subsection{Azimuth}
-In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth_illustration} illustrates this. The mean azimuth angle for blueshifted absorbers is $40^{\circ}$, and $47^{\circ}$ for redshifted absorbers. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for both red and blue-shifted absorbers. Contrary to the findings of Kacprzak et al. (2011, 2012), who claim to find a bimodal distribution of Mg\,{\sc ii} absorbers around galaxies, our distributions of Ly$\alpha$ absorbers are consistent with a flat, random distribution. There is a slight overabundance of absorbers around $0^{\circ}$ and $45^{\circ}$ azimuth in the blueshifted sample, but we cannot assign this observation much significance given the small sample size. We additionally find no significant correlation between azimuth angle and $W$ or $\Delta v$. 
+In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth_illustration} illustrates this. The mean azimuth angle for blueshifted absorbers is $40^{\circ}$, and $47^{\circ}$ for redshifted absorbers. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for both red and blue-shifted absorbers. Contrary to the findings of Kacprzak et al. (2011, 2012), who claim to find a bimodal distribution of Mg\,{\sc ii} absorbers around galaxies, our distributions of Ly$\alpha$ absorbers are consistent with a flat, random distribution. There is a slight overabundance of absorbers around $0^{\circ}$ and $45^{\circ}$ azimuth in the blueshifted sample, but we cannot assign this observation much significance given the small sample size. We additionally find no significant correlation between azimuth angle and $EW$ or $\Delta v$. 
 
 
 
@@ -561,11 +561,11 @@ Why would there be a preference for gas blue-ward of galaxies, or equivalently, 
 
 \section{Summary}
 
-We have measured 175 $\rm Ly\alpha$ absorption lines in the spectra of 32 COS and 3 STIS targets. Using our likelihood parameter method, we matched 42 of these lines with nearby galaxies. The following summarizes our findings:
+We have measured 175 $\rm Ly\alpha$ absorption lines in the spectra of 32 COS and 3 STIS targets. Using our likelihood parameter method, we matched 41 of these lines with nearby galaxies. The following summarizes our findings:
 
-\indent \textbullet \indent $W$ anti-correlates most strongly with $\rho$ when normalized by $R_{vir}$. It follows that $W$ weakly correlates and anti-correlates with $R_{vir}$ and $\rho$, respectively.
+\indent \textbullet \indent $EW$ anti-correlates most strongly with $\rho$ when normalized by $R_{vir}$. It follows that $EW$ weakly correlates and anti-correlates with $R_{vir}$ and $\rho$, respectively.
 
-\indent \textbullet \indent We find a dichotomy in the $W$ of absorption blue-ward vs red-ward of associated galaxies. Redshifted absorbers are far weaker, with $W$ = $163 \pm 15$ $\textrm{m\AA}$ compared to $W$ = $380 \pm 14$ $\textrm{m\AA}$ for blueshifted absorbers. KS and AD test show at greater than 99\% (KS $>99\%$, AD $>99\%$) confidence level that these two sets of absorbers are drawn from different distributions. 
+\indent \textbullet \indent We find a dichotomy in the $EW$ of absorption blue-ward vs red-ward of associated galaxies. Redshifted absorbers are far weaker, with $EW$ = $163 \pm 15$ $\textrm{m\AA}$ compared to $EW$ = $380 \pm 14$ $\textrm{m\AA}$ for blueshifted absorbers. KS and AD test show at greater than 99\% (KS $>99\%$, AD $>99\%$) confidence level that these two sets of absorbers are drawn from different distributions. 
 
 \indent \textbullet \indent We find a positive correlation between the impact parameter ($\rho$) to the associated galaxy and $R_{vir}$ of said galaxy.
 

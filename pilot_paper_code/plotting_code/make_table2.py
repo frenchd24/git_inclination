@@ -3,12 +3,15 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  make_table2.py, v 1.1 02/17/2016
+$Id:  make_table2.py, v 1.2 05/17/2016
 
 Make table 2 for the pilot paper - list of targets with associated galaxies and line info
 
 v1.1: updates for LG_correlation_combined5_8_edit2.csv, where l_min = 0.001
+        - (02/17/2016)
 
+v1.2: updates for LG_correlation_combined5_9_edit2.csv, using v_hel instead of vcorr
+        - (05/17/2016)
 
 '''
 
@@ -54,12 +57,12 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -69,7 +72,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table5_8_edit2.txt'
+    outFilename = 'table5_9_edit2.txt'
     outFile = open(saveDirectory+outFilename,'wt')
     
     virInclude = False
@@ -123,6 +126,7 @@ def main():
             m15 = str(l['d^1.5'])
             impact = str(l['impactParameter (kpc)'])
             vcorr = str(l['vcorrGalaxy (km/s)'])
+            v_hel = str(l['radialVelocity (km/s)'])
             vel_diff = str(l['vel_diff'])
             galaxyDist = str(l['distGalaxy (Mpc)'])
             maj = str(l['majorAxis (kpc)'])
@@ -177,7 +181,7 @@ def main():
             line = agnName + s + galaxyName + s + final_likelihood + s + \
             virialRadius + s + \
             impact + s + \
-            vcorr + s + \
+            v_hel + s + \
             vel_diff + s + \
             inc + s + \
             az + s + \

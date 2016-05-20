@@ -54,13 +54,13 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 13
+fontScale = 15
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -449,7 +449,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(20)
+        minorLocator   = MultipleLocator(50)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -457,27 +457,27 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
         
         plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
-        label='Average Redshifted EW',alpha=alpha)
+        label=r'$\rm Average ~ Redshifted ~ EW$',alpha=alpha)
         
         plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
-        label='Average Blueshifted EW',alpha=alpha)
+        label=r'$\rm Average ~ Blueshifted ~ EW$',alpha=alpha)
         
-        xlabel(r'$\rm \rho$ (kpc)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
+        xlabel(r'$\rm \rho ~ [kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(0,500)
 
         if save:
-            savefig('{0}/W(impact)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(impact)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -727,7 +727,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(0.5)
         majorFormatter = FormatStrFormatter('%0.1f')
-        minorLocator   = MultipleLocator(0.1)
+        minorLocator   = MultipleLocator(0.25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -735,27 +735,27 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
         
         plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
-        label='Average Redshifted EW',alpha=alpha)
+        label=r'$\rm Average ~ Redshifted ~ EW$',alpha=alpha)
         
         plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
-        label='Average Blueshifted EW',alpha=alpha)
+        label=r'$\rm Average ~ Blueshifted ~ EW$',alpha=alpha)
         
         xlabel(r'$\rm \rho / R_{vir}$')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(0,3.0)
 
         if save:
-            savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
