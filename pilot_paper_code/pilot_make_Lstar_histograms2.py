@@ -505,10 +505,10 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 #     title(label1)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=0.8)
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper left in axes coords
-    ax.text(log10(1.3), maxHeight*0.7, label1, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    ax.text(0.7, 0.9, label1, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
 
     
     # x coordinate adjustment for annotations
@@ -610,10 +610,10 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 #     title(label2)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=0.8)
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper left in axes coords
-    ax.text(log10(1.3), maxHeight*0.7, label2, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    ax.text(0.7, 0.9, label2, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -714,10 +714,10 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 #     title(label3)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=0.8)
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper left in axes coords
-    ax.text(log10(1.3), maxHeight*0.7, label3, transform=ax.transAxes, fontsize=12,verticalalignment='top', bbox=props)
+    ax.text(0.7, 0.9, label3, transform=ax.transAxes, fontsize=12,verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -818,10 +818,10 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 #     title(label4)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=0.8)
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper left in axes coords
-    ax.text(log10(1.3), maxHeight*0.7, label4, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    ax.text(0.7, 0.9, label4, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
                 
     # x coordinate adjustment for annotations
     xAn = -0.2
