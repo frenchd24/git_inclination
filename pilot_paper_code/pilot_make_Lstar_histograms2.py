@@ -451,13 +451,17 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     vcorr = d1['vcorr']
     
     # breakdown of velocity splits
-    vlo = 0
+    vlo_1 = 0
+    vlo_2 = 2500
+    vlo_3 = 5000
+    vlo_4 = 7500
 
     vhi_1 = 2500
     vhi_2 = 5000
     vhi_3 = 7500
     vhi_4 = 10000
     
+    binsize = 0.2
     
     fig = figure(figsize=(14,10))
     
@@ -474,7 +478,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo and float(v)<=vhi_1:
+        if float(v) >=vlo_1 and float(v)<=vhi_1:
             print 'v: ',v
             cutPhot.append(float(p))
             cutBLstar.append(log10(float(b)))
@@ -490,7 +494,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     print 'med: ',median(cutBLstar)
     print
 
-    setbins = arange(-3,2,0.1)
+    setbins = arange(-3,2,binsize)
     counts,bins = histogram(cutBLstar,bins=setbins)
     
     label1=r'$\rm cz < 2500~ km/s$'
@@ -556,9 +560,9 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ax.xaxis.set_minor_locator(minorLocator)
 
     # y axis
-    majorLocator   = MultipleLocator(500)
+    majorLocator   = MultipleLocator(200)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(125)
+    minorLocator   = MultipleLocator(50)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
@@ -578,7 +582,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr2 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo and float(v)<=vhi_2:
+        if float(v) >=vlo_2 and float(v)<=vhi_2:
             print 'v: ',v
             cutPhot2.append(float(p))
             cutBLstar2.append(log10(float(b)))
@@ -595,7 +599,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     print
 
 
-    setbins = arange(-3,2,0.1)
+    setbins = arange(-3,2,binsize)
     counts2,bins2 = histogram(cutBLstar2,bins=setbins)
     
     label2 = r'$\rm cz < 5000~ km/s$'
@@ -682,7 +686,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr3 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo and float(v)<=vhi_3:
+        if float(v) >=vlo_3 and float(v)<=vhi_3:
             print 'v: ',v
             cutPhot3.append(float(p))
             cutBLstar3.append(log10(float(b)))
@@ -699,7 +703,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     print
 
 
-    setbins = arange(-3,2,0.1)
+    setbins = arange(-3,2,binsize)
     counts3,bins3 = histogram(cutBLstar3,bins=setbins)
     
     label3 = r'$\rm cz < 7500~ km/s$'
@@ -786,7 +790,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr4 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo and float(v)<=vhi_4:
+        if float(v) >=vlo_4 and float(v)<=vhi_4:
             print 'v: ',v
             cutPhot4.append(float(p))
             cutBLstar4.append(log10(float(b)))
@@ -803,7 +807,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     print
 
 
-    setbins = arange(-3,2,0.1)
+    setbins = arange(-3,2,binsize)
     counts4,bins4 = histogram(cutBLstar4,bins=setbins)
     
     label4 = r'$\rm cz < 10000 ~km/s$'
@@ -878,7 +882,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
 
     if save:
-        savefig('{0}Lstar_histogram_split{1}-{2}.pdf'.format(saveDirectory,vlo,vhi),format='pdf')
+        savefig('{0}Lstar_histogram_4bins_{1}-{2}.pdf'.format(saveDirectory,vlo,vhi),format='pdf',bbox_inches='tight')
     else:
         show()
 
