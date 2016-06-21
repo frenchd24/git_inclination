@@ -451,15 +451,21 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     vcorr = d1['vcorr']
     
     # breakdown of velocity splits
-    vlo_1 = 0
-    vlo_2 = 2500
-    vlo_3 = 5000
-    vlo_4 = 7500
+    vlo_1 = 6000
+    vlo_2 = 7000
+    vlo_3 = 8000
+    vlo_4 = 9000
 
-    vhi_1 = 2500
-    vhi_2 = 5000
-    vhi_3 = 7500
+    vhi_1 = 7000
+    vhi_2 = 8000
+    vhi_3 = 9000
     vhi_4 = 10000
+    
+    label1 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_1,vhi_1)
+    label2 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_2,vhi_2)
+    label3 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_3,vhi_3)
+    label4 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_4,vhi_4)
+    
     
     binsize = 0.2
     
@@ -496,8 +502,6 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
     setbins = arange(-3,2,binsize)
     counts,bins = histogram(cutBLstar,bins=setbins)
-    
-    label1=r'$\rm cz < 2500~ km/s$'
     
     plot1 = ax.hist(cutBLstar,setbins,histtype='bar',color='grey',label=label1)
     maxHeight = max(counts)+(max(counts)*0.25)
@@ -602,8 +606,6 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     setbins = arange(-3,2,binsize)
     counts2,bins2 = histogram(cutBLstar2,bins=setbins)
     
-    label2 = r'$\rm cz < 5000~ km/s$'
-    
     plot1 = ax.hist(cutBLstar2,setbins,histtype='bar',color='grey',label=label2)
     maxHeight = max(counts2)+(max(counts2)*0.25)
     ylim(0,maxHeight)
@@ -705,8 +707,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
     setbins = arange(-3,2,binsize)
     counts3,bins3 = histogram(cutBLstar3,bins=setbins)
-    
-    label3 = r'$\rm cz < 7500~ km/s$'
+
     
     plot3 = ax.hist(cutBLstar3,setbins,histtype='bar',color='grey',label=label3)
     maxHeight = max(counts3)+(max(counts3)*0.25)
@@ -809,9 +810,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
     setbins = arange(-3,2,binsize)
     counts4,bins4 = histogram(cutBLstar4,bins=setbins)
-    
-    label4 = r'$\rm cz < 10000 ~km/s$'
-    
+        
     plot4 = ax.hist(cutBLstar4,setbins,histtype='bar',color='grey',label=label4)
     maxHeight = max(counts4)+(max(counts4)*0.25)
     ylim(0,maxHeight)
@@ -882,7 +881,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
 
     if save:
-        savefig('{0}Lstar_histogram_4bins_{1}-{2}.pdf'.format(saveDirectory,vlo,vhi),format='pdf',bbox_inches='tight')
+        savefig('{0}Lstar_histogram_4bins_{1}-{2}.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
     else:
         show()
 
