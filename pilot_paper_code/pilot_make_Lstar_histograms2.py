@@ -451,14 +451,14 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     vcorr = d1['vcorr']
     
     # breakdown of velocity splits
-    vlo_1 = 6000
-    vlo_2 = 7000
-    vlo_3 = 8000
-    vlo_4 = 9000
+    vlo_1 = 0
+    vlo_2 = 2500
+    vlo_3 = 6000
+    vlo_4 = 8000
 
-    vhi_1 = 7000
-    vhi_2 = 8000
-    vhi_3 = 9000
+    vhi_1 = 2500
+    vhi_2 = 6000
+    vhi_3 = 8000
     vhi_4 = 10000
     
     label1 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_1,vhi_1)
@@ -515,8 +515,8 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # these are matplotlib.patch.Patch properties
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
-    # place a text box in upper left in axes coords
-    ax.text(0.7, 0.9, label1, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    # place a text box in upper right in axes coords
+    ax.text(0.63, 0.85, label1, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
 
     
     # x coordinate adjustment for annotations
@@ -618,8 +618,8 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # these are matplotlib.patch.Patch properties
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
-    # place a text box in upper left in axes coords
-    ax.text(0.7, 0.9, label2, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    # place a text box in upper right in axes coords
+    ax.text(0.63, 0.85, label2, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -721,8 +721,8 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # these are matplotlib.patch.Patch properties
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
-    # place a text box in upper left in axes coords
-    ax.text(0.7, 0.9, label3, transform=ax.transAxes, fontsize=12,verticalalignment='top', bbox=props)
+    # place a text box in upper right in axes coords
+    ax.text(0.63, 0.85, label3, transform=ax.transAxes, fontsize=11,verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -823,8 +823,8 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # these are matplotlib.patch.Patch properties
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
-    # place a text box in upper left in axes coords
-    ax.text(0.7, 0.9, label4, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=props)
+    # place a text box in upper right in axes coords
+    ax.text(0.63, 0.85, label4, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
                 
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -881,7 +881,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
 
     if save:
-        savefig('{0}Lstar_histogram_4bins_{1}-{2}.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
+        savefig('{0}Lstar_histogram_4bins_final_{1}-{2}.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
     else:
         show()
 
