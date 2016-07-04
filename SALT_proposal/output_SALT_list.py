@@ -152,6 +152,9 @@ def main():
 #    'HE0241-3043',\
 #    '4C10.34',\
 
+# don't know why this is included:     'RX_J1429.6+0321',\
+
+
 
 
     avoidList = ['SDSSJ143004.07+022213.3',\
