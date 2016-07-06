@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap11.py, v 11.0 05/12/2016
+$Id: plotCorrelationMap11.py, v 11.1 07/06/2016
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -99,6 +99,9 @@ v10: correlate with galaxy v_helio, not vcorr - using correlateSingle7 now
     
 v11: moved to .../inclination/git_inclination/ so it can be updated with git, and 
     now including rc tex formating for the plots (05/12/2016)
+    
+v11.1: updates for the newest round of sightlines in LG_correlation_combined5_10.csv
+       - Made LG_correlation_combined5_11.csv and targetmaps34 (07/06/16)
 
 """
 
@@ -109,10 +112,10 @@ import string
 import math
 import ast
 from pylab import *
-import correlateSingle7 as correlateSingle
+import correlateSingle8 as correlateSingle
 from matplotlib.patches import Ellipse
-from astropy.coordinates import SkyCoord
-from astropy import units as u
+# from astropy.coordinates import SkyCoord
+# from astropy import units as u
 from utilities import *
 import getpass
 
@@ -240,7 +243,7 @@ def main():
     agnSeparation = False
     
     # include name tags on galaxies? They don't scale very well...
-    includeNameTags = False
+    includeNameTags = True
     
     # include a title on the plots?
     includeTitle = False
@@ -255,13 +258,13 @@ def main():
     saveMapTables = True
     
     # Save the full results with "include" tags?
-    saveResults = False
+    saveResults = True
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
     
     # hard limit for likelihood
-    l_min = 0.001
+    l_min = 0.01
     
     # bypass l_min for lone galaxies? (i.e. include lone galaxies no matter what likelihood is)
     loner = False
@@ -270,16 +273,14 @@ def main():
     # where to save figures and tables
     user = getpass.getuser()
     if user == "David":
-        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps33/'
-#         outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9.csv'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_10.csv'
+        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_10.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps34/'
+        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11.csv'
 
     elif user == "frenchd":
-        targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps33/'
-#         outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9.csv'
-        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_10.csv'
+        targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_10.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps34/'
+        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11.csv'
 
     else:
         print "Unknown user: ",user
@@ -384,10 +385,14 @@ def main():
                     agnRA,agnDec = float(AGNposition[0]),float(AGNposition[1])
                     
                     # calculate separation in RA only
-                    dRA = correlateSingle.calculateImpactParameter_slow(gRA,agnDec,agnRA,agnDec,galaxyDist)
+#                     dRA = correlateSingle.calculateImpactParameter_slow(gRA,agnDec,agnRA,agnDec,galaxyDist)
+                    dRA = correlateSingle.calculateImpactParameter(gRA,agnDec,agnRA,agnDec,galaxyDist)
+
                     
                     # calculate separation in Dec only
-                    dDec = correlateSingle.calculateImpactParameter_slow(agnRA,gDec,agnRA,agnDec,galaxyDist)
+#                     dDec = correlateSingle.calculateImpactParameter_slow(agnRA,gDec,agnRA,agnDec,galaxyDist)
+                    dDec = correlateSingle.calculateImpactParameter(agnRA,gDec,agnRA,agnDec,galaxyDist)
+
                     
                     # add signs back into physical impact parameters
                     if gRA < agnRA:
