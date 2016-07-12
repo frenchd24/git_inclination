@@ -468,14 +468,20 @@ def main():
                         else:
                             localType = 'x'
                             
+                    # Latex format galaxyName
+                    galaxyName = r'{0}'.format(galaxyName)
+                    galaxyName = galaxyName.replace('_','\_')
+                            
                     infoDict[galaxyName]=galaxyRow
                     
                     galaxyType = {'s':2,'e':1,'x':3}
 
+                    
                     if noSize:
                         galaxyNames.append('*'+galaxyName)
                     else:
                         galaxyNames.append(galaxyName)
+                    
                         
                     plotPositionsRA.append(dRA)
                     plotPositionsDec.append(dDec)

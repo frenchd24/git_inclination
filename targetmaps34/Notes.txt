@@ -1,0 +1,7 @@
+TARGETMAPS34: Made with plotCorrelationMaps11.py on 07/12/16. Includes new sightlines near large galaxies. rc-tex formatted, and L_min = 0.01.
+
+TARGETMAPS35: Same, but only includes associations where the galaxy radius is >=25kpc
+
+
+
+
