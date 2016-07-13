@@ -79,7 +79,8 @@ from matplotlib import rc
 
 fontScale = 15
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight=450)
+# rc('font', size=15, family='serif', weight=450)
+rc('font', size=15, family='serif',weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -367,13 +368,12 @@ def main():
     #
     #
     
-    plotWHist_dif = True
+    plotWHist_dif = False
     save = False
     
     if plotWHist_dif:
 #         fig = figure(figsize=(2,8))
         fig = figure()
-        ax = fig.add_subplot(211)
 
         bins = arange(0,1300,100)
         
@@ -392,21 +392,15 @@ def main():
             else:
                 reds.append(float(l))
     
-
+        ax = fig.add_subplot(211)
         plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label=r'$\rm Blueshifted$',color="Blue",alpha = 0.85)
         legend(scatterpoints=1,prop={'size':12},loc=1)
         ylabel(r'$\rm Number$')
         ylim(0,10)
-
-        ax = fig.add_subplot(212)
-        plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label=r'$\rm Redshifted$',color="Red",alpha = 0.85)
-        legend(scatterpoints=1,prop={'size':12},loc=1)
-        ylabel(r'$\rm Number$')
-        ylim(0,10)
-
+        
         # X-axis
         majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(50)
 
         ax.xaxis.set_major_locator(majorLocator)
@@ -415,7 +409,33 @@ def main():
         
         # Y-axis
         majorLocator   = MultipleLocator(2)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+
+        ax = fig.add_subplot(212)
+        plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label=r'$\rm Redshifted$',color="Red",alpha = 0.85)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ylabel(r'$\rm Number$')
+        ylim(0,10)
+        
+
+        # X-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # Y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         
         ax.yaxis.set_major_locator(majorLocator)
@@ -424,16 +444,14 @@ def main():
         
         
         xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.tick_params(axis='x', labelsize=11)
-        ax.tick_params(axis='y',labelsize=11)
+#         ax.tick_params(axis='x', labelsize=11)
+#         ax.tick_params(axis='y',labelsize=11)
 #         xlim(0,1200)
         
         if save:
             savefig('{0}/hist(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
-            
-
 
 
 #########################################################################################
@@ -443,7 +461,7 @@ def main():
     #
     #
     
-    plotWCDF_dif = True
+    plotWCDF_dif = False
     save = False
     
     if plotWCDF_dif:
@@ -489,8 +507,8 @@ def main():
 #         ylim(0,10)
     
         # plot the y-values against the sorted data
-        plt.plot(sorted_reds,yvals_reds,color='red',lw=3)
-        plt.plot(sorted_blues,yvals_blues,color='blue',lw=3)
+        plt.plot(sorted_reds,yvals_reds,color='red',lw=3,label=r'$\rm Redshifted ~CDF$')
+        plt.plot(sorted_blues,yvals_blues,color='blue',lw=3,label=r'$\rm Blueshifted ~CDF$')
         
         xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
         ylabel(r'$\rm Number$')
@@ -499,7 +517,7 @@ def main():
         # format all the axis and stuff
         # X-axis
         majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(50)
 
         ax.xaxis.set_major_locator(majorLocator)
@@ -508,7 +526,7 @@ def main():
         
         # Y-axis
         majorLocator   = MultipleLocator(0.1)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %s$ ')
         minorLocator   = MultipleLocator(0.05)
         
         ax.yaxis.set_major_locator(majorLocator)
@@ -516,10 +534,85 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
 
         tight_layout()
+        legend(scatterpoints=1,prop={'size':12},loc=2)
 #         ylim(0,5)
 
         if save:
             savefig('{0}/CDF(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+    
+#########################################################################################
+#########################################################################################
+    # make a CDF of the distribution of Ly-alpha equivalent widths for the 
+    # associated sample, splitting on red vs blue shifted absorbers
+    #
+    # USE THE BUILT IN CDF FUNCTION INSTEAD
+    
+    plotWCDF_alt_dif = True
+    save = True
+    
+    if plotWCDF_alt_dif:
+#         fig = figure(figsize=(2,8))
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        lyaWArray = array(lyaWList)
+        lyaWAmbArray = array(lyaWAmbList)
+        
+        envArray = array(envList)
+        envAmbArray = array(envAmbList)
+        
+        bins = arange(0,max(lyaWArray),5)
+
+        
+        blues = []
+        reds = []
+        for d,l in zip(difList,lyaWList):
+            if float(d) >0:
+                # blueshifted ABSORBER: dif = v_gal - v_absorber
+                blues.append(float(l))
+            else:
+                reds.append(float(l))
+        
+        n_reds, bins_reds, patches_reds = hist(reds, bins, normed=1, histtype="step",\
+        cumulative=True,color='red',lw=1,label=r'$\rm Redshifted ~CDF$')
+        n_blues, bins_bluess, patches_bluess = hist(blues, bins, normed=1, histtype="step",\
+        cumulative=True,lw=1,label=r'$\rm Blueshifted ~CDF$',color='blue')
+
+    
+#         # plot the y-values against the sorted data
+#         plt.plot(sorted_reds,yvals_reds,color='red',lw=3,label=r'$\rm Redshifted ~CDF$')
+#         plt.plot(sorted_blues,yvals_blues,color='blue',lw=3,label=r'$\rm Blueshifted ~CDF$')
+        
+        xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ylabel(r'$\rm Number$')
+        
+        # format all the axis and stuff
+        # X-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # Y-axis
+        majorLocator   = MultipleLocator(0.1)
+        majorFormatter = FormatStrFormatter(r'$\rm %s$ ')
+        minorLocator   = MultipleLocator(0.05)
+        
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        tight_layout()
+        legend(scatterpoints=1,prop={'size':12},loc=2)
+        xlim(0,max(lyaWArray)+1)
+    
+        if save:
+            savefig('{0}/CDF_alt(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     

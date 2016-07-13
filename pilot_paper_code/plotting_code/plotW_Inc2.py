@@ -57,7 +57,7 @@ from matplotlib import rc
 
 fontScale = 15
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight=450)
+rc('font', size=15, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -1054,7 +1054,7 @@ def main():
     #
     
     plotW_inc_hist_median = True
-    save = True
+    save = False
     
     if plotW_inc_hist_median:
         fig = figure()
