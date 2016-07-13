@@ -30,7 +30,7 @@ code -> plotLyaWHist_both2.py, v 5.2 04/21/2016
     v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 
 v6.0: Name change to better match the rest of the plotting codes. Include CDF plotting 
-    functions as well.
+    functions as well. Output into /plots4 now
 
 '''
 
@@ -61,22 +61,37 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 16
+# fontScale = 16
+# rc('text', usetex=True)
+# rc('font',size=18)
+# rc('xtick.major',size=5,width=1.2)
+# rc('xtick.minor',size=3,width=1.2)
+# rc('ytick.major',size=5,width=1.2)
+# rc('ytick.minor',size=3,width=1.2)
+# rc('xtick',labelsize=16)
+# rc('ytick',labelsize=16)
+# rc('axes',labelsize=16)
+# rc('xtick', labelsize = fontScale)
+# rc('ytick',labelsize = fontScale)
+# # rc('font', weight = 450)
+# # rc('axes',labelweight = 'bold')
+# rc('axes',linewidth = 1)
+
+fontScale = 15
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=16)
-rc('ytick',labelsize=16)
-rc('axes',labelsize=16)
+rc('font', size=15, family='serif', weight=450)
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1)
-
 
 ###########################################################################
 
@@ -90,16 +105,20 @@ def main():
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_corrected.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_corrected.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_corrected.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_corrected.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -343,22 +362,19 @@ def main():
 
 #########################################################################################
 #########################################################################################
-    # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
+    # make a histogram of the distribution of Ly-alpha equivalent widths for the 
     # associated sample, splitting on red vs blue shifted absorbers
     #
     #
-    # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
-    #
     
-    plotLyaWHist_dif = True
+    plotWHist_dif = True
     save = False
     
-    if plotLyaWHist_dif:
+    if plotWHist_dif:
 #         fig = figure(figsize=(2,8))
         fig = figure()
         ax = fig.add_subplot(211)
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-#         bins = arange(0,max(max(lyaWList),max(lyaWAmbList)),20)
+
         bins = arange(0,1300,100)
         
         lyaWArray = array(lyaWList)
@@ -366,31 +382,38 @@ def main():
         
         envArray = array(envList)
         envAmbArray = array(envAmbList)
-    
-        print 'lyaWAmbArray: ',lyaWAmbArray
-        print 'envAmbArray: ',envAmbArray
         
         blues = []
         reds = []
         for d,l in zip(difList,lyaWList):
             if float(d) >0:
-                # blueshifted
+                # blueshifted ABSORBER: dif = v_gal - v_absorber
                 blues.append(float(l))
             else:
                 reds.append(float(l))
     
-        # see above, does not work the for the ambigous ones
-        normByEnv = False
-        
-        
-        majorLocator   = MultipleLocator(10)
+
+        plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label=r'$\rm Blueshifted$',color="Blue",alpha = 0.85)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ylabel(r'$\rm Number$')
+        ylim(0,10)
+
+        ax = fig.add_subplot(212)
+        plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label=r'$\rm Redshifted$',color="Red",alpha = 0.85)
+        legend(scatterpoints=1,prop={'size':12},loc=1)
+        ylabel(r'$\rm Number$')
+        ylim(0,10)
+
+        # X-axis
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(50)
 
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
+        # Y-axis
         majorLocator   = MultipleLocator(2)
         majorFormatter = FormatStrFormatter('%d')
         minorLocator   = MultipleLocator(1)
@@ -400,30 +423,10 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
         
         
-        if normByEnv:
-            plot1 = hist(lyaWArray/envArray,bins=bins,histtype='bar',orientation = 'vertical')
-            title('Distribution of Lya W - Associated')
-
-            ax = fig.add_subplot(212)
-            plot1 = hist(lyaWAmbArray/envAmbArray,bins=bins,histtype='bar',orientation = 'vertical')
-
-        else:
-            plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
-            legend(scatterpoints=1,prop={'size':12},loc=1)
-            ylabel(r'Number')
-            ylim(0,10)
-
-            ax = fig.add_subplot(212)
-            plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
-            legend(scatterpoints=1,prop={'size':12},loc=1)
-            ylabel(r'Number')
-            ylim(0,10)
-
-        
-        xlabel(r'Equivalent Width ($\rm m\AA$)')
+        xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
         ax.tick_params(axis='x', labelsize=11)
         ax.tick_params(axis='y',labelsize=11)
-        xlim(0,1200)
+#         xlim(0,1200)
         
         if save:
             savefig('{0}/hist(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
@@ -435,22 +438,19 @@ def main():
 
 #########################################################################################
 #########################################################################################
-    # make a histogram of the distribution of Ly-alpha equivalent widths for both the 
+    # make a CDF of the distribution of Ly-alpha equivalent widths for the 
     # associated sample, splitting on red vs blue shifted absorbers
     #
     #
-    # normByEnv doesn't work for the ambigous lines, because most of them have env = 0
-    #
     
-    plotLyaWHist_dif = True
+    plotWCDF_dif = True
     save = False
     
-    if plotLyaWHist_dif:
+    if plotWCDF_dif:
 #         fig = figure(figsize=(2,8))
         fig = figure()
-        ax = fig.add_subplot(211)
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-#         bins = arange(0,max(max(lyaWList),max(lyaWAmbList)),20)
+        ax = fig.add_subplot(111)
+
         bins = arange(0,1300,100)
         
         lyaWArray = array(lyaWList)
@@ -463,55 +463,63 @@ def main():
         reds = []
         for d,l in zip(difList,lyaWList):
             if float(d) >0:
-                # blueshifted
+                # blueshifted ABSORBER: dif = v_gal - v_absorber
                 blues.append(float(l))
             else:
                 reds.append(float(l))
 
-        sorted_data = sort(randImpact_nolike)
+        sorted_blues = sort(blues)
+        sorted_reds = sort(reds)
+
     
         # compute the CDF y-values
-        yvals=np.arange(len(sorted_data)) / float(len(sorted_data))
+        yvals_blues = np.arange(len(sorted_blues)) / float(len(sorted_blues))
+        yvals_reds = np.arange(len(sorted_reds)) / float(len(sorted_reds))
+
+        
+#         plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
+#         ylabel(r'Number')
+#         ylim(0,10)
+# 
+#         ax = fig.add_subplot(212)
+#         plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
+#         ylabel(r'Number')
+#         ylim(0,10)
+    
+        # plot the y-values against the sorted data
+        plt.plot(sorted_reds,yvals_reds,color='red',lw=3)
+        plt.plot(sorted_blues,yvals_blues,color='blue',lw=3)
+        
+        xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ylabel(r'$\rm Number$')
+        
         
         # format all the axis and stuff
-        majorLocator   = MultipleLocator(10)
+        # X-axis
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(50)
 
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
-        majorLocator   = MultipleLocator(2)
+        # Y-axis
+        majorLocator   = MultipleLocator(0.1)
         majorFormatter = FormatStrFormatter('%d')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(0.05)
         
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
-        
-        plot1 = hist(blues,bins=bins,histtype='bar',orientation = 'vertical',label='Blueshifted',color="Blue",alpha = 0.85)
-        legend(scatterpoints=1,prop={'size':12},loc=1)
-        ylabel(r'Number')
-        ylim(0,10)
-
-        ax = fig.add_subplot(212)
-        plot1 = hist(reds,bins=bins,histtype='bar',orientation = 'vertical',label='Redshifted',color="Red",alpha = 0.85)
-        legend(scatterpoints=1,prop={'size':12},loc=1)
-        ylabel(r'Number')
-        ylim(0,10)
-    
-        # plot the y-values against the sorted data
-        plt.plot(sorted_data,yvals)
-                
-        xlabel(r'$\rm Equivalent Width (m\AA)$')
-        ylabel(r'$\rm Number$')
 
         tight_layout()
 #         ylim(0,5)
 
         if save:
-            savefig('{0}/CDF(lyaW_blue_red_amb).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/CDF(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
     

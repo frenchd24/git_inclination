@@ -449,7 +449,7 @@ def main():
     #
     
     plotW_vir_avg = True
-    save = True
+    save = False
     
     if plotW_vir_avg:
         fig = figure()
