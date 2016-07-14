@@ -5,8 +5,8 @@ By David French (frenchd@astro.wisc.edu)
 
 $Id:  plotImpact_vir.py, v 1.3 7/14/16
 
-Plots histograms of impact parameter, and various versions of normalized impact parameters
-also plots impact parameter vs R_vir
+Plots impact parameter vs R_vir in a number of ways
+
 
 v1: separated from plotImpactHist_Diam2.py, include a new function to plot Wakker & Savage
     2009 data as well. (03/16/16)
@@ -468,7 +468,7 @@ def main():
     # NOT FINISHED YET
     
     plotImpact_vs_virial_median = True
-    save = False
+    save = True
     
     if plotImpact_vs_virial_median:
         fig = figure()
@@ -476,8 +476,8 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
+        labelr = r'$\rm Redshifted ~Absorber$'
+        labelb = r'$\rm Blueshifted ~Absorber$'
         alpha = 0.85
         
         rImpact = []
@@ -561,7 +561,7 @@ def main():
             
         xlabel(r'$\rm R_{vir} ~[kpc]$')
         ylabel(r'$\rm Impact ~Parameter ~[kpc]$')
-        legend(scatterpoints=1,prop={'size':12},loc=2)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,500)
         xlim(150,350)
