@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzHist2.py, v 5.3 07/13/16
+$Id:  plotAzHist2.py, v 5.4 07/14/16
 
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -26,6 +26,8 @@ v5.1: updated to work with LG_correlation_combined5_8_edit2.csv and l_min = 0.00
 v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 
 v5.3: remake plots with newest large galaxy sample (07/13/16) -> /plots4/
+
+v5.4: include ability to limit results based on environment number (7/14/16)
 
 '''
 
@@ -135,6 +137,8 @@ def main():
     cusInclude = False
     finalInclude = True
     
+    maxEnv = 2
+    
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
@@ -242,25 +246,26 @@ def main():
                 az = -99
             
             # all the lists to be used for associated lines
-            lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW))
-            lyaErrList.append(float(lyaW_err))
-            naList.append(na)
-            bList.append(float(b))
-            impactList.append(float(impact))
-            azList.append(az)
-            incList.append(float(inc))
-            cosIncList.append(cosInc)
-            paList.append(pa)
-            vcorrList.append(vcorr)
-            majList.append(maj)
-            difList.append(float(vel_diff))
-            envList.append(float(env))
-            morphList.append(morph)
-            m15List.append(m15)
-            virList.append(virialRadius)
-            likeList.append(likelihood)
-            likem15List.append(likelihoodm15)
+            if float(env) <= maxEnv:
+                lyaVList.append(float(lyaV))
+                lyaWList.append(float(lyaW))
+                lyaErrList.append(float(lyaW_err))
+                naList.append(na)
+                bList.append(float(b))
+                impactList.append(float(impact))
+                azList.append(az)
+                incList.append(float(inc))
+                cosIncList.append(cosInc)
+                paList.append(pa)
+                vcorrList.append(vcorr)
+                majList.append(maj)
+                difList.append(float(vel_diff))
+                envList.append(float(env))
+                morphList.append(morph)
+                m15List.append(m15)
+                virList.append(virialRadius)
+                likeList.append(likelihood)
+                likem15List.append(likelihoodm15)
 
     results.close()
     
@@ -477,7 +482,7 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = True
+    save = False
     
     if plotAzHist_all_over:
     
