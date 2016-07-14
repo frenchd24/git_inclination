@@ -3,7 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_inc_hist_all2.py, v 5.2 04/22/2016
+$Id:  plot_inc_hist_all2.py, v 5.3 7/13/16
+
+Plot histograms of the inclinations of the associated galaxies (and all galaxies too)
 
     - this now combines plotCosIncDifHist_full2.py, plotFancyIncHist_full2.py, 
     plotFancyCosIncDifHist_full2.py, plotCosIncHist_full2.py, plotIncHist_full2.py,
@@ -17,7 +19,7 @@ v5.1: updated for LG_correlation_combined5_8_edit2.csv
     
 v5.2: remake plots with v_hel instead of vcorr (4/22/16)
 
-    
+v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 '''
 
 import sys
@@ -49,7 +51,7 @@ from matplotlib import rc
 
 fontScale = 15
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight=450)
+rc('font', size=15, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -75,15 +77,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -662,7 +664,7 @@ def main():
         
         # x-axis
         majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -670,7 +672,7 @@ def main():
         
         # y-axis
         majorLocator   = MultipleLocator(5)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
@@ -689,7 +691,7 @@ def main():
         
         # x-axis
         majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -697,7 +699,7 @@ def main():
         
         # y-axis
         majorLocator   = MultipleLocator(5000)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1000)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)

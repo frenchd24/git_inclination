@@ -5,6 +5,7 @@ By David French (frenchd@astro.wisc.edu)
 
 $Id:  plotLyaWHist_both2.py, v 5.2 04/21/2016
 
+DEPRECIATED. SEE 'plotWHist.py' FOR CURRENT VERSION
 
 
 This is the plotLyaWHist_both bit from histograms3.py. Now is separated, and loads in a pickle

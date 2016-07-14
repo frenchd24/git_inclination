@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plot_vel_dif_hist.py, v 1.2 4/22/16
+$Id:  plot_vel_dif_hist.py, v 1.3 7/13/16
 
 Plots a histogram of the velocity differences for red and blue shifted absorbers
     (01/04/2016)
@@ -21,6 +21,7 @@ Previous (from histograms3.py):
     
 v1.2: remake plots with v_hel instead of vcorr (4/22/16)
 
+v1.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 '''
 
@@ -51,6 +52,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
+fontScale = 15
+rc('text', usetex=True)
+rc('font', size=15, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
     
 
 ###########################################################################
@@ -64,15 +80,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -263,6 +279,7 @@ def main():
     # make a histogram of the velocity difference distribution for red and blue - shifted
     # absorbers
     #
+    # NOT YET FINISHED 
     
     plot_vel_dif_hist = True
     save = False
@@ -306,8 +323,25 @@ def main():
         ylabel('Number')
         legend(scatterpoints=0,prop={'size':10})
         ylim(0,6)
+
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
         
-        fig.add_subplot(312)
+        # y axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        ax = fig.add_subplot(312)
 #         bins = arange(-400,50,50)
         plot1 = hist(red,bins=bins,histtype='bar',alpha=0.9,color='red',label='Redshifted')
 #         title('Absorber-associated galaxies: Redshifted')
@@ -315,6 +349,23 @@ def main():
         ylabel('Number')
         legend(scatterpoints=0,prop={'size':10})
         ylim(0,6)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
 
         fig.add_subplot(313)
 #         bins = arange(0,450,50)
@@ -324,6 +375,22 @@ def main():
         ylabel('Number')
         legend(scatterpoints=0,prop={'size':10})
         ylim(0,6)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
 
         if save:
             savefig('{0}/hist(vel_dif).pdf'.format(saveDirectory),format='pdf')

@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpact_vir.py, v 1.1 04/21/2016
+$Id:  plotImpact_vir.py, v 1.2 7/13/16
 
 Plots histograms of impact parameter, and various versions of normalized impact parameters
 also plots impact parameter vs R_vir
@@ -13,7 +13,7 @@ v1: separated from plotImpactHist_Diam2.py, include a new function to plot Wakke
     
 v1.1: remake plots with v_hel instead of vcorr (4/21/16)
 
-
+v1.2: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 '''
 
 import sys
@@ -42,8 +42,22 @@ from matplotlib import rc
 # rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
+
+fontScale = 15
 rc('text', usetex=True)
-rc('font',size=16,weight='bold')
+rc('font', size=15, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
     
 
@@ -58,16 +72,16 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
     else:
@@ -500,13 +514,31 @@ def main():
         # totals
         print 'allImpact: ',allImpact
         print 'allVir:' ,allVir
+        
+        # x-axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
         bins = arange(0,400,50)
         bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact), statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]
         print nan_to_num(bin_means)
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, c='Black',ls='dashed',lw=1,alpha=alpha,label='Mean Impact Parameter')
+        plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label='Mean Impact Parameter')
            
 #         bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
 #         left,right = edges[:-1],edges[1:]
@@ -525,7 +557,7 @@ def main():
         legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,500)
-        xlim(0,350)
+        xlim(150,350)
         tight_layout()
 
         if save:

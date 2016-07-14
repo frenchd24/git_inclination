@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Inc2.py, v 5.2 04/21/2016
+$Id:  plotW_Inc2.py, v 5.3 7/13/16
 
 This is the plotW_Inc bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -31,6 +31,8 @@ v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001
     (02/18/2016)
     
 v5.2: remake plots with v_hel instead of vcorr (4/21/16)
+
+v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
     
 '''
 
@@ -83,15 +85,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -1054,7 +1056,7 @@ def main():
     #
     
     plotW_inc_hist_median = True
-    save = False
+    save = True
     
     if plotW_inc_hist_median:
         fig = figure()
@@ -1156,7 +1158,7 @@ def main():
 
         # x axis
         majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -1164,7 +1166,7 @@ def main():
         
         # y axis
         majorLocator   = MultipleLocator(200)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)

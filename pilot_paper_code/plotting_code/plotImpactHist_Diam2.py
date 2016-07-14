@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpactHist_Diam2.py, v 5.4 04/21/2016
+$Id:  plotImpactHist_Diam2.py, v 5.5 7/13/16
 
 Plots histograms of impact parameter, and various versions of normalized impact parameters
 also plots impact parameter vs R_vir
@@ -31,6 +31,8 @@ v5.3: included a function to plot JUST impact parameter alone (no normalizing)
     - (03/02/2016)
     
 v5.4: remake plots with v_hel instead of vcorr (4/21/16)
+
+v5.5: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 '''
 
@@ -63,16 +65,16 @@ from matplotlib import rc
 # rc('text', usetex=True)
 # rc('font',size=16,weight='bold')
     
-fontScale = 16
+fontScale = 15
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.2)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.2)
-rc('ytick.minor',size=3,width=1.2)
-rc('xtick',labelsize=16)
-rc('ytick',labelsize=16)
-rc('axes',labelsize=16)
+rc('font', size=15, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
@@ -91,15 +93,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -316,7 +318,7 @@ def main():
     #
     
     plotImpactHist_Vir = True
-    save = False
+    save = True
     
     if plotImpactHist_Vir:
         fig = figure(figsize=(10,4))
@@ -327,7 +329,7 @@ def main():
     #     bins = [5,15,25,35,45,55,65,75,85]
     #     bins = [0,15,30,45,60,75,90]
 #         bins = [0,5,10,15,20,25,30,35,40]
-        bins = arange(0,3.5,0.2)
+        bins = arange(0,2.2,0.2)
         
         impactArray = np.array([])
         virArray = np.array([])
@@ -344,10 +346,27 @@ def main():
         print 'median: ',median(normalizedImpactArray)
         print 'mean: ',mean(normalizedImpactArray)
         
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %s$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
         plot1 = hist(normalizedImpactArray,bins=bins,histtype='bar',alpha=alpha)
         
 #         title('Distribution of impact parameters')
-        xlabel(r'$\rho / R_{vir}$')
+        xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'$\rm Number$')
 #         grid(True)
     

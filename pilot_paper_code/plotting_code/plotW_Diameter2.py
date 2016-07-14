@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Diameter2.py, v 5.2 04/22/2016
+$Id:  plotW_Diameter2.py, v 5.3 7/13/16
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
 
@@ -25,6 +25,8 @@ v5: updated for pilot paper.
 v5.1: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/24/2016)
 
 v5.2: remake plots with v_hel instead of vcorr (4/22/16)
+
+v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
     
 '''
 
@@ -59,7 +61,7 @@ from matplotlib import rc
 
 fontScale = 15
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight=450)
+rc('font', size=15, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -84,15 +86,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25_cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
 
     else:
@@ -449,7 +451,7 @@ def main():
     #
     
     plotW_vir_avg = True
-    save = False
+    save = True
     
     if plotW_vir_avg:
         fig = figure()
@@ -545,7 +547,7 @@ def main():
         
         # x-axis
         majorLocator   = MultipleLocator(50)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -553,7 +555,7 @@ def main():
         
         # y-axis
         majorLocator   = MultipleLocator(200)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
@@ -567,7 +569,7 @@ def main():
         ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(-5,1200)
-        xlim(0,350)
+        xlim(150,350)
 
         if save:
             savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')

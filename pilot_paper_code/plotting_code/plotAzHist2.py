@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzHist2.py, v 5.2 04/21/2016
+$Id:  plotAzHist2.py, v 5.3 07/13/16
 
 This is the plotAzHist bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -25,6 +25,7 @@ v5.1: updated to work with LG_correlation_combined5_8_edit2.csv and l_min = 0.00
 
 v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 
+v5.3: remake plots with newest large galaxy sample (07/13/16) -> /plots4/
 
 '''
 
@@ -83,7 +84,7 @@ from matplotlib import rc
 
 fontScale = 15
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight=450)
+rc('font', size=15, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -108,14 +109,16 @@ def main():
     if getpass.getuser() == 'David':
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -474,7 +477,7 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = False
+    save = True
     
     if plotAzHist_all_over:
     
@@ -513,12 +516,12 @@ def main():
         # all first
         plot1 = hist(azList,bins=bins,histtype='step',lw=2.0,alpha=0.9,color='black',label=r'$\rm All$')
 
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,label=r'$\rm Blueshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,ls='dashed',label=r'$\rm Blueshifted$')
         hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label=r'$\rm Redshifted$')
 
         # x-axis
         majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -526,7 +529,7 @@ def main():
         
         # y axis
         majorLocator   = MultipleLocator(2)
-        majorFormatter = FormatStrFormatter('%d')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
@@ -535,8 +538,8 @@ def main():
         ylabel(r'$\rm Number$')
         xlabel(r'$\rm Azimuth ~ [deg]$')
         xlim(0,90)
-        ylim(0,9)
-        legend(fontsize=14, fancybox=True)
+        ylim(0,10)
+        legend(fontsize=14, fancybox=True,loc=2)
 
 #         tight_layout()
 
@@ -633,15 +636,12 @@ def main():
         ylim(0,6)
         legend()
         
-
 #         tight_layout()
 
         if save:
             savefig('{0}/hist(azimuth)_dif_flat.pdf'.format(saveDirectory),format='pdf')
         else:
             show()
-
-
 
 ##########################################################################################
 ##########################################################################################

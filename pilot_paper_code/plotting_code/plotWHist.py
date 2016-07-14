@@ -526,7 +526,7 @@ def main():
         
         # Y-axis
         majorLocator   = MultipleLocator(0.1)
-        majorFormatter = FormatStrFormatter(r'$\rm %s$ ')
+        majorFormatter = FormatStrFormatter(r'$\rm %s$')
         minorLocator   = MultipleLocator(0.05)
         
         ax.yaxis.set_major_locator(majorLocator)
