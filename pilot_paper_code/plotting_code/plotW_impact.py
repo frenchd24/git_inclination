@@ -27,6 +27,7 @@ v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 v5.4: add the ability to limit results based on 'environment' number (7/14/16)
+        also add a likelihood limit 
 
 
 '''
@@ -117,7 +118,8 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 3
+    maxEnv = 300
+    minL = 0.1
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -243,7 +245,7 @@ def main():
                 virialRadius = -99
             
             # all the lists to be used for associated lines
-            if float(env) <=maxEnv:
+            if float(env) <= maxEnv and float(likelihood) >= minL:
                 lyaVList.append(float(lyaV))
                 lyaWList.append(float(lyaW))
                 lyaErrList.append(float(lyaW_err))

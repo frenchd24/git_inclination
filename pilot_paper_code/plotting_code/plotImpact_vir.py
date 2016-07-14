@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpact_vir.py, v 1.2 7/13/16
+$Id:  plotImpact_vir.py, v 1.3 7/14/16
 
 Plots histograms of impact parameter, and various versions of normalized impact parameters
 also plots impact parameter vs R_vir
@@ -14,6 +14,9 @@ v1: separated from plotImpactHist_Diam2.py, include a new function to plot Wakke
 v1.1: remake plots with v_hel instead of vcorr (4/21/16)
 
 v1.2: remake plots with new large galaxy sample (7/13/16) -> /plots4/
+
+v1.3: add ability to limit results based on environment and/or likelihood (7/14/16)
+
 '''
 
 import sys
@@ -107,6 +110,9 @@ def main():
     virInclude = False
     cusInclude = False
     finalInclude = True
+    
+    maxEnv = 300
+    minL = 0.01
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -274,27 +280,28 @@ def main():
                 cosFancyInc = -99
             
             # all the lists to be used for associated lines
-            lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW))
-            lyaErrList.append(float(lyaW_err))
-            naList.append(na)
-            bList.append(float(b))
-            impactList.append(float(impact))
-            azList.append(az)
-            incList.append(float(inc))
-            fancyIncList.append(fancyInc)
-            cosIncList.append(cosInc)
-            cosFancyIncList.append(cosFancyInc)
-            paList.append(pa)
-            vcorrList.append(vcorr)
-            majList.append(maj)
-            difList.append(float(vel_diff))
-            envList.append(float(env))
-            morphList.append(morph)
-            m15List.append(m15)
-            virList.append(virialRadius)
-            likeList.append(likelihood)
-            likem15List.append(likelihoodm15)
+            if float(env) <= maxEnv and float(likelihood) >= minL:
+                lyaVList.append(float(lyaV))
+                lyaWList.append(float(lyaW))
+                lyaErrList.append(float(lyaW_err))
+                naList.append(na)
+                bList.append(float(b))
+                impactList.append(float(impact))
+                azList.append(az)
+                incList.append(float(inc))
+                fancyIncList.append(fancyInc)
+                cosIncList.append(cosInc)
+                cosFancyIncList.append(cosFancyInc)
+                paList.append(pa)
+                vcorrList.append(vcorr)
+                majList.append(maj)
+                difList.append(float(vel_diff))
+                envList.append(float(env))
+                morphList.append(morph)
+                m15List.append(m15)
+                virList.append(virialRadius)
+                likeList.append(likelihood)
+                likem15List.append(likelihoodm15)
 
     results.close()
     WS.close()
@@ -461,7 +468,7 @@ def main():
     # NOT FINISHED YET
     
     plotImpact_vs_virial_median = True
-    save = True
+    save = False
     
     if plotImpact_vs_virial_median:
         fig = figure()
@@ -538,7 +545,7 @@ def main():
         print nan_to_num(bin_means)
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label='Mean Impact Parameter')
+        plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean ~Impact ~Parameter$')
            
 #         bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
 #         left,right = edges[:-1],edges[1:]
@@ -552,8 +559,8 @@ def main():
 #         Y = array([bin_means,bin_means]).T.flatten()
 #         plot(X,Y, c='blue',ls='dotted',lw=2,alpha=alpha,label="Mean Blueshifted Impact")
             
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'Impact Parameter (kpc)')
+        xlabel(r'$\rm R_{vir} ~[kpc]$')
+        ylabel(r'$\rm Impact ~Parameter ~[kpc]$')
         legend(scatterpoints=1,prop={'size':12},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,500)

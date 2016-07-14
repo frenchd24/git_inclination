@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  pilot_stats.py, v 1.2 07/14/16
+$Id:  pilot_stats.py, v 1.3 07/14/16
 
 Print out all the relevant stats on the dataset for the pilot paper (01/04/2016)
 
@@ -11,6 +11,8 @@ v1.1: updates for v_hel velocity and probably something else? (2/22/16)
 
 v1.2: updates for the new large galaxy sample (07/14/16) -> /plots4/
 
+v1.3: added ability to limit results by environment variable (7/14/16)
+    also same for likelihood values, including some stats about them also
 '''
 
 import sys
@@ -81,9 +83,12 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    virInclude = False
-    cusInclude = False
-    finalInclude = True
+    virInclude = True
+    cusInclude = True
+    finalInclude = False
+    
+    maxEnv = 300
+    minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -113,6 +118,7 @@ def main():
     virList = []
     likeList = []
     likem15List = []
+    AGNnameList = []
     
     # for ambiguous lines
     lyaVAmbList = []
@@ -145,6 +151,7 @@ def main():
                 go = False
         
         if go:
+            AGNname = l['AGNname']
             AGNra_dec = eval(l['degreesJ2000RA_DecAGN'])
             galaxyRA_Dec = eval(l['degreesJ2000RA_DecGalaxy'])
             lyaV = l['Lya_v']
@@ -209,27 +216,29 @@ def main():
                 virialRadius = -99
             
             # all the lists to be used for associated lines
-            lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW))
-            lyaErrList.append(float(lyaW_err))
-            naList.append(na)
-            bList.append(float(b))
-            impactList.append(float(impact))
-            azList.append(az)
-            incList.append(float(inc))
-            fancyIncList.append(fancyInc)
-            cosIncList.append(cosInc)
-            cosFancyIncList.append(cosFancyInc)
-            paList.append(pa)
-            vcorrList.append(vcorr)
-            majList.append(maj)
-            difList.append(float(vel_diff))
-            envList.append(float(env))
-            morphList.append(morph)
-            m15List.append(m15)
-            virList.append(virialRadius)
-            likeList.append(likelihood)
-            likem15List.append(likelihoodm15)
+            if float(env) <= maxEnv and float(likelihood) >=minL:
+                AGNnameList.append(AGNname)
+                lyaVList.append(float(lyaV))
+                lyaWList.append(float(lyaW))
+                lyaErrList.append(float(lyaW_err))
+                naList.append(na)
+                bList.append(float(b))
+                impactList.append(float(impact))
+                azList.append(az)
+                incList.append(float(inc))
+                fancyIncList.append(fancyInc)
+                cosIncList.append(cosInc)
+                cosFancyIncList.append(cosFancyInc)
+                paList.append(pa)
+                vcorrList.append(vcorr)
+                majList.append(maj)
+                difList.append(float(vel_diff))
+                envList.append(float(env))
+                morphList.append(morph)
+                m15List.append(m15)
+                virList.append(virialRadius)
+                likeList.append(likelihood)
+                likem15List.append(likelihoodm15)
             
         else:
             lyaV = l['Lya_v']
@@ -295,6 +304,8 @@ def main():
     redEnv = []
     blueVir = []
     redVir = []
+    blueLike = []
+    redLike = []
     
 
     # ambiguous stuff
@@ -327,7 +338,7 @@ def main():
             redB.append(float(b))
             
     # for galaxies
-    for d,inc,finc,az,pa,vcorr,e,vir in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList):
+    for d,inc,finc,az,pa,vcorr,e,vir,l in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList, likeList):
         if d>=0:
             if inc !=-99:
                 blueInc.append(float(inc))
@@ -342,6 +353,8 @@ def main():
             blueEnv.append(float(e))
             if vir !=-99:
                 blueVir.append(float(vir))
+            if l !=-99:
+                blueLike.append(float(l))
         else:
             if inc !=-99:
                 redInc.append(float(inc))
@@ -356,6 +369,8 @@ def main():
             redEnv.append(float(e))
             if vir !=-99:
                 redVir.append(float(vir))
+            if l !=-99:
+                redLike.append(float(l))
                 
     # how many absorbers above vs below vel_cut?
     redVelCount = 0
@@ -484,9 +499,10 @@ def main():
     print 'Blue: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(blueFancyIncCount)/float(totalBlueFancyInc),incCut)
     print 'Red: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(redFancyIncCount)/float(totalRedFancyInc),incCut)
     print 'All: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
-    print
     
     print
+    print
+    
     print 'avg blue inclination: ',mean(blueInc)
     print 'median blue inclination: ',median(blueInc)
     print 'avg blue fancy inclination: ',mean(blueFancyInc)
@@ -496,42 +512,62 @@ def main():
     print 'median red inclination: ',median(redInc)
     print 'avg red fancy inclination: ',mean(redFancyInc)
     print 'median red fancy inclination: ',median(redFancyInc)
+    
+    print
+    print "  AZIMUTHS and PA:  "
     print
     
     print 'avg blue azimuth: ',mean(blueAz)
     print 'median blue azimuth: ',median(blueAz)
-    
-    print 'avg blue PA: ',mean(bluePA)
-    print 'median blue PA: ',median(bluePA)
-    
-    print 'avg blue vcorr: ',mean(blueVcorr)
-    print 'median blue vcorr: ',median(blueVcorr)
-    
-    print 'avg blue environment: ',mean(blueEnv)
-    print 'median blue environment: ',median(blueEnv)
-    
-    print 'avg blue R_vir: ',mean(blueVir)
-    print 'median blue R_vir: ',median(blueVir)
-    
     print
-    
     print 'avg red azimuth: ',mean(redAz)
     print 'median red azimuth: ',median(redAz)
-    
+    print
+    print 'avg blue PA: ',mean(bluePA)
+    print 'median blue PA: ',median(bluePA)
+    print
     print 'avg red PA: ',mean(redPA)
     print 'median red PA: ',median(redPA)
     
+    print
+    print ' VCORR : '
+    print
+    
+    print 'avg blue vcorr: ',mean(blueVcorr)
+    print 'median blue vcorr: ',median(blueVcorr)
+    print
     print 'avg red vcorr: ',mean(redVcorr)
     print 'median red vcorr: ',median(redVcorr)
     
+    print
+    print ' ENVIRONMENT: '
+    print
+    
+    print 'avg blue environment: ',mean(blueEnv)
+    print 'median blue environment: ',median(blueEnv)
+    print
     print 'avg red environment: ',mean(redEnv)
     print 'median red environment: ',median(redEnv)
     
+    print
+    print ' R_vir: '
+    print
+    
+    print 'avg blue R_vir: ',mean(blueVir)
+    print 'median blue R_vir: ',median(blueVir)
+    print
     print 'avg red R_vir: ',mean(redVir)
     print 'median red R_vir: ',median(redVir)
     
     print
-    print 'Complete'
+    print ' LIKELIHOOD: '
+    print
+    
+    print 'avg blue likelihood: ',mean(blueLike)
+    print 'median blue likelihood: ',median(blueLike)
+    print
+    print 'avg red likelihood: ',mean(redLike)
+    print 'median red likelihood: ',median(redLike)
     
     print
     print
@@ -669,8 +705,17 @@ def main():
     print 'AD for blue vs red doppler parameter: ',ans1a
     
     print
+    print ' Likelihood Distributions: '
+    print
+    
+    # perform the K-S and AD tests for doppler parameter
+    ans1 = stats.ks_2samp(blueLike, redLike)
+    ans1a = stats.anderson_ksamp([blueLike,redLike])
+    print 'KS for blue vs red likelihood: ',ans1
+    print 'AD for blue vs red likelihood: ',ans1a
+    
+    print
     print ' COMPLETED. '
-
 
     
 
