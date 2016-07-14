@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Diameter2.py, v 5.3 7/13/16
+$Id:  plotW_Diameter2.py, v 5.4 7/14/16
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
 
@@ -27,6 +27,8 @@ v5.1: updated for LG_correlation_combined5_8_edit2.csv with l_min = 0.001 (02/24
 v5.2: remake plots with v_hel instead of vcorr (4/22/16)
 
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
+
+v5.4: add the ability to limit results based on 'environment' number (7/14/16)
     
 '''
 
@@ -117,6 +119,8 @@ def main():
     virInclude = False
     cusInclude = False
     finalInclude = True
+    
+    maxEnv = 3
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -247,27 +251,28 @@ def main():
                 b = -99
             
             # all the lists to be used for associated lines
-            lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW))
-            lyaErrList.append(float(lyaW_err))
-            naList.append(na)
-            bList.append(float(b))
-            impactList.append(float(impact))
-            azList.append(az)
-            incList.append(float(inc))
-            fancyIncList.append(fancyInc)
-            cosIncList.append(cosInc)
-            cosFancyIncList.append(cosFancyInc)
-            paList.append(pa)
-            vcorrList.append(vcorr)
-            majList.append(major)
-            difList.append(float(vel_diff))
-            envList.append(float(env))
-            morphList.append(morph)
-            m15List.append(m15)
-            virList.append(virialRadius)
-            likeList.append(likelihood)
-            likem15List.append(likelihoodm15)
+            if float(env) <= maxEnv:
+                lyaVList.append(float(lyaV))
+                lyaWList.append(float(lyaW))
+                lyaErrList.append(float(lyaW_err))
+                naList.append(na)
+                bList.append(float(b))
+                impactList.append(float(impact))
+                azList.append(az)
+                incList.append(float(inc))
+                fancyIncList.append(fancyInc)
+                cosIncList.append(cosInc)
+                cosFancyIncList.append(cosFancyInc)
+                paList.append(pa)
+                vcorrList.append(vcorr)
+                majList.append(major)
+                difList.append(float(vel_diff))
+                envList.append(float(env))
+                morphList.append(morph)
+                m15List.append(m15)
+                virList.append(virialRadius)
+                likeList.append(likelihood)
+                likem15List.append(likelihoodm15)
             
         else:
             lyaV = l['Lya_v']
@@ -451,7 +456,7 @@ def main():
     #
     
     plotW_vir_avg = True
-    save = True
+    save = False
     
     if plotW_vir_avg:
         fig = figure()

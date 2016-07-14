@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Az.py, v 5.1 04/21/2016
+$Id:  plotW_Az.py, v 5.2 07/14/2016
 
 This is the plotW_Az_major bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -23,6 +23,9 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     
 v5.1: remake plots with v_hel instead of vcorr (4/21/16)
         
+v5.2: remake plots with new large galaxy sample (7/14/16) -> /plots4/
+        also included ability to limit results by environment number
+
 '''
 
 import sys
@@ -52,7 +55,21 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-    
+fontScale = 15
+rc('text', usetex=True)
+rc('font', size=15, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 ###########################################################################
 
@@ -63,13 +80,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -91,6 +108,8 @@ def main():
     virInclude = False
     cusInclude = False
     finalInclude = True
+    
+    maxEnv = 300
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -172,7 +191,7 @@ def main():
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -216,27 +235,28 @@ def main():
                 virialRadius = -99
             
             # all the lists to be used for associated lines
-            lyaVList.append(float(lyaV))
-            lyaWList.append(float(lyaW))
-            lyaErrList.append(float(lyaW_err))
-            naList.append(na)
-            bList.append(float(b))
-            impactList.append(float(impact))
-            azList.append(az)
-            incList.append(float(inc))
-            fancyIncList.append(fancyInc)
-            cosIncList.append(cosInc)
-            cosFancyIncList.append(cosFancyInc)
-            paList.append(pa)
-            vcorrList.append(vcorr)
-            majList.append(maj)
-            difList.append(float(vel_diff))
-            envList.append(float(env))
-            morphList.append(morph)
-            m15List.append(m15)
-            virList.append(virialRadius)
-            likeList.append(likelihood)
-            likem15List.append(likelihoodm15)
+            if float(env) <= maxEnv:
+                lyaVList.append(float(lyaV))
+                lyaWList.append(float(lyaW))
+                lyaErrList.append(float(lyaW_err))
+                naList.append(na)
+                bList.append(float(b))
+                impactList.append(float(impact))
+                azList.append(az)
+                incList.append(float(inc))
+                fancyIncList.append(fancyInc)
+                cosIncList.append(cosInc)
+                cosFancyIncList.append(cosFancyInc)
+                paList.append(pa)
+                vcorrList.append(vcorr)
+                majList.append(maj)
+                difList.append(float(vel_diff))
+                envList.append(float(env))
+                morphList.append(morph)
+                m15List.append(m15)
+                virList.append(virialRadius)
+                likeList.append(likelihood)
+                likem15List.append(likelihoodm15)
             
         else:
             lyaV = l['Lya_v']
@@ -271,8 +291,8 @@ def main():
     # into red and blue shifted absorption samples
     #
     
-    plotW_Az_major = True
-    save = True
+    plotW_Az_major = False
+    save = False
     
     if plotW_Az_major:
         fig = figure()
@@ -331,8 +351,8 @@ def main():
     # into red and blue shifted absorption samples
     #
     
-    plotW_Az_vir = True
-    save = True
+    plotW_Az_vir = False
+    save = False
     
     if plotW_Az_vir:
         fig = figure()
@@ -428,10 +448,28 @@ def main():
         print 'countr: ',countr
         print 'countb: ',countb
         print 'count: ',count
-        title('W(azimuth) for red vs blue shifted absorption')
-        xlabel(r'Azimuth (deg)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        legend(scatterpoints=1)
+        
+                # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+        legend(scatterpoints=1,fancybox=True,prop={'size':14},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,max(lyaWList)+50)
         xlim(0,90)
