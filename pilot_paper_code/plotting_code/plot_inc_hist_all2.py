@@ -22,6 +22,7 @@ v5.2: remake plots with v_hel instead of vcorr (4/22/16)
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 v5.4: include ability to limit results based on environment number (7/14/16)
+    also likelihood limits
 
 '''
 
@@ -112,6 +113,7 @@ def main():
     finalInclude = True
     
     maxEnv = 2
+    minL = 0.01
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -217,7 +219,7 @@ def main():
                 cosFancyInc = -99
             
             # all the lists to be used for associated lines
-            if float(env) <= maxEnv:
+            if float(env) <= maxEnv and float(likelihood) >=minL:
                 lyaVList.append(float(lyaV))
                 lyaWList.append(float(lyaW))
                 lyaErrList.append(float(lyaW_err))
@@ -721,6 +723,106 @@ def main():
             savefig('{0}/hist(fancy_inclination)_red_blue_full_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
+            
+
+#########################################################################################
+#########################################################################################
+#########################################################################################
+#########################################################################################
+    # cos(fancyInclination) histograms for redshifted vs blueshifted distributions of absorbers
+    # plotted together and separately all in one, then the whole table as a subplot
+    #
+    
+    plotCosFancyIncDifHist_full_all = True
+    save = False
+    
+    if plotCosFancyIncDifHist_full_all:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+        bins = arange(0,1.0,0.1)
+        blue = []
+        red = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,i,l,e in zip(difList,cosFancyIncList,lyaWList,lyaErrList):
+            if d >=0:
+                # blue shifted absorber, but galaxy is REDSHIFTED
+                print 'd: ',d
+                blue.append(i)
+                blueLya.append(l)
+                blueLyaErr.append(e)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                red.append(i)
+                redLya.append(l)
+                redLyaErr.append(e)
+                
+                
+        # just associated
+        ax = fig.add_subplot(211)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.1)
+        majorFormatter = FormatStrFormatter(r'$\rm %s$')
+        minorLocator   = MultipleLocator(0.05)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label=r'$\rm Redshifted$')        
+        hist(cosFancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label=r'$\rm All ~ Associated$')
+        
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        ylabel(r'$\rm Number$')
+        
+
+        # full table
+        ax = fig.add_subplot(212)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.1)
+        majorFormatter = FormatStrFormatter(r'$\rm %s$')
+        minorLocator   = MultipleLocator(0.05)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5000)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1000)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(allCosFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All$')
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        xlabel(r'$\rm Cos[inc]$')
+        ylabel(r'$\rm Number$')
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(cos(fancy_inclination))_red_blue_full_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
 
 #########################################################################################
 #########################################################################################
@@ -783,129 +885,7 @@ def main():
         else:
             show()
             
-            
-#########################################################################################
-#########################################################################################
-    # plot histograms of the cos(inclinations) for both associated galaxies and the 
-    # full galaxy data set
-    #
-    # originally from plotCosIncHist_full2.py
-    #
-    
-    plotCosIncHist_full = False
-    save = False
-    
-    if plotCosIncHist_full:
-        fig = figure()
-#         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(211)
-        bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
 
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(cosIncList,bins=bins,histtype='bar')
-        title('Absorber-associated galaxies cos(inclination)')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,5)
-
-        ax = fig.add_subplot(212)
-        bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(allCosInclinations,bins=bins,histtype='bar')
-        title('Full galaxy sample cos(inclination)')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,8000)
-#         tight_layout()
-
-        if save:
-            savefig('{0}/hist(cos(inclination)).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-#########################################################################################
-#########################################################################################
-    # plot histograms of the cos(inclinations) for both associated galaxies and the 
-    # full galaxy data set
-    #
-    # originally from plotFancyCosIncHist_full2.py
-    #
-    
-    plotFancyCosIncHist_full = False
-    save = False
-    
-    if plotFancyCosIncHist_full:
-        fig = figure()
-#         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(211)
-        bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
-
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(cosFancyIncList,bins=bins,histtype='bar')
-        title('Absorber-associated galaxies cos(fancy_inclination)')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,5)
-
-        ax = fig.add_subplot(212)
-        bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-    #     bins = [5,15,25,35,45,55,65,75,85]
-    #     bins = [0,15,30,45,60,75,90]
-        plot1 = hist(allCosFancyInclinations,bins=bins,histtype='bar')
-        title('Full galaxy sample cos(fancy_inclination)')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,8000)
-#         tight_layout()
-
-        if save:
-            savefig('{0}/hist(cos(fancy_inclination)).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-
-########################################################################################
-########################################################################################
-    # plot histograms of the associated galaxies' inclinations along with that of the full
-    # galaxy set
-    #
-    
-    plotIncHist_full = False
-    save = False
-    
-    if plotIncHist_full:
-        fig = figure()
-#         subplots_adjust(hspace=0.200)
-        ax = fig.add_subplot(211)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-        subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
-
-        plot1 = hist(incList,bins=bins,histtype='bar')
-        title('Absorber-associated galaxies inclinations')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,5)
-        
-        ax = fig.add_subplot(212)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-
-        plot1 = hist(allInclinations,bins=bins,histtype='bar')
-        title('Full Galaxy Sample inclinations')
-        xlabel('Inclination (deg)')
-        ylabel('Number')
-#         ylim(0,8000)
-#         tight_layout()
-
-        if save:
-            savefig('{0}/hist(inclination).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
 
 
 #########################################################################################
