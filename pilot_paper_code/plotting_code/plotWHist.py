@@ -452,6 +452,85 @@ def main():
             savefig('{0}/hist(lyaW_blue_vs_red).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
+            
+
+#########################################################################################
+#########################################################################################
+    # make a histogram of the distribution of Ly-alpha equivalent widths for the 
+    # associated sample, overplotting red and blue shifted absorbers as well as the
+    # combined set.
+    #
+    # This makes a marginal histogram for the Berlin poster
+    
+    plotWHist_dif_all = True
+    save = True
+    
+    if plotWHist_dif_all:
+        fig = figure(figsize=(10,2))
+        
+        alpha = 0.7
+        
+        
+        bins = arange(0,1200,100)
+        
+        lyaWArray = array(lyaWList)
+        
+        blues = []
+        reds = []
+        
+        for d,l in zip(difList,lyaWList):
+            if float(d) >0:
+                # blueshifted ABSORBER: dif = v_gal - v_absorber
+                blues.append(float(l))
+            else:
+                reds.append(float(l))
+    
+        ax = fig.add_subplot(111)
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # don't want any axis here though!
+        ax.xaxis.set_major_formatter(plt.NullFormatter())
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        plot1 = hist(lyaWList,bins=bins,histtype='step',lw=2.0,alpha=0.9,color='black',label=r'$\rm All$')
+
+        hist(blues,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,ls='dashed',label=r'$\rm Blueshifted$')
+        hist(reds,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label=r'$\rm Redshifted$')
+
+        ylabel(r'$\rm Number$')
+        ax.yaxis.set_label_position("right")
+        ax.yaxis.tick_right()
+        ax.yaxis.set_ticks_position('both')
+        plt.gca().invert_xaxis()
+        labels = ax.get_yticklabels()
+        plt.setp(labels, rotation=90)
+
+#         ylim(0,10)
+
+#         xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+
+#         xlim(0,1200)
+        
+        if save:
+            savefig('{0}/hist(lyaW_dif_all).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
 
 
 #########################################################################################
@@ -549,8 +628,8 @@ def main():
     #
     # USE THE BUILT IN CDF FUNCTION INSTEAD
     
-    plotWCDF_alt_dif = True
-    save = True
+    plotWCDF_alt_dif = False
+    save = False
     
     if plotWCDF_alt_dif:
 #         fig = figure(figsize=(2,8))

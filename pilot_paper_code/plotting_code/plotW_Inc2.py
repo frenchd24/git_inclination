@@ -76,6 +76,26 @@ rc('axes',linewidth = 1)
 
 ###########################################################################
 
+def perc90(a):
+    if len(a)>0:
+        return percentile(a,90)
+    else:
+        return 0
+        
+def perc10(a):
+    if len(a)>0:
+        return percentile(a,10)
+    else:
+        return 0
+        
+def perc70(a):
+    if len(a)>0:
+        return percentile(a,70)
+    else:
+        return 0
+
+
+
     
 def main():
     # assuming 'theFile' contains one name per line, read the file
@@ -1055,8 +1075,8 @@ def main():
     #
     #
     
-    plotW_inc_hist_median = True
-    save = True
+    plotW_inc_hist_median = False
+    save = False
     
     if plotW_inc_hist_median:
         fig = figure()
@@ -1203,6 +1223,167 @@ def main():
 
             plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
             show()
+
+
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of fancy_inclination for red and blue shifted
+    # absorption, include an overlying 10th, 50th and 90th percentile histograms
+    #
+    #
+    
+    plotW_inc_percentile = True
+    save = True
+    
+    if plotW_inc_percentile:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 10
+        numBins = 9
+        alpha = 0.75
+#         bins = [0,15,30,45,60,75,90,105]
+#         bins = arange(0,100,10)
+        binSize = 15
+        bins = arange(0,90+binSize,binSize)
+
+        labelr = r'$\rm Redshifted$'
+        labelb = r'$\rm Blueshifted$'
+        
+        allInc = []
+        allW = []
+        allVir = []
+        
+        rInc = []
+        bInc = []
+        rW = []
+        bW = []
+        rVir = []
+        bVir = []
+        
+        for d,i,w,v in zip(difList,fancyIncList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    
+                    allInc.append(float(i))
+                    allW.append(float(w))
+                    allVir.append(float(v))
+                        
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        bInc.append(float(i))
+                        bW.append(float(w))
+                        bVir.append(float(v))
+                                            
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,w,c='Blue',s=50,alpha = alpha)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        rInc.append(float(i))
+                        rW.append(float(w))
+                        rVir.append(float(v))
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,w,c='Red',s=50,alpha = alpha)
+
+                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+                            
+
+#         totals
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = np.array([left,right]).T.flatten()
+#         Y = np.array([bin_means,bin_means]).T.flatten()
+#         plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Average ~ EW$')
+
+        # 50% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
+        statistic='median', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Median ~EW$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
+        statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dashed',color='purple',lw=2.0,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+        
+#         10th percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
+#         statistic=lambda y: perc10(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='dashed',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
+
+
+        # x axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(-5,max(lyaWList)+100)
+        ylim(0,1200)
+        xlim(0,90)
+
+        if save:
+            savefig('{0}/W(fancy_inc)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+            
+        
+        includeHist = False
+        if includeHist:
+        
+            fig = figure(figsize=(10,4))
+            ax = fig.add_subplot(111)
+            bins = [0,15,30,45,60,75,90,105]
+
+            bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), statistic='count', bins=bins)
+    
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+
+            plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label="Mean EW")
+            show()
+
 
 
 ##########################################################################################
