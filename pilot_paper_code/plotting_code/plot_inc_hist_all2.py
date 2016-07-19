@@ -112,8 +112,8 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 2
-    minL = 0.01
+    maxEnv = 2000
+    minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -634,7 +634,7 @@ def main():
     # plotted together and separately all in one, then the whole table as a subplot
     #
     
-    plotFancyIncDifHist_full_all = True
+    plotFancyIncDifHist_full_all = False
     save = False
     
     if plotFancyIncDifHist_full_all:
@@ -733,7 +733,7 @@ def main():
     # plotted together and separately all in one, then the whole table as a subplot
     #
     
-    plotCosFancyIncDifHist_full_all = True
+    plotCosFancyIncDifHist_full_all = False
     save = False
     
     if plotCosFancyIncDifHist_full_all:
@@ -820,6 +820,116 @@ def main():
 
         if save:
             savefig('{0}/hist(cos(fancy_inclination))_red_blue_full_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+            
+#########################################################################################
+#########################################################################################
+#########################################################################################
+#########################################################################################
+    # fancyInclination CDF for redshifted vs blueshifted distributions of absorbers
+    # plotted together and separately all in one, then the whole table as a subplot
+    #
+    
+    plotFancyIncDifCDF_full_all = False
+    save = False
+    
+    if plotFancyIncDifCDF_full_all:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+#         bins = arange(0,100,10)
+        bins = arange(0,90,0.5)
+        blues = []
+        reds = []
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,i,l,e in zip(difList,fancyIncList,lyaWList,lyaErrList):
+            if d >=0:
+                # blue shifted absorber, but galaxy is REDSHIFTED
+                print 'd: ',d
+                blues.append(i)
+                blueLya.append(l)
+                blueLyaErr.append(e)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                reds.append(i)
+                redLya.append(l)
+                redLyaErr.append(e)
+                
+                
+        # just associated
+        ax = fig.add_subplot(111)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(0.1)
+        majorFormatter = FormatStrFormatter(r'$\rm %s$')
+        minorLocator   = MultipleLocator(0.05)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        n_reds, bins_reds, patches_reds = hist(reds, bins, normed=1, histtype="step",\
+        cumulative=True,color='red',lw=1,label=r'$\rm Redshifted ~CDF$')
+        
+        n_blues, bins_blues, patches_blues = hist(blues, bins, normed=1, histtype="step",\
+        cumulative=True,lw=1,label=r'$\rm Blueshifted ~CDF$',color='blue')
+        
+        n_all, bins_all, patches_blues = hist(fancyIncList, bins=bins, normed=1, \
+        histtype='step',cumulative=True, color='Black',lw=1.5,alpha = 0.9,label=r'$\rm All$')
+
+
+#         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label=r'$\rm Blueshifted$')
+#         hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label=r'$\rm Redshifted$')        
+#         hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label=r'$\rm All ~ Associated$')
+        
+#         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+#         ylabel(r'$\rm Number$')
+        
+        # full table
+#         ax = fig.add_subplot(212)
+        
+#         # x-axis
+#         majorLocator   = MultipleLocator(10)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(5)
+#         ax.xaxis.set_major_locator(majorLocator)
+#         ax.xaxis.set_major_formatter(majorFormatter)
+#         ax.xaxis.set_minor_locator(minorLocator)
+#         
+#         # y-axis
+#         majorLocator   = MultipleLocator(5000)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(1000)
+#         ax.yaxis.set_major_locator(majorLocator)
+#         ax.yaxis.set_major_formatter(majorFormatter)
+#         ax.yaxis.set_minor_locator(minorLocator)
+        
+#         hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All$')
+
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Number$')
+#         tight_layout()
+
+        if save:
+            savefig('{0}/CDF(fancy_inclination)_red_blue_full_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
