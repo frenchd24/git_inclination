@@ -83,9 +83,9 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    virInclude = True
-    cusInclude = True
-    finalInclude = False
+    virInclude = False
+    cusInclude = False
+    finalInclude = True
     
     maxEnv = 300
     minL = 0.001
@@ -124,6 +124,7 @@ def main():
     lyaVAmbList = []
     lyaWAmbList = []
     envAmbList = []
+    ambAGNnameList = []
     
     for l in reader:
         include_vir = eval(l['include_vir'])
@@ -245,10 +246,13 @@ def main():
             lyaW = l['Lya_W'].partition('pm')[0]
             lyaW_err = l['Lya_W'].partition('pm')[2]
             env = l['environment']
-            
+            AGNname = l['AGNname']
+             
+        
             lyaVAmbList.append(float(lyaV))
             lyaWAmbList.append(float(lyaW))
             envAmbList.append(float(env))
+            ambAGNnameList.append(AGNname)
 
     results.close()
     
@@ -317,6 +321,29 @@ def main():
         else:
             ambig.append(w)
     
+    
+    # for targets
+    finalTargets = {}
+    for a in AGNnameList:
+        if finalTargets.has_key(a):
+            i = finalTargets[a]
+            i+=1
+            finalTargets[a] = i
+            
+        else:
+            finalTargets[a] = 1
+            
+    # for ambiguous targets
+    ambTargets = {}
+    for a in ambAGNnameList:
+        if ambTargets.has_key(a):
+            i = ambTargets[a]
+            i+=1
+            ambTargets[a] = i
+            
+        else:
+            ambTargets[a] = 1
+        
     
     # for absorbers
     for d,w,e,v,i,b in zip(difList,lyaWList,lyaErrList,lyaVList,impactList,bList):
@@ -401,8 +428,22 @@ def main():
     print 'total number of ambiguous lines: ',len(ambig)
     print 'total number of void lines: ',len(void)
     print '# of redshifted lines: ',len(reds)
-#     print reds
     print '# of blueshifted lines: ',len(blues)
+    print
+    print
+    print ' ASSOCIATED TARGETS '
+    print
+    print 'final target number: ',len(finalTargets.keys())
+    for i in finalTargets.keys():
+        print i
+    print
+    print
+    print ' AMBIGUOUS TARGTS '
+    print
+    print 'final ambiguous number: ',len(ambTargets.keys())
+    for i in ambTargets.keys():
+        print i
+    print
     print
     print '----------------------- Absorber info ----------------------------'
     print
@@ -481,6 +522,9 @@ def main():
         if i >= incCut:
             redFancyIncCount +=1
             
+    combinedCount = redFancyIncCount + blueFancyIncCount
+    totalCombinedCount = totalRedFancyInc + totalBlueFancyInc
+            
     totalFancyInc = len(allFancyInclinations)
     totalFancyCount = 0
     for i in allFancyInclinations:
@@ -492,14 +536,14 @@ def main():
     print 
     print 'Blue: {0} % of associated galaxies have >={1}% inclination'.format(float(blueIncCount)/float(totalBlueInc),incCut)
     print 'Red: {0} % of associated galaxies have >={1}% inclination'.format(float(redIncCount)/float(totalRedInc),incCut)
-    print 'All: {0} % of associated galaxies have >={1}% inclination'.format(float(totalCount)/float(totalInc),incCut)
+    print 'All: {0} % of ALL galaxies have >={1}% inclination'.format(float(totalCount)/float(totalInc),incCut)
     print
     print ' FANCY INCLINATIONS: '
     print
     print 'Blue: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(blueFancyIncCount)/float(totalBlueFancyInc),incCut)
     print 'Red: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(redFancyIncCount)/float(totalRedFancyInc),incCut)
-    print 'All: {0} % of associated galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
-    
+    print 'All: {0} % of ALL galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
+    print 'Combined: {0} % of associated galaxies have >= {1} fancy inclination'.format(float(combinedCount)/float(totalCombinedCount),incCut)
     print
     print
     

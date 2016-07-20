@@ -42,6 +42,8 @@ from math import *
 from utilities import *
 import getpass
 import pickle
+from scipy import stats
+
 
 # from astropy.io.votable import parse,tree
 
@@ -77,6 +79,24 @@ rc('axes',linewidth = 1)
     
 
 ###########################################################################
+
+def perc90(a):
+    if len(a)>0:
+        return percentile(a,90)
+    else:
+        return 0
+        
+def perc10(a):
+    if len(a)>0:
+        return percentile(a,10)
+    else:
+        return 0
+        
+def perc70(a):
+    if len(a)>0:
+        return percentile(a,70)
+    else:
+        return 0
 
     
 def main():
@@ -119,7 +139,7 @@ def main():
     finalInclude = True
     
     maxEnv = 300
-    minL = 0.1
+    minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -351,7 +371,7 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    plotW_impact_hist = True
+    plotW_impact_hist = False
     save = False
     
     if plotW_impact_hist:
@@ -628,7 +648,7 @@ def main():
     # red and blue shifted absorption, overplot average histograms
     #
     
-    plotW_impact_vir_hist = True
+    plotW_impact_vir_hist = False
     save = False
     
     if plotW_impact_vir_hist:
@@ -765,6 +785,267 @@ def main():
 
         if save:
             savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # red and blue shifted absorption, overplot single median histogram (total EW)
+    #
+    
+    plotW_impact_vir_medHist = True
+    save = True
+    
+    if plotW_impact_vir_medHist:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 0.4
+        alpha = 0.7
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        placeArrayr = zeros(6)
+        placeCountr = zeros(6)
+        placeArrayb = zeros(6)
+        placeCountb = zeros(6)
+        
+        xVals = []
+        yVals = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)/float(v)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    yVals.append(yVal)
+                    
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += yVal
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        placeArrayr[place] += yVal
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+    
+        
+        bins = arange(0,2.4,binSize)
+
+        # 50% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic='median', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='solid',color='black',lw=1.5,alpha=alpha,label=r'$\rm Median ~EW$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='purple',lw=1.5,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+        
+        # 10th percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic=lambda y: perc10(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
+        
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,2.0)
+
+        if save:
+            savefig('{0}/W(impact_vir)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter, split between
+    # red and blue shifted absorption, overplot single median histogram (total EW)
+    #
+    
+    plotW_impact_medHist = True
+    save = True
+    
+    if plotW_impact_medHist:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        binSize = 100
+        alpha = 0.7
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        
+        placeArrayr = zeros(6)
+        placeCountr = zeros(6)
+        placeArrayb = zeros(6)
+        placeCountb = zeros(6)
+        
+        xVals = []
+        yVals = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    yVals.append(yVal)
+                    
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        print 'place: ',place
+                        placeArrayb[place] += yVal
+                        print 'placeArrayb: ',placeArrayb
+                        placeCountb[place] +=1.
+                        print 'placecountb: ',placeCountb
+                        
+                        if countb == 0:
+                            countb +=1
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        
+                        # which bin does it belong too?
+                        place = xVal/binSize
+                        placeArrayr[place] += yVal
+                        placeCountr[place] +=1.
+                        
+                        if countr == 0:
+                            countr +=1
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+    
+        
+        bins = arange(0,600,100)
+        
+        # 50% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic='median', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='solid',color='black',lw=1.5,alpha=alpha,label=r'$\rm Median ~EW$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='purple',lw=1.5,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+        
+        # 10th percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+        statistic=lambda y: perc10(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
+        
+        xlabel(r'$\rm \rho ~[kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,500)
+
+        if save:
+            savefig('{0}/W(impact)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
