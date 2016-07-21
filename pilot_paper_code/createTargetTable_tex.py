@@ -25,104 +25,132 @@ from utilities import *
     
 ################################################################
 
-def main(opts):
+def main():
     # This function reformats Bart's file
     
-    
-    # newest target file
-    filename = '/usr/users/frenchd/correlation/TARGETLIST_6_23_16_reduced.csv'
-    
-    
-    results = open(resultsFilename,'rU')
-    reader = csv.DictReader(results)
+    if getpass.getuser() == 'David':
+        filename = '/Users/David/correlation/TARGETLIST_6_23_16_reduced.csv'
+        resultsName = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        outName = '/Users/David/Research_Documents/inclination/git_inclination/table1.txt'
 
-    fieldnames = ('galaxyName',\
-    'AGNname',\
-    'degreesJ2000RA_DecGalaxy',\
-    'degreesJ2000RA_DecAGN',\
-    'impactParameter (kpc)',\
-    'vcorrGalaxy (km/s)',\
-    'radialVelocity (km/s)',\
-    'distGalaxy (Mpc)',\
-    'linDiameters (kpc)',\
-    'inclination (deg)',\
-    'positionAngle (deg)',\
-    'azimuth (deg)',\
-    'RC3flag',\
-    'RC3type',\
-    'RC3inc (deg)',\
-    'RC3pa (deg)',\
-    'morphology',\
-    'AGNz',\
-    'galaxyRedshift',\
-    'groups_dist_std (Mpc)')
+    elif getpass.getuser() == 'frenchd':
+        filename = '/usr/users/frenchd/correlation/TARGETLIST_6_23_16_reduced.csv'
+        resultsName = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        outName = '/usr/users/frenchd/inclination/git_inclination/table1.txt'
         
-    
-        
-    # sort by velocity
-    result.sort(reverse=True)
-    
-    for object in result:
-        size, rest = object
-        AGNz = rest['AGNredshift']
-        AGNra_dec = rest['degreesJ2000RA_DecAGN']
-        
-        nameList.append(rest['galaxyName'])
-        ra_decList.append(rest['degreesJ2000RA_DecGalaxy'])
-        separationList.append(rest['impactParameter (kpc)'])
-        vcorrList.append(rest['vcorrGalaxy (km/s)'])
-        v_helList.append(rest['radialVelocity (km/s)'])
-        diameterList.append(rest['linDiameters (kpc)'])
-        morphList.append(rest['morphology'])
-        
-        if opts.verbose:
-            for f,i in zip(fieldnames,rest):
-                print '{0}: {1}'.format(f,i)
-            print
-            print
-    
-
-    if isNumber(AGNz):
-        AGNvel = float(AGNz)*3.0e5
     else:
-        AGNvel = 'x'
+        print 'Could not determine username. Exiting.'
+        sys.exit()
     
-    print '####################################################################'
-    print 'Summary: '
-    print
-    print 'AGN: ',opts.AGNname,', AGN position: ',AGNra_dec,', AGN vel: ',AGNvel
-    print
-
+    
+    file = open(filename,'rU')
+    reader = csv.DictReader(file)
+    
+    results = open(resultsName,'rU')
+    resultsReader = csv.DictReader(results)
+    
+    output = open(outName,'wt')
+    
+    # run through the results file and collect the names of included targets
+    targets = {}
+    for l in resultsReader:
+        include = eval(l['include'])
+        
+        if include:
+            targetName = l['AGNname']
+            if not targets.has_key(targetName):
+                targets[targetName]=1
+                
+    targetList = targets.keys()
+    
+    for t in targetList:
+        print t
+    
+    print len(targetList)
+    
     summaryList = []
-    summaryList.append(('galaxyname','ra & dec','separation','v_hel','diameter (kpc)','morphology'))
-    for object in result:
-        size,rest = object
-        summaryList.append((rest['galaxyName'],\
-        rest['degreesJ2000RA_DecGalaxy'],\
-        rest['impactParameter (kpc)'],\
-        rest['radialVelocity (km/s)'],\
-        rest['linDiameters (kpc)'],\
-        rest['morphology']))
+    summaryList.append(('Target',\
+    'R.A.',\
+    'Dec.',\
+    'z',\
+    'Program',\
+    'Grating',\
+    'Obs ID',\
+    'Obs Date',\
+    'T_exp [ks]',\
+    'S/N [1238]'))
+    
+    nameList = ['Target']
+    raList = ['R.A.']
+    decList = ['Dec.']
+    zList = ['z']
+    programList = ['Program']
+    gratingList = ['Grating']
+    obsIDList = ['Obs ID']
+    obsDateList = ['Obs Date']
+    texpList = ['T_exp [ks]']
+    snList = ['S/N [1238]']
+    
+    for l in reader:
+        target = l['targetName']
+        
+        for t in targetList:
+            
+            if t == target:
+                ra = l['ra']
+                dec = l['dec']
+                z = l['z']
+#                 sn = l['SNratio']
+                programID = l['programID']
+#                 programPI = l['programPI']
+#                 instrument = l['instrument']
+                grating = l['grating']
+                texp = l['exposureTime']
+                sn = l['SNexpected']
+                
+                nameList.append(target)
+                raList.append(ra)
+                decList.append(dec)
+                zList.append(z)
+                programList.append(programID)
+                gratingList.append(grating)
+                obsIDList.append('obsID')
+                obsDateList.append('Obs Date')
+                texpList.append(texp)
+                snList.append(sn)
+                
+                summaryList.append((target,\
+                ra.replace('(','').replace(')','').replace(',',' '),\
+                dec.replace('(','').replace(')','').replace(',',' '),\
+                z,\
+                programID,\
+                grating,\
+                'Obs ID',\
+                'Obs Date',\
+                texp,\
+                sn))
+                
 
     padding = 4
     widths =[\
     max(len(str(d)) for d in nameList) + padding,\
-    max(len(str(d)) for d in ra_decList) + padding,\
-    max(len(str(d)) for d in separationList) + padding,\
-    max(len(str(d)) for d in vcorrList) + padding,\
-    max(len(str(d)) for d in diameterList) + padding,\
-    max(len(str(d)) for d in morphList) + padding]
+    max(len(str(d)) for d in raList) + padding,\
+    max(len(str(d)) for d in decList) + padding,\
+    max(len(str(d)) for d in zList) + padding,\
+    max(len(str(d)) for d in programList) + padding,\
+    max(len(str(d)) for d in gratingList) + padding,\
+    max(len(str(d)) for d in obsIDList) + padding,\
+    max(len(str(d)) for d in obsDateList) + padding,\
+    max(len(str(d)) for d in texpList) + padding,\
+    max(len(str(d)) for d in snList) + padding]
 
     for row in summaryList:
-        print "".join(str(i).ljust(width) for i,width in zip(row,widths))
-    
-    print
-    print 'Finished. {0} total correlated galaxies found.'.format(len(result))
-    
-else:
-    print 'Could not find the AGN, {0}, in the search table.'.format(opts.AGNname)
-        
+        output.write("".join(str(i).ljust(width) for i,width in zip(row,widths))+'\n')
 
+
+    file.close()
+    results.close()
+    output.close()
 
 if __name__=="__main__":
     main()
