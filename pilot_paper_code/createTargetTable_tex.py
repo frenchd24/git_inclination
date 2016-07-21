@@ -145,7 +145,7 @@ def main():
     max(len(str(d)) for d in snList) + padding]
 
     for row in summaryList:
-        output.write("".join(str(i).ljust(width) for i,width in zip(row,widths))+'\n')
+        output.write("".join(str(i + '  &').ljust(width) for i,width in zip(row,widths))+'\\\\\n')
 
 
     file.close()
