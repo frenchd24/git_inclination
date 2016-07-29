@@ -29,7 +29,7 @@ def main():
     # This function reformats Bart's file
     
     if getpass.getuser() == 'David':
-        filename = '/Users/David/correlation/TARGETLIST_6_23_16_reduced.csv'
+        filename = '/Users/David/Research_Documents/correlation/TARGETLIST_6_23_16_reduced.csv'
         resultsName = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
         outName = '/Users/David/Research_Documents/inclination/git_inclination/table1.txt'
 

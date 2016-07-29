@@ -55,7 +55,7 @@
 
 \begin{abstract}
 
-We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) spectra of background QSOs. This initial sample contains 35 sight lines, yielding 175 Ly$\alpha$ systems, 41 of which we have paired with nearby galaxies. We introduce a likelihood parameter to match galaxies to absorption lines in a reproducible manner. We find the usual anti-correlation between Ly$\alpha$ equivalent width ($EW$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). We also find that absorption is detected more often near galaxies with inclination $>50^\circ$ but, contrary to suggestions in other papers, we do not see obvious correlations with azimuth angle. We also detect a dichotomy in the equivalent widths of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption median $EW$ = $343 \pm 10$ m\AA, and negative $\Delta v$  absorption median $EW$ = $124 \pm 9$ m\AA, but have not yet been able to explain this finding. 
+We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) spectra of background QSOs. This initial sample contains 35 sight lines chosen for their proximity to large galaxies ($D\geq25$ kpc) and high signal-to-noise ratio (S/N $\geq$ 11), yielding 73 Ly$\alpha$ systems, 51 of which we have paired with nearby galaxies. We introduce a likelihood parameter to match galaxies to absorption lines in a reproducible manner. We find the usual anti-correlation between Ly$\alpha$ equivalent width ($EW$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). We also find that absorption is detected more often near galaxies with inclination $>50^\circ$ but, contrary to suggestions in other papers, we do not see obvious correlations with azimuth angle. We also detect a dichotomy in the equivalent widths of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption median $EW$ = $343 \pm 10$ m\AA, and negative $\Delta v$  absorption median $EW$ = $124 \pm 9$ m\AA, but have not yet been able to explain this finding. 
 
 %This $W$ difference is significant at a greater than $99\%$ confidence limit. We also find a positive correlation between absorber-galaxy impact parameter and galaxy $R_{vir}$, a preference for absorption around highly inclined galaxies, but little evidence of azimuthal dependence.
 
@@ -250,16 +250,18 @@ TON1009  &                 9.0  9.0  6.1  &      32.0  36.0  31.0  &    0.8103  
 %Each final, combined, and identified sightline is correlated with the galaxy environment in order to match absorption features with galaxies near the sightline. 
 
 The goal of this study relies on knowing the locations and properties of all galaxies near detected Ly$\alpha$ absorption lines. To facilitate this, we have constructed a dataset of all $z\leq 0.033$ ($cz\leq 10,000$ skm/s) galaxies with published data available through the NASA Extragalactic Database (NED). A full description of this catalog will be presented in French $\&$ Wakker 2017 (in prep). Here we summarize its important aspects. 
-The galaxy dataset contains over 108,000 entries, and includes data from SDSS, 2MASS, 2dF, 6dF, RC3, and many other, smaller surveys. Our criteria for including a galaxy in this dataset is only an accurate, spectroscopic redshift which places the galaxy in the $cz \leq 10,000$ km/s velocity range. This restriction leads to a completeness limit of $B \lesssim 18.7$ mag, or $\sim0.2 L_*$, at $cz = 10,000$ km/s, and progressively better towards lower velocities (see Figure \ref{completeness}). This limit will vary some depending on which major surveys include a particular region of the sky. 
 
 \begin{figure}[ht!]
         \centering
-        \vspace{-10pt}
+        \vspace{0pt}
         \includegraphics[width=0.50\textwidth]{Lstar_histogram_4bins_final_0-10000.pdf}
         \caption{\small{Distribution of $L/L_{\**}$ values for all galaxies in the dataset. Black vertical lines highlight 1, 0.5, 0.1, 0.05 and 0.01 $L_{\**}$. The turnoff around 0.1$L_{\**}$ shows that on average, the dataset is complete to 0.1$L_{\**}$.}}
 %        \vspace{-5pt}
         \label{completeness}
 \end{figure} 
+
+The galaxy dataset contains over 108,000 entries, and includes data from SDSS, 2MASS, 2dF, 6dF, RC3, and many other, smaller surveys. Our criteria for including a galaxy in this dataset is only an accurate, spectroscopic redshift which places the galaxy in the $cz \leq 10,000$ km/s velocity range. This restriction leads to a completeness limit of $B \lesssim 18.7$ mag, or $\sim0.2 L_*$, at $cz = 10,000$ km/s, and progressively better towards lower velocities (see Figure \ref{completeness}). This limit will vary depending on which major surveys include a particular region of the sky. The major contributor is whether or not SDSS data is available, which begins around $cz = 5,000$ km/s. Figure \ref{completeness} is split into 4 velocity bins to illustrate this. Our data is complete down to $\sim0.1 L_*$ in the first bin, $0 \leq cz \leq 2,500$ km/s, due to proximity. At slightly higher velocity, $2500 \leq cz \leq 6000$ km/s, the completeness falls to barely better than $\sim1.0 L_*$. SDSS data becomes available in the last two bins, spanning $6000 \leq cz \leq 10,000$ km/s, and correspondingly completeness remains high down to the SDSS limits of $B \lesssim 18.7$ mag, or $\sim0.2 L_*$ at $cz = 10,000$ km/s.
+
 
 In addition, we have homogenized the galaxy data beyond the steps taken by NED by normalizing all measurements of galaxy inclination, position angle, and diameter to 2MASS $K$-band values. Most galaxies in NED have measures of inclination, position angle and diameter available in several different bands, so in order to make meaningful comparisons it is necessary to automatically choose one band for all measurements. We chose 2MASS values for this because it was an all-sky survey, and represents the largest fraction of available galaxy data. Physical galaxy diameters are derived from 2MASS $K_s$ ``total" angular diameter measurements and galaxy distances. 2MASS $K_s$ ``total" diameter estimates are surface brightness extrapolation measurements and are derived as 
 
@@ -277,12 +279,12 @@ We used $B$-band magnitudes to estimate each galaxy's luminosity in units of $L_
 
 We adopt the CfA galaxy luminosity function by Marzke et al. (1994), which sets $B_{\**} $ = -19.57. Direct $B$ band measurements are available for $\sim 30\%$ of galaxies, and most of the rest have SDSS $g$ and $r$ magnitudes, which can be converted to $B$ via $B = g + 0.39 (g-r) + 0.21$ (Jester et al. 2005). Finally, we also compute an estimate of the virial radius of each galaxy as $log R_{vir} = 0.69 log D + 1.24$. This follows the parametrization of Stocke et al. (2013) relating a galaxy's luminosity to its virial radius, and the Wakker $\&$ Savage (2009) empirical relation between diameter and luminosity (see Wakker et al. 2015 and references therein for further details). Errors are propagated from the original published magnitude errors.
 
-This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies with unprecedented completeness. The full dataset will be publicly released and discussed in further detail in a forthcoming paper (French et al. 2016, in prep).
+This homogeneous galaxy data table allows us to draw direct comparisons between the properties of the absorbers and the properties, separations, and environments of nearby galaxies with unprecedented completeness. The full dataset will be publicly released and discussed in further detail in a forthcoming paper (French et al. 2017, in prep).
 
 
 \subsection{Spectra}
 
-This initial pilot study contains 35 sightlines to bright QSOs observed with COS (32 of 35) and STIS (3 of 35). We chose sightlines by first sorting the galaxy data table described above by galaxy diameter. This sorted list is then correlated with the full list of publicly available sightlines, and only those systems with impact parameter less than 500 Mpc are kept. Finally, we reject any messy, overly complicated, or low S/N sightlines and select the top 35 as sorted by galaxy diameter.
+This initial pilot study contains 35 sightlines to bright QSOs observed with COS. We chose sightlines by first sorting the galaxy data table described above by galaxy diameter. This sorted list is then correlated with the full list of publicly available sightlines, and only those systems with impact parameter less than 500 Mpc are kept. Finally, we reject any messy, overly complicated, or low S/N sightlines and select the top 35 as sorted by galaxy diameter.
 
 %We chose sight lines based on high S/N (generally $>$10), ease of spectral identification, and proximity to large, nearby galaxies. Several are included simply because they already have published identifications. There were no strict cutoffs for galaxy size or brightness, we simply selected the top 35 sight lines after rejecting those with lower S/N and/or more complicated features. 
 
@@ -290,9 +292,9 @@ All COS spectra for the target sightlines were obtained through the Barbara A. M
 
 \begin{figure}[ht!]
 \centering
-  \subfigure[]{\includegraphics[width=1.\linewidth]{figTON1009_crop.pdf}}{\label{line}}
-  \subfigure[]{\includegraphics[width=1.\linewidth]{map_TON1009_4285_crop2_labels.png}\label{impactmap}}
-  \caption{\small{a) An example Ly$\alpha$ line found in a sightline towards target TON1009 at 4295 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter target TON1009 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 4295 km/s (central black star). The galaxy IC2439 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
+  \subfigure[]{\includegraphics[width=1.\linewidth]{MRK290_system-3192_cut.jpg}}{\label{line}}
+  \subfigure[]{\includegraphics[width=1.\linewidth]{map_MRK290_3207.pdf}\label{impactmap}}
+  \caption{\small{a) An example of Ly$\alpha$ lines found in a sightline towards target MRK290 at 3192 and 3207 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter of target MRK290 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 3192 and 3207 km/s (central black star). The galaxy NGC5987 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
 \vspace{5pt}
 \end{figure}
 
@@ -307,47 +309,103 @@ The STIS data was processed in the same manner as described in Wakker $\&$ Savag
   	     &               &                      & \scriptsize [kpc] & \scriptsize [kpc] & \scriptsize [km/s] & \scriptsize [km/s] & \scriptsize [deg] & \scriptsize [deg] & \scriptsize [km/s] & \scriptsize [m\AA]	\\
  \scriptsize (1) & \scriptsize (2) & \scriptsize (3) & \scriptsize (4) & \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) & \scriptsize (8) & \scriptsize (9) & \scriptsize (10) & \scriptsize (11) \\ \hline \hline
 
-1H0717+714 & UGC03804 & 0.24 & 173 & 207 & 2887 & 17 & 53 & 7 & 2870 & 343$\pm$6\\
-1H0717+714 & UGC03804 & 0.21 & 173 & 207 & 2887 & -69 & 53 & 7 & 2956 & 39$\pm$4\\
-2dFGRS\_S393Z082 & NGC1097 & 1.8* & 273 & 112 & 1271 & 32 & 47 & 12 & 1239 & 570$\pm$21\\
-3C273.0 & NGC4517 & 0.02 & 193 & 365 & 1128 & 115 & 83 & 72 & 1013 & 376$\pm$3\\
-3C273.0 & NGC4536 & 0.0018 & 198 & 359 & 1808 & -348 & 65 & 46 & 2156 & 57$\pm$2\\
-3C66A & UGC01832 & 1.7 & 192 & 56 & 5913 & -52 & 65 & 16 & 5965 & 53$\pm$6\\
-CSO395 & UGC07207 & 0.87 & 103 & 83 & 1051 & 85 & 61 & x & 966 & 194$\pm$14\\
-CSO395 & UGC07207 & 1.0 & 103 & 83 & 1051 & 26 & 61 & x & 1025 & 343$\pm$15\\
-H1101-232 & MCG-04-26-019 & 0.33 & 173 & 179 & 3623 & 43 & 65 & 26 & 3580 & 573$\pm$12\\
-HE1228+0131 & 2MASXJ12303439+0116243 & 0.18 & 127 & 159 & 9319 & 80 & 28 & 60 & 9239 & 249$\pm$3\\
-MRC2251-178 & MCG-03-58-009 & 1.4* & 319 & 320 & 9030 & -21 & 59 & 39 & 9051 & 60$\pm$4\\
-MRK290 & NGC5987 & 0.77* & 322 & 486 & 3010 & -95 & 65 & 12 & 3105 & 511$\pm$5\\
-MRK290 & NGC5987 & 0.37* & 322 & 486 & 3010 & -197 & 65 & 12 & 3207 & 319$\pm$4\\
-MRK1014 & NGC0768 & 0.12* & 253 & 486 & 7021 & -59 & 73 & 85 & 7080 & 117$\pm$11\\
-PG0003+158 & NGC7814 & 0.081 & 171 & 197 & 1050 & 217 & 65 & 47 & 833 & 131$\pm$15\\
-PG0003+158 & NGC7814 & 0.097 & 171 & 197 & 1050 & -200 & 65 & 47 & 1250 & 79$\pm$9\\
-PG1121+423 & SDSSJ112418.74+420323.1 & 0.046 & 104 & 129 & 7374 & 248 & 65 & 20 & 7126 & 156$\pm$7\\
-PG1121+423 & SDSSJ112418.74+420323.1 & 0.17 & 104 & 129 & 7374 & 95 & 65 & 20 & 7279 & 46$\pm$6\\
-PG1121+423 & SDSSJ112418.74+420323.1 & 0.2 & 104 & 129 & 7374 & 46 & 65 & 20 & 7328 & 359$\pm$7\\
-PG1216+069 & SDSSJ121903.72+063342.9 & 0.09 & 71 & 110 & 3833 & 20 & 61 & 65 & 3813 & 360$\pm$10\\
-PG1302-102 & NGC4939 & 0.05* & 235 & 265 & 3110 & -338 & 46 & 61 & 3448 & 71$\pm$5\\
-PG1307+085 & CGCG072-007 & 0.003 & 193 & 440 & 7119 & -160 & 50 & 43 & 7279 & 64$\pm$7\\
-RX\_J0714.5+7408 & UGC03717 & 0.13* & 202 & 271 & 4188 & 114 & 61 & 83 & 4074 & 58$\pm$7\\
-RX\_J0714.5+7408 & UGC03717 & 0.15* & 202 & 271 & 4188 & -76 & 61 & 83 & 4264 & 410$\pm$9\\
-RX\_J1330.8+3119 & UGC08496NED02 & 0.08 & 101 & 160 & 4829 & -10 & 59 & 46 & 4839 & 413$\pm$16\\
-RX\_J1330.8+3119 & UGC08492 & 0.081* & 204 & 335 & 7414 & 13 & 16 & 41 & 7401 & 330$\pm$15\\
-RX\_J1503.2+6810 & CGCG318-012 & 0.031* & 250 & 325 & 9765 & -357 & 50 & 1 & 10122 & 44$\pm$14\\
-SBS1108+560 & UGC06225 & 1.9 & 228 & 29 & 699 & -33 & 77 & 82 & 732 & 1082$\pm$82\\
-SBS1108+560 & UGC06225 & 0.53* & 228 & 29 & 699 & -230 & 77 & 82 & 929 & 284$\pm$51\\
-SBS1122+594 & NGC3642 & 0.035 & 150 & 226 & 1588 & -208 & 8 & 3 & 1796 & 29$\pm$8\\
-SBS1537+577 & SDSSJ153802.75+573018.3 & 0.33 & 87 & 91 & 3525 & -24 & 80 & 15 & 3549 & 447$\pm$28\\
-SDSSJ080838.80+051440.0 & UGC04239 & 0.87* & 279 & 378 & 8763 & 23 & 44 & 38 & 8740 & 883$\pm$24\\
-SDSSJ080838.80+051440.0 & UGC04239 & 0.45* & 279 & 378 & 8763 & -164 & 44 & 38 & 8927 & 130$\pm$19\\
-SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.015 & 103 & 133 & 7092 & 318 & 37 & 4 & 6774 & 543$\pm$10\\
-SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.076 & 103 & 133 & 7092 & 192 & 37 & 4 & 6900 & 151$\pm$10\\
-SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.19 & 103 & 133 & 7092 & -25 & 37 & 4 & 7117 & 176$\pm$12\\
-SDSSJ140428.30+335342.0 & KUG1402+341 & 1.4 & 204 & 118 & 7919 & 35 & 69 & 63 & 7884 & 889$\pm$28\\
-TON488 & UGC05478 & 0.89 & 92 & 58 & 1378 & 128 & 12 & x & 1250 & 68$\pm$9\\
-TON488 & UGC05478 & 1.3 & 92 & 58 & 1378 & 3 & 12 & x & 1375 & 452$\pm$12\\
-TON1009 & NGC2770 & 0.19* & 204 & 274 & 1947 & -14 & 78 & 43 & 1961 & 350$\pm$21\\
-TON1009 & IC2439 & 1.2 & 153 & 109 & 4299 & 14 & 71 & 51 & 4285 & 343$\pm$17\\
+%1H0717+714 & UGC03804 & 0.24 & 173 & 207 & 2887 & 17 & 53 & 7 & 2870 & 343$\pm$6\\
+%1H0717+714 & UGC03804 & 0.21 & 173 & 207 & 2887 & -69 & 53 & 7 & 2956 & 39$\pm$4\\
+%2dFGRS\_S393Z082 & NGC1097 & 1.8* & 273 & 112 & 1271 & 32 & 47 & 12 & 1239 & 570$\pm$21\\
+%3C273.0 & NGC4517 & 0.02 & 193 & 365 & 1128 & 115 & 83 & 72 & 1013 & 376$\pm$3\\
+%3C273.0 & NGC4536 & 0.0018 & 198 & 359 & 1808 & -348 & 65 & 46 & 2156 & 57$\pm$2\\
+%3C66A & UGC01832 & 1.7 & 192 & 56 & 5913 & -52 & 65 & 16 & 5965 & 53$\pm$6\\
+%CSO395 & UGC07207 & 0.87 & 103 & 83 & 1051 & 85 & 61 & x & 966 & 194$\pm$14\\
+%CSO395 & UGC07207 & 1.0 & 103 & 83 & 1051 & 26 & 61 & x & 1025 & 343$\pm$15\\
+%H1101-232 & MCG-04-26-019 & 0.33 & 173 & 179 & 3623 & 43 & 65 & 26 & 3580 & 573$\pm$12\\
+%HE1228+0131 & 2MASXJ12303439+0116243 & 0.18 & 127 & 159 & 9319 & 80 & 28 & 60 & 9239 & 249$\pm$3\\
+%MRC2251-178 & MCG-03-58-009 & 1.4* & 319 & 320 & 9030 & -21 & 59 & 39 & 9051 & 60$\pm$4\\
+%MRK290 & NGC5987 & 0.77* & 322 & 486 & 3010 & -95 & 65 & 12 & 3105 & 511$\pm$5\\
+%MRK290 & NGC5987 & 0.37* & 322 & 486 & 3010 & -197 & 65 & 12 & 3207 & 319$\pm$4\\
+%MRK1014 & NGC0768 & 0.12* & 253 & 486 & 7021 & -59 & 73 & 85 & 7080 & 117$\pm$11\\
+%PG0003+158 & NGC7814 & 0.081 & 171 & 197 & 1050 & 217 & 65 & 47 & 833 & 131$\pm$15\\
+%PG0003+158 & NGC7814 & 0.097 & 171 & 197 & 1050 & -200 & 65 & 47 & 1250 & 79$\pm$9\\
+%PG1121+423 & SDSSJ112418.74+420323.1 & 0.046 & 104 & 129 & 7374 & 248 & 65 & 20 & 7126 & 156$\pm$7\\
+%PG1121+423 & SDSSJ112418.74+420323.1 & 0.17 & 104 & 129 & 7374 & 95 & 65 & 20 & 7279 & 46$\pm$6\\
+%PG1121+423 & SDSSJ112418.74+420323.1 & 0.2 & 104 & 129 & 7374 & 46 & 65 & 20 & 7328 & 359$\pm$7\\
+%PG1216+069 & SDSSJ121903.72+063342.9 & 0.09 & 71 & 110 & 3833 & 20 & 61 & 65 & 3813 & 360$\pm$10\\
+%PG1302-102 & NGC4939 & 0.05* & 235 & 265 & 3110 & -338 & 46 & 61 & 3448 & 71$\pm$5\\
+%PG1307+085 & CGCG072-007 & 0.003 & 193 & 440 & 7119 & -160 & 50 & 43 & 7279 & 64$\pm$7\\
+%RX\_J0714.5+7408 & UGC03717 & 0.13* & 202 & 271 & 4188 & 114 & 61 & 83 & 4074 & 58$\pm$7\\
+%RX\_J0714.5+7408 & UGC03717 & 0.15* & 202 & 271 & 4188 & -76 & 61 & 83 & 4264 & 410$\pm$9\\
+%RX\_J1330.8+3119 & UGC08496NED02 & 0.08 & 101 & 160 & 4829 & -10 & 59 & 46 & 4839 & 413$\pm$16\\
+%RX\_J1330.8+3119 & UGC08492 & 0.081* & 204 & 335 & 7414 & 13 & 16 & 41 & 7401 & 330$\pm$15\\
+%RX\_J1503.2+6810 & CGCG318-012 & 0.031* & 250 & 325 & 9765 & -357 & 50 & 1 & 10122 & 44$\pm$14\\
+%SBS1108+560 & UGC06225 & 1.9 & 228 & 29 & 699 & -33 & 77 & 82 & 732 & 1082$\pm$82\\
+%SBS1108+560 & UGC06225 & 0.53* & 228 & 29 & 699 & -230 & 77 & 82 & 929 & 284$\pm$51\\
+%SBS1122+594 & NGC3642 & 0.035 & 150 & 226 & 1588 & -208 & 8 & 3 & 1796 & 29$\pm$8\\
+%SBS1537+577 & SDSSJ153802.75+573018.3 & 0.33 & 87 & 91 & 3525 & -24 & 80 & 15 & 3549 & 447$\pm$28\\
+%SDSSJ080838.80+051440.0 & UGC04239 & 0.87* & 279 & 378 & 8763 & 23 & 44 & 38 & 8740 & 883$\pm$24\\
+%SDSSJ080838.80+051440.0 & UGC04239 & 0.45* & 279 & 378 & 8763 & -164 & 44 & 38 & 8927 & 130$\pm$19\\
+%SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.015 & 103 & 133 & 7092 & 318 & 37 & 4 & 6774 & 543$\pm$10\\
+%SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.076 & 103 & 133 & 7092 & 192 & 37 & 4 & 6900 & 151$\pm$10\\
+%SDSSJ080908.13+461925.6 & SDSSJ080842.74+461828.9 & 0.19 & 103 & 133 & 7092 & -25 & 37 & 4 & 7117 & 176$\pm$12\\
+%SDSSJ140428.30+335342.0 & KUG1402+341 & 1.4 & 204 & 118 & 7919 & 35 & 69 & 63 & 7884 & 889$\pm$28\\
+%TON488 & UGC05478 & 0.89 & 92 & 58 & 1378 & 128 & 12 & x & 1250 & 68$\pm$9\\
+%TON488 & UGC05478 & 1.3 & 92 & 58 & 1378 & 3 & 12 & x & 1375 & 452$\pm$12\\
+%TON1009 & NGC2770 & 0.19* & 204 & 274 & 1947 & -14 & 78 & 43 & 1961 & 350$\pm$21\\
+%TON1009 & IC2439 & 1.2 & 153 & 109 & 4299 & 14 & 71 & 51 & 4285 & 343$\pm$17\\
+
+
+1H0717+714  &  UGC03804  &  0.24  &  173  &  207  &  2887  &  17  &  53  &  7  &  2870  &  343$\pm$6  \\
+1H0717+714  &  UGC03804  &  0.21  &  173  &  207  &  2887  &  -69  &  53  &  7  &  2956  &  39$\pm$4  \\
+2dFGRS\_S393Z082  &  NGC1097  &  1.8*  &  273  &  112  &  1271  &  32  &  47  &  12  &  1239  &  570$\pm$21  \\
+3C66A  &  UGC01832  &  1.7  &  192  &  56  &  5913  &  -52  &  65  &  16  &  5965  &  53$\pm$6  \\
+FBQSJ1431+2442  &  IRASF14291+2443  &  0.074*  &  203  &  328  &  6615  &  73  &  74  &  x  &  6542  &  56$\pm$15  \\
+FBQSJ1431+2442  &  IRASF14291+2443  &  0.085*  &  203  &  328  &  6615  &  -8  &  74  &  x  &  6623  &  272$\pm$20  \\
+H1101-232  &  MCG-04-26-019  &  0.33  &  173  &  179  &  3623  &  43  &  65  &  26  &  3580  &  573$\pm$12  \\
+HE0241-3043  &  NGC1097  &  1.4*  &  273  &  219  &  1271  &  50  &  47  &  62  &  1221  &  83$\pm$12  \\
+HE0241-3043  &  NGC1097  &  1.4*  &  273  &  219  &  1271  &  -39  &  47  &  62  &  1310  &  184$\pm$15  \\
+LBQS1230-0015  &  NGC4517  &  1.4  &  193  &  110  &  1128  &  1  &  83  &  90  &  1127  &  473$\pm$16  \\
+MRC2251-178  &  MCG-03-58-009  &  1.4*  &  319  &  320  &  9030  &  -21  &  59  &  39  &  9051  &  60$\pm$4  \\
+MRK1014  &  NGC0768  &  0.12*  &  253  &  486  &  7021  &  -59  &  73  &  85  &  7080  &  117$\pm$11  \\
+MRK290  &  NGC5987  &  0.77*  &  322  &  486  &  3010  &  -95  &  65  &  12  &  3105  &  511$\pm$5  \\
+MRK290  &  NGC5987  &  0.37*  &  322  &  486  &  3010  &  -197  &  65  &  12  &  3207  &  319$\pm$4  \\
+MRK876  &  UGC10294  &  0.063  &  165  &  274  &  3504  &  26  &  50  &  7  &  3478  &  280$\pm$3  \\
+PG0003+158  &  NGC7814  &  0.081  &  171  &  197  &  1050  &  217  &  65  &  47  &  833  &  131$\pm$15  \\
+PG0832+251  &  KUG0833+252  &  0.041  &  165  &  294  &  6964  &  -16  &  60  &  55  &  6980  &  133$\pm$14  \\
+PG0832+251  &  KUG0833+252  &  0.01  &  165  &  294  &  6964  &  -237  &  60  &  55  &  7201  &  48$\pm$10  \\
+PG1001+054  &  UGC05432  &  0.14  &  164  &  217  &  3995  &  -97  &  35  &  78  &  4092  &  222$\pm$10  \\
+PG1302-102  &  NGC4939  &  0.05*  &  235  &  265  &  3110  &  -338  &  46  &  61  &  3448  &  71$\pm$5  \\
+RBS1768  &  RFGC3781  &  0.056*  &  253  &  464  &  9162  &  -198  &  81  &  x  &  9360  &  364$\pm$4  \\
+RBS1768  &  RFGC3781  &  0.024*  &  253  &  464  &  9162  &  -272  &  81  &  x  &  9434  &  160$\pm$5  \\
+RX\_J0714.5+7408  &  UGC03717  &  0.13*  &  202  &  271  &  4188  &  114  &  61  &  83  &  4074  &  58$\pm$7  \\
+RX\_J0714.5+7408  &  UGC03717  &  0.15*  &  202  &  271  &  4188  &  -76  &  61  &  83  &  4264  &  410$\pm$9  \\
+RX\_J1017.5+4702  &  NGC3198  &  0.02  &  191  &  378  &  663  &  34  &  70  &  55  &  629  &  60$\pm$17  \\
+RX\_J1117.6+5301  &  NGC3631  &  0.32  &  187  &  198  &  1156  &  25  &  16  &  x  &  1131  &  356$\pm$20  \\
+RX\_J1117.6+5301  &  NGC3631  &  0.25  &  187  &  198  &  1156  &  -103  &  16  &  x  &  1259  &  57$\pm$17  \\
+RX\_J1236.0+2641  &  NGC4565  &  0.54*  &  292  &  159  &  1230  &  218  &  83  &  39  &  1012  &  337$\pm$32  \\
+RX\_J1236.0+2641  &  NGC4565  &  1.7*  &  292  &  159  &  1230  &  42  &  83  &  39  &  1188  &  288$\pm$24  \\
+RX\_J1236.0+2641  &  NGC4559  &  0.27  &  165  &  188  &  807  &  12  &  62  &  31  &  795  &  295$\pm$37  \\
+RX\_J1330.8+3119  &  UGC08492  &  0.081*  &  204  &  335  &  7414  &  13  &  16  &  41  &  7401  &  330$\pm$15  \\
+RX\_J1356.4+2515  &  CGCG132-055  &  0.35*  &  206  &  190  &  8671  &  196  &  35  &  25  &  8475  &  126$\pm$18  \\
+RX\_J1503.2+6810  &  CGCG318-012  &  0.031*  &  250  &  325  &  9765  &  -357  &  50  &  1  &  10122  &  44$\pm$14  \\
+RX\_J1544.5+2827  &  CGCG166-047  &  0.031  &  175  &  326  &  9646  &  4  &  42  &  61  &  9642  &  183$\pm$14  \\
+RX\_J1544.5+2827  &  CGCG166-047  &  0.023  &  175  &  326  &  9646  &  -113  &  42  &  61  &  9759  &  169$\pm$12  \\
+RX\_J2043.1+0324  &  NGC6954  &  0.037  &  166  &  301  &  4067  &  -13  &  55  &  66  &  4080  &  82$\pm$10  \\
+RX\_J2139.7+0246  &  UGC11785  &  1.5  &  203  &  108  &  4074  &  -9  &  80  &  69  &  4083  &  490$\pm$7  \\
+RX\_J2139.7+0246  &  UGC11785  &  1.2*  &  203  &  108  &  4074  &  -107  &  80  &  69  &  4181  &  529$\pm$7  \\
+SBS0957+599  &  MCG+10-14-058  &  1.4*  &  261  &  206  &  9501  &  32  &  71  &  19  &  9469  &  78$\pm$12  \\
+SDSSJ021218.32-073719.8  &  SDSSJ021315.79-073942.7  &  0.09  &  174  &  268  &  4800  &  44  &  50  &  10  &  4756  &  528$\pm$15  \\
+SDSSJ021218.32-073719.8  &  SDSSJ021315.79-073942.7  &  0.092  &  174  &  268  &  4800  &  -33  &  50  &  10  &  4833  &  500$\pm$17  \\
+SDSSJ080838.80+051440.0  &  UGC04239  &  0.87*  &  279  &  378  &  8763  &  23  &  44  &  38  &  8740  &  883$\pm$24  \\
+SDSSJ080838.80+051440.0  &  UGC04239  &  0.45*  &  279  &  378  &  8763  &  -164  &  44  &  38  &  8927  &  130$\pm$19  \\
+SDSSJ091728.60+271951.0  &  UGC04895  &  0.022*  &  204  &  408  &  7073  &  -68  &  59  &  32  &  7141  &  374$\pm$23  \\
+SDSSJ112224.10+031802.0  &  NGC3640  &  0.4  &  180  &  139  &  1251  &  202  &  37  &  22  &  1049  &  288$\pm$30  \\
+SDSSJ112224.10+031802.0  &  NGC3640  &  1.1  &  180  &  139  &  1251  &  -13  &  37  &  22  &  1264  &  424$\pm$27  \\
+SDSSJ130524.30+035731.0  &  UGC08186  &  1.3*  &  268  &  249  &  7006  &  -33  &  76  &  14  &  7039  &  480$\pm$14  \\
+SDSSJ135726.27+043541.4  &  NGC5364  &  0.74*  &  211  &  183  &  1241  &  117  &  55  &  84  &  1124  &  85$\pm$11  \\
+SDSSJ135726.27+043541.4  &  NGC5364  &  0.97*  &  211  &  183  &  1241  &  -55  &  55  &  84  &  1296  &  98$\pm$9  \\
+SDSSJ140428.30+335342.0  &  KUG1402+341  &  1.4  &  204  &  118  &  7919  &  35  &  69  &  63  &  7884  &  889$\pm$28  \\
+TON1009  &  NGC2770  &  0.19*  &  204  &  274  &  1947  &  -14  &  78  &  43  &  1961  &  350$\pm$21  \\
+
+
+
  \\
 \hline
 \end{tabular}

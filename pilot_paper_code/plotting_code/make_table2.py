@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  make_table2.py, v 1.2 05/17/2016
+$Id:  make_table2.py, v 1.3 07/21/2016
 
 Make table 2 for the pilot paper - list of targets with associated galaxies and line info
 
@@ -12,6 +12,9 @@ v1.1: updates for LG_correlation_combined5_8_edit2.csv, where l_min = 0.001
 
 v1.2: updates for LG_correlation_combined5_9_edit2.csv, using v_hel instead of vcorr
         - (05/17/2016)
+        
+v1.3: updated for LG_correlation_combined5_11_25cut_edit.csv (7/21/16)
+        NOT FINISHED YET
 
 '''
 
@@ -57,12 +60,12 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_9_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -72,8 +75,8 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table5_9_edit2.txt'
-    outFile = open(saveDirectory+outFilename,'wt')
+    outFilename = 'table2__5_11_25cut_edit.txt'
+    outFile = open(saveDirectory + outFilename,'wt')
     
     virInclude = False
     cusInclude = False
@@ -144,13 +147,13 @@ def main():
             b = str(l['b']).partition('pm')[0]
             b_err = str(l['b']).partition('pm')[2]
             na = str(l['Na']).partition(' pm ')[0]
-            print "l['Na'].partition(' pm ')[2] : ",str(l['Na']).partition(' pm ')
+#             print "l['Na'].partition(' pm ')[2] : ",str(l['Na']).partition(' pm ')
             na_err = str(l['Na']).partition(' pm ')[2]
 
             lyaWplusErr = str(lyaW)+'$\pm$'+str(lyaW_err)
             
             # the spacer between values
-            s = ' & '
+            s = '  &  '
             
             if float(likelihood) >0:
                 likelihood = str(round_to_n(float(likelihood),2))
@@ -186,7 +189,7 @@ def main():
             inc + s + \
             az + s + \
             lyaV + s + \
-            lyaWplusErr + '\\\\'
+            lyaWplusErr + '  \\\\'
             
             
             outFile.write(line + '\n')
