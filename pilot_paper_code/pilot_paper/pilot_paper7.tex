@@ -33,7 +33,7 @@
 %\renewcommand{\baselinestretch}{1.5}
 %\renewcommand{\thefootnote}{\roman{footnote}}
 
-\graphicspath{{paper_figures3//}}
+\graphicspath{{paper_figures4//}}
 
 
 \frenchspacing
@@ -292,9 +292,9 @@ All COS spectra for the target sightlines were obtained through the Barbara A. M
 
 \begin{figure}[ht!]
 \centering
-  \subfigure[]{\includegraphics[width=1.\linewidth]{MRK290_system-3192_cut.jpg}}{\label{line}}
+  \subfigure[]{\includegraphics[width=0.95\linewidth]{MRK290_system-3192_cut.jpg}}{\label{line}}
   \subfigure[]{\includegraphics[width=1.\linewidth]{map_MRK290_3207.pdf}\label{impactmap}}
-  \caption{\small{a) An example of Ly$\alpha$ lines found in a sightline towards target MRK290 at 3192 and 3207 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter of target MRK290 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 3192 and 3207 km/s (central black star). The galaxy NGC5987 ($v=4494$ km/s, inclination = $71^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption feature at $v=4295$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
+  \caption{\small{a) An example of Ly$\alpha$ lines found in a sightline towards target MRK290 at 3090 and 3192 km/s. b) A map of \textit{all} galaxies within a 500 kpc impact parameter of target MRK290 sightline and with velocity ($cz$) within 400 km/s of absorption detected at 3090 and 3192 km/s (central black star). The galaxy NGC5987 ($v=3010$ km/s, inclination = $65^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption features at $v=3090, 3192$ km/s because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
 \vspace{5pt}
 \end{figure}
 
@@ -448,7 +448,7 @@ TON1009  &  NGC2770  &  0.19*  &  204  &  274  &  1947  &  -14  &  78  &  43  & 
 
 \section{Results}
 
-We have identified 175 Ly$\alpha$ absorption lines in the spectra of our initial 35 QSO sample. Of these, 41 can be unambiguously associated with a single nearby galaxy, 46 are near more than one galaxy, and 88 reside more than $\rho = 500$ kpc and $\Delta v = 400$ km/s from any galaxy. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
+We have identified 51 Ly$\alpha$ absorption lines in the spectra of our initial 35 QSO sample which can be unambiguously associated with a single nearby large galaxy ($D\geq25$ kpc diameter). In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
 
 To facilitate this decision, we introduce the likelihood, $\mathcal{L}$, of every possible galaxy-absorber pairing as follows:
 
@@ -456,7 +456,7 @@ To facilitate this decision, we introduce the likelihood, $\mathcal{L}$, of ever
 	\mathcal{L} = A e^{-(\frac{\rho}{R_{eff}})^2} e^{-(\frac{\Delta v}{200})^2}.
 \end{equation}
 
-\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $R_{eff} \geq \rho$ (in which case $A = 2$, otherwise $A = 1$). We compute $\mathcal{L}$ for two different values of $R_{eff}$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, we require that its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association, and $\mathcal{L} \ge 0.001$ for both calculations of $\mathcal{L}$. We visually inspect systems with only one $\mathcal{L}$ meeting these criteria, and decide to reject or include it based on the complexity of the nearby galaxy environment. 
+\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $R_{eff} \geq \rho$ (in which case $A = 2$, otherwise $A = 1$). We compute $\mathcal{L}$ for two different values of $R_{eff}$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, we require that its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association, and $\mathcal{L} \ge 0.01$ for both calculations of $\mathcal{L}$. We visually inspect systems with only one $\mathcal{L}$ meeting these criteria, and decide to reject or include it based on the complexity of the nearby galaxy environment. 
 
 
 \begin{figure}[h!]
@@ -467,7 +467,7 @@ To facilitate this decision, we introduce the likelihood, $\mathcal{L}$, of ever
         \vspace{5pt}
 \end{figure} 
 
-Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption feature at $4295$ km/s toward TON1009 and galaxy IC2439 ($\mathcal{L} = 0.45$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems. 
+Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption features at $3090, 3192$ km/s toward MRK290 and galaxy NGC5987 ($\mathcal{L} = 0.37$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems. 
 
 Additionally, we split the absorber-galaxy catalog based on the velocity difference of the two, $\Delta v$. With this scheme, we refer to an absorber with a velocity \textit{lower} than the associated galaxy as \textit{blueshifted}, while an absorber with a velocity \textit{higher} is referred to as \textit{redshifted}. The rest of the results will be analyzed based upon this splitting. 
 
