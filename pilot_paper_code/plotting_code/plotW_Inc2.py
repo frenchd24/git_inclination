@@ -94,6 +94,11 @@ def perc70(a):
     else:
         return 0
 
+def perc50(a):
+    if len(a)>0:
+        return percentile(a,50)
+    else:
+        return 0
 
 
     
@@ -924,7 +929,7 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        binSize = 15
+        binSize = 12
         alpha = 0.75
         
         labelr = 'Redshifted Absorber'
@@ -1249,11 +1254,13 @@ def main():
         alpha = 0.75
 #         bins = [0,15,30,45,60,75,90,105]
 #         bins = arange(0,100,10)
-        binSize = 15
+        binSize = 12
         bins = arange(0,90+binSize,binSize)
 
         labelr = r'$\rm Redshifted$'
         labelb = r'$\rm Blueshifted$'
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         allInc = []
         allW = []
@@ -1278,6 +1285,7 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
                         
                         bInc.append(float(i))
                         bW.append(float(w))
@@ -1286,11 +1294,12 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(i,w,c='Blue',s=50,alpha = alpha)
+                            plotb = ax.scatter(i,w,marker=bSymbol,c='Blue',s=50,alpha = alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
                         
                         rInc.append(float(i))
                         rW.append(float(w))
@@ -1299,9 +1308,9 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(i,w,c='Red',s=50,alpha = alpha)
+                            plotr = ax.scatter(i,w,marker=rSymbol,c='Red',s=50,alpha = alpha)
 
-                    plot1 = scatter(i,w,c=color,s=50,alpha=alpha)
+                    plot1 = scatter(i,w,marker=symbol,c=color,s=50,alpha=alpha)
                             
 
 #         totals
@@ -1311,13 +1320,13 @@ def main():
 #         Y = np.array([bin_means,bin_means]).T.flatten()
 #         plt.plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Average ~ EW$')
 
-        # 50% percentile
+        # mean
         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
-        statistic='median', bins=bins)
+        statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Median ~EW$')
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Mean ~EW$')
         
         # 90% percentile
         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
@@ -1325,7 +1334,16 @@ def main():
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plt.plot(X,Y, ls='dashed',color='purple',lw=2.0,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+        plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+
+#         # 50% percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
+#         statistic=lambda y: perc50(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Median ~EW$')
+        
         
 #         10th percentile
 #         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
@@ -1358,11 +1376,11 @@ def main():
         ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(-5,max(lyaWList)+100)
-        ylim(0,1200)
-        xlim(0,90)
+        ylim(-2,1000)
+        xlim(0,90.5)
 
         if save:
-            savefig('{0}/W(fancy_inc)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(fancy_inc)_mean_90_hist.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             

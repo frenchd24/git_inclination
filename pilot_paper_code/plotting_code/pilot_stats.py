@@ -400,17 +400,22 @@ def main():
                 redLike.append(float(l))
                 
     # how many absorbers above vs below vel_cut?
-    redVelCount = 0
-    blueVelCount = 0
-    vel_cut = 200
+    redVelCount200 = 0
+    redVelCount100 = 0
+    blueVelCount200 = 0
+    blueVelCount100 = 0
     
     for b in blues:
         if b >=200:
-            blueVelCount +=1
-    
+            blueVelCount200 +=1
+        if b >= 100:
+            blueVelCount100 +=1
+        
     for r in reds:
         if abs(r) >=200:
-            redVelCount +=1
+            redVelCount200 +=1
+        if abs(r) >=100:
+            redVelCount100 +=1
     
     
             
@@ -452,8 +457,13 @@ def main():
 
     print 'avg blueshifted vel_diff: ',mean(blues)
     print 'median blueshifted vel_diff: ',median(blues)
-    print '% blueshifted which have vel_diff >= 200 km/s: {0}'.format(float(blueVelCount)/len(blues))
+    print '% blueshifted which have vel_diff >= 200 km/s: {0}'.format(float(blueVelCount200)/len(blues))
+    print 'total number with abs(vel_diff) >= 200 km/s: {0}'.format(blueVelCount200)
+    print '% blueshifted which have vel_diff >= 100 km/s: {0}'.format(float(blueVelCount100)/len(blues))
+    print 'total number with abs(vel_diff) >= 100 km/s: {0}'.format(blueVelCount100)
 
+    print
+    
     print 'avg blue velocity: ',mean(blueV)
     print 'median blue velocity: ',median(blueV)
 
@@ -470,8 +480,11 @@ def main():
 
     print 'avg redshifted vel_diff: ',mean(reds)
     print 'median redshifted vel_diff: ',median(reds)
-    print '% redshifted which have abs(vel_diff) >= 200 km/s: {0}'.format(float(redVelCount)/len(reds))
-
+    print '% redshifted which have abs(vel_diff) >= 200 km/s: {0}'.format(float(redVelCount200)/len(reds))
+    print 'total number with abs(vel_diff) >= 200 km/s: {0}'.format(redVelCount200)
+    print '% redshifted which have abs(vel_diff) >= 100 km/s: {0}'.format(float(redVelCount100)/len(reds))
+    print 'total number with abs(vel_diff) >= 100 km/s: {0}'.format(redVelCount100)
+    print
 
     print 'avg red velocity: ',mean(redV)
     print 'median red velocity: ',median(redV)

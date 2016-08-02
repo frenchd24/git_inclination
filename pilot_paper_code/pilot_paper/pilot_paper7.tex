@@ -532,7 +532,7 @@ Numerous previous studies have suggested that Ly$\alpha$ equivalent width ($EW$)
 
 \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.48\textwidth]{W(inc)_medHistogram.pdf}
+        \includegraphics[width=0.48\textwidth]{W(fancy_inc)_mean_90_hist.pdf}
         \caption{\small{Equivalent width of each absorber as a function of the inclination angle of the associated galaxy. The dashed black line shows the mean $EW$ of all absorbers in bins of $15^{\circ}$.}}
         \label{ew_vs_inclination}
         \vspace{2pt}
@@ -547,7 +547,9 @@ Numerous previous studies have suggested that Ly$\alpha$ equivalent width ($EW$)
 \end{figure}
 
 \subsection{Velocity Difference \rm($\Delta v$\rm)}
-Additionally, we find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 25/41 ($61\%$) of absorbers are found within $\pm100$ km/s, and the highest $EW$ absorbers are found within $\pm50$ km/s  of their associated galaxy velocities.
+%Additionally, we find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 25/41 ($61\%$) of absorbers are found within $\pm100$ km/s, and the highest $EW$ absorbers are found within $\pm50$ km/s  of their associated galaxy velocities.
+
+Additionally, we find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 35/51 ($69\%$) of absorbers are found within $\pm100$ km/s. This $\pm100$ km/s threshold also applies to absorber $EW$, with and only 1 absorber of $EW \geq 400$ is found with $\Delta v > 100$ km/s. 
 
 \vspace{5pt}
 
@@ -571,15 +573,20 @@ Additionally, we find evidence for an anti-correlation between absorber $EW$ and
 
 
 \subsection{Inclination}
-In this section we examine the inclinations of the associated galaxies compared to the distributions of absorbers. We compute galaxy inclination, $i$, as follows:
+In this section we examine the inclinations of the associated galaxies compared to the distributions of absorbers. We correct for the finite thickness of galaxies, which causes $b/a$ to deviate from cos$i$ at high inclinations, by computing galaxy inclinations with the following formula from Heidmann et al. (1972a):
 
 \begin{equation}
 	\cos(i) = \sqrt{\frac{q^2 - q_0^2}{1 - q_0^2}},
+	\label{incEq}
 \end{equation}
 
-\noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies.
+\noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies. 
 
-Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is an apparent dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies ($i \geq$ 50 deg). In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The mean $EW$ of all redshifted absorbers is $\overline{EW}$ = $237 \pm 16$  $\textrm{m\AA}$, compared to $\overline{EW}$ = $353 \pm 12$ $\textrm{m\AA}$ for blueshifted absorbers. To test if the distributions of red and blue-shifted absorbers are actually different we performed KS and AD statistical distribution tests, which both yielded p-values $=0.05$. While $p=0.05$ is often quoted as a threshold for significance, we believe a larger sample size is needed before we can claim the presence of a true, physical dichotomy.
+%Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is an apparent dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies ($i \geq$ 50 deg). In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The mean $EW$ of all redshifted absorbers is $\overline{EW}$ = $237 \pm 16$  $\textrm{m\AA}$, compared to $\overline{EW}$ = $353 \pm 12$ $\textrm{m\AA}$ for blueshifted absorbers. To test if the distributions of red and blue-shifted absorbers are actually different we performed KS and AD statistical distribution tests, which both yielded p-values $=0.05$. While $p=0.05$ is often quoted as a threshold for significance, we believe a larger sample size is needed before we can claim the presence of a true, physical dichotomy.
+
+Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is a clear excess of absorbers near galaxies of high inclination, with $75\%$ of redshifted and $65\%$ of blueshifted absorbers being associated with galaxies of $i \geq$ 50 deg. The solid-black and dashed-grey lines show mean and 90th percentile histograms in bins of 12 deg, respectively. 
+
+In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The mean $EW$ of all redshifted absorbers is $\overline{EW}$ = $237 \pm 16$  $\textrm{m\AA}$, compared to $\overline{EW}$ = $353 \pm 12$ $\textrm{m\AA}$ for blueshifted absorbers. To test if the distributions of red and blue-shifted absorbers are actually different we performed KS and AD statistical distribution tests, which both yielded p-values $=0.05$. While $p=0.05$ is often quoted as a threshold for significance, we believe a larger sample size is needed before we can claim the presence of a true, physical dichotomy.
 
 It is important to note here that the majority of our sample of absorbers are measured far from galaxies (mean $\rho = 166$ kpc for blueshifted absorbers and $\rho = 261$ kpc for redshifted absorbers). Additionally, the differential velocity between galaxy and absorber ($\Delta v$) is on the order of the rotation velocity for spiral galaxies (average $\Delta v = 89$ km/s for blueshifted, $\Delta v = -134$ km/s for redshifted absorbers). Without further knowledge of the rotation velocity and orientation of each galaxy however, we can only speculate at the origins of the dichotomy between red and blue-shifted absorbers.
 
