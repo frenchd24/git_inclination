@@ -59,13 +59,11 @@ def main():
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
@@ -227,7 +225,7 @@ def main():
                 galaxyDict[galaxyName] = i
             
             else:
-                galaxyDict[galaxyName] = [(galaxyName,lyaW,vel_diff)]
+                galaxyDict[galaxyName] = [(galaxyName,float(lyaW),float(vel_diff))]
             
         else:
             lyaV = l['Lya_v']
@@ -277,76 +275,68 @@ def main():
         blues = []
         reds = []
         names = []
+        namesR = []
+        namesB = []
+        i = -1
+        
         for v,k in zip(vals,keys):
             # does this galaxy have multiple lines associated with it?
             if len(v) >1:
                 # for each galaxy, go through the associated lines and add EW to either
-                # the blue or red shifted bin, and the name to names list
+                # the blue or red shifted bin, and the name to the names list
                 names.append(k)
+                i +=1
                 
                 for l in v:
                     EW = l[1]
-                    vel = l[2]
+                    vel = float(l[2])
                     if vel >= 0:
                         blues.append(EW)
+                        namesB.append(i)
+                        print i,' = ',vel
                     else:
                         reds.append(EW)
+                        namesR.append(i)
+                        print 'red'
                     
+        x = range(len(names))
         
-        xlen = len(names)
-        x = range(names)
-        
+        print 'x: ',x
+        print ' names: ',names
+        print 'blues: ',blues
+        print 'reds: ',reds
+                
         ax = fig.add_subplot(111)
-        plot1 = plot(x, blues,label=r'$\rm Blueshifted$',color="Blue",alpha = 0.85)
-        plot2 = hist(x,reds,label=r'$\rm Redshifted$',color="Red",alpha = 0.85)
+        plot1 = plot(namesB, blues, lw=0,marker='o',label=r'$\rm Blueshifted$',color="Blue",alpha = 0.85)
+        plot2 = plot(namesR, reds, lw=0,marker='o',label=r'$\rm Redshifted$',color="Red",alpha = 0.85)
+        
+        plt.xticks(x, names, rotation='vertical')
 
         legend(scatterpoints=1,prop={'size':12},loc=1)
+        
 #         ylabel(r'$\rm Number$')
 #         ylim(0,10)
         
         # X-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFormatter)
-        ax.xaxis.set_minor_locator(minorLocator)
+#         majorLocator   = MultipleLocator(1)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(1)
+# 
+#         ax.xaxis.set_major_locator(majorLocator)
+#         ax.xaxis.set_major_formatter(majorFormatter)
+#         ax.xaxis.set_minor_locator(minorLocator)
         
         # Y-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(100)
         
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        
-
-        # X-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFormatter)
-        ax.xaxis.set_minor_locator(minorLocator)
-        
-        # Y-axis
-        majorLocator   = MultipleLocator(2)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
-        
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
-        
-        
-        xlabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-#         ax.tick_params(axis='x', labelsize=11)
-#         ax.tick_params(axis='y',labelsize=11)
-#         xlim(0,1200)
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        tight_layout()
         
         if save:
             savefig('{0}/W(vel_diff_multiple).pdf'.format(saveDirectory),format='pdf')

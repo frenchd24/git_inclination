@@ -1,4 +1,4 @@
-\begin{thebibliography}{57}
+\begin{thebibliography}{58}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Carswell} {et~al.}(2002){Carswell}, {Schaye}, \&
@@ -49,6 +49,10 @@
 
 \bibitem[{{Erb}(2008)}]{2008ApJ...674..151E}
 {Erb}, D.~K. 2008, \apj, 674, 151
+
+\bibitem[{{Jones} {et~al.}(1996){Jones}, {Davies}, \&
+  {Trewhella}}]{1996MNRAS.283..316J}
+{Jones}, H., {Davies}, J.~I., \& {Trewhella}, M. 1996, \mnras, 283, 316
 
 \bibitem[{{Kacprzak} {et~al.}(2011{\natexlab{a}}){Kacprzak}, {Churchill},
   {Barton}, \& {Cooke}}]{2011ApJ...733..105K}

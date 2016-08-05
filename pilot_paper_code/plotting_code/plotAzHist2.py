@@ -137,7 +137,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 2
+    maxEnv = 2000
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -482,7 +482,7 @@ def main():
     #
     
     plotAzHist_all_over = True
-    save = False
+    save = True
     
     if plotAzHist_all_over:
     
@@ -519,10 +519,10 @@ def main():
         ax = fig.add_subplot(111)
         
         # all first
-        plot1 = hist(azList,bins=bins,histtype='step',lw=2.0,alpha=0.9,color='black',label=r'$\rm All$')
+        plot1 = hist(azList,bins=bins,histtype='step',lw=2.1,alpha=0.9,color='black',label=r'$\rm All$')
 
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,ls='dashed',label=r'$\rm Blueshifted$')
-        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label=r'$\rm Redshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,hatch='\\\\',lw=1.8,label=r'$\rm Redshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.8,hatch='//',ls='dashed',label=r'$\rm Blueshifted$')
 
         # x-axis
         majorLocator   = MultipleLocator(10)
@@ -549,7 +549,7 @@ def main():
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_overlaid_all.eps'.format(saveDirectory),format='eps',bbox_inches='tight')
         else:
             show()
 

@@ -3,18 +3,10 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_vs_b.py, v 1.2 04/21/2016
+$Id:  plotb_vs_impact.py, v 1.0 08/04/2016
 
-Plot the equivalent width as a function of dopplar b-parameter
-    - (03/02/2016)
-
-
-v1.1: remake plots with v_hel instead of vcorr (8/04/16)
-
-v1.2: remake plots for new large galaxy only sample from file:
-    LG_correlation_combined5_11_25cut_edit.csv (8/04/16)
-    
-    - also make them look nice with Tex formatting
+Plot the dopplar b-parameter as a function of impact parameter
+    - (08/04/2016)
         
 
 '''
@@ -22,9 +14,8 @@ v1.2: remake plots for new large galaxy only sample from file:
 import sys
 import os
 import csv
-
+from scipy import stats
 from pylab import *
-# import atpy
 from math import *
 from utilities import *
 import getpass
@@ -58,7 +49,36 @@ rc('ytick',labelsize = fontScale)
 rc('axes',linewidth = 1)
     
 
-###########################################################################
+##########################################################################################
+
+def perc90(a):
+    if len(a)>0:
+        return percentile(a,90)
+    else:
+        return 0
+        
+def perc10(a):
+    if len(a)>0:
+        return percentile(a,10)
+    else:
+        return 0
+        
+def perc70(a):
+    if len(a)>0:
+        return percentile(a,70)
+    else:
+        return 0
+
+def perc50(a):
+    if len(a)>0:
+        return percentile(a,50)
+    else:
+        return 0
+
+
+
+
+
 
     
 def main():
@@ -285,10 +305,10 @@ def main():
     # plot W as a function of dopplar b-parameter
     # 
     
-    plotW_vs_b = True
+    plotb_vs_impact = True
     save = False
     
-    if plotW_vs_b:
+    if plotb_vs_impact:
         fig = figure()
         ax = fig.add_subplot(111)
         
@@ -296,51 +316,79 @@ def main():
         countr = 0
         count = -1
         
+        alpha = 0.7
+        
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         
-        for d,b,w,v in zip(difList,bList,lyaWList,virList):
+        allImpact = []
+        allb = []
+        
+        for d,b,w,i in zip(difList,bList,lyaWList,impactList):
             # check if all the values are okay
-            if isNumber(d) and isNumber(b) and isNumber(w) and isNumber(v):
-                if d!=-99 and b!=-99 and w!=-99 and v!=-99:
+            if isNumber(d) and isNumber(b) and isNumber(w) and isNumber(i):
+                if d!=-99 and b!=-99 and w!=-99 and i!=-99:
+                    allImpact.append(i)
+                    allb.append(b)
+                    
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(b,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(i,b,c='Blue',alpha=alpha,s=50,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(b,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(i,b,c='Red',alpha=alpha,s=50,label= labelr)
                 
-                    plot1 = scatter(b,w,c=color,s=50)
+                    plot1 = scatter(i,b,c=color,alpha=alpha,s=50)
             
-        xlabel(r'$b$ [km/s]')
-        ylabel(r'$W$ (km/s)')
+        xlabel(r'$\rm \rho [kpc]$')
+        ylabel(r'$\rm b [km/s]$')
         legend(scatterpoints=1,fancybox=True,prop={'size':14},)
         ax.grid(b=None,which='major',axis='both')
 
+        binSize = 100
+        bins = arange(0,500+binSize,binSize)
+
+        # mean
+        bin_means,edges,binNumber = stats.binned_statistic(array(allImpact), array(allb), \
+        statistic='median', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Median ~b$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(allImpact), array(allb), \
+        statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha,label=r'$\rm 90th\% ~b$')
+
+
         # x-axis
-        majorLocator   = MultipleLocator(5)
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2.5)
+        minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
-        majorLocator   = MultipleLocator(200)
+        majorLocator   = MultipleLocator(20)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(100)
+        minorLocator   = MultipleLocator(5)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
         if save:
-            savefig('{0}/W(b).pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/b(impact).pdf'.format(saveDirectory),format='pdf')
         else:
             show()
             
