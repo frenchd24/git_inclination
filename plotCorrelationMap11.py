@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap11.py, v 11.1 07/06/2016
+$Id: plotCorrelationMap11.py, v 11.2 08/08/2016
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -102,6 +102,8 @@ v11: moved to .../inclination/git_inclination/ so it can be updated with git, an
     
 v11.1: updates for the newest round of sightlines in LG_correlation_combined5_10.csv
        - Made LG_correlation_combined5_11.csv and targetmaps34 (07/06/16)
+       
+v11.2: minor formatting updates. (8/08/16)
 
 """
 
@@ -120,13 +122,13 @@ from utilities import *
 import getpass
 
 from matplotlib import rc
-fontScale = 14
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=18,family='serif',weight='medium')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -134,7 +136,7 @@ rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
-rc('axes',linewidth = 1)
+rc('axes',linewidth = 1,labelweight='normal')
 
 # from matplotlib.patches import Ellipse
 
@@ -243,7 +245,7 @@ def main():
     agnSeparation = False
     
     # include name tags on galaxies? They don't scale very well...
-    includeNameTags = True
+    includeNameTags = False
     
     # include a title on the plots?
     includeTitle = False
@@ -258,7 +260,7 @@ def main():
     saveMapTables = True
     
     # Save the full results with "include" tags?
-    saveResults = True
+    saveResults = False
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -274,13 +276,13 @@ def main():
     user = getpass.getuser()
     if user == "David":
         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_10.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps34/'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps36/'
+        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_test.csv'
 
     elif user == "frenchd":
         targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_10.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps34/'
-        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps36/'
+        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_test.csv'
 
     else:
         print "Unknown user: ",user
@@ -505,7 +507,28 @@ def main():
             fig = figure(figsize=(12,10))
             ax = fig.add_subplot(111)
             width = 0.30
+            
+            # format the axes:
+            #
+            # x-axis
+            majorLocator   = MultipleLocator(100)
+            majorFormatter = FormatStrFormatter('%d')
+            minorLocator   = MultipleLocator(50)
+            ax.xaxis.set_major_locator(majorLocator)
+            ax.xaxis.set_major_formatter(majorFormatter)
+            ax.xaxis.set_minor_locator(minorLocator)
         
+            # y axis
+            majorLocator   = MultipleLocator(100)
+            majorFormatter = FormatStrFormatter('%d')
+            minorLocator   = MultipleLocator(50)
+            ax.yaxis.set_major_locator(majorLocator)
+            ax.yaxis.set_major_formatter(majorFormatter)
+            ax.yaxis.set_minor_locator(minorLocator)            
+            
+#             ax.xaxis.set_tick_params(labelweight='normal')
+#             ax.yaxis.set_tick_params(labelweight='normal')
+            
             # scale sizes and velocities
             maxSize = 300
             minSize = 80
@@ -881,34 +904,18 @@ def main():
             cbar = plt.colorbar(plot1,ticks=ticks,cmap=colmap,orientation='vertical')
 
             cbar.ax.set_yticklabels(ticks)
-            cbar.set_label('Galaxy velocity (km/s)')
+            cbar.set_label(r'$\rm \Delta v ~[km ~s^{-1}]$')
         
             ax.grid(b=None,which='major',axis='both')
             ax.set_ylim(-500,500)
             ax.set_xlim(-500,500)
             
-            ax.set_xlabel('RA Separation (kpc)')
-            ax.set_ylabel('Dec Separation (kpc)')
+            ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
+            ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
                 title("{0} sightline map velocity = {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
 
-            # format the axes:
-            #
-            # x-axis
-            majorLocator   = MultipleLocator(100)
-            majorFormatter = FormatStrFormatter('%d')
-            minorLocator   = MultipleLocator(25)
-            ax.xaxis.set_major_locator(majorLocator)
-            ax.xaxis.set_major_formatter(majorFormatter)
-            ax.xaxis.set_minor_locator(minorLocator)
-        
-            # y axis
-            majorLocator   = MultipleLocator(100)
-            majorFormatter = FormatStrFormatter('%d')
-            minorLocator   = MultipleLocator(25)
-            ax.yaxis.set_major_locator(majorLocator)
-            ax.yaxis.set_major_formatter(majorFormatter)
-            ax.yaxis.set_minor_locator(minorLocator)
+
 
     
             # now write it all to file, or display the finished figure
