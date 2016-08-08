@@ -53,9 +53,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 15
+fontScale = 24
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=24, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -251,6 +251,8 @@ def main():
     allCosInclinations = fullDict['allCosInclinations']
     allFancyInclinations = fullDict['allFancyInclinations']
     allCosFancyInclinations = fullDict['allCosFancyInclinations']
+    
+    allDiameter = fullDict['allDiameters']
     
     total = 0
     totalNo = 0
@@ -634,8 +636,8 @@ def main():
     # plotted together and separately all in one, then the whole table as a subplot
     #
     
-    plotFancyIncDifHist_full_all = False
-    save = False
+    plotFancyIncDifHist_full_all = True
+    save = True
     
     if plotFancyIncDifHist_full_all:
     
@@ -646,6 +648,8 @@ def main():
         bins = arange(0,100,10)
         blue = []
         red = []
+        
+        alpha = 0.6
         
         blueLya = []
         blueLyaErr = []
@@ -681,16 +685,18 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(5)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(2.5)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
 
-        hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label=r'$\rm Blueshifted$')
-        hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label=r'$\rm Redshifted$')        
-        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label=r'$\rm All ~ Associated$')
+#         hist(red,bins=bins,histtype='bar',color='red',hatch='\\',lw=1.5,alpha = alpha,label=r'$\rm Redshifted$')        
+#         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = alpha,label=r'$\rm Blueshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',hatch='\\',lw=1.7,alpha = alpha+0.25,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.7,alpha = alpha,label=r'$\rm Redshifted$')        
+        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.1,alpha = 0.9,label=r'$\rm All ~ Associated$')
         
-        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ylabel(r'$\rm Number$')
         
 
@@ -708,13 +714,13 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(5000)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1000)
+        minorLocator   = MultipleLocator(2500)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
         hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All$')
-        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Number$')
 #         tight_layout()
@@ -840,8 +846,6 @@ def main():
         fig = figure(figsize=(10,6))
         subplots_adjust(hspace=0.200)
 
-#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
-#         bins = arange(0,100,10)
         bins = arange(0,90,0.5)
         blues = []
         reds = []
@@ -890,39 +894,14 @@ def main():
         
         n_blues, bins_blues, patches_blues = hist(blues, bins, normed=1, histtype="step",\
         cumulative=True,lw=1,label=r'$\rm Blueshifted ~CDF$',color='blue')
+
+#         n_blues, bins_blues, patches_blues = hist(fancyIncList, bins=bins, normed=1, histtype="step",\
+#         cumulative=True,lw=2,label=r'$\rm Associated$',color='green')
         
-        n_all, bins_all, patches_blues = hist(fancyIncList, bins=bins, normed=1, \
+        n_all, bins_all, patches_blues = hist(allFancyInclinations, bins=bins, normed=1, \
         histtype='step',cumulative=True, color='Black',lw=1.5,alpha = 0.9,label=r'$\rm All$')
 
-
-#         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = 0.7,label=r'$\rm Blueshifted$')
-#         hist(red,bins=bins,histtype='bar',color='red',lw=1.5,alpha = 0.7,label=r'$\rm Redshifted$')        
-#         hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.5,alpha = 0.9,label=r'$\rm All ~ Associated$')
-        
-#         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
-#         ylabel(r'$\rm Number$')
-        
-        # full table
-#         ax = fig.add_subplot(212)
-        
-#         # x-axis
-#         majorLocator   = MultipleLocator(10)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator(5)
-#         ax.xaxis.set_major_locator(majorLocator)
-#         ax.xaxis.set_major_formatter(majorFormatter)
-#         ax.xaxis.set_minor_locator(minorLocator)
-#         
-#         # y-axis
-#         majorLocator   = MultipleLocator(5000)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator(1000)
-#         ax.yaxis.set_major_locator(majorLocator)
-#         ax.yaxis.set_major_formatter(majorFormatter)
-#         ax.yaxis.set_minor_locator(minorLocator)
-        
-#         hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All$')
-
+    
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Number$')
@@ -1051,6 +1030,110 @@ def main():
 
         if save:
             savefig('{0}/hist(fancy_inclination_norm).pdf'.format(saveDirectory),format='pdf')
+        else:
+            show()
+            
+            
+#########################################################################################
+#########################################################################################
+#########################################################################################
+#########################################################################################
+    # fancyInclination histograms for redshifted vs blueshifted distributions of absorbers
+    # plotted together and separately all in one, then the whole table as a subplot, but
+    # only those galaxies with D>25kpc
+    #
+    
+    plotFancyIncDifHist_full_largeOnly = True
+    save = False
+    
+    if plotFancyIncDifHist_full_largeOnly:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+        bins = arange(0,100,10)
+        blue = []
+        red = []
+        
+        alpha = 0.6
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        for d,i,l,e in zip(difList,fancyIncList,lyaWList,lyaErrList):
+            if d >=0:
+                # blue shifted absorber, but galaxy is REDSHIFTED
+                print 'd: ',d
+                blue.append(i)
+                blueLya.append(l)
+                blueLyaErr.append(e)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                red.append(i)
+                redLya.append(l)
+                redLyaErr.append(e)
+                
+                
+        # just associated
+        ax = fig.add_subplot(211)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2.5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+#         hist(red,bins=bins,histtype='bar',color='red',hatch='\\',lw=1.5,alpha = alpha,label=r'$\rm Redshifted$')        
+#         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = alpha,label=r'$\rm Blueshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',hatch='\\',lw=1.7,alpha = alpha+0.25,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.7,alpha = alpha,label=r'$\rm Redshifted$')        
+        hist(fancyIncList,bins=bins,histtype='step',color='Black',lw=2.1,alpha = 0.9,label=r'$\rm All ~ Associated$')
+        
+        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        ylabel(r'$\rm Number$')
+        
+
+        # full table
+        ax = fig.add_subplot(212)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5000)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2500)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm All ~(D>25~kpc)$')
+        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Number$')
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(fancy_inclination)_red_blue_full_largeOnly.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             

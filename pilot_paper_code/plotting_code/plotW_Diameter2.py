@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Diameter2.py, v 5.4 7/14/16
+$Id:  plotW_Diameter2.py, v 5.5 8/08/16
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
 
@@ -29,6 +29,8 @@ v5.2: remake plots with v_hel instead of vcorr (4/22/16)
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 v5.4: add the ability to limit results based on 'environment' number (7/14/16)
+
+v5.5: minor formatting updates for pilot paper (8/08/16)
     
 '''
 
@@ -61,9 +63,9 @@ from matplotlib import rc
 # rc('text', usetex=True)
     
 
-fontScale = 15
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -120,7 +122,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 3
+    maxEnv = 300
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -456,7 +458,7 @@ def main():
     #
     
     plotW_vir_avg = True
-    save = False
+    save = True
     
     if plotW_vir_avg:
         fig = figure()
@@ -465,8 +467,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
+        alpha = 0.7
         binSize = 50
+
         
+        bSymbol = 'D'
+        rSymbol = 'o'
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         
@@ -474,14 +480,24 @@ def main():
         placeCountr = zeros(7)
         placeArrayb = zeros(7)
         placeCountb = zeros(7)
+        redW = []
+        blueW = []
+        redVir = []
+        blueVir = []
+        
         
         for d,v,w,m in zip(difList,virList,lyaWList,majList):
             # check if all the values are good
             if isNumber(d) and isNumber(v) and isNumber(w) and isNumber(m):
                 if d!=-99 and v!=-99 and w!=-99 and m!=-99:
+                    
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueW.append(w)
+                        blueVir.append(v)
                         
                         # which bin does it belong too?
                         place = v/binSize
@@ -493,12 +509,15 @@ def main():
                         
                         if countb == 0:
                             countb +=1
-#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(v,w,c='Blue',s=50)
+                            plotb = ax.scatter(v,w,marker=symbol,alpha=alpha,c='Blue',s=50)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+                        
+                        redW.append(w)
+                        redVir.append(v)
                         
                         # which bin does it belong too?
                         place = v/binSize
@@ -507,11 +526,9 @@ def main():
                         
                         if countr == 0:
                             countr +=1
-#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(v,w,c='Red',s=50)
-
+                            plotr = ax.scatter(v,w,marker=symbol,alpha=alpha,c='Red',s=50)
             
-                    plot1 = scatter(v,w,c=color,s=50)
+                    plot1 = scatter(v,w,marker=symbol,alpha=alpha,c=color,s=50)
                     
         rHist = placeArrayr/placeCountr
         print 'rHist: ',rHist
@@ -566,12 +583,27 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',label=r'$\rm Average ~ Redshifted ~ EW$')
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',label=r'$\rm Average ~ Blueshifted ~ EW$')
+        # bins are in Rvir
+        bins = arange(150,400,binSize)
+           
+#         bin_means,edges,binNumber = stats.binned_statistic(array(redVir), array(redW), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([bin_means,bin_means]).T.flatten()
+#         plot(X,Y, c='red',ls='dotted',lw=2.5,alpha=alpha,label=r'\rm $Mean ~Redshifted ~EW$')
+#             
+#         bin_means,edges,binNumber = stats.binned_statistic(array(blueVir), array(blueW), statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([bin_means,bin_means]).T.flatten()
+#         plot(X,Y, c='blue',ls='dashed',lw=1.5,alpha=alpha,label=r'\rm $Mean ~Blueshifted ~EW$')
+        
+        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',label=r'$\rm Mean ~ Redshifted ~ EW$')
+        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',label=r'$\rm Mean ~ Blueshifted ~ EW$')
         
         xlabel(r'$\rm R_{vir} ~ [kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(-5,1200)
         xlim(150,350)
@@ -580,7 +612,6 @@ def main():
             savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
-            
 
 
 ##########################################################################################

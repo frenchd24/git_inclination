@@ -84,9 +84,9 @@ from matplotlib import rc
 # }
 
 
-fontScale = 15
+fontScale = 24
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=24, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -489,7 +489,7 @@ def main():
         fig = figure(figsize=(10,5))
         subplots_adjust(hspace=0.200)
         
-        alpha = 0.7
+        alpha = 0.6
 
         bins = arange(0,100,10)
         blue = []
@@ -520,9 +520,8 @@ def main():
         
         # all first
         plot1 = hist(azList,bins=bins,histtype='step',lw=2.1,alpha=0.9,color='black',label=r'$\rm All$')
-
-        hist(red,bins=bins,histtype='bar',color='red',alpha = alpha,hatch='\\\\',lw=1.8,label=r'$\rm Redshifted$')
-        hist(blue,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.8,hatch='//',ls='dashed',label=r'$\rm Blueshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',alpha=alpha+0.25,lw=1.7,hatch='//',label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',alpha=alpha,lw=1.7,label=r'$\rm Redshifted$')
 
         # x-axis
         majorLocator   = MultipleLocator(10)
@@ -544,12 +543,12 @@ def main():
         xlabel(r'$\rm Azimuth ~ [deg]$')
         xlim(0,90)
         ylim(0,10)
-        legend(fontsize=14, fancybox=True,loc=2)
+        legend(scatterpoints=1,fontsize=15,fancybox=True,loc=2)
 
 #         tight_layout()
 
         if save:
-            savefig('{0}/hist(azimuth)_overlaid_all.eps'.format(saveDirectory),format='eps',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

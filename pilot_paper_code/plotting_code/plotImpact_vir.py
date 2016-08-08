@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpact_vir.py, v 1.3 7/14/16
+$Id:  plotImpact_vir.py, v 1.4 8/05/16
 
 Plots impact parameter vs R_vir in a number of ways
 
@@ -17,6 +17,8 @@ v1.2: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 v1.3: add ability to limit results based on environment and/or likelihood (7/14/16)
 
+v1.4: minor updates to formatting for new pilot paper sample (large galaxies only)
+        - (8/05/16)
 '''
 
 import sys
@@ -46,9 +48,9 @@ from matplotlib import rc
 # ## for Palatino and other serif fonts use:
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 
-fontScale = 15
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -112,7 +114,7 @@ def main():
     finalInclude = True
     
     maxEnv = 300
-    minL = 0.01
+    minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -157,7 +159,6 @@ def main():
     
     l_min = 0.001
 
-    
     for w in WSreader:
         vcorr = w['HV']
         diam = w['Diam']
@@ -465,7 +466,6 @@ def main():
     # plot impact parameters of absorbers as a function of virial radius of the associated
     # galaxy, include median histograms
     #
-    # NOT FINISHED YET
     
     plotImpact_vs_virial_median = True
     save = True
@@ -478,7 +478,9 @@ def main():
         count = -1
         labelr = r'$\rm Redshifted ~Absorber$'
         labelb = r'$\rm Blueshifted ~Absorber$'
-        alpha = 0.85
+        alpha = 0.7
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         rImpact = []
         rVir = []
@@ -501,21 +503,23 @@ def main():
                         color = 'Blue'
                         bImpact.append(i)
                         bVir.append(v)
+                        symbol = bSymbol
                         
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(v,i,c='Blue',s=50,label= labelb,alpha=alpha)
+                            plotb = ax.scatter(v,i,marker=symbol,c='Blue',s=50,label= labelb,alpha=alpha)
                     if d<0:
                         # gas is RED shifted compared to galaxy
                         color = 'Red'
                         rImpact.append(i)
                         rVir.append(v)
+                        symbol = rSymbol
                         
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(v,i,c='Red',s=50,label= labelr,alpha=alpha)
+                            plotr = ax.scatter(v,i,marker=symbol,c='Red',s=50,label= labelr,alpha=alpha)
                 
-                    plot1 = scatter(v,i,c=color,s=50,alpha=alpha)
+                    plot1 = scatter(v,i,marker=symbol,c=color,s=50,alpha=alpha)
                     
                     
         # totals
@@ -531,16 +535,17 @@ def main():
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y axis
-        majorLocator   = MultipleLocator(50)
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(50)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        
-        bins = arange(0,400,50)
-        bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact), statistic='mean', bins=bins)
+        binSize = 50
+        bins = arange(0,400,binSize)
+        bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact),\
+        statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]
         print nan_to_num(bin_means)
         X = array([left,right]).T.flatten()
@@ -561,14 +566,15 @@ def main():
             
         xlabel(r'$\rm R_{vir} ~[kpc]$')
         ylabel(r'$\rm Impact ~Parameter ~[kpc]$')
-        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,500)
         xlim(150,350)
         tight_layout()
 
         if save:
-            savefig('{0}/impact(virial)_avgHist.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/impact(virial)_mean_{1}_Histograms.pdf'.format(saveDirectory,binSize),\
+            format='pdf',bbox_inches='tight')
         else:
             show()
             

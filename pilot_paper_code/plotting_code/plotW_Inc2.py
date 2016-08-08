@@ -57,9 +57,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 15
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -1252,8 +1252,7 @@ def main():
         binSize = 10
         numBins = 9
         alpha = 0.75
-#         bins = [0,15,30,45,60,75,90,105]
-#         bins = arange(0,100,10)
+
         binSize = 12
         bins = arange(0,90+binSize,binSize)
 
@@ -1373,7 +1372,7 @@ def main():
         
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(-5,max(lyaWList)+100)
         ylim(-2,1000)

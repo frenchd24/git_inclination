@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_impact.py, v 5.4 7/14/16
+$Id:  plotW_impact.py, v 5.5 8/05/16
 
 Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
     (01/04/2016)
@@ -29,6 +29,9 @@ v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 v5.4: add the ability to limit results based on 'environment' number (7/14/16)
         also add a likelihood limit 
 
+
+v5.5: major edits to structure and functions included. Same ideas, but better formatting
+    and removed some duplicate functions. Made plots4/ for new pilot paper (8/05/16)
 
 '''
 
@@ -61,9 +64,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 15
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -314,203 +317,7 @@ def main():
     totalIsolated = 0
     totalGroup = 0
     
-
-########################################################################################
-########################################################################################
     
-    # plot equivalent width as a function of impact parameter, splitting up red and 
-    # blue shifted absorption
-    #
-    
-    plotW_b = False
-    save = False
-    
-    if plotW_b:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        countb = 0
-        countr = 0
-        count = -1
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
-        alpha = 0.85
-        
-        for d,i,w in zip(difList,impactList,lyaWList):
-            count +=1
-            if d>0:
-                # galaxy is behind absorber, so gas is blue shifted
-                color = 'Blue'
-                if countb == 0:
-                    countb +=1
-                    plotb = ax.scatter(i,w,c='Blue',s=50,label= labelb,alpha=alpha)
-            if d<0:
-                # gas is red shifted compared to galaxy
-                color = 'Red'
-                if countr == 0:
-                    countr +=1
-                    plotr = ax.scatter(i,w,c='Red',s=50,label= labelr,alpha=alpha)
-                    
-            plot1 = scatter(i,w,c=color,s = 50,alpha = alpha)
-        
-#         title('W(impact parameter) for red and blue shifted absorption')
-        xlabel(r'$\rm \rho$ (kpc)')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
-        ax.grid(b=None,which='major',axis='both')
-        ylim(-1,1200)
-        xlim(-1,501)
-        ax.legend(scatterpoints=1,prop={'size':12},loc=1)
-        
-        if save:
-            savefig('{0}/W(impact)_dif.pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
-    # plot equivalent width as a function of impact parameter, split between
-    # red and blue shifted absorption, overplot average histograms
-    #
-    
-    plotW_impact_hist = False
-    save = False
-    
-    if plotW_impact_hist:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        binSize = 100
-        alpha = 0.85
-        
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
-        
-        placeArrayr = zeros(5)
-        placeCountr = zeros(5)
-        placeArrayb = zeros(5)
-        placeCountb = zeros(5)
-        
-        xVals = []
-        
-        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
-            # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
-                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
-                    xVal = float(i)
-                    yVal = float(w)
-                    
-                    xVals.append(xVal)
-                    
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        print 'place: ',place
-                        placeArrayb[place] += yVal
-                        print 'placeArrayb: ',placeArrayb
-                        placeCountb[place] +=1.
-                        print 'placecountb: ',placeCountb
-                        
-                        if countb == 0:
-                            countb +=1
-#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
-
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        placeArrayr[place] += yVal
-                        placeCountr[place] +=1.
-                        
-                        if countr == 0:
-                            countr +=1
-#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
-
-                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
-                    
-        rHist = placeArrayr/placeCountr
-        print 'rHist: ',rHist
-        bHist = placeArrayb/placeCountb
-        print 'bHist: ',bHist
-        
-        totalrHist = []
-        totalrVir = []
-        totalbHist = []
-        totalbVir = []
-        
-        print 'xvals: ',xVals
-        
-        for r,v in zip(rHist,arange(0,max(xVals),binSize)):
-            if not isNumber(r):
-                r = 0
-            
-            totalrHist.append(r)
-            totalrHist.append(r)
-
-            totalrVir.append(v)
-            totalrVir.append(v+binSize)
-            
-        for b,v in zip(bHist,arange(0,max(xVals),binSize)):
-            if not isNumber(b):
-                b = 0
-                
-            totalbHist.append(b)
-            totalbHist.append(b)
-
-            totalbVir.append(v)
-            totalbVir.append(v+binSize)
-        
-        print 'totalrVir: ',totalrVir
-        print 'totalrHist: ',totalrHist
-        print
-        print 'totalbVir: ',totalbVir
-        print 'totalbHist: ',totalbHist
-        print
-        
-        # x-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFormatter)
-        ax.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-        majorLocator   = MultipleLocator(200)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(100)
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
-        
-        
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
-        label=r'$\rm Average ~ Redshifted ~ EW$',alpha=alpha)
-        
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
-        label=r'$\rm Average ~ Blueshifted ~ EW$',alpha=alpha)
-        
-        xlabel(r'$\rm \rho ~ [kpc]$')
-        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
-        xlim(0,500)
-
-        if save:
-            savefig('{0}/W(impact)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-
 ########################################################################################
 ########################################################################################
 
@@ -527,11 +334,11 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        alpha = 0.85
-        for d,i,w,m in zip(difList,impactList,lyaWList,majList):
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.7
         
+        for d,i,w,m in zip(difList,impactList,lyaWList,majList):
             # check if all the values are good
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
                 if d !=-99 and i !=-99 and w!=-99 and m!=-99:
@@ -558,10 +365,10 @@ def main():
 #         plotr = scatter(i[countr]/m[countr],w[countr],c='Red',s=50,label= labelr)
         
 #         title('W(impact/diameter) for red and blue shifted absorption')
-        xlabel('Impact Parameter / Diameter')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+        xlabel(r'$\rm \rho / D$')
+        ylabel(r'$\rm Equivalent ~Width [m\AA]$')
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,max(lyaWList)+100)
+        ylim(-1,1200)
 #         xlim(-1,150)
 
         ax.legend(scatterpoints=1)
@@ -572,72 +379,138 @@ def main():
             show()
     
     
+
 ##########################################################################################
 ##########################################################################################
-    # plot equivalent width as a function of impact parameter/R_vir, split between
-    # red and blue shifted absorption
+    # plot equivalent width as a function of impact parameter, split between
+    # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_b_vir= False
-    save = False
-    alpha = 0.75
+    plotW_impact_difhist = True
+    save = True
     
-    if plotW_b_vir:
+    if plotW_impact_difhist:
         fig = figure()
         ax = fig.add_subplot(111)
+        
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        for d,i,w,m in zip(difList,impactList,lyaWList,virList):
+        alpha = 0.7
         
+        binSize = 125
+        bins = arange(0,625,binSize)
+        
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
             # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(m):
-                if d !=-99 and i !=-99 and w!=-99 and m!=-99:
-                    count +=1
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(i/m,w,c='Blue',s=50,label= labelb,alpha=alpha)
+#                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(i/m,w,c='Red',s=50,label= labelr,alpha=alpha)
-                    
-                    plot1 = scatter(i/m,w,c=color,s = 50,alpha=alpha)
-            
-        # make the legend work properly
-#         labelr = 'Red Shifted Absorber'
-#         labelb = "Blue Shifted Absorber"
-#         plotb = scatter(i[countb]/m[countb],w[countb],c='Blue',s=50,label= labelb)
-#         plotr = scatter(i[countr]/m[countr],w[countr],c='Red',s=50,label= labelr)
+#                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
+    
         
-#         title('W(impact/R_vir) for red and blue shifted absorption')
-        xlabel(r'$\rm Impact Parameter / R_{vir}$')
-        ylabel(r'Equivalent Width ($\rm m\AA$)')
+#         # median red
+#         bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+#         statistic='median', bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Median~ Redshifted ~EW$')
+#     
+#     
+#         # median blue
+#         bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+#         statistic='median', bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Median~ Blueshifted ~EW$')        
+        
+        # avg red
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Redshifted ~EW$')
+    
+    
+        # avg blue
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Blueshifted ~EW$')    
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho [kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-1,max(lyaWList)+100)
-        
-        # cut out the one outlier?
-#         xlim(0,13)
+        ylim(0,1200)
+        xlim(0,500)
 
-        # or plot the whole range?
-#         xlim(-0.2,30)
-        
-        ax.legend(scatterpoints=1)
-        
         if save:
-            # cut off the one outlier?
-#             savefig('{0}/W(impact_vir)_dif_cut.pdf'.format(saveDirectory),format='pdf')
-            
-            # or plot the whole range?
-            savefig('{0}/W(impact_vir)_dif_cut_lighter.pdf'.format(saveDirectory),format='pdf')
-
+            savefig('{0}/W(impact)_mean_{1}_difHistograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -645,31 +518,35 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # plot equivalent width as a function of impact parameter/R_vir, split between
-    # red and blue shifted absorption, overplot average histograms
+    # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_impact_vir_hist = False
-    save = False
+    plotW_impact_vir_difhist = True
+    save = True
     
-    if plotW_impact_vir_hist:
+    if plotW_impact_vir_difhist:
         fig = figure()
         ax = fig.add_subplot(111)
         
         countb = 0
         countr = 0
         count = -1
+        alpha = 0.7
+        
         binSize = 0.5
-        alpha = 0.85
+        bins = arange(0,2.5,binSize)
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
         
-        placeArrayr = zeros(6)
-        placeCountr = zeros(6)
-        placeArrayb = zeros(6)
-        placeCountb = zeros(6)
         
         xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
         
         for d,i,w,v in zip(difList,impactList,lyaWList,virList):
             # check if all the values are good
@@ -683,74 +560,64 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
                         
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        print 'place: ',place
-                        placeArrayb[place] += yVal
-                        print 'placeArrayb: ',placeArrayb
-                        placeCountb[place] +=1.
-                        print 'placecountb: ',placeCountb
+                        blueX.append(xVal)
+                        blueY.append(yVal)
                         
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
                         
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        placeArrayr[place] += yVal
-                        placeCountr[place] +=1.
+                        redX.append(xVal)
+                        redY.append(yVal)
                         
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
 
-                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
-                    
-        rHist = placeArrayr/placeCountr
-        print 'rHist: ',rHist
-        bHist = placeArrayb/placeCountb
-        print 'bHist: ',bHist
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
         
-        totalrHist = []
-        totalrVir = []
-        totalbHist = []
-        totalbVir = []
+#         # median red
+#         bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+#         statistic='median', bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Median~ Redshifted ~EW$')
+#     
+#     
+#         # median blue
+#         bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+#         statistic='median', bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Median~ Blueshifted ~EW$')        
         
-        print 'xvals: ',xVals
-        
-        for r,v in zip(rHist,arange(0,max(xVals),binSize)):
-            if not isNumber(r):
-                r = 0
-            
-            totalrHist.append(r)
-            totalrHist.append(r)
-
-            totalrVir.append(v)
-            totalrVir.append(v+binSize)
-            
-        for b,v in zip(bHist,arange(0,max(xVals),binSize)):
-            if not isNumber(b):
-                b = 0
-                
-            totalbHist.append(b)
-            totalbHist.append(b)
-
-            totalbVir.append(v)
-            totalbVir.append(v+binSize)
-        
-        print 'totalrVir: ',totalrVir
-        print 'totalrHist: ',totalrHist
-        print
-        print 'totalbVir: ',totalbVir
-        print 'totalbHist: ',totalbHist
-        print
+        # avg red
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Redshifted ~EW$')
+    
+    
+        # avg blue
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Blueshifted ~EW$')    
         
         
         # x-axis
@@ -769,22 +636,15 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        
-        plot2 = ax.plot(totalrVir,totalrHist,c='Red',lw=2.5,ls='dotted',\
-        label=r'$\rm Average ~ Redshifted ~ EW$',alpha=alpha)
-        
-        plot3 = ax.plot(totalbVir,totalbHist,c='Blue',lw=1.5,ls='dashed',\
-        label=r'$\rm Average ~ Blueshifted ~ EW$',alpha=alpha)
-        
         xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(0,2.0)
 
         if save:
-            savefig('{0}/W(impact_vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact_vir)_mean_{1}_difHistograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -795,8 +655,8 @@ def main():
     # red and blue shifted absorption, overplot single median histogram (total EW)
     #
     
-    plotW_impact_vir_medHist = True
-    save = True
+    plotW_impact_vir_medHist = False
+    save = False
     
     if plotW_impact_vir_medHist:
         fig = figure()
@@ -805,16 +665,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        binSize = 0.4
         alpha = 0.7
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
-        
-        placeArrayr = zeros(6)
-        placeCountr = zeros(6)
-        placeArrayb = zeros(6)
-        placeCountb = zeros(6)
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         xVals = []
         yVals = []
@@ -832,35 +688,25 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        print 'place: ',place
-                        placeArrayb[place] += yVal
-                        print 'placeArrayb: ',placeArrayb
-                        placeCountb[place] +=1.
-                        print 'placecountb: ',placeCountb
+                        symbol = bSymbol
+
                         
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,marker=bSymbol,c='Blue',s=50,alpha=alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        placeArrayr[place] += yVal
-                        placeCountr[place] +=1.
+                        symbol = rSymbol
                         
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=rSymbol,c='Red',s=50,alpha=alpha)
 
-                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
         
         
         # x-axis
@@ -879,43 +725,43 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
     
-        
-        bins = arange(0,2.4,binSize)
+        binSize = 0.5
+        bins = arange(0,2.5,binSize)
 
         # 50% percentile
         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic='median', bins=bins)
+        statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='solid',color='black',lw=1.5,alpha=alpha,label=r'$\rm Median ~EW$')
+        plot(X,Y, ls='solid',color='black',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean ~EW$')
         
-        # 90% percentile
-        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic=lambda y: perc90(y), bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='purple',lw=1.5,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+#         # 90% percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+#         statistic=lambda y: perc90(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dashed',color='dimgray',lw=1.7,alpha=alpha+0.1,label=r'$\rm 90th\% ~EW$')
         
-        # 10th percentile
-        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic=lambda y: perc10(y), bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dotted',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
+#         # 10th percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+#         statistic=lambda y: perc10(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dotted',color='green',lw=1.7,alpha=alpha+0.1,label=r'$\rm 10th\% ~EW$')
         
         
         xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(0,2.0)
 
         if save:
-            savefig('{0}/W(impact_vir)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact_vir)_mean_{1}_Histograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
             
@@ -926,8 +772,8 @@ def main():
     # red and blue shifted absorption, overplot single median histogram (total EW)
     #
     
-    plotW_impact_medHist = True
-    save = True
+    plotW_impact_medHist = False
+    save = False
     
     if plotW_impact_medHist:
         fig = figure()
@@ -936,16 +782,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        binSize = 100
         alpha = 0.7
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
-        
-        placeArrayr = zeros(6)
-        placeCountr = zeros(6)
-        placeArrayb = zeros(6)
-        placeCountb = zeros(6)
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         xVals = []
         yVals = []
@@ -963,41 +805,30 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        print 'place: ',place
-                        placeArrayb[place] += yVal
-                        print 'placeArrayb: ',placeArrayb
-                        placeCountb[place] +=1.
-                        print 'placecountb: ',placeCountb
+                        symbol = bSymbol
                         
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,marker=bSymbol,c='Blue',s=50,alpha=alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
-                        
-                        # which bin does it belong too?
-                        place = xVal/binSize
-                        placeArrayr[place] += yVal
-                        placeCountr[place] +=1.
+                        symbol = rSymbol
                         
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=rSymbol,c='Red',s=50,alpha=alpha)
 
-                    plot1 = scatter(xVal,yVal,c=color,s=50,alpha=alpha)
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
         
         
         # x-axis
         majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(50)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -1005,47 +836,47 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
     
-        
-        bins = arange(0,600,100)
+        binSize = 100
+        bins = arange(0,600,binSize)
         
         # 50% percentile
         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic='median', bins=bins)
+        statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='solid',color='black',lw=1.5,alpha=alpha,label=r'$\rm Median ~EW$')
+        plot(X,Y, ls='solid',color='black',lw=1.5,alpha=alpha,label=r'$\rm Mean ~EW$')
         
-        # 90% percentile
-        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic=lambda y: perc90(y), bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='purple',lw=1.5,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+#         # 90% percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+#         statistic=lambda y: perc90(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dashed',color='dimgray',lw=1.5,alpha=alpha,label=r'$\rm 90th\% ~EW$')
         
-        # 10th percentile
-        bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic=lambda y: perc10(y), bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dotted',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
+#         # 10th percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
+#         statistic=lambda y: perc10(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, ls='dotted',color='green',lw=1.5,alpha=alpha,label=r'$\rm 10th\% ~EW$')
         
         xlabel(r'$\rm \rho ~[kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1200)
         xlim(0,500)
 
         if save:
-            savefig('{0}/W(impact)_percHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact)_mean_{1}_Histograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 

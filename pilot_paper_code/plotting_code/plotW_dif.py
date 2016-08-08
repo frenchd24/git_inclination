@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_dif.py, v 1.4 7/13/16
+$Id:  plotW_dif.py, v 1.5 8/08/16
 
 Plot EW as a function of velocity difference
 
@@ -25,6 +25,8 @@ v1.2: remake plots with v_hel instead of vcorr (4/21/16)
 v1.3: remake plots with v_hel instead of vcorr (4/21/16)
 
 v1.4: remake plots with newest large galaxy sample (7/13/16) -> /plots4/
+
+v1.5: minor formatting updates for pilot paper (8/08/16)
 
 '''
 
@@ -51,9 +53,9 @@ from matplotlib.ticker import NullFormatter
 
 from matplotlib import rc
 
-fontScale = 15
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -286,8 +288,8 @@ def main():
     # absorption
     #
     
-    plotW_diff = True
-    save = True
+    plotW_diff = False
+    save = False
     
     if plotW_diff:
         fig = figure()
@@ -297,7 +299,9 @@ def main():
         count = -1
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
-        alpha = 0.8
+        alpha = 0.7
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         rdif = []
         bdif = []
@@ -311,25 +315,29 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+                        
                         bdif.append(float(d))
                         bW.append(float(w))
                         
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(d,w,c='Blue',s=50,label= labelb,\
+                            plotb = ax.scatter(d,w,marker=symbol,c='Blue',s=50,label= labelb,\
                             alpha = alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+                        
                         rdif.append(float(d))
                         rW.append(float(w))
                         
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(d,w,c='Red',s=50,label= labelr,\
+                            plotr = ax.scatter(d,w,marker=symbol,c='Red',s=50,label= labelr,\
                             alpha = alpha)
                 
-                    plot1 = scatter(d,w,c=color,s=50,alpha = alpha)
+                    plot1 = scatter(d,w,marker=symbol,c=color,s=50,alpha = alpha)
         
         includeHist = False
 
@@ -378,6 +386,222 @@ def main():
         else:
             show()
     
+    
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of vel_diff * impact for red and blue shifted
+    # absorption
+    #
+    
+    plotW_impact_diff = False
+    save = False
+    
+    if plotW_impact_diff:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.7
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        rdif = []
+        bdif = []
+        rW = []
+        bW = []
+        
+        for d,w,i in zip(difList,lyaWList,impactList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(w) and isNumber(i):
+                if d!=-99 and w!=-99 and i!=-99:
+                
+                    xVal = float(i) * float(d)
+                    yVal = float(w)
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        bdif.append(float(d))
+                        bW.append(float(w))
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        rdif.append(float(d))
+                        rW.append(float(w))
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
+                
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha = alpha)
+        
+        includeHist = False
+
+        if includeHist:
+            bins = arange(-400,100,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(rdif), array(rW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+        
+        
+            bins = arange(0,500,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(bdif), array(bW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+
+        # x-axis
+        majorLocator   = MultipleLocator(50000)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25000)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        xlabel(r'$\rm \rho * \Delta v ~ [kpc ~ km ~ s^{-1}]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1000)
+#         xlim(-400,400)
+        
+        if save:
+            savefig('{0}/W(impact_vel_diff).pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()    
+
+    
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of likelihood for red and blue shifted
+    # absorption
+    #
+    
+    plotW_likelihood = False
+    save = False
+    
+    if plotW_likelihood:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.7
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        rdif = []
+        bdif = []
+        rW = []
+        bW = []
+        
+        for d,w,l in zip(difList,lyaWList,likeList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(w) and isNumber(l):
+                if d!=-99 and w!=-99 and l!=-99:
+                
+                    xVal = float(l)
+                    yVal = float(w)
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        bdif.append(float(d))
+                        bW.append(float(w))
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        rdif.append(float(d))
+                        rW.append(float(w))
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
+                
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha = alpha)
+        
+        includeHist = False
+
+        if includeHist:
+            bins = arange(-400,100,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(rdif), array(rW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+        
+        
+            bins = arange(0,500,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(bdif), array(bW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+
+        # x-axis
+        majorLocator   = MultipleLocator(0.2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(0.1)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        xlabel(r'$\rm \mathcal{L}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1000)
+#         xlim(-400,400)
+        
+        if save:
+            savefig('{0}/W(likelihood).pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
     
 ##########################################################################################
 ##########################################################################################
