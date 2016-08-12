@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVel_dif_Az.py, v 5.1 02/23/2016
+$Id:  plotVel_dif_Az.py, v 5.2 8/09/16
 
 Plots Delta v as a function of azimuth - doesn't really show anything interesting
 
@@ -18,6 +18,10 @@ v5: updated to work with the new, automatically updated LG_correlation_combined5
     (12/04/15) more on (01/12/2016)
     
 v5.1: updated for LG_correlation_combined5_8_edit2.csv (02/23/2016)
+
+v5.2: updated for LG_correlation_combined5_11_25cut_edit.csv, the new large galaxy only
+    sample. also formatting and such (8/09/16)
+    
 '''
 
 import sys
@@ -42,12 +46,21 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
 
 from matplotlib import rc
-# rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# ## for Palatino and other serif fonts use:
-# #rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
-
-    
+fontScale = 18
+rc('text', usetex=True)
+rc('font', size=18, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
 
 ###########################################################################
 
@@ -58,13 +71,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -259,14 +276,13 @@ def main():
     totalIsolated = 0
     totalGroup = 0
 
-
 #########################################################################################
 #########################################################################################
     # plot Delta v as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
-    plotVel_dif_Az = False
+    plotVel_dif_Az = True
     save = False
     
     if plotVel_dif_Az:
@@ -275,8 +291,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        alpha = 0.7
+        
+        labelr = r'$\rm Redshifted$'
+        labelb = r'$\rm Blueshifted$'
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         for d,a,w,m in zip(difList,azList,lyaWList,majList):
             # check if all the values are good
@@ -286,30 +306,52 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+                        
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(a,d,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(a,d,marker=symbol,c='Blue',s=50,\
+                            alpha = alpha,label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+                        
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(a,abs(d),c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(a,abs(d),marker=symbol,c='Red',s=50,\
+                            alpha = alpha, label= labelr)
             
-                    plot1 = scatter(a,abs(d),c=color,s=50)
+                    plot1 = scatter(a,abs(d),marker=symbol,c=color,alpha = alpha,s=50)
                     
-        xlabel(r'Azimuth (deg)')
-        ylabel(r'$\Delta v$ (km/s)')
-        legend(scatterpoints=1)
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+                    
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm \Delta v ~[km ~s^{-1}]$')
+        legend(scatterpoints=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(0,max(difList)+10)
 #         xlim(0,90)
 
         if save:
-            savefig('{0}/vel_dif(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vel_dif(azimuth)_dif.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
-
 
 
 #########################################################################################
@@ -319,7 +361,7 @@ def main():
     # shifted absorption
     #
     
-    plotVir_Az = False
+    plotVir_Az = True
     save = False
     
     if plotVir_Az:
@@ -328,8 +370,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
+        alpha = 0.7
+        
+        labelr = r'$\rm Redshifted$'
+        labelb = r'$\rm Blueshifted$'
+        bSymbol = 'D'
+        rSymbol = 'o'
         
         for d,a,w,v in zip(difList,azList,lyaWList,virList):
             # check if all the values are good
@@ -339,27 +385,50 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+                        
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(a,v,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(a,v,marker=symbol,c='Blue',s=50,\
+                            alpha =alpha, label= labelb)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+                        
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(a,v,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(a,v,marker=symbol,c='Red',s=50,\
+                            alpha=alpha,label= labelr)
             
-                    plot1 = scatter(a,v,c=color,s=50)
+                    plot1 = scatter(a,v,marker=symbol, alpha=alpha, c=color,s=50)
                     
-        xlabel(r'Azimuth (deg)')
-        ylabel(r'$R_{vir}$ (kpc)')
-        legend(scatterpoints=1)
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter('%d')
+        minorLocator   = MultipleLocator(50)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm R_{vir} ~[kpc]')
+        legend(scatterpoints=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(0,max(difList)+10)
 #         xlim(0,90)
 
         if save:
-            savefig('{0}/vir(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/vir(azimuth)_dif.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

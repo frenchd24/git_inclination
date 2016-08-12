@@ -386,8 +386,8 @@ def main():
     # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_impact_difhist = True
-    save = True
+    plotW_impact_difhist = False
+    save = False
     
     if plotW_impact_difhist:
         fig = figure()
@@ -521,8 +521,8 @@ def main():
     # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_impact_vir_difhist = True
-    save = True
+    plotW_impact_vir_difhist = False
+    save = False
     
     if plotW_impact_vir_difhist:
         fig = figure()
@@ -879,6 +879,465 @@ def main():
             savefig('{0}/W(impact)_mean_{1}_Histograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
+
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # absorbers at azimuth >45 and <45, overplot median histograms for each
+    #
+    
+    plotW_impact_vir_az = False
+    save = False
+    
+    if plotW_impact_vir_az:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        alpha = 0.7
+        binSize = 0.5
+        bins = arange(0,2.5,binSize)
+        
+        labelr = 'Az < 45 Absorber'
+        labelb = "Az > 45 Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v,a in zip(difList,impactList,lyaWList,virList,azList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(a):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99 and a!=-99:
+                    xVal = float(i)/float(v)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if float(a)>45:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+
+                    if float(a)<45:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
+     
+        
+        # avg AZ < 45 = RED
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az < 45$')
+    
+    
+        # avg AZ > 45 = BLUE
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az > 45$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,2.0)
+
+        if save:
+            savefig('{0}/W(impact_vir)_mean_{1}_az.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter, split between
+    # absorbers at azimuth >45 and <45, overplot median histograms for each
+    #
+    
+    plotW_impact_az = False
+    save = False
+    
+    if plotW_impact_az:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        alpha = 0.7
+        binSize = 125
+        bins = arange(0,625,binSize)
+        
+        labelr = 'Az < 45 Absorber'
+        labelb = "Az > 45 Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v,a in zip(difList,impactList,lyaWList,virList,azList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(a):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99 and a!=-99:
+                    xVal = float(i)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if float(a)>45:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+
+                    if float(a)<45:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
+     
+        
+        # avg AZ < 45 = RED
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az < 45$')
+    
+    
+        # avg AZ > 45 = BLUE
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az > 45$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho ~[kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,500)
+
+        if save:
+            savefig('{0}/W(impact)_mean_{1}_az.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # absorbers at inc >55 and <55, overplot median histograms for each
+    #
+    
+    plotW_impact_vir_inc = True
+    save = False
+    
+    if plotW_impact_vir_inc:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        alpha = 0.7
+        binSize = 0.5
+        bins = arange(0,2.5,binSize)
+        
+        labelr = 'Inc < 55 Absorber'
+        labelb = "Inc > 55 Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v,inc in zip(difList,impactList,lyaWList,virList,incList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(inc):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99 and inc!=-99:
+                    xVal = float(i)/float(v)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if float(inc)>55:
+                        # galaxy inc > 55
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+
+                    if float(inc)<55:
+                        # galaxy in < 55
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
+     
+        
+        # avg Inc < 55 = RED
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Inc < 55$')
+    
+    
+        # avg Inc > 55 = BLUE
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Inc > 55$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,2.0)
+
+        if save:
+            savefig('{0}/W(impact_vir)_mean_{1}_inc.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter, split between
+    # absorbers at inc >55 and <55, overplot median histograms for each
+    #
+    
+    plotW_impact_inc = True
+    save = False
+    
+    if plotW_impact_inc:
+        fig = figure()
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        alpha = 0.7
+        binSize = 125
+        bins = arange(0,625,binSize)
+        
+        labelr = 'Inc < 55 Absorber'
+        labelb = "Inc > 55 Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v,inc in zip(difList,impactList,lyaWList,virList,incList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(inc):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99 and inc!=-99:
+                    xVal = float(i)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if float(inc)>55:
+                        # galaxy inc > 55
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+
+                    if float(inc)<55:
+                        # galaxy inc < 55
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
+     
+        
+        # avg inc < 55 = RED
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Inc < 55$')
+    
+    
+        # avg inc > 55 = BLUE
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Inc > 55$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho ~[kpc]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,500)
+
+        if save:
+            savefig('{0}/W(impact)_mean_{1}_inc.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
 
 
 #########################################################################################

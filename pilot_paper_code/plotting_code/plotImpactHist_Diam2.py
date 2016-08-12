@@ -409,10 +409,10 @@ def main():
     #
     # This is specifically to make a marginal histogram for the Berlin poster
     
-    plotImpactHist_Vir_dif = True
-    save = True
+    plotImpactHist_Vir_dif_marginal = False
+    save = False
     
-    if plotImpactHist_Vir_dif:
+    if plotImpactHist_Vir_dif_marginal:
         fig = figure(figsize=(10,2))
         ax = fig.add_subplot(111)
         subplots_adjust(hspace=0.200)
@@ -542,7 +542,7 @@ def main():
         fig = figure(figsize=(10,2))
         ax = fig.add_subplot(111)
         subplots_adjust(hspace=0.200)
-        alpha = 0.75
+        alpha = 0.6
 
         binsize = 50
         bins = arange(0,500+binsize,binsize)
@@ -595,6 +595,80 @@ def main():
         
         if save:
             savefig('{0}/hist(Impact_red)_bin_{1}.pdf'.format(saveDirectory,binsize),format='pdf')
+        else:
+            show()
+
+
+
+##########################################################################################
+##########################################################################################
+    # make a histogram of the distribution of impact parameters for associated galaxies 
+    # normalized by virial radius, overplotting red and blue samples
+    #
+    
+    plotImpactHist_Vir_dif = True
+    save = False
+    
+    if plotImpactHist_Vir_dif:
+        fig = figure(figsize=(10,4))
+        ax = fig.add_subplot(111)
+        subplots_adjust(hspace=0.200)
+
+        binSize = 50
+        bins = arange(0,550,binSize)
+        alpha = 0.6
+        
+        reds = np.array([])
+        blues = np.array([])
+        valList = np.array([])
+        
+        # make sure all the values are okay
+        for i,v,d in zip(impactList,virList,difList):
+            if isNumber(i) and isNumber(v):
+                if i !=-99 and v !=-99:
+                    val = float(i)
+                    valList = append(valList,val)
+                    
+                    # if blueshifted
+                    if d>=0:
+                        blues = append(blues,val)
+                    
+                    # for redshifted
+                    else:
+                        reds = append(reds,val)
+        
+
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        plot1 = hist(valList,bins=bins,histtype='step',lw=2.0,alpha=0.9,color='black',label=r'$\rm All$')
+
+        hist(blues,bins=bins,histtype='bar',color='Blue',alpha = alpha,lw=1.5,ls='dashed',label=r'$\rm Blueshifted$')
+        hist(reds,bins=bins,histtype='bar',color='red',alpha = alpha,lw=1.5,label=r'$\rm Redshifted$')
+
+        xlabel(r'$\rm \rho ~[kpc]$')
+        ylabel(r'$\rm Number$')
+        tight_layout()
+#         xlim(0,2.0)
+        
+#         legend(scatterpoints=1,prop={'size':14},fancybox=True,loc=2)
+        
+        if save:
+            savefig('{0}/hist(Impact_dif)_{1}.pdf'.format(saveDirectory,binSize),format='pdf')
         else:
             show()
 

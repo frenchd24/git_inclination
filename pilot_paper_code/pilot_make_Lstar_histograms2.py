@@ -4,7 +4,7 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pilot_make_Lstar_histograms2.py v 2.0 06/03/2016
+$Id: pilot_make_Lstar_histograms2.py v 2.1 8/11/16
 
 Comes from: filament_make_histograms.py, v 1.0 08/11/2015
 
@@ -17,6 +17,7 @@ v2: change name from 'pilot_make_histograms.py' to 'pilot_make_Lstar_histograms2
     Make a panel of plots for different v_max values
     (6/3/16)
 
+v2.1: formatting updates for the paper (8/11/16)
 
 '''
 
@@ -34,13 +35,13 @@ from utilities import *
 from matplotlib import rc
 
 from matplotlib import rc
-fontScale = 14
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=14)
-rc('xtick.major',size=5,width=0.6)
-rc('xtick.minor',size=3,width=0.6)
-rc('ytick.major',size=5,width=0.6)
-rc('ytick.minor',size=3,width=0.6)
+rc('font', size=18, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
@@ -510,13 +511,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label1,xy=(log10(1.2),maxHeight*0.7))
-#     title(label1)
+    title(label1)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=1, facecolor='none')
+#     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax.text(0.63, 0.85, label1, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+#     ax.text(0.63, 0.85, label1, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
 
     
     # x coordinate adjustment for annotations
@@ -526,7 +527,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     lcolor = 'black'
     
     # label size
-    lsize = 12
+    lsize = 14
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
@@ -558,7 +559,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # x-axis
     majorLocator   = MultipleLocator(1)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(0.25)
+    minorLocator   = MultipleLocator(0.5)
     ax.xaxis.set_major_locator(majorLocator)
     ax.xaxis.set_major_formatter(majorFormatter)
     ax.xaxis.set_minor_locator(minorLocator)
@@ -566,11 +567,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # y axis
     majorLocator   = MultipleLocator(200)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(50)
+    minorLocator   = MultipleLocator(100)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
     
+    ylim(0,800)
+    tight_layout()
     
 ##########################################################################################
 
@@ -613,13 +616,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label2,xy=(log10(1.2),maxHeight*0.7))
-#     title(label2)
+    title(label2)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=1, facecolor='none')
+#     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax.text(0.63, 0.85, label2, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+#     ax.text(0.63, 0.85, label2, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -628,7 +631,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     lcolor = 'black'
     
     # label size
-    lsize = 12
+    lsize = 14
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
@@ -660,19 +663,21 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # x-axis
     majorLocator   = MultipleLocator(1)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(0.25)
+    minorLocator   = MultipleLocator(0.5)
     ax.xaxis.set_major_locator(majorLocator)
     ax.xaxis.set_major_formatter(majorFormatter)
     ax.xaxis.set_minor_locator(minorLocator)
 
     # y axis
-    majorLocator   = MultipleLocator(500)
+    majorLocator   = MultipleLocator(1000)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(125)
+    minorLocator   = MultipleLocator(500)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
-
+    
+    ylim(0,3000)
+    tight_layout()
 
 ##########################################################################################
 
@@ -716,13 +721,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label3,xy=(log10(1.2),maxHeight*0.7))
-#     title(label3)
+    title(label3)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=1, facecolor='none')
+#     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax.text(0.63, 0.85, label3, transform=ax.transAxes, fontsize=11,verticalalignment='top', bbox=props)
+#     ax.text(0.63, 0.85, label3, transform=ax.transAxes, fontsize=11,verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -731,7 +736,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     lcolor = 'black'
     
     # label size
-    lsize = 12
+    lsize = 14
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
@@ -763,19 +768,21 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # x-axis
     majorLocator   = MultipleLocator(1)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(0.25)
+    minorLocator   = MultipleLocator(0.5)
     ax.xaxis.set_major_locator(majorLocator)
     ax.xaxis.set_major_formatter(majorFormatter)
     ax.xaxis.set_minor_locator(minorLocator)
 
     # y axis
-    majorLocator   = MultipleLocator(1000)
+    majorLocator   = MultipleLocator(500)
     majorFormatter = FormatStrFormatter('%d')
     minorLocator   = MultipleLocator(250)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
     
+    ylim(0,3000)
+    tight_layout()
 
 ##########################################################################################
 
@@ -818,13 +825,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label4,xy=(log10(1.2),maxHeight*0.7))
-#     title(label4)
+    title(label4)
 
     # these are matplotlib.patch.Patch properties
-    props = dict(boxstyle='round', alpha=1, facecolor='none')
+#     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax.text(0.63, 0.85, label4, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+#     ax.text(0.63, 0.85, label4, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
                 
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -833,7 +840,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     lcolor = 'black'
     
     # label size
-    lsize = 12
+    lsize = 15
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
@@ -865,7 +872,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # x-axis
     majorLocator   = MultipleLocator(1)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(0.25)
+    minorLocator   = MultipleLocator(0.5)
     ax.xaxis.set_major_locator(majorLocator)
     ax.xaxis.set_major_formatter(majorFormatter)
     ax.xaxis.set_minor_locator(minorLocator)
@@ -873,12 +880,13 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     # y axis
     majorLocator   = MultipleLocator(1000)
     majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(250)
+    minorLocator   = MultipleLocator(500)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
 
-
+    ylim(0,4000)
+    tight_layout()
 
     if save:
         savefig('{0}Lstar_histogram_4bins_final_{1}-{2}.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
@@ -1125,12 +1133,12 @@ def main():
     if getpass.getuser() == 'David':
         photFilename = '/Users/David/Research_Documents/inclination/fullPhotPickle.p'
         galaxyFilename = '/Users/David/Research_Documents/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
         
     elif getpass.getuser() == 'frenchd':
         photFilename = '/usr/users/frenchd/inclination/fullPhotPickle.p'
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots3/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
     else:
         print 'Could not determine username. Exiting.'
         sys.exit()

@@ -4,7 +4,7 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pilot_make_histograms.py v 1.1 04/27/2015
+$Id: pilot_make_histograms.py v 1.2 8/11/16
 
 Comes from: filament_make_histograms.py, v 1.0 08/11/2015
 
@@ -13,6 +13,7 @@ full galaxy table. (11/17/2015)
 
 v1.1 Make nicer looking Texify'd plots (4/27/16)
 
+v1.2: More formatting updates (8/11/16) DEPRECIATED.... SEE 'pilot_make_Lstar_histograms2.py'
 
 '''
 
@@ -31,16 +32,18 @@ from matplotlib import rc
 
 fontScale = 18
 rc('text', usetex=True)
-rc('font',size=18)
-rc('xtick.major',size=5,width=1.5)
-rc('xtick.minor',size=3,width=1.2)
-rc('ytick.major',size=5,width=1.5)
-rc('ytick.minor',size=3,width=1.2)
-rc('axes',labelsize=16)
+rc('font', size=18, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
 rc('xtick', labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
-rc('font', weight = 450)
-rc('axes',labelweight = 'bold')
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1)
 
 
