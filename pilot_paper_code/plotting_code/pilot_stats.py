@@ -97,6 +97,7 @@ def main():
     match = False
     
     # all the lists to be used for associated lines
+    nameList = []
     lyaVList = []
     lyaWList = []
     lyaErrList = []
@@ -218,6 +219,7 @@ def main():
             
             # all the lists to be used for associated lines
             if float(env) <= maxEnv and float(likelihood) >=minL:
+                nameList.append(galaxyName)
                 AGNnameList.append(AGNname)
                 lyaVList.append(float(lyaV))
                 lyaWList.append(float(lyaW))
@@ -364,8 +366,16 @@ def main():
             redAbs.append(abs(d))
             redB.append(float(b))
             
+    nameDict = {}
     # for galaxies
-    for d,inc,finc,az,pa,vcorr,e,vir,l in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList, likeList):
+    for d,inc,finc,az,pa,vcorr,e,vir,l,name in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList, likeList,nameList):
+        if nameDict.has_key(name):
+            i = nameDict[name]
+            i+=1
+            nameDict[name] = i
+        else:
+            nameDict[name] = 1
+        
         if d>=0:
             if inc !=-99:
                 blueInc.append(float(inc))
@@ -399,6 +409,8 @@ def main():
             if l !=-99:
                 redLike.append(float(l))
                 
+    galaxyNames = nameDict.keys()
+                
     # how many absorbers above vs below vel_cut?
     redVelCount200 = 0
     redVelCount100 = 0
@@ -429,6 +441,7 @@ def main():
     print ' Match =                 ',match
     print
     print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
+    print 'total number of unique galaxies matched: ',len(galaxyNames)
     print 'total number of associated lines: ',len(difList)
     print 'total number of ambiguous lines: ',len(ambig)
     print 'total number of void lines: ',len(void)
