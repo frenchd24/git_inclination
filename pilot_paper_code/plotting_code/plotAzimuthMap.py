@@ -324,12 +324,20 @@ def main():
     
     if plot_edge_on:
         
-        azBlue = []
-        azRed = []
+        azBlue_1 = []
+        azRed_1 = []
+        azBlue_2 = []
+        azRed_2 = []
+        azBlue_3 = []
+        azRed_3 = []
         
         # new coordinates of absorption for plotting (w/ galaxy at (0,0))
-        yList = []
-        xList = []
+        yList_1 = []
+        xList_1 = []
+        yList_2 = []
+        xList_2 = []
+        yList_3 = []
+        xList_3 = []
         
         # new coordinates normalized for diameter
         y_dList = []
@@ -340,36 +348,53 @@ def main():
         x_vList = []
         
         # calculate the position on the sky for each absorption feature wrt to the galaxy
-        for r,d,i,a,fInc,maj,dif in zip(raList,decList,impactList,azList,fancyIncList,majList,difList):
+        for r,d,i,a,fInc,maj,dif,inc in zip(raList,decList,impactList,azList,fancyIncList,majList,difList,incList):
             if float(a) >= 0 and float(fInc)>=0 and float(fInc)<=90:
                 
-                if dif >0:
-                    #blue absorber
-                    azBlue.append(a)
-                else:
-                    azRed.append(a)
+                if inc <=40:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_1.append(a)
+                    else:
+                        azRed_1.append(a)
                     
-                # y coordinate
-                y = float(i) * sin((a*pi)/180.)
-                yList.append(y)
+                    # y coordinate
+                    y = float(i) * sin((a*pi)/180.)
+                    yList_1.append(y)
                 
-                # x coordinate
-                x = float(i) * cos(a*pi/180.)
-                xList.append(x)
-                
-                # normalize by diameter
-                # y coordinate
-                y_d = (float(i)/float(maj)) * sin(a*pi/180.)
-                y_dList.append(y_d)
+                    # x coordinate
+                    x = float(i) * cos(a*pi/180.)
+                    xList_1.append(x)
 
-                # x coordinate
-                x_d = (float(i)/float(maj)) * cos(a*pi/180.)
-                x_dList.append(x_d)
+                if inc > 40 and inc <=65:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_2.append(a)
+                    else:
+                        azRed_2.append(a)
+                    
+                    # y coordinate
+                    y = float(i) * sin((a*pi)/180.)
+                    yList_2.append(y)
                 
-                # normalize by virial radius
-                # 
-                # this to be completed later
-                                        
+                    # x coordinate
+                    x = float(i) * cos(a*pi/180.)
+                    xList_2.append(x)
+                    
+                if inc > 65:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_3.append(a)
+                    else:
+                        azRed_3.append(a)
+                    
+                    # y coordinate
+                    y = float(i) * sin((a*pi)/180.)
+                    yList_3.append(y)
+                
+                    # x coordinate
+                    x = float(i) * cos(a*pi/180.)
+                    xList_3.append(x)
                                         
             else:
                 print 'float(a) <0: ',r,d,i,a,fInc
@@ -417,6 +442,8 @@ def main():
 
 #         plot4 = plot((0,xyBlueAvg[0]), (0,xyBlueAvg[1]), color = 'blue')
 #         plot5 = plot((0,xyRedAvg[0]), (0,xyRedAvg[1]), color = 'red')
+
+
         show()
 
 
