@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Inc2.py, v 5.3 7/13/16
+$Id:  plotW_Inc2.py, v 5.4 9/20/16
 
 This is the plotW_Inc bit from histograms3.py. Now is separated, and loads in a pickle
 file of the relevant data, as created by "buildDataLists.py"
@@ -33,7 +33,9 @@ v5.1: updated for LG_correlation_combined5_8_edit2.csv and l_min = 0.001
 v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
-    
+
+v5.4: remake plots after adjusting some targets (9/20/16)
+        -> LG_correlation_combined5_11_25cut_edit2.csv now
 '''
 
 import sys
@@ -110,14 +112,14 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
@@ -1240,7 +1242,7 @@ def main():
     #
     
     plotW_inc_percentile = True
-    save = True
+    save = False
     
     if plotW_inc_percentile:
         fig = figure()
