@@ -44,7 +44,7 @@ def main():
         print 'Could not determine username. Exiting.'
         sys.exit()
     
-    file = open(filename,'rU')
+    file = open(fileName,'rU')
     reader = csv.DictReader(file)
     
     fieldnames = ('AGNname',\
@@ -76,7 +76,19 @@ def main():
     'RC3pa (deg)',\
     'morphology',\
     'final_morphology',\
-    'galaxyRedshift')
+    'galaxyRedshift',
+    'AGNredshift',\
+    'spectrumStatus',\
+    'include',\
+    'include_vir',\
+    'include_custom',\
+    'Lya_v',\
+    'vlimits',\
+    'Lya_W',\
+    'Na',\
+    'b',\
+    'identified',\
+    'comment')
     
     writerOutFile = open(outName,'wt')
     writer = csv.DictWriter(writerOutFile, fieldnames=fieldnames)
@@ -86,13 +98,15 @@ def main():
     for l in reader:
         q0=0.2
     
-        major,minor = eval(l['linDiameters (kpc)'])
+        major = float(l['majorAxis (kpc)'])
+        minor = float(l['minorAxis (kpc)'])
         AGNra,AGNdec = eval(l['degreesJ2000RA_DecAGN'])
         galRA,galDec = eval(l['degreesJ2000RA_DecGalaxy'])
         dist = float(l['distGalaxy (Mpc)'])
         pa = float(l['positionAngle (deg)'])
         impact = float(l['impactParameter (kpc)'])
         az = l['azimuth (deg)']
+        vel_dif = float(l['vel_diff'])
         
         aCos = calculateInclination(major,minor)
         inc = calculateFancyInclination(major,minor,q0)
@@ -136,7 +150,7 @@ def main():
         rVir,\
         m15,\
         impact,\
-        l['redshiftDistance'],\
+        l['redshiftDistances'],\
         l['vcorrGalaxy (km/s)'],\
         l['radialVelocity (km/s)'],\
         l['vel_diff'],\
@@ -168,7 +182,7 @@ def main():
         l['identified'],\
         l['comment']]
 
-        row = dict((f,o) for f,o in zip(fieldnames,rest))
+        row = dict((f,o) for f,o in zip(fieldnames,objectInfoList))
         writer.writerow(row)
                 
     file.close()
