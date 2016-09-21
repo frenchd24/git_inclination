@@ -8,6 +8,7 @@ $Id:  rebuild_pilot_datatable.py, v 1.0 07/08/2015
 Take in LG_correlation_combined3.csv and trim it down to just the used sightlines and 
 correlations
 
+NOT FINISHED
 
 '''
 
