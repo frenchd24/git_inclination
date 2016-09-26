@@ -25,6 +25,8 @@ v5.1: remake plots with v_hel instead of vcorr (4/21/16)
         
 v5.2: remake plots with new large galaxy sample (7/14/16) -> /plots4/
         also included ability to limit results by environment number
+        
+v5.3: remake with LG_correlation_combined5_11_25cut_edit4.csv (9/23/16) -> /plots5
 
 '''
 
@@ -55,9 +57,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 15
+fontScale = 24
 rc('text', usetex=True)
-rc('font', size=15, family='serif', weight='normal')
+rc('font', size=24, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -80,13 +82,13 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -182,7 +184,7 @@ def main():
             galaxyDist = l['distGalaxy (Mpc)']
             pa = l['positionAngle (deg)']
             RC3pa = l['RC3pa (deg)']
-            morph = l['morphology']
+            morph = l['final_morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
             min = l['minorAxis (kpc)']
@@ -407,12 +409,12 @@ def main():
 #########################################################################################
 #########################################################################################
 
-    # plot equivalent width as a function of azimuth angle (old one) for red vs blue
+    # plot equivalent width as a function of azimuth angle for red vs blue
     # shifted absorption
     #
     
     plotW_Az = True
-    save = True
+    save = False
     
     if plotW_Az:
         fig = figure()
@@ -452,15 +454,15 @@ def main():
                 # x-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
-        majorLocator   = MultipleLocator(100)
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -469,7 +471,7 @@ def main():
         xlabel(r'$\rm Azimuth ~[deg]$')
         ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
         
-        legend(scatterpoints=1,fancybox=True,prop={'size':14},loc=2)
+        legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,max(lyaWList)+50)
         xlim(0,90)

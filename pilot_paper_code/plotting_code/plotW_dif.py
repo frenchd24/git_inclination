@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_dif.py, v 1.5 8/08/16
+$Id:  plotW_dif.py, v 1.6 9/23/16
 
 Plot EW as a function of velocity difference
 
@@ -27,6 +27,8 @@ v1.3: remake plots with v_hel instead of vcorr (4/21/16)
 v1.4: remake plots with newest large galaxy sample (7/13/16) -> /plots4/
 
 v1.5: minor formatting updates for pilot paper (8/08/16)
+
+v1.6 minor update for LG_correlation_combined5_11_25cut_edit4.csv (9/23/16)
 
 '''
 
@@ -79,14 +81,14 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
 
     else:
@@ -501,7 +503,7 @@ def main():
     # absorption
     #
     
-    plotW_likelihood = False
+    plotW_likelihood = True
     save = False
     
     if plotW_likelihood:
@@ -516,10 +518,12 @@ def main():
         bSymbol = 'D'
         rSymbol = 'o'
         
-        rdif = []
-        bdif = []
+        rlike = []
+        blike = []
         rW = []
         bW = []
+        xVals = []
+        yVals = []
         
         for d,w,l in zip(difList,lyaWList,likeList):
             # check if all the values are okay
@@ -528,13 +532,17 @@ def main():
                 
                     xVal = float(l)
                     yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    yVals.append(yVal)
+                    
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
                         symbol = bSymbol
                         
-                        bdif.append(float(d))
-                        bW.append(float(w))
+                        blike.append(xVal)
+                        bW.append(yVal)
                         
                         if countb == 0:
                             countb +=1
@@ -545,8 +553,8 @@ def main():
                         color = 'Red'
                         symbol = rSymbol
                         
-                        rdif.append(float(d))
-                        rW.append(float(w))
+                        rlike.append(xVal)
+                        rW.append(yVal)
                         
                         if countr == 0:
                             countr +=1
@@ -555,27 +563,20 @@ def main():
                 
                     plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha = alpha)
         
-        includeHist = False
+        includeHist = True
 
         if includeHist:
-            bins = arange(-400,100,100)
-            bin_means,edges,binNumber = stats.binned_statistic(array(rdif), array(rW), statistic='median', bins=bins)
+            bins = arange(0,2.0,0.4)
+            bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), statistic='mean', bins=bins)
             left,right = edges[:-1],edges[1:]
             X = np.array([left,right]).T.flatten()
             Y = np.array([bin_means,bin_means]).T.flatten()
-            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
-        
-        
-            bins = arange(0,500,100)
-            bin_means,edges,binNumber = stats.binned_statistic(array(bdif), array(bW), statistic='median', bins=bins)
-            left,right = edges[:-1],edges[1:]
-            X = np.array([left,right]).T.flatten()
-            Y = np.array([bin_means,bin_means]).T.flatten()
-            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+            plt.plot(X,Y, c='black',ls='solid',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+    
 
         # x-axis
         majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
         minorLocator   = MultipleLocator(0.1)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
@@ -595,6 +596,7 @@ def main():
 #         legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
         ylim(0,1000)
+        xlim(0,2)
 #         xlim(-400,400)
         
         if save:
