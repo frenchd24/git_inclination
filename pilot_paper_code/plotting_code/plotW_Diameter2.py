@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_Diameter2.py, v 5.5 8/08/16
+$Id:  plotW_Diameter2.py, v 5.6 9/26/16
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
 
@@ -31,6 +31,8 @@ v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 v5.4: add the ability to limit results based on 'environment' number (7/14/16)
 
 v5.5: minor formatting updates for pilot paper (8/08/16)
+
+v5.6: update for LG_correlation_combined5_11_25cut_edit4.csv -> /plots5/ (9/26/16)
     
 '''
 
@@ -90,15 +92,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25_cut_edit.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25_cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
 
     else:
@@ -122,7 +124,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 300
+    maxEnv = 3000
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -342,9 +344,9 @@ def main():
         xlabel('Major Axis (kpc)')
         ylabel(r'Equivalent Width ($\rm m\AA$)')
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
+        ylim(0,1000)
         xlim(0,max(majList)+1)
-        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        ax.legend(scatterpoints=1,prop={'size':15},loc=2)
         
         if save:
             savefig('{0}/W(diameter).pdf'.format(saveDirectory),format='pdf')
@@ -403,7 +405,7 @@ def main():
     
 ##########################################################################################
 ##########################################################################################
-    # plot doppler parameter as a function of galaxy R_vir
+    # plot doppler parameter as a function of impact / R_vir
     #
     
     plotB_vir = False
@@ -415,34 +417,58 @@ def main():
         countb = 0
         countr = 0
         count = -1
+
+        bSymbol = 'D'
+        rSymbol = 'o'
+        alpha = 0.7
+        
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
-        for d,v,b in zip(difList,virList,bList):
-            if isNumber(d) and isNumber(v) and isNumber(b):
+        for d,v,b,i in zip(difList,virList,bList,impactList):
+            if isNumber(d) and isNumber(v) and isNumber(b) and isNumber(i):
+                xVal = float(i)/float(v)
+                yVal = float(b)
                 if v != -99:
                     count +=1
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(v,b,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(xVal,yVal,c='Blue',s=50,label= labelb,marker=symbol,alpha=alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(v,b,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(xVal,yVal,c='Red',s=50,label= labelr,marker=symbol,alpha=alpha)
                     
-                    plot1 = scatter(v,b,c=color,s = 50)
+                    plot1 = scatter(xVal,yVal,c=color,s = 50,marker=symbol,alpha=alpha)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
         
-#         title(r'Doppler Parameter vs. $\rm R_{vir}$')
-        xlabel(r'$\rm R_{vir}$ (kpc)')
-        ylabel(r'Doppler b Parameter (km/s)')
+        # y-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Doppler ~b ~Parameter ~[km/s]$')
         ax.grid(b=None,which='major',axis='both')
         ylim(min(bList)-5,max(bList)+5)
-        xlim(0,max(virList)+5)
-        ax.legend(scatterpoints=1,prop={'size':12},loc=2)
+        xlim(0,2.0)
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2)
         
         if save:
             savefig('{0}/B(vir).pdf'.format(saveDirectory),format='pdf')

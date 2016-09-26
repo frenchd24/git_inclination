@@ -57,9 +57,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 24
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=24, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -83,7 +83,7 @@ def main():
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
@@ -111,7 +111,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 300
+    maxEnv = 3000
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -414,7 +414,7 @@ def main():
     #
     
     plotW_Az = True
-    save = False
+    save = True
     
     if plotW_Az:
         fig = figure()
@@ -424,6 +424,10 @@ def main():
         count = -1
         labelr = 'Red Shifted Absorber'
         labelb = "Blue Shifted Absorber"
+        bSymbol = 'D'
+        rSymbol = 'o'
+        alpha = 0.7
+        
         print 'len(newAzList): ',len(azList)
         print 'len(azList): ',len(azList)
         
@@ -435,17 +439,21 @@ def main():
                     if d>0:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
+                        symbol = bSymbol
+
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb)
+                            plotb = ax.scatter(a,w,c='Blue',s=50,label= labelb,marker=symbol,alpha=alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
+                        symbol = rSymbol
+
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr)
+                            plotr = ax.scatter(a,w,c='Red',s=50,label= labelr,marker=symbol,alpha = alpha)
             
-                    plot1 = scatter(a,w,c=color,s=50)
+                    plot1 = scatter(a,w,c=color,s=50,marker=symbol,alpha=alpha)
                     
         print 'countr: ',countr
         print 'countb: ',countb
@@ -471,13 +479,14 @@ def main():
         xlabel(r'$\rm Azimuth ~[deg]$')
         ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
         
-        legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,max(lyaWList)+50)
+        ylim(0,1000)
         xlim(0,90)
+        tight_layout()
 
         if save:
-            savefig('{0}/W(azimuth)_dif.pdf'.format(saveDirectory),format='pdf')
+            savefig('{0}/W(azimuth)_dif.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

@@ -35,7 +35,7 @@ v5.2: remake plots with v_hel instead of vcorr (4/21/16)
 v5.3: remake plots with new large galaxy sample (7/13/16) -> /plots4/
 
 v5.4: remake plots after adjusting some targets (9/20/16)
-        -> LG_correlation_combined5_11_25cut_edit2.csv now
+        -> LG_correlation_combined5_11_25cut_edit2.csv now ->/plots5/
 '''
 
 import sys
@@ -74,7 +74,6 @@ rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1)
-    
 
 ###########################################################################
 
@@ -113,14 +112,14 @@ def main():
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -1242,7 +1241,7 @@ def main():
     #
     
     plotW_inc_percentile = True
-    save = False
+    save = True
     
     if plotW_inc_percentile:
         fig = figure()

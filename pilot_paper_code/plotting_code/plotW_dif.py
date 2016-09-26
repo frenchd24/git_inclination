@@ -28,7 +28,7 @@ v1.4: remake plots with newest large galaxy sample (7/13/16) -> /plots4/
 
 v1.5: minor formatting updates for pilot paper (8/08/16)
 
-v1.6 minor update for LG_correlation_combined5_11_25cut_edit4.csv (9/23/16)
+v1.6 minor update for LG_correlation_combined5_11_25cut_edit4.csv (9/23/16) -/plots5/
 
 '''
 
@@ -82,14 +82,14 @@ def main():
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -290,8 +290,8 @@ def main():
     # absorption
     #
     
-    plotW_diff = False
-    save = False
+    plotW_diff = True
+    save = True
     
     if plotW_diff:
         fig = figure()
@@ -503,7 +503,7 @@ def main():
     # absorption
     #
     
-    plotW_likelihood = True
+    plotW_likelihood = False
     save = False
     
     if plotW_likelihood:

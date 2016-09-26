@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotImpact_vir.py, v 1.4 8/05/16
+$Id:  plotImpact_vir.py, v 1.5 9/26/16
 
 Plots impact parameter vs R_vir in a number of ways
 
@@ -19,6 +19,10 @@ v1.3: add ability to limit results based on environment and/or likelihood (7/14/
 
 v1.4: minor updates to formatting for new pilot paper sample (large galaxies only)
         - (8/05/16)
+        
+v1.5: more minor updates for LG_correlation_combined5_11_25cut_edit4.csv -> /plots5/
+    (9/26/16)
+    
 '''
 
 import sys
@@ -77,16 +81,16 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
     else:
@@ -113,7 +117,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 300
+    maxEnv = 3000
     minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
@@ -507,7 +511,7 @@ def main():
                         
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(v,i,marker=symbol,c='Blue',s=50,label= labelb,alpha=alpha)
+                            plotb = ax.scatter(v,i,marker=symbol,c='Blue',s=50,alpha=alpha)
                     if d<0:
                         # gas is RED shifted compared to galaxy
                         color = 'Red'
@@ -517,7 +521,7 @@ def main():
                         
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(v,i,marker=symbol,c='Red',s=50,label= labelr,alpha=alpha)
+                            plotr = ax.scatter(v,i,marker=symbol,c='Red',s=50,alpha=alpha)
                 
                     plot1 = scatter(v,i,marker=symbol,c=color,s=50,alpha=alpha)
                     
@@ -543,37 +547,37 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
         
         binSize = 50
-        bins = arange(0,400,binSize)
-        bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact),\
-        statistic='mean', bins=bins)
-        left,right = edges[:-1],edges[1:]
-        print nan_to_num(bin_means)
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean ~Impact ~Parameter$')
+        bins = arange(150,400,binSize)
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact),\
+#         statistic='mean', bins=bins)
+#         left,right = edges[:-1],edges[1:]
+#         print nan_to_num(bin_means)
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean ~Impact ~Parameter$')
            
-#         bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([bin_means,bin_means]).T.flatten()
-#         plot(X,Y, c='red',ls='dotted',lw=2,alpha=alpha,label="Mean Redshifted Impact")
-#             
-#         bin_means,edges,binNumber = stats.binned_statistic(array(bVir), array(bImpact), statistic='mean', bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([bin_means,bin_means]).T.flatten()
-#         plot(X,Y, c='blue',ls='dotted',lw=2,alpha=alpha,label="Mean Blueshifted Impact")
+        bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([bin_means,bin_means]).T.flatten()
+        plot(X,Y, c='red',ls='dotted',lw=2,alpha=alpha,label=r'$\rm Mean ~Redshifted ~EW$')
+            
+        bin_means,edges,binNumber = stats.binned_statistic(array(bVir), array(bImpact), statistic='mean', bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([bin_means,bin_means]).T.flatten()
+        plot(X,Y, c='blue',ls='dashed',lw=1.5,alpha=alpha,label=r'$\rm Mean ~Blueshifted ~EW$')
             
         xlabel(r'$\rm R_{vir} ~[kpc]$')
         ylabel(r'$\rm Impact ~Parameter ~[kpc]$')
         legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,500)
+        ylim(0,600)
         xlim(150,350)
         tight_layout()
 
         if save:
-            savefig('{0}/impact(virial)_mean_{1}_Histograms.pdf'.format(saveDirectory,binSize),\
+            savefig('{0}/impact(virial)_{1}_difHistograms.pdf'.format(saveDirectory,binSize),\
             format='pdf',bbox_inches='tight')
         else:
             show()

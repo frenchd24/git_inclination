@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotW_impact.py, v 5.5 8/05/16
+$Id:  plotW_impact.py, v 5.6 9/26/16
 
 Plot EW as a function of impact parameter, and impact parameter/diameter and /R_vir
     (01/04/2016)
@@ -32,6 +32,9 @@ v5.4: add the ability to limit results based on 'environment' number (7/14/16)
 
 v5.5: major edits to structure and functions included. Same ideas, but better formatting
     and removed some duplicate functions. Made plots4/ for new pilot paper (8/05/16)
+    
+v5.6: update with LG_correlation_combined5_11_25cut_edit4.csv and /plots5/
+    (9/26/16)
 
 '''
 
@@ -110,15 +113,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -141,7 +144,7 @@ def main():
     cusInclude = False
     finalInclude = True
     
-    maxEnv = 300
+    maxEnv = 3000
     minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
@@ -386,8 +389,8 @@ def main():
     # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_impact_difhist = False
-    save = False
+    plotW_impact_difhist = True
+    save = True
     
     if plotW_impact_difhist:
         fig = figure()
@@ -521,8 +524,8 @@ def main():
     # red and blue shifted absorption, overplot median histograms for red and blue
     #
     
-    plotW_impact_vir_difhist = False
-    save = False
+    plotW_impact_vir_difhist = True
+    save = True
     
     if plotW_impact_vir_difhist:
         fig = figure()
@@ -884,120 +887,6 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-    # plot equivalent width as a function of impact parameter/R_vir, split between
-    # absorbers at azimuth >45 and <45, overplot median histograms for each
-    #
-    
-    plotW_impact_vir_az = False
-    save = False
-    
-    if plotW_impact_vir_az:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        alpha = 0.7
-        binSize = 0.5
-        bins = arange(0,2.5,binSize)
-        
-        labelr = 'Az < 45 Absorber'
-        labelb = "Az > 45 Absorber"
-        bSymbol = 'D'
-        rSymbol = 'o'
-        
-        xVals = []
-        redX = []
-        redY = []
-        blueX = []
-        blueY = []
-        
-        for d,i,w,v,a in zip(difList,impactList,lyaWList,virList,azList):
-            # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(a):
-                if d!=-99 and i!=-99 and w!=-99 and v!=-99 and a!=-99:
-                    xVal = float(i)/float(v)
-                    yVal = float(w)
-                    
-                    xVals.append(xVal)
-                    
-                    if float(a)>45:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        symbol = bSymbol
-                        
-                        blueX.append(xVal)
-                        blueY.append(yVal)
-                        
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
-
-                    if float(a)<45:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        symbol = rSymbol
-                        
-                        redX.append(xVal)
-                        redY.append(yVal)
-                        
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
-
-                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
-     
-        
-        # avg AZ < 45 = RED
-        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
-        statistic='mean', bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az < 45$')
-    
-    
-        # avg AZ > 45 = BLUE
-        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
-        statistic='mean', bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az > 45$')
-        
-        
-        # x-axis
-        majorLocator   = MultipleLocator(0.5)
-        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-        minorLocator   = MultipleLocator(0.25)
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFormatter)
-        ax.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-        majorLocator   = MultipleLocator(200)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(100)
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
-        
-        xlabel(r'$\rm \rho / R_{vir}$')
-        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
-        xlim(0,2.0)
-
-        if save:
-            savefig('{0}/W(impact_vir)_mean_{1}_az.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-
-##########################################################################################
-##########################################################################################
     # plot equivalent width as a function of impact parameter, split between
     # absorbers at azimuth >45 and <45, overplot median histograms for each
     #
@@ -1013,8 +902,8 @@ def main():
         countr = 0
         count = -1
         alpha = 0.7
-        binSize = 125
-        bins = arange(0,625,binSize)
+        binSize = 100
+        bins = arange(0,600,binSize)
         
         labelr = 'Az < 45 Absorber'
         labelb = "Az > 45 Absorber"
@@ -1031,12 +920,13 @@ def main():
             # check if all the values are good
             if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v) and isNumber(a):
                 if d!=-99 and i!=-99 and w!=-99 and v!=-99 and a!=-99:
+#                     xVal = float(i)/float(v)
                     xVal = float(i)
                     yVal = float(w)
                     
                     xVals.append(xVal)
                     
-                    if float(a)>45:
+                    if float(a)>=45:
                         # galaxy is behind absorber, so gas is blue shifted
                         color = 'Blue'
                         symbol = bSymbol
@@ -1072,15 +962,15 @@ def main():
         plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az < 45$')
     
     
-        # avg AZ > 45 = BLUE
+        # avg AZ >= 45 = BLUE
         bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
         statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az > 45$')
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Az \geq 45$')
         
-        
+
         # x-axis
         majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
@@ -1097,12 +987,14 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        xlabel(r'$\rm \rho ~[kpc]$')
+        xlabel(r'$\rm Impact ~ Parameter ~ [kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
         ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
+        ylim(0,1000)
+#         xlim(0,2.0)
         xlim(0,500)
+
 
         if save:
             savefig('{0}/W(impact)_mean_{1}_az.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
@@ -1344,7 +1236,7 @@ def main():
     # absorbers at R_vir <200, R_vir >=200, overplot median histograms for each
     #
     
-    plotW_impact_vir_separate = True
+    plotW_impact_vir_separate = False
     save = False
     
     if plotW_impact_vir_separate:
