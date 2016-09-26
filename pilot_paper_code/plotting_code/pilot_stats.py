@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  pilot_stats.py, v 1.3 07/14/16
+$Id:  pilot_stats.py, v 1.4 09/23/16
 
 Print out all the relevant stats on the dataset for the pilot paper (01/04/2016)
 
@@ -13,6 +13,9 @@ v1.2: updates for the new large galaxy sample (07/14/16) -> /plots4/
 
 v1.3: added ability to limit results by environment variable (7/14/16)
     also same for likelihood values, including some stats about them also
+    
+v1.4: updated to LG_correlation_combined5_11_25cut_edit4.csv and plots5 (9/23/16)
+
 '''
 
 import sys
@@ -56,15 +59,15 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_3.csv'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots3/'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_3.csv'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -83,8 +86,8 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    virInclude = False
-    cusInclude = False
+    virInclude = True
+    cusInclude = True
     finalInclude = True
     
     maxEnv = 300
@@ -94,7 +97,7 @@ def main():
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
     # regardless of the others
-    match = False
+    match = True
     
     # all the lists to be used for associated lines
     nameList = []
@@ -165,7 +168,7 @@ def main():
             galaxyDist = l['distGalaxy (Mpc)']
             pa = l['positionAngle (deg)']
             RC3pa = l['RC3pa (deg)']
-            morph = l['morphology']
+            morph = l['final_morphology']
             vcorr = l['vcorrGalaxy (km/s)']
             maj = l['majorAxis (kpc)']
             minor = l['minorAxis (kpc)']
@@ -365,6 +368,54 @@ def main():
             redImpact.append(float(i))
             redAbs.append(abs(d))
             redB.append(float(b))
+            
+            
+##########################################################################################
+    blueSpiralInc = []
+    redSpiralInc = []
+    spiralIncList = []
+    # for spirals only
+    for d,inc in zip(difList,fancyIncList):
+        spiralIncList.append(float(inc))
+        if d>=0:
+            blueSpiralInc.append(float(inc))
+        else:
+            redSpiralInc.append(float(inc))
+                
+                
+    # compile a list of only spiral galaxy inclinations from the full galaxy table
+    if getpass.getuser() == 'David':
+        galaxyFile = open('/Users/David/Research_Documents/gt/NewGalaxyTable5.csv','rU')
+    else:
+        print 'Not on laptop, exiting'
+        sys.exit()
+        
+    reader = csv.DictReader(galaxyFile)
+    
+    allDiameters = []
+    incGT25diam = []
+    allSpiralIncList = []
+    
+    q0 = 0.2
+    for i in reader:
+        major,minor = eval(i['linDiameters (kpc)'])
+        morph = i['morphology'].lower()
+        if bfind(morph,'s'):
+            if not bfind(morph,'sph') and not bfind(morph,'s0'):
+            
+                if isNumber(major):
+                    if isNumber(minor):
+                        if float(major) > float(minor):
+                            fInc = calculateFancyInclination(major,minor,q0)
+                            allSpiralIncList.append(fInc)
+                            
+                            if float(major) >=25.0:
+                                incGT25diam.append(fInc)
+    
+    galaxyFile.close()
+    
+##########################################################################################
+                   
             
     nameDict = {}
     # for galaxies
@@ -667,6 +718,14 @@ def main():
 
     print 'KS for all associated vs all fancy inclinations: ',ans4
     print 'AD for all associated vs all fancy inclinations: ',ans4a
+    
+    print
+
+#     ans5 = stats.ks_2samp(spiralIncList, allSpiralIncList)
+#     ans5a = stats.anderson_ksamp([spiralIncList,allSpiralIncList])
+# 
+#     print 'KS for all spiral associated vs all spiral fancy inclinations: ',ans5
+#     print 'AD for all spiral associated vs all spiral fancy inclinations: ',ans5a
     
     print
     print ' INCLINATIONS: '

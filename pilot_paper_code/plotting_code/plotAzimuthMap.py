@@ -21,6 +21,8 @@ from math import *
 from utilities import *
 import getpass
 import pickle
+from matplotlib.patches import Ellipse
+
 
 # from astropy.io.votable import parse,tree
 
@@ -66,7 +68,7 @@ def main():
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
@@ -74,7 +76,7 @@ def main():
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit2.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
@@ -324,12 +326,20 @@ def main():
     
     if plot_edge_on:
         
-        azBlue = []
-        azRed = []
+        azBlue_1 = []
+        azRed_1 = []
+        azBlue_2 = []
+        azRed_2 = []
+        azBlue_3 = []
+        azRed_3 = []
         
         # new coordinates of absorption for plotting (w/ galaxy at (0,0))
-        yList = []
-        xList = []
+        yList_1 = []
+        xList_1 = []
+        yList_2 = []
+        xList_2 = []
+        yList_3 = []
+        xList_3 = []
         
         # new coordinates normalized for diameter
         y_dList = []
@@ -340,83 +350,149 @@ def main():
         x_vList = []
         
         # calculate the position on the sky for each absorption feature wrt to the galaxy
-        for r,d,i,a,fInc,maj,dif in zip(raList,decList,impactList,azList,fancyIncList,majList,difList):
+        for r,d,i,a,fInc,maj,vir,dif,inc in zip(raList,decList,impactList,azList,fancyIncList,majList,virList,difList,incList):
             if float(a) >= 0 and float(fInc)>=0 and float(fInc)<=90:
                 
-                if dif >0:
-                    #blue absorber
-                    azBlue.append(a)
-                else:
-                    azRed.append(a)
+                if inc <=40:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_1.append(a)
+                    else:
+                        azRed_1.append(a)
                     
-                # y coordinate
-                y = float(i) * sin((a*pi)/180.)
-                yList.append(y)
+                    # y coordinate
+                    y = (float(i)/float(vir)) * sin((a*pi)/180.)
+                    yList_1.append(y)
                 
-                # x coordinate
-                x = float(i) * cos(a*pi/180.)
-                xList.append(x)
-                
-                # normalize by diameter
-                # y coordinate
-                y_d = (float(i)/float(maj)) * sin(a*pi/180.)
-                y_dList.append(y_d)
+                    # x coordinate
+                    x = (float(i)/float(vir)) * cos(a*pi/180.)
+                    xList_1.append(x)
 
-                # x coordinate
-                x_d = (float(i)/float(maj)) * cos(a*pi/180.)
-                x_dList.append(x_d)
+                if inc > 40 and inc <=65:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_2.append(a)
+                    else:
+                        azRed_2.append(a)
+                    
+                    # y coordinate
+                    y = (float(i)/float(vir)) * sin((a*pi)/180.)
+                    yList_2.append(y)
                 
-                # normalize by virial radius
-                # 
-                # this to be completed later
-                                        
+                    # x coordinate
+                    x = (float(i)/float(vir)) * cos(a*pi/180.)
+                    xList_2.append(x)
+                    
+                if inc > 65:
+                    if dif >0:
+                        #blue absorber
+                        azBlue_3.append(a)
+                    else:
+                        azRed_3.append(a)
+                    
+                    # y coordinate
+                    y = (float(i)/float(vir)) * sin((a*pi)/180.)
+                    yList_3.append(y)
+                
+                    # x coordinate
+                    x = (float(i)/float(vir)) * cos(a*pi/180.)
+                    xList_3.append(x)
                                         
             else:
                 print 'float(a) <0: ',r,d,i,a,fInc
 
         # calculate the average red vs blue azimuth line
-        blueAvg = mean(azBlue)
-        print 'blueAvg: ',blueAvg
-        redAvg = mean(azRed)
-        print 'redAvg: ',redAvg
+        blueAvg1 = mean(azBlue_1)
+        print 'blueAvg1: ',blueAvg1
+        redAvg1 = mean(azRed_1)
+        print 'redAvg1: ',redAvg1
+        print
+        blueAvg2 = mean(azBlue_2)
+        print 'blueAvg2: ',blueAvg2
+        redAvg2 = mean(azRed_2)
+        print 'redAvg2: ',redAvg2
+        print
+        blueAvg3 = mean(azBlue_3)
+        print 'blueAvg3: ',blueAvg3
+        redAvg3 = mean(azRed_3)
+        print 'redAvg3: ',redAvg3
         print
         
-        xyBlueAvg = (500.* cos(blueAvg * pi/180.), 500.* sin(blueAvg * pi/180.))
-        xyRedAvg = (500.* cos(redAvg * pi/180.), 500.* sin(redAvg * pi/180.))
-        print 'xyBlueAvg: ',xyBlueAvg
-        print 'xyRedAvg: ',xyRedAvg
+        xyBlueAvg1 = (500.* cos(blueAvg1 * pi/180.), 500.* sin(blueAvg1 * pi/180.))
+        xyRedAvg1 = (500.* cos(redAvg1 * pi/180.), 500.* sin(redAvg1 * pi/180.))
+        print 'xyBlueAvg1: ',xyBlueAvg1
+        print 'xyRedAvg1: ',xyRedAvg1
+        xyBlueAvg2 = (500.* cos(blueAvg2 * pi/180.), 500.* sin(blueAvg2 * pi/180.))
+        xyRedAvg2 = (500.* cos(redAvg2 * pi/180.), 500.* sin(redAvg2 * pi/180.))
+        print 'xyBlueAvg2: ',xyBlueAvg2
+        print 'xyRedAvg2: ',xyRedAvg2
+        xyBlueAvg3 = (500.* cos(blueAvg3 * pi/180.), 500.* sin(blueAvg3 * pi/180.))
+        xyRedAvg3 = (500.* cos(redAvg3 * pi/180.), 500.* sin(redAvg3 * pi/180.))
+        print 'xyBlueAvg3: ',xyBlueAvg3
+        print 'xyRedAvg3: ',xyRedAvg3
 
         
         # plot the distributions 
-        fig = figure(figsize=(8,8))
+        fig = figure(figsize=(4,10))
         subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
         
-        ax1 = fig.add_subplot(111)
+        ax1 = fig.add_subplot(311)
         # plot the flat galaxy line
-        plot1 = plot((-10,10),(0,0),c='black',linewidth=5)
+        plot1 = plot((-0.5,0.5),(0,0),c='black',linewidth=5)
         
         maxW = 120
         minW = 5
-        newLyaWList = []
-        for w in lyaWList:
-            newW = ((float(w) - min(lyaWList)) / (max(lyaWList) - min(lyaWList)))*(maxW - minW)
-            newLyaWList.append(newW)
+        minLya = min(lyaWList)
+        maxLya = max(lyaWList)
+        
+        plot2 = scatter(xList_1,yList_1)
+        xlim(0,2.5)
+        ylim(0,2.5)
 
-#         colmap = cm.RdBu
-#         norm = matplotlib.colors.Normalize(vmin = minW, vmax = maxW)
-#         m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
+        
+        ax2 = fig.add_subplot(312)
+        # plot the flat galaxy line
+        e = Ellipse(xy=(0,0), width=0.5, height=0.2, angle=0)
+                        
+        # no transparency
+        e.set_alpha(0.3)
+        ax2.add_artist(e)
+        e.set_facecolor('black')
+        e.set_edgecolor('black')
+        
+        plot3 = scatter(xList_2,yList_2)
+        xlim(0,2.5)
+        ylim(0,2.5)
+
+        
+        ax3 = fig.add_subplot(313)
+        # plot the flat galaxy line
+        e = Ellipse(xy=(0,0), width=0.5, height=0.4, angle=0)
+                        
+        # no transparency
+        e.set_alpha(0.3)
+        ax3.add_artist(e)
+        e.set_facecolor('black')
+        e.set_edgecolor('black')
+        
+        plot4 = scatter(xList_3,yList_3)
+        xlim(0,2.5)
+        ylim(0,2.5)
+
+
+#             newW = ((float(w) - min(lyaWList)) / (max(lyaWList) - min(lyaWList)))*(maxW - minW)
         
         # plot the absorption features
-        for x,y,s,d in zip(x_dList,y_dList,newLyaWList,difList):
-            if d>0:
-                # blueshifted
-                plot2 = scatter(x,y,marker='*',color='blue',s=s)
-            else:
-                # redshifted
-                plot3 = scatter(x,y,marker='*',color='red',s=s)
+#         for x,y,s,d in zip(xList_1,yList_1):
+#             newW = ((float(w) - min(lyaWList)) / (max(lyaWList) - min(lyaWList)))*(maxW - minW)
+#             if d>0:
+#                 # blueshifted
+#                 plot2 = scatter(x,y,marker='*',color='blue',s=s)
+#             else:
+#                 # redshifted
+#                 plot3 = scatter(x,y,marker='*',color='red',s=s)
 
-#         plot4 = plot((0,xyBlueAvg[0]), (0,xyBlueAvg[1]), color = 'blue')
-#         plot5 = plot((0,xyRedAvg[0]), (0,xyRedAvg[1]), color = 'red')
+
         show()
 
 
