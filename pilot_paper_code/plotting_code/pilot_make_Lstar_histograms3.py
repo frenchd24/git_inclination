@@ -4,7 +4,7 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pilot_make_Lstar_histograms3.py v 3.0 (9/8/16)
+$Id: pilot_make_Lstar_histograms3.py v 3.1 09/27/16)
 
 Comes from: filament_make_histograms.py, v 1.0 08/11/2015
 
@@ -21,6 +21,9 @@ v2.1: formatting updates for the paper (8/11/16)
 
 v3: remove the functions that are not used anymore. This ONLY plots the single,
     multi-panel plot used in the pilot paper (9/8/16)
+    
+v3.1: slight update to remove space between the plots (i.e. share axes)
+    -> (09/27/16)
 '''
 
 import sys
@@ -113,7 +116,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     #
     
     phot = d1['Bmedian']
-    BLstar = d1['BLstar']            
+    BLstar = d1['BLstar']
     ra = d1['ra']
     dec = d1['dec']
     dist = d1['dist']
@@ -130,19 +133,19 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     vhi_3 = 8000
     vhi_4 = 10000
     
-    label1 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_1,vhi_1)
-    label2 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_2,vhi_2)
-    label3 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_3,vhi_3)
-    label4 = r'$\rm {0} < cz < {1}~ km/s$'.format(vlo_4,vhi_4)
+    label1 = r'$\rm {0} \leq cz < {1}~ km/s$'.format(vlo_1,vhi_1)
+    label2 = r'$\rm {0} \leq cz < {1}~ km/s$'.format(vlo_2,vhi_2)
+    label3 = r'$\rm {0} \leq cz < {1}~ km/s$'.format(vlo_3,vhi_3)
+    label4 = r'$\rm {0} \leq cz \leq {1}~ km/s$'.format(vlo_4,vhi_4)
     
     
     binsize = 0.2
     
-    fig = figure(figsize=(14,10))
-    
-    # first
+    fig = figure(figsize=(14,9))
+    subplots_adjust(left=None,bottom=None,right=None,top=None,wspace=0.001,hspace=0.001)
 
-    ax = fig.add_subplot(221)
+    # first
+    ax = fig.add_subplot(2,2,1)
 #     ax = gca()
     
     cutPhot = []
@@ -153,7 +156,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo_1 and float(v)<=vhi_1:
+        if float(v) >= vlo_1 and float(v) < vhi_1:
             print 'v: ',v
             cutPhot.append(float(p))
             cutBLstar.append(log10(float(b)))
@@ -172,20 +175,20 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     setbins = arange(-3,2,binsize)
     counts,bins = histogram(cutBLstar,bins=setbins)
     
-    plot1 = ax.hist(cutBLstar,setbins,histtype='bar',color='grey',label=label1)
+    ax.hist(cutBLstar,setbins,histtype='bar',color='grey',label=label1)
     maxHeight = max(counts)+(max(counts)*0.25)
-    ylim(0,maxHeight)
+#     ylim(0,maxHeight)
     
     ylabel(r'$\rm Number$')
-    xlabel(r'$\rm log_{10} (L/L_*)$')
+#     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label1,xy=(log10(1.2),maxHeight*0.7))
-    title(label1)
+#     title(label1)
 
-    # these are matplotlib.patch.Patch properties
-#     props = dict(boxstyle='round', alpha=1, facecolor='none')
+#     these are matplotlib.patch.Patch properties
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
-    # place a text box in upper right in axes coords
-#     ax.text(0.63, 0.85, label1, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+#     place a text box in upper right in axes coords
+    ax.text(0.681, 0.95, label1, transform=ax.transAxes, fontsize=13, verticalalignment='top', bbox=props)
 
     
     # x coordinate adjustment for annotations
@@ -199,54 +202,57 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$L_*=1.0$'
+    l1 = r'$\rm L_*=1.0$'
     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.5 line
     axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$L_*=0.5$'
+    l_5 = r'$\rm L_*=0.5$'
     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
     # draw Lstar = 0.1 line
     axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$L_*=0.1$'
+    l_1 = r'$\rm L_*=0.1$'
     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.05 line
     axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$L_*=0.05$'
+    l_05 = r'$\rm L_*=0.05$'
     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
     # draw Lstar = 0.01 line
     axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$L_*=0.01$'
+    l_01 = r'$\rm L_*=0.01$'
     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
     # x-axis
     majorLocator   = MultipleLocator(1)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(0.5)
     ax.xaxis.set_major_locator(majorLocator)
     ax.xaxis.set_major_formatter(majorFormatter)
     ax.xaxis.set_minor_locator(minorLocator)
+    ax.set_xticks([-3,-2,-1,0,1])
+    plt.setp(ax.get_xticklabels(), visible=False)
+
 
     # y axis
     majorLocator   = MultipleLocator(200)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(100)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
     
-    ylim(0,800)
-    tight_layout()
+    ax.set_ylim([0,800])
+#     tight_layout()
     
 ##########################################################################################
 
     # second
-    ax = fig.add_subplot(222)
+    ax2 = fig.add_subplot(2,2,2)
 #     ax = gca()
     
     cutPhot2 = []
@@ -257,7 +263,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr2 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo_2 and float(v)<=vhi_2:
+        if float(v) >= vlo_2 and float(v) < vhi_2:
             print 'v: ',v
             cutPhot2.append(float(p))
             cutBLstar2.append(log10(float(b)))
@@ -277,20 +283,20 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     setbins = arange(-3,2,binsize)
     counts2,bins2 = histogram(cutBLstar2,bins=setbins)
     
-    plot1 = ax.hist(cutBLstar2,setbins,histtype='bar',color='grey',label=label2)
+    ax2.hist(cutBLstar2,setbins,histtype='bar',color='grey',label=label2)
     maxHeight = max(counts2)+(max(counts2)*0.25)
-    ylim(0,maxHeight)
+#     ylim(0,maxHeight)
     
-    ylabel(r'$\rm Number$')
-    xlabel(r'$\rm log_{10} (L/L_*)$')
+#     ylabel(r'$\rm Number$')
+#     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label2,xy=(log10(1.2),maxHeight*0.7))
-    title(label2)
+#     title(label2)
 
     # these are matplotlib.patch.Patch properties
-#     props = dict(boxstyle='round', alpha=1, facecolor='none')
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-#     ax.text(0.63, 0.85, label2, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+    ax2.text(0.630, 0.95, label2, transform=ax2.transAxes, fontsize=13, verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -303,54 +309,59 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$L_*=1.0$'
+    l1 = r'$\rm L_*=1.0$'
     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.5 line
     axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$L_*=0.5$'
+    l_5 = r'$\rm L_*=0.5$'
     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
     # draw Lstar = 0.1 line
     axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$L_*=0.1$'
+    l_1 = r'$\rm L_*=0.1$'
     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.05 line
     axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$L_*=0.05$'
+    l_05 = r'$\rm L_*=0.05$'
     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
     # draw Lstar = 0.01 line
     axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$L_*=0.01$'
+    l_01 = r'$\rm L_*=0.01$'
     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
     # x-axis
     majorLocator   = MultipleLocator(1)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(0.5)
-    ax.xaxis.set_major_locator(majorLocator)
-    ax.xaxis.set_major_formatter(majorFormatter)
-    ax.xaxis.set_minor_locator(minorLocator)
+    ax2.xaxis.set_major_locator(majorLocator)
+    ax2.xaxis.set_major_formatter(majorFormatter)
+    ax2.xaxis.set_minor_locator(minorLocator)
+    ax2.set_xticks([-2,-1,0,1,2])
+    plt.setp(ax2.get_xticklabels(), visible=False)
+
 
     # y axis
     majorLocator   = MultipleLocator(1000)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(500)
-    ax.yaxis.set_major_locator(majorLocator)
-    ax.yaxis.set_major_formatter(majorFormatter)
-    ax.yaxis.set_minor_locator(minorLocator)
-    
-    ylim(0,3000)
-    tight_layout()
+    ax2.yaxis.set_major_locator(majorLocator)
+    ax2.yaxis.set_major_formatter(majorFormatter)
+    ax2.yaxis.set_minor_locator(minorLocator)
+    plt.setp(ax2.get_yticklabels(), visible=False)
+
+    ax2.set_ylim([0,3350])
+    ax2.yaxis.tick_right()
+#     tight_layout()
 
 ##########################################################################################
 
     # third
-    ax = fig.add_subplot(223)
+    ax3 = fig.add_subplot(2,2,3,sharex=ax)
 #     ax = gca()
     
     cutPhot3 = []
@@ -361,7 +372,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr3 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo_3 and float(v)<=vhi_3:
+        if float(v) >= vlo_3 and float(v) < vhi_3:
             print 'v: ',v
             cutPhot3.append(float(p))
             cutBLstar3.append(log10(float(b)))
@@ -380,22 +391,21 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 
     setbins = arange(-3,2,binsize)
     counts3,bins3 = histogram(cutBLstar3,bins=setbins)
-
     
-    plot3 = ax.hist(cutBLstar3,setbins,histtype='bar',color='grey',label=label3)
+    ax3.hist(cutBLstar3,setbins,histtype='bar',color='grey',label=label3)
     maxHeight = max(counts3)+(max(counts3)*0.25)
-    ylim(0,maxHeight)
+#     ylim(0,maxHeight)
     
     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label3,xy=(log10(1.2),maxHeight*0.7))
-    title(label3)
+#     title(label3)
 
     # these are matplotlib.patch.Patch properties
-#     props = dict(boxstyle='round', alpha=1, facecolor='none')
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-#     ax.text(0.63, 0.85, label3, transform=ax.transAxes, fontsize=11,verticalalignment='top', bbox=props)
+    ax3.text(0.632, 0.95, label3, transform=ax3.transAxes, fontsize=13,verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -408,54 +418,55 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$L_*=1.0$'
+    l1 = r'$\rm L_*=1.0$'
     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.5 line
     axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$L_*=0.5$'
+    l_5 = r'$\rm L_*=0.5$'
     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
     # draw Lstar = 0.1 line
     axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$L_*=0.1$'
+    l_1 = r'$\rm L_*=0.1$'
     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.05 line
     axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$L_*=0.05$'
+    l_05 = r'$\rm L_*=0.05$'
     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
     # draw Lstar = 0.01 line
     axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$L_*=0.01$'
+    l_01 = r'$\rm L_*=0.01$'
     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
     # x-axis
     majorLocator   = MultipleLocator(1)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(0.5)
-    ax.xaxis.set_major_locator(majorLocator)
-    ax.xaxis.set_major_formatter(majorFormatter)
-    ax.xaxis.set_minor_locator(minorLocator)
+    ax3.xaxis.set_major_locator(majorLocator)
+    ax3.xaxis.set_major_formatter(majorFormatter)
+    ax3.xaxis.set_minor_locator(minorLocator)
+    ax3.set_xticks([-3,-2,-1,0,1])
 
     # y axis
-    majorLocator   = MultipleLocator(500)
-    majorFormatter = FormatStrFormatter('%d')
-    minorLocator   = MultipleLocator(250)
-    ax.yaxis.set_major_locator(majorLocator)
-    ax.yaxis.set_major_formatter(majorFormatter)
-    ax.yaxis.set_minor_locator(minorLocator)
-    
-    ylim(0,3000)
-    tight_layout()
+    majorLocator   = MultipleLocator(1000)
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
+    minorLocator   = MultipleLocator(500)
+    ax3.yaxis.set_major_locator(majorLocator)
+    ax3.yaxis.set_major_formatter(majorFormatter)
+    ax3.yaxis.set_minor_locator(minorLocator)
+
+    ax3.set_ylim([0,2800])
+#     tight_layout()
 
 ##########################################################################################
 
     # fourth
-    ax = fig.add_subplot(224)
+    ax4 = fig.add_subplot(2,2,4,sharex=ax2)
 #     ax = gca()
     
     cutPhot4 = []
@@ -466,7 +477,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     cutVcorr4 = []
     
     for p,b,r,d,dis,v in zip(phot,BLstar,ra,dec,dist,vcorr):
-        if float(v) >=vlo_4 and float(v)<=vhi_4:
+        if float(v) >= vlo_4 and float(v) <= vhi_4:
             print 'v: ',v
             cutPhot4.append(float(p))
             cutBLstar4.append(log10(float(b)))
@@ -486,20 +497,20 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     setbins = arange(-3,2,binsize)
     counts4,bins4 = histogram(cutBLstar4,bins=setbins)
         
-    plot4 = ax.hist(cutBLstar4,setbins,histtype='bar',color='grey',label=label4)
+    ax4.hist(cutBLstar4,setbins,histtype='bar',color='grey',label=label4)
     maxHeight = max(counts4)+(max(counts4)*0.25)
-    ylim(0,maxHeight)
+#     ylim(0,maxHeight)
     
-    ylabel(r'$\rm Number$')
+#     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label4,xy=(log10(1.2),maxHeight*0.7))
-    title(label4)
+#     title(label4)
 
     # these are matplotlib.patch.Patch properties
-#     props = dict(boxstyle='round', alpha=1, facecolor='none')
+    props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-#     ax.text(0.63, 0.85, label4, transform=ax.transAxes, fontsize=11, verticalalignment='top', bbox=props)
+    ax4.text(0.623, 0.95, label4, transform=ax4.transAxes, fontsize=13, verticalalignment='top', bbox=props)
                 
     # x coordinate adjustment for annotations
     xAn = -0.2
@@ -508,56 +519,60 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     lcolor = 'black'
     
     # label size
-    lsize = 15
+    lsize = 14
     
     # draw and annotate Lstar = 1 line
     axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$L_*=1.0$'
+    l1 = r'$\rm L_*=1.0$'
     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.5 line
     axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$L_*=0.5$'
+    l_5 = r'$\rm L_*=0.5$'
     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
     # draw Lstar = 0.1 line
     axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$L_*=0.1$'
+    l_1 = r'$\rm L_*=0.1$'
     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
     # draw Lstar = 0.05 line
     axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$L_*=0.05$'
+    l_05 = r'$\rm L_*=0.05$'
     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
     # draw Lstar = 0.01 line
     axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$L_*=0.01$'
+    l_01 = r'$\rm L_*=0.01$'
     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
     # x-axis
     majorLocator   = MultipleLocator(1)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(0.5)
-    ax.xaxis.set_major_locator(majorLocator)
-    ax.xaxis.set_major_formatter(majorFormatter)
-    ax.xaxis.set_minor_locator(minorLocator)
+    ax4.xaxis.set_major_locator(majorLocator)
+    ax4.xaxis.set_major_formatter(majorFormatter)
+    ax4.xaxis.set_minor_locator(minorLocator)
+    ax4.set_xticks([-2,-1,0,1,2])
 
     # y axis
     majorLocator   = MultipleLocator(1000)
-    majorFormatter = FormatStrFormatter('%d')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(500)
-    ax.yaxis.set_major_locator(majorLocator)
-    ax.yaxis.set_major_formatter(majorFormatter)
-    ax.yaxis.set_minor_locator(minorLocator)
+    ax4.yaxis.set_major_locator(majorLocator)
+    ax4.yaxis.set_major_formatter(majorFormatter)
+    ax4.yaxis.set_minor_locator(minorLocator)
+    ax4.set_yticks([0,1000,2000,3000])
 
-    ylim(0,4000)
-    tight_layout()
+
+    ax4.set_ylim([0,4050])
+    ax4.yaxis.tick_right()
+#     tight_layout()
 
     if save:
-        savefig('{0}Lstar_histogram_4bins_final_{1}-{2}_v2.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
+        savefig('{0}Lstar_histogram_4bins_final_{1}-{2}_v3.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
     else:
         show()
        
@@ -602,12 +617,12 @@ def main():
     if getpass.getuser() == 'David':
         photFilename = '/Users/David/Research_Documents/inclination/fullPhotPickle.p'
         galaxyFilename = '/Users/David/Research_Documents/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
         
     elif getpass.getuser() == 'frenchd':
         photFilename = '/usr/users/frenchd/inclination/fullPhotPickle.p'
         galaxyFilename = '/usr/users/frenchd/gt/NewGalaxyTable5.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots4/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
     else:
         print 'Could not determine username. Exiting.'
         sys.exit()

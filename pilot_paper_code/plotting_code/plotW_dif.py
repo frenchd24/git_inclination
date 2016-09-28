@@ -294,7 +294,7 @@ def main():
     save = True
     
     if plotW_diff:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         countb = 0
         countr = 0

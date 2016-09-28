@@ -475,7 +475,7 @@ def main():
     save = True
     
     if plotImpact_vs_virial_median:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         countb = 0
         countr = 0
@@ -560,13 +560,13 @@ def main():
         left,right = edges[:-1],edges[1:]
         X = array([left,right]).T.flatten()
         Y = array([bin_means,bin_means]).T.flatten()
-        plot(X,Y, c='red',ls='dotted',lw=2,alpha=alpha,label=r'$\rm Mean ~Redshifted ~EW$')
+        plot(X,Y, c='red',ls='dotted',lw=2.1,alpha=alpha+0.2,label=r'$\rm Mean ~Redshifted ~EW$')
             
         bin_means,edges,binNumber = stats.binned_statistic(array(bVir), array(bImpact), statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]
         X = array([left,right]).T.flatten()
         Y = array([bin_means,bin_means]).T.flatten()
-        plot(X,Y, c='blue',ls='dashed',lw=1.5,alpha=alpha,label=r'$\rm Mean ~Blueshifted ~EW$')
+        plot(X,Y, c='blue',ls='dashed',lw=1.5,alpha=alpha+0.1,label=r'$\rm Mean ~Blueshifted ~EW$')
             
         xlabel(r'$\rm R_{vir} ~[kpc]$')
         ylabel(r'$\rm Impact ~Parameter ~[kpc]$')

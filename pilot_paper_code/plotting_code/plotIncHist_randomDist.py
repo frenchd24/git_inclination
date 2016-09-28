@@ -250,7 +250,7 @@ def main():
     totalGroup = 0
 
 
-    
+
 #########################################################################################
 #########################################################################################
     # fancyInclination histograms for redshifted vs blueshifted distributions of absorbers
@@ -261,6 +261,161 @@ def main():
     save = True
     
     if plotFancyIncDifHist_full_all_random:
+    
+        galaxyFile = open('/Users/David/Research_Documents/gt/NewGalaxyTable5.csv','rU')
+        reader = csv.DictReader(galaxyFile)
+        
+        allDiameters = []
+        incGT25diam = []
+        spiralIncList = []
+        
+        
+        q0 = 0.2
+        for i in reader:
+            major,minor = eval(i['linDiameters (kpc)'])
+            morph = i['morphology'].lower()
+            if bfind(morph,'s'):
+                if not bfind(morph,'sph') and not bfind(morph,'s0'):
+                
+                    if isNumber(major):
+                        if isNumber(minor):
+                            if float(major) > float(minor):
+                                fInc = calculateFancyInclination(major,minor,q0)
+                                spiralIncList.append(fInc)
+                                
+                                if float(major) >=25.0:
+                                    incGT25diam.append(fInc)
+        
+        galaxyFile.close()
+        
+    #########################################################################################
+        # build a random sample of galaxies
+        randMinorList = []
+        randIncList = []
+        randAcosIncList = []
+        size = len(allFancyInclinations)
+        minMin = 0.2
+        maxMin = 1.0
+        q0=0.2
+        for i in range(0,size):
+            minor = random.uniform(minMin,maxMin)
+            randMinorList.append(minor)
+        
+            inc = calculateFancyInclination(maxMin,minor,q0)
+            acosInc = calculateInclination(maxMin,minor)
+    
+            randIncList.append(inc)
+            randAcosIncList.append(acosInc)
+    #########################################################################################
+
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.210)
+
+#         bins = [0,.10,.20,.30,.40,.50,.60,.70,.80,.90]
+        bins = arange(0,100,10)
+        blue = []
+        red = []
+        
+        alpha = 0.6
+        
+        blueLya = []
+        blueLyaErr = []
+
+        redLya = []
+        redLyaErr = []
+        
+        totalIncList = []
+        
+        for d,i,l,e,m in zip(difList,fancyIncList,lyaWList,lyaErrList,morphList):
+            totalIncList.append(i)
+            if d >=0:
+                # blue shifted absorber, but galaxy is REDSHIFTED
+                print 'd: ',d
+                blue.append(i)
+                blueLya.append(l)
+                blueLyaErr.append(e)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                red.append(i)
+                redLya.append(l)
+                redLyaErr.append(e)
+                
+                
+        # just associated
+        ax = fig.add_subplot(211)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2.5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+#         hist(red,bins=bins,histtype='bar',color='red',hatch='\\',lw=1.5,alpha = alpha,label=r'$\rm Redshifted$')        
+#         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = alpha,label=r'$\rm Blueshifted$')
+        hist(blue,bins=bins,histtype='bar',color='Blue',hatch='\\',lw=1.7,alpha = alpha+0.25,label=r'$\rm Blueshifted$')
+        hist(red,bins=bins,histtype='bar',color='red',lw=1.7,alpha = alpha,label=r'$\rm Redshifted$')        
+        hist(totalIncList,bins=bins,histtype='step',color='Black',lw=2.1,alpha = 0.9,label=r'$\rm All ~ Associated$')
+        
+        legend(scatterpoints=1,prop={'size':16},loc=2,fancybox=True)
+        ylabel(r'$\rm Number$')
+        
+
+        # full table
+        ax = fig.add_subplot(212)
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(5000)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2500)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.85,label=r'$\rm Observed$')
+#         hist(fIncList,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.85,label=r'$\rm Observed$')
+        hist(randIncList,bins=bins,histtype='step',lw=1.5,ls='dashed',color = 'black',alpha=0.95,label=r'$\rm Random$')
+        legend(scatterpoints=1,prop={'size':16},loc=2,fancybox=True)
+        xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
+        ylabel(r'$\rm Number$')
+#         tight_layout()
+
+        if save:
+            savefig('{0}/hist(fancy_inclination)_red_blue_all_random2.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+    
+#########################################################################################
+#########################################################################################
+    # fancyInclination histograms for redshifted vs blueshifted distributions of absorbers
+    # plotted together and separately all in one, then the whole table as a subplot
+    #
+    # ONLY SPIRAL GALAXIES
+    
+    plotFancyIncDifHist_full_all_random_spiral = False
+    save = False
+    
+    if plotFancyIncDifHist_full_all_random_spiral:
     
         galaxyFile = open('/Users/David/Research_Documents/gt/NewGalaxyTable5.csv','rU')
         reader = csv.DictReader(galaxyFile)
@@ -368,7 +523,7 @@ def main():
         hist(red,bins=bins,histtype='bar',color='red',lw=1.7,alpha = alpha,label=r'$\rm Redshifted$')        
         hist(totalIncList,bins=bins,histtype='step',color='Black',lw=2.1,alpha = 0.9,label=r'$\rm All ~ Associated$')
         
-        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        legend(scatterpoints=1,prop={'size':16},loc=2,fancybox=True)
         ylabel(r'$\rm Number$')
         
 
@@ -392,9 +547,9 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
         
 #         hist(allFancyInclinations,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm Observed$')
-        hist(spiralIncList,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.9,label=r'$\rm Observed$')
-        hist(randIncList,bins=bins,histtype='step',lw=1.5,ls='dashed',color = 'black',alpha=0.9,label=r'$\rm Random$')
-        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        hist(spiralIncList,bins=bins,histtype='bar',lw=1.5,color = 'green',alpha=0.85,label=r'$\rm Observed$')
+        hist(randIncList,bins=bins,histtype='step',lw=1.5,ls='dashed',color = 'black',alpha=0.95,label=r'$\rm Random$')
+        legend(scatterpoints=1,prop={'size':16},loc=2,fancybox=True)
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Number$')
 #         tight_layout()

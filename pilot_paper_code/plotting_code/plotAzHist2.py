@@ -489,7 +489,7 @@ def main():
     if plotAzHist_all_over:
     
         fig = figure(figsize=(10,5))
-        subplots_adjust(hspace=0.200)
+#         subplots_adjust(hspace=0.200)
         
         alpha = 0.6
 
@@ -521,9 +521,10 @@ def main():
         ax = fig.add_subplot(111)
         
         # all first
-        plot1 = hist(azList,bins=bins,histtype='step',lw=2.1,alpha=0.9,color='black',label=r'$\rm All$')
         hist(blue,bins=bins,histtype='bar',color='Blue',alpha=alpha+0.25,lw=1.7,hatch='//',label=r'$\rm Blueshifted$')
         hist(red,bins=bins,histtype='bar',color='red',alpha=alpha,lw=1.7,label=r'$\rm Redshifted$')
+        plot1 = hist(azList,bins=bins,histtype='step',lw=2.1,alpha=0.9,color='black',label=r'$\rm All$')
+
 
         # x-axis
         majorLocator   = MultipleLocator(10)
@@ -545,7 +546,8 @@ def main():
         xlabel(r'$\rm Azimuth ~ [deg]$')
         xlim(0,90)
         ylim(0,10)
-        legend(scatterpoints=1,fontsize=15,fancybox=True,loc=2)
+        legend(scatterpoints=1,prop={'size':16},loc=2,fancybox=True)
+
 
 #         tight_layout()
 

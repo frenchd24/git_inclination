@@ -487,7 +487,7 @@ def main():
     save = True
     
     if plotW_vir_avg:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -631,7 +631,7 @@ def main():
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
         ax.legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(-5,1200)
+        ylim(0,1200)
         xlim(150,350)
 
         if save:

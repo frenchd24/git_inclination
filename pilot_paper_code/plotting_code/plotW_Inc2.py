@@ -1244,7 +1244,7 @@ def main():
     save = True
     
     if plotW_inc_percentile:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -1252,7 +1252,7 @@ def main():
         count = -1
         binSize = 10
         numBins = 9
-        alpha = 0.75
+        alpha = 0.7
 
         binSize = 12
         bins = arange(0,90+binSize,binSize)
@@ -1294,7 +1294,7 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(i,w,marker=bSymbol,c='Blue',s=50,alpha = alpha)
+                            plotb = ax.scatter(i,w,marker=bSymbol,c='Blue',s=50,alpha=alpha)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
@@ -1308,7 +1308,7 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(i,w,marker=rSymbol,c='Red',s=50,alpha = alpha)
+                            plotr = ax.scatter(i,w,marker=rSymbol,c='Red',s=50,alpha=alpha)
 
                     plot1 = scatter(i,w,marker=symbol,c=color,s=50,alpha=alpha)
                             
@@ -1326,7 +1326,7 @@ def main():
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha,label=r'$\rm Mean ~EW$')
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Mean ~EW$')
         
         # 90% percentile
         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \
@@ -1334,7 +1334,7 @@ def main():
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha,label=r'$\rm 90th\% ~EW$')
+        plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha+0.1,label=r'$\rm 90th\% ~EW$')
 
 #         # 50% percentile
 #         bin_means,edges,binNumber = stats.binned_statistic(array(allInc), array(allW), \

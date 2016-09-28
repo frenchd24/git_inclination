@@ -393,7 +393,7 @@ def main():
     save = True
     
     if plotW_impact_difhist:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -404,8 +404,8 @@ def main():
         binSize = 125
         bins = arange(0,625,binSize)
         
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
+        labelr = r'$\rm Redshifted ~Absorber$'
+        labelb = r'$\rm Blueshifted ~Absorber$'
         bSymbol = 'D'
         rSymbol = 'o'
         
@@ -436,7 +436,8 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,\
+                            alpha=alpha,label=labelb)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
@@ -449,7 +450,8 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,\
+                            alpha=alpha,label=labelr)
 
                     plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
     
@@ -477,7 +479,7 @@ def main():
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Redshifted ~EW$')
+        plot(X,Y, ls='dotted',color='red',lw=2.1,alpha=alpha+0.2,label=r'$\rm Mean~ Redshifted ~EW$')
     
     
         # avg blue
@@ -507,9 +509,10 @@ def main():
         
         xlabel(r'$\rm \rho [kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        leg = ax.legend(scatterpoints=1,prop={'size':13},loc=1,fancybox=True)
+#         leg.get_frame().set_alpha(0.5)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
+        ylim(0,1300)
         xlim(0,500)
 
         if save:
@@ -528,7 +531,7 @@ def main():
     save = True
     
     if plotW_impact_vir_difhist:
-        fig = figure()
+        fig = figure(figsize=(8,6))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -539,8 +542,8 @@ def main():
         binSize = 0.5
         bins = arange(0,2.5,binSize)
         
-        labelr = 'Redshifted Absorber'
-        labelb = "Blueshifted Absorber"
+        labelr = r'$\rm Redshifted ~Absorber$'
+        labelb = r'$\rm Blueshifted ~Absorber$'
         bSymbol = 'D'
         rSymbol = 'o'
         
@@ -571,7 +574,8 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,alpha=alpha)
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,\
+                            alpha=alpha,label=labelb)
 
                     if d<0:
                         # gas is red shifted compared to galaxy
@@ -584,7 +588,8 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,\
+                            alpha=alpha,label=labelr)
 
                     plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
         
@@ -611,7 +616,7 @@ def main():
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dotted',color='red',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Redshifted ~EW$')
+        plot(X,Y, ls='dotted',color='red',lw=2.1,alpha=alpha+0.2,label=r'$\rm Mean~ Redshifted ~EW$')
     
     
         # avg blue
@@ -641,9 +646,11 @@ def main():
         
         xlabel(r'$\rm \rho / R_{vir}$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        leg = ax.legend(scatterpoints=1,prop={'size':13},loc=1,fancybox=True)
+#         leg.get_frame().set_alpha(0.5)
+
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
+        ylim(0,1300)
         xlim(0,2.0)
 
         if save:

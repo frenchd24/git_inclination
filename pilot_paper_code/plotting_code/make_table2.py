@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  make_table2.py, v 1.3 07/21/2016
+$Id:  make_table2.py, v 1.4 9/27/16
 
 Make table 2 for the pilot paper - list of targets with associated galaxies and line info
 
@@ -14,7 +14,9 @@ v1.2: updates for LG_correlation_combined5_9_edit2.csv, using v_hel instead of v
         - (05/17/2016)
         
 v1.3: updated for LG_correlation_combined5_11_25cut_edit.csv (7/21/16)
-        NOT FINISHED YET
+        
+v1.4: updated again for LG_correlation_combined5_11_25cut_edit4.csv (9/27/16)
+        
 
 '''
 
@@ -60,11 +62,11 @@ def main():
     
     
     if getpass.getuser() == 'David':
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit.csv'
+        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/'
 
     else:
@@ -75,7 +77,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table2__5_11_25cut_edit.txt'
+    outFilename = 'table2__5_11_25cut_edit4.txt'
     outFile = open(saveDirectory + outFilename,'wt')
     
     virInclude = False
@@ -191,13 +193,11 @@ def main():
             lyaV + s + \
             lyaWplusErr + '  \\\\'
             
-            
             outFile.write(line + '\n')
             
             
     outFile.close()
     results.close()
-
 
 
 ##########################################################################################
