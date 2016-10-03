@@ -604,7 +604,7 @@ def main():
         
         else:
             # plot the distributions 
-            fig = figure(figsize=(14,5))
+            fig = figure(figsize=(14.5,5.5))
             alpha = 0.7
             bSymbol = 'D'
             rSymbol = 'o'
@@ -628,7 +628,7 @@ def main():
             minLya = min(lyaWList)
             maxLya = max(lyaWList)
         
-            label1 = r'$\rm 0 \leq Inc \leq 40$'
+            label1 = r'$\rm Inc \leq 40$'
             ax1.scatter(xList_1b,yList_1b,c='blue',marker=bSymbol,alpha=alpha,s=50)
             ax1.scatter(xList_1r,yList_1r,c='red',marker=rSymbol,alpha=alpha,s=50)
         
@@ -636,7 +636,7 @@ def main():
             props = dict(boxstyle='round', alpha=1, facecolor='none')
 
             # place a text box in upper right in axes coords
-            ax1.text(0.61, 0.93, label1, transform=ax1.transAxes, fontsize=14,verticalalignment='top', bbox=props)
+            ax1.text(0.715, 0.93, label1, transform=ax1.transAxes, fontsize=15,verticalalignment='top', bbox=props)
 
             # x-axis
             ax1.set_xticks([0.0,0.5,1.0,1.5])
@@ -675,7 +675,7 @@ def main():
             e.set_facecolor('black')
             e.set_edgecolor('black')
         
-            label2 = r'$\rm 40 \le Inc \leq 65$'
+            label2 = r'$\rm 40 < Inc \leq 65$'
             ax2.scatter(xList_2b,yList_2b,c='blue',marker=bSymbol,alpha=alpha,s=50)
             ax2.scatter(xList_2r,yList_2r,c='red',marker=rSymbol,alpha=alpha,s=50)
         
@@ -683,7 +683,7 @@ def main():
             props = dict(boxstyle='round', alpha=1, facecolor='none')
 
             # place a text box in upper right in axes coords
-            ax2.text(0.58, 0.93, label2, transform=ax2.transAxes, fontsize=14,verticalalignment='top', bbox=props)
+            ax2.text(0.58, 0.93, label2, transform=ax2.transAxes, fontsize=15,verticalalignment='top', bbox=props)
         
             # x-axis
             majorLocator   = MultipleLocator(0.5)
@@ -729,7 +729,7 @@ def main():
             props = dict(boxstyle='round', alpha=1, facecolor='none')
 
             # place a text box in upper right in axes coords
-            ax3.text(0.715, 0.93, label3, transform=ax3.transAxes, fontsize=14,verticalalignment='top', bbox=props)
+            ax3.text(0.715, 0.93, label3, transform=ax3.transAxes, fontsize=15,verticalalignment='top', bbox=props)
         
             # x-axis
             majorLocator   = MultipleLocator(0.5)

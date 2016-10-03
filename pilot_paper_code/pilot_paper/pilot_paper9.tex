@@ -55,7 +55,7 @@
 
 \begin{abstract}
 
-We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) spectra of background QSOs. This initial sample contains 35 sight lines chosen for their proximity to large galaxies ($D\geq25$ kpc) and high signal-to-noise ratio (S/N $\geq$ 11), yielding 51 Ly$\alpha$ systems which we have paired with individual galaxies. We introduce a likelihood parameter to facilitate the matching of galaxies to absorption lines in a reproducible manner. We find the usual anti-correlation between Ly$\alpha$ equivalent width ($EW$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). Galaxies associated with a Ly$\alpha$ absorber are found to be more highly-inclined than the average distribution of galaxies in the survey volume at a $>99\%$ confidence limit. Contrary to suggestions in other recent papers, we do not see obvious correlations with azimuth angle. 
+We present initial results from an ongoing large-scale study of the circumgalactic medium in the nearby Universe ($cz \leq 10,000$ km/s), using archival Cosmic Origins Spectrograph (COS) spectra of background QSOs. This initial sample contains 33 sight lines chosen for their proximity to large galaxies ($D\geq25$ kpc) and high signal-to-noise ratio (S/N $\geq$ 10), yielding 48 Ly$\alpha$ systems which we have paired with individual galaxies. We introduce a likelihood parameter to facilitate the matching of galaxies to absorption lines in a reproducible manner. We find the usual anti-correlation between Ly$\alpha$ equivalent width ($EW$) and impact parameter ($\rho$) when we normalize by galaxy virial radius ($R_{vir}$). Galaxies associated with a Ly$\alpha$ absorber are found to be more highly-inclined than the average distribution of galaxies in the survey volume at a $>99\%$ confidence limit. Contrary to suggestions in other recent papers, we do not see obvious correlations with azimuth angle. 
 
 %We also detect a slight dichotomy in the equivalent widths of absorption systems around $\Delta v = v_{galaxy} - v_{gas}$, with positive $\Delta v$ absorption median $EW$ = $288 \pm 15$ m\AA, and negative $\Delta v$  absorption median $EW$ = $177 \pm 10$ m\AA, but have not yet been able to explain this finding. 
 
@@ -104,7 +104,7 @@ Recent results from Kacprzak et al. (2011 $\&$ 2012) suggest that absorbing syst
 
 Previous studies have suffered from small sample sizes (e.g. Mathes et al. 2014 use 14 galaxies, Stocke et al. 2013 use 11, Werk et al. 2014 use 44), and incompleteness due to their higher mean redshifts (e.g. the Mathes et al. 2014 sample is $0.12 <z<0.67$, and Werk et al. 2014 are complete to $\sim L^{\**}$ at $z\sim0.2$). To address these shortcomings, we are conducting a large survey of the properties of intergalactic gas in the nearby universe, where we have good and relatively complete information on both faint and bright galaxies, in order to reveal how the IGM and galaxies affect each other. We are taking advantage of the over 500 archived QSO and Seyfert spectra taken by the Cosmic Origins Spectrograph (COS) and Space Telescope Imaging Spectrograph (STIS) on the Hubble Space Telescope (HST), combined with the wealth of information available for the $\sim100,000$ galaxies with $cz<10,000$ km/s found in the NASA Extragalactic Database (NED) to probe the environment of absorbing gas systems in the nearby universe. This approach allows for an unbiased understanding of the distribution of the gas around galaxies, which requires looking for both detections and non-detections of gas, both near as well as far away from galaxies.
 
-This paper presents initial results from our pilot study of 35 sight lines, chosen for their proximity to large galaxies and high signal-to-noise spectra. This paper is organized as follows: in Section 2 we present the data and analysis techniques, in Section 3 we present the results, and in Section 4 we discuss possible interpretations of our results.
+This paper presents initial results from our pilot study of 33 sight lines, chosen for their proximity to large galaxies and high signal-to-noise spectra. This paper is organized as follows: in Section 2 we present the data and analysis techniques, in Section 3 we present the results, and in Section 4 we discuss possible interpretations of our results.
 
 %The relationship between the galaxies and the IGM is usually studied by looking for galaxies that lie near the redshift of detected absorption lines. This approach has value, but is incomplete; it does not allow for an unbiased understanding of the distribution of the gas around galaxies, which requires looking for both detections and non-detections of gas, both near as well as far away from galaxies.
 
@@ -113,10 +113,12 @@ This paper presents initial results from our pilot study of 35 sight lines, chos
 
 \begin{table*}[ht]\footnotesize
 \begin{center}
-\begin{tabular}{l c c c c c c c c c}
+\begin{tabular}{l l l l l l l l l l}
  \hline \hline
-  Target & R.A. & Dec. & \textit{z} & Program & Grating & Obs ID & Obs Date & $T_{exp}*$ [ks] & S/N [1238] \\ \hline
-   
+  Target 		& R.A. 		& Dec. 		& \textit{z}		 & Program 	  & Grating 	  & Obs ID 	    & Obs Date 	    & $T_{exp}*$     & S/N*  \\ 
+  	    		& 	       		&	  		& 		  	 & 		    	  & 		  	  & 		  	   & 		     	    & 	        [ks]        & [1238] \\ 
+ \scriptsize (1)  & \scriptsize (2) & \scriptsize (3) & \scriptsize (4) & \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) & \scriptsize (8) & \scriptsize (9) & \scriptsize (10)  \\ \hline \hline
+
 \\
     
 1H0717+714		  &  7.0  21.0   53.3  &     71.0  20.0  36.0  &    0.5003  & 12025  	    &   G130M  &   LBG812  		 & 11-12-27      	 	  &  6.0    &      37         \\
@@ -167,32 +169,31 @@ RX\_J1356.4+2515  &   13.0  56.0  25.6  &    25.0  15.0  23.0   &   0.1640  & 12
 RX\_J1503.2+6810  &     15.0  3.0  16.5  &    68.0  10.0  6.0     &   0.1140  & 12276  		    &   G130M  &   LBI609    		& 10-12-31 		   &   1.9  &      11         \\
 RX\_J1544.5+2827  &   15.0  44.0  30.5  &   28.0  27.0  56.0    &   0.2314  & 13423  	            &   G130M  &   LC9W08		& 14-02-25		   &   2.1  &      10         \\
 RX\_J2043.1+0324  &     20.0  43.0  6.2  &     3.0  24.0  50.0    &   0.2710  & 13840		    &   G130M  &   LCJW02		& 14-10-23		   &   7.8  &      15         \\
+RX\_J2139.7+0246  &   21.0  39.0  44.2  &      2.0  46.0  5.0     &   0.2600  & 13840  		    &   G130M  &   LCJW03		& 14-10-27  		   & 	7.9  &      16         \\
+SBS0957+599         &       10.0  1.0  2.6  &     59.0  44.0  15.0  &    0.7475  & 12248  		    &   G130M  &   LBHO65		& 11-03-18,19  		   &   3.3  &      12         \\
+SBS0957+599         &       10.0  1.0  2.6  &     59.0  44.0  15.0  &    0.7475  & 12248  		    &   G160M  &   LBHO65		& 11-03-19  		   &   5.2  &      11         \\
+SDSSJ021218.32-073719.8  & 2.0  12.0  18.3  &    -7.0  37.0  20.0  &    0.1739  & 12248  	    &   G130M  &   LBHO83		& 11-06-26		   &   6.5  &      12         \\
+				        	     & 	  	  	  	&    		  	       &    	  	 & 	  	    &                 &   LBHO92		& 11-08-21		   &          &                   \\
+SDSSJ021218.32-073719.8  & 2.0  12.0  18.3  &    -7.0  37.0  20.0  &    0.1739  & 12248      &   G160M  &   LBHO83		& 11-06-26 		   & 	6.8  &       7          \\
+				        	     & 	  	  	  	&    		  	       &    	  	 & 	  	    &                 &   LBHO92		& 11-08-21		   &          &                   \\
+SDSSJ080838.80+051440.0 &   8.0  8.0  38.8  &     5.0  14.0  40.0  &    0.3606  & 12603	    &   G130M  &   LBS330   		& 12-03-17  		   &   4.7  &      10         \\
+SDSSJ091728.60+271951.0 & 9.0  17.0  28.6  &    27.0  19.0  51.0 &    0.0756  & 14071	    &   G130M  &   LCX202			& 15-11-30		   & 15.5  &      11         \\
+				        	     & 	  	  	        &    		  	       &    	  	 & 	  	    &                 &   LCX2Z2			& 16-02-06		   &          &                   \\
+SDSSJ112224.10+031802.0 & 11.0  22.0  24.1 &     3.0  18.0  2.0    &    0.4753  & 12603      &   G130M  &   LBS318			& 13-03-29		   &   7.6  &      13         \\
+SDSSJ130524.30+035731.0 & 13.0  5.0  24.3  &    3.0  57.0  31.0   &    0.5457  & 12603	    &   G130M  &   LBS321			& 12-06-25,26		   &   7.6  &      13         \\
 
-RX\_J2139.7+0246  &   21.0  39.0  44.2  &      2.0  46.0  5.0     &   0.2600  & 13840  		    &   G130M  &   Obs ID  			& Obs Date  		   & 7854  &     16         \\
-
-SBS0957+599         &       10.0  1.0  2.6  &     59.0  44.0  15.0  &    0.7475  & 12248  		    &   G130M  &   Obs ID  			& Obs Date  		   & 3300  &     12         \\
-SBS0957+599         &       10.0  1.0  2.6  &     59.0  44.0  15.0  &    0.7475  & 12248  		    &   G160M  &   Obs ID  			& Obs Date  		   & 5201  &     11         \\
-
-SDSSJ021218.32-073719.8  & 2.0  12.0  18.3  &    -7.0  37.0  20.0  &    0.1739  & 12248  &   G130M  &   Obs ID  & Obs Date  & 6525  &       12         \\
-SDSSJ021218.32-073719.8  & 2.0  12.0  18.3  &    -7.0  37.0  20.0  &    0.1739  & 12248  &   G160M  &   Obs ID  & Obs Date  & 6780  &       7          \\
-
-SDSSJ080838.80+051440.0  & 8.0  8.0  38.8  &     5.0  14.0  40.0  &     0.3606  & 12603  &   G130M  &   LBS330   & 2012 03 17  &    4.7  &       8          \\
-
-SDSSJ091728.60+271951.0  & 9.0  17.0  28.6  &    27.0  19.0  51.0  &    0.0756  & 14071  &   G130M  &   Obs ID  & Obs Date  & 15471  &      10         \\
-SDSSJ112224.10+031802.0  & 11.0  22.0  24.1  &   3.0  18.0  2.0  &      0.4753  & 12603  &   G130M  &   Obs ID  & Obs Date  & 7588  &       10         \\
-SDSSJ130524.30+035731.0  & 13.0  5.0  24.3  &    3.0  57.0  31.0  &     0.5457  & 12603  &   G130M  &   Obs ID  & Obs Date  & 7588  &       13         \\
-SDSSJ135726.27+043541.4  & 13.0  57.0  26.2  &   4.0  35.0  41.0  &     1.2345  & 12264  &   G130M  &   Obs ID  & Obs Date  & 14148  &      15         \\
-SDSSJ135726.27+043541.4  & 13.0  57.0  26.2  &   4.0  35.0  41.0  &     1.2345  & 12264  &   G160M  &   Obs ID  & Obs Date  & 28206  &      12         \\
-
-SDSSJ140428.30+335342.0  & 14.0  4.0  28.3  &    33.0  53.0  42.0  &    0.5500  & 12603  &   G130M  &   LBS320   & 2013 03 03   &     7.7  &       7          \\
-TON1009  			       &  9.0  9.0  6.1  &      32.0  36.0  31.0  &    0.8103  & 12603  &   G130M  &   LBS328   & 2012 04 22   &    4.7  &       11         \\
+SDSSJ135726.27+043541.4 & 13.0  57.0  26.2 &    4.0  35.0  41.0  &    1.2345  & 12264      &   G130M  &   LBJ005  		& 11-06-22		   & 14.1  &      21         \\
+SDSSJ135726.27+043541.4 & 13.0  57.0  26.2 &    4.0  35.0  41.0  &    1.2345  & 12264      &   G160M  &   LBJ006  		& 11-06-14		   & 28.2  &      13         \\
+				        	     & 	  	  	        &    		  	       &    	  	 & 	  	    &                &   LBJ007  			& 11-06-26		   &          &                   \\
+SDSSJ140428.30+335342.0 & 14.0  4.0  28.3  &   33.0  53.0  42.0  &    0.5500  & 12603  	    &   G130M  &  LBS320   		& 13-03-03   		   &   7.7  &      10          \\
+TON1009  			    &    9.0  9.0  6.1   &    32.0  36.0  31.0  &    0.8103  & 12603  	    &   G130M  &  LBS328   		& 12-04-22   		   &   4.7  &      12         \\
 
  \\
 \hline
 
 \end{tabular}
 \end{center}
-  \caption{\small{COS targets in this sample. Each line corresponds to a single grating observation, so some individual S/N ratios listed may be below the required minimum of 11 for the final, combined spectra. *Total exposure time is given for multi-orbit exposures unless different gratings are used.}}
+  \caption{\small{COS targets in this sample. *Total exposure time and S/N ratio is given for multi-orbit exposures unless different gratings are used.}}
   \label{target_table}
 \end{table*}
 
@@ -237,7 +238,7 @@ This homogeneous galaxy data table allows us to draw direct comparisons between 
 
 \subsection{Spectra}
 
-This initial pilot study contains 35 sightlines to bright QSOs observed with COS. We chose sightlines by first sorting the galaxy data table described above by galaxy diameter. This sorted list is then correlated with the full list of publicly available sightlines, and only those systems with impact parameter less than 500 Mpc and galaxy diameter, $D$, greater than $25$ kpc  are kept. Finally, we select the top 35 sightlines with $S/N > 11$, as sorted by galaxy diameter.
+This initial pilot study contains 33 sightlines to bright QSOs observed with COS. We chose sightlines by first sorting the galaxy data table described above by galaxy diameter. This sorted list is then correlated with the full list of publicly available sightlines, and only those systems with impact parameter less than 500 Mpc and galaxy diameter, $D$, greater than $25$ kpc  are kept. Finally, we select the top 33 sightlines with $S/N > 10$, as sorted by galaxy diameter.
 
 %We chose sight lines based on high S/N (generally $>$10), ease of spectral identification, and proximity to large, nearby galaxies. Several are included simply because they already have published identifications. There were no strict cutoffs for galaxy size or brightness, we simply selected the top 35 sight lines after rejecting those with lower S/N and/or more complicated features. 
 
@@ -256,7 +257,7 @@ All COS spectra for the target sightlines were obtained through the Barbara A. M
 
 \begin{table*}[ht]\footnotesize
 \begin{center}
-\begin{tabular}{l l l c c c c c c c c c c c c}
+\begin{tabular}{l l l l l l l l l l l l l l l}
  \hline \hline
   Target & Galaxy & $\mathcal{L}$ & $R_{vir}$ & $\rho$ (kpc) & $v_{galaxy}$ & $\Delta v$  &  Inc.   &  Az.     & $v_{Ly\alpha}$ & $$W$_{Ly\alpha}$ \\ 
   	     &               &                      & \scriptsize [kpc] & \scriptsize [kpc] & \scriptsize [km/s] & \scriptsize [km/s] & \scriptsize [deg] & \scriptsize [deg] & \scriptsize [km/s] & \scriptsize [m\AA]	\\
@@ -332,7 +333,7 @@ TON1009  &  NGC2770  &  0.19*  &  204  &  274  &  1947  &  -14  &  87  &  41  & 
 
 \section{Results}
 
-We have identified 51 Ly$\alpha$ absorption lines in the spectra of our initial 35 QSO sample which can be unambiguously associated with a single nearby galaxy of diameter $D\geq25$ kpc. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
+We have identified 48 Ly$\alpha$ absorption lines in the spectra of our initial 33 QSO sample which can be unambiguously associated with a single nearby galaxy of diameter $D\geq25$ kpc. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 km/s in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) no single galaxy if obviously dominant, and we do not include this line in further analysis. 
 
 \begin{figure*}[t]
 \centering
@@ -350,11 +351,13 @@ To facilitate this decision, we calculate the likelihood, $\mathcal{L}$, of ever
 \end{equation}
 
 
-\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $R_{eff} \geq \rho$ (in which case $A = 2$, otherwise $A = 1$). We compute $\mathcal{L}$ for two different values of $R_{eff}$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, we require that its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association, and $\mathcal{L} \ge 0.01$ for at least one of $\mathcal{L}_{R_{vir}}$ or $\mathcal{L}_{D^{1.5}}$. We visually inspect systems with only one $\mathcal{L}$ meeting these criteria, and decide to reject or include it based on the complexity of the nearby galaxy environment. 
+\noindent Here $\rho$ is the physical impact parameter, $\Delta v$ the velocity difference between the absorber and the galaxy ($\Delta v = v_{galaxy} - v_{absorber}$), and $A$ is a factor included to increase the likelihood in the case that $\rho \leq R_{eff}$ (in which case $A = 2$, otherwise $A = 1$). 
+
+We compute $\mathcal{L}$ for two different values of $R_{eff}$: $R_{vir}$, the virial radius of the galaxy, and $d^{1.5}$, the major diameter of the galaxy to the power of 1.5. $\mathcal{L}$ computed with $R_{vir}$ is liable to select satellite galaxies instead of the larger hosts, so including a version with $d^{1.5}$ serves as a two-tiered selection system. An absorber-galaxy system separated by 200 km/s in velocity and 1$R_{vir}$ would have $\mathcal{L} = 0.27$. In order for an absorber to be marked as ``associated" with a particular galaxy, we require that its $\mathcal{L}$ must be a factor of 5 larger than the next best possible association, and $\mathcal{L} \ge 0.01$ for at least one of $\mathcal{L}_{R_{vir}}$ or $\mathcal{L}_{D^{1.5}}$. We visually inspect systems with only one $\mathcal{L}$ meeting these criteria, and decide to reject or include it based on the complexity of the nearby galaxy environment. 
 
 Figures \ref{line} and \ref{impactmap} show a clean example of a Ly$\alpha$ absorption line with a map of its galaxy environment, showing an unambiguous pairing between the absorption features at $3090, 3192$ km/s toward MRK290 and galaxy NGC5987 ($\mathcal{L} = 0.37$). Unless explicitly stated, all following analysis concerns similarly unambiguous ``associated" systems. 
 
-Additionally, we split the absorber-galaxy catalog based on the velocity difference of the two, $\Delta v$. With this scheme, we refer to an absorber with a velocity \textit{lower} than the associated galaxy as \textit{blueshifted}, while an absorber with a velocity \textit{higher} is referred to as \textit{redshifted}. The rest of the results will be analyzed based upon this splitting. 
+Additionally, we split the absorber-galaxy catalog based on the velocity difference of the two, $\Delta v$. With this scheme, we refer to an absorber with a velocity \textit{lower} than the associated galaxy as \textit{blueshifted}, while an absorber with a velocity \textit{higher} is referred to as \textit{redshifted}. The rest of the results will be analyzed based upon this splitting. In all figures blue and red-shifted absorbers are represented as blue diamonds and red circles, respectively.
 
 
 \begin{figure*}[ht]
@@ -462,16 +465,21 @@ In this section we examine the inclinations of the associated galaxies compared 
 	\label{incEq}
 \end{equation}
 
-\noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies (e.g., Jones, Davies, and Trewhella 1996). Only 5 of 
+\noindent where $q = b/a$, the ratio of the minor to major axis, and $q_0$ is the intrinsic axis ratio, set to $q_0 = 0.2$ for all galaxies (e.g., Jones, Davies, and Trewhella 1996). 6 of the 48 total absorbers are associated with E or S0 type galaxies, but we have chosen to keep the value of $q_0 = 0.2$ uniform throughout. The calculated values of cos($i$) we use for these galaxies are thus conservative under-estimates of their true inclinations.
 
 %Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is an apparent dichotomy between the distributions, where blue shifted absorbers appear around nearly all inclinations of galaxies, but redshifted absorbers appear preferentially near highly-inclined galaxies ($i \geq$ 50 deg). In addition, redshifted absorbers appear with lower $EW$ than those blueshifted across all inclinations. The mean $EW$ of all redshifted absorbers is $\overline{EW}$ = $237 \pm 16$  $\textrm{m\AA}$, compared to $\overline{EW}$ = $353 \pm 12$ $\textrm{m\AA}$ for blueshifted absorbers. To test if the distributions of red and blue-shifted absorbers are actually different we performed KS and AD statistical distribution tests, which both yielded p-values $=0.05$. While $p=0.05$ is often quoted as a threshold for significance, we believe a larger sample size is needed before we can claim the presence of a true, physical dichotomy.
 
 
-Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is a clear excess of absorbers near galaxies of high inclination, with $75\%$ of redshifted and $65\%$ of blueshifted absorbers being associated with galaxies of $i \geq$ 50 deg. The solid-black and dashed-grey lines show mean and 90th percentile histograms, respectively, in bins of 12 deg. There does not appear to be much evolution of $EW$ across galaxy inclination, although a slight increase of mean $EW$ is possibly present towards higher inclinations. There are only 3 absorbers associated with a galaxy with $i<35$ 
+Figure \ref{ew_vs_inclination} shows red and blueshifted absorbers' $EW$ plotted against the inclinations of their associated galaxies. We note that there is a clear excess of absorbers near galaxies of high inclination, with $77\%$ of redshifted and $73\%$ of blueshifted absorbers being associated with galaxies of $i \geq$ 50 deg. The solid-black and dashed-grey lines show mean and 90th percentile histograms, respectively, in bins of 12 deg. There does not appear to be much evolution of $EW$ across galaxy inclination, although a slight increase of mean $EW$ is possibly present towards higher inclinations. There are only 3 absorbers associated with a galaxy with $i<35$, 
 
-In total $65\%$ of blueshifted and $75\%$ of redshifted absorbers are associated with high inclined galaxies ($i \geq$ 50 deg). Only $56\%$ of all galaxies in the survey volume are highly inclined, indicating a preference for detecting absorption around inclined galaxies. Figure \ref{hist_inc} shows the distribution of galaxy inclinations for both the red and blue-shifted associated galaxies and all galaxies within the survey volume. We tested the difference between the full distribution of inclination angles and the distribution for all (red + blue-shifted) associated galaxies using the Anderson-Darling (AD) and Kolmogorov-Smirnov (KS) statistical distribution tests, yielding p-values of $KS_{p} =0.0368$, and $AD_{p} = 0.00014$. Hence, there appears to be a significant bias towards detecting Ly$\alpha$ absorption around highly inclined galaxies. 
+In total $75\%$ of absorbers are associated with high inclined galaxies ($i \geq$ 50 deg). Only $56\%$ of all galaxies in the survey volume are highly inclined, indicating a preference for detecting absorption around inclined galaxies. Figure \ref{hist_inc} shows the distribution of galaxy inclinations for both the red and blue-shifted associated galaxies and all galaxies within the survey volume. We tested the difference between the full distribution of inclination angles and the distribution for all (red + blue-shifted) associated galaxies using the Anderson-Darling (AD) and Kolmogorov-Smirnov (KS) statistical distribution tests, yielding p-values of $KS_{p} =0.014$, and $AD_{p} = 0.00037$. Hence, there appears to be a significant bias towards detecting Ly$\alpha$ absorption around highly inclined galaxies. 
 
-It is worth noting here that the observed distribution of galaxy inclinations is \emph{not} flat, as one might expect. Because our galaxy sample is essentially magnitude-limited, highly-inclined and optically thin galaxies can be detected out to larger distances and are thus over-represented in the sample (Jones, Davies and Trewhella 1996). It is possible that this effect is also responsible for the over-abundance of Ly$\alpha$ detections around highly inclined galaxies. If we assume a disky or oblate spheroid shape and some covering fraction for the CGM, the probability of encountering a cloud near an inclined galaxy would increase with the increased path-length through the halo. 
+It is worth noting here that the observed distribution of galaxy inclinations is \emph{not} flat, as one might expect. The dashed line in Figure \ref{hist_inc} shows the distribution of inclinations for a random, uniform sample. There could be a number of effects contributing to this. If our sample is magnitude limited and we assume galaxies are mostly optically thin but with a very thin optically thick dust lane, then mostly face-on and mostly edge-on galaxies would be underrepresented due to surface-brightness and dust obscuration (e.g., see Jones, Davies and Trewhella 1996). It is possible that this effect is also responsible for the over-abundance of Ly$\alpha$ detections around highly inclined galaxies. If we assume a disky or oblate spheroid shape and some covering fraction for the CGM, the probability of encountering a cloud near an inclined galaxy would increase with the increased path-length through the halo. 
+
+%medium-inclined and optically thin galaxies can be detected out to larger distances and are thus over-represented in the sample
+
+
+%The random distribution is generally flatter and peaks at higher inclination. 
 
 
 %It is important to note here that the majority of our sample of absorbers are measured far from galaxies (mean $\rho = 223$ kpc for blueshifted absorbers and $\rho = 290$ kpc for redshifted absorbers). Additionally, the differential velocity between galaxy and absorber ($\Delta v$) is on the order of the rotation velocity for spiral galaxies (average $\Delta v = 68$ km/s for blueshifted, $\Delta v = -102$ km/s for redshifted absorbers). Without further knowledge of the rotation velocity and orientation of each galaxy however, we can only speculate at the origins of the dichotomy between red and blue-shifted absorbers.
@@ -482,16 +490,15 @@ It is worth noting here that the observed distribution of galaxy inclinations is
 \subsection{Velocity Difference \rm($\Delta v$\rm)}
 %Additionally, we find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 25/41 ($61\%$) of absorbers are found within $\pm100$ km/s, and the highest $EW$ absorbers are found within $\pm50$ km/s  of their associated galaxy velocities.
 
-We find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 35/51 ($69\%$) of absorbers are found within $\pm100$ km/s. This $\pm100$ km/s threshold also applies to absorber $EW$, with only 1 absorber of $EW \geq 400$ found with $\Delta v > 100$ km/s. Blueshifted absorbers are on average closer to their associated galaxy, with $\overline{\Delta v}_{blue} = 68$, compared to $\overline{\Delta v}_{red}=-102$ for the redshifted sample, and correspondingly have higher average equivalent width, $\overline{EW}_{blue}=317\pm18$ compared to $\overline{EW}_{red}=329\pm12$.
+We find evidence for an anti-correlation between absorber $EW$ and the velocity difference between the galaxy and the associated absorption, $\Delta v$. The mean and maximal $EW$ of absorption increases with decreasing $\Delta v$ (see Figure \ref{W_veldif}). In total, 32/48 ($67\%$) of absorbers are found within $\pm100$ km/s. This $\pm100$ km/s threshold also applies to absorber $EW$, with only 1 absorber of $EW \geq 400$ found with $\Delta v > 100$ km/s. Blueshifted absorbers are on average closer to their associated galaxy, with $\overline{\Delta v}_{blue} = 68$ km/s, compared to $\overline{\Delta v}_{red}=-108$ km/s for the redshifted sample, and correspondingly have higher average equivalent width, $\overline{EW}_{blue}=329\pm18$ $\rm m\AA$ compared to $\overline{EW}_{red}=245\pm11$. $\rm m\AA$
 
-Additionally, of the 51 associated absorbers, 31 are matched with the same galaxy as another absorber (for a total of 15 unique galaxies in this subset). All but one of these cases involve two absorbers in the same sightline yet separated in velocity around a galaxy. 25/31 of these are oriented such that the higher $EW$ absorber has the smaller $\Delta v$, and the 6 others are close in either velocity or $EW$. The one galaxy with 3 associated absorbers, NGC1097, shows this trend across two sightlines as well, with absorbers at $\Delta v = 32$ km/s and $EW = 570$ $\rm m\AA$ towards 2dFGRS\_S393Z082, and $\Delta v = -39$ km/s and $EW = 184$ $\rm m\AA$ and $\Delta v = 50$ km/s and $EW = 83$ $\rm m\AA$ towards HE0241-3043.
-
+Additionally, of the 48 associated absorbers, 29 are matched with the same galaxy as another absorber (for a total of 14 unique galaxies in this subset). All but one of these cases involve two absorbers in the same sightline yet separated in velocity around a galaxy. 23/29 of these are oriented such that the higher $EW$ absorber has the smaller $\Delta v$, and the 6 others are close in either velocity or $EW$. The one galaxy with 3 associated absorbers, NGC1097, shows this trend across two sightlines as well, with absorbers at $\Delta v = 32$ km/s and $EW = 570$ $\rm m\AA$ towards 2dFGRS\_S393Z082, and $\Delta v = -39$ km/s and $EW = 184$ $\rm m\AA$ and $\Delta v = 50$ km/s and $EW = 83$ $\rm m\AA$ towards HE0241-3043.
 
 
 \subsection{Azimuth}
 In this section we examine properties of absorbers as a function of their azimuthal angle with respect to their associated galaxy. Azimuth is defined as the angle between the major axis of a galaxy and the vector connecting the absorption feature and the midpoint of the galaxy plane. Figure \ref{azimuth_illustration} illustrates this. 
 
-The mean azimuth angle for blueshifted absorbers is $41^{\circ}$, and $45^{\circ}$ for redshifted absorbers. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for both red and blue-shifted absorbers. Unlike the findings of Kacprzak et al. (2011, 2012), who find a bimodal distribution of Mg\,{\sc ii} absorbers around galaxies, our distributions of Ly$\alpha$ absorbers are generally consistent with a flat, or random distribution. There is a slight overabundance of absorbers around $0^{\circ}$ azimuth in both red and blue-shifted samples, but we cannot assign this observation much significance yet given the small sample size. We additionally find no significant correlation between azimuth angle and $EW$ or $\Delta v$. 
+The mean azimuth angle for blueshifted absorbers is $43^{\circ}$, and $49^{\circ}$ for redshifted absorbers. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for both red and blue-shifted absorbers. Unlike the findings of Kacprzak et al. (2011, 2012), who find a bimodal distribution of Mg\,{\sc ii} absorbers around galaxies, our distributions of Ly$\alpha$ absorbers are generally consistent with a flat, or random distribution. There is possibly a slight overabundance of redshifted absorbers around $0^{\circ}$ (minor-axis) and blueshifted absorbers between $20-50^{\circ}$ (just off major-axis), but we cannot assign this observation much significance yet given the small sample size. We additionally find no significant correlation between azimuth angle and $EW$ or $\Delta v$. See figure \ref{azimuthMap} for a map of the locations of absorbers relative to their associated galaxies, split into three bins of inclination.
 
 
 \begin{figure}[ht!]
@@ -536,49 +543,35 @@ The mean azimuth angle for blueshifted absorbers is $41^{\circ}$, and $45^{\circ
 \begin{figure*}[ht!]
         \centering
         \includegraphics[width=0.98\textwidth]{azimuthMap_horizontal.pdf}
-        \caption{\small{A map of where all absorption features occur, split into 3 inclination ranges: $0 \leq i \le 40$, $40 \leq i \le 65$, $65 \leq i$.}}
+        \caption{\small{A map of where all absorption features occur, split into 3 inclination ranges. \textbf{Left:} Absorbers associated with galaxies of inclination $0 \leq i \le 40$, \textbf{center:} $40 \leq i \le 65$, and \textbf{right: } $65 \leq i$.}}
         \label{azimuthMap}
         \vspace{5pt}
 \end{figure*} 
 
 
+
 \section{Summary}
 
 
-We have measured 51 $\rm Ly\alpha$ absorption lines in the spectra of 35 COS targets and matched each to a single, large ($D\geq 25$ kpc) galaxy. Table \ref{resultsTable} presents a breakdown of our results when separating absorber-galaxy pairs into red and blue-shifted samples. The following summarizes our findings:
+We have measured 48 $\rm Ly\alpha$ absorption lines in the spectra of 33 COS targets and matched each to a single, large ($D\geq 25$ kpc) galaxy. Table \ref{resultsTable} presents a breakdown of our results when separating absorber-galaxy pairs into red and blue-shifted samples. The following summarizes our findings:
 
 \indent \textbullet \indent We introduce a likelihood parameter based on Gaussian profiles centered around $\rho / R_{vir}$ and $\Delta v$ to automate the matching of absorbers with associated galaxies. 
-
-%\indent \textbullet \indent  Of our sample of 175 Ly$\alpha$ absorbers, only 41 can be unambiguously paired with a single nearby galaxy using our likelihood method. 46 absorbers are located near multiple galaxies and no definitive association can be made. The remainder, over half of the total sample, are located farther than 500 kpc and 400 km/s from a galaxy.
-
-\indent \textbullet \indent $EW$ anti-correlates most strongly with $\rho$ when normalized by $R_{vir}$. It follows that $EW$ weakly correlates and anti-correlates with $R_{vir}$ and $\rho$, respectively.
-
-\indent \textbullet \indent The mean and maximal $EW$ of absorbers increases with decreasing $\Delta v$. The strongest absorbers are nearly all found within $\Delta v = \pm 100$ km/s of their associated galaxies.
-
-\indent \textbullet \indent We find a slight dichotomy in the $EW$ of absorption blue-ward vs red-ward of associated galaxies. Redshifted absorbers are weaker, with $\overline{EW}$ = $239 \pm 12$ $\textrm{m\AA}$ compared to $EW$ = $317 \pm 18$ $\textrm{m\AA}$ for blueshifted absorbers.
-
-%\indent \textbullet \indent We find a positive correlation between the impact parameter ($\rho$) to the associated galaxy and $R_{vir}$ of said galaxy.
-
-\textbullet \indent $\rm Ly\alpha$ absorbers are most associated with inclined galaxies. $65\%$ of blueshifted and $75\%$ of redshifted absorbers are associated with galaxies with $i \geq 50$ deg, whereas $56\%$ of all galaxies in the survey volume have similarly high inclinations. The distributions of associated vs all galaxy inclinations differ at a greater than $99\%$ significance level according to the Anderson-Darling distribution test.
-
-\indent \textbullet \indent We find no strong azimuth preference for absorption - Ly$\alpha$ absorbers appear to be distributed uniformly around galaxies.
-
 
 \begin{table}[ht]\footnotesize
 \begin{center}
 \begin{tabular}{l c c}
  \hline \hline
- Parameter                				&  Blueshifted   &     Redshifted        \\ 
+ Parameter                				&  Blueshifted Absorbers   &     Redshifted Absorbers     \\ 
   \hline \hline \\
   
- \# of systems          			 		&     	23				&	28			\\
- Mean $EW$    \scriptsize $\rm [m\AA]$    &	$317 \pm 18$ 		&	$239 \pm 12$  	\\
- Median EW     \scriptsize $\rm [m\AA]$    & 	$288 \pm 15$		& 	$177 \pm 10$	\\
- Mean $\rm R_{vir}$   \scriptsize [kpc]	&   	210.7			& 	221.3   		\\
- Mean $\rho$   \scriptsize [kpc]          		&   	222.8			& 	221.3		\\
- Mean $\Delta v$  \scriptsize $\rm [km s^{-1}]$     &	68				&	-102 			\\
- Mean Inc.  \scriptsize [deg]  			&  	56				&	59			\\
- Mean Az.  \scriptsize [deg]    			&	41				&	45			\\
+ \# of systems          			 		&     	22				&	26			\\
+ Mean $EW$    \scriptsize $\rm [m\AA]$    &	$329 \pm 18$ 		&	$245 \pm 11$  	\\
+ Median EW     \scriptsize $\rm [m\AA]$    & 	$292 \pm 16$		& 	$177 \pm 10$	\\
+ Mean $\rm R_{vir}$   \scriptsize [kpc]	&   	215				& 	224			\\
+ Mean $\rho$   \scriptsize [kpc]          		&   	218				& 	298			\\
+ Mean $\Delta v$  \scriptsize $\rm [km s^{-1}]$     &	68			&	-108 			\\
+ Mean Inc.  \scriptsize [deg]  			&  	58				&	61			\\
+ Mean Az.  \scriptsize [deg]    			&	43				&	49			\\
    
 \hline
 \end{tabular}
@@ -586,6 +579,18 @@ We have measured 51 $\rm Ly\alpha$ absorption lines in the spectra of 35 COS tar
   \caption{\small{Average properties of the associated galaxy sample split into red and blue-shifted bins based on $\Delta v$.}}
   \label{resultsTable}
 \end{table}
+
+\indent \textbullet \indent $EW$ anti-correlates most strongly with $\rho$ when normalized by $R_{vir}$. It follows that $EW$ weakly correlates and anti-correlates with $R_{vir}$ and $\rho$, respectively.
+
+\indent \textbullet \indent The mean and maximal $EW$ of absorbers increases with decreasing $\Delta v$. The strongest absorbers are nearly all found within $\Delta v = \pm 100$ km/s of their associated galaxies.
+
+\indent \textbullet \indent We find a slight dichotomy in the $EW$ of absorption blue-ward vs red-ward of associated galaxies. Redshifted absorbers are weaker, with $\overline{EW}$ = $245 \pm 11$ $\textrm{m\AA}$ compared to $EW$ = $329 \pm 18$ $\textrm{m\AA}$ for blueshifted absorbers.
+
+%\indent \textbullet \indent We find a positive correlation between the impact parameter ($\rho$) to the associated galaxy and $R_{vir}$ of said galaxy.
+
+\textbullet \indent $\rm Ly\alpha$ absorbers are most associated with inclined galaxies. $73\%$ of blueshifted and $77\%$ of redshifted absorbers are associated with galaxies with $i \geq 50$ deg, whereas $56\%$ of all galaxies in the survey volume have similarly high inclinations. The distributions of associated vs all galaxy inclinations differ at a greater than $99\%$ significance level according to the Anderson-Darling distribution test.
+
+\indent \textbullet \indent We find no strong evidence for azimuth preference for absorption - Ly$\alpha$ absorbers appear to be distributed uniformly around galaxies.
 
 
 \nocite{*}

@@ -1,11 +1,5 @@
-\begin{thebibliography}{61}
+\begin{thebibliography}{59}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-
-\bibitem[{197(????{\natexlab{a}})}]{1972MmRAS..75...85H}
- ????{\natexlab{a}}
-
-\bibitem[{197(????{\natexlab{b}})}]{1972MmRAS..75..105H}
- ????{\natexlab{b}}
 
 \bibitem[{{Carswell} {et~al.}(2002){Carswell}, {Schaye}, \&
   {Kim}}]{2002ApJ...578...43C}
@@ -57,8 +51,8 @@
 {Erb}, D.~K. 2008, \apj, 674, 151
 
 \bibitem[{{Heidmann} {et~al.}(1972){Heidmann}, {Heidmann}, \& {de
-  Vaucouleurs}}]{1972MmRAS..75..121H}
-{Heidmann}, J., {Heidmann}, N., \& {de Vaucouleurs}, G. 1972, \memras, 75, 121
+  Vaucouleurs}}]{1972MmRAS..75...85H}
+{Heidmann}, J., {Heidmann}, N., \& {de Vaucouleurs}, G. 1972, \memras, 75, 85
 
 \bibitem[{{Jones} {et~al.}(1996){Jones}, {Davies}, \&
   {Trewhella}}]{1996MNRAS.283..316J}

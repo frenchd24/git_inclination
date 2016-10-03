@@ -86,18 +86,18 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    virInclude = True
-    cusInclude = True
+    virInclude = False
+    cusInclude = False
     finalInclude = True
     
-    maxEnv = 300
+    maxEnv = 3000
     minL = 0.001
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
     # regardless of the others
-    match = True
+    match = False
     
     # all the lists to be used for associated lines
     nameList = []

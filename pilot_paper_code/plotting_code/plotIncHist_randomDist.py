@@ -258,7 +258,7 @@ def main():
     #
     
     plotFancyIncDifHist_full_all_random = True
-    save = True
+    save = False
     
     if plotFancyIncDifHist_full_all_random:
     
@@ -292,7 +292,8 @@ def main():
         # build a random sample of galaxies
         randMinorList = []
         randIncList = []
-        randAcosIncList = []
+        randCosIncList = []
+        randQList = []
         size = len(allFancyInclinations)
         minMin = 0.2
         maxMin = 1.0
@@ -300,12 +301,17 @@ def main():
         for i in range(0,size):
             minor = random.uniform(minMin,maxMin)
             randMinorList.append(minor)
-        
+            randQList.append(minor/maxMin)
+            
             inc = calculateFancyInclination(maxMin,minor,q0)
-            acosInc = calculateInclination(maxMin,minor)
+            cosInc = math.cos(calculateFancyInclination(maxMin,minor,q0)*(math.pi/180.0))
     
             randIncList.append(inc)
-            randAcosIncList.append(acosInc)
+            randCosIncList.append(cosInc)
+            
+        n, bins, patches = hist(randQList, bins = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+        print 'n: ',n
+        print 'bins: ',bins
     #########################################################################################
 
     
