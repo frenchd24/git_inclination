@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap11.py, v 11.2 08/08/2016
+$Id: plotCorrelationMap11.py, v 11.3 10/03/16
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -104,6 +104,10 @@ v11.1: updates for the newest round of sightlines in LG_correlation_combined5_10
        - Made LG_correlation_combined5_11.csv and targetmaps34 (07/06/16)
        
 v11.2: minor formatting updates. (8/08/16)
+
+v11.3: more minor updates - make the tick labels NOT bold (10/03/16)
+    - make LG_correlation_combined5_11_25cut_edit5.csv and targetmaps37/
+
 
 """
 
@@ -275,14 +279,14 @@ def main():
     # where to save figures and tables
     user = getpass.getuser()
     if user == "David":
-        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_10.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps36/'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_test.csv'
+        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps37/'
+        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
 
     elif user == "frenchd":
-        targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_10.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps36/'
-        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_test.csv'
+        targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps37/'
+        outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
 
     else:
         print "Unknown user: ",user
@@ -504,7 +508,7 @@ def main():
             colmap = cm.RdBu
             
             x = arange(len(galaxyNames))+1
-            fig = figure(figsize=(12,10))
+            fig = figure(figsize=(10,8))
             ax = fig.add_subplot(111)
             width = 0.30
             
@@ -512,7 +516,7 @@ def main():
             #
             # x-axis
             majorLocator   = MultipleLocator(100)
-            majorFormatter = FormatStrFormatter('%d')
+            majorFormatter = FormatStrFormatter(r'$\rm %d$')
             minorLocator   = MultipleLocator(50)
             ax.xaxis.set_major_locator(majorLocator)
             ax.xaxis.set_major_formatter(majorFormatter)
@@ -520,7 +524,7 @@ def main():
         
             # y axis
             majorLocator   = MultipleLocator(100)
-            majorFormatter = FormatStrFormatter('%d')
+            majorFormatter = FormatStrFormatter(r'$\rm %d$')
             minorLocator   = MultipleLocator(50)
             ax.yaxis.set_major_locator(majorLocator)
             ax.yaxis.set_major_formatter(majorFormatter)
