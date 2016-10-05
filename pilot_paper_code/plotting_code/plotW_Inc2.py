@@ -1244,7 +1244,7 @@ def main():
     save = True
     
     if plotW_inc_percentile:
-        fig = figure(figsize=(8,6))
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
         countb = 0

@@ -475,7 +475,7 @@ def main():
     save = True
     
     if plotImpact_vs_virial_median:
-        fig = figure(figsize=(8,6))
+        fig = figure(figsize=(7.8,6.0))
         ax = fig.add_subplot(111)
         countb = 0
         countr = 0
@@ -577,7 +577,7 @@ def main():
         tight_layout()
 
         if save:
-            savefig('{0}/impact(virial)_{1}_difHistograms.pdf'.format(saveDirectory,binSize),\
+            savefig('{0}/impact(virial)_{1}_difHistograms2.pdf'.format(saveDirectory,binSize),\
             format='pdf',bbox_inches='tight')
         else:
             show()

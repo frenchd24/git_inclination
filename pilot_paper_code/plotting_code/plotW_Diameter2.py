@@ -487,7 +487,7 @@ def main():
     save = True
     
     if plotW_vir_avg:
-        fig = figure(figsize=(8,6))
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -635,7 +635,7 @@ def main():
         xlim(150,350)
 
         if save:
-            savefig('{0}/W(vir)_avgHistograms.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(vir)_avgHistograms2.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

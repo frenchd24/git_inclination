@@ -393,7 +393,7 @@ def main():
     save = True
     
     if plotW_impact_difhist:
-        fig = figure(figsize=(8,6))
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -507,7 +507,7 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        xlabel(r'$\rm \rho [kpc]$')
+        xlabel(r'$\rm \rho ~[kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
         leg = ax.legend(scatterpoints=1,prop={'size':13},loc=1,fancybox=True)
 #         leg.get_frame().set_alpha(0.5)
@@ -516,7 +516,7 @@ def main():
         xlim(0,500)
 
         if save:
-            savefig('{0}/W(impact)_mean_{1}_difHistograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact)_mean_{1}_difHistograms2.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -531,7 +531,7 @@ def main():
     save = True
     
     if plotW_impact_vir_difhist:
-        fig = figure(figsize=(8,6))
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -654,7 +654,7 @@ def main():
         xlim(0,2.0)
 
         if save:
-            savefig('{0}/W(impact_vir)_mean_{1}_difHistograms.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact_vir)_mean_{1}_difHistograms2.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 

@@ -480,8 +480,10 @@ def main():
         if abs(r) >=100:
             redVelCount100 +=1
     
+
+    assocFancyInc = blueFancyInc + redFancyInc
+
     
-            
     print
     print '------------------------ Pilot Data ------------------------------'
     print
@@ -518,32 +520,46 @@ def main():
     print
     print 'avg blueshifted EW: ',mean(blueW)
     print 'median blueshifted EW: ',median(blueW)
-
+    print 'avg blue err: ',mean(blueErr)
+    print 'median blue err: ',median(blueErr)
+    print
+    print 'stats.sem(blue EW): ',stats.sem(blueW)
+    print 'stats.describe(blue EW): ',stats.describe(blueW)
+    print
     print 'avg blueshifted vel_diff: ',mean(blues)
     print 'median blueshifted vel_diff: ',median(blues)
+    print 'stats.sem(blue vel_dif): ',stats.sem(blues)
+    print 'stats.describe(blue vel_dif: ',stats.describe(blues)
+    print
     print '% blueshifted which have vel_diff >= 200 km/s: {0}'.format(float(blueVelCount200)/len(blues))
     print 'total number with abs(vel_diff) >= 200 km/s: {0}'.format(blueVelCount200)
     print '% blueshifted which have vel_diff >= 100 km/s: {0}'.format(float(blueVelCount100)/len(blues))
     print 'total number with abs(vel_diff) >= 100 km/s: {0}'.format(blueVelCount100)
-
     print
     
     print 'avg blue velocity: ',mean(blueV)
     print 'median blue velocity: ',median(blueV)
-
-    print 'avg blue err: ',mean(blueErr)
-    print 'median blue err: ',median(blueErr)
-    
     print 'avg blue impact: ',mean(blueImpact)
     print 'median blue impact: ',median(blueImpact)
+    print 'stats.sem(blue impact): ',stats.sem(blueImpact)
+    print 'stats.describe(blue impact): ',stats.describe(blueImpact)
 
     print
     
     print 'avg redshifted EW: ',mean(redW)
     print 'median redshifted EW: ',median(redW)
+    print 'avg red err: ',mean(redErr)
+    print 'median red err: ',median(redErr)
+    print
+    print 'stats.sem(red EW): ',stats.sem(redW)
+    print 'stats.describe(red EW): ',stats.describe(redW)
 
+    print
     print 'avg redshifted vel_diff: ',mean(reds)
     print 'median redshifted vel_diff: ',median(reds)
+    print 'stats.sem(red vel_dif): ',stats.sem(reds)
+    print 'stats.describe(red vel_dif): ',stats.describe(reds)
+    print
     print '% redshifted which have abs(vel_diff) >= 200 km/s: {0}'.format(float(redVelCount200)/len(reds))
     print 'total number with abs(vel_diff) >= 200 km/s: {0}'.format(redVelCount200)
     print '% redshifted which have abs(vel_diff) >= 100 km/s: {0}'.format(float(redVelCount100)/len(reds))
@@ -552,13 +568,12 @@ def main():
 
     print 'avg red velocity: ',mean(redV)
     print 'median red velocity: ',median(redV)
-
-    print 'avg red err: ',mean(redErr)
-    print 'median red err: ',median(redErr)
-    
     print 'avg red impact: ',mean(redImpact)
     print 'median red impact: ',median(redImpact)
-    
+    print 'stats.sem(red impact): ',stats.sem(redImpact)
+    print 'stats.describe(red impact): ',stats.describe(redImpact)
+
+
     print
     print '----------------------- Galaxy info ----------------------------'
     print
@@ -622,8 +637,9 @@ def main():
     print 'All: {0} % of ALL galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
     print 'Combined: {0} % of associated galaxies have >= {1} fancy inclination'.format(float(combinedCount)/float(totalCombinedCount),incCut)
     print
-    print
-    
+    print 'Average all fancy inclination: ',mean(allFancyInclinations)
+    print 'stats.sem(all): ',stats.sem(allFancyInclinations)
+    print    
     print 'avg blue inclination: ',mean(blueInc)
     print 'median blue inclination: ',median(blueInc)
     print 'avg blue fancy inclination: ',mean(blueFancyInc)
@@ -635,14 +651,27 @@ def main():
     print 'median red fancy inclination: ',median(redFancyInc)
     
     print
+    print 'mean associated: ',mean(assocFancyInc)
+    print 'stats.sem(associated): ',stats.sem(assocFancyInc)
+    print 'stats.describe(associated): ',stats.describe(assocFancyInc)
+    print 'stats.sem(blue): ',stats.sem(blueFancyInc)
+    print 'stats.describe(blue): ',stats.describe(blueFancyInc)
+    print
+    print 'stats.sem(red): ',stats.sem(redFancyInc)
+    print 'stats.describe(red): ',stats.describe(redFancyInc)
+    
+    print
     print "  AZIMUTHS and PA:  "
     print
-    
     print 'avg blue azimuth: ',mean(blueAz)
     print 'median blue azimuth: ',median(blueAz)
+    print 'stats.sem(blue az): ',stats.sem(blueAz)
+    print 'stats.describe(blue az): ',stats.describe(blueAz)
     print
     print 'avg red azimuth: ',mean(redAz)
     print 'median red azimuth: ',median(redAz)
+    print 'stats.sem(red az): ',stats.sem(redAz)
+    print 'stats.describe(red az): ',stats.describe(redAz)
     print
     print 'avg blue PA: ',mean(bluePA)
     print 'median blue PA: ',median(bluePA)
@@ -653,7 +682,6 @@ def main():
     print
     print ' VCORR : '
     print
-    
     print 'avg blue vcorr: ',mean(blueVcorr)
     print 'median blue vcorr: ',median(blueVcorr)
     print
@@ -663,7 +691,6 @@ def main():
     print
     print ' ENVIRONMENT: '
     print
-    
     print 'avg blue environment: ',mean(blueEnv)
     print 'median blue environment: ',median(blueEnv)
     print
@@ -673,17 +700,19 @@ def main():
     print
     print ' R_vir: '
     print
-    
     print 'avg blue R_vir: ',mean(blueVir)
     print 'median blue R_vir: ',median(blueVir)
+    print 'stats.sem(blue R_vir): ',stats.sem(blueVir)
+    print 'stats.describe(blue R_vir): ',stats.describe(blueVir)
     print
     print 'avg red R_vir: ',mean(redVir)
     print 'median red R_vir: ',median(redVir)
-    
+    print 'stats.sem(red R_vir): ',stats.sem(redVir)
+    print 'stats.describe(red R_vir): ',stats.describe(redVir)
+
     print
     print ' LIKELIHOOD: '
     print
-    
     print 'avg blue likelihood: ',mean(blueLike)
     print 'median blue likelihood: ',median(blueLike)
     print
@@ -697,7 +726,6 @@ def main():
     print
     
     print ' FANCY INCLINATIONS: '
-    print
     
     # perform the K-S and AD tests for inclination
     ans1 = stats.ks_2samp(blueFancyInc, redFancyInc)
@@ -711,14 +739,20 @@ def main():
     
     ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
     print 'KS for red vs all fancy inclinations: ',ans3
-
-    assocFancyInc = blueFancyInc + redFancyInc
-    ans4 = stats.ks_2samp(assocFancyInc, allFancyInclinations)
-    ans4a = stats.anderson_ksamp([assocFancyInc,allFancyInclinations])
-
-    print 'KS for all associated vs all fancy inclinations: ',ans4
-    print 'AD for all associated vs all fancy inclinations: ',ans4a
     
+    print
+    z_statrb, p_valrb = stats.ranksums(blueFancyInc, redFancyInc)
+    z_statall, p_valall = stats.ranksums(assocFancyInc, allFancyInclinations)
+    print 'ranksum red vs blue p-value: ',p_valrb
+    print 'ranksum associated vs all: ',p_valall
+
+
+#     ans4 = stats.ks_2samp(assocFancyInc, allFancyInclinations)
+#     ans4a = stats.anderson_ksamp([assocFancyInc,allFancyInclinations])
+# 
+#     print 'KS for all associated vs all fancy inclinations: ',ans4
+#     print 'AD for all associated vs all fancy inclinations: ',ans4a
+#     
     print
 
 #     ans5 = stats.ks_2samp(spiralIncList, allSpiralIncList)
