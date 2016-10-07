@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  make_table2.py, v 1.4 9/27/16
+$Id:  make_table2.py, v 1.5 10/07/16
 
 Make table 2 for the pilot paper - list of targets with associated galaxies and line info
 
@@ -16,6 +16,8 @@ v1.2: updates for LG_correlation_combined5_9_edit2.csv, using v_hel instead of v
 v1.3: updated for LG_correlation_combined5_11_25cut_edit.csv (7/21/16)
         
 v1.4: updated again for LG_correlation_combined5_11_25cut_edit4.csv (9/27/16)
+
+v1.5: reorder the columns according to the notes in pilot_paper9_bart.pdf (10/07/16)
         
 
 '''
@@ -77,7 +79,7 @@ def main():
     results = open(resultsFilename,'rU')
     reader = csv.DictReader(results)
     
-    outFilename = 'table2__5_11_25cut_edit4.txt'
+    outFilename = 'table2__5_11_25cut_edit4_2.txt'
     outFile = open(saveDirectory + outFilename,'wt')
     
     virInclude = False
@@ -149,9 +151,7 @@ def main():
             b = str(l['b']).partition('pm')[0]
             b_err = str(l['b']).partition('pm')[2]
             na = str(l['Na']).partition(' pm ')[0]
-#             print "l['Na'].partition(' pm ')[2] : ",str(l['Na']).partition(' pm ')
             na_err = str(l['Na']).partition(' pm ')[2]
-
             lyaWplusErr = str(lyaW)+'$\pm$'+str(lyaW_err)
             
             # the spacer between values
@@ -181,24 +181,23 @@ def main():
             else:
                 final_likelihood = likelihoodm15 + '*'
                 
-            
             # the line to be written to file
-            line = agnName + s + galaxyName + s + final_likelihood + s + \
+            line = agnName + s + \
+            galaxyName + s + \
             virialRadius + s + \
-            impact + s + \
             v_hel + s + \
-            vel_diff + s + \
             inc + s + \
             az + s + \
+            impact + s + \
             lyaV + s + \
-            lyaWplusErr + '  \\\\'
+            lyaWplusErr + s + \
+            vel_diff + s + \
+            final_likelihood + '  \\\\'
             
             outFile.write(line + '\n')
             
-            
     outFile.close()
     results.close()
-
 
 ##########################################################################################
 ##########################################################################################
