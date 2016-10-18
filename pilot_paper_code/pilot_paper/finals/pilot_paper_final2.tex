@@ -6,12 +6,11 @@
 
  \shortauthors{French $\&$ Wakker}
 
-\usepackage{graphicx}
-\usepackage{subfigure}
+%\usepackage{graphicx}
 %\usepackage{amssymb}
 %\usepackage{wrapfig}
 %\usepackage{setspace}
-
+%\usepackage{subfigure}
 %\usepackage{mathtools}
 %\frenchspacing
 %\graphicspath{{paper_figures5//}}
@@ -145,7 +144,7 @@ Achieving the goal of this study relies on knowing the locations and properties 
 \begin{figure}[ht!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.50\textwidth]{fig1.pdf}
+        \includegraphics[width=0.50\textwidth]{Lstar_histogram_4bins_final_0-10000_v3.pdf}
         \caption{\small{Distribution of $L/L_{\**}$ values for all galaxies in the dataset. Black vertical lines highlight 1, 0.5, 0.1, 0.05 and 0.01 $L_{\**}$. The turnoff around 0.1$L_{\**}$ shows that on average, the dataset is mostly complete to 0.2$L_{\**}$.}}
 %        \vspace{-5pt}
         \label{completeness}
@@ -248,18 +247,33 @@ TON1009  &  NGC2770  &  204  &  1947  &  87  &  41  &  274  &  1961  &  350$\pm$
 
 We have identified 48 Ly$\alpha$ absorption lines in the spectra of our initial 33 QSO sample which can be unambiguously associated with a single nearby galaxy of diameter $D\geq25$ kpc. In order to be considered for a pairing, a galaxy and absorption feature must appear within 400 $\rm km\, s^{-1}$ in velocity and 500 kpc in physical impact parameter from each other. When multiple galaxies pass these criteria for a particular line, we are left with two options. 1) one galaxy is obviously far larger and closer in physical and velocity space to the line, and may have several satellite galaxies, or 2) there are multiple galaxies near the absorber, making any association ambiguous; we do not include these cases in the further analysis.
 
+%\begin{figure}[t!]
+%\centering
+%  \subfigure[]{\includegraphics[width=0.87\linewidth]{MRK290_system-3090_cut.pdf}}{\label{line}}
+%  \subfigure[]{\includegraphics[width=1.\linewidth]{map_MRK290_3207_v5.pdf}\label{impactmap}}
+%  \caption{\small{a) An example of 2 Ly$\alpha$ lines found in the Mrk290 sightline at 3090 and 3192 . b) A map of \textit{all} galaxies within a 500 kpc impact parameter of target Mrk290 sightline and with velocity ($cz$) within 400 $\rm km\, s^{-1}$ of absorption detected at 3192 $\rm km\, s^{-1}$ (central black star). The galaxy NGC5987 ($v=3010$ $\rm km\, s^{-1}$, inclination = $65^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption features at $v=3090, 3192$ $\rm km\, s^{-1}$ because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
+%\vspace{5pt}
+%\end{figure}
+%
+%\begin{figure*}[t]
+%\centering
+%\subfigure[]{\label{ew_vs_impact}\includegraphics[width=0.49\textwidth]{W(impact)_mean_125_difHistograms2.pdf}}
+%\subfigure[]{\label{ew_vs_impact_vir}\includegraphics[width=0.49\textwidth]{W(impact_vir)_mean_0p5_difHistograms2.pdf}}
+%\caption{\small{a) Equivalent width of each absorber as a function of impact parameter, $\rho$. b) Equivalent width as a function of $\rho/R_{vir}$. The anti-correlation is strongest when scaling $\rho$ by the galaxy virial radius. Absorbers are separated into red and blue-shifted samples based on $\Delta v$. Bins of mean $EW$ are overplotted in red-dashed, and blue-dotted lines for their respective samples.}}
+%\vspace{5pt}
+%\end{figure*}
+
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=0.87\linewidth]{fig2.pdf}}{\label{line}}
-  \subfigure[]{\includegraphics[width=1.\linewidth]{fig3.pdf}\label{impactmap}}
+  \plottwo{MRK290_system-3090_cut.pdf}}{\label{line}}{map_MRK290_3207_v5.pdf}\label{impactmap}}
   \caption{\small{a) An example of 2 Ly$\alpha$ lines found in the Mrk290 sightline at 3090 and 3192 . b) A map of \textit{all} galaxies within a 500 kpc impact parameter of target Mrk290 sightline and with velocity ($cz$) within 400 $\rm km\, s^{-1}$ of absorption detected at 3192 $\rm km\, s^{-1}$ (central black star). The galaxy NGC5987 ($v=3010$ $\rm km\, s^{-1}$, inclination = $65^{\circ}$) can be unambiguously paired with the Ly$\alpha$ absorption features at $v=3090, 3192$ $\rm km\, s^{-1}$ because it is the largest and closest galaxy in both physical and velocity space to the absorption feature.}}
 \vspace{5pt}
 \end{figure}
 
 \begin{figure*}[t]
 \centering
-\subfigure[]{\label{ew_vs_impact}\includegraphics[width=0.49\textwidth]{fig4.pdf}}
-\subfigure[]{\label{ew_vs_impact_vir}\includegraphics[width=0.49\textwidth]{fig5.pdf}}
+\subfigure[]{\label{ew_vs_impact}\includegraphics[width=0.49\textwidth]{W(impact)_mean_125_difHistograms2.pdf}}
+\subfigure[]{\label{ew_vs_impact_vir}\includegraphics[width=0.49\textwidth]{W(impact_vir)_mean_0p5_difHistograms2.pdf}}
 \caption{\small{a) Equivalent width of each absorber as a function of impact parameter, $\rho$. b) Equivalent width as a function of $\rho/R_{vir}$. The anti-correlation is strongest when scaling $\rho$ by the galaxy virial radius. Absorbers are separated into red and blue-shifted samples based on $\Delta v$. Bins of mean $EW$ are overplotted in red-dashed, and blue-dotted lines for their respective samples.}}
 \vspace{5pt}
 \end{figure*}
@@ -282,8 +296,8 @@ Additionally, we split the absorber-galaxy catalog based on the velocity differe
 
 \begin{figure*}[ht]
 \centering
-\subfigure[]{\label{w_vir}\includegraphics[width=0.49\textwidth]{fig6.pdf}}
-\subfigure[]{\label{impact_vir}\includegraphics[width=0.49\textwidth]{fig7.pdf}}
+\subfigure[]{\label{w_vir}\includegraphics[width=0.49\textwidth]{W(vir)_avgHistograms2.pdf}}
+\subfigure[]{\label{impact_vir}\includegraphics[width=0.49\textwidth]{impact(virial)_50_difHistograms3.pdf}}
 \caption{\small{a) Equivalent width of each absorber as a function of the virial radius of the associated galaxy. The blue-dotted and red-dashed lines shows the average $EW$ in 50 kpc bins of impact parameter for the blueshifted and redshifted absorbers, respectively. b) Impact parameter to each absorber as a function of the virial radius of the associated galaxy. The blue-dotted and red-dashed lines shows the average impact parameter in 50 kpc bins of $R_{vir}$ for the blueshifted and redshifted absorbers, respectively. The black dashed line indicates the cutoff at $\rho/R_{vir} =2.14$ imposed by our $\mathcal{L}$ limit.}}
 \vspace{5pt}
 \end{figure*}
@@ -298,7 +312,7 @@ Numerous previous studies have suggested that Ly$\alpha$ equivalent width ($EW$)
 
 \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.49\textwidth]{fig8.pdf}
+        \includegraphics[width=0.49\textwidth]{W(fancy_inc)_mean_90_hist2.pdf}
         \caption{\small{Equivalent width of each absorber as a function of the inclination angle of the associated galaxy. The dashed black line shows the mean $EW$ of all absorbers in bins of $15^{\circ}$.}}
         \label{ew_vs_inclination}
         \vspace{2pt}
@@ -306,7 +320,7 @@ Numerous previous studies have suggested that Ly$\alpha$ equivalent width ($EW$)
 
 \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.49\textwidth]{fig9.pdf}
+        \includegraphics[width=0.49\textwidth]{hist(fancy_inclination)_red_blue_all_random.pdf}
         \caption{\small{\textbf{Top: }Distribution of inclinations for all associated galaxies, split into red and blue shifted sets. \textbf{Bottom:} Distribution of inclinations of all observed galaxies in the $cz \leq 10,000$ $\rm km\, s^{-1}$ redshift range. The dashed line shows the inclination distribution for a truly random sample (i.e., no observational biases).}}
         \label{hist_inc}
         \vspace{2pt}
@@ -315,7 +329,7 @@ Numerous previous studies have suggested that Ly$\alpha$ equivalent width ($EW$)
 
 \begin{figure}[ht!]
         \centering
-        \includegraphics[width=0.49\textwidth]{fig10.pdf}
+        \includegraphics[width=0.49\textwidth]{W(vel_diff)2.pdf}
         \caption{\small{Equivalent width as a function of the velocity separation between the galaxy and absorption line.}}
         \label{W_veldif}
         \vspace{5pt}
@@ -359,7 +373,7 @@ These contrasting results may indicate a genuine difference between the properti
 
 \begin{figure}[ht!]
         \centering
-        \includegraphics[width=0.49\textwidth]{fig11.png}
+        \includegraphics[width=0.49\textwidth]{azimuth_illustration2.png}
         \caption{\small{Azimuth is the angle, $\alpha$, between the major axis of the galaxy, $a$, and a vector extending from the AGN target to the galaxy center. Image of NGC891 credit: Composite Image Data - Subaru Telescope (NAOJ), Hubble Legacy Archive, Michael Joner, David Laney (West Mountain Observatory, BYU); Processing - Robert Gendler.}}
         \label{azimuth_illustration}
         \vspace{5pt}
@@ -367,7 +381,7 @@ These contrasting results may indicate a genuine difference between the properti
 
 \begin{figure}[ht!]
         \centering
-        \includegraphics[width=0.49\textwidth]{fig12.pdf}
+        \includegraphics[width=0.49\textwidth]{hist(azimuth)_overlaid_all.pdf}
         \caption{\small{The distributions of azimuth angles for red and blue-shifted samples, with the combined sample plotted in black. Azimuth $= 0$ corresponds to absorption detected along the projected major axis of the galaxy, and Azimuth $= 90$ is along the minor axis.}}
         \label{azimuth_dist}
         \vspace{5pt}
@@ -376,7 +390,7 @@ These contrasting results may indicate a genuine difference between the properti
 
 \begin{figure*}[ht!]
         \centering
-        \includegraphics[width=0.98\textwidth]{fig13.pdf}
+        \includegraphics[width=0.98\textwidth]{azimuthMap_separate.pdf}
         \caption{\small{A map of where each absorber was detected with respect to the associated galaxies, separated into three bins of inclination (illustrated by the gray ellipse in the bottom left corner of each plot). \textbf{LEFT:} Absorbers associated with galaxies of inclination $0 \leq Inc \le 40$, \textbf{CENTER:} $40 \leq Inc \le 65$, and \textbf{RIGHT: } $65 \leq Inc$. Blueshifted and redshifted absorbers are separated into the top (diamonds) and bottom (circles) panels, and the marker size is scaled with $EW$. The sightlines containing multiple absorbers associated with the same galaxy can be identified by their darker color.}}
         \label{azimuthMap}
         \vspace{5pt}
