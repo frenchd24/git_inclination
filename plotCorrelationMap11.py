@@ -924,7 +924,8 @@ def main():
     
             # now write it all to file, or display the finished figure
             if saveMaps:
-                savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
+                savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),\
+                format='pdf',)
             else:
                 show()
         
