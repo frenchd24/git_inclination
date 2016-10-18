@@ -23,6 +23,9 @@ v1.4: minor updates to formatting for new pilot paper sample (large galaxies onl
 v1.5: more minor updates for LG_correlation_combined5_11_25cut_edit4.csv -> /plots5/
     (9/26/16)
     
+v1.6: include line indicating upper envelope on impact/R_vir = 2.14597 for L=0.01
+    (10/07/16)
+    
 '''
 
 import sys
@@ -72,10 +75,8 @@ rc('axes',linewidth = 1)
 
 ###########################################################################
 
-    
 def main():
     # assuming 'theFile' contains one name per line, read the file
-    
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
@@ -475,7 +476,7 @@ def main():
     save = True
     
     if plotImpact_vs_virial_median:
-        fig = figure(figsize=(7.8,6.0))
+        fig = figure(figsize=(7.8,5.9))
         ax = fig.add_subplot(111)
         countb = 0
         countr = 0
@@ -548,13 +549,6 @@ def main():
         
         binSize = 50
         bins = arange(150,400,binSize)
-#         bin_means,edges,binNumber = stats.binned_statistic(array(allVir), array(allImpact),\
-#         statistic='mean', bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         print nan_to_num(bin_means)
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,Y, c='Black',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean ~Impact ~Parameter$')
            
         bin_means,edges,binNumber = stats.binned_statistic(array(rVir), array(rImpact), statistic='mean', bins=bins)
         left,right = edges[:-1],edges[1:]
@@ -568,16 +562,21 @@ def main():
         Y = array([bin_means,bin_means]).T.flatten()
         plot(X,Y, c='blue',ls='dashed',lw=1.5,alpha=alpha+0.1,label=r'$\rm Mean ~Blueshifted ~EW$')
             
+        # add an upper envelope line at impact/R_vir = 2.14
+        envX = [150,350]
+        envY = [321.895,751.088]
+        plot(envX,envY, c='black',ls='dashed',lw=2.5,alpha=0.9,label=r'$\rm Max ~ \rho/R_{vir}~ cutoff$')
+            
         xlabel(r'$\rm R_{vir} ~[kpc]$')
         ylabel(r'$\rm Impact ~Parameter ~[kpc]$')
-        legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,600)
+        ylim(0,650)
         xlim(150,350)
         tight_layout()
 
         if save:
-            savefig('{0}/impact(virial)_{1}_difHistograms2.pdf'.format(saveDirectory,binSize),\
+            savefig('{0}/impact(virial)_{1}_difHistograms3.pdf'.format(saveDirectory,binSize),\
             format='pdf',bbox_inches='tight')
         else:
             show()

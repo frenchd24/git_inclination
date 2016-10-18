@@ -108,7 +108,8 @@ v11.2: minor formatting updates. (8/08/16)
 v11.3: more minor updates - make the tick labels NOT bold (10/03/16)
     - make LG_correlation_combined5_11_25cut_edit5.csv and targetmaps37/
 
-
+v11.3: more minor updates - fix the colorbar bolded ticks problem (10/10/16)
+    - remake LG_correlation_combined5_11_25cut_edit5.csv and targetmaps37/
 """
 
 import sys
@@ -280,12 +281,12 @@ def main():
     user = getpass.getuser()
     if user == "David":
         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps37/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps38/'
         outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
 
     elif user == "frenchd":
         targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps37/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps38/'
         outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
 
     else:
@@ -508,7 +509,7 @@ def main():
             colmap = cm.RdBu
             
             x = arange(len(galaxyNames))+1
-            fig = figure(figsize=(10,8))
+            fig = figure(figsize=(9,7))
             ax = fig.add_subplot(111)
             width = 0.30
             
@@ -905,9 +906,13 @@ def main():
             ax.scatter(0,0,s=200,c='black',marker='*')
     
 #             cbar = plt.colorbar(plot1,ticks=range(0,21),cmap=colmap,orientation='vertical')
-            cbar = plt.colorbar(plot1,ticks=ticks,cmap=colmap,orientation='vertical')
-
-            cbar.ax.set_yticklabels(ticks)
+#             cbar = plt.colorbar(plot1,ticks=ticks,cmap=colmap,orientation='vertical')
+            
+            cbar = plt.colorbar(plot1,ticks=ticks,format=r'$\rm %d$',cmap=colmap,orientation='vertical')
+            
+#             cbar.ax.set_yticklabels([r'$\rm %d$' % i for i ticks])
+#             cbar.ax.set_yticklabels(['%d' % i for i ticks])
+#             ax.yaxis.set_ticklabels(['%.2f' % 0.1/100*i for i in np.arange(0,100,10)]) 
             cbar.set_label(r'$\rm \Delta v ~[km ~s^{-1}]$')
         
             ax.grid(b=None,which='major',axis='both')
@@ -920,12 +925,10 @@ def main():
                 title("{0} sightline map velocity = {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
 
 
-
-    
             # now write it all to file, or display the finished figure
             if saveMaps:
                 savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),\
-                format='pdf',)
+                bbox_inches='tight',format='pdf')
             else:
                 show()
         
