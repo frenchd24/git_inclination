@@ -37,6 +37,7 @@ v5.6: update with LG_correlation_combined5_11_25cut_edit4.csv and /plots5/
     (9/26/16)
 
 v5.7: final version used after first referee report (12/09/16)
+    - make marker points larger (60), make markers for imp/R_vir <=1 systems open
 
 '''
 
@@ -336,10 +337,10 @@ def main():
     # include standard error in the mean shaded regions for each bar
     #
     
-    plotW_impact_difhist = False
+    plotW_impact_hist_errors = False
     save = False
     
-    if plotW_impact_difhist:
+    if plotW_impact_hist_errors:
         fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
@@ -513,11 +514,13 @@ def main():
     # plot equivalent width as a function of impact parameter/R_vir, split between
     # red and blue shifted absorption, overplot median histograms for red and blue
     #
+    # plot shaded error regions around histogram
+    # 
     
-    plotW_impact_vir_difhist = False
+    plotW_impact_vir_hist_errors = False
     save = False
     
-    if plotW_impact_vir_difhist:
+    if plotW_impact_vir_hist_errors:
         fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
@@ -926,11 +929,11 @@ def main():
     # absorbers at impact < 1 R_vir, overplot median histograms for each
     #
     
-    plotW_impact_vir_separate = True
-    save = False
+    plotW_impact_virseparate = True
+    save = True
     
-    if plotW_impact_vir_separate:
-        fig = figure()
+    if plotW_impact_virseparate:
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
         countb = 0
@@ -1051,13 +1054,221 @@ def main():
         
         xlabel(r'$\rm \rho ~[kpc]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1200)
+        ylim(0,1300)
         xlim(0,500)
 
         if save:
-            savefig('{0}/W(impact)_mean_{1}_vir_sep.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact)_mean_{1}_virsep.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+            
+            
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of impact parameter/R_vir, split between
+    # red and blue shifted absorption, overplot median histograms for red and blue
+    #
+    # plot shaded error regions around histogram
+    # 
+    
+    plotW_impact_vir_hist_errors = True
+    save = True
+    
+    if plotW_impact_vir_hist_errors:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+
+        alpha = 0.7
+        alphaInside = 0.7
+        markerSize = 60
+        
+        binSize = 0.5
+        bins = arange(0,2.5,binSize)
+        
+        labelr = r'$\rm Redshifted ~Absorber$'
+        labelb = r'$\rm Blueshifted ~Absorber$'
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        
+        xVals = []
+        redX = []
+        redY = []
+        blueX = []
+        blueY = []
+        
+        for d,i,w,v in zip(difList,impactList,lyaWList,virList):
+            # check if all the values are good
+            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
+                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
+                    xVal = float(i)/float(v)
+                    yVal = float(w)
+                    
+                    xVals.append(xVal)
+                    
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        if float(i) > float(v):
+                            # impact parameter > virial radius
+                            a = alpha
+                            fc = color
+                            ec = 'black'
+                    
+                        if float(i) <= float(v):
+                            # impact parameter <= virial radius
+                            a = alphaInside
+                            fc = 'none'
+                            ec = color
+                        
+                        
+                        blueX.append(xVal)
+                        blueY.append(yVal)
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',\
+                            facecolor=fc,edgecolor=ec,s=markerSize,alpha=a,label=labelb)
+
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        if float(i) > float(v):
+                            # impact parameter > virial radius
+                            a = alpha
+                            fc = color
+                            ec = 'black'
+                    
+                        if float(i) <= float(v):
+                            # impact parameter <= virial radius
+                            a = alphaInside
+                            fc = 'none'
+                            ec = color
+                        
+                        redX.append(xVal)
+                        redY.append(yVal)
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',\
+                            s=markerSize,facecolor=fc,edgecolor=ec,alpha=a,label=labelr)
+
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=markerSize,\
+                    facecolor=fc,edgecolor=ec,alpha=a)
+        
+        
+        # avg red
+        bin_means,edges,binNumber = stats.binned_statistic(array(redX), array(redY), \
+        statistic='mean', bins=bins)
+        
+#         bin_errors,edges_e,binNumber_e = stats.binned_statistic(array(redX), array(redY), \
+#         statistic=lambda y: errors(y), bins=bins)
+#         
+#         bin_std,edges_std,binNumber_std = stats.binned_statistic(array(redX), array(redY), \
+#         statistic=lambda y: std(y), bins=bins)
+#         
+#         print 'bin_means,edges,binNumber : ',bin_means,edges,binNumber
+#         print
+#         print 'bin_errors, edges_e,binNumber_e : ',bin_errors,edges_e,binNumber_e
+#         print
+#         print 'bin_std,edges_std,binNumber_std : ',bin_std,edges_std,binNumber_std
+        
+        # the mean
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        
+        # the errors
+#         left_e,right_e = edges_e[:-1],edges_e[1:]        
+#         X_e = array([left_e,right_e]).T.flatten()
+#         Y_e = array([nan_to_num(bin_errors),nan_to_num(bin_errors)]).T.flatten()
+#         
+#         yErrorsTop = Y + Y_e
+#         yErrorsBot = Y - Y_e
+# 
+#         plot(X_e,yErrorsBot, ls='solid',color='red',lw=1,alpha=errorAlpha)
+#         plot(X_e,yErrorsTop, ls='solid',color='red',lw=1,alpha=errorAlpha)
+#         fill_between(X_e, yErrorsBot, yErrorsTop, facecolor='red', interpolate=True,alpha=errorAlpha)
+
+        plot(X,Y, ls='dotted',color='red',lw=2.1,alpha=alpha+0.2,label=r'$\rm Mean~ Redshifted ~EW$')
+    
+    
+    
+        # avg blue
+        bin_means,edges,binNumber = stats.binned_statistic(array(blueX), array(blueY), \
+        statistic='mean', bins=bins)
+        
+#         bin_errors,edges_e,binNumber_e = stats.binned_statistic(array(blueX), array(blueY), \
+#         statistic=lambda y: errors(y), bins=bins)
+#         
+#         bin_std,edges_std,binNumber_std = stats.binned_statistic(array(blueX), array(blueY), \
+#         statistic=lambda y: std(y), bins=bins)
+#         
+#         print
+#         print 'bin_means,edges,binNumber : ',bin_means,edges,binNumber
+#         print
+#         print 'bin_errors, edges_e,binNumber_e : ',bin_errors,edges_e,binNumber_e
+#         print
+#         print 'bin_std,edges_std,binNumber_std : ',bin_std,edges_std,binNumber_std
+        
+        # the mean
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        
+        # the errors
+#         left_e,right_e = edges_e[:-1],edges_e[1:]        
+#         X_e = array([left_e,right_e]).T.flatten()
+#         Y_e = array([nan_to_num(bin_errors),nan_to_num(bin_errors)]).T.flatten()
+#         
+#         yErrorsTop = Y + Y_e
+#         yErrorsBot = Y - Y_e
+
+#         plot(X_e,yErrorsBot, ls='solid',color='blue',lw=1,alpha=errorAlpha)
+#         plot(X_e,yErrorsTop, ls='solid',color='blue',lw=1,alpha=errorAlpha)
+#         fill_between(X_e, yErrorsBot, yErrorsTop, facecolor='blue', interpolate=True,alpha=errorAlpha)
+        
+        plot(X,Y, ls='dashed',color='blue',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean~ Blueshifted ~EW$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
+#         leg.get_frame().set_alpha(0.5)
+
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1300)
+        xlim(0,2.0)
+
+        if save:
+            savefig('{0}/W(impact_vir)_mean_{1}_virsep.pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
         else:
             show()
 

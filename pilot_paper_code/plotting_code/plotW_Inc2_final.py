@@ -339,6 +339,7 @@ def main():
         binSize = 10
         numBins = 9
         alpha = 0.7
+        markerSize = 60
 
         binSize = 12
         bins = arange(0,90+binSize,binSize)
@@ -390,7 +391,7 @@ def main():
                         if countb == 0:
                             countb +=1
 #                             plotb = ax.scatter(v,w,c='Blue',s=50,label= labelb)
-                            plotb = ax.scatter(i,w,marker=bSymbol,c='Blue',s=50,\
+                            plotb = ax.scatter(i,w,marker=bSymbol,c='Blue',s=markerSize,\
                             facecolor=fc,edgecolor=ec,alpha=alpha)
 
                     if d<0:
@@ -415,10 +416,10 @@ def main():
                         if countr == 0:
                             countr +=1
 #                             plotr = ax.scatter(v,w,c='Red',s=50,label= labelr)
-                            plotr = ax.scatter(i,w,marker=rSymbol,c='Red',s=50,\
+                            plotr = ax.scatter(i,w,marker=rSymbol,c='Red',s=markerSize,\
                             facecolor=fc,edgecolor=ec,alpha=alpha)
 
-                    plot1 = scatter(i,w,marker=symbol,c=color,s=50,\
+                    plot1 = scatter(i,w,marker=symbol,c=color,s=markerSize,\
                     facecolor=fc,edgecolor=ec,alpha=alpha)
                             
 
@@ -482,7 +483,7 @@ def main():
         
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=2,fancybox=True)
+        ax.legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
         ax.grid(b=None,which='major',axis='both')
 #         ylim(-5,max(lyaWList)+100)
         ylim(-2,1000)

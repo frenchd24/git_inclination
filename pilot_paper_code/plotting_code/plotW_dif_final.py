@@ -30,7 +30,7 @@ v1.5: minor formatting updates for pilot paper (8/08/16)
 v1.6: minor update for LG_correlation_combined5_11_25cut_edit4.csv (9/23/16) -/plots5/
 
 v1.7: update for first referee report (12/12/16)
-    - change facecolor for impact parameter < / > R_vir systems
+    - change facecolor for impact parameter < / > R_vir systems, larger markers (60)
     
 '''
 
@@ -301,9 +301,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
+
+        alpha = 0.7
+        markerSize = 60
+        
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
-        alpha = 0.7
         bSymbol = 'D'
         rSymbol = 'o'
         
@@ -336,8 +339,8 @@ def main():
                         
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(d,w,marker=symbol,c='Blue',s=50,label=labelb,\
-                            facecolor=fc,edgecolor=ec,alpha = alpha)
+                            plotb = ax.scatter(d,w,marker=symbol,c='Blue',s=markerSize,\
+                            label=labelb,facecolor=fc,edgecolor=ec,alpha = alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
@@ -358,11 +361,11 @@ def main():
                         
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(d,w,marker=symbol,c='Red',s=50,label=labelr,\
-                            facecolor=fc,edgecolor=ec,alpha=alpha)
+                            plotr = ax.scatter(d,w,marker=symbol,c='Red',s=markerSize,\
+                            label=labelr,facecolor=fc,edgecolor=ec,alpha=alpha)
                 
-                    plot1 = scatter(d,w,marker=symbol,c=color,s=50,\
-                    facecolor=fc,edgecolor=ec,alpha =alpha)
+                    plot1 = scatter(d,w,marker=symbol,c=color,s=markerSize,\
+                    facecolor=fc,edgecolor=ec,alpha=alpha)
         
         includeHist = False
 
