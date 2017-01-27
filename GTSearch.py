@@ -116,9 +116,22 @@ def printOutInfo(line,t):
     print 'Inclination: ',bestInc
     print 'Position angle: ',bestPA
     print 'Morphology: ',morphology
+    print
+    print 'Best L* estimates: '
     print 'B_median: ',bestB
     print 'Lstar: ',bestLstar
-    
+    print
+    print 'All estimates: '
+    print 'B_median: ',B_median
+    print 'B_sdss_median: ',B_sdss_median
+    print 'B_median_Lstar: ', B_median_Lstar
+    print 'B_max_Lstar: ', B_max_Lstar
+    print 'B_sdss_median_Lstar: ', B_sdss_median_Lstar
+    print 'B_sdss_median_Lstar: ', B_sdss_max_Lstar
+    print
+    print 'All: '
+    for i in eval(Lstar):
+        print 'Lstar: ', i
         
     if t == 'f':
         # print some additional info
@@ -136,7 +149,7 @@ def printOutInfo(line,t):
         print 'Groups_distances_std: ',Groups
         print 'Distance Indicator: ',distanceIndicator
         print 'Luminosity Class: ',luminosityClass
-        print 'EBminusV: ',EBminusV
+        print 'EBminusV_new: ',EBminusV_new
         print 'Photometry measurments: '
         for m in photometry:
             print '\t ',m

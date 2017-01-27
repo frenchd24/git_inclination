@@ -3,12 +3,16 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzimuthMap2.py, v 2.0 10/06/2016
+$Id:  plotAzimuthMap2.py, v 2.1 1/20/17
 
 Plot absorption properties on a map showing their distribution around a central galaxy
 
 v2: Separate blue and red into separate plots, so now it's a plane of 6. Size points by 
     EW (10/06/2016)
+    
+    
+v2.1: Use open symbols for rho <= R_vir to be consistent with the other plots. -> /plots6/
+    (1/20/17)
 
 '''
 
@@ -71,7 +75,7 @@ def main():
 #         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots5/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots6/'
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
     elif getpass.getuser() == 'frenchd':
@@ -79,7 +83,7 @@ def main():
 #         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
 #         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots5/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots6/'
         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
     else:
@@ -360,6 +364,15 @@ def main():
         yList_3b = []
         xList_3b = []
         
+        # save rho/R_vir also
+        rR_1r = []
+        rR_2r = []
+        rR_3r = []
+        
+        rR_1b = []
+        rR_2b = []
+        rR_3b = []
+        
         largestEW = max(lyaWList)
         smallestEW = min(lyaWList)
         maxSize = 400
@@ -375,6 +388,9 @@ def main():
                 # x coordinate
                 x = (float(i)/float(vir)) * cos(a*pi/180.)
                 
+                # rho / Rvir
+                rhoRvir = float(i)/float(vir)
+                
                 # new size for the marker point
                 newSize = ((float(ew) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
                     
@@ -385,12 +401,14 @@ def main():
                         xList_1b.append(x)
                         yList_1b.append(y)
                         size_1b.append(newSize)
+                        rR_1b.append(rhoRvir)
 
                     else:
                         azRed_1.append(a)
                         xList_1r.append(x)
                         yList_1r.append(y)
                         size_1r.append(newSize)
+                        rR_1r.append(rhoRvir)
 
                 if fInc > 40 and fInc <=65:
                     if dif >0:
@@ -399,12 +417,14 @@ def main():
                         yList_2b.append(y)
                         xList_2b.append(x)
                         size_2b.append(newSize)
+                        rR_2b.append(rhoRvir)
 
                     else:
                         azRed_2.append(a)
                         yList_2r.append(y)
                         xList_2r.append(x)
                         size_2r.append(newSize)
+                        rR_2r.append(rhoRvir)
 
                 if fInc > 65:
                     if dif >0:
@@ -413,12 +433,14 @@ def main():
                         yList_3b.append(y)
                         xList_3b.append(x)
                         size_3b.append(newSize)
+                        rR_3b.append(rhoRvir)
 
                     else:
                         azRed_3.append(a)
                         yList_3r.append(y)
                         xList_3r.append(x)
                         size_3r.append(newSize)
+                        rR_3r.append(rhoRvir)
 
             else:
                 print 'float(a) <0: ',r,d,i,a,fInc
@@ -473,9 +495,30 @@ def main():
         ax1.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label1 = r'$\rm Inc \leq 40$'
-        ax1.scatter(xList_1b,yList_1b,c='blue',marker=bSymbol,alpha=alpha,s=size_1b)
+        
+#         y coordinate
+#         y = (float(i)/float(vir)) * sin((a*pi)/180.)
+#     
+#         x coordinate
+#         x = (float(i)/float(vir)) * cos(a*pi/180.)
+        
+        for x, y, a, s,r in zip(xList_1b,yList_1b,azBlue_1,size_1b,rR_1b):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+            
+            if r <=1:
+                fc = 'none'
+                ec = 'blue'
+                ax1.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'blue'
+                ec = 'black'
+                ax1.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+
 #         ax1.scatter(xList_1r,yList_1r,c='red',marker=rSymbol,alpha=alpha,s=50)
     
         # these are matplotlib.patch.Patch properties
@@ -518,10 +561,25 @@ def main():
         ax2.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label2 = r'$\rm 40 < Inc \leq 65$'
-        ax2.scatter(xList_2b,yList_2b,c='blue',marker=bSymbol,alpha=alpha,s=size_2b)
-#         ax2.scatter(xList_2r,yList_2r,c='red',marker=rSymbol,alpha=alpha,s=50)
+        
+        for x, y, a, s, r in zip(xList_2b,yList_2b,azBlue_2,size_2b,rR_2b):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+            
+            if r <=1:
+                fc = 'none'
+                ec = 'blue'
+                ax2.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'blue'
+                ec = 'black'
+                ax2.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+        
+#         ax2.scatter(xList_2b,yList_2b,c='blue',marker=bSymbol,alpha=alpha,s=size_2b)
     
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round', alpha=1, facecolor='none')
@@ -566,10 +624,25 @@ def main():
         ax3.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label3 = r'$\rm Inc > 65$'
-        ax3.scatter(xList_3b,yList_3b,c='blue',marker=bSymbol,alpha=alpha,s=size_3b)
-#         ax3.scatter(xList_3r,yList_3r,c='red',marker=rSymbol,alpha=alpha,s=50)
+        
+        for x, y, a, s, r in zip(xList_3b,yList_3b,azBlue_3,size_3b,rR_3b):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+            
+            if r <=1:
+                fc = 'none'
+                ec = 'blue'
+                ax3.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'blue'
+                ec = 'black'
+                ax3.scatter(x,y,c='blue',marker=bSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+        
+#         ax3.scatter(xList_3b,yList_3b,c='blue',marker=bSymbol,alpha=alpha,s=size_3b)
     
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round', alpha=1, facecolor='none')
@@ -616,10 +689,25 @@ def main():
         ax4.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label1 = r'$\rm Inc \leq 40$'
-#         ax4.scatter(xList_1b,yList_1b,c='blue',marker=bSymbol,alpha=alpha,s=50)
-        ax4.scatter(xList_1r,yList_1r,c='red',marker=rSymbol,alpha=alpha,s=size_1r)
+
+        for x, y, a, s, r in zip(xList_1r,yList_1r,azRed_1,size_1r,rR_1r):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+            
+            if r <=1:
+                fc = 'none'
+                ec = 'red'
+                ax4.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'red'
+                ec = 'black'
+                ax4.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+
+#         ax4.scatter(xList_1r,yList_1r,c='red',marker=rSymbol,alpha=alpha,s=size_1r)
     
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round', alpha=1, facecolor='none')
@@ -662,10 +750,26 @@ def main():
         ax5.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label5 = r'$\rm 40 < Inc \leq 65$'
 #         ax5.scatter(xList_2b,yList_2b,c='blue',marker=bSymbol,alpha=alpha,s=50)
-        ax5.scatter(xList_2r,yList_2r,c='red',marker=rSymbol,alpha=alpha,s=size_2r)
+
+        for x, y, a, s, r in zip(xList_2r,yList_2r,azRed_2,size_2r,rR_2r):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+            
+            if rhoRvir <=1:
+                fc = 'none'
+                ec = 'red'
+                ax5.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'red'
+                ec = 'black'
+                ax5.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+
+#         ax5.scatter(xList_2r,yList_2r,c='red',marker=rSymbol,alpha=alpha,s=size_2r)
     
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round', alpha=1, facecolor='none')
@@ -709,10 +813,26 @@ def main():
         ax6.add_artist(e)
         e.set_facecolor('black')
         e.set_edgecolor('black')
-    
         label6 = r'$\rm Inc > 65$'
 #         ax6.scatter(xList_3b,yList_3b,c='blue',marker=bSymbol,alpha=alpha,s=50)
-        ax6.scatter(xList_3r,yList_3r,c='red',marker=rSymbol,alpha=alpha,s=size_3r)
+
+        for x, y, a, s, r in zip(xList_3r,yList_3r,azRed_3,size_3r,rR_3r):
+            # rho/R_vir = y / sin((a*pi)/180.) as above
+            rhoRvir = y / sin((a*pi)/180.)
+            print 'rhoRvir: {0} vs rB_: {1} '.format(rhoRvir,r)
+
+            if r <=1:
+                fc = 'none'
+                ec = 'red'
+                ax6.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+            else:
+                fc = 'red'
+                ec = 'black'
+                ax6.scatter(x,y,c='red',marker=rSymbol,alpha=alpha,s=s,\
+                facecolor=fc,edgecolor=ec)
+
+#         ax6.scatter(xList_3r,yList_3r,c='red',marker=rSymbol,alpha=alpha,s=size_3r)
     
         # these are matplotlib.patch.Patch properties
         props = dict(boxstyle='round', alpha=1, facecolor='none')
@@ -744,11 +864,10 @@ def main():
 #             xlabel(r'$\rm \rho / R_{vir}$')
 
         if save:
-            savefig('{0}/azimuthMap_separate.pdf'.format(saveDirectory),\
+            savefig('{0}/azimuthMap_separate2.pdf'.format(saveDirectory),\
             format='pdf',bbox_inches='tight')
         else:
             show()
-
 
 
 ###############################################################################
