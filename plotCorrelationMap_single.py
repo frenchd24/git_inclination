@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap11.py, v 11.3 10/03/16
+$Id: plotCorrelationMap_single.py, v 11.4 1/16/17
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -110,6 +110,11 @@ v11.3: more minor updates - make the tick labels NOT bold (10/03/16)
 
 v11.3: more minor updates - fix the colorbar bolded ticks problem (10/10/16)
     - remake LG_correlation_combined5_11_25cut_edit5.csv and targetmaps37/
+    
+v11.4: removes the 'include_folder' for saving - saves everything in the same general
+    directory, so you don't have to fuss around when doing single correlations
+    (1/16/17)
+
 """
 
 import sys
@@ -281,15 +286,13 @@ def main():
     user = getpass.getuser()
     if user == "David":
         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps38/'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
+        saveDirectory = '/Users/David/Research_Documents/iraf/NGC3633/'
+        outputFile = '/Users/David/Research_Documents/iraf/NGC3633_correlation.csv'
 
     elif user == "frenchd":
         targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps38/'
-        saveDirectory = '/usr/users/frenchd/iraf/NGC5364/'
-#         outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
-        outputFile = '/usr/users/frenchd/iraf/NGC5364_correlationMap.csv'
+        saveDirectory = '/usr/users/frenchd/iraf/NGC3633/'
+        outputFile = '/usr/users/frenchd/iraf/NGC3633_correlation.csv'
 
     else:
         print "Unknown user: ",user
@@ -304,7 +307,9 @@ def main():
 
     
     # or build up a custom list of AGN names and absorption velocities here:
-    targets = [('SDSSJ135726.27+043541.4',1094.0,True)]
+    targets = [('SDSSJ112005.00+041323.0',2088.,True),\
+    ('SDSSJ112005.00+041323.0',2571.0,True),\
+    ('RX_J1121.2+0326',2600.0,True)]
 
     
     c = 0
@@ -877,11 +882,11 @@ def main():
                 ax.set_xlabel('RA')
                 ax.set_ylabel('Dec')
         
-                savefig('{0}{1}/map2_{2}_{3}_simple.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
+                savefig('{0}/map2_{1}_{2}_simple.pdf'.format(saveDirectory,AGNname,center),format='pdf')
 
             # save the map plot tables
             if saveMapTables:
-                writerOutFile = open('{0}{1}/map_{2}_{3}_table.csv'.format(saveDirectory,include_folder,AGNname,center),'wt')
+                writerOutFile = open('{0}/map_{1}_{2}_table.csv'.format(saveDirectory,AGNname,center),'wt')
             
                 writer = csv.DictWriter(writerOutFile, fieldnames=fieldnames)
                 headers = dict((n,n) for n in fieldnames)
@@ -893,6 +898,13 @@ def main():
                     writer.writerow(row)
     
                 writerOutFile.close()
+            
+            else:
+                for s in sorted_virList:
+                    likelihood, rest = s
+                    row = dict((f,o) for f,o in zip(fieldnames,rest))
+                    print
+                    print 'L = {0} : {1}, D = {2}, dv = {3}'.format(likelihood,row['galaxyName'],row['majorAxis (kpc)'],row['vel_diff'])
             
 ##########################################################################################
 ##########################################################################################
@@ -922,7 +934,7 @@ def main():
 
             # now write it all to file, or display the finished figure
             if saveMaps:
-                savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),\
+                savefig('{0}/map_{1}_{2}.pdf'.format(saveDirectory,AGNname,center),\
                 bbox_inches='tight',format='pdf')
             else:
                 show()

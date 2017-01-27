@@ -59,7 +59,7 @@ def printOutInfo(line,t):
     rid = eval(line['rIndependentDistMean_sd_min_max (Mpc)'])
     bestDist = line['Best Distance (Mpc)']
     angDiameter = line['angDiameters (arcsec)']
-    linDiameter = line['linDiameters (kpc)']
+    linDiameter = eval(line['linDiameters (kpc)'])
     inclination = line['inclination (deg)']
     positionAngle = line['positionAngle (deg)']
     diameterKey = line['diameterKey']
@@ -83,6 +83,19 @@ def printOutInfo(line,t):
     Lstar = line['Lstar']
     photometry = eval(line['photometry'])
     altNames = eval(line['alternativeNames'])
+    
+#     print 'linDiameter[0], linDiameter[1] : ',linDiameter[0], linDiameter[1]
+    if isNumber(linDiameter[0]) and isNumber(linDiameter[1]):
+        major = float(linDiameter[0])
+        minor = float(linDiameter[1])
+        
+        if major < minor:
+            major, minor = minor, major
+        
+        q0 = 0.2
+        fancyInc = calculateFancyInclination(major,minor,q0)
+    else:
+        fancyInc = 'x'
     
     if isNumber(inclination):
         bestInc = inclination
@@ -114,6 +127,7 @@ def printOutInfo(line,t):
     print 'Linear diameter: ',linDiameter,' kpc'
     print 'Angular diameter: ',angDiameter, ' (arcsec)'
     print 'Inclination: ',bestInc
+    print 'Fancy Inclination: ',fancyInc
     print 'Position angle: ',bestPA
     print 'Morphology: ',morphology
     print 'B_median: ',bestB

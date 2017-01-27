@@ -6,7 +6,9 @@ $Id: output_SALT_list.py, v 1.0 03/08/2016
 
 trim NGT5-TG6_500Correlation_500cutoff in RA and DEC to match telescope limits
 
-Made NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut.csv for updated SALT proposal (05/03/16) 
+Made NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut.csv for updated SALT proposal (05/03/16)
+
+Made NGT5-TG6_500Correlation_500cutoff_SALT_sorted_10cut.csv for SALT proposal (1/18/17)
 
 """
 
@@ -63,14 +65,14 @@ def main():
     if getpass.getuser() == 'David':
         filename = '/Users/David/Research_Documents/gt/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
         file = open(filename,'rU')
-        outFilename = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut_full.csv'
-        outFilename_SALT = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut.csv'
+        outFilename = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_10cut_full.csv'
+        outFilename_SALT = '/Users/David/Research_Documents/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_10cut.csv'
         
     elif getpass.getuser() == 'frenchd':
         filename = '/usr/users/frenchd/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_sorted.csv'
         file = open(filename,'rU')
-        outFilename = '/usr/users/frenchd/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut_full.csv'
-        outFilename_SALT = '/usr/users/frenchd/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_15cut.csv'
+        outFilename = '/usr/users/frenchd/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_10cut_full.csv'
+        outFilename_SALT = '/usr/users/frenchd/inclination/git_inclination/SALT_proposal/NGT5-TG6_500Correlation_500cutoff_SALT_sorted_10cut.csv'
 
     else:
         print 'Could not determine username. Exiting.'
