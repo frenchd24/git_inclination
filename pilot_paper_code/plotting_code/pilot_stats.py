@@ -523,11 +523,13 @@ def main():
     print 'avg blue err: ',mean(blueErr)
     print 'median blue err: ',median(blueErr)
     print
+    print 'std(blue EW): ',std(blueW)
     print 'stats.sem(blue EW): ',stats.sem(blueW)
     print 'stats.describe(blue EW): ',stats.describe(blueW)
     print
     print 'avg blueshifted vel_diff: ',mean(blues)
     print 'median blueshifted vel_diff: ',median(blues)
+    print 'std(blueshifted vel_diff): ',std(blues)
     print 'stats.sem(blue vel_dif): ',stats.sem(blues)
     print 'stats.describe(blue vel_dif: ',stats.describe(blues)
     print
@@ -539,6 +541,7 @@ def main():
     
     print 'avg blue velocity: ',mean(blueV)
     print 'median blue velocity: ',median(blueV)
+    print 'std(blue Velocity): ',std(blueV)
     print 'avg blue impact: ',mean(blueImpact)
     print 'median blue impact: ',median(blueImpact)
     print 'stats.sem(blue impact): ',stats.sem(blueImpact)
@@ -551,12 +554,14 @@ def main():
     print 'avg red err: ',mean(redErr)
     print 'median red err: ',median(redErr)
     print
+    print 'std(red EW): ',std(redW)
     print 'stats.sem(red EW): ',stats.sem(redW)
     print 'stats.describe(red EW): ',stats.describe(redW)
 
     print
     print 'avg redshifted vel_diff: ',mean(reds)
     print 'median redshifted vel_diff: ',median(reds)
+    print 'std(redshifted vel_dif): ',std(reds)
     print 'stats.sem(red vel_dif): ',stats.sem(reds)
     print 'stats.describe(red vel_dif): ',stats.describe(reds)
     print
@@ -568,10 +573,13 @@ def main():
 
     print 'avg red velocity: ',mean(redV)
     print 'median red velocity: ',median(redV)
+    print
     print 'avg red impact: ',mean(redImpact)
     print 'median red impact: ',median(redImpact)
     print 'stats.sem(red impact): ',stats.sem(redImpact)
     print 'stats.describe(red impact): ',stats.describe(redImpact)
+    print 'std(red impact): ',std(redImpact)
+
 
 
     print

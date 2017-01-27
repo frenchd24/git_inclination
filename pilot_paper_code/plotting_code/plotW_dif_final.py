@@ -3,15 +3,34 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotVel_dif_vir.py, v 2.0 12/14/16
+$Id:  plotW_dif_final.py, v 1.7 12/12/16
 
-Plot the velocity difference as a function of galaxy size (01/05/2016)
+Plot EW as a function of velocity difference
 
-v1.1: update for LG_correlation_combined5_8_edit2.csv and l_min = 0.001 (02/24/2016)
-    - doesn't show much of interest
+
+Previous (from histograms3.py):
+    Plot some stuff for the 100largest initial results
+
+    Make plots for AAS winter 2014 poster. Uses LG_correlation_combined2.csv file
+
+    Updated for the pilot paper (05/06/15)
     
-v2: update with LG_correlation_combined5_11_25cut_edit4.csv and /plots6/
-    (12/14/16)
+    
+v1.1: updated for LG_correlation_combined5_8_edit2.csv for l_min 0.001 (02/24/2016)
+
+v1.2: remake plots with v_hel instead of vcorr (4/21/16)
+
+    
+v1.3: remake plots with v_hel instead of vcorr (4/21/16)
+
+v1.4: remake plots with newest large galaxy sample (7/13/16) -> /plots4/
+
+v1.5: minor formatting updates for pilot paper (8/08/16)
+
+v1.6: minor update for LG_correlation_combined5_11_25cut_edit4.csv (9/23/16) -/plots5/
+
+v1.7: update for first referee report (12/12/16)
+    - change facecolor for impact parameter < / > R_vir systems, larger markers (60)
     
 '''
 
@@ -20,13 +39,11 @@ import os
 import csv
 
 from pylab import *
-# import atpy
+from scipy import stats
 from math import *
 from utilities import *
 import getpass
 import pickle
-from scipy import stats
-
 
 # from astropy.io.votable import parse,tree
 
@@ -39,10 +56,6 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
 
 from matplotlib import rc
-# rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# ## for Palatino and other serif fonts use:
-# #rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
 
 fontScale = 18
 rc('text', usetex=True)
@@ -59,9 +72,6 @@ rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1)
-    
-
-    
 
 ###########################################################################
 
@@ -71,13 +81,17 @@ def main():
     
     if getpass.getuser() == 'David':
         pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
+        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots6/'
 
     elif getpass.getuser() == 'frenchd':
         pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
+        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots6/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -88,7 +102,6 @@ def main():
     fullDict = pickle.load(pickleFile)
     
     pickleFile.close()
-    
     
     # save each plot?
     save = False
@@ -180,7 +193,7 @@ def main():
             b = l['b'].partition('pm')[0]
             b_err = l['b'].partition('pm')[2]
             na = eval(l['Na'].partition(' pm ')[0])
-#             print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
+            print "l['Na'].partition(' pm ')[2] : ",l['Na'].partition(' pm ')
             na_err = eval(l['Na'].partition(' pm ')[2])
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
@@ -222,11 +235,6 @@ def main():
             else:
                 maj = -99
                 virialRadius = -99
-                
-            if isNumber(b):
-                b = float(b)
-            else:
-                b = -99
             
             # all the lists to be used for associated lines
             lyaVList.append(float(lyaV))
@@ -276,92 +284,173 @@ def main():
     totalYes = 0
     totalIsolated = 0
     totalGroup = 0
-
-########################################################################################
-########################################################################################
-    # plot velocity difference as a function of virial radius 
-    # 
     
-    plotVel_dif_vir = True
-    save = False
     
-    if plotVel_dif_vir:
-        fig = figure()
-        ax = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        labelr = 'Red Shifted Absorber'
-        labelb = "Blue Shifted Absorber"
-        
-        for d,e,w,v in zip(difList,envList,lyaWList,virList):
-            # check if all the values are okay
-            if isNumber(d) and isNumber(e) and isNumber(w) and isNumber(v):
-                if d!=-99 and e!=-99 and w!=-99 and v!=-99:
-                    if d>0:
-                        # galaxy is behind absorber, so gas is blue shifted
-                        color = 'Blue'
-                        if countb == 0:
-                            countb +=1
-                            plotb = ax.scatter(v,d,c='Blue',s=50,label= labelb)
-                    if d<0:
-                        # gas is red shifted compared to galaxy
-                        color = 'Red'
-                        if countr == 0:
-                            countr +=1
-                            plotr = ax.scatter(v,abs(d),c='Red',s=50,label= labelr)
-                
-                    plot1 = scatter(v,abs(d),c=color,s=50)
-            
-        title(r'$\rm \Delta v(R_{vir})$ for red vs blue absorption')
-        xlabel(r'$\rm R_{vir}$')
-        ylabel(r'$\rm \Delta v$')
-        legend(scatterpoints=1)
-        ax.grid(b=None,which='major',axis='both')
-        ylim(0,400)
-        xlim(0,max(virList)+10)
-#         ylim(0,max(lyaWList)+50)
-#         xlim(0,10)
-
-        if save:
-            savefig('{0}/vel_dif(vir).pdf'.format(saveDirectory),format='pdf')
-        else:
-            show()
-            
-            
-########################################################################################
-########################################################################################
-    # plot velocity difference as a function of inclination 
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of vel_diff for red and blue shifted
+    # absorption
     #
     
-    plotVel_dif_inc = True
-    save = False
-        
-    if plotVel_dif_inc:
-        fig = figure()
+    plotW_diff = True
+    save = True
+    
+    if plotW_diff:
+        fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
-        
         countb = 0
         countr = 0
         count = -1
+
         alpha = 0.7
+        markerSize = 60
         
         labelr = 'Redshifted Absorber'
         labelb = "Blueshifted Absorber"
         bSymbol = 'D'
         rSymbol = 'o'
         
+        rdif = []
+        bdif = []
+        rW = []
+        bW = []
+        
+        for d,w,m,v,imp in zip(difList,lyaWList,majList,virList,impactList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(w) and isNumber(m) and isNumber(v):
+                if d!=-99 and w!=-99 and m!=-99:
+                    if d>0:
+                        # galaxy is behind absorber, so gas is blue shifted
+                        color = 'Blue'
+                        symbol = bSymbol
+                        
+                        bdif.append(float(d))
+                        bW.append(float(w))
+                        
+                        if float(imp) > float(v):
+                            # impact parameter > R_vir
+                            fc = color
+                            ec = 'black'
+                            
+                        if float(imp) <= float(v):
+                            # impact parameter <= R_vir
+                            fc = 'none'
+                            ec = color                        
+                        
+                        if countb == 0:
+                            countb +=1
+                            plotb = ax.scatter(d,w,marker=symbol,c='Blue',s=markerSize,\
+                            label=labelb,facecolor=fc,edgecolor=ec,alpha = alpha)
+                    if d<0:
+                        # gas is red shifted compared to galaxy
+                        color = 'Red'
+                        symbol = rSymbol
+                        
+                        if float(imp) > float(v):
+                            # impact parameter > R_vir
+                            fc = color
+                            ec = 'black'
+                            
+                        if float(imp) <= float(v):
+                            # impact parameter <= R_vir
+                            fc = 'none'
+                            ec = color                           
+                        
+                        rdif.append(float(d))
+                        rW.append(float(w))
+                        
+                        if countr == 0:
+                            countr +=1
+                            plotr = ax.scatter(d,w,marker=symbol,c='Red',s=markerSize,\
+                            label=labelr,facecolor=fc,edgecolor=ec,alpha=alpha)
+                
+                    plot1 = scatter(d,w,marker=symbol,c=color,s=markerSize,\
+                    facecolor=fc,edgecolor=ec,alpha=alpha)
+        
+        includeHist = False
+
+        if includeHist:
+            bins = arange(-400,100,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(rdif), array(rW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Red',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+        
+        
+            bins = arange(0,500,100)
+            bin_means,edges,binNumber = stats.binned_statistic(array(bdif), array(bW), statistic='median', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='Blue',ls='dashed',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+
+        # x-axis
+        majorLocator   = MultipleLocator(100)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        xlabel(r'$\rm \Delta v ~ [km ~ s^{-1}]$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1000)
+        xlim(-400,400)
+        
+        if save:
+            savefig('{0}/W(vel_diff)2_sep.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+    
+
+    
+##########################################################################################
+##########################################################################################
+    # plot equivalent width as a function of likelihood for red and blue shifted
+    # absorption
+    #
+    
+    plotW_likelihood = False
+    save = False
+    
+    if plotW_likelihood:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        alpha = 0.7
+        bSymbol = 'D'
+        rSymbol = 'o'
+        
+        rlike = []
+        blike = []
+        rW = []
+        bW = []
         xVals = []
         yVals = []
         
-        for d,i,w,v,inc in zip(difList,impactList,lyaWList,virList,fancyIncList):
-            # check if all the values are good
-            if isNumber(d) and isNumber(i) and isNumber(w) and isNumber(v):
-                if d!=-99 and i!=-99 and w!=-99 and v!=-99:
-                    xVal = float(inc)
-                    yVal = float(d)
+        for d,w,l in zip(difList,lyaWList,likeList):
+            # check if all the values are okay
+            if isNumber(d) and isNumber(w) and isNumber(l):
+                if d!=-99 and w!=-99 and l!=-99:
+                
+                    xVal = float(l)
+                    yVal = float(w)
                     
                     xVals.append(xVal)
                     yVals.append(yVal)
@@ -371,62 +460,70 @@ def main():
                         color = 'Blue'
                         symbol = bSymbol
                         
+                        blike.append(xVal)
+                        bW.append(yVal)
+                        
                         if countb == 0:
                             countb +=1
-                            plotb = ax.scatter(xVal,yVal,marker=bSymbol,c='Blue',s=50,alpha=alpha)
-
+                            plotb = ax.scatter(xVal,yVal,marker=symbol,c='Blue',s=50,label= labelb,\
+                            alpha = alpha)
                     if d<0:
                         # gas is red shifted compared to galaxy
                         color = 'Red'
                         symbol = rSymbol
                         
+                        rlike.append(xVal)
+                        rW.append(yVal)
+                        
                         if countr == 0:
                             countr +=1
-                            plotr = ax.scatter(xVal,yVal,marker=rSymbol,c='Red',s=50,alpha=alpha)
+                            plotr = ax.scatter(xVal,yVal,marker=symbol,c='Red',s=50,label= labelr,\
+                            alpha = alpha)
+                
+                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha = alpha)
+        
+        includeHist = True
 
-                    plot1 = scatter(xVal,yVal,marker=symbol,c=color,s=50,alpha=alpha)
-        
-        
+        if includeHist:
+            bins = arange(0,2.0,0.4)
+            bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), statistic='mean', bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = np.array([left,right]).T.flatten()
+            Y = np.array([bin_means,bin_means]).T.flatten()
+            plt.plot(X,Y, c='black',ls='solid',lw=2,alpha=alpha,label=r'$\rm Mean EW$')
+    
+
         # x-axis
-        majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
+        majorLocator   = MultipleLocator(0.2)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(0.1)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
-        # y-axis
-        majorLocator   = MultipleLocator(100)
+        # y axis
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(100)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
-    
-        binSize = 0.5
-        bins = arange(0,2.5,binSize)
 
-        # 50% percentile
-#         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-#         statistic='mean', bins=bins)
-#         left,right = edges[:-1],edges[1:]        
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,Y, ls='solid',color='black',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean ~EW$')
-        
-        
-        xlabel(r'$\rm Inclination` [deg]$')
-        ylabel(r'$\rm \Delta v ~ [km s^{-1}]$')
-        ax.legend(scatterpoints=1,prop={'size':15},loc=1,fancybox=True)
+
+        xlabel(r'$\rm \mathcal{L}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+#         legend(scatterpoints=1,prop={'size':12},loc=1)
         ax.grid(b=None,which='major',axis='both')
-#         ylim(0,1200)
-#         xlim(0,2.0)
-
+        ylim(0,1000)
+        xlim(0,2)
+#         xlim(-400,400)
+        
         if save:
-            savefig('{0}/vel_diff(inc).pdf'.format(saveDirectory,binSize),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(likelihood).pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             
+    
 
 ##########################################################################################
 ##########################################################################################

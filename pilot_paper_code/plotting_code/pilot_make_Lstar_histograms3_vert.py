@@ -4,7 +4,7 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pilot_make_Lstar_histograms3.py v 3.2 12/12/16)
+$Id: pilot_make_Lstar_histograms3_vert.py v 3.2 12/12/16)
 
 Comes from: filament_make_histograms.py, v 1.0 08/11/2015
 
@@ -117,6 +117,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     #
     # make a 4 panel Lstar histogram, each panel with progressively higher v_max values
     #
+    # make a vertical stack instead of 2x2
     
     phot = d1['Bmedian']
     BLstar = d1['BLstar']
@@ -144,11 +145,12 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     
     binsize = 0.2
     
-    fig = figure(figsize=(13,8.5))
+#     fig = figure(figsize=(14,9))
+    fig = figure(figsize=(9,14))
     subplots_adjust(left=None,bottom=None,right=None,top=None,wspace=0.001,hspace=0.001)
 
     # first
-    ax = fig.add_subplot(2,2,1)
+    ax = fig.add_subplot(4,1,1)
 #     ax = gca()
     
     cutPhot = []
@@ -182,7 +184,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     maxHeight = max(counts)+(max(counts)*0.25)
 #     ylim(0,maxHeight)
     
-    ylabel(r'$\rm Number$')
+#     ylabel(r'$\rm Number$')
 #     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label1,xy=(log10(1.2),maxHeight*0.7))
 #     title(label1)
@@ -191,42 +193,45 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
 #     place a text box in upper right in axes coords
-    ax.text(0.678, 0.95, label1, transform=ax.transAxes, fontsize=13, verticalalignment='top', bbox=props)
+    ax.text(0.702, 0.95, label1, transform=ax.transAxes, fontsize=14, verticalalignment='top', bbox=props)
 
     
     # x coordinate adjustment for annotations
     xAn = -0.2
     
     # label color
-    lcolor = 'black'
+    lcolor = 'red'
+    lstyle = 'dashed'
+    lalpha = 0.7
+
     
     # label size
-    lsize = 14
+    lsize = 15
     
     # draw and annotate Lstar = 1 line
-    axvline(x=log10(1),linewidth=1, color=lcolor)
+    axvline(x=log10(1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
     l1 = r'$\rm L_*=1.0$'
-    annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
+    annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.94),size=lsize)
     
     # draw Lstar = 0.5 line
-    axvline(x=log10(0.5),linewidth=1, color=lcolor)
+    axvline(x=log10(0.5),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
     l_5 = r'$\rm L_*=0.5$'
-    annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
+    annotate(s=l_5,xy=(log10(0.5)+xAn+xAn/2,maxHeight*0.85),size=lsize)
   
     # draw Lstar = 0.1 line
-    axvline(x=log10(0.1),linewidth=1, color=lcolor)
+    axvline(x=log10(0.1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
     l_1 = r'$\rm L_*=0.1$'
-    annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
+    annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.94),size=lsize)
     
     # draw Lstar = 0.05 line
-    axvline(x=log10(0.05),linewidth=1, color=lcolor)
+    axvline(x=log10(0.05),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
     l_05 = r'$\rm L_*=0.05$'
-    annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
+    annotate(s=l_05,xy=(log10(0.05)+xAn+xAn/2,maxHeight*0.85),size=lsize)
     
     # draw Lstar = 0.01 line
-    axvline(x=log10(0.01),linewidth=1, color=lcolor)
+    axvline(x=log10(0.01),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
     l_01 = r'$\rm L_*=0.01$'
-    annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
+    annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.94),size=lsize)
     
     # format the axes
     #
@@ -255,7 +260,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 ##########################################################################################
 
     # second
-    ax2 = fig.add_subplot(2,2,2)
+    ax2 = fig.add_subplot(4,1,2)
 #     ax = gca()
     
     cutPhot2 = []
@@ -299,41 +304,42 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax2.text(0.624, 0.95, label2, transform=ax2.transAxes, fontsize=13, verticalalignment='top', bbox=props)
+    ax2.text(0.662, 0.95, label2, transform=ax2.transAxes, fontsize=14, verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
     
     # label color
-    lcolor = 'black'
+    lcolor = 'red'
+    lstyle = 'dashed'
     
     # label size
     lsize = 14
     
-    # draw and annotate Lstar = 1 line
-    axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$\rm L_*=1.0$'
-    annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
+#     draw and annotate Lstar = 1 line
+    axvline(x=log10(1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l1 = r'$\rm L_*=1.0$'
+#     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
-    # draw Lstar = 0.5 line
-    axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$\rm L_*=0.5$'
-    annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
+#     draw Lstar = 0.5 line
+    axvline(x=log10(0.5),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_5 = r'$\rm L_*=0.5$'
+#     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
-    # draw Lstar = 0.1 line
-    axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$\rm L_*=0.1$'
-    annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
+#     draw Lstar = 0.1 line
+    axvline(x=log10(0.1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_1 = r'$\rm L_*=0.1$'
+#     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
-    # draw Lstar = 0.05 line
-    axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$\rm L_*=0.05$'
-    annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
+#     draw Lstar = 0.05 line
+    axvline(x=log10(0.05),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_05 = r'$\rm L_*=0.05$'
+#     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
-    # draw Lstar = 0.01 line
-    axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$\rm L_*=0.01$'
-    annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
+#     draw Lstar = 0.01 line
+    axvline(x=log10(0.01),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_01 = r'$\rm L_*=0.01$'
+#     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
@@ -355,16 +361,18 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ax2.yaxis.set_major_locator(majorLocator)
     ax2.yaxis.set_major_formatter(majorFormatter)
     ax2.yaxis.set_minor_locator(minorLocator)
-    plt.setp(ax2.get_yticklabels(), visible=False)
+#     plt.setp(ax2.get_yticklabels(), visible=False)
+    plt.setp(ax2.get_yticklabels(), visible=True)
+
 
     ax2.set_ylim([0,3350])
-    ax2.yaxis.tick_right()
+#     ax2.yaxis.tick_right()
 #     tight_layout()
 
 ##########################################################################################
 
     # third
-    ax3 = fig.add_subplot(2,2,3,sharex=ax)
+    ax3 = fig.add_subplot(4,1,3,sharex=ax)
 #     ax = gca()
     
     cutPhot3 = []
@@ -399,7 +407,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     maxHeight = max(counts3)+(max(counts3)*0.25)
 #     ylim(0,maxHeight)
     
-    ylabel(r'$\rm Number$')
+#     ylabel(r'$\rm Number$')
     xlabel(r'$\rm log_{10} (L/L_*)$')
 #     ax.annotate(label3,xy=(log10(1.2),maxHeight*0.7))
 #     title(label3)
@@ -408,41 +416,42 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax3.text(0.626, 0.95, label3, transform=ax3.transAxes, fontsize=13,verticalalignment='top', bbox=props)
+    ax3.text(0.663, 0.95, label3, transform=ax3.transAxes, fontsize=14,verticalalignment='top', bbox=props)
     
     # x coordinate adjustment for annotations
     xAn = -0.2
     
     # label color
-    lcolor = 'black'
+    lcolor = 'red'
+    lstyle = 'dashed'
     
     # label size
     lsize = 14
     
-    # draw and annotate Lstar = 1 line
-    axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$\rm L_*=1.0$'
-    annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
+#     draw and annotate Lstar = 1 line
+    axvline(x=log10(1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l1 = r'$\rm L_*=1.0$'
+#     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
     
-    # draw Lstar = 0.5 line
-    axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$\rm L_*=0.5$'
-    annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
+#     draw Lstar = 0.5 line
+    axvline(x=log10(0.5),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_5 = r'$\rm L_*=0.5$'
+#     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
   
-    # draw Lstar = 0.1 line
-    axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$\rm L_*=0.1$'
-    annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
+#     draw Lstar = 0.1 line
+    axvline(x=log10(0.1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_1 = r'$\rm L_*=0.1$'
+#     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
     
-    # draw Lstar = 0.05 line
-    axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$\rm L_*=0.05$'
-    annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
+#     draw Lstar = 0.05 line
+    axvline(x=log10(0.05),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_05 = r'$\rm L_*=0.05$'
+#     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
     
-    # draw Lstar = 0.01 line
-    axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$\rm L_*=0.01$'
-    annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
+#     draw Lstar = 0.01 line
+    axvline(x=log10(0.01),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_01 = r'$\rm L_*=0.01$'
+#     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
@@ -469,7 +478,7 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
 ##########################################################################################
 
     # fourth
-    ax4 = fig.add_subplot(2,2,4,sharex=ax2)
+    ax4 = fig.add_subplot(4,1,4,sharex=ax2)
 #     ax = gca()
     
     cutPhot4 = []
@@ -513,41 +522,42 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     props = dict(boxstyle='round', alpha=1, facecolor='none')
 
     # place a text box in upper right in axes coords
-    ax4.text(0.617, 0.95, label4, transform=ax4.transAxes, fontsize=13, verticalalignment='top', bbox=props)
+    ax4.text(0.650, 0.95, label4, transform=ax4.transAxes, fontsize=14, verticalalignment='top', bbox=props)
                 
     # x coordinate adjustment for annotations
     xAn = -0.2
     
     # label color
-    lcolor = 'black'
+    lcolor = 'red'
+    lstyle = 'dashed'
     
     # label size
     lsize = 14
     
-    # draw and annotate Lstar = 1 line
-    axvline(x=log10(1),linewidth=1, color=lcolor)
-    l1 = r'$\rm L_*=1.0$'
-    annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
-    
-    # draw Lstar = 0.5 line
-    axvline(x=log10(0.5),linewidth=1, color=lcolor)
-    l_5 = r'$\rm L_*=0.5$'
-    annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
-  
-    # draw Lstar = 0.1 line
-    axvline(x=log10(0.1),linewidth=1, color=lcolor)
-    l_1 = r'$\rm L_*=0.1$'
-    annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
-    
-    # draw Lstar = 0.05 line
-    axvline(x=log10(0.05),linewidth=1, color=lcolor)
-    l_05 = r'$\rm L_*=0.05$'
-    annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
-    
-    # draw Lstar = 0.01 line
-    axvline(x=log10(0.01),linewidth=1, color=lcolor)
-    l_01 = r'$\rm L_*=0.01$'
-    annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
+#     draw and annotate Lstar = 1 line
+    axvline(x=log10(1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l1 = r'$\rm L_*=1.0$'
+#     annotate(s=l1,xy=(log10(1)+xAn,maxHeight*0.92),size=lsize)
+#     
+#     draw Lstar = 0.5 line
+    axvline(x=log10(0.5),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_5 = r'$\rm L_*=0.5$'
+#     annotate(s=l_5,xy=(log10(0.5)+xAn+xAn,maxHeight*0.85),size=lsize)
+#   
+#     draw Lstar = 0.1 line
+    axvline(x=log10(0.1),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_1 = r'$\rm L_*=0.1$'
+#     annotate(s=l_1,xy=(log10(0.1)+xAn,maxHeight*0.92),size=lsize)
+#     
+#     draw Lstar = 0.05 line
+    axvline(x=log10(0.05),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_05 = r'$\rm L_*=0.05$'
+#     annotate(s=l_05,xy=(log10(0.05)+xAn+xAn,maxHeight*0.85),size=lsize)
+#     
+#     draw Lstar = 0.01 line
+    axvline(x=log10(0.01),linewidth=1, color=lcolor,linestyle=lstyle,alpha=lalpha)
+#     l_01 = r'$\rm L_*=0.01$'
+#     annotate(s=l_01,xy=(log10(0.01)+xAn,maxHeight*0.92),size=lsize)
     
     # format the axes
     #
@@ -570,12 +580,20 @@ def make_histogram_lstar_split(d1,vlo,vhi,saveDirectory,save):
     ax4.set_yticks([0,1000,2000,3000])
 
 
-    ax4.set_ylim([0,4050])
-    ax4.yaxis.tick_right()
+#     ax4.set_ylim([0,4050])
+    ax4.set_ylim([0,4000])
+
+#     ax4.yaxis.tick_right()
 #     tight_layout()
 
+
+    fig.add_subplot(111, frameon=False)
+    # hide tick and tick label of the big axes
+    plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
+    plt.ylabel(r'$\rm Number$')
+
     if save:
-        savefig('{0}Lstar_histogram_4bins_final_{1}-{2}_v3.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
+        savefig('{0}Lstar_histogram_4bins_final_{1}-{2}_v3_vert.pdf'.format(saveDirectory,vlo_1,vhi_4),format='pdf',bbox_inches='tight')
     else:
         show()
        
