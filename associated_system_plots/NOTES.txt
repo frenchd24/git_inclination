@@ -1,0 +1,41 @@
+Notes for systems in included in pilot paper:
+
+‘distinct’ = return to continuum between
+‘blended’ = no return to continuum between
+‘lone’ = nothing within 400 km/s
+
+TOTALS: blended = 13/48
+	lone = 17/48
+	distinct = 18/48
+
+1H0717+714 - heavily blended @2872, 2988
+2dFGRS_S393Z082 - lone @ 1238
+H1101-232 - lone @3570
+HE0241-3043 - close but distinct @1220, 1310
+LBQS1230-0015 - lone @1127
+MRC2251-178 - lone @9029
+MRK290 - blended, but a bit of separation @3090, 3192MRK876 - lone @3477
+MRK1014 - lone @7078
+PG0003+158 - lone @842
+PG0832+251 - distinct @6979, 7201
+PG1001+054 - lone @4092
+PG1302-102 - lone @3447
+RBS1768 - blended @9359, 9434RX_J0714.5+7408 - distinct @4074, 4263RX_J1017.5+4702 - lone @629
+RX_J1117.6+5301 - distinct @1130, 1259RX_J1236.0+2641 - all distinct @794, 1013, 1187
+RX_J1330.8+3119 - lone @7401
+RX_J1356.4+2515 - lone @8475
+RX_J1503.2+6810 - lone @10120
+RX_J1544.5+2827 - distinct @9641, 9758
+RX_J2043.1+0324 - lone @4080
+RX_J2139.7+0246 - blended, with a small amount of separation @4083, 4182
+SBS0957+599 - lone @9470
+SDSSJ080838.80+051440.0 - distinct @8738, 8924
+SDSSJ091728.60+271951.0 - blended, but only a bit @7141 with @7282 (nonassociated)
+SDSSJ112224.10+031802.0 - distinct @1049, 1265
+SDSSJ130524.30+035731.0 - lone @7039
+SDSSJ135726.27+043541.4 - distinct @1124, 1295SDSSJ140428.30+335342.0 - lone @7890
+TON1009 - blended @1933, 1978
+
+
+SDSSJ021218.32-073719.8 - no system plots, but saturated and blended line fit @4833,4756
+			- I forgot to include the Lya line @5272 for some reason.

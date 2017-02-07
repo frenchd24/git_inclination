@@ -264,10 +264,10 @@ def main():
     includeSkyPlot = False
     
     # Save the map plots?
-    saveMaps = True
+    saveMaps = False
     
     # Save the individual map plot tables?
-    saveMapTables = True
+    saveMapTables = False
     
     # Save the full results with "include" tags?
     saveResults = False
@@ -307,9 +307,7 @@ def main():
 
     
     # or build up a custom list of AGN names and absorption velocities here:
-    targets = [('SDSSJ112005.00+041323.0',2088.,True),\
-    ('SDSSJ112005.00+041323.0',2571.0,True),\
-    ('RX_J1121.2+0326',2600.0,True)]
+    targets = [('SDSSJ021218.32-073719.8',5272.,True)]
 
     
     c = 0
