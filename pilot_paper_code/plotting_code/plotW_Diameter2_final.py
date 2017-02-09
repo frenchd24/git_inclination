@@ -623,7 +623,6 @@ def main():
                             fc = 'none'
                             ec = color
                         
-                        
                         blueX.append(xVal)
                         blueY.append(yVal)
                         
