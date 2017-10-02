@@ -8,12 +8,20 @@
 
 \usepackage{graphicx}
 \usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
 %\usepackage{amssymb}
 %\usepackage{wrapfig}
 %\usepackage{setspace}
 
 %\usepackage{mathtools}
 %\frenchspacing
+
+\newcommand{\kms}{$\rm km\, s^{-1}$}
+
+
+
 \graphicspath{{figures//}}
 
 \begin{document}
@@ -35,7 +43,7 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 
 
 \section{INTRODUCTION}
-
+Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however, as the... Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? Stewart et al. (2011) suggests through (HYDRO?) simulations that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature.
 
 
 \begin{table*}[ht]\footnotesize
@@ -62,13 +70,92 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 \section{DATA AND ANALYSIS}
 
 \subsection{SALT Data}
+Our sample 14 contains 14 galaxies observed with the Southern African Large Telescope (SALT) Robert Stobie Spectrograph (RSS) in longslit mode. These 14 were selected from a larger pool of 48 submitted targets by the SALT observing queue. These 48 possible targets were chosen for their proximity to background QSOs whose spectra contained promising Ly$\alpha$ lines. Finally, we only included galaxies with $z \leq 0.33$ ($cz \leq 10,000$ \kms), angular sizes less than 6' to ensure easy sky subtraction, and surface brightnesses sufficient to keep exposure times below $~1300 s$. Table \ref{salt_targets} summarizes these observations.
 
+%All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{\begin{table*}[ht]\footnotesize. 
+
+
+All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{CITATION}), which includes procedures to prepare the data, correct for gain, cross-talk, bias, and overscan, and finally mosaic the images from different extensions. Next, we rectify the images with wavelength solutions found via Ne and Ar arc lamp spectra line identification. Finally, we perform a basic sky subtraction using an off-sky portion of the image, and extract 5-10 pixel wide 1-D strips from the reduced 2-D spectrum. 
+
+For each 1-D spectrum, we identify the H$\alpha$ emission or Ca H\&K absorption lines and perform a non-linear least-squares Voigt profile fit using the Python package LMFIT\footnote{\url{http://cars9.uchicago.edu/software/python/lmfit/contents.html}}. The line centroid and 1$\sigma$ standard errors are returned, and these fits are then shifted to rest-velocity based on the galaxy systemic redshift and heliocentric velocity corrections are calculated with the IRAF rvcorrect procedure. The final rotation velocity is calculated by then applying the inclination correction, $v_{rot} = v / \sin(i)$. Final errors are calculated as
+
+\begin{equation}
+\begin{split}
+	\sigma^2 = \left( \frac{\partial v_{rot}}{\partial \lambda_{obs}} \right)^2 (\Delta \lambda_{obs})^2 + \left(\frac{\partial v_{rot}}{\partial v_{sys}} \right)^2 (\Delta v_{sys})^2 + \\
+	\left( \frac{\partial v_{rot}}{\partial i} \right)^2 (\Delta i)^2,
+\end{split}
+\end{equation}
+
+\noindent where $\Delta \lambda_{obs}$, $\Delta v_{sys}$, and $\Delta i$ are the errors in observed line center, galaxy redshift, and inclination, respectively. The final physical scale is calculated using the SALT image scale of 0.1267 arcsec/pixel, multiplied by the 4-pixel spatial binning, and converted to physical units using a redshift-independent distance if available, and a Hubble flow estimate if not. We adopt a Hubble constant of $H_0$ = 71 \kms $\rm Mpc^{-1}$ throughout.
+
+Finally, we calculate our approaching and receding velocities via a weighted mean of the outer 1/2 of each rotation curve, with errors calculated as weighted standard errors in the mean. Our final redshifts are calculated by forcing symmetric rotation, such that the outer 1/2 average velocity for each side matches. See Figure \ref{rotation_curve} for an example.
+
+\begin{figure}[b!]
+        \centering
+        \vspace{0pt}
+        \includegraphics[width=0.50\textwidth]{NGC3633_rotation_curve_xphys_helio_vemit.pdf}
+        \caption{\small{Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean.}}
+        \label{completeness}
+\end{figure}
+
+
+
+\begin{table*}[ht]\footnotesize. 
+\begin{center}
+\begin{tabular}{l l l l l l l l l l l}
+ \hline \hline
+  Galaxy 		& R.A. 		& Dec. 		 	& \textit{cz}	& Type		& Grating		& LOS Velocity		& Absolute Velocity	& Obs Date	& $T_{exp}$		& S/N			\\ 
+  	    		& 	       		&	  		 	& (\kms)		& 		  	&			& (\kms)		     	& (\kms)			&			& (ks)			& (6562.8)			\\ 
+ \scriptsize (1)  	& \scriptsize (2)	& \scriptsize (3) 	&\scriptsize (4)	& \scriptsize (5)	& \scriptsize (6)	& \scriptsize (7)		& \scriptsize (8)		& \scriptsize (9)	& \scriptsize (10)	& \scriptsize (11)	\\ \hline \hline
+ 
+ NGC4536	& 12 34 27.05	& +02 11 17.3		& $1808 \pm1$	& SAB(rc)bc	& PG2300		& $-107 \pm 8.5$	& $-113 \pm 9.2$	& 05 11 2016	& 1300			& not sure \\
+  			&			&				&			&			&			& $145 \pm 31.8$	& $113 \pm 34.3$	&			&				&		\\
+			
+ NGC3633	& 11 20 26.22	& +03 35 08.2		& $2600 \pm2$	& SAa		& PG2300		& $-160 \pm 5.7$	& $-169 \pm 6.0$	& 05 11 2016	& 1200			& not sure \\
+ 			&			&				&			&			&			& $139 \pm 3.3$	& $146 \pm 3.5$	&			&				&		\\
+			
+ NGC5786	& 14 58 56.26	& $-$42 00 48.1	& $2998 \pm5$	& (R')SB(s)bc	& PG2300		& not sure			& not sure			& 05 11 2016	& 250			& not sure \\
+  			&			&				&			&			&			& $ \pm $	& $ \pm $	&			&				&		\\
+
+ NGC5364	& 13 56 12.00	& +05 00 52.1		& $1241 \pm4$	& SA(rs)bc pec	& PG2300		& not sure			& not sure			& 05 11 2016	& 700			& not sure \\
+ 	
+ 
+ 
+ \hline
+
+\end{tabular}
+\end{center}
+  \caption{\small{SALT targeted galaxies. Columns are as follows: 1) the galaxy name, 2), 3) R.A., Dec. in J2000, 4) galaxy systemic velocity, 5) morphological type (RC3), 6) RSS grating used, 7) approaching side velocity, 8) receding side velocity, 9) observation date, 10) exposure time, and 11) S/N of the H$\alpha$ or Ca H\&K lines.}}
+  \label{salt_targets}
+\end{table*}
+
+
+\subsubsection{NGC4536}
+The data on the receding side of NGC4536 is very messy, and may include contamination from background sources. 
+
+%However, the approaching side is well sampled and stable with a value of $v_{rot}=-75pm9$ \kms. For this reason, and assuming symmetry for this grand-design spiral galaxy, we have decided to adopt the same value for the receding side, $v_{rot}=75pm9$ \kms.
+
+% The image of this galaxy is confusing - it looks opposite, because we're 'underneath' it (i.e. the near edge is up, the far edge is away). 
+
+\subsubsection{NGC3633}
+Several locations show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. We measure a redshift for this galaxy of $cz = 2597.6 \pm 2.4$ \kms.
+
+We measure a line-of-sight rotation velocity for NGC3633 of $v_{rot}=139\pm 3.3,~-160\pm5.7$,  \kms.
+
+
+\subsubsection{NGC5364}
+
+
+\subsubsection{NGC5786}
 
 
 \subsection{Ancillary Data}
 
 
 \subsection{Galaxy Data}
+
+
+
 
 
 %\begin{figure}[ht!]
@@ -88,10 +175,12 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 \begin{tabular}{l l l l l l l l l l l l l l l}
  \hline \hline
   $Target$	&  $Galaxy$  & $R_{vir}$        & $v_{galaxy}$ 	   	  &  $Inc.$               &  $Az.$ 	       & $\rho$		   & $v_{Ly\alpha}$	 	  	& $W_{Ly\alpha}$  & $\Delta v$  			 & $\mathcal{L}$ \\ 
-  	  &       & \scriptsize [kpc] & \scriptsize  $\rm [km ~s^{-1}]$ & \scriptsize [deg] & \scriptsize [deg] & \scriptsize [kpc] & \scriptsize  $\rm [km\, s^{-1}]$ & \scriptsize $\rm [km\, s^{-1}]$ & \scriptsize  $\rm [km\, s^{-1}]$ &  \\
+  	  	&       & \scriptsize (kpc) & \scriptsize  $\rm (km ~s^{-1})$ & \scriptsize (deg) & \scriptsize [deg] & \scriptsize (kpc) & \scriptsize  $\rm (km\, s^{-1})$ & \scriptsize $\rm (km\, s^{-1})$ & \scriptsize  $\rm (km\, s^{-1})$ &  \\
  \scriptsize (1) & \scriptsize (2) & \scriptsize (3)    & \scriptsize (4)     & \scriptsize (5)    & \scriptsize (6)   & \scriptsize  (7)   & \scriptsize (8) & \scriptsize (9) & \scriptsize (10) & \scriptsize (11) \\ \hline \hline
 
 1H0717+714  &  UGC03804  &  173  &  2887  &  55  &  7  &  207  &  2870  &  343$\pm$6  &  17  &  0.24  \\
+
+
  \\
 \hline
 \end{tabular}

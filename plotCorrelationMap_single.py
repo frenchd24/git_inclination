@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap_single.py, v 11.4 1/16/17
+$Id: plotCorrelationMap_single.py, v 11.5 7/21/17
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -115,6 +115,9 @@ v11.4: removes the 'include_folder' for saving - saves everything in the same ge
     directory, so you don't have to fuss around when doing single correlations
     (1/16/17)
 
+v11.5: include the speed of light for converting from redshift, upgrade to 
+    correlateSingle9.py - uses the newest galaxy table (7/21/17)
+
 """
 
 import sys
@@ -142,11 +145,12 @@ rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
-rc('xtick', labelsize = fontScale)
+rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
+rc('axes',titlesize='small')
 
 # from matplotlib.patches import Ellipse
 
@@ -240,10 +244,10 @@ def main():
     masterCustomList = []
     
     # max impact parameter to use
-    maxSep = 500
+    maxSep = 1000
     
     # +/- galaxy velocity to search within around absorption velocity
-    velocityWindow = 400
+    velocityWindow = 500
     
     # minimum galaxy velocity to include (False to ignore)
     minVcorr = 500
@@ -258,16 +262,16 @@ def main():
     includeNameTags = True
     
     # include a title on the plots?
-    includeTitle = False
+    includeTitle = True
     
     # also make a plot of just real positions of galaxies on the sky in RA and Dec coords?
     includeSkyPlot = False
     
     # Save the map plots?
-    saveMaps = False
+    saveMaps = True
     
     # Save the individual map plot tables?
-    saveMapTables = False
+    saveMapTables = True
     
     # Save the full results with "include" tags?
     saveResults = False
@@ -276,18 +280,23 @@ def main():
     rigor = 5
     
     # hard limit for likelihood
-    l_min = 0.01
+    l_min = 0.000001
     
     # bypass l_min for lone galaxies? (i.e. include lone galaxies no matter what likelihood is)
     loner = False
     
+    # the speed of light
+    c = 2.9979*10**5
     
     # where to save figures and tables
     user = getpass.getuser()
     if user == "David":
-        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/iraf/NGC3633/'
-        outputFile = '/Users/David/Research_Documents/iraf/NGC3633_correlation.csv'
+#         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+#         saveDirectory = '/Users/David/Research_Documents/iraf/NGC3633/'
+#         outputFile = '/Users/David/Research_Documents/iraf/NGC3633_correlation.csv'
+        targetFile = '/Users/David/Research_Documents/metal_absorbers/met.dat'
+        saveDirectory = '/Users/David/Research_Documents/metal_absorbers/'
+        outputFile = '/Users/David/Research_Documents/metal_absorbers/metal_absorbers.csv'
 
     elif user == "frenchd":
         targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
@@ -307,7 +316,36 @@ def main():
 
     
     # or build up a custom list of AGN names and absorption velocities here:
-    targets = [('SDSSJ021218.32-073719.8',5272.,True)]
+    targets = [('1H0419-577',0.003678*c,True),\
+    ('3C273.0',0.005277*c,True),\
+    ('HE0226-4110',0.017457*c,True),\
+    ('HE1228+0131',0.005726*c,True),\
+    ('HE1228+0131',0.078046*c,True),\
+#     ('PHL1811',0.077757*c,True),\
+#     ('PHL1811',0.080910*c,True),\
+    ('PG0838+770',0.002371*c,True),\
+#     ('PG0953+414',0.068070*c,True),\
+#     ('PG1048+342',0.059246*c,True),\
+#     ('PG1222+216',0.054525*c,True),\
+#     ('PG1222+216',0.098752*c,True),\
+#     ('PG1259+593',0.046128*c,True),\
+    ('PG1302-102',0.004383*c,True),\
+#     ('PG1302-102',0.042212*c,True),\
+#     ('PG1302-102',0.094831*c,True),\
+    ('PKS2005-489',0.016947*c,True)]
+    
+#     ('RBS1795',0.062203*c,True),\
+#     ('RBS1897',0.095902*c,True),\
+#     ('RBS1897',0.098758*c,True),\
+#     ('RX_J0048.3+3941',0.097241*c,True)]
+
+#     targets = [('PHL1811',0.073330*c,True),\
+#     ('PHL1811',0.073484*c,True),\
+#     ('H1821+643',0.225021*c,True),\
+#     ('HE0153-4520',0.225936*c,True),\
+#     ('HE0226-4110',0.206950*c,True),\
+#     ('PG1116+215',0.138483*c,True)]
+
 
     
     c = 0
@@ -514,17 +552,17 @@ def main():
             # format the axes:
             #
             # x-axis
-            majorLocator   = MultipleLocator(100)
+            majorLocator   = MultipleLocator(200)
             majorFormatter = FormatStrFormatter(r'$\rm %d$')
-            minorLocator   = MultipleLocator(50)
+            minorLocator   = MultipleLocator(100)
             ax.xaxis.set_major_locator(majorLocator)
             ax.xaxis.set_major_formatter(majorFormatter)
             ax.xaxis.set_minor_locator(minorLocator)
         
             # y axis
-            majorLocator   = MultipleLocator(100)
+            majorLocator   = MultipleLocator(200)
             majorFormatter = FormatStrFormatter(r'$\rm %d$')
-            minorLocator   = MultipleLocator(50)
+            minorLocator   = MultipleLocator(100)
             ax.yaxis.set_major_locator(majorLocator)
             ax.yaxis.set_major_formatter(majorFormatter)
             ax.yaxis.set_minor_locator(minorLocator)            
@@ -545,8 +583,8 @@ def main():
                 new = s*10
                 newSizes.append(new)
             
-            vmaxVal = 400
-            vminVal = -400
+            vmaxVal = velocityWindow
+            vminVal = -velocityWindow
 
             # +/- 400 km/s around the center
             largestVelocity = velocityWindow
@@ -921,14 +959,14 @@ def main():
             cbar.set_label(r'$\rm \Delta v ~[km ~s^{-1}]$')
         
             ax.grid(b=None,which='major',axis='both')
-            ax.set_ylim(-500,500)
-            ax.set_xlim(-500,500)
+            ax.set_ylim(-maxSep,maxSep)
+            ax.set_xlim(-maxSep,maxSep)
             
             ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
                 title("{0} sightline map velocity = {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
-
+                
 
             # now write it all to file, or display the finished figure
             if saveMaps:
