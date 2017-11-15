@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap11.py, v 11.3 10/03/16
+$Id: plotCorrelationMap12.py, v 12 11/15/17
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -110,6 +110,21 @@ v11.3: more minor updates - make the tick labels NOT bold (10/03/16)
 
 v11.3: more minor updates - fix the colorbar bolded ticks problem (10/10/16)
     - remake LG_correlation_combined5_11_25cut_edit5.csv and targetmaps37/
+    
+v11.4: removes the 'include_folder' for saving - saves everything in the same general
+    directory, so you don't have to fuss around when doing single correlations
+    (1/16/17)
+
+v11.5: include the speed of light for converting from redshift, upgrade to 
+    correlateSingle9.py - uses the newest galaxy table (7/21/17)
+    
+v12: this comes from plotCorrelationMap_single.py -> specifically made to plot single
+    galaxy maps instead of from a big list, for the metals project (Taesun?)
+    
+    Adapting to make this more flexible. Now you can plot single or multiple from a file
+    or list. You can also include both galaxies and AGN as both center targets AND/OR
+    included in the environment field
+
 """
 
 import sys
@@ -119,10 +134,8 @@ import string
 import math
 import ast
 from pylab import *
-import correlateSingle8 as correlateSingle
+import correlateSingle10 as correlateSingle
 from matplotlib.patches import Ellipse
-# from astropy.coordinates import SkyCoord
-# from astropy import units as u
 from utilities import *
 import getpass
 
@@ -137,13 +150,12 @@ rc('ytick.minor',size=5,width=0.6)
 rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 rc('axes',labelsize = fontScale)
-rc('xtick', labelsize = fontScale)
+rc('xtick',labelsize = fontScale)
 rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
-
-# from matplotlib.patches import Ellipse
+rc('axes',titlesize='small')
 
     
 ################################################################
@@ -227,6 +239,9 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
         
 def main():
     # main function to create targetmaps around selected sightlines
+    nullFloat = -99.99
+    nullInt = -99
+    nullStr = 'x'
         
     counter = 0
     AGNList = []
@@ -235,10 +250,10 @@ def main():
     masterCustomList = []
     
     # max impact parameter to use
-    maxSep = 500
+    maxSep = 1000
     
     # +/- galaxy velocity to search within around absorption velocity
-    velocityWindow = 400
+    velocityWindow = 500
     
     # minimum galaxy velocity to include (False to ignore)
     minVcorr = 500
@@ -252,8 +267,17 @@ def main():
     # include name tags on galaxies? They don't scale very well...
     includeNameTags = True
     
+    # x and y name tag offset
+#     yTagOffset = 6
+#     xTagOffset = -60
+    yTagOffset = 2
+    xTagOffset = -10
+    
+    # name tag font size
+    nameTagFont = 4
+    
     # include a title on the plots?
-    includeTitle = False
+    includeTitle = True
     
     # also make a plot of just real positions of galaxies on the sky in RA and Dec coords?
     includeSkyPlot = False
@@ -271,55 +295,93 @@ def main():
     rigor = 5
     
     # hard limit for likelihood
-    l_min = 0.01
+    l_min = 0.000001
     
     # bypass l_min for lone galaxies? (i.e. include lone galaxies no matter what likelihood is)
     loner = False
     
+    # the speed of light
+    c = 2.9979*10**5
+    
+    # maximum number of galaxies to plot on a single window. Just set it high to ignore
+    maxPlotObjects = 5000
+    
+    # ticks
+    xAxisMajorTicks = 200
+    xAxisMinorTicks = 100
+    yAxisMajorTicks = 200
+    yAxisMinorTicks = 100
+    
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = True
+    sortIntoFolders = False
     
+    # include AGN background targets as well?
+    includeAGN = True
     
-    # where to save figures and tables
+    # include name tags for AGN?
+    includeAGNnameTags = True
+    
+    # size of stars for AGN
+    AGNsize = 50
+
+    
+    # Location and name of targetfile, and where to save figures and tables. Set this 
+    # even if you'll manually enter targets below
     user = getpass.getuser()
     if user == "David":
-        targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/targetmaps38/'
-        outputFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
+#         targetFile = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+#         saveDirectory = '/Users/David/Research_Documents/iraf/NGC3633/'
+#         outputFile = '/Users/David/Research_Documents/iraf/NGC3633_correlation.csv'
+
+#         targetFile = '/Users/David/Research_Documents/metal_absorbers/met.dat'
+#         saveDirectory = '/Users/David/Research_Documents/metal_absorbers/'
+#         outputFile = '/Users/David/Research_Documents/metal_absorbers/metal_absorbers.csv'
+        pass
 
     elif user == "frenchd":
-        targetFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/targetmaps38/'
-        saveDirectory = '/usr/users/frenchd/iraf/NGC5364/'
-#         outputFile = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit5.csv'
-        outputFile = '/usr/users/frenchd/iraf/NGC5364_correlationMap.csv'
+        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
 
     else:
         print "Unknown user: ",user
         sys.exit()
     
     # what are the column names in this file for the AGN name and absorption velocity?
-    AGNheader = 'AGNname'
+    targetHeader = 'AGNname'
     velocityHeader = 'Lya_v'
 
     # targets from a file, use this:
-#     targets = buildFullTargetList(targetFile,AGNheader,velocityHeader)
+#     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
     
     # or build up a custom list of AGN names and absorption velocities here:
-    targets = [('SDSSJ135726.27+043541.4',1094.0,True)]
+#     targets = [('1H0419-577',0.003678*c,True),\
+#     ('3C273.0',0.005277*c,True)]
+
+    targets = [('3C273.0',1580,True)]
 
     
     c = 0
     for i in targets:
         # find AGN environment using the imported version of correlateSingle
-        AGNname,center,include = i
-        correlation = correlateSingle.correlateTarget(AGNname, maxSep, agnSeparation, minVcorr, minSize, slow=False)
-        galaxyInfo = correlation[AGNname]
+        targetName,center,include = i
+        correlation = correlateSingle.correlateTarget(targetName, maxSep, agnSeparation, minVcorr, minSize, slow=False)
+        galaxyInfo = correlation[targetName]
         
-        print '{0} = {1}'.format(AGNname,len(galaxyInfo))
+#         print 'galaxyInfo: ',galaxyInfo
+        
+        if includeAGN:
+            correlationAGN = correlateSingle.correlateGalaxy(targetName, maxSep, agnSeparation, minVcorr, minSize)
+            
+            if correlationAGN:
+                AGNinfo = correlationAGN[targetName]
+            else:
+                AGNinfo = []
+        
+        print '{0} = {1}'.format(targetName,len(galaxyInfo))
         print
         
 #         galaxyInfo.sort()
@@ -340,6 +402,57 @@ def main():
         typeList = []
         infoDict = {}
         
+        AGNRAs = []
+        AGNDecs = []
+        plotPositionAGNRA = []
+        plotPositionAGNDec = []
+        AGNnames = []
+        
+        if includeAGN:
+            for r in AGNinfo:
+                vhel, AGNrow = r
+                
+                print 'AGNrow',AGNrow
+            
+                AGNRA = AGNrow['AGNRA']
+                AGNRAs.append(AGNRA)
+                AGNDec = AGNrow['AGNDec']
+                AGNDecs.append(AGNDec)
+            
+                galaxyDist = AGNrow['bestDist']
+            
+                targetRA = AGNrow['galaxyRA']
+                targetDec = AGNrow['galaxyDec']
+                
+                AGNname = AGNrow['AGNname']
+                AGNnames.append(AGNname)
+            
+    
+                #find plot placement
+                # calculate angular separations in ra and dec to determine positions on chart w.r.t. target
+                gRA,gDec = float(AGNRA),float(AGNDec)
+            
+                # calculate separation in RA only
+                dRA_agn = correlateSingle.calculateImpactParameter(gRA,targetDec,targetRA,targetDec,galaxyDist)
+
+                # calculate separation in Dec only
+                dDec_agn = correlateSingle.calculateImpactParameter(targetRA,gDec,targetRA,targetDec,galaxyDist)
+            
+                # add signs back into physical impact parameters
+                if gRA < targetRA:
+                    dRA_agn = -dRA_agn
+                
+                # 'edge' effects
+                if gRA >= 359.0 and targetRA <= 1.0:
+                    dRA_agn = -dRA_agn
+                
+                if gDec < targetDec:
+                    dDec_agn = -dDec_agn
+                
+                plotPositionAGNRA.append(dRA_agn)
+                plotPositionAGNDec.append(dDec_agn)
+
+        
         # loop through the returned galaxy environment data, making calculations and
         # populating lists as we go
         counter = 0
@@ -351,7 +464,7 @@ def main():
             
             # crop off results that fall out of the 'velocityWindow' parameter
             # 'velocityWindow' = a cut in velocity space 
-            if counter <=5000 and float(vhel)-velocityWindow <= center and float(vhel)+velocityWindow >= center:
+            if counter <= maxPlotObjects and float(vhel)-velocityWindow <= center and float(vhel)+velocityWindow >= center:
                 separation = galaxyRow['impactParameter (kpc)']
                 galaxyName = galaxyRow['galaxyName']
                 galaxyPosition = eval(str(galaxyRow['degreesJ2000RA_DecGalaxy']))
@@ -370,18 +483,16 @@ def main():
                 azimuth = galaxyRow['azimuth (deg)']
 #                 include = galaxyRow['include']
                 
-                if isNumber(inclination):
+                if not isNull(inclination):
                     inclination = round(eval(inclination),0)
-                elif isNumber(RC3inc):
-                    inclination = round(eval(RC3inc),0)
 
-                if isNumber(galaxyDist):
+                if not isNull(galaxyDist):
                     positions.append(galaxyPosition)
                     separations.append(float(separation))
                     
-                    if isNumber(positionAngle):
+                    if not isNull(positionAngle):
                         pa = float(positionAngle)
-                    elif isNumber(RC3PA):
+                    elif not isNull(RC3PA):
                         pa = float(RC3PA)
                     else:
                         pa = 0
@@ -415,11 +526,11 @@ def main():
                         
                     # calculate size by finding radius
                     noSize = False
-                    if isNumber(major):
+                    if not isNull(major):
                         averageSize = float(major)
-                    elif isNumber(minor) and isNumber(inclination):
+                    elif not isNull(minor) and not isNull(inclination):
                         averageSize = float(minor) / math.cos(float(inclination) * math.pi/180)
-                    elif isNumber(minor) and not isNumber(inclination) and not isNumber(major):
+                    elif not isNull(minor) and isNull(inclination) and isNull(major):
                         averageSize = float(minor)
                         inclination = 0
                     else:
@@ -427,16 +538,18 @@ def main():
                         inclination = 0
                         noSize = True
                                             
-                    if not isNumber(galaxyVcorr):
-                        galaxyVcorr = 0
-                        galaxyVel = 0
+#                     if not isNumber(galaxyVcorr):
+#                         galaxyVcorr = 0
+#                         galaxyVel = 0
 
                     localType = 'x'
                     rc3Type = RC3Type.lower()
                     r = rc3Type[:3]
                     morphology = morphology.lower()
                     m = morphology[:3]
-                    if morphology != 'x':
+                    if not isNull(morphology):
+                        print 'Not null morphology: ',morphology
+                        print
                         if bfind(m,'s'):
                             if not bfind(m,'s0'):
                                 # straight spiral type
@@ -449,14 +562,16 @@ def main():
                         elif bfind(m,'len'):
                             localType = 'e'
                         
-                        elif bfind(m,'Ir') or bfind(m,'Im') or bfind(m,'I ') or bfind(m,'IA'):
+                        elif bfind(m,'ir') or bfind(m,'im') or bfind(m,'i ') or bfind(m,'ia'):
                             localType = 's'
                         
                         else:
                             localType = 'x'
                             
                     # try RC3 types
-                    elif rc3Type !='x':
+                    elif not isNull(rc3Type):
+                        print 'Not null rc3 morphology: ',morphology
+                        print
                         if bfind(r,'s'):
                             if not bfind(r,'s0'):
                                 # straight spiral type
@@ -469,7 +584,7 @@ def main():
                         elif bfind(r,'len'):
                             localType = 'e'
                             
-                        elif bfind(r,'Ir') or bfind(r,'Im') or bfind(r,'I ') or bfind(r,'IA'):
+                        elif bfind(r,'ir') or bfind(r,'im') or bfind(r,'i ') or bfind(r,'ia'):
                             # irregular type
                             localType = 's'
                         else:
@@ -516,17 +631,17 @@ def main():
             # format the axes:
             #
             # x-axis
-            majorLocator   = MultipleLocator(100)
+            majorLocator   = MultipleLocator(xAxisMajorTicks)
             majorFormatter = FormatStrFormatter(r'$\rm %d$')
-            minorLocator   = MultipleLocator(50)
+            minorLocator   = MultipleLocator(xAxisMinorTicks)
             ax.xaxis.set_major_locator(majorLocator)
             ax.xaxis.set_major_formatter(majorFormatter)
             ax.xaxis.set_minor_locator(minorLocator)
         
             # y axis
-            majorLocator   = MultipleLocator(100)
+            majorLocator   = MultipleLocator(yAxisMajorTicks)
             majorFormatter = FormatStrFormatter(r'$\rm %d$')
-            minorLocator   = MultipleLocator(50)
+            minorLocator   = MultipleLocator(yAxisMinorTicks)
             ax.yaxis.set_major_locator(majorLocator)
             ax.yaxis.set_major_formatter(majorFormatter)
             ax.yaxis.set_minor_locator(minorLocator)            
@@ -547,8 +662,8 @@ def main():
                 new = s*10
                 newSizes.append(new)
             
-            vmaxVal = 400
-            vminVal = -400
+            vmaxVal = velocityWindow
+            vminVal = -velocityWindow
 
             # +/- 400 km/s around the center
             largestVelocity = velocityWindow
@@ -615,18 +730,36 @@ def main():
                     if includeNameTags:
                         if galaxyNames[i].find('*')!=-1:
                             # this indicates no size data is available
-                            plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],plotPositionsDec[i]),xytext=(-60,newSizes[i]/6),textcoords='offset points',size=8)
+#                             plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
+#                             plotPositionsDec[i]),xytext=(xTagOffset,newSizes[i]/yTagOffset),textcoords='offset points',size=nameTagFont)
+                            plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
+                            plotPositionsDec[i]),xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
 
                         else:
-                            plt.annotate(galaxyNames[i],xy=(plotPositionsRA[i],plotPositionsDec[i]),xytext=(-60,newSizes[i]/6),textcoords='offset points',size=8)
+#                             plt.annotate(galaxyNames[i],xy=(plotPositionsRA[i],plotPositionsDec[i]),\
+#                             xytext=(xTagOffset,newSizes[i]/yTagOffset),textcoords='offset points',size=nameTagFont)
+                            plt.annotate(galaxyNames[i],xy=(plotPositionsRA[i],plotPositionsDec[i]),\
+                            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
             
             plot1 = ax.scatter(plotPositionsRA,plotPositionsDec,s=0,c=newVelocities,vmin=vminVal,vmax=vmaxVal,marker='.',cmap=colmap)
+            
+            # if we chose to plot nearby AGN as well, plot them
+            if includeAGN:
+                for i in range(len(plotPositionAGNRA)):
+                    plot_agn = ax.scatter(plotPositionAGNRA[i],plotPositionAGNDec[i],s=AGNsize,c='green',marker='*')
+                
+                    if includeAGNnameTags:
+#                         plt.annotate(AGNnames[i],xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
+#                         xytext=(xTagOffset,AGNsize/yTagOffset),textcoords='offset points',size=nameTagFont)
+                        plt.annotate(AGNnames[i],xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
+                        xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
+
 
 #########################################################################################
 #########################################################################################
             # prepare all the stuff for writing. Deciding to write happens later
 
-            fieldnames = ('AGNname',\
+            fieldnames = ('targetName',\
             'center',\
             'galaxyName',\
             'environment',\
@@ -667,17 +800,14 @@ def main():
                     infoRow = infoDict[mapping[number]]
                     
                 inc = infoRow['inclination (deg)']
-                RC3inc = infoRow['RC3inc (deg)']
-                if isNumber(inc):
+                if not isNull(inc):
                     inc = round(float(inc),1)
-                if isNumber(RC3inc) and str(RC3inc) != '-99':
-                    RC3inc = round(float(RC3inc),1)
-                    
+
                 pa = infoRow['positionAngle (deg)']
                 RC3pa = infoRow['RC3pa (deg)']
-                if isNumber(pa):
+                if not isNull(pa):
                     pa = round(float(pa),1)
-                if isNumber(RC3pa) and str(RC3pa) != '-99':
+                if not isNull(RC3pa):
                     RC3pa = round(float(RC3pa),1)
                     
                 az = infoRow['azimuth (deg)']
@@ -688,7 +818,7 @@ def main():
                     
                 vcorr = infoRow['vcorrGalaxy (km/s)']
                 vhel = infoRow['radialVelocity (km/s)']
-                if isNumber(vcorr):
+                if not isNull(vcorr):
                     vcorr = round(float(vcorr),1)
                     vhel = round(float(vhel),1)
                     vel_dif = vhel - float(center)
@@ -697,10 +827,15 @@ def main():
                     vhel = 'x'
                     vel_dif = 'x'
                 
-                major,minor = eval(infoRow['linDiameters (kpc)'])
-                if isNumber(major):
+                try:
+                    major,minor = eval(infoRow['linDiameters (kpc)'])
+                except Exception,e:
+                    major,minor = infoRow['linDiameters (kpc)']
+                
+                
+                if not isNull(major):
                     major = round(float(major),1)
-                if isNumber(minor):
+                if not isNull(minor):
                     minor = round(float(minor),1)
     
                 agn_sn = 'x'
@@ -708,7 +843,7 @@ def main():
                 redshiftDistance = 'x'
                 impact = float(infoRow['impactParameter (kpc)'])
                 
-                if isNumber(major):
+                if not isNull(major) and float(major) >= 0:
                     rVir = calculateVirialRadius(major)
 
                     # try this "sphere of influence" value instead
@@ -736,12 +871,12 @@ def main():
                     # really a 3D impact parameter
                     
                 else:
-                    likelihood = -99
-                    likelihoodm15 = -99
-                    rVir = -99
-                    m15 = -99
+                    likelihood = nullFloat
+                    likelihoodm15 = nullFloat
+                    rVir = nullFloat
+                    m15 = nullFloat
                 
-                objectInfoList = [AGNname,\
+                objectInfoList = [targetName,\
                 center,\
                 infoRow['galaxyName'],\
                 environment,\
@@ -778,7 +913,7 @@ def main():
             sorted_virList = sorted(virList,reverse=True)
             sorted_cusList = sorted(customList,reverse=True)
             
-            print AGNname,' - ',center,': ', sorted_virList
+            print targetName,' - ',center,': ', sorted_virList
             print 'and : ', sorted_cusList
             
             # if there are enough galaxies, compare the best two : VIRIAL
@@ -808,12 +943,12 @@ def main():
                 elif first_vir >= l_min:
                     # include only if above l_min threshold
                     print 'first_vir >= l_min: ',first_vir
-                    print 'AGNname, center = ',AGNname, center
+                    print 'targetName, center = ',targetName, center
                     include_vir = True
                 else:
                     include_vir = False
                     print 'first_vir < l_min: ',first_vir
-                    print 'AGNname, center = ',AGNname, center
+                    print 'targetName, center = ',targetName, center
             
             else:
                 # if there are no galaxies, don't include
@@ -846,13 +981,13 @@ def main():
                 elif first_cus >= l_min:
                     # include only if above l_min threshold
                     print 'first_cus >= l_min: ',first_cus
-                    print 'AGNname, center = ',AGNname, center
+                    print 'targetName, center = ',targetName, center
                     include_cus = True
                 else:
                     # don't include
                     include_cus = False
                     print 'first_cus < l_min: ',first_cus
-                    print 'AGNname, center = ',AGNname, center
+                    print 'targetName, center = ',targetName, center
             
             else:
                 # if there are no galaxies, don't include
@@ -885,12 +1020,12 @@ def main():
                 ax.set_xlabel('RA')
                 ax.set_ylabel('Dec')
         
-                savefig('{0}{1}/map2_{2}_{3}_simple.pdf'.format(saveDirectory,include_folder,AGNname,center),format='pdf')
+                savefig('{0}{1}/map2_{2}_{3}_simple.pdf'.format(saveDirectory,include_folder,targetName,center),format='pdf')
 
             # save the map plot tables
             if saveMapTables:
-                writerOutFile = open('{0}{1}/map_{2}_{3}_table.csv'.format(saveDirectory,include_folder,AGNname,center),'wt')
-            
+                writerOutFile = open('{0}{1}/map_{2}_{3}_table.csv'.format(saveDirectory,include_folder,targetName,center),'wt')
+
                 writer = csv.DictWriter(writerOutFile, fieldnames=fieldnames)
                 headers = dict((n,n) for n in fieldnames)
                 writer.writerow(headers)
@@ -901,6 +1036,13 @@ def main():
                     writer.writerow(row)
     
                 writerOutFile.close()
+            
+            else:
+                for s in sorted_virList:
+                    likelihood, rest = s
+                    row = dict((f,o) for f,o in zip(fieldnames,rest))
+                    print
+                    print 'L = {0} : {1}, D = {2}, dv = {3}'.format(likelihood,row['galaxyName'],row['majorAxis (kpc)'],row['vel_diff'])
             
 ##########################################################################################
 ##########################################################################################
@@ -919,18 +1061,18 @@ def main():
             cbar.set_label(r'$\rm \Delta v ~[km ~s^{-1}]$')
         
             ax.grid(b=None,which='major',axis='both')
-            ax.set_ylim(-500,500)
-            ax.set_xlim(-500,500)
+            ax.set_ylim(-maxSep,maxSep)
+            ax.set_xlim(-maxSep,maxSep)
             
             ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
-                title("{0} sightline map velocity = {1} +-/ {2} km/s".format(AGNname,center,velocityWindow))
-
+                title("{0} sightline map velocity = {1} +-/ {2} km/s".format(targetName,center,velocityWindow))
+                
 
             # now write it all to file, or display the finished figure
             if saveMaps:
-                savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,AGNname,center),\
+                savefig('{0}{1}/map_{2}_{3}.pdf'.format(saveDirectory,include_folder,targetName,center),\
                 bbox_inches='tight',format='pdf')
             else:
                 show()
@@ -952,7 +1094,7 @@ def main():
         '''
             list contains entries like [likelihood, [all]], where all is:
             
-                ('AGNname',\
+                ('targetName',\
                 'center',\
                 'galaxyName',\
                 'environment',\
@@ -990,7 +1132,7 @@ def main():
         
         
         # fieldnames for the new outputFile
-        fieldnames = ('AGNname',\
+        fieldnames = ('targetName',\
         'center',\
         'galaxyName',\
         'environment',\
@@ -1041,8 +1183,8 @@ def main():
         count = -1
 #         lenList = len(listVir)
         for l in reader:
-            AGNname = l['AGNname']
-            lyaV = l['Lya_v']
+            targetName = l['targetHeader']
+            lyaV = l['velocityHeader']
 
         
             if isNumber(lyaV):
@@ -1059,10 +1201,10 @@ def main():
                 # test to make sure this is the correct one. If there were no galaxies,
                 # the count will get off
                 v1 = systemsV[0][1]
-                v1_agnName = v1[0]
+                v1_targetName = v1[0]
                 v1_center = v1[1]
                 
-                if v1_agnName == AGNname and v1_center == lyaV:
+                if v1_targetName == targetName and v1_center == lyaV:
                     match = True
                 else:
                     match = False
@@ -1279,7 +1421,7 @@ def main():
 
                     comment1 = str(l['comment']) + " : NO GALAXIES"
                     
-                    finalEntry = [[l['AGNname'],\
+                    finalEntry = [[l[targetHeader],\
                     lyaV,\
                     'x',\
                     0,\
