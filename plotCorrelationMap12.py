@@ -134,7 +134,7 @@ import string
 import math
 import ast
 from pylab import *
-import correlateSingle10 as correlateSingle
+import correlateSingle11 as correlateSingle
 from matplotlib.patches import Ellipse
 from utilities import *
 import getpass
@@ -250,10 +250,10 @@ def main():
     masterCustomList = []
     
     # max impact parameter to use
-    maxSep = 1000
+    maxSep = 500
     
     # +/- galaxy velocity to search within around absorption velocity
-    velocityWindow = 500
+    velocityWindow = 400
     
     # minimum galaxy velocity to include (False to ignore)
     minVcorr = 500
@@ -288,7 +288,8 @@ def main():
     # Save the individual map plot tables?
     saveMapTables = True
     
-    # Save the full results with "include" tags?
+    # Save the full results with "include" tags? This is the whole big correlation table
+    # which looks like LG_correlation_combined5_11_25cut_edit4.csv
     saveResults = False
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
@@ -326,6 +327,10 @@ def main():
     # size of stars for AGN
     AGNsize = 50
 
+    # color map: 
+    colmap = cm.RdBu
+#     colmap = cm.inferno
+
     
     # Location and name of targetfile, and where to save figures and tables. Set this 
     # even if you'll manually enter targets below
@@ -342,8 +347,8 @@ def main():
 
     elif user == "frenchd":
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
+        outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
 
     else:
         print "Unknown user: ",user
@@ -361,18 +366,32 @@ def main():
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-    targets = [('3C273.0',1580,True)]
+#     targets = [('3C273.0',1580,True)]
 
+    targets = [('CGCG039-137',7186,True),\
+    ('ESO343-G014',9162,True),\
+    ('IC5325',1503,True),\
+    ('MCG-03-58-009',9030,True),\
+    ('NGC1566',1504,True),\
+    ('NGC3513',1194,True),\
+    ('NGC3633',2600,True),\
+    ('NGC3640',1298,True),\
+    ('NGC4536',1808,True),\
+    ('NGC4939',3110,True),\
+    ('NGC5364',1241,True),\
+    ('NGC5786',2998,True),\
+    ('UGC09760',2023,True)]
+    
+#     targets = [('NGC3633',2600,True)]
+    
     
     c = 0
     for i in targets:
         # find AGN environment using the imported version of correlateSingle
         targetName,center,include = i
-        correlation = correlateSingle.correlateTarget(targetName, maxSep, agnSeparation, minVcorr, minSize, slow=False)
+        correlation = correlateSingle.correlateTarget(targetName, maxSep, agnSeparation, minVcorr, minSize, slow=False,searchAll=True)
         galaxyInfo = correlation[targetName]
-        
-#         print 'galaxyInfo: ',galaxyInfo
-        
+                
         if includeAGN:
             correlationAGN = correlateSingle.correlateGalaxy(targetName, maxSep, agnSeparation, minVcorr, minSize)
             
@@ -620,8 +639,6 @@ def main():
         if len(galaxyNames) >=1:                        
             ##################################
             print 'starting first plot...'
-            # color map: 
-            colmap = cm.RdBu
             
             x = arange(len(galaxyNames))+1
             fig = figure(figsize=(9,7))
@@ -749,9 +766,10 @@ def main():
                     plot_agn = ax.scatter(plotPositionAGNRA[i],plotPositionAGNDec[i],s=AGNsize,c='green',marker='*')
                 
                     if includeAGNnameTags:
+                        newAGNname = AGNnames[i].replace('_','\_')
 #                         plt.annotate(AGNnames[i],xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
 #                         xytext=(xTagOffset,AGNsize/yTagOffset),textcoords='offset points',size=nameTagFont)
-                        plt.annotate(AGNnames[i],xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
+                        plt.annotate(newAGNname,xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
                         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
 
 
@@ -1183,8 +1201,8 @@ def main():
         count = -1
 #         lenList = len(listVir)
         for l in reader:
-            targetName = l['targetHeader']
-            lyaV = l['velocityHeader']
+            targetName = l[targetHeader]
+            lyaV = l[velocityHeader]
 
         
             if isNumber(lyaV):
