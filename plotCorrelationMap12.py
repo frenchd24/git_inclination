@@ -250,10 +250,10 @@ def main():
     masterCustomList = []
     
     # max impact parameter to use
-    maxSep = 500
+    maxSep = 1000
     
     # +/- galaxy velocity to search within around absorption velocity
-    velocityWindow = 400
+    velocityWindow = 800
     
     # minimum galaxy velocity to include (False to ignore)
     minVcorr = 500
@@ -312,6 +312,7 @@ def main():
     xAxisMinorTicks = 100
     yAxisMajorTicks = 200
     yAxisMinorTicks = 100
+    velocityStepSize = 100
     
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
@@ -347,8 +348,10 @@ def main():
 
     elif user == "frenchd":
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
-        outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
+#         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
+#         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
 
     else:
         print "Unknown user: ",user
@@ -368,19 +371,23 @@ def main():
 
 #     targets = [('3C273.0',1580,True)]
 
-    targets = [('CGCG039-137',7186,True),\
-    ('ESO343-G014',9162,True),\
-    ('IC5325',1503,True),\
-    ('MCG-03-58-009',9030,True),\
-    ('NGC1566',1504,True),\
-    ('NGC3513',1194,True),\
-    ('NGC3633',2600,True),\
-    ('NGC3640',1298,True),\
-    ('NGC4536',1808,True),\
-    ('NGC4939',3110,True),\
-    ('NGC5364',1241,True),\
-    ('NGC5786',2998,True),\
-    ('UGC09760',2023,True)]
+#     targets = [('CGCG039-137',7186,True),\
+#     ('ESO343-G014',9162,True),\
+#     ('IC5325',1503,True),\
+#     ('MCG-03-58-009',9030,True),\
+#     ('NGC1566',1504,True),\
+#     ('NGC3513',1194,True),\
+#     ('NGC3633',2600,True),\
+#     ('NGC3640',1298,True),\
+#     ('NGC4536',1808,True),\
+#     ('NGC4939',3110,True),\
+#     ('NGC5364',1241,True),\
+#     ('NGC5786',2998,True),\
+#     ('UGC09760',2023,True)]
+    
+    
+    targets = [('HE1228+0131',1720,True)]
+    
     
 #     targets = [('NGC3633',2600,True)]
     
@@ -702,7 +709,7 @@ def main():
 #             ticks = arange(int(round(smallestVelocity,-2)),int(round(largestVelocity,-2))+int(step),int(step))
 
             rounding = -1
-            step = 50
+            step = velocityStepSize
             ticks = arange(-velocityWindow,velocityWindow+step,int(step))
             print 'ticks: ',ticks
             
@@ -1085,7 +1092,7 @@ def main():
             ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
-                title("{0} sightline map velocity = {1} +-/ {2} km/s".format(targetName,center,velocityWindow))
+                title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
                 
 
             # now write it all to file, or display the finished figure
