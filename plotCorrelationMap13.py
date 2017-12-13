@@ -416,9 +416,9 @@ def main():
             else:
                 AGNinfo = []
         
-        print '{0} = {1}'.format(targetName,len(galaxyInfo))
-        print
-        
+#         print '{0} = {1}'.format(targetName,len(galaxyInfo))
+#         print
+
 #         galaxyInfo.sort()
 
         # instantiate some lists for later
@@ -446,9 +446,7 @@ def main():
         if includeAGN:
             for r in AGNinfo:
                 vhel, AGNrow = r
-                
-                print 'AGNrow',AGNrow
-            
+                            
                 AGNRA = AGNrow['AGNRA']
                 AGNRAs.append(AGNRA)
                 AGNDec = AGNrow['AGNDec']
@@ -492,6 +490,10 @@ def main():
                 
                 plotPositionAGNRA.append(dRA_agn)
                 plotPositionAGNDec.append(dDec_agn)
+                
+                print 'dRA_agn: ',dRA_agn
+                print 'dDec_agn: ',dDec_agn
+                print
 
                 
         # loop through the returned galaxy environment data, making calculations and
@@ -542,11 +544,6 @@ def main():
                     # calculate angular separations in ra and dec to determine positions on chart w.r.t. target AGN
                     gRA,gDec = float(galaxyPosition[0]),float(galaxyPosition[1])
                     agnRA,agnDec = float(AGNposition[0]),float(AGNposition[1])
-                    
-                    print
-                    print 'gRA, gDec = ',gRA,gDec
-                    print 'agnRA, agnDec = ',agnRA,agnDec
-                    print
 
                     
                     # calculate separation in RA only
@@ -557,12 +554,6 @@ def main():
                     # calculate separation in Dec only
 #                     dDec = correlateSingle.calculateImpactParameter_slow(agnRA,gDec,agnRA,agnDec,galaxyDist)
                     dDec = calculateImpactParameter(agnRA,gDec,agnRA,agnDec,galaxyDist)
-                    print
-                    print 'galaxyName = ',galaxyName
-                    print 'RA = ',gRA
-                    print 'Dec = ',gDec
-                    print 'dDec = ',dDec
-                    print
                     
                     # add signs back into physical impact parameters
 #                     if gRA < agnRA:
@@ -610,8 +601,6 @@ def main():
                     morphology = morphology.lower()
                     m = morphology[:3]
                     if not isNull(morphology):
-                        print 'Not null morphology: ',morphology
-                        print
                         if bfind(m,'s'):
                             if not bfind(m,'s0'):
                                 # straight spiral type
@@ -747,7 +736,6 @@ def main():
             rounding = -1
             step = velocityStepSize
             ticks = arange(-velocityWindow,velocityWindow+step,int(step))
-            print 'ticks: ',ticks
             
             norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
             m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
