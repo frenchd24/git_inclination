@@ -321,7 +321,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = True
+    sortIntoFolders = False
     
     # include AGN background targets as well?
     includeAGN = True
@@ -358,8 +358,10 @@ def main():
         targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
-        saveDirectory = '/Users/frenchd/Research/fullListMaps/'
-        outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
+#         saveDirectory = '/Users/frenchd/Research/fullListMaps/'
+#         outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
 
     else:
         print "Unknown user: ",user
@@ -377,21 +379,21 @@ def main():
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-#     targets = [('3C273.0',1580,True)]
+#     targets = [('NGC5786',2998,True)]
 
-#     targets = [('CGCG039-137',6902,True),\
-#     ('ESO343-G014',9162,True),\
-#     ('IC5325',1503,True),\
-#     ('MCG-03-58-009',9030,True),\
-#     ('NGC1566',1504,True),\
-#     ('NGC3513',1194,True),\
-#     ('NGC3633',2600,True),\
-#     ('NGC3640',1298,True),\
-#     ('NGC4536',1808,True),\
-#     ('NGC4939',3110,True),\
-#     ('NGC5364',1241,True),\
-#     ('NGC5786',2998,True),\
-#     ('UGC09760',2023,True)]
+    targets = [('CGCG039-137',6902,True),\
+    ('ESO343-G014',9162,True),\
+    ('IC5325',1503,True),\
+    ('MCG-03-58-009',9030,True),\
+    ('NGC1566',1504,True),\
+    ('NGC3513',1194,True),\
+    ('NGC3633',2600,True),\
+    ('NGC3640',1298,True),\
+    ('NGC4536',1808,True),\
+    ('NGC4939',3110,True),\
+    ('NGC5364',1241,True),\
+    ('NGC5786',2998,True),\
+    ('UGC09760',2023,True)]
     
     
 #     targets = [('MRK279',9294,True),\
@@ -418,15 +420,15 @@ def main():
 #     ('RX_J1303.7+2633',8955,True),\
 #     ('RX_J1303.7+2633',7853,True)]
 
-    targets = [('RX_J2139.7+0246',9219,True),\
-    ('RX_J2139.7+0246',4181,True),\
-    ('RX_J2139.7+0246',4083,True),\
-    ('CSO1124',1653,True),\
-    ('HE0241-3043',1219,True),\
-    ('HE0241-3043',1310,True),\
-    ('CSO327',1812,True),\
-    ('RX_J1303.7+2633',8955,True),\
-    ('RX_J1303.7+2633',7853,True)]
+#     targets = [('RX_J2139.7+0246',9219,True),\
+#     ('RX_J2139.7+0246',4181,True),\
+#     ('RX_J2139.7+0246',4083,True),\
+#     ('CSO1124',1653,True),\
+#     ('HE0241-3043',1219,True),\
+#     ('HE0241-3043',1310,True),\
+#     ('CSO327',1812,True),\
+#     ('RX_J1303.7+2633',8955,True),\
+#     ('RX_J1303.7+2633',7853,True)]
 
 
     
@@ -627,9 +629,12 @@ def main():
 
                     localType = 'x'
                     rc3Type = RC3Type.lower()
-                    r = rc3Type[:3]
+                    r = rc3Type[:10]
                     morphology = morphology.lower()
-                    m = morphology[:3]
+                    m = morphology[:10]
+                    print 'm vs morphology: ',m, ' vs ',morphology
+
+
                     if not isNull(morphology):
                         if bfind(m,'s'):
                             if not bfind(m,'s0'):
@@ -648,7 +653,7 @@ def main():
                         
                         else:
                             localType = 'x'
-                            
+                    
                     # try RC3 types
                     elif not isNull(rc3Type):
                         print 'Not null rc3 morphology: ',morphology
@@ -685,6 +690,8 @@ def main():
                     else:
                         galaxyNames.append(galaxyName)
                     
+                    print 'galaxyName - morph - localType: ',galaxyName, ' - ',morphology,' - ',localType
+                    print
                         
                     plotPositionsRA.append(dRA)
                     plotPositionsDec.append(dDec)
@@ -785,6 +792,9 @@ def main():
                             e = Ellipse(xy=(plotPositionsRA[i],plotPositionsDec[i]),\
                             width=newSizes[i] * math.cos(float(inc[i]) * math.pi/180)/2,\
                             height=float(newSizes[i])/2, angle=float(-PA[i]))
+                            print 'PA = ',PA
+                            print 'angle=float(-PA[i]) : ',float(-PA[i])
+                            print
                         
                         else:
                             e = Ellipse(xy=(plotPositionsRA[i],plotPositionsDec[i]),\
@@ -812,12 +822,12 @@ def main():
                         if RAeastLeft:
                             ax.scatter(plotPositionsRA[i],plotPositionsDec[i],\
                             s=newSizes[i]*4,c=newVelocities[i],vmin=vminVal,vmax=vmaxVal,\
-                            marker=(2,1,float(-PA[i])),lw=1,cmap=colmap)
+                            marker=(2,1,float(PA[i])),lw=1,cmap=colmap)
                             
                         else:
                             ax.scatter(plotPositionsRA[i],plotPositionsDec[i],\
                             s=newSizes[i]*4,c=newVelocities[i],vmin=vminVal,vmax=vmaxVal\
-                            ,marker=(2,1,float(PA[i])),lw=1,cmap=colmap)
+                            ,marker=(2,1,float(-PA[i])),lw=1,cmap=colmap)
 
                         
                     # annotate with galaxy names if includeNameTags == True
