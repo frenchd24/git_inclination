@@ -294,13 +294,13 @@ def main():
     
     # Save the full results with "include" tags? This is the whole big correlation table
     # which looks like LG_correlation_combined5_11_25cut_edit4.csv
-    saveResults = False
+    saveResults = True
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
     
     # hard limit for likelihood
-    l_min = 0.000001
+    l_min = 0.01
     
     # bypass l_min for lone galaxies? (i.e. include lone galaxies no matter what likelihood is)
     loner = False
@@ -321,7 +321,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = False
+    sortIntoFolders = True
     
     # include AGN background targets as well?
     includeAGN = True
@@ -355,11 +355,11 @@ def main():
         pass
 
     elif user == "frenchd":
-        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+        targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+        saveDirectory = '/Users/frenchd/Research/fullListMaps/'
+        outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
 
     else:
         print "Unknown user: ",user
@@ -379,26 +379,56 @@ def main():
 
 #     targets = [('3C273.0',1580,True)]
 
-    targets = [('CGCG039-137',6902,True),\
-    ('ESO343-G014',9162,True),\
-    ('IC5325',1503,True),\
-    ('MCG-03-58-009',9030,True),\
-    ('NGC1566',1504,True),\
-    ('NGC3513',1194,True),\
-    ('NGC3633',2600,True),\
-    ('NGC3640',1298,True),\
-    ('NGC4536',1808,True),\
-    ('NGC4939',3110,True),\
-    ('NGC5364',1241,True),\
-    ('NGC5786',2998,True),\
-    ('UGC09760',2023,True)]
+#     targets = [('CGCG039-137',6902,True),\
+#     ('ESO343-G014',9162,True),\
+#     ('IC5325',1503,True),\
+#     ('MCG-03-58-009',9030,True),\
+#     ('NGC1566',1504,True),\
+#     ('NGC3513',1194,True),\
+#     ('NGC3633',2600,True),\
+#     ('NGC3640',1298,True),\
+#     ('NGC4536',1808,True),\
+#     ('NGC4939',3110,True),\
+#     ('NGC5364',1241,True),\
+#     ('NGC5786',2998,True),\
+#     ('UGC09760',2023,True)]
     
     
-#     targets = [('HE1228+0131',1720,True)]
-#     targets = [('MCG-03-58-009',9030,True)]
-#     targets = [('IC5325',1503,True)]
+#     targets = [('MRK279',9294,True),\
+#     ('PG0838+770',721,True),\
+#     ('PG0838+770',2911,True),\
+#     ('SDSSJ104335.90+115129.0',717,True),\
+#     ('SDSSJ104335.90+115129.0',882,True),\
+#     ('SDSSJ104335.90+115129.0',1030,True),\
+#     ('MRK504',9706,True),\
+#     ('2dFGRS_S393Z082',1241,True),\
+#     ('US2816',2848,True),\
+#     ('2E1530+1511',1953,True),\
+#     ('2E1530+1511',1795,True),\
+#     ('FBQSJ1134+2555',9552,True),\
+#     ('FBQSJ1134+2555',6343,True),\
+#     ('FBQSJ1134+2555',3070,True),\
+#     ('RX_J2139.7+0246',9219,True),\
+#     ('RX_J2139.7+0246',4181,True),\
+#     ('RX_J2139.7+0246',4083,True),\
+#     ('CSO1124',1653,True),\
+#     ('HE0241-3043',1219,True),\
+#     ('HE0241-3043',1310,True),\
+#     ('CSO327',1812,True),\
+#     ('RX_J1303.7+2633',8955,True),\
+#     ('RX_J1303.7+2633',7853,True)]
 
-#     targets = [('NGC3633',2600,True)]
+    targets = [('RX_J2139.7+0246',9219,True),\
+    ('RX_J2139.7+0246',4181,True),\
+    ('RX_J2139.7+0246',4083,True),\
+    ('CSO1124',1653,True),\
+    ('HE0241-3043',1219,True),\
+    ('HE0241-3043',1310,True),\
+    ('CSO327',1812,True),\
+    ('RX_J1303.7+2633',8955,True),\
+    ('RX_J1303.7+2633',7853,True)]
+
+
     
     
     c = 0
@@ -796,8 +826,12 @@ def main():
                             # this indicates no size data is available
 #                             plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
 #                             plotPositionsDec[i]),xytext=(xTagOffset,newSizes[i]/yTagOffset),textcoords='offset points',size=nameTagFont)
-                            plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
+                            newgalaxyNames = galaxyNames[i].replace('_','\_')
+                            plt.annotate('*'+str(newgalaxyNames),xy=(plotPositionsRA[i],\
                             plotPositionsDec[i]),xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
+
+#                             plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
+#                             plotPositionsDec[i]),xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
 
                         else:
 #                             plt.annotate(galaxyNames[i],xy=(plotPositionsRA[i],plotPositionsDec[i]),\
@@ -1138,8 +1172,9 @@ def main():
             ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
-                title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
-                
+                newTargetName = targetName.replace('_','\_')
+#                 title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
+                title(r'$\rm {0} ~ centered ~ velocity = {1} +/- {2}~ km/s $'.format(targetName,center,velocityWindow))
 
             # now write it all to file, or display the finished figure
             if saveMaps:

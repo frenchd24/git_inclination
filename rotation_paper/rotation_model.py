@@ -35,6 +35,28 @@ from scipy.optimize import curve_fit
 import matplotlib.ticker as ticker
 import json
 
+from matplotlib import rc
+fontScale = 14
+rc('text', usetex=True)
+rc('font', size=fontScale,family='serif',weight='medium')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1,labelweight='normal')
+rc('axes',titlesize='small')
+
+
+
+
+
 '''
 ========================================================
 '''
@@ -281,7 +303,7 @@ def main():
 #     vsys = 9030.
     az = 71.
     inc = 72.
-    inc = 29.
+#     inc = 29.
 #     inc = inclination
     PA = 157.
     
@@ -371,7 +393,7 @@ def main():
 #     rayPoint = np.array([0, -95.169, -26.816])
     rayPoint = np.array([0, 95.169, -26.816])
     
-    
+
 
     
 ##########################################################################################
@@ -382,7 +404,7 @@ def main():
     intersect_list = []
     d_plot_list = []
     intersect_point_list = []
-    for i in arange(-zcutoff,zcutoff,.2):
+    for i in arange(-zcutoff,zcutoff-150,.2):
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
         print 'planePoint: ',planePoint
@@ -462,7 +484,7 @@ def main():
     ip_xlist,ip_ylist,ip_zlist = np.array(intersect_point_list).transpose()
     
     # initial figure
-    fig = plt.figure()
+    fig = plt.figure(figsize=(12,8))
 
     # first plot the v_proj data
     ax = fig.add_subplot(1,2,1)
@@ -471,12 +493,14 @@ def main():
         intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
         
         ax.scatter(intersect_v_list,v_proj_list, color='black',s=10)
-        ylabel(r'$\rm v_proj (km/s) $')
-        xlabel(r'$\rm intersect (km/s) $')
+#         ylabel(r'$\rm v_{proj}~(km/s)$')
+        ylabel(r'$\rm v_{proj} ~[km/s]$')
+        xlabel(r'$\rm intersect ~[km/s]$')
+        
     else:
         ax.scatter(intersect_list,v_proj_list, color='black',s=10)
-        ylabel(r'$\rm v_proj $')
-        xlabel(r'$\rm intersect $')
+        ylabel(r'$\rm v_{proj} ~(km/s)$')
+        xlabel(r'$\rm intersect ~(kpc)$')
     
     tick_spacing = round((max(v_proj_list) - min(v_proj_list))/6,1)
     if tick_spacing <=0.:
@@ -510,8 +534,9 @@ def main():
         if count % skipNum == 0:
             ax.plot_surface(xx, yy, z)
 
-        xlabel('x')
-        ylabel('y')
+    ax.set_xlabel(r'$\rm z$')
+    ax.set_ylabel(r'$\rm R.A.$')
+    ax.set_zlabel(r'$ Dec.$')
     
     # plot the sightline
     print 'rayPoint: ',rayPoint
@@ -529,8 +554,8 @@ def main():
     
     
     # rotate the plot
-#     ax.view_init(5, 10)
-    ax.view_init(1, 1)
+    ax.view_init(6, 23)
+#     ax.view_init(1, 1)
 
     plt.draw()
 
@@ -539,7 +564,9 @@ def main():
 #     ax.yaxis.set_label_position("right")
     tight_layout()
     
-    plt.show()
+    directory = '/Users/frenchd/Research/test/'
+    savefig('{0}/{1}_rotation_model.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
+#     plt.show()
     
     
 ##########################################################################################
