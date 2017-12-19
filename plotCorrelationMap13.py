@@ -129,6 +129,9 @@ v12: this comes from plotCorrelationMap_single.py -> specifically made to plot s
 v13: version12 incorrectly plots the orientation of galaxies. They need to be reflected
     over the RA axis, and the axis does also. This will match east to the left standard
     for astronomical images. (12/06/17)
+    
+v13.1: diamonds were plotted backwards (-PA), fixed this. (12/18/17)
+
 """
 
 import sys
@@ -266,7 +269,7 @@ def main():
     minSize = False
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
-    agnSeparation = False
+    agnSeparation = 4000.
     
     # include name tags on galaxies? They don't scale very well...
     includeNameTags = True
@@ -321,7 +324,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = False
+    sortIntoFolders = True
     
     # include AGN background targets as well?
     includeAGN = True
@@ -355,24 +358,26 @@ def main():
         pass
 
     elif user == "frenchd":
-        targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
+#         targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
 #         saveDirectory = '/Users/frenchd/Research/fullListMaps/'
 #         outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+
+        targetFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all.csv'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/'
+        outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all_results.csv'
 
     else:
         print "Unknown user: ",user
         sys.exit()
     
     # what are the column names in this file for the AGN name and absorption velocity?
-    targetHeader = 'AGNname'
+    targetHeader = 'Name'
     velocityHeader = 'Lya_v'
 
     # targets from a file, use this:
-#     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
+    targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
     
     # or build up a custom list of AGN names and absorption velocities here:
@@ -381,19 +386,19 @@ def main():
 
 #     targets = [('NGC5786',2998,True)]
 
-    targets = [('CGCG039-137',6902,True),\
-    ('ESO343-G014',9162,True),\
-    ('IC5325',1503,True),\
-    ('MCG-03-58-009',9030,True),\
-    ('NGC1566',1504,True),\
-    ('NGC3513',1194,True),\
-    ('NGC3633',2600,True),\
-    ('NGC3640',1298,True),\
-    ('NGC4536',1808,True),\
-    ('NGC4939',3110,True),\
-    ('NGC5364',1241,True),\
-    ('NGC5786',2998,True),\
-    ('UGC09760',2023,True)]
+#     targets = [('CGCG039-137',6902,True),\
+#     ('ESO343-G014',9162,True),\
+#     ('IC5325',1503,True),\
+#     ('MCG-03-58-009',9030,True),\
+#     ('NGC1566',1504,True),\
+#     ('NGC3513',1194,True),\
+#     ('NGC3633',2600,True),\
+#     ('NGC3640',1298,True),\
+#     ('NGC4536',1808,True),\
+#     ('NGC4939',3110,True),\
+#     ('NGC5364',1241,True),\
+#     ('NGC5786',2998,True),\
+#     ('UGC09760',2023,True)]
     
     
 #     targets = [('MRK279',9294,True),\
