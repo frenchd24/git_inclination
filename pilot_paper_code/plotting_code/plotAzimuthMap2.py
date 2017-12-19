@@ -80,9 +80,11 @@ def main():
         WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
 
     elif getpass.getuser() == 'frenchd':
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots6/'
-        WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
+#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots6/'
+#         WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
+        resultsFilename = '/Users/frenchd/inclination/git_inclination/rotation_paper/salt_sightlines_all_results.csv'
+        saveDirectory = '/Users/frenchd/inclination/git_inclination/rotation_paper/figures/'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -184,6 +186,8 @@ def main():
             e_W = l['e_W']
             na = eval(l['Na']
             e_na = eval(l['e_Na']
+            
+            
             likelihood = l['likelihood']
             likelihoodm15 = l['likelihood_1.5']
             virialRadius = l['virialRadius']

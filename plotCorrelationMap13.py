@@ -223,11 +223,11 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
     targetList = []
     for l in reader:
         AGNname = l[AGNheader]
-        include = l['include']
-        if include == 'yes':
-            include = True
-        else:
-            include = False
+#         include = l['include']
+#         if include == 'yes':
+#             include = True
+#         else:
+#             include = False
         
         # velocityHeader is the name of the columns containing the center velocity, or 
         # it can also be just a number designating the center velocity
@@ -237,6 +237,7 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
             vel = l[velocityHeader]
             
         if isNumber(vel):
+            include = True
             pair = (AGNname,int(vel),include)
             targetList.append(pair)
     
@@ -373,7 +374,7 @@ def main():
         sys.exit()
     
     # what are the column names in this file for the AGN name and absorption velocity?
-    targetHeader = 'Name'
+    targetHeader = 'Target'
     velocityHeader = 'Lya_v'
 
     # targets from a file, use this:
@@ -1306,7 +1307,16 @@ def main():
         for l in reader:
             targetName = l[targetHeader]
             lyaV = l[velocityHeader]
-
+            AGNredshift = l['z_target']
+            spectrumStatus = 'x'
+            v_limits = l['v_limits']
+            Lya_v = l['Lya_v']
+            Lya_W = l['Lya_W']
+            Na = l['Na']
+            b = l['b']
+            identified = l['identified']
+            comment = l['comment']
+            degreesJ2000RA_DecAGN = (l['RAdeg_target'],l['DEdeg_target'])
         
             if isNumber(lyaV):
                 # this should then correspond to an element in 'list'
@@ -1403,27 +1413,28 @@ def main():
                             # in this case vir_1_all and cus_1_all are the same, so just 
                             # pick one to include
                             entry = vir_1_all
-                            entry.append(l['AGNredshift'])
-                            entry.append(l['spectrumStatus'])
+                            entry.append(AGNredshift)
+                            entry.append(spectrumStatus)
                             entry.append('?')
                             entry.append(virInclude)
                             entry.append(cusInclude)
-                            entry.append(l['Lya_v'])
-                            entry.append(l['vlimits'])
-                            entry.append(l['Lya_W'])
-                            entry.append(l['Na'])
-                            entry.append(l['b'])
-                            entry.append(l['identified'])
-                            entry.append(l['comment'])
+                            entry.append(Lya_v)
+                            entry.append(v_limits)
+                            entry.append(Lya_W)
+                            entry.append(Na)
+                            entry.append(b)
+                            entry.append(identified)
+                            entry.append(comment)
                             finalEntry = [entry]
+                                                    
                         
                         # if they don't find the same galaxy...
                         else:
                             # enter two lines, first for the virial result, then for 
                             # the custom one later
                             entry = vir_1_all
-                            entry.append(l['AGNredshift'])
-                            entry.append(l['spectrumStatus'])
+                            entry.append(AGNredshift)
+                            entry.append(spectrumStatus)
                             entry.append('?')
                             
                             # force True for virInclude
@@ -1431,22 +1442,22 @@ def main():
                             # force False for cusInclude
                             entry.append(False)
                             
-                            entry.append(l['Lya_v'])
-                            entry.append(l['vlimits'])
-                            entry.append(l['Lya_W'])
-                            entry.append(l['Na'])
-                            entry.append(l['b'])
-                            entry.append(l['identified'])
+                            entry.append(Lya_v)
+                            entry.append(v_limits)
+                            entry.append(Lya_W)
+                            entry.append(Na)
+                            entry.append(b)
+                            entry.append(identified)
                             
                             # update the comment to include this note
-                            comment1 = str(l['comment']) + ' : VIRIAL VS CUSTOM RESULT MISMATCH'
+                            comment1 = str(comment) + ' : VIRIAL VS CUSTOM RESULT MISMATCH'
                             entry.append(comment1)
                             
                             
                             # now enter a second line for the custom result
                             entry2 = cus_1_all
-                            entry2.append(l['AGNredshift'])
-                            entry2.append(l['spectrumStatus'])
+                            entry.append(AGNredshift)
+                            entry.append(spectrumStatus)
                             entry2.append('?')
                             
                             # now force False for virInclude
@@ -1454,12 +1465,12 @@ def main():
                             # and True for cusInclude
                             entry2.append(True)
                             
-                            entry2.append(l['Lya_v'])
-                            entry2.append(l['vlimits'])
-                            entry2.append(l['Lya_W'])
-                            entry2.append(l['Na'])
-                            entry2.append(l['b'])
-                            entry2.append(l['identified'])
+                            entry.append(Lya_v)
+                            entry.append(v_limits)
+                            entry.append(Lya_W)
+                            entry.append(Na)
+                            entry.append(b)
+                            entry.append(identified)
                             
                             # include the same updated comment as above
                             entry2.append(comment1)
@@ -1476,20 +1487,20 @@ def main():
                         else:
                             entry = cus_1_all
                             
-                        entry.append(l['AGNredshift'])
-                        entry.append(l['spectrumStatus'])
+                        entry.append(AGNredshift)
+                        entry.append(spectrumStatus)
                         entry.append('?')
                         entry.append(virInclude)
                         entry.append(cusInclude)
-                        entry.append(l['Lya_v'])
-                        entry.append(l['vlimits'])
-                        entry.append(l['Lya_W'])
-                        entry.append(l['Na'])
-                        entry.append(l['b'])
-                        entry.append(l['identified'])
+                        entry.append(Lya_v)
+                        entry.append(v_limits)
+                        entry.append(Lya_W)
+                        entry.append(Na)
+                        entry.append(b)
+                        entry.append(identified)
                         
                         # update the comment to say the includes do not match
-                        comment1 = str(l['comment']) + " : VIRIAL AND CUSTOM INCLUDE MISMATCH"
+                        comment1 = str(comment) + " : VIRIAL AND CUSTOM INCLUDE MISMATCH"
                         entry.append(comment1)
                         
                         finalEntry = [entry]              
@@ -1515,20 +1526,20 @@ def main():
                         cusInclude = False
                     
                     entry = vir_1[1]
-                    entry.append(l['AGNredshift'])
-                    entry.append(l['spectrumStatus'])
+                    entry.append(AGNredshift)
+                    entry.append(spectrumStatus)
                     entry.append('?')
                     entry.append(virInclude)
                     entry.append(cusInclude)
-                    entry.append(l['Lya_v'])
-                    entry.append(l['vlimits'])
-                    entry.append(l['Lya_W'])
-                    entry.append(l['Na'])
-                    entry.append(l['b'])
-                    entry.append(l['identified'])
+                    entry.append(Lya_v)
+                    entry.append(v_limits)
+                    entry.append(Lya_W)
+                    entry.append(Na)
+                    entry.append(b)
+                    entry.append(identified)
                 
                     # include the same updated comment as above
-                    comment1 = str(l['comment']) + " : ONLY 1 GALAXY"
+                    comment1 = str(comment) + " : ONLY 1 GALAXY"
                     entry.append(comment1)
                 
                     finalEntry = [entry]
@@ -1540,13 +1551,13 @@ def main():
                     
                     # also finalInclude is forced to FALSE - see below
 
-                    comment1 = str(l['comment']) + " : NO GALAXIES"
+                    comment1 = str(comment) + " : NO GALAXIES"
                     
                     finalEntry = [[l[targetHeader],\
                     lyaV,\
                     'x',\
                     0,\
-                    l['degreesJ2000RA_DecAGN'],\
+                    degreesJ2000RA_DecAGN,\
                     ('x','x'),\
                     -99,\
                     -99,\
@@ -1558,7 +1569,6 @@ def main():
                     'x',\
                     'x',\
                     'x',\
-                    l['AGN S/N'],\
                     'x',\
                     'x',\
                     'x',\
@@ -1571,17 +1581,18 @@ def main():
                     'x',\
                     'x',\
                     'x',\
-                    l['AGNredshift'],\
-                    l['spectrumStatus'],\
+                    'x',\
+                    AGNredshift,\
+                    spectrumStatus,\
                     False,\
                     virInclude,\
                     virInclude,\
-                    l['Lya_v'],\
-                    l['vlimits'],\
-                    l['Lya_W'],\
-                    l['Na'],\
-                    l['b'],\
-                    l['identified'],\
+                    Lya_v,\
+                    v_limits,\
+                    Lya_W,\
+                    Na,\
+                    b,\
+                    identified,\
                     comment1]]
                     
                                         
