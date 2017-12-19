@@ -1,0 +1,4 @@
+Name,Target,identified,v_limits,e_v_center,Lya_v,Lya_W,e_Lya_W,Na,e_Na,b,e_b,W,e_W,comment,z,z_target,impact,RAdeg,DEdeg,RAdeg_target,DEdeg_target,Vhel,Vhel_measured,e_Vhel_measured,Vrot,e_Vrot,Vrot_corrected,e_Vrot_corrected,vcorr,bestDist,MajDiam,MinDiam,e_MajDiam,e_MinDiam,R_vir,adjustedInc,e_inc,PA,azimuth,RC3_type,RC3_d25,RC3_r25,RC3_pa,group_num,group_mem,group_dist,MType,flag,distIndicator,Bmag,Bmag_sdss,Lstar_med,e_Lstar_med,Lstar_sdss,e_Lstar_sdss
+NGC3067,3C232,Lya,,,1467,,,,,,,,,,0.5306,,,,,194.17Ê,52.32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+NGC3067,3C232,Lya,,,1492,,,,,,,,,,0.5306,,,,,194.17Ê,53.32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,3C232,Lya,,,4528,,,,,,,,,,0.5306,,,,,194.17Ê,54.32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
