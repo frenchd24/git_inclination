@@ -210,7 +210,9 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-    filename = 'CGCG039-137-summary.json'
+#     filename = 'CGCG039-137-summary.json'
+    filename = 'RFGC3781-summary.json'
+
     
     with open(directory+filename) as data_file:
         data = json.load(data_file)    
@@ -299,13 +301,17 @@ def main():
     # az = azimuth
     # inc = inclination (adjustedInc)
 
-    impact = 98.9
-#     vsys = 9030.
-    az = 71.
-    inc = 72.
-#     inc = 29.
-#     inc = inclination
-    PA = 157.
+    # CGCG039-137
+#     impact = 98.9
+#     az = 71.
+#     inc = 72.
+#     PA = 157.
+    
+    # ESO343-G014
+    impact = 466
+    az = 74.
+    inc = 89.9
+    PA = 158.
     
     # inclination is backwards, so flip it
     effectiveInc = 90.-inc
@@ -391,20 +397,22 @@ def main():
 #     rayDirection = np.array([-1, 0, 0])
     rayDirection = np.array([1, 0, 0])
 #     rayPoint = np.array([0, -95.169, -26.816])
+#     rayPoint = np.array([0, 95.169, -26.816])
     rayPoint = np.array([0, 95.169, -26.816])
-    
+
 
 
     
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 150
+    zcutoff = 104
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
     intersect_point_list = []
-    for i in arange(-zcutoff,zcutoff-150,.2):
+#     for i in arange(-zcutoff,zcutoff-202,.004):
+    for i in arange(-99,-97.5,.0005):
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
         print 'planePoint: ',planePoint

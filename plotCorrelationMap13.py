@@ -298,7 +298,7 @@ def main():
     
     # Save the full results with "include" tags? This is the whole big correlation table
     # which looks like LG_correlation_combined5_11_25cut_edit4.csv
-    saveResults = True
+    saveResults = False
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -325,7 +325,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = True
+    sortIntoFolders = False
     
     # include AGN background targets as well?
     includeAGN = True
@@ -366,9 +366,10 @@ def main():
 #         outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
 
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all.csv'
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/'
-        outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all_results.csv'
-
+#         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/'
+#         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all_results.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
