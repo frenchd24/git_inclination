@@ -393,26 +393,30 @@ def main():
     print 'N:' ,N
     print
     
-    #Define ray
+    # Define ray -> [0,RA_dif,Dec_dif]
 #     rayDirection = np.array([-1, 0, 0])
     rayDirection = np.array([1, 0, 0])
 #     rayPoint = np.array([0, -95.169, -26.816])
 #     rayPoint = np.array([0, 95.169, -26.816])
-    rayPoint = np.array([0, 95.169, -26.816])
 
+    # CGCG039-137
+#     rayPoint = np.array([0, 95.169, -26.816])
+
+    # ESO343-G014
+    rayPoint = np.array([0, -464.4, 32.5])
 
 
     
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 104
+    zcutoff = 500
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
     intersect_point_list = []
-#     for i in arange(-zcutoff,zcutoff-202,.004):
-    for i in arange(-99,-97.5,.0005):
+    for i in arange(-zcutoff,zcutoff-500,1):
+#     for i in arange(-99,-97.5,.0005):
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
         print 'planePoint: ',planePoint
@@ -485,7 +489,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
-    plotExtent = 250
+    plotExtent = 450
     plotXVelocity = True
     
     # tranpose the list of intersects for plotting

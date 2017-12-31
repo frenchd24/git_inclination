@@ -270,7 +270,9 @@ def main():
     minSize = False
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
-    agnSeparation = 4000.
+#     agnSeparation = 4000.
+    agnSeparation = False
+
     
     # include name tags on galaxies? They don't scale very well...
     includeNameTags = True
@@ -359,13 +361,13 @@ def main():
         pass
 
     elif user == "frenchd":
-#         targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
+        targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
 #         saveDirectory = '/Users/frenchd/Research/fullListMaps/'
 #         outputFile = '/Users/frenchd/Research/fullListMaps/fullListMaps.csv'
 
-        targetFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all.csv'
+#         targetFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all_results.csv'
         saveDirectory = '/Users/frenchd/Research/test/'
@@ -379,14 +381,14 @@ def main():
     velocityHeader = 'Lya_v'
 
     # targets from a file, use this:
-    targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
+#     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
     
     # or build up a custom list of AGN names and absorption velocities here:
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-#     targets = [('NGC5786',2998,True)]
+    targets = [('ESO343-G014',9162,True)]
 
 #     targets = [('CGCG039-137',6902,True),\
 #     ('ESO343-G014',9162,True),\
