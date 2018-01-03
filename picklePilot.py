@@ -47,7 +47,7 @@ def main():
     
     if getpass.getuser() == 'frenchd':
         filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_sightlines_all_results_include.csv'
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot.p'
 
     else:
         print 'Could not determine username. Exiting.'

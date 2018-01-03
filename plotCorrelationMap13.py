@@ -223,6 +223,7 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
     targetList = []
     for l in reader:
         AGNname = l[AGNheader]
+        
 #         include = l['include']
 #         if include == 'yes':
 #             include = True
@@ -231,11 +232,12 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
         
         # velocityHeader is the name of the columns containing the center velocity, or 
         # it can also be just a number designating the center velocity
+    
         if isNumber(velocityHeader):
             vel = velocityHeader
         else:
             vel = l[velocityHeader]
-            
+        
         if isNumber(vel):
             include = True
             pair = (AGNname,int(vel),include)
@@ -244,7 +246,7 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
     f.close()
     return targetList
         
-        
+
 def main():
     # main function to create targetmaps around selected sightlines
     nullFloat = -99.99
@@ -270,8 +272,8 @@ def main():
     minSize = False
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
-#     agnSeparation = 4000.
-    agnSeparation = False
+    agnSeparation = 4000.
+#     agnSeparation = False
 
     
     # include name tags on galaxies? They don't scale very well...
@@ -300,7 +302,7 @@ def main():
     
     # Save the full results with "include" tags? This is the whole big correlation table
     # which looks like LG_correlation_combined5_11_25cut_edit4.csv
-    saveResults = False
+    saveResults = True
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -327,7 +329,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = False
+    sortIntoFolders = True
     
     # include AGN background targets as well?
     includeAGN = True
@@ -361,7 +363,7 @@ def main():
         pass
 
     elif user == "frenchd":
-        targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
+#         targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/test.csv'
 #         saveDirectory = '/Users/frenchd/Research/fullListMaps/'
@@ -370,8 +372,12 @@ def main():
 #         targetFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/include_maps/salt_sightlines_all_results.csv'
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+#         saveDirectory = '/Users/frenchd/Research/test/'
+#         outputFile = '/Users/frenchd/Research/test/test.csv'
+
+        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_include.csv'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/'
+        outputFile = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/LG_correlation_combined5_12.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -379,16 +385,26 @@ def main():
     # what are the column names in this file for the AGN name and absorption velocity?
     targetHeader = 'Target'
     velocityHeader = 'Lya_v'
+#     z_targetHeader = 'z_target'
+#     v_limitsHeader = 'v_limits'
+    z_targetHeader = 'AGNredshift'
+    v_limitsHeader = 'vlimits'
+    Lya_vHeader = 'Lya_v'
+    Lya_WHeader = 'Lya_W'
+    NaHeader = 'Na'
+    bHeader = 'b'
+    identifiedHeader = 'identified'
+    AGN_coordsHeader = ('degreesJ2000RA_DecAGN')
 
     # targets from a file, use this:
-#     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
+    targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
     
     # or build up a custom list of AGN names and absorption velocities here:
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-    targets = [('ESO343-G014',9162,True)]
+#     targets = [('ESO343-G014',9162,True)]
 
 #     targets = [('CGCG039-137',6902,True),\
 #     ('ESO343-G014',9162,True),\
@@ -845,7 +861,12 @@ def main():
                             # this indicates no size data is available
 #                             plt.annotate('*'+str(galaxyNames[i]),xy=(plotPositionsRA[i],\
 #                             plotPositionsDec[i]),xytext=(xTagOffset,newSizes[i]/yTagOffset),textcoords='offset points',size=nameTagFont)
-                            newgalaxyNames = galaxyNames[i].replace('_','\_')
+#                             newgalaxyNames = galaxyNames[i].replace('_','\_')
+                            if bfind(galaxyNames[i],'_') and not bfind(galaxyNames[i],'\_'):
+                                newgalaxyNames = galaxyNames[i].replace('_','\_')
+                            else:
+                                newgalaxyNames = galaxyNames[i]
+
                             plt.annotate('*'+str(newgalaxyNames),xy=(plotPositionsRA[i],\
                             plotPositionsDec[i]),xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=nameTagFont)
 
@@ -866,7 +887,10 @@ def main():
                     plot_agn = ax.scatter(plotPositionAGNRA[i],plotPositionAGNDec[i],s=AGNsize,c='green',marker='*')
                 
                     if includeAGNnameTags:
-                        newAGNname = AGNnames[i].replace('_','\_')
+                        if bfind(AGNnames[i],'_') and not bfind(AGNnames[i],'\_'):
+                            newAGNname = AGNnames[i].replace('_','\_')
+                        else:
+                            newAGNname = AGNnames[i]
 #                         plt.annotate(AGNnames[i],xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
 #                         xytext=(xTagOffset,AGNsize/yTagOffset),textcoords='offset points',size=nameTagFont)
                         plt.annotate(newAGNname,xy=(plotPositionAGNRA[i],plotPositionAGNDec[i]),\
@@ -1191,7 +1215,10 @@ def main():
             ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
-                newTargetName = targetName.replace('_','\_')
+                if bfind(targetName,'_') and not bfind(targetName,'\_'):
+                    newTargetName = targetName.replace('_','\_')
+                else:
+                    newTargetName = targetName
 #                 title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
                 title(r'$\rm {0} ~ centered ~ velocity = {1} +/- {2}~ km/s $'.format(targetName,center,velocityWindow))
 
@@ -1310,16 +1337,19 @@ def main():
         for l in reader:
             targetName = l[targetHeader]
             lyaV = l[velocityHeader]
-            AGNredshift = l['z_target']
+            AGNredshift = l[z_targetHeader]
             spectrumStatus = 'x'
-            v_limits = l['v_limits']
-            Lya_v = l['Lya_v']
-            Lya_W = l['Lya_W']
-            Na = l['Na']
-            b = l['b']
-            identified = l['identified']
+            v_limits = l[v_limitsHeader]
+            Lya_v = l[Lya_vHeader]
+            Lya_W = l[Lya_WHeader]
+            Na = l[NaHeader]
+            b = l[bHeader]
+            identified = l[identifiedHeader]
             comment = l['comment']
-            degreesJ2000RA_DecAGN = (l['RAdeg_target'],l['DEdeg_target'])
+#             degreesJ2000RA_DecAGN = (l['RAdeg_target'],l['DEdeg_target'])
+            degreesJ2000RA_DecAGN = eval(l[AGN_coordsHeader])
+
+            
         
             if isNumber(lyaV):
                 # this should then correspond to an element in 'list'

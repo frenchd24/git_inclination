@@ -3,7 +3,11 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  plotAzimuthMap2.py, v 2.1 1/20/17
+$Id:  plotAzimuthMap_rotation.py, v 1.0 1/01/18
+
+
+
+Take from: plotAzimuthMap2.py, v 2.1 1/20/17
 
 Plot absorption properties on a map showing their distribution around a central galaxy
 
@@ -69,22 +73,15 @@ rc('axes',linewidth = 1)
 def main():
     # assuming 'theFile' contains one name per line, read the file
     
-    
-    if getpass.getuser() == 'David':
-        pickleFilename = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-#         resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-#         saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/Users/David/Research_Documents/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/Users/David/Research_Documents/inclination/git_inclination/pilot_paper_code/plots6/'
-        WS09data = '/Users/David/Research_Documents/inclination/git_inclination/WS2009_lya_data.tsv'
+    if getpass.getuser() == 'frenchd':
+#         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/pilot_paper_code/pilotData2.p'
+#         resultsFilename = '/Users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
+#         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/pilot_paper_code/plots6/'
+#         WS09data = '/Users/frenchd/Research/inclination/git_inclination/WS2009_lya_data.tsv'
+        
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
-    elif getpass.getuser() == 'frenchd':
-        pickleFilename = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/pilotData2.p'
-#         resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_8_edit2.csv'
-#         saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots2/'
-        resultsFilename = '/usr/users/frenchd/inclination/git_inclination/LG_correlation_combined5_11_25cut_edit4.csv'
-        saveDirectory = '/usr/users/frenchd/inclination/git_inclination/pilot_paper_code/plots6/'
-        WS09data = '/usr/users/frenchd/inclination/git_inclination/WS2009_lya_data.tsv'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -100,15 +97,15 @@ def main():
     # save each plot?
     save = False
     
-    results = open(resultsFilename,'rU')
-    reader = csv.DictReader(results)
+#     results = open(resultsFilename,'rU')
+#     reader = csv.DictReader(results)
     
-    WS = open(WS09data,'rU')
-    WSreader = csv.DictReader(WS,delimiter=';')
+#     WS = open(WS09data,'rU')
+#     WSreader = csv.DictReader(WS,delimiter=';')
     
     virInclude = False
     cusInclude = False
-    finalInclude = True
+    finalInclude = 1
     
     maxEnv = 3000
     minL = 0.001
@@ -146,119 +143,158 @@ def main():
     
     
     # WS lists
-    WSvcorr = []
-    WSdiam = []
-    WSimpact =[]
-    WSew = []
-    WSvel = []
-    WSlya = []
-    WSvel_dif = []
-    WSvir = []
-    WSlike = []
+#     WSvcorr = []
+#     WSdiam = []
+#     WSimpact =[]
+#     WSew = []
+#     WSvel = []
+#     WSlya = []
+#     WSvel_dif = []
+#     WSvir = []
+#     WSlike = []
+#     
+#     l_min = 0.001
+# 
+#     for w in WSreader:
+#         vcorr = w['HV']
+#         diam = w['Diam']
+#         rho = w['rho']
+#         ew = w['EWLya']
+#         vel = w['LyaVel']
+#         lya = w['Lya']
+#         
+#         if lya == 'Lya  ' and isNumber(diam) and isNumber(ew) and isNumber(rho):
+#             if float(rho) <=500.0:
+#                 # this is a single galaxy association
+#                 vir = calculateVirialRadius(float(diam))
+#                 
+#                 vel_dif = float(vcorr) - float(vel)
+#     
+#                 # try this "sphere of influence" value instead
+#                 m15 = float(diam)**1.5
+# 
+#                 # first for the virial radius
+#                 likelihood = math.exp(-(float(rho)/vir)**2) * math.exp(-(vel_dif/200.)**2)
+#                 
+#                 if vir>= float(rho):
+#                     likelihood = likelihood*2
+#                     
+#                 # then for the second 'virial like' m15 radius
+#                 likelihoodm15 = math.exp(-(float(rho)/m15)**2) * math.exp(-(vel_dif/200.)**2)
+#                 
+#                 if m15>= float(rho):
+#                     likelihoodm15 = likelihoodm15*2
+#                     
+#                 if likelihood <= likelihoodm15:
+#                     likelihood = likelihoodm15
+#                     
+#                 WSlike.append(likelihood)
+#                 
+# #                 l_min=0
+#                 
+#                 if likelihood >= l_min:
+#                 
+#                     WSvcorr.append(float(vcorr))
+#                     WSdiam.append(float(diam))
+#                     WSvir.append(vir)
+#                     WSimpact.append(float(rho))
+#                     WSew.append(float(ew))
+#                     WSvel.append(float(vel))
+#                     WSlya.append(lya)
+#                     WSvel_dif.append(vel_dif)
     
-    l_min = 0.001
+    
+    
+    targetNameL= fullDict['targetName']
+    galaxyNameL = fullDict['galaxyName']
+    environmentL = fullDict['environment']
+    RA_agnL = fullDict['RA_agn']
+    Dec_agnL = fullDict['Dec_agn']
+    RA_galL = fullDict['RA_gal']
+    Dec_galL = fullDict['Dec_gal']
+    likelihoodL = fullDict['likelihood']
+    likelihood_cusL = fullDict['likelihood_cus']
+    virialRadiusL = fullDict['virialRadius']
+    cusL = fullDict['cus']
+    impactParameterL = fullDict['impact']
+    vcorrL = fullDict['vcorr']
+    radialVelocityL = fullDict['radialVelocity']
+    vel_diffL = fullDict['vel_diff']
+    distGalaxyL = fullDict['distGalaxy']
+    majorAxisL = fullDict['majorAxis']
+    minorAxisL = fullDict['minorAxis']
+    inclinationL = fullDict['inclination']
+    positionAngleL = fullDict['PA']
+    azimuthL = fullDict['azimuth']
+    RC3flagL = fullDict['RC3flag']
+    RC3typeL = fullDict['RC3type']
+    RC3incL = fullDict['RC3inc']
+    RC3paL = fullDict['RC3pa']
+    final_morphologyL = fullDict['final_morphology']
+    includeL = fullDict['include']
+    include_virL = fullDict['include_vir']
+    include_customL = fullDict['include_custom']
+    Lya_vL = fullDict['Lya_v']
+    vlimitsL = fullDict['vlimits']
+    Lya_WL = fullDict['Lya_W']
+    NaL = fullDict['Na']
+    bL = fullDict['b']
+    identifiedL = fullDict['identified']
+    
+    
 
-    for w in WSreader:
-        vcorr = w['HV']
-        diam = w['Diam']
-        rho = w['rho']
-        ew = w['EWLya']
-        vel = w['LyaVel']
-        lya = w['Lya']
-        
-        if lya == 'Lya  ' and isNumber(diam) and isNumber(ew) and isNumber(rho):
-            if float(rho) <=500.0:
-                # this is a single galaxy association
-                vir = calculateVirialRadius(float(diam))
-                
-                vel_dif = float(vcorr) - float(vel)
-    
-                # try this "sphere of influence" value instead
-                m15 = float(diam)**1.5
-
-                # first for the virial radius
-                likelihood = math.exp(-(float(rho)/vir)**2) * math.exp(-(vel_dif/200.)**2)
-                
-                if vir>= float(rho):
-                    likelihood = likelihood*2
-                    
-                # then for the second 'virial like' m15 radius
-                likelihoodm15 = math.exp(-(float(rho)/m15)**2) * math.exp(-(vel_dif/200.)**2)
-                
-                if m15>= float(rho):
-                    likelihoodm15 = likelihoodm15*2
-                    
-                if likelihood <= likelihoodm15:
-                    likelihood = likelihoodm15
-                    
-                WSlike.append(likelihood)
-                
-#                 l_min=0
-                
-                if likelihood >= l_min:
-                
-                    WSvcorr.append(float(vcorr))
-                    WSdiam.append(float(diam))
-                    WSvir.append(vir)
-                    WSimpact.append(float(rho))
-                    WSew.append(float(ew))
-                    WSvel.append(float(vel))
-                    WSlya.append(lya)
-                    WSvel_dif.append(vel_dif)
-    
-    
-    for l in reader:
-        include_vir = eval(l['include_vir'])
-        include_cus = eval(l['include_custom'])
-        include = eval(l['include'])
-        
+    i = -1
+    for inc,inc_vir,inc_cus in zip(includeL,include_virL,include_customL):
+        i+=1
         go = False
         if match:
-            if virInclude == include_vir and cusInclude == include_cus:
+            if virInclude == inc_vir and cusInclude == inc_cus:
                 go = True
             else:
                 go = False
                 
         else:
-            if virInclude and include_vir:
+            if virInclude and inc_vir:
                 go = True
                 
-            elif cusInclude and include_cus:
+            elif cusInclude and inc_cus:
                 go = True
                 
-            elif finalInclude and include:
+            elif finalInclude and inc:
                 go = True
             
             else:
                 go = False
         
         if go:
-            AGNra_dec = eval(l['degreesJ2000RA_DecAGN'])
-            galaxyRA_Dec = eval(l['degreesJ2000RA_DecGalaxy'])
-            lyaV = l['Lya_v']
-            lyaW = l['Lya_W'].partition('pm')[0]
-            lyaW_err = l['Lya_W'].partition('pm')[2]
-            env = l['environment']
-            galaxyName = l['galaxyName']
-            impact = l['impactParameter (kpc)']
-            galaxyDist = l['distGalaxy (Mpc)']
-            pa = l['positionAngle (deg)']
-            RC3pa = l['RC3pa (deg)']
-            morph = l['morphology']
-            vcorr = l['vcorrGalaxy (km/s)']
-            maj = l['majorAxis (kpc)']
-            minor = l['minorAxis (kpc)']
-            inc = l['inclination (deg)']
-            az = l['azimuth (deg)']
-            b = l['b'].partition('pm')[0]
-            b_err = l['b'].partition('pm')[2]
-            na = eval(l['Na'].partition(' pm ')[0])
-            na_err = eval(l['Na'].partition(' pm ')[2])
-            likelihood = l['likelihood']
-            likelihoodm15 = l['likelihood_1.5']
-            virialRadius = l['virialRadius']
-            m15 = l['d^1.5']
-            vel_diff = l['vel_diff']
+            RA_agn = RA_agnL[i]
+            Dec_agn = Dec_agnL[i]
+            RA_gal = RA_galL[i]
+            Dec_gal = Dec_galL[i]
+            lyaV = Lya_vL[i]
+            lyaW = Lya_WL[i]
+            lyaW_err = lyaW*0.1
+            env = environmentL[i]
+            galaxyName = galaxyNameL[i]
+            impact = impactParameterL[i]
+            galaxyDist = distGalaxyL[i]
+            pa = positionAngleL[i]
+            RC3pa = RC3paL[i]
+            morph = final_morphologyL[i]
+            vcorr = vcorrL[i]
+            maj = majorAxisL[i]
+            minor = minorAxisL[i]
+            inc = inclinationL[i]
+            az = azimuthL[i]
+            b = bL[i]
+            b_err = b*0.1
+            na = NaL[i]
+            na_err = na*0.1
+            likelihood = likelihoodL[i]
+            likelihoodm15 = likelihood_cusL[i]
+            virialRadius = virialRadiusL[i]
+            m15 = cusL[i]
+            vel_diff = vel_diffL[i]
             
             if isNumber(RC3pa) and not isNumber(pa):
                 pa = RC3pa
@@ -281,8 +317,8 @@ def main():
             
             # all the lists to be used for associated lines
             if float(env) <= maxEnv and float(likelihood) >= minL:
-                raList.append(galaxyRA_Dec[0])
-                decList.append(galaxyRA_Dec[1])
+                raList.append(RA_gal)
+                decList.append(Dec_gal)
                 lyaVList.append(float(lyaV))
                 lyaWList.append(float(lyaW))
                 lyaErrList.append(float(lyaW_err))
@@ -306,15 +342,12 @@ def main():
                 likeList.append(likelihood)
                 likem15List.append(likelihoodm15)
 
-    results.close()
-    WS.close()
+
+#     results.close()
+#     WS.close()
             
     # lists for the full galaxy dataset
-    allPA = fullDict['allPA']
-    allInclinations = fullDict['allInclinations']
-    allCosInclinations = fullDict['allCosInclinations']
-    allFancyInclinations = fullDict['allFancyInclinations']
-    allCosFancyInclinations = fullDict['allCosFancyInclinations']
+
     
     total = 0
     totalNo = 0
@@ -329,7 +362,7 @@ def main():
     # plot histograms of the inclinations for both associated galaxies and the 
     # full galaxy data set, combining both redshifted and blueshifted
     plot_azimuthMap = True
-    save = True
+    save = False
     
     if plot_azimuthMap:
         
@@ -381,7 +414,7 @@ def main():
         # calculate the position on the sky for each absorption feature wrt to the galaxy
         for r,d,i,a,fInc,vir,dif,ew in zip(raList,decList,impactList,azList,fancyIncList,virList,difList,lyaWList):
             if float(a) >= 0 and float(fInc)>=0 and float(fInc)<=90:
-            
+
                 # y coordinate
                 y = (float(i)/float(vir)) * sin((a*pi)/180.)
             
