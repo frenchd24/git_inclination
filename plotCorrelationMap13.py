@@ -221,8 +221,12 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
     f = open(file,'rU')
     reader = csv.DictReader(f)
     targetList = []
+#     startT = 'QSO1500-4140'
+#     startV = '9757'
+#     goOn = False
     for l in reader:
         AGNname = l[AGNheader]
+        
         
 #         include = l['include']
 #         if include == 'yes':
@@ -233,11 +237,22 @@ def buildFullTargetList(file,AGNheader,velocityHeader):
         # velocityHeader is the name of the columns containing the center velocity, or 
         # it can also be just a number designating the center velocity
     
+    
+    
+        # added
+#         vel = l[velocityHeader]
+#         if AGNname == startT:
+#             if vel == startV:
+#                 goOn = True
+#         
+#         if goOn:
+        # added
+        
         if isNumber(velocityHeader):
             vel = velocityHeader
         else:
             vel = l[velocityHeader]
-        
+   
         if isNumber(vel):
             include = True
             pair = (AGNname,int(vel),include)
@@ -375,9 +390,9 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/test/'
 #         outputFile = '/Users/frenchd/Research/test/test.csv'
 
-        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_11_include.csv'
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/'
-        outputFile = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/LG_correlation_combined5_12.csv'
+        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_12_edit_plusSALTcut.csv'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
+        outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -389,7 +404,6 @@ def main():
 #     v_limitsHeader = 'v_limits'
     z_targetHeader = 'AGNredshift'
     v_limitsHeader = 'vlimits'
-    Lya_vHeader = 'Lya_v'
     Lya_WHeader = 'Lya_W'
     NaHeader = 'Na'
     bHeader = 'b'
@@ -1051,6 +1065,8 @@ def main():
                 virList.append([likelihood,objectInfoList])
                 customList.append([likelihoodm15,objectInfoList])
                 
+                
+                
             # now sort the list of galaxies by likelihood:
             sorted_virList = sorted(virList,reverse=True)
             sorted_cusList = sorted(customList,reverse=True)
@@ -1216,7 +1232,7 @@ def main():
             ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
             if includeTitle:
                 if bfind(targetName,'_') and not bfind(targetName,'\_'):
-                    newTargetName = targetName.replace('_','\_')
+                    newTargetName = targetName.replace('_','\\_')
                 else:
                     newTargetName = targetName
 #                 title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
@@ -1336,11 +1352,11 @@ def main():
 #         lenList = len(listVir)
         for l in reader:
             targetName = l[targetHeader]
-            lyaV = l[velocityHeader]
+            Lya_v = l[velocityHeader]
             AGNredshift = l[z_targetHeader]
             spectrumStatus = 'x'
             v_limits = l[v_limitsHeader]
-            Lya_v = l[Lya_vHeader]
+#             Lya_v = l[Lya_vHeader]
             Lya_W = l[Lya_WHeader]
             Na = l[NaHeader]
             b = l[bHeader]
@@ -1349,35 +1365,45 @@ def main():
 #             degreesJ2000RA_DecAGN = (l['RAdeg_target'],l['DEdeg_target'])
             degreesJ2000RA_DecAGN = eval(l[AGN_coordsHeader])
 
-            
+            print 'targetName: ',targetName
+            print 'Lya_v: ',Lya_v
+            print 'listVir: ',listVir
+            print 'count: ',count
         
-            if isNumber(lyaV):
+            if isNumber(Lya_v):
                 # this should then correspond to an element in 'list'
                 count +=1
-                lyaV = float(lyaV)
+                Lya_v = float(Lya_v)
                 
                 # grab the corresponding data. list[count] is all the galaxies around a
                 # particular target and line
+                if count < len(listVir):
+                    systemsV = listVir[count]
+                    systemsC = listCustom[count]
                 
-                systemsV = listVir[count]
-                systemsC = listCustom[count]
+                    # test to make sure this is the correct one. If there were no galaxies,
+                    # the count will get off
+                    v1 = systemsV[0][1]
+                    v1_targetName = v1[0]
+                    v1_center = v1[1]
                 
-                # test to make sure this is the correct one. If there were no galaxies,
-                # the count will get off
-                v1 = systemsV[0][1]
-                v1_targetName = v1[0]
-                v1_center = v1[1]
+                    print 'v1: ',v1
+                    print 'v1_targetName: ',v1_targetName
+                    print 'v1_center: ',v1_center
                 
-                if v1_targetName == targetName and v1_center == lyaV:
-                    match = True
+                    if v1_targetName == targetName and v1_center == Lya_v:
+                        match = True
+                    else:
+                        match = False
+                        count-=1
+                
+                    # now find the 1st, 2nd highest likelihood for both estimates
+                    sysLen = len(systemsV)
+                
+                    finalEntry = []
+                    
                 else:
                     match = False
-                    count-=1
-                
-                # now find the 1st, 2nd highest likelihood for both estimates
-                sysLen = len(systemsV)
-                
-                finalEntry = []
                 
                 if sysLen >=2 and match:
                     # systemsV[0] is the most likely as such: [likelihood, [all]]
@@ -1587,7 +1613,7 @@ def main():
                     comment1 = str(comment) + " : NO GALAXIES"
                     
                     finalEntry = [[l[targetHeader],\
-                    lyaV,\
+                    Lya_v,\
                     'x',\
                     0,\
                     degreesJ2000RA_DecAGN,\
@@ -1647,6 +1673,16 @@ def main():
        
     # now actually do it
     if saveResults:
+        print
+        print
+        print
+        print
+        print 'masterVirList: ',masterVirList
+        print
+        print
+        print
+        print
+        print
         writeFullResults(masterVirList,masterCustomList)
     
     print "Finished."

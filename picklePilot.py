@@ -4,7 +4,10 @@
 By David French (frenchd@astro.wisc.edu)
 
 
-$Id: pickleSALT.py v 1.0 12/31/2017
+$Id: picklePilot.py v 1.0 01/03/2018
+
+Pickle the SALT + pilot results into -> picklePilot_plusSALTcut.p
+
 
 Comes from: buildDataLists3.py, v 5.0 12/02/2015
 
@@ -46,8 +49,8 @@ def main():
     # assuming 'theFile' contains one name per line, read the file
     
     if getpass.getuser() == 'frenchd':
-        filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_sightlines_all_results_include.csv'
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot.p'
+        filename = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/LG_correlation_combined5_12_edit_plusSALTcut.csv'
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -113,97 +116,127 @@ def main():
     identifiedL = []
     commentL = []
     
+    checkDict = {}
     
+    oneCount = 0
     for l in reader:
         #grab all the values
         targetName = l['targetName']
         center = eval(l['center'])
-        galaxyName = l['galaxyName']
-        environment = eval(l['environment'])
-        degreesJ2000RA_DecAGN = eval(l['degreesJ2000RA_DecAGN'])
-        degreesJ2000RA_DecGalaxy = eval(l['degreesJ2000RA_DecGalaxy'])
-        likelihood = l['likelihood']
-        likelihood_cus = l['likelihood_1.5']
-        virialRadius = l['virialRadius']
-        cus = l['d^1.5']
-        impactParameter = l['impactParameter (kpc)']
-        redshiftDistances = l['redshiftDistances']
-        vcorrGalaxy = l['vcorrGalaxy (km/s)']
-        radialVelocity = l['radialVelocity (km/s)']
-        vel_diff = l['vel_diff']
-        distGalaxy = l['distGalaxy (Mpc)']
-        AGN = l['AGN S/N']
-        majorAxis = l['majorAxis (kpc)']
-        minorAxis = l['minorAxis (kpc)']
-        inclination = l['inclination (deg)']
-        positionAngle = l['positionAngle (deg)']
-        azimuth = l['azimuth (deg)']
-        RC3flag = l['RC3flag']
-        RC3type = l['RC3type']
-        RC3inc = l['RC3inc (deg)']
-        RC3pa = l['RC3pa (deg)']
-        morphology = l['morphology']
-        final_morphology = l['final_morphology']
-        galaxyRedshift = l['galaxyRedshift']
-        AGNredshift = l['AGNredshift']
-        spectrumStatus = l['spectrumStatus']
-        include = l['include']
-        include_vir = l['include_vir']
-        include_custom = l['include_custom']
-        Lya_v = eval(l['Lya_v'])
-        vlimits = eval(l['vlimits'])
-        Lya_W = eval(l['Lya_W'])
-        Na = eval(l['Na'])
-        b = eval(l['b'])
-        identified = l['identified']
-        comment = l['comment']
+        print 'targetName: ',targetName
         
-        RA_agn, Dec_agn = degreesJ2000RA_DecAGN
-        RA_gal, Dec_gal = degreesJ2000RA_DecGalaxy
+#         goOn = False
+#         if checkDict.has_key(targetName):
+#             otherCenters = checkDict[targetName]
+#            
+#             for i in otherCenters:
+#                 if abs(float(i) - float(center)) <=25:
+#                     goOn = False
+#                    
+#                     print 'found a duplicate: ',targetName,' - ',center
+#                     print 'full list: ',otherCenters
+#                     print
+#                    
+#                     otherCenters.append(center)
+#                     checkDict[targetName] = otherCenters
+#                     break
+#        
+#         else:
+#             checkDict[targetName] = [center]
+#             goOn = True
+        
+        goOn = True
+        if goOn:
+            galaxyName = l['galaxyName']
+            environment = eval(l['environment'])
+            degreesJ2000RA_DecAGN = eval(l['degreesJ2000RA_DecAGN'])
+            degreesJ2000RA_DecGalaxy = eval(l['degreesJ2000RA_DecGalaxy'])
+            likelihood = l['likelihood']
+            likelihood_cus = l['likelihood_1.5']
+            virialRadius = l['virialRadius']
+            cus = l['d^1.5']
+            impactParameter = l['impactParameter (kpc)']
+            redshiftDistances = l['redshiftDistances']
+            vcorrGalaxy = l['vcorrGalaxy (km/s)']
+            radialVelocity = l['radialVelocity (km/s)']
+            vel_diff = l['vel_diff']
+            distGalaxy = l['distGalaxy (Mpc)']
+            AGN = l['AGN S/N']
+            majorAxis = l['majorAxis (kpc)']
+            minorAxis = l['minorAxis (kpc)']
+            inclination = l['inclination (deg)']
+            positionAngle = l['positionAngle (deg)']
+            azimuth = l['azimuth (deg)']
+            RC3flag = l['RC3flag']
+            RC3type = l['RC3type']
+            RC3inc = l['RC3inc (deg)']
+            RC3pa = l['RC3pa (deg)']
+            morphology = l['morphology']
+            final_morphology = l['final_morphology']
+            galaxyRedshift = l['galaxyRedshift']
+            AGNredshift = l['AGNredshift']
+            spectrumStatus = l['spectrumStatus']
+            include = l['include']
+            include_vir = l['include_vir']
+            include_custom = l['include_custom']
+            Lya_v = eval(l['Lya_v'])
+            vlimits = eval(l['vlimits'])
+            Lya_W = float(str(l['Lya_W']).partition('pm')[0])
+            Na = float(str(l['Na']).partition('pm')[0])
+#             print 'b: ',l['b']
+            b = float(str(l['b']).partition('pm')[0])
+            identified = l['identified']
+            comment = l['comment']
+            
+            if int(include) == 1:
+                oneCount+=1
+        
+            RA_agn, Dec_agn = degreesJ2000RA_DecAGN
+            RA_gal, Dec_gal = degreesJ2000RA_DecGalaxy
 
-        targetNameL.append(targetName)
-        centerL.append(center)
-        galaxyNameL.append(galaxyName)
-        environmentL.append(environment)
-        RA_agnL.append(RA_agn)
-        Dec_agnL.append(Dec_agn)
-        RA_galL.append(RA_gal)
-        Dec_galL.append(Dec_gal)
-        likelihoodL.append(likelihood)
-        likelihood_cusL.append(likelihood_cus)
-        virialRadiusL.append(virialRadius)
-        cusL.append(cus)
-        impactParameterL.append(impactParameter)
-        redshiftDistancesL.append(redshiftDistances)
-        vcorrGalaxyL.append(vcorrGalaxy)
-        radialVelocityL.append(radialVelocity)
-        vel_diffL.append(vel_diff)
-        distGalaxyL.append(distGalaxy)
-        AGNL.append(AGN)
-        majorAxisL.append(majorAxis)
-        minorAxisL.append(minorAxis)
-        inclinationL.append(inclination)
-        positionAngleL.append(positionAngle)
-        azimuthL.append(azimuth)
-        RC3flagL.append(RC3flag)
-        RC3typeL.append(RC3type)
-        RC3incL.append(RC3inc)
-        RC3paL.append(RC3pa)
-        morphologyL.append(morphology)
-        final_morphologyL.append(final_morphology)
-        galaxyRedshiftL.append(galaxyRedshift)
-        AGNredshiftL.append(AGNredshift)
-        spectrumStatusL.append(spectrumStatus)
-        includeL.append(include)
-        include_virL.append(include_vir)
-        include_customL.append(include_custom)
-        Lya_vL.append(Lya_v)
-        vlimitsL.append(vlimits)
-        Lya_WL.append(Lya_W)
-        NaL.append(Na)
-        bL.append(b)
-        identifiedL.append(identified)
-        commentL.append(comment)
+            targetNameL.append(targetName)
+            centerL.append(center)
+            galaxyNameL.append(galaxyName)
+            environmentL.append(environment)
+            RA_agnL.append(RA_agn)
+            Dec_agnL.append(Dec_agn)
+            RA_galL.append(RA_gal)
+            Dec_galL.append(Dec_gal)
+            likelihoodL.append(likelihood)
+            likelihood_cusL.append(likelihood_cus)
+            virialRadiusL.append(virialRadius)
+            cusL.append(cus)
+            impactParameterL.append(impactParameter)
+            redshiftDistancesL.append(redshiftDistances)
+            vcorrGalaxyL.append(vcorrGalaxy)
+            radialVelocityL.append(radialVelocity)
+            vel_diffL.append(vel_diff)
+            distGalaxyL.append(distGalaxy)
+            AGNL.append(AGN)
+            majorAxisL.append(majorAxis)
+            minorAxisL.append(minorAxis)
+            inclinationL.append(inclination)
+            positionAngleL.append(positionAngle)
+            azimuthL.append(azimuth)
+            RC3flagL.append(RC3flag)
+            RC3typeL.append(RC3type)
+            RC3incL.append(RC3inc)
+            RC3paL.append(RC3pa)
+            morphologyL.append(morphology)
+            final_morphologyL.append(final_morphology)
+            galaxyRedshiftL.append(galaxyRedshift)
+            AGNredshiftL.append(AGNredshift)
+            spectrumStatusL.append(spectrumStatus)
+            includeL.append(include)
+            include_virL.append(include_vir)
+            include_customL.append(include_custom)
+            Lya_vL.append(Lya_v)
+            vlimitsL.append(vlimits)
+            Lya_WL.append(Lya_W)
+            NaL.append(Na)
+            bL.append(b)
+            identifiedL.append(identified)
+            commentL.append(comment)
 
 
     # populate the dictionary
@@ -253,6 +286,8 @@ def main():
     fullDict['identified'] = identifiedL
     fullDict['comment'] = commentL
     
+    
+    print 'oneCount: ',oneCount
 
 ##########################################################################################
 ##########################################################################################

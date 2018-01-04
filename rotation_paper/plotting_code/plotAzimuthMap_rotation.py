@@ -79,8 +79,11 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/pilot_paper_code/plots6/'
 #         WS09data = '/Users/frenchd/Research/inclination/git_inclination/WS2009_lya_data.tsv'
         
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
+#         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
+#         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
+
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/'
 
 
     else:
@@ -241,7 +244,8 @@ def main():
     bL = fullDict['b']
     identifiedL = fullDict['identified']
     
-    
+    print 'initial len(Lya_vL): ',len(Lya_vL)
+    print
 
     i = -1
     for inc,inc_vir,inc_cus in zip(includeL,include_virL,include_customL):
@@ -355,6 +359,7 @@ def main():
     totalIsolated = 0
     totalGroup = 0
     
+    print 'len(lyaVList): ',len(lyaVList)
 
 ########################################################################################
 ########################################################################################
