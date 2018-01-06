@@ -49,8 +49,9 @@ def main():
     # assuming 'theFile' contains one name per line, read the file
     
     if getpass.getuser() == 'frenchd':
-        filename = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/LG_correlation_combined5_12_edit_plusSALTcut.csv'
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+#         filename = '/Users/frenchd/Research/inclination/git_inclination/pilot_maps/LG_correlation_combined5_12_edit_plusSALTcut.csv'
+        filename = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14_edit.csv'
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALT_14.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -115,6 +116,7 @@ def main():
     bL = []
     identifiedL = []
     commentL = []
+    sourceL  =[]
     
     checkDict = {}
     
@@ -186,7 +188,9 @@ def main():
 #             print 'b: ',l['b']
             b = float(str(l['b']).partition('pm')[0])
             identified = l['identified']
+            source = l['source']
             comment = l['comment']
+            
             
             if int(include) == 1:
                 oneCount+=1
@@ -236,6 +240,7 @@ def main():
             NaL.append(Na)
             bL.append(b)
             identifiedL.append(identified)
+            sourceL.append(source)
             commentL.append(comment)
 
 
@@ -284,6 +289,7 @@ def main():
     fullDict['Na'] = NaL
     fullDict['b'] = bL
     fullDict['identified'] = identifiedL
+    fullDict['source'] = sourceL
     fullDict['comment'] = commentL
     
     

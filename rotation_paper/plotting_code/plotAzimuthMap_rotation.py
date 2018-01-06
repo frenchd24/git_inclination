@@ -82,7 +82,8 @@ def main():
 #         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+#         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALT_14.p'
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/'
 
 

@@ -87,7 +87,8 @@ def main():
 #         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/pickleSALT.p'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+#         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALTcut.p'
+        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALT_14.p'
         gtPickleFilename = '/Users/frenchd/Research/inclination/git_inclination/pickleGT.p'
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs'
 
@@ -253,6 +254,7 @@ def main():
     NaL = fullDict['Na']
     bL = fullDict['b']
     identifiedL = fullDict['identified']
+    sourceL = fullDict['source']
     
     print 'initial len(Lya_vL): ',len(Lya_vL)
     print
@@ -279,8 +281,10 @@ def main():
             
             else:
                 go = False
+                
+        source = sourceL[i]
         
-        if go:
+        if go and source == 'salt':
             RA_agn = RA_agnL[i]
             Dec_agn = Dec_agnL[i]
             RA_gal = RA_galL[i]
@@ -793,7 +797,7 @@ def main():
     #
     
     plotFancyIncDifHist_full_all = True
-    save = True
+    save = False
     
     if plotFancyIncDifHist_full_all:
     
@@ -1199,7 +1203,7 @@ def main():
     # only those galaxies with D>25kpc
     #
     
-    plotFancyIncDifHist_full_largeOnly = True
+    plotFancyIncDifHist_full_largeOnly = False
     save = False
     
     if plotFancyIncDifHist_full_largeOnly:
