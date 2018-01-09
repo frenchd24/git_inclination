@@ -210,8 +210,8 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-#     filename = 'CGCG039-137-summary.json'
-    filename = 'RFGC3781-summary.json'
+    filename = 'CGCG039-137-summary.json'
+#     filename = 'RFGC3781-summary.json'
 
     
     with open(directory+filename) as data_file:
@@ -302,16 +302,16 @@ def main():
     # inc = inclination (adjustedInc)
 
     # CGCG039-137
-#     impact = 98.9
-#     az = 71.
-#     inc = 72.
-#     PA = 157.
+    impact = 98.9
+    az = 71.
+    inc = 72.
+    PA = 157.
     
     # ESO343-G014
-    impact = 466
-    az = 74.
-    inc = 89.9
-    PA = 158.
+#     impact = 466
+#     az = 74.
+#     inc = 89.9
+#     PA = 158.
     
     # inclination is backwards, so flip it
     effectiveInc = 90.-inc
@@ -400,22 +400,22 @@ def main():
 #     rayPoint = np.array([0, 95.169, -26.816])
 
     # CGCG039-137
-#     rayPoint = np.array([0, 95.169, -26.816])
+    rayPoint = np.array([0, 95.169, -26.816])
 
     # ESO343-G014
-    rayPoint = np.array([0, -464.4, 32.5])
+#     rayPoint = np.array([0, -464.4, 32.5])
 
 
     
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 500
+    zcutoff = 200
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
     intersect_point_list = []
-    for i in arange(-zcutoff,zcutoff-500,1):
+    for i in arange(-zcutoff,zcutoff-200,.1):
 #     for i in arange(-99,-97.5,.0005):
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
@@ -492,11 +492,15 @@ def main():
     plotExtent = 450
     plotXVelocity = True
     
+#     from matplotlib import gridspec
+    
     # tranpose the list of intersects for plotting
     ip_xlist,ip_ylist,ip_zlist = np.array(intersect_point_list).transpose()
     
     # initial figure
     fig = plt.figure(figsize=(12,8))
+#     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1]) 
+
 
     # first plot the v_proj data
     ax = fig.add_subplot(1,2,1)
@@ -534,8 +538,9 @@ def main():
     total = len(d_plot_list)
     count = 1
     skipNum = 1
+    skipDivisor = 1
     if total >=5:
-        skipNum = total/5
+        skipNum = total/skipDivisor
         
     for d in d_plot_list:
         count +=1
@@ -577,7 +582,7 @@ def main():
     tight_layout()
     
     directory = '/Users/frenchd/Research/test/'
-    savefig('{0}/{1}_rotation_model.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
+    savefig('{0}/{1}_rotation_model_2.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
 #     plt.show()
     
     

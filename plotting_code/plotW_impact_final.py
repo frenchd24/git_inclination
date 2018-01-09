@@ -852,8 +852,8 @@ def main():
     # red and blue shifted absorption, overplot single median histogram (total EW)
     #
     
-    plotW_impact_vir_medHist = True
-    save = True
+    plotW_impact_vir_medHist = False
+    save = False
     
     if plotW_impact_vir_medHist:
         fig = figure()
@@ -969,8 +969,8 @@ def main():
     # red and blue shifted absorption, overplot single median histogram (total EW)
     #
     
-    plotW_impact_medHist = True
-    save = True
+    plotW_impact_medHist = False
+    save = False
     
     if plotW_impact_medHist:
         fig = figure()
@@ -1086,8 +1086,8 @@ def main():
     # absorbers at impact < 1 R_vir, overplot median histograms for each
     #
     
-    plotW_impact_virseparate = True
-    save = True
+    plotW_impact_virseparate = False
+    save = False
     
     if plotW_impact_virseparate:
         fig = figure(figsize=(7.7,5.7))
@@ -1231,8 +1231,8 @@ def main():
     # plot shaded error regions around histogram
     # 
     
-    plotW_impact_vir_hist_errors = True
-    save = True
+    plotW_impact_vir_hist_errors = False
+    save = False
     
     if plotW_impact_vir_hist_errors:
         fig = figure(figsize=(7.7,5.7))
@@ -1438,8 +1438,8 @@ def main():
     # FOR INCLUDE = 1 ABSORBERS
 
     
-    plotW_impact_virseparate_include1 = False
-    save = False
+    plotW_impact_virseparate_include1 = True
+    save = True
     
     if plotW_impact_virseparate_include1:
         fig = figure(figsize=(7.7,5.7))
@@ -1448,12 +1448,12 @@ def main():
         countb = 0
         countr = 0
         count = -1
-        alpha = 0.7
-        alphaInside = 0.7
+        alpha = 0.6
+        alphaInside = 0.6
         binSize = 125
         bins = arange(0,625,binSize)
         markerSize = 60
-        color = 'blue'
+        color = 'Blue'
         symbol = 'o'
         maxW = 1500.
 
@@ -1497,11 +1497,11 @@ def main():
     
         # histograms
         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic='mean', bins=bins)
+        statistic='median', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='black',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean ~EW$')
+        plot(X,Y, ls='dashed',color='black',lw=1.7,alpha=alpha+0.2,label=r'$\rm Median ~EW$')
         
         
         # x-axis
@@ -1528,7 +1528,7 @@ def main():
         xlim(0,500)
 
         if save:
-            savefig('{0}/W(impact)_mean_{1}_virsep_include1.pdf'.format(saveDirectory,binSize,maxEnv),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact)_median_binSize{1}_virsep_include1_maxEnv{2}.pdf'.format(saveDirectory,binSize,maxEnv),format='pdf',bbox_inches='tight')
         else:
             show()
             
@@ -1541,8 +1541,8 @@ def main():
     # FOR INCLUDE = 1 ABSORBERS
 
 
-    plotW_impact_vir_median_include1 = False
-    save = False
+    plotW_impact_vir_median_include1 = True
+    save = True
     
     if plotW_impact_vir_median_include1:
         fig = figure(figsize=(7.7,5.7))
@@ -1552,8 +1552,8 @@ def main():
         countr = 0
         count = -1
 
-        alpha = 0.7
-        alphaInside = 0.7
+        alpha = 0.6
+        alphaInside = 0.6
         markerSize = 60
         
         binSize = 0.5
@@ -1561,7 +1561,7 @@ def main():
         
         labelr = r'$\rm Redshifted ~Absorber$'
         labelb = r'$\rm Blueshifted ~Absorber$'
-        color = 'blue'
+        color = 'Blue'
         symbol = 'o'
         maxW = 1500.
 
@@ -1602,11 +1602,11 @@ def main():
     
         # histograms
         bin_means,edges,binNumber = stats.binned_statistic(array(xVals), array(yVals), \
-        statistic='mean', bins=bins)
+        statistic='median', bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,Y, ls='dashed',color='black',lw=1.7,alpha=alpha+0.1,label=r'$\rm Mean ~EW$')
+        plot(X,Y, ls='dashed',color='black',lw=1.7,alpha=alpha+0.2,label=r'$\rm Median ~EW$')
     
         
         # x-axis
@@ -1635,7 +1635,7 @@ def main():
         xlim(0,2.0)
 
         if save:
-            savefig('{0}/W(impact_vir)_mean_{1}_virsep_include1.pdf'.format(saveDirectory,binSize,maxEnv),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(impact_vir)_median_binSize{1}_virsep_include1_maxEnv{2}.pdf'.format(saveDirectory,binSize,maxEnv),format='pdf',bbox_inches='tight')
         else:
             show()
 

@@ -99,6 +99,7 @@ def main():
     
     maxEnv = 3000
     minL = 0.001
+    maxEnv = 100
     
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
@@ -130,8 +131,6 @@ def main():
     virList = []
     likeList = []
     likem15List = []
-    
-    AGNnameList = []
     nameList = []
     
     # for ambiguous lines
@@ -140,12 +139,41 @@ def main():
     envAmbList = []
     ambAGNnameList = []
     
+    
+    # for include = 2 lines
+    lyaV_2List = []
+    lyaW_2List = []
+    env_2List = []
+    vir_2List = []
+    impact_2List = []
+    like_2List = []
+    
+    # for include = 3 lines
+    lyaV_3List = []
+    lyaW_3List = []
+    env_3List = []
+    vir_3List = []
+    impact_3List = []
+    like_3List = []
+    
+    
     # for all lines with a galaxy within 500 kpc
     lyaV_nearestList = []
     lyaW_nearestList = []
     env_nearestList = []
     impact_nearestList = []
     diam_nearestList = []
+    vir_nearestList = []
+    cus_nearestList = []
+    
+    
+    # for all
+    lyaV_all = []
+    lyaW_all = []
+    agnName_all = []
+    env_all = []
+    AGNnameList = []
+
     
     # WS lists
 #     WSvcorr = []
@@ -301,7 +329,11 @@ def main():
         vel_diff = vel_diffL[i]
         source = sourceL[i]
         
+        lyaV_all.append(float(lyaV))
+        lyaW_all.append(float(lyaW))
+        env_all.append(int(env))
         AGNnameList.append(targetName)
+        
         
         # for ambiguous lines
         if include == 0:
@@ -309,6 +341,27 @@ def main():
             lyaWAmbList.append(float(lyaW))
             envAmbList.append(float(env))
             ambAGNnameList.append(targetName)
+            
+            
+        print 'include = ', include
+        if include == 2:
+            print 'include2 = ',include
+            # for include = 2 lines
+            lyaV_2List.append(float(lyaV))
+            lyaW_2List.append(float(lyaW))
+            env_2List.append(float(env))
+            vir_2List.append(float(virialRadius))
+            impact_2List.append(float(impact))
+            like_2List.append(float(likelihood))
+    
+        if include == 3:
+            # for include = 3 lines
+            lyaV_3List.append(float(lyaV))
+            lyaW_3List.append(float(lyaW))
+            env_3List.append(float(env))
+            vir_3List.append(float(virialRadius))
+            impact_3List.append(float(impact))
+            like_3List.append(float(likelihood))
             
         # for all absorbers with a galaxy within 500kpc
         if isNumber(impact):
@@ -318,11 +371,13 @@ def main():
             impact_nearestList.append(float(impact))
             diam_nearestList.append(float(maj))
             nameList.append(galaxyName)
-
+            vir_nearestList.append(float(virialRadius))
+            cus_nearestList.append(float(m15))            
+            
             
 #         if go and source == 'salt':
 #         if go and source == 'pilot':
-        if go and env <=2:
+        if go and env <=maxEnv:
 #         if go:
             if isNumber(RC3pa) and not isNumber(pa):
                 pa = RC3pa
@@ -629,6 +684,17 @@ def main():
     
 
     assocFancyInc = blueFancyInc + redFancyInc
+    
+    AGNnameDict = {}
+    for i in AGNnameList:
+        if AGNnameDict.has_key(i):
+            c = AGNnameDict[i]
+            c +=1
+            AGNnameDict[i] = c
+        else:
+            AGNnameDict[i] = 1
+        
+    AGN_list = AGNnameDict.keys()
 
     
     print
@@ -640,8 +706,10 @@ def main():
     print ' Final include =         ',finalInclude
     print ' Match =                 ',match
     print
-    print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
+#     print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
+    print 'total number of lines: ', len(lyaV_all)
     print 'total number of unique galaxies matched: ',len(galaxyNames)
+    print 'total number of AGN: ',len(AGN_list)
     print 'total number of associated lines: ',len(difList)
     print 'total number of ambiguous lines: ',len(ambig)
     print 'total number of void lines: ',len(void)
