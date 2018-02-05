@@ -222,7 +222,9 @@
         12.062867156256022,
         14.194263864302679
     ],
-    "agn": {},
+    "agn": {
+    "H1101-232":{"RAdeg":165.9070833,"DEdeg":-23.49194444}
+    },
     "left_vrot_avg": 11.06124380729375,
     "vrot_incCorrected_errs": [
         23.72241554071618,
@@ -279,15 +281,19 @@
         23.335025357063117,
         25.832497501568962
     ],
-    "inclination": 34.0,
-    "di": 5.0,
+    "RAdeg":165.942,
+    "DEdeg":-23.2455,
+    "majDiam":22.07,
+    "PA":120.0,
+    "inclination": 30.0,
+    "di": 7.0,
     "vsys_measured": 1203.7,
     "right_vrot_avg_err": 7.7,
     "vsys_published": 1194.0,
     "vsys_measured_err": 12.0,
     "left_vrot_incCorrected_avg_err": 21.6,
     "right_vrot_avg": -11.061243807293522,
-    "distance": 12.327,
+    "distance": 13.9,
     "name": "NGC3513",
     "vrot_observed": [
         1187.3531047449426,

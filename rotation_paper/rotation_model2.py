@@ -42,7 +42,6 @@ from mpl_toolkits.mplot3d import Axes3D
 
 from scipy.optimize import curve_fit
 import matplotlib.ticker as ticker
-import json
 
 from matplotlib import rc
 fontScale = 14
