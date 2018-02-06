@@ -130,7 +130,9 @@
         15.58490103431891,
         16.009279329338078
     ],
-    "agn": {},
+    "agn": {
+        "SDSSJ151237.15+012846.0":"RAdeg":228.155,"DEdeg":1.479444444}
+    },
     "left_vrot_avg": 46.099207914145154,
     "vrot_incCorrected_errs": [
         15.509668183392305,
@@ -165,15 +167,19 @@
         16.009279329338078
     ],
     "inclination": 90.0,
-    "di": 10.0,
+    "di": 6.0,
     "vsys_measured": 2093.728239841303,
     "right_vrot_avg_err": 12.4,
     "vsys_published": 2023.0,
     "vsys_measured_err": 15.455207985966943,
     "left_vrot_incCorrected_avg_err": 15.978020956424666,
     "right_vrot_avg": -46.099207914145154,
-    "distance": 24.818,
+    "dist": 26.4,
     "name": "UGC09760",
+    "RAdeg":228.01018,
+    "DEdeg":1.69874,
+    "majDiam":20.94,
+    "PA":57.0,
     "vrot_observed": [
         2025.1741622737231,
         2030.8007292374868,

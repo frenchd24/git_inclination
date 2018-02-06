@@ -180,11 +180,28 @@ def main():
         
         vrot_vals = data['vrot_vals']
         vrot_incCorrected_vals = data['vrot_incCorrected_vals']
+        right_vrot_incCorrected_avg = data['right_vrot_incCorrected_avg']
+        left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
+        
         xVals = data['xVals']
         inclination = data['inclination']
         vsys_measured = data['vsys_measured']
         galaxyName = data['name']
+        RA_galaxy = data['RAdeg']
+        Dec_galaxy = data['DEdeg']
+        dist = data['dist']
+        majDiam = data['majDiam']
+        inc = data['inclination']
+        PA = data['PA']
         agn = data['agn']
+
+
+        # which agn do you want to target?
+        agnName = 'RX_J1121.2+0326'
+        RA_target = agn[agnName]['RAdeg']
+        Dec_target = agn[agnName]['DEdeg']
+        
+        
 
 ##########################################################################################
 ##########################################################################################
@@ -222,14 +239,23 @@ def main():
  
     lowMean = mean(vels[:6])
     highMean = mean(vels[-6:])
+    
+    print 'lowMean: ',lowMean
+    print 'highMean: ',highMean
+    print
+    print 'right_vrot_incCorrected_avg: ',right_vrot_incCorrected_avg
+    print 'left_vrot_incCorrected_avg: ',left_vrot_incCorrected_avg
+    print
 
     vels2 = vels
     xvals2 = xvals
     
 
     for i in range(100):
-        vels2.insert(0,lowMean)
-        vels2.append(highMean)
+#         vels2.insert(0,lowMean)
+#         vels2.append(highMean)
+        vels2.insert(0,right_vrot_incCorrected_avg)
+        vels2.append(left_vrot_incCorrected_avg)
 
         xvalStart +=step
         xvalEnd -=step
@@ -263,111 +289,111 @@ def main():
     # az = azimuth
     # inc = inclination (adjustedInc)
 
-    # CGCG039-137
-    target = 'RX_J1121.2+0326'
-    RA_target = agn[target]['RAdeg']
-    Dec_target = agn[target]['DEdeg']
-    
-    RA_galaxy = 170.36231
-    Dec_galaxy = 3.44491
-    dist = 101.21
-    majDiam = 26.35
-    
-    impact = 98.9
-    R_vir = 166.09
-    az = 71.
-    inc = 63.
-    PA = 157.
-    
-    # ESO343-G014
-    target = 'RBS1768'
-    RA_target = 324.7079167
-    Dec_target = -38.47777778
-    
-    RA_galaxy = 324.43825
-    Dec_galaxy = -38.49256
-    dist = 126.07
-    majDiam = 45.23
-    
-    impact = 465.6
-    az = 74.
-    inc = 89.9
-    PA = 158.
-    
-    # IC5325
-    target = 'RBS2000'
-    RA_target = 351.18625
-    Dec_target = -40.68027778
-    
-    RA_galaxy = 352.18096
-    Dec_galaxy = -41.33347
-    dist = 18.1
-    majDiam = 20.45
-    
-    impact = 314.335827
-    az = 64.1
-    inc = 25.
-    PA = 15.
-    
-    # MCG-03-58-009
-    target = 'MRC2251-178'
-    RA_target = 343.5245833
-    Dec_target = -17.58194444
-    
-    RA_galaxy = 343.42021
-    Dec_galaxy = -17.47889
-    dist = 142.
-    majDiam = 75.31
-    
-    impact = 355.0699641
-    az = 71.
-    inc = 49.
-    PA = 27.
-    
-    # NGC1566
-    target = '1H0419-577'
-    RA_target = 66.50291667
-    Dec_target = -57.20055556
-    
-    RA_galaxy = 65.00175
-    Dec_galaxy = -54.93781
-    dist = 7.19
-    majDiam = 15.34
-    
-    impact = 302.77587
-    az = 9.8
-    inc = 48.
-    PA = 170.
-
-    # NGC1566
-    target = 'HE0429-5343'
-    RA_target = 67.66666667
-    Dec_target = -53.61555556
-    
-    RA_galaxy = 65.00175
-    Dec_galaxy = -54.93781
-    dist = 7.19
-    majDiam = 15.34
-    
-    impact = 256.2063291
-    az = 60.1
-    inc = 48.
-    PA = 170.
-
-    # NGC1566
-    target = 'RBS567'
-    RA_target = 69.91125
-    Dec_target = -53.19194444
-    
-    RA_galaxy = 65.00175
-    Dec_galaxy = -54.93781
-    dist = 7.19
-    majDiam = 15.34
-    
-    impact = 422.6192722
-    az = 69.3
-    inc = 48.
-    PA = 170.
+#     CGCG039-137
+#     target = 'RX_J1121.2+0326'
+#     RA_target = agn[target]['RAdeg']
+#     Dec_target = agn[target]['DEdeg']
+#     
+#     RA_galaxy = 170.36231
+#     Dec_galaxy = 3.44491
+#     dist = 101.21
+#     majDiam = 26.35
+#     
+#     impact = 98.9
+#     R_vir = 166.09
+#     az = 71.
+#     inc = 63.
+#     PA = 157.
+#     
+#     ESO343-G014
+#     target = 'RBS1768'
+#     RA_target = 324.7079167
+#     Dec_target = -38.47777778
+#     
+#     RA_galaxy = 324.43825
+#     Dec_galaxy = -38.49256
+#     dist = 126.07
+#     majDiam = 45.23
+#     
+#     impact = 465.6
+#     az = 74.
+#     inc = 89.9
+#     PA = 158.
+#     
+#     IC5325
+#     target = 'RBS2000'
+#     RA_target = 351.18625
+#     Dec_target = -40.68027778
+#     
+#     RA_galaxy = 352.18096
+#     Dec_galaxy = -41.33347
+#     dist = 18.1
+#     majDiam = 20.45
+#     
+#     impact = 314.335827
+#     az = 64.1
+#     inc = 25.
+#     PA = 15.
+#     
+#     MCG-03-58-009
+#     target = 'MRC2251-178'
+#     RA_target = 343.5245833
+#     Dec_target = -17.58194444
+#     
+#     RA_galaxy = 343.42021
+#     Dec_galaxy = -17.47889
+#     dist = 142.
+#     majDiam = 75.31
+#     
+#     impact = 355.0699641
+#     az = 71.
+#     inc = 49.
+#     PA = 27.
+#     
+#     NGC1566
+#     target = '1H0419-577'
+#     RA_target = 66.50291667
+#     Dec_target = -57.20055556
+#     
+#     RA_galaxy = 65.00175
+#     Dec_galaxy = -54.93781
+#     dist = 7.19
+#     majDiam = 15.34
+#     
+#     impact = 302.77587
+#     az = 9.8
+#     inc = 48.
+#     PA = 170.
+# 
+#     NGC1566
+#     target = 'HE0429-5343'
+#     RA_target = 67.66666667
+#     Dec_target = -53.61555556
+#     
+#     RA_galaxy = 65.00175
+#     Dec_galaxy = -54.93781
+#     dist = 7.19
+#     majDiam = 15.34
+#     
+#     impact = 256.2063291
+#     az = 60.1
+#     inc = 48.
+#     PA = 170.
+# 
+#     NGC1566
+#     target = 'RBS567'
+#     RA_target = 69.91125
+#     Dec_target = -53.19194444
+#     
+#     RA_galaxy = 65.00175
+#     Dec_galaxy = -54.93781
+#     dist = 7.19
+#     majDiam = 15.34
+#     
+#     impact = 422.6192722
+#     az = 69.3
+#     inc = 48.
+#     PA = 170.
 
     
     # calculate impact parameter and shit
@@ -382,6 +408,9 @@ def main():
     # calculate azimuth
     az = calculateAzimuth(RA_galaxy,Dec_galaxy,RA_target,Dec_target,dist,PA)
     
+    # calculate R_vir
+    R_vir = calculateVirialRadius(majDiam)
+    
 #     if RA_galaxy > RA_target:
 #         impact_RA = -impact_RA
     if Dec_galaxy > Dec_target:
@@ -393,6 +422,7 @@ def main():
     print 'impact_RA: ',impact_RA
     print 'impact_Dec: ',impact_Dec
     print 'az: ',az
+    print 'R_vir: ',R_vir
     print
     
     # inclination is backwards, so flip it
@@ -400,7 +430,7 @@ def main():
 
     zcutoff = 100
     lcutoff = 700
-    R_vir = 300
+#     R_vir = 300
     verbose = True
     
     v_parallel_list = []
@@ -483,7 +513,7 @@ def main():
     # CGCG039-137
     rayPoint = np.array([0, impact_RA, impact_Dec])
     print 'rayPoint: ',rayPoint
-    print 'should be equal to : ([0, 95.169, -26.816])'
+#     print 'should be equal to : ([0, 95.169, -26.816])'
     print
     
 #     rayPoint = np.array([0, 95.169, -26.816])
@@ -501,8 +531,10 @@ def main():
     intersect_list = []
     d_plot_list = []
     intersect_point_list = []
-    for i in arange(-zcutoff,zcutoff-200,.1):
+#     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
+    for i in arange(-0.1,0.1,0.1):
+
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
         print 'planePoint: ',planePoint
@@ -675,7 +707,7 @@ def main():
     tight_layout()
     
     directory = '/Users/frenchd/Research/test/'
-    savefig('{0}/{1}_rotation_model_test2.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
+    savefig('{0}/{1}_rotation_model_test3.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
 #     plt.show()
     
     

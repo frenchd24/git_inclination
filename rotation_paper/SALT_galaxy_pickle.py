@@ -7,6 +7,9 @@ $Id:  SALT_galaxy_pickle.py, v1.0 02/01/18
 
 Pickle all the data for each SALT galaxy
 
+
+NOT FINISHED
+
 '''
 
 
@@ -45,6 +48,8 @@ def main():
     az = 71.
     inc = 63.
     PA = 157.
+    
+    SALTpickle[
     
     # ESO343-G014
     target = 'RBS1768'

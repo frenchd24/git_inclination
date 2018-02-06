@@ -268,7 +268,7 @@
     "vsys_measured_err": 8.4,
     "left_vrot_incCorrected_avg_err": 46.6,
     "right_vrot_avg": 52.85540038366935,
-    "distance": 18.1,
+    "dist": 18.1,
     "name": "IC5325",
     "vrot_observed": [
         1575.419256212263,

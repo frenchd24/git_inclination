@@ -186,7 +186,8 @@
         33.3756219828812,
         33.60983473931507
     ],
-    "agn": {},
+    "agn": {"PG1302-102":{"RAdeg":196.3875,"DEdeg":-10.55555556}
+    },
     "left_vrot_avg": -204.31755741079996,
     "vrot_incCorrected_errs": [
         52.94242802622993,
@@ -242,8 +243,12 @@
     "vsys_measured_err": 33.2,
     "left_vrot_incCorrected_avg_err": 49.0,
     "right_vrot_avg": 204.31755741080042,
-    "distance": 38.91,
+    "dist": 37.5,
     "name": "NGC4939",
+    "RAdeg":196.05996,
+    "DEdeg":-10.33961,
+    "majDiam":41.85,
+    "PA":5.0,
     "vrot_observed": [
         3330.566940880391,
         3315.754771407003,

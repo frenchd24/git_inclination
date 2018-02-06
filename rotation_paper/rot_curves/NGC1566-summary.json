@@ -277,7 +277,7 @@
     "vsys_measured_err": 14.9,
     "left_vrot_incCorrected_avg_err": 20.8,
     "right_vrot_avg": 63.63054039743497,
-    "distance": 7.15,
+    "dist": 7.15,
     "name": "NGC1566",
     "vrot_observed": [
         1569.7396892484526,

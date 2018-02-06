@@ -293,7 +293,7 @@
     "vsys_measured_err": 12.0,
     "left_vrot_incCorrected_avg_err": 21.6,
     "right_vrot_avg": -11.061243807293522,
-    "distance": 13.9,
+    "dist": 13.9,
     "name": "NGC3513",
     "vrot_observed": [
         1187.3531047449426,

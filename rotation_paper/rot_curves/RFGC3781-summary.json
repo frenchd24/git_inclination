@@ -118,7 +118,9 @@
         31.882876771607965,
         31.922489566854747
     ],
-    "agn": {},
+    "agn": {
+        "RBS1768":{"RAdeg":324.7079167,"DEdeg":-38.47777778}
+    },
     "left_vrot_avg": -202.57454942976437,
     "vrot_incCorrected_errs": [
         32.058592418374985,
@@ -149,7 +151,7 @@
         32.20749804398388,
         32.23960052169194
     ],
-    "inclination": 82.2,
+    "inclination": 89.9,
     "di": 3.0,
     "vsys_measured": 9138.9,
     "right_vrot_avg_err": 5.6,
@@ -157,8 +159,12 @@
     "vsys_measured_err": 31.7,
     "left_vrot_incCorrected_avg_err": 52.9,
     "right_vrot_avg": 202.57454942976256,
-    "distance": 126.0,
+    "dist": 126.07,
     "name": "RFGC3781",
+    "RAdeg":324.43825,
+    "DEdeg":-38.49256,
+    "majDiam":45.23,
+    "PA":160.0,
     "vrot_observed": [
         9340.367928373578,
         9335.325519775075,
