@@ -42,8 +42,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 
-
-
 from scipy.optimize import curve_fit
 import matplotlib.ticker as ticker
 
@@ -67,8 +65,6 @@ rc('axes',titlesize='small')
 
 
 
-
-
 '''
 ========================================================
 '''
@@ -81,6 +77,58 @@ def adjust(impact,inc,az):
     ds = a * math.tan((90-inc)*math.pi/180.)
     
     return ds
+    
+    
+    
+def plot_cylinder(p0,p1,R):
+    #axis and radius
+#     p0 = np.array([1, 3, 2]) #point at one end
+#     p1 = np.array([8, 5, 9]) #point at other end
+#     R = 5
+
+    #vector in direction of axis
+    v = p1 - p0
+
+    #find magnitude of vector
+    mag = norm(v)
+
+    #unit vector in direction of axis
+    v = v / mag
+
+    #make some vector not in the same direction as v
+    not_v = np.array([1, 0, 0])
+    if (v == not_v).all():
+        not_v = np.array([0, 1, 0])
+
+    #make vector perpendicular to v
+    n1 = np.cross(v, not_v)
+    #normalize n1
+    n1 /= norm(n1)
+
+    #make unit vector perpendicular to v and n1
+    n2 = np.cross(v, n1)
+
+    #surface ranges over t from 0 to length of axis and 0 to 2*pi
+    t = np.linspace(0, mag, 2)
+    theta = np.linspace(0, 2 * np.pi, 100)
+    rsample = np.linspace(0, R, 2)
+
+    #use meshgrid to make 2d arrays
+    t, theta2 = np.meshgrid(t, theta)
+
+    rsample,theta = np.meshgrid(rsample, theta)
+
+    #generate coordinates for surface
+    # "Tube"
+    X, Y, Z = [p0[i] + v[i] * t + R * np.sin(theta2) * n1[i] + R * np.cos(theta2) *       n2[i] for i in [0, 1, 2]]
+    # "Bottom"
+    X2, Y2, Z2 = [p0[i] + rsample[i] * np.sin(theta) * n1[i] + rsample[i] * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+    # "Top"
+    X3, Y3, Z3 = [p0[i] + v[i]*mag + rsample[i] * np.sin(theta) * n1[i] + rsample[i] * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+
+    return (X, Y, Z), (X2, Y2, Z2), (X3, Y3, Z3)
+    
+    
     
     
 def get_data(filename):
@@ -415,7 +463,7 @@ def main():
     # calculate R_vir
     R_vir = calculateVirialRadius(majDiam)
     
-    inc = 0.1
+    inc = 45.
     
     
 #     if RA_galaxy > RA_target:
@@ -508,6 +556,7 @@ def main():
     
     # define the normal
     N = np.cross(pp2,pp1,axisa=0, axisb=0, axisc=0)
+    N = N / np.linalg.norm(N)
     print 'N:' ,N
     print
     
@@ -543,7 +592,7 @@ def main():
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
-    for i in arange(0,0.1,0.1):
+    for i in arange(-100,100,0.1):
 
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
@@ -595,13 +644,14 @@ def main():
         # (cos a)v+(sin a)(n x v)
         #
         # so need to rotate by pi + pi/2 to get all the way around
-#         alpha = math.pi + math.pi/2
-        alpha = math.pi/2
+        alpha = math.pi + math.pi/2
+#         alpha = math.pi/2
 
         
         # this is the velocity vector in the direction of intersect point, n_p2
         # edit: seems legit
         v = v_intersect * n_p2
+        print 'new way: '
         print 'v: ',v
         print '||v|| : ',np.linalg.norm(v)
         v_list.append(v)
@@ -613,31 +663,30 @@ def main():
         v_90 = math.cos(alpha) * v + math.sin(alpha) * (np.cross(N,v,axisa=0, axisb=0, axisc=0))
         print 'v_90: ',v_90
         print '||v_90|| : ',np.linalg.norm(v_90)
+        print '||N||: ', np.linalg.norm(N)
+
         v_90_list.append(v_90)
         
         # now dot it with the sightline to get the component along
         cos_alpha = np.dot(v_90,rayDirection)
         print 'cos_alpha: ',cos_alpha
-        
-        v_proj = cos_alpha * v_intersect
+        v_proj = cos_alpha
         print 'v_proj: ',v_proj
+        print
         
-    
+#         print 'old way:'
     
         # old way of doing this
         # cosine of angle between sightline and intersect point unit vector
-        cos_alpha = n_p2.dot(rayDirection)
-        alpha = math.acos(cos_alpha)
-        print 'cos_alpha: :',cos_alpha
-        print
-        
-#         v_proj = cos_alpha * v_intersect
-#         v_proj = abs(cos_alpha) * v_intersect
-        v_angle = math.cos(math.pi/2 - alpha)
-        v_proj = abs(v_angle) * v_intersect
-
-        print 'v_proj: ',v_proj
-        print
+#         cos_alpha = n_p2.dot(rayDirection)
+#         alpha = math.acos(cos_alpha)
+#         print 'cos_alpha: :',cos_alpha
+#         print
+#         v_angle = math.cos(math.pi/2 - alpha)
+#         v_proj = abs(v_angle) * v_intersect
+# 
+#         print 'v_proj: ',v_proj
+#         print
     
         v_proj_list.append(v_proj)
 #         intersect_list.append(p2)
@@ -656,7 +705,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
-    plotExtent = int(R_vir)
+    plotExtent = 300
+    zHeight = 100
     plotXVelocity = True
     anim = True
     
@@ -695,45 +745,29 @@ def main():
         
     # next plot the 3d fig
     ax = fig.add_subplot(1,2,2,projection='3d')
-    
-    # reverse the RA axis so negative is on the right
-#     ax = plt.gca()
-
-    ax.invert_xaxis()
-#     ax.invert_yaxis()
-
 
     # the galaxy plane normal
     normal = N
-
-    # create x,y
-    xx, yy = np.meshgrid(range(-plotExtent,plotExtent), range(-plotExtent,plotExtent))
-
-
-    # calculate corresponding z
-    total = len(d_plot_list)
-    count = 1
-    skipNum = 1
-    skipDivisor = 1
-    if total >=5:
-        skipNum = total/skipDivisor
-
-
-    for d in d_plot_list:
-        count +=1
-        z = (-normal[0] * xx - normal[1] * yy - d) * 1. /normal[2]
-        print '-normal[0]: ',normal[0]
-        print 'normal[1]: ',normal[1]
-        print 'd: ',d
-        print 'normal[2]: ',normal[2]
-        print
-        print 'z:',z
-        print 'xx: ',xx
-        print
-        
-        # plot the surface
-        if count % skipNum == 0:
-            ax.plot_surface(xx, yy, z)
+    
+    R = int(R_vir)
+    p0 = normal * (zHeight/2.)
+    p1 = normal * (-zHeight/2.)
+    
+    tube,bottom,top = plot_cylinder(p0,p1,R)
+    
+    X, Y, Z = tube
+    X2, Y2, Z2 = bottom
+    X3, Y3, Z3 = top
+    
+    alphaTube = 0.5
+    alphaBottom = 0.5
+    alphaTop = 0.5
+    
+#     ax=plt.subplot(111, projection='3d')
+    ax.plot_surface(X, Y, Z, color='blue',alpha = alphaTube)
+    ax.plot_surface(X2, Y2, Z2, color='blue',alpha = alphaBottom)
+    ax.plot_surface(X3, Y3, Z3, color='blue',alpha = alphaTop)
+    
 
     ax.set_xlabel(r'$\rm z$')
     ax.set_ylabel(r'$\rm R.A.$')
@@ -754,51 +788,81 @@ def main():
     print 'intersect: ',intersect[0],intersect[1],intersect[2]
 
     ax.plot([0,v[0]], [0,v[1]], [0,v[2]], color='green',lw=plotExtent/100)
-    ax.plot([0,v_90[0]], [0,v_90[1]], [0,v_90[2]], color='purple',lw=plotExtent/100)
+#     ax.plot([0,v_90[0]], [0,v_90[1]], [0,v_90[2]], color='purple',lw=plotExtent/100)
+    ax.plot([intersect[0],v_90[0]], [intersect[1],v_90[1]], [intersect[2],v_90[2]], color='purple',lw=plotExtent/100)
+
 
     # put a star on the intersect
     ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
 
     ax.set_xlim(-plotExtent, plotExtent)
-    ax.set_ylim(-abs(rayPoint[1]), abs(rayPoint[1])+50)
-    ax.set_zlim(-abs(rayPoint[2]), abs(rayPoint[2])+50)
+    ax.set_ylim(-plotExtent, plotExtent)
+    ax.set_zlim(-plotExtent, plotExtent)
     
-#     def animate(i):
-# #         line.set_ydata(F[i, :])
-#         ax.view_init(6+i,1+i)
-#         plt.draw()
+    # reverse the RA axis so negative is on the right
+#     ax = plt.gca()
+    ax.invert_xaxis()
     
     # rotate the plot
-    ax.view_init(6, 0)
+#     ax.view_init(6, 0)
 
     # plot the fit
 #     ax.yaxis.tick_right()
 #     ax.yaxis.set_label_position("right")
 
 #     tight_layout()
+
     
-#     anim = FuncAnimation(fig, animate, frames = 100, interval=100)
- 
-#     plt.draw()
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+    
+    
+    directory = '/Users/frenchd/Research/test/movie4/'
 #     plt.show()
-    
-#     for i in arange(0,360):
-#         ax.view_init(6, i)
-#         plt.draw()
-#         plt.pause(.001)
 
-    directory = '/Users/frenchd/Research/test/movie2/'
-    plt.show()
-
-    for ii in xrange(0,360,2):
+    for ii in xrange(0,360,5):
         ax.view_init(elev=10., azim=ii)
         plt.draw()
         
-#         savefig("{0}movie{1}.jpg".format(directory,ii),dpi=90)
+        savefig("{0}movie{1}.jpg".format(directory,ii),dpi=110)
         
+#     savefig('{0}/{1}_rotation_model_cylinder.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
     
-#     savefig('{0}/{1}_rotation_model_test3.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
+    
+    
 #     plt.show()
+
+    
+    # create x,y
+#     xx, yy = np.meshgrid(range(-plotExtent,plotExtent), range(-plotExtent,plotExtent))
+# 
+# 
+    # calculate corresponding z
+#     total = len(d_plot_list)
+#     count = 1
+#     skipNum = 1
+#     skipDivisor = 1
+#     if total >=5:
+#         skipNum = total/skipDivisor
+# 
+# 
+#     for d in d_plot_list:
+#         count +=1
+#         z = (-normal[0] * xx - normal[1] * yy - d) * 1. /normal[2]
+#         print '-normal[0]: ',normal[0]
+#         print 'normal[1]: ',normal[1]
+#         print 'd: ',d
+#         print 'normal[2]: ',normal[2]
+#         print
+#         print 'z:',z
+#         print 'xx: ',xx
+#         print
+#         
+        # plot the surface
+#         if count % skipNum == 0:
+#             ax.plot_surface(xx, yy, z)
     
     
 ##########################################################################################
