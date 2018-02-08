@@ -81,6 +81,17 @@ def adjust(impact,inc,az):
     
     
 def plot_cylinder(p0,p1,R):
+    #   I totally jacked this code from here:
+    #
+    #   '''
+    #     Created on Sun Oct  2 18:33:10 2016
+    # 
+    #     Modified from https://stackoverflow.com/questions/38076682/how-to-add-colors-to-each-individual-face-of-a-cylinder-using-matplotlib
+    #     to add "end caps" and to undo fancy coloring.
+    # 
+    #     @author: astrokeat
+    #   '''
+
     #axis and radius
 #     p0 = np.array([1, 3, 2]) #point at one end
 #     p1 = np.array([8, 5, 9]) #point at other end
@@ -173,7 +184,7 @@ def get_data(filename):
 def find_intersect(planeNormal,planePoint,rayDirection,rayPoint):
     epsilon=1e-6
 
-    ndotu = planeNormal.dot(rayDirection) 
+    ndotu = planeNormal.dot(rayDirection)
 
     if abs(ndotu) < epsilon:
         print "no intersection or line is within plane"
@@ -236,7 +247,7 @@ def main():
         left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
         
         xVals = data['xVals']
-        inclination = data['inclination']
+        inc = data['inclination']
         vsys_measured = data['vsys_measured']
         galaxyName = data['name']
         RA_galaxy = data['RAdeg']
@@ -463,7 +474,7 @@ def main():
     # calculate R_vir
     R_vir = calculateVirialRadius(majDiam)
     
-    inc = 45.
+#     inc = .45
     
     
 #     if RA_galaxy > RA_target:
@@ -514,6 +525,7 @@ def main():
     print 'z: ',z
     
     
+    R_vir = 1.5*R_vir
 
 ##########################################################################################
     # Define the galaxy plane
@@ -582,7 +594,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 200
+    zcutoff = 100
+    rcutoff = R_vir
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
@@ -592,7 +605,7 @@ def main():
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
-    for i in arange(-100,100,0.1):
+    for i in arange(-zcutoff,zcutoff,0.1):
 
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
@@ -603,7 +616,6 @@ def main():
         intersect = find_intersect(N,planePoint,rayDirection,rayPoint)
         print "intersection at", intersect
         print
-        intersect_point_list.append(intersect)
         
         # this is the vector from the origin of the current plane to the intersect
         intersect_vect = intersect - (i * N)
@@ -613,91 +625,97 @@ def main():
 #         p2 = np.linalg.norm(intersect)
         p2 = np.linalg.norm(intersect_vect)
         print 'p2: ',p2
-    
-        # find the rotation velocity at this distance from the rotation curve fit center
-        try:
-            v_intersect = fit(p2)
-            print 'v_intersect: ',v_intersect
-            print
-        except Exception,e:
-            # if you go beyond the fit, set velocity to 0
-            v_intersect = 0
-            print 'Ran out of interpolation range for {0}'.format(p2)
-            print "Built in exception is {0}".format(e)
-            print
+
+        # restrict the intersection to be within the cylinder of radius rcutoff
+        if p2 <= rcutoff:
+            # find the rotation velocity at this distance from the rotation curve fit center
+            try:
+                v_intersect = fit(p2)
+                print 'v_intersect: ',v_intersect
+                print
+            except Exception,e:
+                # if you go beyond the fit, set velocity to 0
+                v_intersect = 0
+                print 'Ran out of interpolation range for {0}'.format(p2)
+                print "Built in exception is {0}".format(e)
+                print
             
-        #######
-        #######
-        #######
-        # angle between sightline and vector to intersect point
+            #######
+            #######
+            #######
+            # angle between sightline and vector to intersect point
         
-        # unit vector towards intersect point
-#         n_p2 = intersect / np.linalg.norm(intersect)
-        n_p2 = intersect_vect / np.linalg.norm(intersect_vect)
-        print 'n_p2: ',n_p2
-        print
+            # unit vector towards intersect point
+    #         n_p2 = intersect / np.linalg.norm(intersect)
+            n_p2 = intersect_vect / np.linalg.norm(intersect_vect)
+            print 'n_p2: ',n_p2
+            print
         
         
-        # new way of doing this:
-        #
-        # the result of rotating v counterclockwise by a about n is given by:
-        # (cos a)v+(sin a)(n x v)
-        #
-        # so need to rotate by pi + pi/2 to get all the way around
-        alpha = math.pi + math.pi/2
-#         alpha = math.pi/2
+            # new way of doing this:
+            #
+            # the result of rotating v counterclockwise by a about n is given by:
+            # (cos a)v+(sin a)(n x v)
+            #
+            # so need to rotate by pi + pi/2 to get all the way around
+            alpha = math.pi + math.pi/2
+    #         alpha = math.pi/2
 
         
-        # this is the velocity vector in the direction of intersect point, n_p2
-        # edit: seems legit
-        v = v_intersect * n_p2
-        print 'new way: '
-        print 'v: ',v
-        print '||v|| : ',np.linalg.norm(v)
-        v_list.append(v)
+            # this is the velocity vector in the direction of intersect point, n_p2
+            # edit: seems legit
+            v = v_intersect * n_p2
+            print 'new way: '
+            print 'v: ',v
+            print '||v|| : ',np.linalg.norm(v)
+            v_list.append(v)
         
-        # this then should be the correct rotation velocity vector, but centered at the
-        # origin. So, we then need to just shift the sightline to pass through the origin
-        #
-        # i.e., new sightline = [1, 0 ,0 ] = rayDirection
-        v_90 = math.cos(alpha) * v + math.sin(alpha) * (np.cross(N,v,axisa=0, axisb=0, axisc=0))
-        print 'v_90: ',v_90
-        print '||v_90|| : ',np.linalg.norm(v_90)
-        print '||N||: ', np.linalg.norm(N)
+            # this then should be the correct rotation velocity vector, but centered at the
+            # origin. So, we then need to just shift the sightline to pass through the origin
+            #
+            # i.e., new sightline = [1, 0 ,0 ] = rayDirection
+            v_90 = math.cos(alpha) * v + math.sin(alpha) * (np.cross(N,v,axisa=0, axisb=0, axisc=0))
+            print 'v_90: ',v_90
+            print '||v_90|| : ',np.linalg.norm(v_90)
+            print '||N||: ', np.linalg.norm(N)
 
-        v_90_list.append(v_90)
+            v_90_list.append(v_90)
         
-        # now dot it with the sightline to get the component along
-        cos_alpha = np.dot(v_90,rayDirection)
-        print 'cos_alpha: ',cos_alpha
-        v_proj = cos_alpha
-        print 'v_proj: ',v_proj
-        print
+            # now dot it with the sightline to get the component along
+            cos_alpha = np.dot(v_90,rayDirection)
+            print 'cos_alpha: ',cos_alpha
+            v_proj = cos_alpha
+            print 'v_proj: ',v_proj
+            print
         
-#         print 'old way:'
+    #         print 'old way:'
     
-        # old way of doing this
-        # cosine of angle between sightline and intersect point unit vector
-#         cos_alpha = n_p2.dot(rayDirection)
-#         alpha = math.acos(cos_alpha)
-#         print 'cos_alpha: :',cos_alpha
-#         print
-#         v_angle = math.cos(math.pi/2 - alpha)
-#         v_proj = abs(v_angle) * v_intersect
-# 
-#         print 'v_proj: ',v_proj
-#         print
+            # old way of doing this
+            # cosine of angle between sightline and intersect point unit vector
+    #         cos_alpha = n_p2.dot(rayDirection)
+    #         alpha = math.acos(cos_alpha)
+    #         print 'cos_alpha: :',cos_alpha
+    #         print
+    #         v_angle = math.cos(math.pi/2 - alpha)
+    #         v_proj = abs(v_angle) * v_intersect
+    # 
+    #         print 'v_proj: ',v_proj
+    #         print
     
-        v_proj_list.append(v_proj)
-#         intersect_list.append(p2)
-        intersect_list.append(intersect[0])
+            v_proj_list.append(v_proj)
+    #         intersect_list.append(p2)
+            intersect_list.append(intersect[0])
+            print 'intersect[0]: ',intersect[0]
+            
+            intersect_point_list.append(intersect)
 
-        d = -planePoint.dot(N)
-        d_plot_list.append(d)
+
+            d = -planePoint.dot(N)
+            d_plot_list.append(d)
         
     
-    print 'v_proj_list: ',v_proj_list
-    print 'intersect_list: ',intersect_list
+#     print 'v_proj_list: ',v_proj_list
+#     print 'intersect_list: ',intersect_list
     print
     
 ##########################################################################################
@@ -749,9 +767,13 @@ def main():
     # the galaxy plane normal
     normal = N
     
+##########################################################################################
+##########################################################################################
+    # plot the cylinder
+    
     R = int(R_vir)
-    p0 = normal * (zHeight/2.)
-    p1 = normal * (-zHeight/2.)
+    p0 = normal * (zHeight)
+    p1 = normal * (-zHeight)
     
     tube,bottom,top = plot_cylinder(p0,p1,R)
     
@@ -759,15 +781,15 @@ def main():
     X2, Y2, Z2 = bottom
     X3, Y3, Z3 = top
     
-    alphaTube = 0.5
-    alphaBottom = 0.5
-    alphaTop = 0.5
+    alphaTube = 0.4
+    alphaBottom = 0.4
+    alphaTop = 0.4
     
 #     ax=plt.subplot(111, projection='3d')
     ax.plot_surface(X, Y, Z, color='blue',alpha = alphaTube)
     ax.plot_surface(X2, Y2, Z2, color='blue',alpha = alphaBottom)
     ax.plot_surface(X3, Y3, Z3, color='blue',alpha = alphaTop)
-    
+
 
     ax.set_xlabel(r'$\rm z$')
     ax.set_ylabel(r'$\rm R.A.$')
@@ -780,16 +802,24 @@ def main():
     y = np.ones(1000)*rayPoint[1]
     ax.plot(x, y, z, color='black',lw=plotExtent/70)
 
-    # some interesting points
+    # some interesting points: 
+    # v is the velocity vector in the direction of intersect point
     v = np.array(v_list[0])
+    
+    # v_90 is the rotation velocity vector in the direction of rotation at the intersect
+    # point
     v_90 = np.array(v_90_list[0])
+    
+    # galaxy center
     orig = np.array([0,0,0])
+    
+    # intersect point
     intersect = np.array(intersect_point_list[0])
     print 'intersect: ',intersect[0],intersect[1],intersect[2]
 
-    ax.plot([0,v[0]], [0,v[1]], [0,v[2]], color='green',lw=plotExtent/100)
+#     ax.plot([0,v[0]], [0,v[1]], [0,v[2]], color='green',lw=plotExtent/100)
 #     ax.plot([0,v_90[0]], [0,v_90[1]], [0,v_90[2]], color='purple',lw=plotExtent/100)
-    ax.plot([intersect[0],v_90[0]], [intersect[1],v_90[1]], [intersect[2],v_90[2]], color='purple',lw=plotExtent/100)
+#     ax.plot([intersect[0],v_90[0]], [intersect[1],v_90[1]], [intersect[2],v_90[2]], color='purple',lw=plotExtent/100)
 
 
     # put a star on the intersect
@@ -819,14 +849,14 @@ def main():
 ##########################################################################################
     
     
-    directory = '/Users/frenchd/Research/test/movie4/'
+    directory = '/Users/frenchd/Research/test/movie7/'
 #     plt.show()
 
     for ii in xrange(0,360,5):
         ax.view_init(elev=10., azim=ii)
         plt.draw()
         
-        savefig("{0}movie{1}.jpg".format(directory,ii),dpi=110)
+        savefig("{0}movie{1}.jpg".format(directory,ii),dpi=120)
         
 #     savefig('{0}/{1}_rotation_model_cylinder.pdf'.format(directory,galaxyName),bbox_inches='tight',format='pdf')
     
