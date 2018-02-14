@@ -47,6 +47,8 @@ Galaxy rotation curves have been observed to extend at constant velocity out to.
 
 There have been several studies with a sample size of 1 or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., Wakker \& Savage 2009, Bowen et al. 2016, \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
 
+Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., French \& Wakker 2017, MORE).
+
 
 \begin{table*}[ht]\footnotesize
 \begin{center}
@@ -58,6 +60,8 @@ There have been several studies with a sample size of 1 or a few aiming to compa
 \\
     
 1H0717+714		  &  7.0  21.0   53.3  &     71.0  20.0  36.0  &    0.5003  & 12025  	    &   G130M  &   LBG812  		 & 11-12-27      	 	  &  6.0    &      37         \\
+
+
 
  \\
 \hline
@@ -81,7 +85,7 @@ Our sample contains 12 galaxies observed with the Southern African Large Telesco
 
 All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{CITATION}), which includes procedures to prepare the data, correct for gain, cross-talk, bias, and overscan, and finally mosaic the images from different extensions. Next, we rectify the images with wavelength solutions found via Ne and Ar arc lamp spectra line identification. Finally, we perform a basic sky subtraction using an off-sky portion of the image, and extract 5-10 pixel wide 1-D strips from the reduced 2-D spectrum. 
 
-For each 1-D spectrum, we identify the H$\alpha$ emission or Ca H\&K absorption lines and perform a non-linear least-squares Voigt profile fit using the Python package LMFIT\footnote{\url{http://cars9.uchicago.edu/software/python/lmfit/contents.html}}. The line centroid and 1$\sigma$ standard errors are returned, and these fits are then shifted to rest-velocity based on the galaxy systemic redshift and heliocentric velocity corrections are calculated with the IRAF rvcorrect procedure. The final rotation velocity is calculated by then applying the inclination correction, $v_{rot} = v / \sin(i)$. Final errors are calculated as
+For each 1-D spectrum, we identify the H$\alpha$ emission lines and perform a non-linear least-squares Voigt profile fit using the Python package LMFIT\footnote{\url{http://cars9.uchicago.edu/software/python/lmfit/contents.html}}. The line centroid and 1$\sigma$ standard errors are returned, and these fits are then shifted to rest-velocity based on the galaxy systemic redshift and heliocentric velocity corrections are calculated with the IRAF rvcorrect procedure. The final rotation velocity is calculated by then applying the inclination correction, $v_{rot} = v / \sin(i)$. Final errors are calculated as
 
 \begin{equation}
 \begin{split}
@@ -90,7 +94,7 @@ For each 1-D spectrum, we identify the H$\alpha$ emission or Ca H\&K absorption 
 \end{split}
 \end{equation}
 
-\noindent where $\Delta \lambda_{obs}$, $\Delta v_{sys}$, and $\Delta i$ are the errors in observed line center, galaxy redshift, and inclination, respectively. The final physical scale is calculated using the SALT image scale of 0.1267 arcsec/pixel, multiplied by the 4-pixel spatial binning, and converted to physical units using a redshift-independent distance if available, and a Hubble flow estimate if not. We adopt a Hubble constant of $H_0$ = 71 \kms $\rm Mpc^{-1}$ throughout.
+\noindent where $\Delta \lambda_{obs}$, $\Delta v_{sys}$, and $\Delta i$ are the errors in observed line center, galaxy redshift, and inclination, respectively. We determine the inclination error by calculate the standard deviation of all axis ratio values available for each galaxy in NED. The final physical scale is calculated using the SALT image scale of 0.1267 arcsec/pixel, multiplied by the 4-pixel spatial binning, and converted to physical units using a redshift-independent distance if available, and a Hubble flow estimate if not. We adopt a Hubble constant of $H_0$ = 71 \kms $\rm Mpc^{-1}$ throughout.
 
 Finally, we calculate our approaching and receding velocities via a weighted mean of the outer 1/2 of each rotation curve, with errors calculated as weighted standard errors in the mean. Our final redshifts are calculated by forcing symmetric rotation, such that the outer 1/2 average velocity for each side matches. See Figure \ref{rotation_curve} for an example.
 
@@ -108,22 +112,20 @@ Finally, we calculate our approaching and receding velocities via a weighted mea
 \begin{center}
 \begin{tabular}{l l l l l l l l l l l}
  \hline \hline
-  Galaxy 		& R.A. 		& Dec. 		 	& \textit{cz}	& Type		& Grating		& LOS Velocity		& Absolute Velocity	& Obs Date	& $T_{exp}$		& S/N			\\ 
-  	    		& 	       		&	  		 	& (\kms)		& 		  	&			& (\kms)		     	& (\kms)			&			& (ks)			& (6562.8)			\\ 
- \scriptsize (1)  	& \scriptsize (2)	& \scriptsize (3) 	&\scriptsize (4)	& \scriptsize (5)	& \scriptsize (6)	& \scriptsize (7)		& \scriptsize (8)		& \scriptsize (9)	& \scriptsize (10)	& \scriptsize (11)	\\ \hline \hline
+  Galaxy 		 & R.A. 			& Dec. 		 	& \textit{cz}		& Type		& Grating		& LOS Velocity		& Absolute Velocity	& Obs Date	& $T_{exp}$		& S/N			\\ 
+  	    		 & 	       			&	  		 	& (\kms)			& 		  	&			& (\kms)		     	& (\kms)			&			& (ks)			& (6562.8)			\\ 
+ \scriptsize (1)  	 & \scriptsize (2)	& \scriptsize (3) 	& \scriptsize (4)		& \scriptsize (5)	& \scriptsize (6)	& \scriptsize (7)		& \scriptsize (8)		& \scriptsize (9)	& \scriptsize (10)	& \scriptsize (11)	\\ \hline \hline
  
- NGC4536	& 12 34 27.05	& +02 11 17.3		& $1808 \pm1$	& SAB(rc)bc	& PG2300		& $-107 \pm 8.5$	& $-113 \pm 9.2$	& 05 11 2016	& 1300			& not sure \\
-  			&			&				&			&			&			& $145 \pm 31.8$	& $113 \pm 34.3$	&			&				&		\\
+ CGCG039-137 & 11 21 26.95		& +03 26 41.68		& $6918 \pm24$	& Scd		& PG2300?	& XXXX			& XXXX			& XXXX		& XXXX			& 	XXXX		\\
+ 
+ NGC4536	 & 12 34 27.05		& +02 11 17.3		& $1808 \pm1$		& SAB(rc)bc	& PG2300		& $-107 \pm 8.5$	& $-113 \pm 9.2$	& 05 11 2016	& 1300			& not sure \\
 			
- NGC3633	& 11 20 26.22	& +03 35 08.2		& $2600 \pm2$	& SAa		& PG2300		& $-160 \pm 5.7$	& $-169 \pm 6.0$	& 05 11 2016	& 1200			& not sure \\
- 			&			&				&			&			&			& $139 \pm 3.3$	& $146 \pm 3.5$	&			&				&		\\
+ NGC3633	 & 11 20 26.22		& +03 35 08.2		& $2600 \pm2$		& SAa		& PG2300		& $-160 \pm 5.7$	& $-169 \pm 6.0$	& 05 11 2016	& 1200			& not sure \\
 			
- NGC5786	& 14 58 56.26	& $-$42 00 48.1	& $2998 \pm5$	& (R')SB(s)bc	& PG2300		& not sure			& not sure			& 05 11 2016	& 250			& not sure \\
-  			&			&				&			&			&			& $ \pm $	& $ \pm $	&			&				&		\\
+ NGC5786	 & 14 58 56.26		& $-$42 00 48.1	& $2998 \pm5$		& (R')SB(s)bc	& PG2300		& not sure			& not sure			& 05 11 2016	& 250			& not sure \\
 
- NGC5364	& 13 56 12.00	& +05 00 52.1		& $1241 \pm4$	& SA(rs)bc pec	& PG2300		& not sure			& not sure			& 05 11 2016	& 700			& not sure \\
+ NGC5364	 & 13 56 12.00		& +05 00 52.1		& $1241 \pm4$		& SA(rs)bc pec	& PG2300		& not sure			& not sure			& 05 11 2016	& 700			& not sure \\
  	
- 
  
  \hline
 
@@ -141,10 +143,10 @@ Rotation velocity (observed) 132 $\pm$ 16 \kms
 Inclination: 61
 Adjusted Inc: 63
 Morphology: Scd
-L_{\**} = 0.62 \\
+$L_{\**}$ = 0.62 \\
 
 Two sightlines: \\
-RX_J1121.2+0326 at 99 kpc, 71deg az: \\
+RX\_J1121.2+0326 at 99 kpc, 71deg az: \\
 6975 Lya (dv = 75 \kms on pos side)
 
 SDSSJ112224.10+031802.0 at 491 kpc, 24deg az : \\
@@ -160,7 +162,7 @@ Rotation velocity (observed) 203 $\pm$ 6 \kms
 Inclination: 84
 Adjusted Inc: 90
 Morphology: Sb
-L_{\**} = 1.1 \\
+$L_{\**}$ = 1.1 \\
 
 One sightline: \\
 RBS1768 at 466 kpc, 74deg az: \\
@@ -177,7 +179,7 @@ Rotation velocity (observed) 53 $\pm$ 5 \kms
 Inclination: 25
 Adjusted Inc: 25
 Morphology: SAB(rs)bc
-L_{\**} = 0.9 \\
+$L_{\**}$ = 0.9 \\
 
 One sightline: \\
 RBS2000 at 314 kpc, 64deg az: \\
@@ -192,7 +194,7 @@ Rotation velocity (observed) 150 $\pm$ 12 \kms
 Inclination: 48
 Adjusted Inc: 49
 Morphology: Sc
-L_{\**} = 2.9 \\
+$L_{\**}$ = 2.9 \\
 
 One sightline: \\
 MRC2251-178 at 355 kpc, 71deg az: \\
@@ -207,12 +209,14 @@ Rotation velocity (inc corrected) 86 $\pm$ 21 \kms
 Rotation velocity (observed) 64 $\pm$ 13 \kms
 Inclination: 46
 Adjusted Inc: 48
-Morphology: (R'_1)SAB(rs)bcSy1
-L_{\**} = 0.59
+Morphology: (R'\_1)SAB(rs)bcSy1
+$L_{\**}$ = 0.59
 Four sightlines: 
 1H0419-577 at 303 kpc, 10deg az: \\
 1071 Lya (dv = -427 \kms on pos side)
-1123 Lya (dv = -379 \kms on pos side)1188 Lya (dv = -314 \kms on pos side)1264 Lya (dv = -238 \kms on pos side)
+1123 Lya (dv = -379 \kms on pos side)
+1188 Lya (dv = -314 \kms on pos side)
+1264 Lya (dv = -238 \kms on pos side)
 2020 Lya (dv = 518 \kms on pos side)
 
 HE0429-5343 at 256 kpc, 60deg az: \\
@@ -228,7 +232,8 @@ RBS567 at 423 kpc, 69deg az: \\
 1664 Lya (dv = 162 \kms on neg side)
 
 HE0439-5254 at 459 kpc, 65deg az: \\
-1148 Lya (dv = -354 \kms on neg side)1649 Lya (dv = 147 \kms on neg side)
+1148 Lya (dv = -354 \kms on neg side)
+1649 Lya (dv = 147 \kms on neg side)
 
 
 
@@ -239,8 +244,8 @@ Rotation velocity (inc corrected) 20 $\pm$ 22 \kms
 Rotation velocity (observed) 11 $\pm$ 9 \kms
 Inclination: 30
 Adjusted Inc: 30
-Morphology: SB(s)c_HII
-L_{\**} = 0.49 \\
+Morphology: SB(s)c\_HII
+$L_{\**}$ = 0.49 \\
 
 One sightline: \\
 H1101-232 at 60 kpc, 67deg az: \\
@@ -259,8 +264,8 @@ Rotation velocity (inc corrected) 157 $\pm$ 11 \kms
 Rotation velocity (observed) 149 $\pm$ 6 \kms
 Inclination: 69
 Adjusted Inc: 72
-Morphology: SAa:_sp_HII
-L_{\**} = 0.88 \\
+Morphology: SAa
+$L_{\**}$ = 0.88 \\
 
 Three sightlines: \\
 SDSSJ112005.00+041323.0 at 468 kpc, 78deg az: \\
@@ -268,7 +273,7 @@ SDSSJ112005.00+041323.0 at 468 kpc, 78deg az: \\
 2578 Lya (dv = -9 \kms on neg side)
 
 
-RX_J1121.2+0326 at 184 kpc, 58deg az: \\
+RX\_J1121.2+0326 at 184 kpc, 58deg az: \\
 2605 Lya (dv = 18 \kms on neg side)
 
 
@@ -289,8 +294,8 @@ Rotation velocity (inc corrected) 139 $\pm$ 37 \kms
 Rotation velocity (observed) 129 $\pm$ 32 \kms
 Inclination: 59
 Adjusted Inc: 61
-Morphology: SAB(rs)bc;HII_Sbrst
-L_{\**} = 2.0 \\
+Morphology: SAB(rs)bc
+$L_{\**}$ = 2.0 \\
 
 Three sightlines: \\
 3C273.0 at 349 kpc, 11deg az: \\
@@ -300,7 +305,11 @@ Three sightlines: \\
 
 
 HE1228+0131 at 338 kpc, 51deg az: \\
-1495 Lya (dv = -372 \kms on pos side)1571 Lya (dv = -296 \kms on pos side)1686 Lya (dv = -181 \kms on pos side)1721 Lya (dv = -146 \kms on pos side)1854 Lya (dv = -13 \kms on pos side)
+1495 Lya (dv = -372 \kms on pos side)
+1571 Lya (dv = -296 \kms on pos side)
+1686 Lya (dv = -181 \kms on pos side)
+1721 Lya (dv = -146 \kms on pos side)
+1854 Lya (dv = -13 \kms on pos side)
 2311 Lya (dv = 444 \kms on pos side)
 
 SDSSJ123748.99+012607.0 at  294 kpc, 37deg az: \\
@@ -314,8 +323,8 @@ Rotation velocity (inc corrected) 275 $\pm$ 49 \kms
 Rotation velocity (observed) 204 $\pm$ 25 \kms
 Inclination: 46
 Adjusted Inc: 48
-Morphology: SA(s)bc_Sy2
-L_{\**} = 5.5 \\
+Morphology: SA(s)bc
+$L_{\**}$ = 5.5 \\
 
 One sightline: \\
 PG1302-102 at 254 kpc, 61deg az: \\
@@ -330,8 +339,8 @@ Rotation velocity (inc corrected) 155 $\pm$ 27 \kms
 Rotation velocity (observed) 130 $\pm$ 13 \kms
 Inclination: 55
 Adjusted Inc: 57
-Morphology: SA(rs)bc_pec_HII
-L_{\**} = 1.9 \\
+Morphology: SA(rs)bc
+$L_{\**}$ = 1.9 \\
 
 Two sightline: \\
 SDSSJ135309.50+033328.0 at 519 kpc, 21deg az: \\
@@ -350,8 +359,8 @@ Rotation velocity (inc corrected) 172 $\pm$ 28 \kms
 Rotation velocity (observed) 156 $\pm$ 19 \kms
 Inclination: 63
 Adjusted Inc: 65
-Morphology: (R'_2)SAB(s)bc
-L_{\**} = 25 \\
+Morphology: (R'\_2)SAB(s)bc
+$L_{\**}$ = 25 \\
 
 One sightline: \\
 QSO1500-4140 at 453 kpc, 1deg az: \\
@@ -366,7 +375,7 @@ Rotation velocity (observed) 46 $\pm$ 12 \kms
 Inclination: 85
 Adjusted Inc: 90
 Morphology: Sd
-L_{\**} = 0.17 \\
+$L_{\**}$ = 0.17 \\
 
 Two sightlines: \\
 SDSSJ151237.15+012846.0 at 123 kpc, 90deg az: \\
