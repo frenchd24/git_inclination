@@ -238,8 +238,9 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-    filename = 'CGCG039-137-summary.json'
-#     filename = 'RFGC3781-summary.json'
+#     filename = 'CGCG039-137-summary4.json'
+
+    filename = 'RFGC3781-summary4.json'
 
     
     with open(directory+filename) as data_file:
@@ -262,12 +263,22 @@ def main():
         PA = data['PA']
         agn = data['agn']
 
-
         # which agn do you want to target?
-        agnName = 'RX_J1121.2+0326'
+
+        # CGCG039-137
+#         agnName = 'RX_J1121.2+0326'
+#         RA_target = agn[agnName]['RAdeg']
+#         Dec_target = agn[agnName]['DEdeg']
+        
+        # IC5325
+#         agnName = 'RBS2000'
+#         RA_target = agn[agnName]['RAdeg']
+#         Dec_target = agn[agnName]['DEdeg']
+        
+        # RFGC3781
+        agnName = 'RBS1768'
         RA_target = agn[agnName]['RAdeg']
         Dec_target = agn[agnName]['DEdeg']
-        
         
 
 ##########################################################################################
@@ -328,7 +339,12 @@ def main():
         xvalEnd -=step
         xvals2.insert(0,xvalStart)
         xvals2.append(xvalEnd)
-
+        
+        
+#     fig = plt.figure(figsize=(12,8))
+#     ax = fig.add_subplot(1,1,1)
+#     plot(xvals2,vels2)
+#     show()
 
     xData = xvals2
     yData = vels2
@@ -479,12 +495,16 @@ def main():
     R_vir = calculateVirialRadius(majDiam)
     
 #     inc = .45
-    
+#     R_vir = 1.5*R_vir
+
     
 #     if RA_galaxy > RA_target:
 #         impact_RA = -impact_RA
     if Dec_galaxy > Dec_target:
         impact_Dec = -impact_Dec
+        
+    if RA_target > RA_galaxy:
+        impact_RA = -impact_RA
     
     
     print
@@ -495,14 +515,12 @@ def main():
     print 'R_vir: ',R_vir
     print
     
+    inc = 89.99
+    
     # inclination is backwards, so flip it
     effectiveInc = 90.-inc
-
-    zcutoff = 100
-    lcutoff = 700
-#     R_vir = 300
-    verbose = True
     
+    # define some lists to populate later
     v_parallel_list = []
     v_parallel_inc_list = []
     vfinal_list = []
@@ -512,6 +530,13 @@ def main():
     ds_vel_list = []
     dsfinal_list = []
     dsvfinal_list = []
+    
+    
+    # do some shit that is currently irrevelant
+    zcutoff = 100
+    lcutoff = 700
+#     R_vir = 300
+    verbose = True
     
     maxAngle = int(math.acos(impact/lcutoff) * 180./math.pi)
     print 'maxAngle with lcutoff: ',maxAngle
@@ -529,8 +554,6 @@ def main():
     print 'z: ',z
     
     
-    R_vir = 1.5*R_vir
-
 ##########################################################################################
     # Define the galaxy plane
     
@@ -598,8 +621,10 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 100
-    rcutoff = R_vir
+    zcutoff = 3*R_vir
+    print 'zcutoff: ',zcutoff
+    print
+    rcutoff = 3*R_vir
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
@@ -727,35 +752,40 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
-    plotExtent = 300
-    zHeight = 100
-    plotXVelocity = True
-    anim = True
+    # how big to make the plot boundary?
+    plotExtent = 3*R_vir
     
+    # how big to make the plotted cylinder?
+    zHeight = zcutoff
+    
+    # plot velocity on the x-axis? No idea what happens if this is False...
+    plotXVelocity = True
+    
+    # how many steps to take while plotting. each step moves the sightline forward and 
+    # populates the other with that result
+    steps = 50
+        
 #     from matplotlib import gridspec
     
     # tranpose the list of intersects for plotting
     ip_xlist,ip_ylist,ip_zlist = np.array(intersect_point_list).transpose()
     
-    steps = 100
+
     for i in arange(steps):
         # initial figure
         fig = plt.figure(figsize=(12,8))
     #     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1]) 
 
-
         # first plot the v_proj data
         ax = fig.add_subplot(1,2,1)
 
+        # number of actual intercept elements to take for each step
         len_step = len(intersect_list)/steps
-        
-        
         
         if plotXVelocity:
             intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
         
             ax.scatter(intersect_v_list[:i*len_step],v_proj_list[:i*len_step], color='black',s=10)
-    #         ylabel(r'$\rm v_{proj}~(km/s)$')
             ylabel(r'$\rm v_{proj} ~[km/s]$')
             xlabel(r'$\rm intersect ~[km/s]$')
         
@@ -768,10 +798,12 @@ def main():
         if tick_spacing <=0.:
                 tick_spacing = 0.01
 
-        xlims = max(intersect_v_list) + 1
-        ylims = max(v_proj_list) + 2
-        ax.set_xlim(-xlims, xlims)
-        ax.set_ylim(-ylims,ylims)
+        xlim_pos = max(intersect_v_list) +1
+        xlim_neg = min(intersect_v_list) -1
+        ylim_pos = max(v_proj_list) +2
+        ylim_neg = min(v_proj_list) -2
+        ax.set_xlim(xlim_neg, xlim_pos)
+        ax.set_ylim(ylim_neg,ylim_pos)
 
         ax.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
 
@@ -782,33 +814,8 @@ def main():
         # the galaxy plane normal
         normal = N
     
-    ##########################################################################################
-    ##########################################################################################
-        # plot the cylinder
-    
-        R = int(R_vir)
-        p0 = normal * (zHeight)
-        p1 = normal * (-zHeight)
-    
-        tube,bottom,top = plot_cylinder(p0,p1,R)
-    
-        X, Y, Z = tube
-        X2, Y2, Z2 = bottom
-        X3, Y3, Z3 = top
-    
-        alphaTube = 0.4
-        alphaBottom = 0.4
-        alphaTop = 0.4
-    
-    #     ax=plt.subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, color='blue',alpha = alphaTube)
-        ax.plot_surface(X2, Y2, Z2, color='blue',alpha = alphaBottom)
-        ax.plot_surface(X3, Y3, Z3, color='blue',alpha = alphaTop)
-
-
-        ax.set_xlabel(r'$\rm z$')
-        ax.set_ylabel(r'$\rm R.A.$')
-        ax.set_zlabel(r'$ Dec.$')
+##########################################################################################
+##########################################################################################
 
         # plot the sightline
         print 'rayPoint: ',rayPoint
@@ -818,7 +825,7 @@ def main():
                 
         len_step = len(z)/steps
         
-        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black',lw=plotExtent/70)
+        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black',lw=plotExtent/200)
 
         # some interesting points: 
         # v is the velocity vector in the direction of intersect point
@@ -846,13 +853,42 @@ def main():
         ax.set_xlim(-plotExtent, plotExtent)
         ax.set_ylim(-plotExtent, plotExtent)
         ax.set_zlim(-plotExtent, plotExtent)
+        
+##########################################################################################
+##########################################################################################
+        # plot the cylinder
+    
+        R = int(rcutoff)
+        p0 = normal * (zHeight)
+        p1 = normal * (-zHeight)
+    
+        tube,bottom,top = plot_cylinder(p0,p1,R)
+    
+        X, Y, Z = tube
+        X2, Y2, Z2 = bottom
+        X3, Y3, Z3 = top
+    
+        alphaTube = 0.2
+        alphaBottom = 0.5
+        alphaTop = 0.5
+    
+    #     ax=plt.subplot(111, projection='3d')
+        ax.plot_surface(X, Y, Z, color='blue',alpha = alphaTube)
+        ax.plot_surface(X2, Y2, Z2, color='blue',alpha = alphaBottom)
+        ax.plot_surface(X3, Y3, Z3, color='blue',alpha = alphaTop)
+
+
+        ax.set_xlabel(r'$\rm z$')
+        ax.set_ylabel(r'$\rm R.A.$')
+        ax.set_zlabel(r'$ Dec.$')
+        
     
         # reverse the RA axis so negative is on the right
     #     ax = plt.gca()
         ax.invert_xaxis()
 
         # rotate the plot
-        ax.view_init(elev=10., azim=25)
+        ax.view_init(elev=10., azim=20)
 
     
 ##########################################################################################
@@ -861,7 +897,8 @@ def main():
 ##########################################################################################
     
     
-        directory = '/Users/frenchd/Research/test/movie8/'
+#         directory = '/Users/frenchd/Research/test/CGCG039-137/'
+        directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}movie{1}.jpg".format(directory,i),dpi=120,bbox_inches='tight')
 
 #         for ii in xrange(0,360,5):
