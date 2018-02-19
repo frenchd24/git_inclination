@@ -634,17 +634,13 @@ def main():
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
-    for i in arange(-zcutoff,zcutoff,0.1):
+    for i in arange(-zcutoff,zcutoff,0.001):
 
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
-        print 'planePoint: ',planePoint
-        print
     
         # get intersect: find_intersect(planeNormal,planePoint,rayDirection,rayPoint)
         intersect = find_intersect(N,planePoint,rayDirection,rayPoint)
-        print "intersection at", intersect
-        print
         
         # this is the vector from the origin of the current plane to the intersect
         intersect_vect = intersect - (i * N)
@@ -653,21 +649,22 @@ def main():
 #         p2 = intersect[0]
 #         p2 = np.linalg.norm(intersect)
         p2 = np.linalg.norm(intersect_vect)
-        print 'p2: ',p2
 
         # restrict the intersection to be within the cylinder of radius rcutoff
         if p2 <= rcutoff:
+            print 'planePoint: ',planePoint
+            print "intersection at", intersect
+            print 'p2: ',p2
+
             # find the rotation velocity at this distance from the rotation curve fit center
             try:
                 v_intersect = fit(p2)
                 print 'v_intersect: ',v_intersect
-                print
             except Exception,e:
                 # if you go beyond the fit, set velocity to 0
                 v_intersect = 0
                 print 'Ran out of interpolation range for {0}'.format(p2)
                 print "Built in exception is {0}".format(e)
-                print
             
             #######
             #######
@@ -678,7 +675,7 @@ def main():
     #         n_p2 = intersect / np.linalg.norm(intersect)
             n_p2 = intersect_vect / np.linalg.norm(intersect_vect)
             print 'n_p2: ',n_p2
-            print
+            print 'np.linalg.norm(n_p2): ',np.linalg.norm(n_p2)
         
         
             # new way of doing this:
@@ -715,7 +712,6 @@ def main():
             print 'cos_alpha: ',cos_alpha
             v_proj = cos_alpha
             print 'v_proj: ',v_proj
-            print
         
     #         print 'old way:'
     
@@ -735,7 +731,7 @@ def main():
     #         intersect_list.append(p2)
             intersect_list.append(intersect[0])
             print 'intersect[0]: ',intersect[0]
-            
+            print
             intersect_point_list.append(intersect)
 
 
@@ -763,7 +759,7 @@ def main():
     
     # how many steps to take while plotting. each step moves the sightline forward and 
     # populates the other with that result
-    steps = 50
+    steps = 2
         
 #     from matplotlib import gridspec
     
@@ -772,6 +768,7 @@ def main():
     
 
     for i in arange(steps):
+        print 'i: ',i
         # initial figure
         fig = plt.figure(figsize=(12,8))
     #     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1]) 
@@ -782,8 +779,12 @@ def main():
         # number of actual intercept elements to take for each step
         len_step = len(intersect_list)/steps
         
+        intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
+        
+        print 'len_step: ',len_step
+        print 'intersect_v_list[:i*len_step] vs v_proj_list[:i*len_step]: ',intersect_v_list[:i*len_step],' , ',v_proj_list[:i*len_step]
+        
         if plotXVelocity:
-            intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
         
             ax.scatter(intersect_v_list[:i*len_step],v_proj_list[:i*len_step], color='black',s=10)
             ylabel(r'$\rm v_{proj} ~[km/s]$')
@@ -794,16 +795,33 @@ def main():
             ylabel(r'$\rm v_{proj} ~(km/s)$')
             xlabel(r'$\rm intersect ~(kpc)$')
     
+#         ax.scatter(intersect_v_list,v_proj_list, color='black',s=10)
+    
         tick_spacing = round((max(v_proj_list) - min(v_proj_list))/6,1)
         if tick_spacing <=0.:
                 tick_spacing = 0.01
+
+
 
         xlim_pos = max(intersect_v_list) +1
         xlim_neg = min(intersect_v_list) -1
         ylim_pos = max(v_proj_list) +2
         ylim_neg = min(v_proj_list) -2
-        ax.set_xlim(xlim_neg, xlim_pos)
-        ax.set_ylim(ylim_neg,ylim_pos)
+        
+        print '########################################'
+        print 'xlim_pos: ',xlim_pos
+        print 'xlim_neg: ',xlim_neg
+        print 'ylim_pos: ',ylim_pos
+        print 'ylim_neg: ',ylim_neg
+        print '########################################'
+        print
+        print 'intersect_v_list: ',intersect_v_list
+        print
+        print 'v_proj_list: ',v_proj_list
+        print
+        
+#         ax.set_xlim(xlim_neg, xlim_pos)
+#         ax.set_ylim(ylim_neg,ylim_pos)
 
         ax.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
 
@@ -848,7 +866,12 @@ def main():
 
 
         # put a star on the intersect
-        ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
+        planePoint_end = [-1.18639357e-01, 6.80095455e+02, -2.46470324e+02]
+        planePoint_end2 = [1.18630006e-01, -6.79357841e+02, 2.48330210e+02]
+        ax.plot([planePoint_end[0]],[planePoint_end[1]],[planePoint_end[2]],color='red',marker='*',lw=0)
+        ax.plot([planePoint_end2[0]],[planePoint_end2[1]],[planePoint_end2[2]],color='green',marker='*',lw=0)
+
+#         ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
 
         ax.set_xlim(-plotExtent, plotExtent)
         ax.set_ylim(-plotExtent, plotExtent)
@@ -881,14 +904,55 @@ def main():
         ax.set_xlabel(r'$\rm z$')
         ax.set_ylabel(r'$\rm R.A.$')
         ax.set_zlabel(r'$ Dec.$')
+
+
+        # test
+        # create x,y
+        xx, yy = np.meshgrid(range(-int(plotExtent),int(plotExtent)), range(-int(plotExtent),int(plotExtent)))
+
+        # calculate corresponding z
+        total = len(d_plot_list)
+        count = 1
+        skipNum = 1
+        skipDivisor = 1
+        if total >=5:
+            skipNum = total/skipDivisor
+
+        d_end = d_plot_list[0]
+        print 'd_end: ',d_end
+        z = (-normal[0] * xx - normal[1] * yy - d_end) * 1. /normal[2]
+        ax.plot_surface(xx, yy, z)
         
+        d_end2 = d_plot_list[-1]
+        print 'd_end2: ',d_end2
+        z = (-normal[0] * xx - normal[1] * yy - d_end2) * 1. /normal[2]
+        ax.plot_surface(xx, yy, z)
+
+
+#         for d in d_plot_list:
+#             count +=1
+#             z = (-normal[0] * xx - normal[1] * yy - d) * 1. /normal[2]
+#             print '-normal[0]: ',normal[0]
+#             print 'normal[1]: ',normal[1]
+#             print 'd: ',d
+#             print 'normal[2]: ',normal[2]
+#             print
+#             print 'z:',z
+#             print 'xx: ',xx
+#             print
+#         
+#             # plot the surface
+#             if count % skipNum == 0:
+#                 ax.plot_surface(xx, yy, z)
     
         # reverse the RA axis so negative is on the right
     #     ax = plt.gca()
         ax.invert_xaxis()
 
         # rotate the plot
-        ax.view_init(elev=10., azim=20)
+#         ax.view_init(elev=10., azim=20)
+        ax.view_init(elev=10., azim=10)
+
 
     
 ##########################################################################################
@@ -900,6 +964,7 @@ def main():
 #         directory = '/Users/frenchd/Research/test/CGCG039-137/'
         directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}movie{1}.jpg".format(directory,i),dpi=120,bbox_inches='tight')
+        close(fig)
 
 #         for ii in xrange(0,360,5):
 #             ax.view_init(elev=10., azim=ii)
