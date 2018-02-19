@@ -621,10 +621,12 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoff = 3*R_vir
+    zcutoffm = 2
+    rcutoffm = 2
+    zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
-    rcutoff = 3*R_vir
+    rcutoff = rcutoffm * R_vir
     v_proj_list = []
     intersect_list = []
     d_plot_list = []
@@ -759,7 +761,7 @@ def main():
     
     # how many steps to take while plotting. each step moves the sightline forward and 
     # populates the other with that result
-    steps = 2
+    steps = 50
         
 #     from matplotlib import gridspec
     
@@ -768,13 +770,17 @@ def main():
     
 
     for i in arange(steps):
+        i +=1
         print 'i: ',i
         # initial figure
         fig = plt.figure(figsize=(12,8))
+        
     #     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1]) 
 
         # first plot the v_proj data
         ax = fig.add_subplot(1,2,1)
+        fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+
 
         # number of actual intercept elements to take for each step
         len_step = len(intersect_list)/steps
@@ -802,7 +808,6 @@ def main():
                 tick_spacing = 0.01
 
 
-
         xlim_pos = max(intersect_v_list) +1
         xlim_neg = min(intersect_v_list) -1
         ylim_pos = max(v_proj_list) +2
@@ -820,8 +825,8 @@ def main():
         print 'v_proj_list: ',v_proj_list
         print
         
-#         ax.set_xlim(xlim_neg, xlim_pos)
-#         ax.set_ylim(ylim_neg,ylim_pos)
+        ax.set_xlim(xlim_neg, xlim_pos)
+        ax.set_ylim(ylim_neg,ylim_pos)
 
         ax.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
 
@@ -866,12 +871,12 @@ def main():
 
 
         # put a star on the intersect
-        planePoint_end = [-1.18639357e-01, 6.80095455e+02, -2.46470324e+02]
-        planePoint_end2 = [1.18630006e-01, -6.79357841e+02, 2.48330210e+02]
-        ax.plot([planePoint_end[0]],[planePoint_end[1]],[planePoint_end[2]],color='red',marker='*',lw=0)
-        ax.plot([planePoint_end2[0]],[planePoint_end2[1]],[planePoint_end2[2]],color='green',marker='*',lw=0)
+#         planePoint_end = [-1.18639357e-01, 6.80095455e+02, -2.46470324e+02]
+#         planePoint_end2 = [1.18630006e-01, -6.79357841e+02, 2.48330210e+02]
+#         ax.plot([planePoint_end[0]],[planePoint_end[1]],[planePoint_end[2]],color='red',marker='*',lw=0)
+#         ax.plot([planePoint_end2[0]],[planePoint_end2[1]],[planePoint_end2[2]],color='green',marker='*',lw=0)
 
-#         ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
+        ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
 
         ax.set_xlim(-plotExtent, plotExtent)
         ax.set_ylim(-plotExtent, plotExtent)
@@ -908,25 +913,25 @@ def main():
 
         # test
         # create x,y
-        xx, yy = np.meshgrid(range(-int(plotExtent),int(plotExtent)), range(-int(plotExtent),int(plotExtent)))
+#         xx, yy = np.meshgrid(range(-int(plotExtent),int(plotExtent)), range(-int(plotExtent),int(plotExtent)))
 
         # calculate corresponding z
-        total = len(d_plot_list)
-        count = 1
-        skipNum = 1
-        skipDivisor = 1
-        if total >=5:
-            skipNum = total/skipDivisor
-
-        d_end = d_plot_list[0]
-        print 'd_end: ',d_end
-        z = (-normal[0] * xx - normal[1] * yy - d_end) * 1. /normal[2]
-        ax.plot_surface(xx, yy, z)
-        
-        d_end2 = d_plot_list[-1]
-        print 'd_end2: ',d_end2
-        z = (-normal[0] * xx - normal[1] * yy - d_end2) * 1. /normal[2]
-        ax.plot_surface(xx, yy, z)
+#         total = len(d_plot_list)
+#         count = 1
+#         skipNum = 1
+#         skipDivisor = 1
+#         if total >=5:
+#             skipNum = total/skipDivisor
+# 
+#         d_end = d_plot_list[0]
+#         print 'd_end: ',d_end
+#         z = (-normal[0] * xx - normal[1] * yy - d_end) * 1. /normal[2]
+#         ax.plot_surface(xx, yy, z)
+#         
+#         d_end2 = d_plot_list[-1]
+#         print 'd_end2: ',d_end2
+#         z = (-normal[0] * xx - normal[1] * yy - d_end2) * 1. /normal[2]
+#         ax.plot_surface(xx, yy, z)
 
 
 #         for d in d_plot_list:
@@ -951,7 +956,7 @@ def main():
 
         # rotate the plot
 #         ax.view_init(elev=10., azim=20)
-        ax.view_init(elev=10., azim=10)
+        ax.view_init(elev=10., azim=15)
 
 
     
@@ -963,7 +968,7 @@ def main():
     
 #         directory = '/Users/frenchd/Research/test/CGCG039-137/'
         directory = '/Users/frenchd/Research/test/RFGC3781/'
-        savefig("{0}movie{1}.jpg".format(directory,i),dpi=120,bbox_inches='tight')
+        savefig("{0}{1}.jpg".format(directory,i),dpi=200,bbox_inches='tight')
         close(fig)
 
 #         for ii in xrange(0,360,5):
