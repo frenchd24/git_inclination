@@ -494,6 +494,8 @@ def main():
     # calculate R_vir
     R_vir = calculateVirialRadius(majDiam)
     
+    inc = 20.
+    
 #     inc = .45
 #     R_vir = 1.5*R_vir
 
@@ -514,9 +516,7 @@ def main():
     print 'az: ',az
     print 'R_vir: ',R_vir
     print
-    
-    inc = 89.99
-    
+        
     # inclination is backwards, so flip it
     effectiveInc = 90.-inc
     
@@ -621,7 +621,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 2
+    zcutoffm = 3
     rcutoffm = 2
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
@@ -634,9 +634,17 @@ def main():
     v_list = []
     v_90_list = []
     
+    # how often to sample?
+    if inc <= 60:
+        s = 0.1
+    elif inc <=80:
+        s = 0.01
+    else:
+        s = 0.001
+    
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
-    for i in arange(-zcutoff,zcutoff,0.001):
+    for i in arange(-zcutoff,zcutoff,s):
 
         # this is a point in the new, parallel but shifted plane
         planePoint = (p1-p) + (i * N)
@@ -909,46 +917,6 @@ def main():
         ax.set_xlabel(r'$\rm z$')
         ax.set_ylabel(r'$\rm R.A.$')
         ax.set_zlabel(r'$ Dec.$')
-
-
-        # test
-        # create x,y
-#         xx, yy = np.meshgrid(range(-int(plotExtent),int(plotExtent)), range(-int(plotExtent),int(plotExtent)))
-
-        # calculate corresponding z
-#         total = len(d_plot_list)
-#         count = 1
-#         skipNum = 1
-#         skipDivisor = 1
-#         if total >=5:
-#             skipNum = total/skipDivisor
-# 
-#         d_end = d_plot_list[0]
-#         print 'd_end: ',d_end
-#         z = (-normal[0] * xx - normal[1] * yy - d_end) * 1. /normal[2]
-#         ax.plot_surface(xx, yy, z)
-#         
-#         d_end2 = d_plot_list[-1]
-#         print 'd_end2: ',d_end2
-#         z = (-normal[0] * xx - normal[1] * yy - d_end2) * 1. /normal[2]
-#         ax.plot_surface(xx, yy, z)
-
-
-#         for d in d_plot_list:
-#             count +=1
-#             z = (-normal[0] * xx - normal[1] * yy - d) * 1. /normal[2]
-#             print '-normal[0]: ',normal[0]
-#             print 'normal[1]: ',normal[1]
-#             print 'd: ',d
-#             print 'normal[2]: ',normal[2]
-#             print
-#             print 'z:',z
-#             print 'xx: ',xx
-#             print
-#         
-#             # plot the surface
-#             if count % skipNum == 0:
-#                 ax.plot_surface(xx, yy, z)
     
         # reverse the RA axis so negative is on the right
     #     ax = plt.gca()
@@ -957,7 +925,6 @@ def main():
         # rotate the plot
 #         ax.view_init(elev=10., azim=20)
         ax.view_init(elev=10., azim=15)
-
 
     
 ##########################################################################################
