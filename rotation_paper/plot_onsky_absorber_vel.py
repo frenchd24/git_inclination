@@ -258,12 +258,6 @@ def main():
         # calculate R_vir
         Rvir = calculateVirialRadius(majDiam)
         
-        print 'Name: ',name
-        print 'impact_RA: ',impact_RA
-        print 'impact_Dec: ',impact_Dec
-        print 'RA_galaxy vs RA_target: ',RA_galaxy,', ',RA_target
-        print 'Dec_galaxy vs Dec_target: ',Dec_galaxy,', ',Dec_target
-
         if RA_galaxy > RA_target:
             # target is on the 'left' side
             if impact_RA >0:
@@ -274,23 +268,155 @@ def main():
             if impact_Dec >0:
                 impact_Dec *= -1
                 
+        # rotate everything to PA = 90 deg (major axis horizontal)
+        x = 90. - PA
+        
+#         theta = math.atan(impact_Dec/impact_RA) - (x * math.pi/180.)
+#         
+#         impact_RA2 = impact * math.cos(theta)
+#         impact_Dec2 = impact * math.sin(theta)
+#         
+#         print
+#         print 'x: ',x
+#         print 'theta: ',theta
+#         print 'impact_RA2: ',impact_RA2
+#         print 'impact_Dec2: ',impact_Dec2
+        
+        print 'Name: ',name
+        print 'right_vrot_avg: ',right_vrot_avg
+        print 'left_vrot_avg: ',left_vrot_avg
+        print 'impact_RA: ',impact_RA
+        print 'impact_Dec: ',impact_Dec
+        print 'RA_galaxy vs RA_target: ',RA_galaxy,', ',RA_target
+        print 'Dec_galaxy vs Dec_target: ',Dec_galaxy,', ',Dec_target
+        print 'PA: ',PA
+        print 'Vhel: ',vsys_measured
+        print 'az, az2: ',az, ', ',az2
+        
+        theta = np.radians(x)
+        c, s = np.cos(theta), np.sin(theta)
+        R = np.matrix('{} {}; {} {}'.format(c, -s, s, c))
+        coords = np.array([impact_RA,impact_Dec])
+        
+        # rotate clockwise
+        impact_RA_rot,impact_Dec_rot = np.array(coords.dot(R))[0]
+        print "R: ",R
+        print 'impact_RA_rot: ',impact_RA_rot
+        print 'impact_Dec_rot: ',impact_Dec_rot
+
+                
         # scale to virial radius
         impact_rvir = impact/Rvir
-        impact_RA_vir = impact_RA/Rvir
-        impact_Dec_vir = impact_Dec/Rvir                
+        impact_RA_vir = impact_RA_rot/Rvir
+        impact_Dec_vir = impact_Dec_rot/Rvir
                 
         # compare to the absorber velocity:
         # negative means the Lya is higher velocity (red)
-        dv = vsys_measured - lyaV
+#         dv = vsys_measured - lyaV
+
+        # switch it around actually, this matches the rotation curve (positive is going
+        # away, or higher than systemic velocity gas)
+        dv = lyaV - vsys_measured
+        print 'lyaV, dv = ',lyaV,dv
                 
-        if az2 < az:
-            # if az decreases when increasing PA, then the target is on the "left" side of
-            # the galaxy
-            
-            rot_vel = left_vrot_avg
-        else:
-            rot_vel = right_vrot_avg
-        
+        # check which 'side' of the galaxy the absorber is found
+        if name == 'CGCG039-137':
+             # regular - left side of rotation curve is 'left' on sky
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+
+        if name == 'ESO343-G014':
+             # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'IC5325':
+             # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'MCG-03-58-009':
+             # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+
+        if name == 'NGC1566':
+             # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC3513':
+             # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC3633':
+             # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC4536':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC4939':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC5364':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC5786':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'UGC09760':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+#         if az2 > az and impact_Dec >0:
+#             # if az increases when increasing PA, then the target is on the "left" side of
+#             # the galaxy
+#             rot_vel = left_vrot_avg
+#             print 'az2 < az, using left: ',rot_vel
+#         elif az2 < az and impact_Dec < 0:
+#             rot_vel = left_vrot_avg
+#             print 'az2 < az, using left: ',rot_vel
+# 
+#         else:
+#             rot_vel = right_vrot_avg
+#             print 'az2 > az, using right: ',rot_vel
+
             
         # now compare to the rotation velocity
         markerColor = 'black'
@@ -302,8 +428,16 @@ def main():
             markerColor = 'red'
             
         else:
-            if abs(dv - rot_vel) <= 50:
-                markerColor = 'blue'
+            markerColor = 'black'
+            
+        if abs(dv - rot_vel) <= 50:
+            markerColor = 'blue'
+   
+        if az >= 85.:
+            markerColor = 'yellow'
+            
+        print 'markerColor: ',markerColor
+
 
 #         name = name.replace('-','\-')
 #         name = name.replace('_','\_')
@@ -338,6 +472,7 @@ def main():
         print 'added'
         print 'impact_RA_vir: ',impact_RA_vir
         print 'impact_Dec_vir: ',impact_Dec_vir
+        print
         print
         
 ##########################################################################################
@@ -460,8 +595,26 @@ def main():
     
 ##########################################################################################
 ##########################################################################################
-    # now loop through layers of galaxy planes
-
+    # sort in order of largest to smallest equivalent width
+    orderedList = []
+    for ra,dec,c,w,name in zip(RA_targetList,Dec_targetList,markerColorList, wList,combinedNameList):
+        orderedList.append([w,[ra,dec,c,name]])
+        
+    orderedList.sort(reverse=True)
+    RA_targetList2 = []
+    Dec_targetList2 = []
+    markerColorList2 = []
+    wList2 = []
+    combinedNameList2 = []
+    for i in orderedList:
+        w, rest = i
+        ra, dec, c, name = rest
+        RA_targetList2.append(ra)
+        Dec_targetList2.append(dec)
+        markerColorList2.append(c)
+        wList2.append(w)
+        combinedNameList2.append(name)
+    
     
 ##########################################################################################
 ##########################################################################################
@@ -491,44 +644,49 @@ def main():
     r = 3.0
     ax.plot(*xy(r,phis), c='black',ls='-' )
     
-    print 'full RA_targetList: ',RA_targetList
-    print
-    print
-    print 'full Dec_targetList: ',Dec_targetList
-    print
+    ax.plot([0,0],[-3,3],c='black',ls='-')
+    ax.plot([-3,3],[0,0],c='black',ls='-')
+
+    
+#     print 'full RA_targetList2: ',RA_targetList2
+#     print
+#     print
+#     print 'full Dec_targetList2: ',Dec_targetList2
+#     print
     
     ax.scatter(0,0,c='black',marker='*',s=25)
     
     # plot the rest
-    largestEW = max(wList)
-    smallestEW = min(wList)
-    maxSize = 500
+    largestEW = max(wList2)
+    smallestEW = min(wList2)
+    maxSize = 600
     minSize = 30
     
     newSizeList = []
-    for w in wList:
+    for w in wList2:
         newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
         newSizeList.append(newSize)
 
-    ax.scatter(RA_targetList,Dec_targetList, color=markerColorList,s=newSizeList)
+    ax.scatter(RA_targetList2,Dec_targetList2, color=markerColorList2,s=newSizeList)
     
     xTagOffset = 0.1
     yTagOffset = 0.1
     
     # put some labels on it
-    print 'combinedNameList: ',combinedNameList
-#     annotate(combinedNameList,xy=(RA_targetList, Dec_targetList),xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=10)
-
-    for i in arange(len(combinedNameList)):
-        annotate(combinedNameList[i],xy=(RA_targetList[i], Dec_targetList[i]),\
+    for i in arange(len(combinedNameList2)):
+        annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
 
+#     xlabel(r'$\rm R.A. ~[kpc]$')
+#     ylabel(r'$\rm Dec. ~[kpc]$')
 
-    ylabel(r'$\rm R.A. ~[kpc]$')
-    xlabel(r'$\rm Dec. ~[kpc]$')
+    xlabel(r'$\rm R.A. ~[R_{vir}]$')
+    ylabel(r'$\rm Dec. ~[R_{vir}]$')
     
     ax.set_xlim(-3.0, 3.0)
     ax.set_ylim(-3.0, 3.0)
+    ax.invert_xaxis()
+
 
     # x-axis
 #     majorLocator   = MultipleLocator(0.5)
