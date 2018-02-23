@@ -207,7 +207,7 @@ def main():
 ##########################################################################################
     # collect data
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
-    filename = '{0}salt_galaxy_sightlines.csv'.format(directory)
+    filename = '{0}salt_galaxy_sightlines_cut.csv'.format(directory)
     theFile = open(filename,'rU')
     tableReader = csv.DictReader(theFile)
 
@@ -422,7 +422,7 @@ def main():
         markerColor = 'black'
         
         if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
-            markerColor = 'green'
+            markerColor = 'blue'
             
         elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
             markerColor = 'red'
@@ -430,11 +430,11 @@ def main():
         else:
             markerColor = 'black'
             
-        if abs(dv - rot_vel) <= 50:
-            markerColor = 'blue'
-   
-        if az >= 85.:
+        if abs(dv - rot_vel) <= 50 or az >= 85.:
             markerColor = 'yellow'
+   
+#         if az >= 85.:
+#             markerColor = 'yellow'
             
         print 'markerColor: ',markerColor
 
@@ -636,16 +636,16 @@ def main():
     phis=np.arange(0,2*np.pi,0.01)
     
     r = 1.0
-    ax.plot(*xy(r,phis), c='black',ls='-' )
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
     
     r = 2.0
-    ax.plot(*xy(r,phis), c='black',ls='-' )
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
     
     r = 3.0
-    ax.plot(*xy(r,phis), c='black',ls='-' )
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
     
-    ax.plot([0,0],[-3,3],c='black',ls='-')
-    ax.plot([-3,3],[0,0],c='black',ls='-')
+    ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.5)
+    ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.5)
 
     
 #     print 'full RA_targetList2: ',RA_targetList2
@@ -704,17 +704,32 @@ def main():
 #     ax.yaxis.set_major_formatter(majorFormatter)
 #     ax.yaxis.set_minor_locator(minorLocator)
 
+
+    import matplotlib.patches as mpatches
+    import matplotlib.lines as mlines
+#     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
+#                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
+    yellow_line = mlines.Line2D([], [], color='yellow', marker='o',lw=0,
+                              markersize=15, label='Within Uncertainties')
+    red_line = mlines.Line2D([], [], color='red', marker='o',lw=0,
+                              markersize=15, label=r'$\rm Anti-rotation$')
+    blue_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
+                              markersize=15, label=r'$\rm Co-rotation$')
+                              
+    plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower left')
+
+
         
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
     
-    show()
+#     show()
     
     directory = '/Users/frenchd/Research/test/'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}SALT_map1.pdf".format(directory),bbox_inches='tight')
+    savefig("{0}SALT_map2.pdf".format(directory),bbox_inches='tight')
 
 
     

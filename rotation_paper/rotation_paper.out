@@ -1,20 +1,21 @@
 \BOOKMARK [1][-]{section.1}{INTRODUCTION}{}% 1
 \BOOKMARK [1][-]{section.2}{DATA AND ANALYSIS}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{SALT Data}{section.2}% 3
-\BOOKMARK [3][-]{subsubsection.2.1.1}{CGCG039-137}{subsection.2.1}% 4
-\BOOKMARK [3][-]{subsubsection.2.1.2}{ESO343-G014}{subsection.2.1}% 5
-\BOOKMARK [3][-]{subsubsection.2.1.3}{IC5325}{subsection.2.1}% 6
-\BOOKMARK [3][-]{subsubsection.2.1.4}{MCG-03-58-009}{subsection.2.1}% 7
-\BOOKMARK [3][-]{subsubsection.2.1.5}{NGC1566}{subsection.2.1}% 8
-\BOOKMARK [3][-]{subsubsection.2.1.6}{NGC3513}{subsection.2.1}% 9
-\BOOKMARK [3][-]{subsubsection.2.1.7}{NGC3633}{subsection.2.1}% 10
-\BOOKMARK [3][-]{subsubsection.2.1.8}{NGC4536}{subsection.2.1}% 11
-\BOOKMARK [3][-]{subsubsection.2.1.9}{NGC4939}{subsection.2.1}% 12
-\BOOKMARK [3][-]{subsubsection.2.1.10}{NGC5364}{subsection.2.1}% 13
-\BOOKMARK [3][-]{subsubsection.2.1.11}{NGC5786}{subsection.2.1}% 14
-\BOOKMARK [3][-]{subsubsection.2.1.12}{UGC09760}{subsection.2.1}% 15
-\BOOKMARK [2][-]{subsection.2.2}{Ancillary Data}{section.2}% 16
-\BOOKMARK [2][-]{subsection.2.3}{Galaxy Data}{section.2}% 17
-\BOOKMARK [2][-]{subsection.2.4}{Spectra}{section.2}% 18
-\BOOKMARK [1][-]{section.3}{RESULTS}{}% 19
-\BOOKMARK [1][-]{section.4}{SUMMARY}{}% 20
+\BOOKMARK [2][-]{subsection.2.2}{COS Spectra}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{SALT Galaxies}{}% 5
+\BOOKMARK [2][-]{subsubsection.3.0.1}{CGCG039-137}{section.3}% 6
+\BOOKMARK [3][-]{subsubsection.3.0.2}{ESO343-G014}{subsubsection.3.0.1}% 7
+\BOOKMARK [3][-]{subsubsection.3.0.3}{IC5325}{subsubsection.3.0.1}% 8
+\BOOKMARK [3][-]{subsubsection.3.0.4}{MCG-03-58-009}{subsubsection.3.0.1}% 9
+\BOOKMARK [3][-]{subsubsection.3.0.5}{NGC1566}{subsubsection.3.0.1}% 10
+\BOOKMARK [3][-]{subsubsection.3.0.6}{NGC3513}{subsubsection.3.0.1}% 11
+\BOOKMARK [3][-]{subsubsection.3.0.7}{NGC3633}{subsubsection.3.0.1}% 12
+\BOOKMARK [3][-]{subsubsection.3.0.8}{NGC4536}{subsubsection.3.0.1}% 13
+\BOOKMARK [3][-]{subsubsection.3.0.9}{NGC4939}{subsubsection.3.0.1}% 14
+\BOOKMARK [3][-]{subsubsection.3.0.10}{NGC5364}{subsubsection.3.0.1}% 15
+\BOOKMARK [3][-]{subsubsection.3.0.11}{NGC5786}{subsubsection.3.0.1}% 16
+\BOOKMARK [3][-]{subsubsection.3.0.12}{UGC09760}{subsubsection.3.0.1}% 17
+\BOOKMARK [2][-]{subsection.3.1}{Ancillary Data}{section.3}% 18
+\BOOKMARK [1][-]{section.4}{Halo Rotation Model}{}% 19
+\BOOKMARK [1][-]{section.5}{RESULTS}{}% 20
+\BOOKMARK [1][-]{section.6}{SUMMARY}{}% 21

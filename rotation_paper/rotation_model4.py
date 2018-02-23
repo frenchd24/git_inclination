@@ -238,9 +238,9 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-#     filename = 'CGCG039-137-summary4.json'
+    filename = 'CGCG039-137-summary4.json'
 
-    filename = 'RFGC3781-summary4.json'
+#     filename = 'RFGC3781-summary4.json'
 
     
     with open(directory+filename) as data_file:
@@ -266,9 +266,9 @@ def main():
         # which agn do you want to target?
 
         # CGCG039-137
-#         agnName = 'RX_J1121.2+0326'
-#         RA_target = agn[agnName]['RAdeg']
-#         Dec_target = agn[agnName]['DEdeg']
+        agnName = 'RX_J1121.2+0326'
+        RA_target = agn[agnName]['RAdeg']
+        Dec_target = agn[agnName]['DEdeg']
         
         # IC5325
 #         agnName = 'RBS2000'
@@ -276,9 +276,9 @@ def main():
 #         Dec_target = agn[agnName]['DEdeg']
         
         # RFGC3781
-        agnName = 'RBS1768'
-        RA_target = agn[agnName]['RAdeg']
-        Dec_target = agn[agnName]['DEdeg']
+#         agnName = 'RBS1768'
+#         RA_target = agn[agnName]['RAdeg']
+#         Dec_target = agn[agnName]['DEdeg']
         
 
 ##########################################################################################
@@ -494,7 +494,7 @@ def main():
     # calculate R_vir
     R_vir = calculateVirialRadius(majDiam)
     
-    inc = 20.
+#     inc = 20.
     
 #     inc = .45
 #     R_vir = 1.5*R_vir
@@ -621,7 +621,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 3
+    zcutoffm = 1
     rcutoffm = 2
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
@@ -933,8 +933,8 @@ def main():
 ##########################################################################################
     
     
-#         directory = '/Users/frenchd/Research/test/CGCG039-137/'
-        directory = '/Users/frenchd/Research/test/RFGC3781/'
+        directory = '/Users/frenchd/Research/test/CGCG039-137_2/'
+#         directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}{1}.jpg".format(directory,i),dpi=200,bbox_inches='tight')
         close(fig)
 
