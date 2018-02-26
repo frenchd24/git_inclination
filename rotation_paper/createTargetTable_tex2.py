@@ -34,7 +34,7 @@ def main():
     if getpass.getuser() == 'frenchd':
         filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
         resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut.csv'
-        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/table1.txt'
+        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/table1_2.txt'
         
     else:
         print 'Could not determine username. Exiting.'
@@ -66,8 +66,9 @@ def main():
             targets[targetName]=[galaxyName]
         else:
             l = targets[targetName]
-            l.append(galaxyName)
-            targets[targetName] = l
+            if not galaxyName in l:
+                l.append(galaxyName)
+                targets[targetName] = l
                 
     targetList = targets.keys()
     
@@ -104,9 +105,11 @@ def main():
     for l in reader:
         target = l['targetName']
         
-        for t in targetList:
+        if targets.has_key(target):
+            galaxies = targets[target]
             
-            if t == target:
+            for galaxy in galaxies:
+
                 ra = l['ra']
                 dec = l['dec']
                 z = l['z']
@@ -117,9 +120,9 @@ def main():
                 grating = l['grating']
                 texp = l['exposureTime']
                 sn = l['SNexpected']
-                galaxyName = 
                 
                 nameList.append(target)
+                galaxyNameList.append(galaxy)
                 raList.append(ra)
                 decList.append(dec)
                 zList.append(z)
@@ -131,6 +134,7 @@ def main():
                 snList.append(sn)
                 
                 summaryList.append((target,\
+                galaxy,\
                 ra.replace('(','').replace(')','').replace(',',' '),\
                 dec.replace('(','').replace(')','').replace(',',' '),\
                 z,\
