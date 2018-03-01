@@ -238,9 +238,12 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-    filename = 'CGCG039-137-summary4.json'
-
+#     filename = 'CGCG039-137-summary4.json'
+#     filename = 'ESO343-G014-summary4.json'
 #     filename = 'RFGC3781-summary4.json'
+#     filename = 'IC5325-summary4.json'
+    filename = 'MCG-03-58-009-summary4.json'
+
 
     
     with open(directory+filename) as data_file:
@@ -266,19 +269,21 @@ def main():
         # which agn do you want to target?
 
         # CGCG039-137
-        agnName = 'RX_J1121.2+0326'
-        RA_target = agn[agnName]['RAdeg']
-        Dec_target = agn[agnName]['DEdeg']
+#         agnName = 'RX_J1121.2+0326'
+#         agnName = 'SDSSJ112224.10+031802.0'
         
         # IC5325
 #         agnName = 'RBS2000'
-#         RA_target = agn[agnName]['RAdeg']
-#         Dec_target = agn[agnName]['DEdeg']
         
-        # RFGC3781
+        # RFGC3781 or ESO343-G014
 #         agnName = 'RBS1768'
-#         RA_target = agn[agnName]['RAdeg']
-#         Dec_target = agn[agnName]['DEdeg']
+        
+        # MCG-03-58-009
+        agnName = 'MRC2251-178'
+        
+        # grab the coordinates for this target
+        RA_target = agn[agnName]['RAdeg']
+        Dec_target = agn[agnName]['DEdeg']
         
 
 ##########################################################################################
@@ -621,8 +626,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 1
-    rcutoffm = 2
+    zcutoffm = 2
+    rcutoffm = 3
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -933,7 +938,11 @@ def main():
 ##########################################################################################
     
     
-        directory = '/Users/frenchd/Research/test/CGCG039-137_2/'
+#         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
+#         directory = '/Users/frenchd/Research/test/ESO343-G014/'
+#         directory = '/Users/frenchd/Research/test/IC5325/'
+        directory = '/Users/frenchd/Research/test/MCG-03-58-009/'
+
 #         directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}{1}.jpg".format(directory,i),dpi=200,bbox_inches='tight')
         close(fig)

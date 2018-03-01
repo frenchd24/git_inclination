@@ -287,8 +287,8 @@ def main():
     minSize = False
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
-    agnSeparation = 4000.
-#     agnSeparation = False
+#     agnSeparation = 4000.
+    agnSeparation = False
 
     
     # include name tags on galaxies? They don't scale very well...
@@ -317,7 +317,7 @@ def main():
     
     # Save the full results with "include" tags? This is the whole big correlation table
     # which looks like LG_correlation_combined5_11_25cut_edit4.csv
-    saveResults = True
+    saveResults = False
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -344,7 +344,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = True
+    sortIntoFolders = False
     
     # include AGN background targets as well?
     includeAGN = True
@@ -391,8 +391,11 @@ def main():
 #         outputFile = '/Users/frenchd/Research/test/test.csv'
 
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_12_edit_plusSALTcut.csv'
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
-        outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
+#         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
+#         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
+        
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -418,21 +421,21 @@ def main():
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-#     targets = [('ESO343-G014',9162,True)]
+#     targets = [('IC5325',1512,True)]
 
-#     targets = [('CGCG039-137',6902,True),\
-#     ('ESO343-G014',9162,True),\
-#     ('IC5325',1503,True),\
-#     ('MCG-03-58-009',9030,True),\
-#     ('NGC1566',1504,True),\
-#     ('NGC3513',1194,True),\
-#     ('NGC3633',2600,True),\
-#     ('NGC3640',1298,True),\
-#     ('NGC4536',1808,True),\
-#     ('NGC4939',3110,True),\
-#     ('NGC5364',1241,True),\
-#     ('NGC5786',2998,True),\
-#     ('UGC09760',2023,True)]
+    targets = [('CGCG039-137',6918,True),\
+    ('ESO343-G014',9139,True),\
+    ('IC5325',1512,True),\
+    ('MCG-03-58-009',9015,True),\
+    ('NGC1566',1502,True),\
+    ('NGC3513',1204,True),\
+    ('NGC3633',2587,True),\
+    ('NGC3640',1298,True),\
+    ('NGC4536',1867,True),\
+    ('NGC4939',3093,True),\
+    ('NGC5364',1238,True),\
+    ('NGC5786',2975,True),\
+    ('UGC09760',2094,True)]
     
     
 #     targets = [('MRK279',9294,True),\
@@ -470,8 +473,6 @@ def main():
 #     ('RX_J1303.7+2633',7853,True)]
 
 
-    
-    
     c = 0
     for i in targets:
         # find AGN environment using the imported version of correlateSingle
