@@ -242,8 +242,8 @@ def main():
 #     filename = 'ESO343-G014-summary4.json'
 #     filename = 'RFGC3781-summary4.json'
 #     filename = 'IC5325-summary4.json'
-    filename = 'MCG-03-58-009-summary4.json'
-
+#     filename = 'MCG-03-58-009-summary4.json'
+    filename = 'NGC1566-summary4.json'
 
     
     with open(directory+filename) as data_file:
@@ -279,7 +279,16 @@ def main():
 #         agnName = 'RBS1768'
         
         # MCG-03-58-009
-        agnName = 'MRC2251-178'
+#         agnName = 'MRC2251-178'
+        
+        # NGC1566
+        flipInclination = True
+#         agnName = 'HE0439-5254'
+#         agnName = 'HE0435-5304'
+#         agnName = 'RBS567'
+#         agnName = 'HE0429-5343'
+        agnName = '1H0419-577'
+
         
         # grab the coordinates for this target
         RA_target = agn[agnName]['RAdeg']
@@ -357,7 +366,7 @@ def main():
     
     # reverse it?
 #     xData.reverse()
-#     yData.reverse()
+    yData.reverse()
 #     yData = np.array(yData)*-1
 
     from scipy.interpolate import interp1d
@@ -524,6 +533,11 @@ def main():
         
     # inclination is backwards, so flip it
     effectiveInc = 90.-inc
+#     effectiveInc += 180
+    
+    if flipInclination:
+        effectiveInc *=-1.
+    
     
     # define some lists to populate later
     v_parallel_list = []
@@ -575,7 +589,9 @@ def main():
 #     minorTheta = (180. - PA + 90.) * math.pi/180
     minorTheta = 90. * math.pi/180
 #     minorPhi = (90. - inc) * math.pi/180
-    minorPhi = (90. - inc) * math.pi/180
+#     minorPhi = (90. - inc) * math.pi/180
+    minorPhi = (effectiveInc) * math.pi/180
+
     minorR = 1.
     
     p2_x = minorR * math.sin(minorTheta) * math.cos(minorPhi)
@@ -815,16 +831,23 @@ def main():
             xlabel(r'$\rm intersect ~(kpc)$')
     
 #         ax.scatter(intersect_v_list,v_proj_list, color='black',s=10)
-    
-        tick_spacing = round((max(v_proj_list) - min(v_proj_list))/6,1)
-        if tick_spacing <=0.:
-                tick_spacing = 0.01
+        
+#         v_proj_dif = max(v_proj_list) - min(v_proj_list)
+        tick_num = 10
+        tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,2)
+        print 'tick_spacing: ',tick_spacing
+        print 'max(v_proj_list): ',max(v_proj_list)
+        print 'min(v_proj_list): ',min(v_proj_list)
+#         if tick_spacing <0.05:
+#                 tick_spacing = 0.01
 
 
         xlim_pos = max(intersect_v_list) +1
         xlim_neg = min(intersect_v_list) -1
-        ylim_pos = max(v_proj_list) +2
-        ylim_neg = min(v_proj_list) -2
+#         ylim_pos = max(v_proj_list) +2
+#         ylim_neg = min(v_proj_list) -2
+        ylim_pos = max(v_proj_list) + tick_spacing*2
+        ylim_neg = min(v_proj_list) - tick_spacing*2
         
         print '########################################'
         print 'xlim_pos: ',xlim_pos
@@ -941,7 +964,9 @@ def main():
 #         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
 #         directory = '/Users/frenchd/Research/test/ESO343-G014/'
 #         directory = '/Users/frenchd/Research/test/IC5325/'
-        directory = '/Users/frenchd/Research/test/MCG-03-58-009/'
+#         directory = '/Users/frenchd/Research/test/MCG-03-58-009/'
+        directory = '/Users/frenchd/Research/test/NGC1566/'
+
 
 #         directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}{1}.jpg".format(directory,i),dpi=200,bbox_inches='tight')
