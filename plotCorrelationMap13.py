@@ -275,7 +275,7 @@ def main():
     masterCustomList = []
     
     # max impact parameter to use
-    maxSep = 1000
+    maxSep = 500
     
     # +/- galaxy velocity to search within around absorption velocity
     velocityWindow = 400
@@ -421,7 +421,9 @@ def main():
 #     targets = [('1H0419-577',0.003678*c,True),\
 #     ('3C273.0',0.005277*c,True)]
 
-    targets = [('MCG-03-58-009',9015,True)]
+#     targets = [('MCG-03-58-009',9015,True)]
+    targets = [('NGC0891',528,True)]
+
 
 #     targets = [('CGCG039-137',6918,True),\
 #     ('ESO343-G014',9139,True),\
