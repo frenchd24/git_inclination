@@ -44,11 +44,11 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 
 
 \section{INTRODUCTION}
-Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however as the density rapidly decreases. Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? Stewart et al. (2011) suggests through (HYDRO?) simulations that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature.
+Our current $\Lambda$CDM cosmology picture describes galaxies forming hierarchically out of overdensities in the underlying dark matter distribution. As matter is funneled toward a growing galaxy, conservation of angular momentum redistributes the angular momentum in this gas to match that of the halo and underlying dark matter as the gas is shock-heated and slowly cools. As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however as the density rapidly decreases. Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? 
 
-C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk.
+HYDRO? simulations such as those by Stewart et al. (2011, 2013) suggests that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature. Observational confirmation, however, has be inconclusive. C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. Wakker \& Savage (2009) compiled a sample of 4 galaxy-QSO systems from the literature, finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Approaching the question from a different angle, Bowen et al. (2016) probed the halo of a single galaxy, NGC????, with 4 nearby QSO sightlines, and again found evidence for both co-rotation and 
 
-There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
+%There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
 
 Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., French \& Wakker 2017, MORE).
 
@@ -59,69 +59,67 @@ To make progress here, we have obtained rotation curves for 12 nearby spiral gal
 \begin{center}
 \begin{tabular}{l l l l l l l l l l c}
  \hline \hline
-  Target 		& Galaxy		& R.A. 		& Dec. 		& \textit{z}		 & Program 	  & Grating 	  & Obs ID 	    & Obs Date		& $T_{exp}*$	& S/N*  \\ 
-  	    		& 	       		&	  		& 		  	 & 		    	  & 		  	  & 		  	   & 		     	    & 				& [ks]		& [1238] \\ 
- \scriptsize (1)  & \scriptsize (2) & \scriptsize (3) & \scriptsize (4) & \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) & \scriptsize (8) & \scriptsize (9) 	& \scriptsize (10) & \scriptsize (11)  \\ \hline \hline
+  Target 					& Galaxy				& R.A. 				& Dec. 				& \textit{z}		& Program 	 & Grating 	  & Obs ID 	    & Obs Date		& $T_{exp}*$	& S/N*  \\ 
+  	    					& 	       				&	  				& 		  	 		& 		    	& 		  	 & 		  	   & 		     	    & 				& [ks]		& [1238] \\ 
+ \scriptsize (1)  				& \scriptsize (2) 		& \scriptsize (3) 		& \scriptsize (4) 		& \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) & \scriptsize (8) & \scriptsize (9) 	& \scriptsize (10) & \scriptsize (11)  \\ \hline \hline
 \\
-    
-%1H0717+714		  						&  7.0  21.0   53.3  	&     71.0  20.0  36.0  &    0.5003  & 12025  &   G130M  &   LBG812  	& 11-12-27  &  6.0    &      37         \\
-1H0419-577  				&      NGC1566  	&       4.0  26.0  0.7  &     -57.0  12.0  2.0  &    0.10400  & 11686  &   G130M  &   Obs ID  & Obs Date  & 20429  &      75         \\
-1H0419-577  				&      NGC1566  	&       4.0  26.0  0.7  &     -57.0  12.0  2.0  &    0.10400  & 11686  &   G160M  &   Obs ID  & Obs Date  & 15934  &      55         \\
-HE0429-5343  				&      NGC1566  	&       4.0  30.0  40.0  &    -53.0  36.0  56.0  &   0.04001  & 12275  &   G130M  &   Obs ID  & Obs Date  & 2067  &       12         \\
-HE0435-5304  				&      NGC1566  	&       4.0  36.0  50.9  &    -52.0  58.0  47.0  &   0.42616  & 11520  &   G130M  &   Obs ID  & Obs Date  & 8372  &       12         \\
-HE0435-5304  				&      NGC1566  	&       4.0  36.0  50.9  &    -52.0  58.0  47.0  &   0.42616  & 11520  &   G160M  &   Obs ID  & Obs Date  & 8935  &       9           \\
-HE0435-5304  				&      NGC1566  	&       4.0  36.0  50.9  &    -52.0  58.0  47.0  &   0.42616  & 11520  &   G285M  &   Obs ID  & Obs Date  & 4286  &       2           \\
-RBS567  					&      NGC1566  	&       4.0  39.0  38.7  &    -53.0  11.0  31.0  &   0.24300  & 11520  &   G130M  &   Obs ID  & Obs Date  & 8176  &       17         \\
-RBS567  					&      NGC1566  	&       4.0  39.0  38.7  &    -53.0  11.0  31.0  &   0.24300  & 11520  &   G160M  &   Obs ID  & Obs Date  & 8933  &       11         \\
-RBS567  					&      NGC1566  	&       4.0  39.0  38.7  &    -53.0  11.0  31.0  &   0.24300  & 11520  &   G285M  &   Obs ID  & Obs Date  & 4286  &       2           \\
-HE0439-5254  				&      NGC1566  	&       4.0  40.0  12.0  &    -52.0  48.0  18.0  &   1.05300  & 11520  &   G130M  &   Obs ID  & Obs Date  & 8402  &       18         \\
-HE0439-5254				&      NGC1566  	&       4.0  40.0  12.0  &    -52.0  48.0  18.0  &   1.05300  & 11520  &   G160M  &   Obs ID  & Obs Date  & 8935  &       13         \\
-HE0439-5254 				&      NGC1566  	&       4.0  40.0  12.0  &    -52.0  48.0  18.0  &   1.05300  & 11520  &   G285M  &   Obs ID  & Obs Date  & 4316  &       2           \\
-H1101-232  				&      NGC3513  	&       11.0  3.0  37.7  &    -23.0  29.0  31.0  &   0.18600  & 12025  &   G130M  &   Obs ID  & Obs Date  & 13341  &      16         \\
-H1101-232  				&      NGC3513  	&       11.0  3.0  37.7  &    -23.0  29.0  31.0  &   0.18600  & 12025  &   G160M  &   Obs ID  & Obs Date  & 13296  &      10         \\
-SDSSJ112005.00+041323.0  	& 	NGC3633  	&       11.0  20.0  5.0  &    4.0  13.0  23.0  &     0.54689  & 12603  &   G130M  &   Obs ID  & Obs Date  & 4708  &       9            \\
-RX\_J1121.2+0326  			&      CGCG039-137 &   11.0  21.0  14.0  &   3.0  25.0  47.0  &     0.15200  & 12248  &   G130M  &   Obs ID  & Obs Date  & 2695  &       5           \\
-RX\_J1121.2+0326  			&      NGC3633  	&       11.0  21.0  14.0  &   3.0  25.0  47.0  &     0.15200  & 12248  &   G130M  &   Obs ID  & Obs Date  & 2695  &       5          \\
-RX\_J1121.2+0326  			&      CGCG039-137 &   11.0  21.0  14.0  &   3.0  25.0  47.0  &     0.15200  & 12248  &   G160M  &   Obs ID  & Obs Date  & 4741  &       4           \\
-RX\_J1121.2+0326  			&      NGC3633  	&       11.0  21.0  14.0  &   3.0  25.0  47.0  &     0.15200  & 12248  &   G160M  &   Obs ID  & Obs Date  & 4741  &       4           \\
-SDSSJ112224.10+031802.0  	& 	CGCG039-137 &   11.0  22.0  24.1  &   3.0  18.0  2.0  &      0.47528  & 12603  &   G130M  &   Obs ID  & Obs Date  & 7588  &       10          \\
-3C273.0  					&	NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 12038  &   G130M  &   Obs ID  & Obs Date  & 4002  &       111         \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1029  &    G130H  &   Obs ID  & Obs Date  & 10480  &      0            \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1029  &    G190H  &   Obs ID  & Obs Date  & 2880  &       0            \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1029  &    G270H  &   Obs ID  & Obs Date  & 1440  &       0            \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 3088  &    G190H  &   Obs ID  & Obs Date  & 5416  &       0            \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 3088  &    G270H  &   Obs ID  & Obs Date  & 5416  &       0            \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1140  &    G160M  &   Obs ID  & Obs Date  & 30028  &      55         \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1140  &    G200M  &   Obs ID  & Obs Date  & 979  &        10           \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 1140  &    G270M  &   Obs ID  & Obs Date  & 1958  &       14          \\
-3C273.0  					&      NGC4536  	&       12.0  29.0  6.7  &    2.0  3.0  9.0  &       0.15834  & 8017  &    E140M  &   Obs ID  & Obs Date  & 18671  &      23         \\
-HE1228+0131  				&      NGC4536  &       12.0  30.0  50.0  &   1.0  15.0  23.0  &     0.11700  & 11686  &   G130M  &   Obs ID  & Obs Date  & 11036  &      61          \\
-HE1228+0131  				&             NGC4536  &       12.0  30.0  50.0  &   1.0  15.0  23.0  &     0.11700  & 11686  &   G160M  &   Obs ID  & Obs Date  & 11029  &      45          \\
-HE1228+0131  				&             NGC4536  &       12.0  30.0  50.0  &   1.0  15.0  23.0  &     0.11700  & 6410  &    G160M  &   Obs ID  & Obs Date  & 11750  &      10           \\
-HE1228+0131  				&             NGC4536  &       12.0  30.0  50.0  &   1.0  15.0  23.0  &     0.11700  & 7737  &    E140M  &   Obs ID  & Obs Date  & 27228  &      9            \\
-LBQS1230-0015  			&           NGC4536  &       12.0  33.0  4.1  &    -0.0  31.0  34.0  &    0.47095  & 11598  &   G130M  &   Obs ID  & Obs Date  & 10323  &      13          \\
-LBQS1230-0015  			&           NGC4536  &       12.0  33.0  4.1  &    -0.0  31.0  34.0  &    0.47095  & 11598  &   G160M  &   Obs ID  & Obs Date  & 5896  &       7            \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  20.0  &   0.27840  & 8306  &    E140M  &   Obs ID  & Obs Date  & 22119  &      7            \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  19.0  &   0.27840  & 12038  &   G130M  &   Obs ID  & Obs Date  & 5979  &       27          \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  19.0  &   0.27840  & 12038  &   G160M  &   Obs ID  & Obs Date  & 6867  &       34          \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  19.0  &   0.27840  & 3791  &    G130H  &   Obs ID  & Obs Date  & 18530  &      0            \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  19.0  &   0.27840  & 3222  &    G190H  &   Obs ID  & Obs Date  & 2442  &       0           \\
-PG1302-102  &              NGC4939  &       13.0  5.0  33.0  &    -10.0  33.0  19.0  &   0.27840  & 3222  &    G270H  &   Obs ID  & Obs Date  & 939  &        0            \\
-SDSSJ135726.27+043541.4  & NGC5364  &       13.0  57.0  26.3  &   4.0  35.0  41.0  &     1.23453  & 12264  &   G130M  &   Obs ID  & Obs Date  & 14148  &      15           \\
-SDSSJ135726.27+043541.4  & NGC5364  &       13.0  57.0  26.3  &   4.0  35.0  41.0  &     1.23453  & 12264  &   G160M  &   Obs ID  & Obs Date  & 28206  &      12          \\
-QSO1500-4140  &            NGC5786  &       15.0  3.0  34.0  &    -41.0  52.0  23.0  &   0.33500  & 11659  &   G130M  &   Obs ID  & Obs Date  & 9258  &       9           \\
-SDSSJ151237.15+012846.0  & UGC09760  &      15.0  12.0  37.2  &   1.0  28.0  46.0  &     0.26625  & 12603  &   G130M  &   Obs ID  & Obs Date  & 7590  &       6           \\
-RBS1768  &                 ESO343-G014  &   21.0  38.0  49.9  &   -38.0  28.0  40.0  &   0.18299  & 12936  &   G130M  &   Obs ID  & Obs Date  & 6962  &       24          \\
-RBS1768  &                 ESO343-G014  &   21.0  38.0  49.9  &   -38.0  28.0  40.0  &   0.18299  & 12936  &   G160M  &   Obs ID  & Obs Date  & 3837  &       11           \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 12029  &   G130M  &   Obs ID  & Obs Date  & 5515  &       42           \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 12029  &   G160M  &   Obs ID  & Obs Date  & 7125  &       30           \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 6484  &    G130H  &   Obs ID  & Obs Date  & 4740  &       0           \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 6484  &    G190H  &   Obs ID  & Obs Date  & 1730  &       0            \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 6484  &    G270H  &   Obs ID  & Obs Date  & 300  &        0            \\
-MRC2251-178  &             MCG-03-58-009  & 22.0  54.0  5.9  &    -17.0  34.0  55.0  &   0.06609  & 7345  &    G140M  &   Obs ID  & Obs Date  & 10574  &      32           \\
-RBS2000  &                 IC5325  &        23.0  24.0  44.7  &   -40.0  40.0  49.0  &   0.17359  & 13448  &   G130M  &   Obs ID  & Obs Date  & 5046  &       18           \\
-RBS2000  &                 IC5325  &        23.0  24.0  44.7  &   -40.0  40.0  49.0  &   0.17359  & 13448  &   G160M  &   Obs ID  & Obs Date  & 5726  &       12           \\
-
+%1H0717+714		  							&  	07  21  53.3  		&     +71  20  36.0  	&    0.5003  	& 12025  		&   G130M  	&   LBG812  	& 11-12-27  &  6.0    &      37         \\
+1H0419-577  				&      NGC1566  		&      04  26  00.7  		&	-57  12  02.0  	&   0.10400  	& 11686		&   G130M	&   Obs ID  & Obs Date  & 20429  &      75         \\
+1H0419-577  				&      NGC1566  		&      04  26  00.7  		&	-57  12  02.0  	&   0.10400  	& 11686		&   G160M	&   Obs ID  & Obs Date  & 15934  &      55         \\
+HE0429-5343  				&      NGC1566  		&      04  30  40.0  		&	-53  36  56.0 	&   0.04001  	& 12275		&   G130M	&   Obs ID  & Obs Date  & 2067  &       12         \\
+HE0435-5304  				&      NGC1566  		&      04  36  50.9  		&      -52  58  47.0  	&   0.42616  	& 11520		&   G130M	&   Obs ID  & Obs Date  & 8372  &       12         \\
+HE0435-5304  				&      NGC1566  		&      04  36  50.9  		&	-52  58  47.0  	&   0.42616  	& 11520		&   G160M	&   Obs ID  & Obs Date  & 8935  &       9           \\
+%HE0435-5304  			&      NGC1566  		&      04  36  50.9  		&	-52  58  47.0  	&   0.42616  	& 11520		&   G285M	&   Obs ID  & Obs Date  & 4286  &       2           \\
+RBS567  					&      NGC1566  		&      04  39  38.7  		&	-53  11  31.0  	&   0.24300  	& 11520		&   G130M	&   Obs ID  & Obs Date  & 8176  &       17         \\
+RBS567  					&      NGC1566  		&      04  39  38.7  		&	-53  11  31.0  	&   0.24300  	& 11520		&   G160M	&   Obs ID  & Obs Date  & 8933  &       11         \\
+%RBS567  				&      NGC1566  		&      04  39  38.7  		&	-53  11  31.0  	&   0.24300  	& 11520		&   G285M	&   Obs ID  & Obs Date  & 4286  &       2           \\
+HE0439-5254  				&      NGC1566  		&      04  40  12.0  		&	-52  48  18.0  	&   1.05300  	& 11520		&   G130M	&   Obs ID  & Obs Date  & 8402  &       18         \\
+HE0439-5254				&      NGC1566  		&      04  40  12.0  		&	-52  48  18.0  	&   1.05300  	& 11520		&   G160M	&   Obs ID  & Obs Date  & 8935  &       13         \\
+%HE0439-5254 			&      NGC1566  		&      04  40  12.0  		&	-52  48  18.0  	&   1.05300  	& 11520		&   G285M	&   Obs ID  & Obs Date  & 4316  &       2           \\
+H1101-232  				&      NGC3513  		&      11  03  37.7  		&	-23  29  31.0  	&   0.18600  	& 12025		&   G130M	&   Obs ID  & Obs Date  & 13341  &      16         \\
+H1101-232  				&      NGC3513  		&      11  03  37.7  		&	-23  29  31.0  	&   0.18600  	& 12025		&   G160M	&   Obs ID  & Obs Date  & 13296  &      10         \\
+SDSSJ112005.00+041323.0  	& 	NGC3633  		&      11  20  05.0  		&	+04  13  23.0 	&   0.54689  	& 12603		&   G130M	&   Obs ID  & Obs Date  & 4708  &       9            \\
+RX\_J1121.2+0326  			&      CGCG039-137 		&   	11  21  14.0  		&	+03  25  47.0 	&   0.15200  	& 12248		&   G130M	&   Obs ID  & Obs Date  & 2695  &       5           \\
+RX\_J1121.2+0326  			&      NGC3633  		&	11  21  14.0  		&	+03  25  47.0 	&   0.15200  	& 12248		&   G130M	&   Obs ID  & Obs Date  & 2695  &       5          \\
+RX\_J1121.2+0326  			&      CGCG039-137 		&	11  21  14.0  		&	+03  25  47.0 	&   0.15200  	& 12248		&   G160M	&   Obs ID  & Obs Date  & 4741  &       4           \\
+RX\_J1121.2+0326  			&      NGC3633  		&      11  21  14.0  		&	+03  25  47.0 	&   0.15200  	& 12248		&   G160M	&   Obs ID  & Obs Date  & 4741  &       4           \\
+SDSSJ112224.10+031802.0  	& 	CGCG039-137 		&  	11  22  24.1  		&	+03  18  02.0 	&   0.47528  	& 12603		&   G130M	&   Obs ID  & Obs Date  & 7588  &       10          \\
+3C273.0  					&	NGC4536  		&      12  29  06.7  		&	+02  03  09.0 	&   0.15834  	& 12038		&   G130M	&   Obs ID  & Obs Date  & 4002  &       111         \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0 	&   0.15834  	& 1029		&   G130H		&   Obs ID  & Obs Date  & 10480  &      0            \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0 	&   0.15834  	& 1029		&   G190H		&   Obs ID  & Obs Date  & 2880  &       0            \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0 	&   0.15834  	& 1029		&   G270H		&   Obs ID  & Obs Date  & 1440  &       0            \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0  	&   0.15834  	& 3088		&   G190H		&   Obs ID  & Obs Date  & 5416  &       0            \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		& 	+02  03  09.0  	&   0.15834  	& 3088		&   G270H		&   Obs ID  & Obs Date  & 5416  &       0            \\
+3C273.0  					&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0 	&   0.15834  	& 1140		&   G160M	&   Obs ID  & Obs Date  & 30028  &      55         \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		& 	+02  03  09.0  	&   0.15834  	& 1140		&   G200M	&   Obs ID  & Obs Date  & 979  &        10           \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0  	&   0.15834  	& 1140		&   G270M	&   Obs ID  & Obs Date  & 1958  &       14          \\
+%3C273.0  				&      NGC4536  		&      12  29  06.7  		&	+02  03  09.0  	&   0.15834  	& 8017		&   E140M		&   Obs ID  & Obs Date  & 18671  &      23         \\
+HE1228+0131  				&      NGC4536  		&      12  30  50.0  		&	+01  15  23.0  	&   0.11700  	& 11686		&   G130M 	&   Obs ID  & Obs Date  & 11036  &      61          \\
+HE1228+0131  				&      NGC4536  		&      12  30  50.0  		&	+01  15  23.0  	&   0.11700  	& 11686		&   G160M	&   Obs ID  & Obs Date  & 11029  &      45          \\
+%HE1228+0131  			&      NGC4536  		&      12  30  50.0  		&	+01  15  23.0  	&   0.11700  	& 6410		&   G160M	&   Obs ID  & Obs Date  & 11750  &      10           \\
+%HE1228+0131  			&      NGC4536  		&      12  30  50.0  		&	+01  15  23.0  	&   0.11700  	& 7737		&   E140M		&   Obs ID  & Obs Date  & 27228  &      9            \\
+LBQS1230-0015  			&      NGC4536  		&      12  33  04.1  		&	-00  31  34.0  	&   0.47095  	& 11598		&   G130M	&   Obs ID  & Obs Date  & 10323  &      13          \\
+LBQS1230-0015  			&      NGC4536  		&      12  33  04.1  		&	-00  31  34.0  	&   0.47095  	& 11598		&   G160M	&   Obs ID  & Obs Date  & 5896  &       7            \\
+%PG1302-102  			&      NGC4939  		&      13  05  33.0  		&	-10  33  20.0  	&   0.27840  	& 8306		&   E140M		&   Obs ID  & Obs Date  & 22119  &      7            \\
+PG1302-102  				&      NGC4939  		&      13  05  33.0  		&	-10  33  19.0  	&   0.27840  	& 12038		&   G130M	&   Obs ID  & Obs Date  & 5979  &       27          \\
+PG1302-102  				&      NGC4939  		&      13  05  33.0  		&	-10  33  19.0  	&   0.27840  	& 12038		&   G160M	&   Obs ID  & Obs Date  & 6867  &       34          \\
+%PG1302-102  			&      NGC4939  		&	13  05  33.0  		&	-10  33  19.0  	&   0.27840  	& 3791		&   G130H		&   Obs ID  & Obs Date  & 18530  &      0            \\
+%PG1302-102  			&      NGC4939  		&      13  05  33.0  		&	-10  33  19.0  	&   0.27840  	& 3222		&   G190H		&   Obs ID  & Obs Date  & 2442  &       0           \\
+%PG1302-102  			&      NGC4939  		&      13  05  33.0  		&	-10  33  19.0  	&   0.27840  	& 3222		&   G270H		&   Obs ID  & Obs Date  & 939  &        0            \\
+SDSSJ135726.27+043541.4  	&	NGC5364  		&      13  57  26.3  		&	+04  35  41.0  	&   1.23453  	& 12264		&   G130M	&   Obs ID  & Obs Date  & 14148  &      15           \\
+SDSSJ135726.27+043541.4  	& 	NGC5364  		&      13  57  26.3  		&	+04  35  41.0  	&   1.23453  	& 12264		&   G160M	&   Obs ID  & Obs Date  & 28206  &      12          \\
+QSO1500-4140  			&      NGC5786  		&      15  03  34.0  		&	-41  52  23.0  	&   0.33500  	& 11659		&   G130M	&   Obs ID  & Obs Date  & 9258  &       9           \\
+SDSSJ151237.15+012846.0  	& 	UGC09760  		&      15  12  37.2  		&	+01  28  46.0  	&   0.26625  	& 12603		&   G130M	&   Obs ID  & Obs Date  & 7590  &       6           \\
+RBS1768  				&      ESO343-G014  	&   	21  38  49.9  		&	-38  28  40.0  	&   0.18299  	& 12936		&   G130M	&   Obs ID  & Obs Date  & 6962  &       24          \\
+RBS1768  				&      ESO343-G014  	&	21  38  49.9  		&	-38  28  40.0  	&   0.18299  	& 12936		&   G160M	&   Obs ID  & Obs Date  & 3837  &       11           \\
+MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 12029		&   G130M	&   Obs ID  & Obs Date  & 5515  &       42           \\
+MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 12029		&   G160M	&   Obs ID  & Obs Date  & 7125  &       30           \\
+%MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 6484		&   G130H		&   Obs ID  & Obs Date  & 4740  &       0           \\
+%MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 6484		&   G190H		&   Obs ID  & Obs Date  & 1730  &       0            \\
+%MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 6484		&   G270H		&   Obs ID  & Obs Date  & 300  &        0            \\
+%MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  	&   0.06609  	& 7345		&   G140M	&   Obs ID  & Obs Date  & 10574  &      32           \\
+RBS2000  				&      IC5325  			&      23  24  44.7  		&	-40  40  49.0  	&   0.17359  	& 13448		&   G130M	&   Obs ID  & Obs Date  & 5046  &       18           \\
+RBS2000  				&      IC5325  			&      23  24  44.7  		&	-40  40  49.0  	&   0.17359  	& 13448		&   G160M	&   Obs ID  & Obs Date  & 5726  &       12           \\
 
  \\
 \hline
@@ -137,8 +135,6 @@ RBS2000  &                 IC5325  &        23.0  24.0  44.7  &   -40.0  40.0  4
 
 \subsection{SALT Data}
 Our sample contains 12 galaxies observed with the Southern African Large Telescope (SALT) Robert Stobie Spectrograph (RSS) in longslit mode. These 12 were selected from a larger pool of 48 submitted targets by the SALT observing queue. These 48 possible targets were chosen for their proximity to background QSOs whose spectra contained promising Ly$\alpha$ lines. Finally, we only included galaxies with $z \leq 0.33$ ($cz \leq 10,000$ \kms), angular sizes less than 6' to ensure easy sky subtraction, and surface brightnesses sufficient to keep exposure times below $\sim 1300 s$. Table \ref{salt_targets} summarizes these observations. Data was taken for 2 additional galaxies, NGC3640 and NGC2962, but proved unusable due to issues with spectral identification and low signal to noise (respectively).
-
-
 
 %All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{\begin{table*}[ht]\footnotesize. 
 
@@ -158,13 +154,22 @@ For each 1-D spectrum, we identify the H$\alpha$ emission lines and perform a no
 
 Finally, we calculate our approaching and receding velocities via a weighted mean of the outer 1/2 of each rotation curve, with errors calculated as weighted standard errors in the mean. Our final redshifts are calculated by forcing symmetric rotation, such that the outer 1/2 average velocity for each side matches. See Figure \ref{rotation_curve} for an example.
 
-\begin{figure}[b!]
-        \centering
-        \vspace{0pt}
-        \includegraphics[width=0.50\textwidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}
-        \caption{\small{Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean.}}
-        \label{completeness}
+%\begin{figure}[b!]
+%        \centering
+%        \vspace{0pt}
+%        \includegraphics[width=0.50\textwidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}
+%        \caption{\small{Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean.}}
+%        \label{completeness}
+%\end{figure}
+
+\begin{figure}[t!]
+\centering
+  \subfigure[]{\includegraphics[width=1.\linewidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve}}
+  \subfigure[]{\includegraphics[width=0.95\linewidth]{NGC3633_FindingChart.pdf}\label{finderchart}}
+  \caption{\small{a) Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC3633 showing the position of the slit in red.}}
+\vspace{5pt}
 \end{figure}
+
 
 
 
@@ -348,7 +353,6 @@ HE0429-5343 is in the same direction and azimuth angle but closer at $\rho = 256
 
 
 
-
 \subsection{NGC3513}
 NGC3513 a mostly face-on SB(rs)c galaxy with heliocentric velocity $V_{hel} = 1204 \pm 12$ \kms. It has a companion galaxy in NGC3511 at an impact parameter of 44 kpc at $v_{hel} = 1109$ \kms. We detect Ly$\alpha$ at 1182 \kms~toward background QSO H1101-232, which is located directly south at 60 kpc and azimuth angle of $67^{\circ}$ on the receding side. NGC3513 appears to be rotating slowly, with a maximal inclination-corrected rotation velocity of $22 \pm 24$ \kms. The $\Delta v = -22$ \kms~for this absorber matches well with the magnitude of this rotation, but is opposite in sign for co-rotation. Given that NGC3511 is so close, this absorber's velocity is probably subject to a complex velocity field influenced by both NGC3511 and NGC3513.
 
@@ -369,6 +373,10 @@ NGC3513 a mostly face-on SB(rs)c galaxy with heliocentric velocity $V_{hel} = 12
 
 
 \subsection{NGC3633}
+NGC3633 is an isolated, edge-on SAa type galaxy at a velocity of $2587 \pm 7$ \kms. There are three nearby sightlines: SDSSJ112005.00+041323.0 is straight north at 468 kpc and $78^{\circ}$ azimuth, RX\_J1121.2+0326 is to the southeast at 184 kpc and $58^{\circ}$ azimuth, and SDSSJ112224.10+031802.0 at 413 kpc and $50^{\circ}$ azimuth. Toward RX\_J1121.2+0326 we detect a Ly$\alpha$ absorber at 2605 \kms~on the approaching side, which is essentially systemic velocity for NGC3633. The spectrum of SDSSJ112224.10+031802.0 shows absorbers at 2285 and 2578 \kms, both of which are of the correct sign for co-rotation.
+
+We do not detect any Ly$\alpha$ towards a third sightline, SDSSJ112224.10+031802.0 at 413 kpc and $50^{\circ}$ azimuth.
+
 Several locations show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. We measure a redshift for this galaxy of $cz = 2597.6 \pm 2.4$ \kms. 
 
 We measure a line-of-sight rotation velocity for NGC3633 of $v_{rot}=139\pm 3.3,~-160\pm5.7$,  \kms.

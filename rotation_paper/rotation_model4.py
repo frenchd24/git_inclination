@@ -244,7 +244,9 @@ def main():
 #     filename = 'IC5325-summary4.json'
 #     filename = 'MCG-03-58-009-summary4.json'
 #     filename = 'NGC1566-summary4.json'
-    filename = 'NGC3513-summary4.json'
+#     filename = 'NGC3513-summary4.json'
+    filename = 'NGC3633-summary4.json'
+
     
     with open(directory+filename) as data_file:
         data = json.load(data_file)    
@@ -290,10 +292,17 @@ def main():
 #         agnName = '1H0419-577'
 
         # NGC3513
-        flipInclination = True
-        agnName = 'H1101-232'
+#         flipInclination = True
+#         agnName = 'H1101-232'
 
         
+        # NGC3633
+        flipInclination = False
+#         agnName = 'SDSSJ112005.00+041323.0'
+#         agnName = 'RX_J1121.2+0326'
+        agnName = 'SDSSJ112224.10+031802.0'
+
+
         # grab the coordinates for this target
         RA_target = agn[agnName]['RAdeg']
         Dec_target = agn[agnName]['DEdeg']
@@ -646,8 +655,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 1
-    rcutoffm = 2
+    zcutoffm = 2
+    rcutoffm = 3
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -970,7 +979,8 @@ def main():
 #         directory = '/Users/frenchd/Research/test/IC5325/'
 #         directory = '/Users/frenchd/Research/test/MCG-03-58-009/'
 #         directory = '/Users/frenchd/Research/test/NGC1566/'
-        directory = '/Users/frenchd/Research/test/NGC3513/'
+#         directory = '/Users/frenchd/Research/test/NGC3513/'
+        directory = '/Users/frenchd/Research/test/NGC3633/'
 
 
 #         directory = '/Users/frenchd/Research/test/RFGC3781/'
