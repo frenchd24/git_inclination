@@ -245,7 +245,12 @@ def main():
 #     filename = 'MCG-03-58-009-summary4.json'
 #     filename = 'NGC1566-summary4.json'
 #     filename = 'NGC3513-summary4.json'
-    filename = 'NGC3633-summary4.json'
+#     filename = 'NGC3633-summary4.json'
+#     filename = 'NGC4536-summary4.json'
+#     filename = 'NGC4939-summary4.json'
+    filename = 'NGC5364-summary4.json'
+
+
 
     
     with open(directory+filename) as data_file:
@@ -297,10 +302,27 @@ def main():
 
         
         # NGC3633
-        flipInclination = False
+#         flipInclination = False
 #         agnName = 'SDSSJ112005.00+041323.0'
 #         agnName = 'RX_J1121.2+0326'
-        agnName = 'SDSSJ112224.10+031802.0'
+#         agnName = 'SDSSJ112224.10+031802.0'
+
+
+        # NGC4536
+#         flipInclination = False
+#         agnName = '3C273.0'
+#         agnName = 'HE1228+0131'
+
+        # NGC4939
+#         flipInclination = True
+#         reverse = True
+#         agnName = 'PG1302-102'
+
+
+        # NGC5364
+        flipInclination = True
+        reverse = True
+        agnName = 'SDSSJ135726.27+043541.4'
 
 
         # grab the coordinates for this target
@@ -378,8 +400,9 @@ def main():
     fitOrder = 120
     
     # reverse it?
+    if reverse:
 #     xData.reverse()
-#     yData.reverse()
+        yData.reverse()
 #     yData = np.array(yData)*-1
 
     from scipy.interpolate import interp1d
@@ -534,6 +557,8 @@ def main():
         
     if RA_target > RA_galaxy:
         impact_RA = -impact_RA
+        
+#     impact_RA -= 30.
     
     
     print
@@ -655,8 +680,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 2
-    rcutoffm = 3
+    zcutoffm = 0.5
+    rcutoffm = 1.5
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -972,7 +997,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
-    
+        if i == 49:
+            show()
     
 #         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
 #         directory = '/Users/frenchd/Research/test/ESO343-G014/'
@@ -980,7 +1006,10 @@ def main():
 #         directory = '/Users/frenchd/Research/test/MCG-03-58-009/'
 #         directory = '/Users/frenchd/Research/test/NGC1566/'
 #         directory = '/Users/frenchd/Research/test/NGC3513/'
-        directory = '/Users/frenchd/Research/test/NGC3633/'
+#         directory = '/Users/frenchd/Research/test/NGC3633/'
+#         directory = '/Users/frenchd/Research/test/NGC4536/'
+#         directory = '/Users/frenchd/Research/test/NGC4939/'
+        directory = '/Users/frenchd/Research/test/NGC5364/'
 
 
 #         directory = '/Users/frenchd/Research/test/RFGC3781/'

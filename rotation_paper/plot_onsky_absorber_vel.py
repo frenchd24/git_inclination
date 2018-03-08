@@ -430,7 +430,7 @@ def main():
         else:
             markerColor = 'black'
             
-        if abs(dv - rot_vel) <= 50 or az >= 85.:
+        if abs(dv - rot_vel) <= 50 or az >= 84.:
             markerColor = 'yellow'
    
 #         if az >= 85.:
@@ -659,7 +659,7 @@ def main():
     # plot the rest
     largestEW = max(wList2)
     smallestEW = min(wList2)
-    maxSize = 600
+    maxSize = 500
     minSize = 30
     
     newSizeList = []
@@ -667,18 +667,48 @@ def main():
         newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
         newSizeList.append(newSize)
 
-    ax.scatter(RA_targetList2,Dec_targetList2, color=markerColorList2,s=newSizeList)
+    # just plot them all the same
+#     ax.scatter(RA_targetList2,Dec_targetList2, color=markerColorList2,s=newSizeList)
+
+    # make different style markers for different colors
+    for i in arange(len(markerColorList2)):
+        marker = '*'
+        if markerColorList2[i] == 'yellow':
+            marker = 'o'
+        if markerColorList2[i] == 'red':
+            marker = 'x'
+        if markerColorList2[i] == 'blue':
+            marker = 'D'
+            
+            
+        ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList2[i], \
+        s=newSizeList[i], marker=marker, edgecolor='black', lw=0.8)
+    
     
     xTagOffset = 0.1
     yTagOffset = 0.1
     
     # put some labels on it
-    for i in arange(len(combinedNameList2)):
-        annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-        xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
+#     for i in arange(len(combinedNameList2)):
+#         annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
 
-#     xlabel(r'$\rm R.A. ~[kpc]$')
-#     ylabel(r'$\rm Dec. ~[kpc]$')
+    previousNames = {}
+    for i in arange(len(combinedNameList2)):
+        yTagOffset = newSizeList[i]/35.
+        
+        if not previousNames.has_key(combinedNameList2[i]):
+            annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
+
+            previousNames[combinedNameList2[i]] = 1.
+        else:
+            previousNames[combinedNameList2[i]] += 1.
+
+#         print 'previousName: ',previousName
+#         print 'currentName: ',combinedNameList2[i]
+#         print
+#         previousName = combinedNameList2[i]
 
     xlabel(r'$\rm R.A. ~[R_{vir}]$')
     ylabel(r'$\rm Dec. ~[R_{vir}]$')
@@ -711,9 +741,9 @@ def main():
 #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
     yellow_line = mlines.Line2D([], [], color='yellow', marker='o',lw=0,
                               markersize=15, label='Within Uncertainties')
-    red_line = mlines.Line2D([], [], color='red', marker='o',lw=0,
+    red_line = mlines.Line2D([], [], color='red', marker='x',lw=0,
                               markersize=15, label=r'$\rm Anti-rotation$')
-    blue_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
+    blue_line = mlines.Line2D([], [], color='blue', marker='D',lw=0,
                               markersize=15, label=r'$\rm Co-rotation$')
                               
     plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower left')
@@ -729,7 +759,7 @@ def main():
     
     directory = '/Users/frenchd/Research/test/'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}SALT_map2.pdf".format(directory),bbox_inches='tight')
+    savefig("{0}SALT_map3.pdf".format(directory),bbox_inches='tight')
 
 
     

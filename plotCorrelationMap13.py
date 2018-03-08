@@ -423,7 +423,10 @@ def main():
 
 #     targets = [('MCG-03-58-009',9015,True)]
 #     targets = [('NGC0891',528,True)]
-    targets = [('NGC3633',2587,True)]
+#     targets = [('NGC3633',2587,True)]
+
+#     targets = [('NGC4939',3093,True)]
+    targets = [('RX_J1217.2+2749',1326,True)]
 
 
 #     targets = [('CGCG039-137',6918,True),\

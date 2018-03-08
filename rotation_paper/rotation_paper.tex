@@ -46,13 +46,17 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 \section{INTRODUCTION}
 Our current $\Lambda$CDM cosmology picture describes galaxies forming hierarchically out of overdensities in the underlying dark matter distribution. As matter is funneled toward a growing galaxy, conservation of angular momentum redistributes the angular momentum in this gas to match that of the halo and underlying dark matter as the gas is shock-heated and slowly cools. As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however as the density rapidly decreases. Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? 
 
-HYDRO? simulations such as those by Stewart et al. (2011, 2013) suggests that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature. Observational confirmation, however, has be inconclusive. C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. Wakker \& Savage (2009) compiled a sample of 4 galaxy-QSO systems from the literature, finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Approaching the question from a different angle, Bowen et al. (2016) probed the halo of a single galaxy, NGC????, with 4 nearby QSO sightlines, and again found evidence for both co-rotation and 
+HYDRO? simulations such as those by Stewart et al. (2011, 2013) suggests that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature. Observational confirmation, however, has be inconclusive. C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. Wakker \& Savage (2009) compiled a sample of 4 galaxy-QSO systems from the literature, finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Approaching the question from a different angle, Bowen et al. (2016) probed the halo of a single galaxy, NGC1097, with 4 nearby QSO sightlines, and suggests that an extended, slowly rotating disk with additional inflowing IGM material best matches observations.
 
 %There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
 
 Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., French \& Wakker 2017, MORE).
 
 To make progress here, we have obtained rotation curves for 12 nearby spiral galaxies which are located within 500 kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. 
+
+We have augmented this new sample with additional galaxies with known rotation velocity and orientation from the literature. In Section 2 we describe the selection and reduction of both SALT and COS spectra. We then discuss each galaxy-QSO system in detail in Section 3, and introduce our halo-velocity model for interpreting these systems in Section 4. In Section 5 we discuss the overall results of this exercise and present a physically-motivated interpretation of these results. See Section 6 for a summary of our results and conclusions.
+
+
 
 
 \begin{table*}[ht]\footnotesize
@@ -134,14 +138,14 @@ RBS2000  				&      IC5325  			&      23  24  44.7  		&	-40  40  49.0  	&   0.17
 \section{DATA AND ANALYSIS}
 
 \subsection{SALT Data}
-Our sample contains 12 galaxies observed with the Southern African Large Telescope (SALT) Robert Stobie Spectrograph (RSS) in longslit mode. These 12 were selected from a larger pool of 48 submitted targets by the SALT observing queue. These 48 possible targets were chosen for their proximity to background QSOs whose spectra contained promising Ly$\alpha$ lines. Finally, we only included galaxies with $z \leq 0.33$ ($cz \leq 10,000$ \kms), angular sizes less than 6' to ensure easy sky subtraction, and surface brightnesses sufficient to keep exposure times below $\sim 1300 s$. Table \ref{salt_targets} summarizes these observations. Data was taken for 2 additional galaxies, NGC3640 and NGC2962, but proved unusable due to issues with spectral identification and low signal to noise (respectively).
+Our sample contains 12 galaxies observed with the Southern African Large Telescope (SALT) Robert Stobie Spectrograph (RSS) in longslit mode. These 12 were selected from a larger pool of 48 submitted targets by the SALT observing queue. These 48 possible targets were chosen for their proximity to background QSOs whose spectra contained promising Ly$\alpha$ lines. Finally, we only included galaxies with $z \leq 0.33$ ($cz \leq 10,000$ \kms), angular sizes less than 6' to enable easy sky subtraction without taking additional exposures, and surface brightnesses sufficient to keep exposure times below $\sim 1300 s$. Table \ref{salt_targets} summarizes these observations. Data was taken for 2 additional galaxies, NGC3640 and NGC2962, but proved unusable due to issues with spectral identification and low signal-to-noise (respectively).
 
 %All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{\begin{table*}[ht]\footnotesize. 
 
 
-All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{CITATION}), which includes procedures to prepare the data, correct for gain, cross-talk, bias, and overscan, and finally mosaic the images from different extensions. Next, we rectify the images with wavelength solutions found via Ne and Ar arc lamp spectra line identification. Finally, we perform a basic sky subtraction using an off-sky portion of the image, and extract 5-10 pixel wide 1-D strips from the reduced 2-D spectrum. 
+All SALT galaxy spectra were reduced and extracted using the standard PySALT reduction package (\textbf{CITATION}), which includes procedures to prepare the data, correct for gain, cross-talk, bias, and overscan, and finally mosaic the images from the 3 CCDs. Next, we rectify the images with wavelength solutions found via Ne and Ar arc lamp spectra line identification. Finally, we perform a basic sky subtraction using an off-sky portion of the spectrum, and extract 5-10 pixel wide 1-D strips from the reduced 2-D spectrum. 
 
-For each 1-D spectrum, we identify the H$\alpha$ emission lines and perform a non-linear least-squares Voigt profile fit using the Python package LMFIT\footnote{\url{http://cars9.uchicago.edu/software/python/lmfit/contents.html}}. The line centroid and 1$\sigma$ standard errors are returned, and these fits are then shifted to rest-velocity based on the galaxy systemic redshift and heliocentric velocity corrections are calculated with the IRAF rvcorrect procedure. The final rotation velocity is calculated by then applying the inclination correction, $v_{rot} = v / \sin(i)$. Final errors are calculated as
+For each 1-D spectrum, we identify the H$\alpha$ emission lines and perform a non-linear least-squares Voigt profile fit using the Python package LMFIT\footnote{\url{http://cars9.uchicago.edu/software/python/lmfit/contents.html}}. The line centroid and 1$\sigma$ standard errors are returned, and these fits are then shifted to rest-velocity based on the galaxy systemic redshift and heliocentric velocity corrections are calculated with the IRAF rvcorrect procedure. The final rotation velocity is calculated by then applying the inclination correction, $v_{rot} = v / \sin(i)$. Final errors are calculated as a quadrature sum of $1\sigma$ fit errors, systemic redshift error, and inclination uncertainty as follows:
 
 \begin{equation}
 \begin{split}
@@ -150,9 +154,11 @@ For each 1-D spectrum, we identify the H$\alpha$ emission lines and perform a no
 \end{split}
 \end{equation}
 
-\noindent where $\Delta \lambda_{obs}$, $\Delta v_{sys}$, and $\Delta i$ are the errors in observed line center, galaxy redshift, and inclination, respectively. We determine the inclination error by calculate the standard deviation of all axis ratio values available for each galaxy in NED. The final physical scale is calculated using the SALT image scale of 0.1267 arcsec/pixel, multiplied by the 4-pixel spatial binning, and converted to physical units using a redshift-independent distance if available, and a Hubble flow estimate if not. We adopt a Hubble constant of $H_0$ = 71 \kms $\rm Mpc^{-1}$ throughout.
+\noindent where $\Delta \lambda_{obs}$, $\Delta v_{sys}$, and $\Delta i$ are the errors in observed line center, galaxy redshift, and inclination, respectively. 
 
-Finally, we calculate our approaching and receding velocities via a weighted mean of the outer 1/2 of each rotation curve, with errors calculated as weighted standard errors in the mean. Our final redshifts are calculated by forcing symmetric rotation, such that the outer 1/2 average velocity for each side matches. See Figure \ref{rotation_curve} for an example.
+We determine the inclination error by calculating the standard deviation of the set of all axis ratio values available in NED for each galaxy. The final physical scale is calculated using the SALT image scale of 0.1267 arcsec/pixel, multiplied by the 4-pixel spatial binning, and converted to physical units using a redshift-independent distance if available, and a Hubble flow estimate if not. We adopt a Hubble constant of $H_0$ = 71 \kms $\rm Mpc^{-1}$ throughout.
+
+Finally, we calculate our approaching and receding velocities via a weighted mean of the outer 1/2 of each rotation curve, with errors calculated as weighted standard errors in the mean. Our final redshifts are calculated by forcing symmetric rotation, such that the outer 1/2 average velocity for each side matches in magnitude. See Figure \ref{rotationcurve} for an example.
 
 %\begin{figure}[b!]
 %        \centering
@@ -373,107 +379,112 @@ NGC3513 a mostly face-on SB(rs)c galaxy with heliocentric velocity $V_{hel} = 12
 
 
 \subsection{NGC3633}
-NGC3633 is an isolated, edge-on SAa type galaxy at a velocity of $2587 \pm 7$ \kms. There are three nearby sightlines: SDSSJ112005.00+041323.0 is straight north at 468 kpc and $78^{\circ}$ azimuth, RX\_J1121.2+0326 is to the southeast at 184 kpc and $58^{\circ}$ azimuth, and SDSSJ112224.10+031802.0 at 413 kpc and $50^{\circ}$ azimuth. Toward RX\_J1121.2+0326 we detect a Ly$\alpha$ absorber at 2605 \kms~on the approaching side, which is essentially systemic velocity for NGC3633. The spectrum of SDSSJ112224.10+031802.0 shows absorbers at 2285 and 2578 \kms, both of which are of the correct sign for co-rotation.
+NGC3633 is an isolated, edge-on SAa type galaxy at a velocity of $2587 \pm 7$ \kms. Several locations along the disk of NGC3633 show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. 
+There are three nearby sightlines: SDSSJ112005.00+041323.0 is straight north at 468 kpc and $78^{\circ}$ azimuth, RX\_J1121.2+0326 is to the southeast at 184 kpc and $58^{\circ}$ azimuth, and SDSSJ112224.10+031802.0 at 413 kpc and $50^{\circ}$ azimuth. Toward RX\_J1121.2+0326 we detect a Ly$\alpha$ absorber at 2605 \kms~on the approaching side, which is essentially systemic velocity for NGC3633. The spectrum of SDSSJ112224.10+031802.0 shows absorbers at 2285 and 2578 \kms, both of which are of the correct sign for co-rotation. We do not detect any Ly$\alpha$ towards the third sightline, SDSSJ112224.10+031802.0.
 
-We do not detect any Ly$\alpha$ towards a third sightline, SDSSJ112224.10+031802.0 at 413 kpc and $50^{\circ}$ azimuth.
+%We measure a redshift for this galaxy of $cz = 2597.6 \pm 2.4$ \kms. 
 
-Several locations show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. We measure a redshift for this galaxy of $cz = 2597.6 \pm 2.4$ \kms. 
-
-We measure a line-of-sight rotation velocity for NGC3633 of $v_{rot}=139\pm 3.3,~-160\pm5.7$,  \kms.
-
-
-Systemic velocity as published: 2600
-Velocity as measured: 2587.2 $\pm$ 6.6
-Rotation velocity (inc corrected) 157 $\pm$ 11 \kms
-Rotation velocity (observed) 149 $\pm$ 6 \kms
-Inclination: 69
-Adjusted Inc: 72
-Morphology: SAa
-$L_{\**}$ = 0.88 \\
-
-Three sightlines: \\
-SDSSJ112005.00+041323.0 at 468 kpc, 78deg az: \\
-2285 Lya (dv = -302 \kms on neg side)
-2578 Lya (dv = -9 \kms on neg side)
+%We measure a line-of-sight rotation velocity for NGC3633 of $v_{rot}=139\pm 3.3,~-160\pm5.7$,  \kms.
 
 
-RX\_J1121.2+0326 at 184 kpc, 58deg az: \\
-2605 Lya (dv = 18 \kms on neg side)
-
-
-SDSSJ112224.10+031802.0 at 413 kpc, 50deg az: \\
-Nothing
+%Systemic velocity as published: 2600
+%Velocity as measured: 2587.2 $\pm$ 6.6
+%Rotation velocity (inc corrected) 157 $\pm$ 11 \kms
+%Rotation velocity (observed) 149 $\pm$ 6 \kms
+%Inclination: 69
+%Adjusted Inc: 72
+%Morphology: SAa
+%$L_{\**}$ = 0.88 \\
+%
+%Three sightlines: \\
+%SDSSJ112005.00+041323.0 at 468 kpc, 78deg az: \\
+%2285 Lya (dv = -302 \kms on neg side)
+%2578 Lya (dv = -9 \kms on neg side)
+%
+%
+%RX\_J1121.2+0326 at 184 kpc, 58deg az: \\
+%2605 Lya (dv = 18 \kms on neg side)
+%
+%
+%SDSSJ112224.10+031802.0 at 413 kpc, 50deg az: \\
+%Nothing
 
 
 \subsection{NGC4536}
-The data on the receding side of NGC4536 is very messy, and may include contamination from background sources. 
+NGC4536 is a SAB(rs)bc type galaxy located in a complex environment with many other nearby galaxies. The data on the receding side of NGC4536 is quite messy, and may include contamination from background sources. Hence, our measured systemic velocity of $1867 \pm 33$ \kms, and thus rotation velocity of $139 \pm 37$ \kms, have relatively high uncertainty. Other published redshift values available from NED and rotation velocities from the HyperLEDA database are broadly consistent with our values, albeit biased slightly lower and higher in velocity, respectively.
+
+There are 2 sightlines to the southwest of NGC4536, both on the receding side of the galaxy. HE1228+0131 at 338 kpc and $86^{\circ}$ azimuth has 5 Ly$\alpha$ lines: 1495, 1571, 1686, 1721, and 1854 \kms. None of these are of the correct orientation for co-rotation, and all are more likely to be associated with other nearby galaxies, such as NGC4517A, which is slightly closer to these absorbers in impact parameter and velocity than is NGC4536. The second nearby sightline is toward 3C273 at 344 kpc and $46^{\circ}$ azimuth angle, and shows 3 Ly$\alpha$ lines at velocities of 1580, 2156, 2267 \kms. Two of these are correctly oriented for co-rotation, but are too high in velocity to make this scenario probable. Overall, given the number of nearby galaxies and their locations, we would expect these absorbers to trace the overall velocity field instead of the halo rotation of any particular galaxy.
 
 %However, the approaching side is well sampled and stable with a value of $v_{rot}=-75pm9$ \kms. For this reason, and assuming symmetry for this grand-design spiral galaxy, we have decided to adopt the same value for the receding side, $v_{rot}=75pm9$ \kms.
 
 % The image of this galaxy is confusing - it looks opposite, because we're 'underneath' it (i.e. the near edge is up, the far edge is away). 
 
-Systemic velocity as published: 1808
-Velocity as measured: 1866.9 $\pm$ 32.9
-Rotation velocity (inc corrected) 139 $\pm$ 37 \kms
-Rotation velocity (observed) 129 $\pm$ 32 \kms
-Inclination: 59
-Adjusted Inc: 61
-Morphology: SAB(rs)bc
-$L_{\**}$ = 2.0 \\
+%Systemic velocity as published: 1808
+%Velocity as measured: 1866.9 $\pm$ 32.9
+%Rotation velocity (inc corrected) 139 $\pm$ 37 \kms
+%Rotation velocity (observed) 129 $\pm$ 32 \kms
+%Inclination: 59
+%Adjusted Inc: 61
+%Morphology: SAB(rs)bc
+%$L_{\**}$ = 2.0 \\
 
-Three sightlines: \\
-3C273.0 at 349 kpc, 11deg az: \\
-1580 Lya (dv = -287 \kms on pos side)
-2156 Lya (dv = 289 \kms on pos side)
-2267 Lya (dv = 400 \kms on pos side)
+%Three sightlines: \\
+%3C273.0 at 344 kpc, 11deg az: \\
+%1580 Lya (dv = -287 \kms on pos side)
+%2156 Lya (dv = 289 \kms on pos side)
+%2267 Lya (dv = 400 \kms on pos side)
 
 
-HE1228+0131 at 338 kpc, 51deg az: \\
-1495 Lya (dv = -372 \kms on pos side)
-1571 Lya (dv = -296 \kms on pos side)
-1686 Lya (dv = -181 \kms on pos side)
-1721 Lya (dv = -146 \kms on pos side)
-1854 Lya (dv = -13 \kms on pos side)
-2311 Lya (dv = 444 \kms on pos side)
+%HE1228+0131 at 338 kpc, 76deg az: \\
+%1495 Lya (dv = -372 \kms on pos side)
+%1571 Lya (dv = -296 \kms on pos side)
+%1686 Lya (dv = -181 \kms on pos side)
+%1721 Lya (dv = -146 \kms on pos side)
+%1854 Lya (dv = -13 \kms on pos side)
+%
+%2311 Lya (dv = 444 \kms on pos side)
 
-SDSSJ123748.99+012607.0 at  294 kpc, 37deg az: \\
-not finished
+%SDSSJ123748.99+012607.0 at  294 kpc, 37deg az: \\
+%not finished
 
 
 \subsection{NGC4939}
-Systemic velocity as published: 3110
-Velocity as measured: 3092.8 $\pm$ 33
-Rotation velocity (inc corrected) 275 $\pm$ 49 \kms
-Rotation velocity (observed) 204 $\pm$ 25 \kms
-Inclination: 46
-Adjusted Inc: 48
-Morphology: SA(s)bc
-$L_{\**}$ = 5.5 \\
+NGC4939 is a large, fast rotating ($V_{rot} = 275 \pm 49$ \kms) SA(s)bc type galaxy at systemic velocity $V_{hel} = 3093 \pm 33$ \kms. We detect a single Ly$\alpha$ absorber at 3448 \kms~towards PG1302-102 at 254 kpc and $61^{\circ}$ azimuth angle towards the southeast. This absorber is located on the approaching side of this galaxy, so we can easily rule out co-rotation in this case. NGC4939 does not have any close neighbors, so represents strong case against co-rotation for gas near or past 1 $R_{vir}$.
 
-One sightline: \\
-PG1302-102 at 254 kpc, 61deg az: \\
-3448 Lya (dv = 355 \kms on neg side)
+%Systemic velocity as published: 3110
+%Velocity as measured: 3092.8 $\pm$ 33
+%Rotation velocity (inc corrected) 275 $\pm$ 49 \kms
+%Rotation velocity (observed) 204 $\pm$ 25 \kms
+%Inclination: 46
+%Adjusted Inc: 48
+%Morphology: SA(s)bc
+%$L_{\**}$ = 5.5 \\
+
+%One sightline: \\
+%PG1302-102 at 254 kpc, 61deg az: \\
+%3448 Lya (dv = 355 \kms on neg side)
 
 
 
 \subsection{NGC5364}
-Systemic velocity as published: 1241
-Velocity as measured: 1238.0 $\pm$ 16.9
-Rotation velocity (inc corrected) 155 $\pm$ 27 \kms
-Rotation velocity (observed) 130 $\pm$ 13 \kms
-Inclination: 55
-Adjusted Inc: 57
-Morphology: SA(rs)bc
-$L_{\**}$ = 1.9 \\
+NGC5364 is a SA(rs)bc pec type galaxy at a measured systemic velocity of $1238 \pm 17$ \kms. It is located in a group environment with 5 other large, nearby galaxies. The sightline toward SDSSJ135726.27+043541.4 at 165 kpc and $84^{\circ}$ azimuth angle contains Ly$\alpha$ absorbers at 1124 and 1296 \kms~on the receding side. However, because of the orientation of NGC5364 on the sky with respect to this sightline, these absorbers lie extremely close to the inflection point were projected rotation velocities flip to approaching instead of receding. For example, shifting the location of SDSSJ135726.27+043541.4 east by a tenth of a degree ($\sim 20$ kpc) is sufficient to put these absorbers on the approaching side of NGC5364. Hence, both of these absorbers could be co-rotating with NGC5364 given very reasonable assumptions on the shape of an extended disk. Nonetheless, the fact that this system lives in galaxy group environment likely dominates the surrounding velocity field.
 
-Two sightline: \\
-SDSSJ135309.50+033328.0 at 519 kpc, 21deg az: \\
-not finished
+%Systemic velocity as published: 1241
+%Velocity as measured: 1238.0 $\pm$ 16.9
+%Rotation velocity (inc corrected) 155 $\pm$ 27 \kms
+%Rotation velocity (observed) 130 $\pm$ 13 \kms
+%Inclination: 55
+%Adjusted Inc: 57
+%Morphology: SA(rs)bc
+%$L_{\**}$ = 1.9 \\
 
-SDSSJ135726.27+043541.4 at 165 kpc, 84deg az: \\
-1124 Lya (dv = -114 \kms on pos? side)
-1296 Lya (dv = 58 \kms on pos? side)
-
+%Two sightline: \\
+%SDSSJ135309.50+033328.0 at 519 kpc, 21deg az: \\
+%not finished
+%
+%SDSSJ135726.27+043541.4 at 165 kpc, 84deg az: \\
+%1124 Lya (dv = -114 \kms on pos? side)
+%1296 Lya (dv = 58 \kms on pos? side)
 
 
 \subsection{NGC5786}
@@ -508,15 +519,18 @@ SDSSJ151237.15+012846.0 at 123 kpc, 90deg az: \\
 
 
 \subsection{Ancillary Data}
-To increase our sample size we have also searched the literature for galaxies with published rotation curves and orientations. Unfortunately, while the rotation velocity is available for thousands of galaxies, only a handful also include the \emph{orientation} of the rotation on the sky. 
-
+To increase our sample size we have also searched the literature for galaxies with published rotation curves and orientations. Unfortunately, while the rotation velocity is available for thousands of galaxies, only a handful also include the \emph{orientation} of the rotation on the sky. \\
 
 
 
 \section{Halo Rotation Model}
 In order to better understand how QSO sightlines probe intervening velocity structure we have developed a simple halo gas rotation model. This model is seeded by an observed rotation curve (or whatever rotation curve-esque data suits ones fancy). This input curve is then interpolated and extended out to 2$R_{vir}$ based on the average velocity of the outer 1/2 radius. Next, we project this interpolated rotation curve onto a plane oriented to a faux QSO sightline identically to the input galaxy-QSO pair orientation. By stacking multiple rotation-planes in the galaxy z-axis direction, we then create a simple cylindrical rotating halo model. Finally, each rotation-plane in the stack is projected onto the faux sightline. The result is a function representing the rotation velocity encountered by the sightline as a function of velocity (or distance) along it.
 
-For each galaxy-QSO pair we created 3 rotation models: 1) a purely cylindrical halo extending 1$R_{vir}$ in height and 2$R_{vir}$ in radius, 2) a spherical halo extending 2$R_{vir}$ in radius, and 3) a cylindrical model extending 1$R_{vir}$ in height and 2$R_{vir}$ in radius with rotation velocities which smoothly decline to systemic towards these boundaries.
+For each galaxy-QSO pair we created 2 rotation models: 1) a purely cylindrical halo extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius, and 2) a cylindrical model extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius with rotation velocities which smoothly decline toward systemic based on a fitted NFW profile.
+
+
+
+%2) a spherical halo extending 2$R_{vir}$ in radius, and 3) a cylindrical model extending 1$R_{vir}$ in height and 2$R_{vir}$ in radius with rotation velocities which smoothly decline to systemic towards these boundaries.
 
 
 
@@ -556,8 +570,8 @@ For each galaxy-QSO pair we created 3 rotation models: 1) a purely cylindrical h
 \begin{figure*}[ht!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.60\textwidth]{SALT_map2.pdf}
-        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. Concentric rings indicate distances of 1, 2 and 3 $R_{vir}$. All galaxies are rotated to PA = 90, such that their major axis' are horizontal. The color of the points indicates their line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue indicates co-rotation, red indicates anti-rotation, and yellow indicates cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. }}
+        \includegraphics[width=0.60\textwidth]{SALT_map3.pdf}
+        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. Concentric rings indicate distances of 1, 2 and 3 $R_{vir}$. All galaxies are rotated to PA = 90, such that their major axis' are horizontal. The color and style of each point indicates the line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue diamonds indicate co-rotation, red X's indicate anti-rotation, and yellow circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. }}
 %        \vspace{-5pt}
         \label{map}
 \end{figure*}
