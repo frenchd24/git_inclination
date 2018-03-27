@@ -280,7 +280,7 @@ def main():
     # +/- galaxy velocity to search within around absorption velocity
     velocityWindow = 400
     
-    # minimum galaxy velocity to include (False to ignore)
+    # minimum galaxy velocity to include (False to ignore). Usually = 500
     minVcorr = 500
     
     # minimum galaxy size to include (False to ignore)
@@ -288,7 +288,7 @@ def main():
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
 #     agnSeparation = 4000.
-    agnSeparation = False
+    agnSeparation = 4000.
 
     
     # include name tags on galaxies? They don't scale very well...
@@ -301,7 +301,7 @@ def main():
     xTagOffset = -10
     
     # name tag font size
-    nameTagFont = 4
+    nameTagFont = 4.5
     
     # include a title on the plots?
     includeTitle = True
@@ -394,8 +394,8 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
         
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+        saveDirectory = '/Users/frenchd/Research/test/THINGS2/'
+        outputFile = '/Users/frenchd/Research/test/THINGS2/test.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -426,7 +426,10 @@ def main():
 #     targets = [('NGC3633',2587,True)]
 
 #     targets = [('NGC4939',3093,True)]
-    targets = [('RX_J1217.2+2749',1326,True)]
+#     targets = [('RX_J1217.2+2749',1326,True)]
+#     targets = [('NGC6140',910,True)]
+
+    
 
 
 #     targets = [('CGCG039-137',6918,True),\
@@ -478,6 +481,37 @@ def main():
 #     ('RX_J1303.7+2633',8955,True),\
 #     ('RX_J1303.7+2633',7853,True)]
 
+##########################################################################################
+    # THINGS galaxies
+    
+    targets = [('NGC2403',133,True),\
+    ('MCG-02-07-026',2102,True),\
+    ('NGC4789A',374,True),\
+    ('NGC0628',657,True),\
+    ('NGC0925',553,True),\
+    ('NGC2841',638,True),\
+    ('NGC2903',550,True),\
+    ('NGC2976',3,True),\
+    ('NGC3077',14,True),\
+    ('NGC3184',592,True),\
+    ('NGC3198',660,True),\
+    ('NGC3351',778,True),\
+    ('NGC3521',801,True),\
+    ('NGC3627',727,True),\
+    ('NGC4214',291,True),\
+    ('NGC4449',207,True),\
+    ('NGC4736',308,True),\
+    ('NGC4826',408,True),\
+    ('NGC5055',484,True),\
+    ('NGC5194',463,True),\
+    ('NGC5236',513,True),\
+    ('NGC5457',241,True),\
+    ('NGC6946',40,True),\
+    ('NGC7331',816,True),\
+    ('NGC7793',230,True)]
+
+#     targets = [('VIIZw118',2429,True)]
+
 
     c = 0
     for i in targets:
@@ -485,6 +519,8 @@ def main():
         targetName,center,include = i
         correlation = correlateSingle.correlateTarget(targetName, maxSep, agnSeparation, minVcorr, minSize, slow=False,searchAll=True)
         galaxyInfo = correlation[targetName]
+        
+#         print 'galaxyInfo: ',galaxyInfo
                 
         if includeAGN:
             correlationAGN = correlateSingle.correlateGalaxy(targetName, maxSep, agnSeparation, minVcorr, minSize)
@@ -905,7 +941,7 @@ def main():
             # if we chose to plot nearby AGN as well, plot them
             if includeAGN:
                 for i in range(len(plotPositionAGNRA)):
-                    plot_agn = ax.scatter(plotPositionAGNRA[i],plotPositionAGNDec[i],s=AGNsize,c='green',marker='*')
+                    plot_agn = ax.scatter(plotPositionAGNRA[i],plotPositionAGNDec[i],s=AGNsize,c='green',marker='*',lw=0.5)
                 
                     if includeAGNnameTags:
                         if bfind(AGNnames[i],'_') and not bfind(AGNnames[i],'\_'):
