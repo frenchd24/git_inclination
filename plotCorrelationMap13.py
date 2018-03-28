@@ -288,7 +288,7 @@ def main():
     
     # minimum separation in km/s between the redshift of the AGN and the galaxy (False to ignore) 
 #     agnSeparation = 4000.
-    agnSeparation = 4000.
+    agnSeparation = False
 
     
     # include name tags on galaxies? They don't scale very well...
@@ -394,8 +394,8 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
         
-        saveDirectory = '/Users/frenchd/Research/test/THINGS2/'
-        outputFile = '/Users/frenchd/Research/test/THINGS2/test.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -484,33 +484,60 @@ def main():
 ##########################################################################################
     # THINGS galaxies
     
-    targets = [('NGC2403',133,True),\
-    ('MCG-02-07-026',2102,True),\
-    ('NGC4789A',374,True),\
-    ('NGC0628',657,True),\
-    ('NGC0925',553,True),\
-    ('NGC2841',638,True),\
-    ('NGC2903',550,True),\
-    ('NGC2976',3,True),\
-    ('NGC3077',14,True),\
-    ('NGC3184',592,True),\
-    ('NGC3198',660,True),\
-    ('NGC3351',778,True),\
-    ('NGC3521',801,True),\
-    ('NGC3627',727,True),\
-    ('NGC4214',291,True),\
-    ('NGC4449',207,True),\
-    ('NGC4736',308,True),\
-    ('NGC4826',408,True),\
-    ('NGC5055',484,True),\
-    ('NGC5194',463,True),\
-    ('NGC5236',513,True),\
-    ('NGC5457',241,True),\
-    ('NGC6946',40,True),\
-    ('NGC7331',816,True),\
-    ('NGC7793',230,True)]
+#     targets = [('NGC2403',133,True),\
+#     ('MCG-02-07-026',2102,True),\
+#     ('NGC4789A',374,True),\
+#     ('NGC0628',657,True),\
+#     ('NGC0925',553,True),\
+#     ('NGC2841',638,True),\
+#     ('NGC2903',550,True),\
+#     ('NGC2976',3,True),\
+#     ('NGC3077',14,True),\
+#     ('NGC3184',592,True),\
+#     ('NGC3198',660,True),\
+#     ('NGC3351',778,True),\
+#     ('NGC3521',801,True),\
+#     ('NGC3627',727,True),\
+#     ('NGC4214',291,True),\
+#     ('NGC4449',207,True),\
+#     ('NGC4736',308,True),\
+#     ('NGC4826',408,True),\
+#     ('NGC5055',484,True),\
+#     ('NGC5194',463,True),\
+#     ('NGC5236',513,True),\
+#     ('NGC5457',241,True),\
+#     ('NGC6946',40,True),\
+#     ('NGC7331',816,True),\
+#     ('NGC7793',230,True)]
 
-#     targets = [('VIIZw118',2429,True)]
+#     targets = [('NGC4579',1517,True)]
+#     targets = [('NGC3198',660,True)]
+#     targets = [('NGC4414',716,True)]
+#     targets = [('NGC5907',667,True)]
+#     targets = [('NGC0973',4855,True)]
+#     targets = [('UGC04277',5459,True)]
+#     targets = [('NGC5529',2875,True)]
+#     targets = [('NGC4157',774,True)]
+#     targets = [('NGC4565',1230,True)]
+#     targets = [('NGC3982',1109,True)]
+#     targets = [('NGC4527',1736,True)]
+#     targets = [('NGC3079',1116,True)]
+#     targets = [('UGC05272',513,True)]
+#     targets = [('UGC06399',791,True)]
+#     targets = [('UGC06446',645,True)]
+#     targets = [('NGC3726',1109,True)]
+#     targets = [('NGC3972',852,True)]
+#     targets = [('NGC3985',948,True)]
+#     targets = [('UGC07089',770,True)]
+#     targets = [('NGC4218',975,True)]
+#     targets = [('NGC4455',637,True)]
+#     targets = [('NGC5033',875,True)]
+#     targets = [('UGC09211',686,True)]
+#     targets = [('UGC09211',686,True)]
+#     targets = [('NGC3877',895,True)]
+#     targets = [('NGC3893',967,True)]
+#     targets = [('NGC3718',993,True)]
+    targets = [('NGC0891',528,True)]
 
 
     c = 0
