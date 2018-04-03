@@ -282,16 +282,16 @@ def main():
 #         print 'impact_RA2: ',impact_RA2
 #         print 'impact_Dec2: ',impact_Dec2
         
-        print 'Name: ',name
-        print 'right_vrot_avg: ',right_vrot_avg
-        print 'left_vrot_avg: ',left_vrot_avg
-        print 'impact_RA: ',impact_RA
-        print 'impact_Dec: ',impact_Dec
-        print 'RA_galaxy vs RA_target: ',RA_galaxy,', ',RA_target
-        print 'Dec_galaxy vs Dec_target: ',Dec_galaxy,', ',Dec_target
-        print 'PA: ',PA
-        print 'Vhel: ',vsys_measured
-        print 'az, az2: ',az, ', ',az2
+#         print 'Name: ',name
+#         print 'right_vrot_avg: ',right_vrot_avg
+#         print 'left_vrot_avg: ',left_vrot_avg
+#         print 'impact_RA: ',impact_RA
+#         print 'impact_Dec: ',impact_Dec
+#         print 'RA_galaxy vs RA_target: ',RA_galaxy,', ',RA_target
+#         print 'Dec_galaxy vs Dec_target: ',Dec_galaxy,', ',Dec_target
+#         print 'PA: ',PA
+#         print 'Vhel: ',vsys_measured
+#         print 'az, az2: ',az, ', ',az2
         
         theta = np.radians(x)
         c, s = np.cos(theta), np.sin(theta)
@@ -300,9 +300,9 @@ def main():
         
         # rotate clockwise
         impact_RA_rot,impact_Dec_rot = np.array(coords.dot(R))[0]
-        print "R: ",R
-        print 'impact_RA_rot: ',impact_RA_rot
-        print 'impact_Dec_rot: ',impact_Dec_rot
+#         print "R: ",R
+#         print 'impact_RA_rot: ',impact_RA_rot
+#         print 'impact_Dec_rot: ',impact_Dec_rot
 
                 
         # scale to virial radius
@@ -397,6 +397,9 @@ def main():
             else:
                 rot_vel = right_vrot_avg
                 
+            print 'impact_RA_vir: ',impact_RA_vir
+            print 'rot_vel: ',rot_vel
+                
         if name == 'UGC09760':
             # regular
             if impact_RA_vir > 0:
@@ -419,25 +422,31 @@ def main():
 
             
         # now compare to the rotation velocity
+        color_yes = '#1b9e77'    # greenish
+        color_no = '#d95f02'     # orange
+        color_maybe = '#7570b3'  # blue-ish purple
+        
         markerColor = 'black'
         
+        # the absorption and rotation velocity match
         if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
-            markerColor = 'blue'
+            markerColor = color_yes
             
+        # mismatch
         elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
-            markerColor = 'red'
+            markerColor = color_no
             
         else:
             markerColor = 'black'
             
-        if abs(dv - rot_vel) <= 50 or az >= 84.:
-            markerColor = 'yellow'
+#         if abs(dv - rot_vel) <= 50 or az >= 85.:
+#             markerColor = color_maybe
    
-#         if az >= 85.:
-#             markerColor = 'yellow'
+        if az >= 85.:
+            markerColor = color_maybe
             
-        print 'markerColor: ',markerColor
-
+        if name == 'NGC3513':
+            markerColor = color_maybe
 
 #         name = name.replace('-','\-')
 #         name = name.replace('_','\_')
@@ -469,11 +478,11 @@ def main():
         markerColorList.append(markerColor)
         combinedNameList.append(combinedName)
 
-        print 'added'
-        print 'impact_RA_vir: ',impact_RA_vir
-        print 'impact_Dec_vir: ',impact_Dec_vir
-        print
-        print
+#         print 'added'
+#         print 'impact_RA_vir: ',impact_RA_vir
+#         print 'impact_Dec_vir: ',impact_Dec_vir
+#         print
+#         print
         
 ##########################################################################################
     # impact = impact parameter
@@ -614,6 +623,7 @@ def main():
         markerColorList2.append(c)
         wList2.append(w)
         combinedNameList2.append(name)
+        print 'name - markerColor',name,' - ',c
     
     
 ##########################################################################################
@@ -623,13 +633,11 @@ def main():
 
     # initial figure
     fig = plt.figure(figsize=(8,8))
-
     ax = fig.add_subplot(1,1,1)
 #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
 
 
     # plot circles
-    
     def xy(r,phi):
       return r*np.cos(phi), r*np.sin(phi)
 
@@ -673,11 +681,11 @@ def main():
     # make different style markers for different colors
     for i in arange(len(markerColorList2)):
         marker = '*'
-        if markerColorList2[i] == 'yellow':
+        if markerColorList2[i] == color_maybe:
             marker = 'o'
-        if markerColorList2[i] == 'red':
+        if markerColorList2[i] == color_no:
             marker = 'x'
-        if markerColorList2[i] == 'blue':
+        if markerColorList2[i] == color_yes:
             marker = 'D'
             
             
@@ -739,11 +747,11 @@ def main():
     import matplotlib.lines as mlines
 #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
 #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
-    yellow_line = mlines.Line2D([], [], color='yellow', marker='o',lw=0,
+    yellow_line = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
                               markersize=15, label='Within Uncertainties')
-    red_line = mlines.Line2D([], [], color='red', marker='x',lw=0,
+    red_line = mlines.Line2D([], [], color=color_no, marker='x',lw=0,
                               markersize=15, label=r'$\rm Anti-rotation$')
-    blue_line = mlines.Line2D([], [], color='blue', marker='D',lw=0,
+    blue_line = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
                               markersize=15, label=r'$\rm Co-rotation$')
                               
     plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower left')
@@ -759,7 +767,7 @@ def main():
     
     directory = '/Users/frenchd/Research/test/'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}SALT_map3.pdf".format(directory),bbox_inches='tight')
+    savefig("{0}SALT_map4.pdf".format(directory),bbox_inches='tight')
 
 
     

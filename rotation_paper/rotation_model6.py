@@ -210,13 +210,45 @@ def NFW(r,a,rho):
     return v
         
         
-
         
+        
+def plot_NFW(xData,yData,x_fit, popt):
+    # this function makes a nice looking plot showing the NFW fit and data
+    fig = plt.figure(figsize=(8,8))
+    ax = fig.add_subplot(1,1,1)
+    
+    scatter(xData, yData, color='black', s=10, lw=0)
+    plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
+    xlim(0,100)
 
+    # x-axis
+    majorLocator   = MultipleLocator(25)
+    majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    minorLocator   = MultipleLocator(5)
+    ax.yaxis.set_major_locator(majorLocator)
+    ax.yaxis.set_major_formatter(majorFormatter)
+    ax.yaxis.set_minor_locator(minorLocator)
 
+    # y axis
+    majorLocator   = MultipleLocator(25)
+    majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    minorLocator   = MultipleLocator(5)
+    ax.yaxis.set_major_locator(majorLocator)
+    ax.yaxis.set_major_formatter(majorFormatter)
+    ax.yaxis.set_minor_locator(minorLocator)
+
+    xlabel(r'$\rm R ~[kpc]]$')
+    ylabel(r'$\rm V_{{rot}} ~[km s^{{-1}}]$')
+    
+    return fig
+    
+    
+    
 def main():
     hubbleConstant = 71.0
     fit_NFW = True
+    saveDirectory = '/Users/frenchd/Research/test/'
+    galaxyName = 'NGC5364'
 
 ##########################################################################################
     # get the data
@@ -249,6 +281,7 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
+    
 #     filename = 'CGCG039-137-summary4.json'
 #     filename = 'ESO343-G014-summary4.json'
 #     filename = 'RFGC3781-summary4.json'
@@ -259,7 +292,9 @@ def main():
 #     filename = 'NGC3633-summary4.json'
 #     filename = 'NGC4536-summary4.json'
 #     filename = 'NGC4939-summary4.json'
-    filename = 'NGC5364-summary4.json'
+#     filename = 'NGC5364-summary4.json'
+
+    filename = '{0}-summary4.json'.format(galaxyName)
 
 
 
@@ -275,7 +310,7 @@ def main():
         xVals = data['xVals']
         inc = data['inclination']
         vsys_measured = data['vsys_measured']
-        galaxyName = data['name']
+#         galaxyName = data['name']
         RA_galaxy = data['RAdeg']
         Dec_galaxy = data['DEdeg']
         dist = data['dist']
@@ -466,28 +501,40 @@ def main():
         print
         
         
-        a = 1.
-        rho = 1.
+#         a = 1.
+#         rho = 1.
+        a = 3.95
+        rho = 500.
         y = NFW(newX, a, rho)
         popt, pcov = optimize.curve_fit(NFW, newX, newVals)
         print
         print 'popt: ',popt
+        print 
+        print 'forcing popt = [{0}, {1}]'.format(a,rho)
+        popt = np.array([a,rho])
+        print
     
-#         x2 = np.linspace(0,500,500)
-
-        plt.scatter(newX, newVals,color='black')
-#         show()
         
-        print 'now the fit: '
+        print 'now the fit. popt = {0}, pcov = {0}'.format(popt,pcov)
+        print
+        print 'np.sqrt(np.diag(pcov)) = ',np.sqrt(np.diag(pcov))
         print
         
-        plt.plot(xData_fit, NFW(xData_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
-        xlim(0,30)
-        show()
+        # plot it
+        y_fit = NFW(xData_fit,*popt)
+        fig = plot_NFW(newX, newVals, xData_fit, popt)
+        fig.savefig("{0}{1}_2.jpg".format(saveDirectory,galaxyName),dpi=200,bbox_inches='tight')
         
-
+        
         def fit(x):
-            # this function is necessary to deal with the negative side
+            '''
+                this function is necessary to deal with the negative side. It takes in
+                the requested x value and decides whether to flip sign of the resulting
+                NFW velocity
+                
+                e.g., if x < 0: y = y* -1
+            '''
+            
             y_val = 0
             if x >= 0:
                 y_val = NFW(x, *popt)
@@ -496,20 +543,10 @@ def main():
                 y_val = -y
             
             return y_val
-            
-#         yData_fit = fit(xData_fit)
-        
     
     else:
         fit = interp1d(xData, yData, kind='cubic')
-        
-#         yData_fit = fit(xData_fit)
-
-
-
-    print
-#     print 'here is yData_fit: ', yData_fit
-    print
+    
 
 ##########################################################################################
     # impact = impact parameter
@@ -776,8 +813,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 0.5
-    rcutoffm = 1.5
+    zcutoffm = 2
+    rcutoffm = 3
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -1080,8 +1117,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
-        if i == 49:
-            show()
+#         if i == 49:
+#             show()
     
 #         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
 #         directory = '/Users/frenchd/Research/test/ESO343-G014/'

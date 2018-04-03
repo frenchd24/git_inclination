@@ -1,0 +1,53 @@
+\begin{thebibliography}{12}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Allaert} {et~al.}(2015){Allaert}, {Gentile}, {Baes}, {De Geyter},
+  {Hughes}, {Lewis}, {Bianchi}, {De Looze}, {Fritz}, {Holwerda}, {Verstappen},
+  \& {Viaene}}]{allaert2015}
+{Allaert}, F., {Gentile}, G., {Baes}, M., {et~al.} 2015, \aap, 582, A18
+
+\bibitem[{{Carilli} {et~al.}(1989){Carilli}, {van Gorkom}, \&
+  {Stocke}}]{carilli1989}
+{Carilli}, C.~L., {van Gorkom}, J.~H., \& {Stocke}, J.~T. 1989, \nat, 338, 134
+
+\bibitem[{{C{\^o}t{\'e}} {et~al.}(2005){C{\^o}t{\'e}}, {Wyse}, {Carignan},
+  {Freeman}, \& {Broadhurst}}]{cote2005}
+{C{\^o}t{\'e}}, S., {Wyse}, R.~F.~G., {Carignan}, C., {Freeman}, K.~C., \&
+  {Broadhurst}, T. 2005, \apj, 618, 178
+
+\bibitem[{{Danziger} \& {Chromey}(1972)}]{danziger1972}
+{Danziger}, I.~J., \& {Chromey}, F.~R. 1972, \aplett, 10, 99
+
+\bibitem[{{de Blok} {et~al.}(2008){de Blok}, {Walter}, {Brinks},
+  {Trachternach}, {Oh}, \& {Kennicutt}}]{deblok2008}
+{de Blok}, W.~J.~G., {Walter}, F., {Brinks}, E., {et~al.} 2008, \aj, 136, 2648
+
+\bibitem[{{Keeney} {et~al.}(2005){Keeney}, {Momjian}, {Stocke}, {Carilli}, \&
+  {Tumlinson}}]{keeney2005}
+{Keeney}, B.~A., {Momjian}, E., {Stocke}, J.~T., {Carilli}, C.~L., \&
+  {Tumlinson}, J. 2005, \apj, 622, 267
+
+\bibitem[{{Mazzalay} {et~al.}(2014){Mazzalay}, {Maciejewski}, {Erwin},
+  {Saglia}, {Bender}, {Fabricius}, {Nowak}, {Rusli}, \&
+  {Thomas}}]{mazzalay2014}
+{Mazzalay}, X., {Maciejewski}, W., {Erwin}, P., {et~al.} 2014, \mnras, 438,
+  2036
+
+\bibitem[{{Rhee} \& {van Albada}(1996)}]{rhee1996}
+{Rhee}, M.-H., \& {van Albada}, T.~S. 1996, \aaps, 115, 407
+
+\bibitem[{{Sofue}(1996)}]{sofue1996}
+{Sofue}, Y. 1996, \apj, 458, 120
+
+\bibitem[{{Verheijen} \& {Sancisi}(2001)}]{verheijen2001}
+{Verheijen}, M.~A.~W., \& {Sancisi}, R. 2001, \aap, 370, 765
+
+\bibitem[{{Walter} {et~al.}(2008){Walter}, {Brinks}, {de Blok}, {Bigiel},
+  {Kennicutt}, {Thornley}, \& {Leroy}}]{walter2008}
+{Walter}, F., {Brinks}, E., {de Blok}, W.~J.~G., {et~al.} 2008, \aj, 136, 2563
+
+\bibitem[{{Yim} {et~al.}(2014){Yim}, {Wong}, {Xue}, {Rand}, {Rosolowsky}, {van
+  der Hulst}, {Benjamin}, \& {Murphy}}]{yim2014}
+{Yim}, K., {Wong}, T., {Xue}, R., {et~al.} 2014, \aj, 148, 127
+
+\end{thebibliography}
