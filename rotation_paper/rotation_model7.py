@@ -225,16 +225,30 @@ def NFW(r,v200,c,r200):
         
         
         
-def plot_NFW(xData,yData,x_fit, popt):
-    # this function makes a nice looking plot showing the NFW fit and data
+def plot_NFW(xData, yData, popt, x_lim):
+    '''
+    This function makes a nice looking plot showing the NFW fit and data
+    
+    xData - the x values for the observed rotation curve 
+    yData - the y values for the observed rotation curve
+    popt - the fit values
+    x_lim - the maximum x value to plot to
+    
+    returns the figure object, to be shown or saved
+    '''
+    
     fig = plt.figure(figsize=(8,8))
     ax = fig.add_subplot(1,1,1)
     
+    v200, c, r200 = popt
+    
+    x_fit = linspace(0,x_lim,num=1000)
+    
     scatter(xData, yData, color='black', s=10, lw=0)
 #     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
-    plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: V200={0}, c={1}, R200={2}'.format(*popt))
+    plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
     legend()
-    xlim(0,100)
+    xlim(0, x_lim)
 
     # x-axis
     majorLocator   = MultipleLocator(25)
@@ -252,7 +266,7 @@ def plot_NFW(xData,yData,x_fit, popt):
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
 
-    xlabel(r'$\rm R ~[kpc]]$')
+    xlabel(r'$\rm R ~[kpc]$')
     ylabel(r'$\rm V_{{rot}} ~[km s^{{-1}}]$')
     
     return fig
@@ -262,8 +276,9 @@ def plot_NFW(xData,yData,x_fit, popt):
 def main():
     hubbleConstant = 71.0
     fit_NFW = True
-    saveDirectory = '/Users/frenchd/Research/test/'
-    galaxyName = 'NGC5364'
+    galaxyName = 'NGC3198'
+    saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
+
 
 ##########################################################################################
     # get the data
@@ -310,8 +325,6 @@ def main():
 #     filename = 'NGC5364-summary4.json'
 
     filename = '{0}-summary4.json'.format(galaxyName)
-
-
 
     
     with open(directory+filename) as data_file:
@@ -383,9 +396,15 @@ def main():
 
 
         # NGC5364
+#         flipInclination = True
+#         reverse = True
+#         agnName = 'SDSSJ135726.27+043541.4'
+
+
+        # NGC3198
         flipInclination = True
-        reverse = True
-        agnName = 'SDSSJ135726.27+043541.4'
+        reverse = False
+        agnName = 'RX_J1017.5+4702'
 
 
         # grab the coordinates for this target
@@ -396,12 +415,14 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # rename arrays something stupid
-    vels = vrot_vals
+#     vels = vrot_vals
+    vels = vrot_incCorrected_vals
     xvals = deepcopy(xVals)
     vsys = vsys_measured
     
     print 'xVals: ',xVals
     print
+    print 'vels: ',vels
 
     # this works for all positive xvals
     # xvalStart = xvals[0]
@@ -424,63 +445,17 @@ def main():
     #     xvals2.insert(0,xvalStart)
     #     xvals2.append(xvalEnd)
 
-
-    # this one is for 0 centered
-    xvalStart = xvals[0]
-    xvalEnd = xvals[-1]
-    step = 5
- 
-    lowMean = mean(vels[:6])
-    highMean = mean(vels[-6:])
-    
-    print 'lowMean: ',lowMean
-    print 'highMean: ',highMean
-    print
-    print 'right_vrot_incCorrected_avg: ',right_vrot_incCorrected_avg
-    print 'left_vrot_incCorrected_avg: ',left_vrot_incCorrected_avg
-    print
-
-    vels2 = vels
-    xvals2 = xvals
-    
-
-    for i in range(100):
-#         vels2.insert(0,lowMean)
-#         vels2.append(highMean)
-        vels2.insert(0,right_vrot_incCorrected_avg)
-        vels2.append(left_vrot_incCorrected_avg)
-
-        xvalStart +=step
-        xvalEnd -=step
-        xvals2.insert(0,xvalStart)
-        xvals2.append(xvalEnd)
-        
-        
-#     fig = plt.figure(figsize=(12,8))
-#     ax = fig.add_subplot(1,1,1)
-#     plot(xvals2,vels2)
-#     show()
-
-    xData = xvals2
-    yData = vels2
-#     xData_fit = linspace(min(xvals),max(xvals),num=100)
-    xData_fit = linspace(0,max(xvals),num=1000)
-
-
-#     fitOrder = 120
     
     # reverse it?
     if reverse:
 #     xData.reverse()
-        yData.reverse()
+        vels.reverse()
 #     yData = np.array(yData)*-1
 
     from scipy.interpolate import interp1d
     from scipy import interpolate
     from scipy import interpolate, optimize
     
-    print 'xVals: ',xVals
-    print
     
     if fit_NFW:
         # fold the data over so approaching and receding sides are both positive
@@ -523,30 +498,6 @@ def main():
         v200 = 50
         c = 10
         r200 = R_vir
-        
-#         vr = NFW_2(r,v200,c,r200)
-        
-#         y = NFW(newX, a, rho)
-#         popt, pcov = optimize.curve_fit(NFW, newX, newVals)
-#         print
-#         print 'popt: ',popt
-#         print 
-#         print 'forcing popt = [{0}, {1}]'.format(a,rho)
-#         popt = np.array([a,rho])
-#         print
-#         
-#         print 'now the fit. popt = {0}, pcov = {0}'.format(popt,pcov)
-#         print
-#         print 'np.sqrt(np.diag(pcov)) = ',np.sqrt(np.diag(pcov))
-#         print
-#         
-#         # plot it
-#         y_fit = NFW(xData_fit,*popt)
-#         fig = plot_NFW(newX, newVals, xData_fit, popt)
-
-#         y = NFW(newX, v200, c, r200)
-
-#         popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200])
 
         r200_lowerbound = 10
         r200_upperbound = 300
@@ -559,9 +510,7 @@ def main():
         
         print
         print 'popt: ',popt
-        print 
-#         print 'forcing popt = [{0}, {1}]'.format(a,rho)
-#         popt = np.array([a,rho])
+        print
         print
         
         print 'now the fit. popt = {0}, pcov = {0}'.format(popt,pcov)
@@ -570,10 +519,15 @@ def main():
         print
         
         # plot it
-        y_fit = NFW(xData_fit,*popt)
-        fig = plot_NFW(newX, newVals, xData_fit, popt)
-
-        fig.savefig("{0}{1}_4.jpg".format(saveDirectory,galaxyName),dpi=200,bbox_inches='tight')
+#         xData_fit = linspace(0,max(xvals),num=1000)
+#         y_fit = NFW(xData_fit,*popt)
+        x_lim = 100
+        fig = plot_NFW(newX, newVals, popt, x_lim)
+        fig.savefig("{0}{1}_NFW.jpg".format(saveDirectory,galaxyName),dpi=300,bbox_inches='tight')
+        
+        x_lim = 500
+        fig = plot_NFW(newX, newVals, popt, x_lim)
+        fig.savefig("{0}{1}_NFW_500.jpg".format(saveDirectory,galaxyName),dpi=300,bbox_inches='tight')
         
         
         def fit(x):
@@ -595,7 +549,33 @@ def main():
             return y_val
     
     else:
-        fit = interp1d(xData, yData, kind='cubic')
+    
+        # this one is for 0 centered
+        xvalStart = xvals[0]
+        xvalEnd = xvals[-1]
+        step = 5
+ 
+        lowMean = mean(vels[:6])
+        highMean = mean(vels[-6:])
+    
+        print 'lowMean: ',lowMean
+        print 'highMean: ',highMean
+        print
+        print 'right_vrot_incCorrected_avg: ',right_vrot_incCorrected_avg
+        print 'left_vrot_incCorrected_avg: ',left_vrot_incCorrected_avg
+        print
+
+        for i in range(100):
+            vels.insert(0,right_vrot_incCorrected_avg)
+            vels.append(left_vrot_incCorrected_avg)
+
+            xvalStart +=step
+            xvalEnd -=step
+            xvals.insert(0,xvalStart)
+            xvals.append(xvalEnd)
+
+    #     xData_fit = linspace(min(xvals),max(xvals),num=100)    
+        fit = interp1d(xvals, vels, kind='cubic')
     
 
 ##########################################################################################
@@ -1022,6 +1002,8 @@ def main():
 
         # first plot the v_proj data
         ax = fig.add_subplot(1,2,1)
+        
+#         agnName = agnName.replace('_','\_')
         fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
 
 
@@ -1034,7 +1016,6 @@ def main():
         print 'intersect_v_list[:i*len_step] vs v_proj_list[:i*len_step]: ',intersect_v_list[:i*len_step],' , ',v_proj_list[:i*len_step]
         
         if plotXVelocity:
-        
             ax.scatter(intersect_v_list[:i*len_step],v_proj_list[:i*len_step], color='black',s=10)
             ylabel(r'$\rm v_{proj} ~[km/s]$')
             xlabel(r'$\rm intersect ~[km/s]$')
@@ -1098,7 +1079,7 @@ def main():
                 
         len_step = len(z)/steps
         
-        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black',lw=plotExtent/200)
+        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black',lw=plotExtent/190)
 
         # some interesting points: 
         # v is the velocity vector in the direction of intersect point
@@ -1190,14 +1171,48 @@ def main():
 #         directory = '/Users/frenchd/Research/test/NGC4536/'
 #         directory = '/Users/frenchd/Research/test/NGC4939/'
 #         directory = '/Users/frenchd/Research/test/NGC5364/'
-        directory = '/Users/frenchd/Research/test/NGC5364_NFW/'
-
+        directory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
 
 #         directory = '/Users/frenchd/Research/test/RFGC3781/'
         savefig("{0}{1}.jpg".format(directory,i),dpi=200,bbox_inches='tight')
         close(fig)
     
+##########################################################################################
+##########################################################################################
 
+        summary_file = open(directory+'summary.txt','wt')
+#         summary_file.write('Sightline X-velocities: {0}'.format(intersect_v_list))
+#         summary_file.write('\n')
+#         summary_file.write('Sightline Y-velocities: {0}'.format(v_proj_list))
+#         summary_file.write('\n')
+        summary_file.write('Galaxy name: {0}\n'.format(galaxyName))
+        summary_file.write('Target name: {0}\n'.format(agnName))
+        summary_file.write('flipInclination: {0}\n'.format(flipInclination))
+        summary_file.write('reverse: {0}\n'.format(reverse))
+        summary_file.write('fit_NFW: {0}\n'.format(fit_NFW))
+        summary_file.write('\n')
+        summary_file.write('Allowed Y-velocity range: [{0}, {1}]'.format(min(v_proj_list),max(v_proj_list)))
+        summary_file.write('\n')
+        summary_file.write('Allowed X-velocity range: [{0}, {1}]'.format(min(intersect_v_list),max(intersect_v_list)))
+        
+        totals = []
+        for x, y in zip(intersect_v_list, v_proj_list):
+            totals.append(x+y)
+        
+        totals.sort()
+        total_nozeros = []
+        for i in totals:
+            if i != 0:
+                total_nozeros.append(i)
+        
+        total_min = min(total_nozeros)
+        
+        summary_file.write('\n')
+        summary_file.write('Combined velocity range: [{0}, {1}]'.format(total_min,max(totals)))
+        summary_file.write('\n')
+        
+        summary_file.close()
+    
     
     
 if __name__ == '__main__':

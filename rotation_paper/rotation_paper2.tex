@@ -46,11 +46,11 @@ We present results of a study comparing the relative velocity of Ly$\alpha$ abso
 \section{INTRODUCTION}
 Our current $\Lambda$CDM cosmology picture describes galaxies forming hierarchically out of overdensities in the underlying dark matter distribution. As matter is funneled toward a growing galaxy, conservation of angular momentum redistributes the angular momentum in this gas to match that of the halo and underlying dark matter as the gas is shock-heated and slowly cools. As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however as the density rapidly decreases. Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? 
 
-HYDRO? simulations such as those by Stewart et al. (2011, 2013) suggests that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature. Observational confirmation, however, has be inconclusive. C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. Wakker \& Savage (2009) compiled a sample of 4 galaxy-QSO systems from the literature, finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Approaching the question from a different angle, Bowen et al. (2016) probed the halo of a single galaxy, NGC1097, with 4 nearby QSO sightlines, and suggests that an extended, slowly rotating disk with additional inflowing IGM material best matches observations.
+HYDRO? simulations such as those by \cite{stewart2011, stewart2013} suggests that the bulk CGM kinematics out to (WHAT DISTANCE) may circulate, and that absorption in intervening QSO sightlines should be able to accurately capture this rotation signature. Observational confirmation, however, has be inconclusive. C\^{o}t\'{e} et al. 2005 probed the halos of nine galaxies using \emph{HST} observed background QSOs, finding large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. \cite{wakker2009} compiled a sample of 4 galaxy-QSO systems from the literature, finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Approaching the question from a different angle, \cite{bowen2016} probed the halo of a single galaxy, NGC1097, with 4 nearby QSO sightlines, and suggests that an extended, slowly rotating disk with additional inflowing IGM material best matches observations.
 
 %There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
 
-Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., French \& Wakker 2017, MORE).
+Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., \citealt{french2017}, MORE).
 
 To make progress here, we have obtained rotation curves for 12 nearby spiral galaxies which are located within 500 kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. 
 
@@ -184,13 +184,13 @@ Finally, we calculate our approaching and receding velocities via a weighted mea
 %        \label{completeness}
 %\end{figure}
 
-\begin{figure}[t!]
-\centering
-  \subfigure[]{\includegraphics[width=1.\linewidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve}}
-  \subfigure[]{\includegraphics[width=0.95\linewidth]{NGC3633_FindingChart.pdf}\label{finderchart}}
-  \caption{\small{a) Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC3633 showing the position of the slit in red.}}
-\vspace{5pt}
-\end{figure}
+%\begin{figure}[t!]
+%\centering
+%  \subfigure[]{\includegraphics[width=1.\linewidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve}}
+%  \subfigure[]{\includegraphics[width=0.95\linewidth]{NGC3633_FindingChart.pdf}\label{finderchart}}
+%  \caption{\small{a) Rotation curve of NGC3633. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC3633 showing the position of the slit in red.}}
+%\vspace{5pt}
+%\end{figure}
 
 
 
@@ -238,7 +238,15 @@ Finally, we calculate our approaching and receding velocities via a weighted mea
 \end{table*}
 
 \subsection{COS Spectra}
-The Barbara A. Mikulski Archive for Space Telescopes (MAST) archives yield 19 QSO targets observed by COS which lie within 500 kpc of our SALT galaxies. These targets vary widely in signal-to-noise from approximately 5 to 100 due to our choosing them based only on their proximity to galaxies with known rotation. The reduction procedure for these spectra follow those described by French $\&$ Wakker 2017 and Wakker et al. (2015). In short, spectra are processed with CALCOS vXXXX? and combined via the method of Wakker et al. (2015), which helps corrects the COS wavelength scale misalignments produced by CALCOS. Multiple exposures are combined via alignment with Galactic 21cm absorption spectra and summing total counts per pixel before converting to flux. The COS instrument is described in detail by Green et al. (2012).
+The Barbara A. Mikulski Archive for Space Telescopes (MAST) archives yield 19 QSO targets observed by COS which lie within 500 kpc of our SALT galaxies. These targets vary widely in signal-to-noise from approximately 5 to 100 due to our choosing them based only on their proximity to galaxies with known rotation. The reduction procedure for these spectra follow those described by \cite{french2017} and \cite{wakker2015}. In short, spectra are processed with CALCOS vXXXX? and combined via the method of \cite{wakker2015}, which helps corrects the COS wavelength scale misalignments produced by CALCOS. Multiple exposures are combined via alignment with Galactic 21cm absorption spectra and summing total counts per pixel before converting to flux. The COS instrument is described in detail by \cite{green2012}.
+
+
+\section{Halo Rotation Model}
+In order to better understand how QSO sightlines probe intervening velocity structure we have developed a simple halo gas rotation model. This model is seeded by an observed rotation curve (or whatever rotation curve-esque data suits ones fancy). This input curve is then interpolated and extended out to 2$R_{vir}$ based on the average velocity of the outer 1/2 radius. Next, we project this interpolated rotation curve onto a plane oriented to a faux QSO sightline identically to the input galaxy-QSO pair orientation. By stacking multiple rotation-planes in the galaxy z-axis direction, we then create a simple cylindrical rotating halo model. Finally, each rotation-plane in the stack is projected onto the faux sightline. The result is a function representing the rotation velocity encountered by the sightline as a function of velocity (or distance) along it.
+
+For each galaxy-QSO pair we created 2 rotation models: 1) a purely cylindrical halo extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius, and 2) a cylindrical model extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius with rotation velocities which smoothly decline based on a NFW profile fit \citep{navarro1996, navarro1997}.
+
+% NFW profile comes from de Blok 2008
 
 
 \section{SALT Galaxies}
@@ -552,7 +560,11 @@ To increase our sample size we have also searched the literature for galaxies wi
 
 
 \subsection{NGC3198}
-NGC3198 is a well studied SB(rs)c type galaxy which is included the detailed THINGS rotation curve study of \cite{deblok2008}. We extracted the raw rotation curve derived by \cite{deblok2008} using the plot digitization software WebPlotDigitizer\footnote{WebPlotDigitizer; http://arohatgi.info/WebPlotDigitizer}. NGC3198 has a systemic velocity of 660 \kms, and is located 370 kpc away from a sightline toward RX\_1017.5+4702 at an azimuth angle of $55^{\circ}$ on the approaching side of NGC3198. We detect Ly$\alpha$ absorption in the spectrum of RX\_1017.5+4702 at 629 \kms. NGC3198 has an even and flat rotation curve, with an average velocity of $v_{rot} = 150$ \kms~ \textbf{CHECK THIS}. The approaching side is oriented northeast. The small dwarf galaxy SDSSJ101848.77+452137.0 is located 65 kpc away toward the southwest.
+NGC3198 is a well studied SB(rs)c type galaxy which is included the detailed THINGS rotation curve study of \cite{deblok2008}. We extracted the raw rotation curve derived by \cite{deblok2008} using the plot digitization software WebPlotDigitizer\footnote{WebPlotDigitizer; http://arohatgi.info/WebPlotDigitizer}. NGC3198 has a systemic velocity of 660 \kms, and is located 370 kpc away from a sightline toward RX\_1017.5+4702 at an azimuth angle of $55^{\circ}$ on the approaching side of NGC3198 (northeast). NGC3198 has an even and flat rotation curve, with an average velocity of $v_{rot} = 152$ \kms and an expected velocity range of [-82, -23] based on our projected NFW profile fit. We detect Ly$\alpha$ absorption in the spectrum of RX\_1017.5+4702 at 629 \kms ($\Delta v = -31$ \kms). Hence, the velocity of this absorber can nicely be described by a co-rotating disk.
+
+SDSSJ101622.60+470643.0 is also located in the same direction but at a more distant 401 kpc away (\textbf{NOT IDENTIFIED}).
+
+The small dwarf galaxy SDSSJ101848.77+452137.0 is located 65 kpc away toward the southwest.
 
 % SDSSJ101950.83+453208.0, SDSSJ101958.45+453341.6, SDSSJ101946.39+453104.7 are PofG in the table
 
@@ -600,7 +612,7 @@ RX\_J1236.0+2641 at 147kpc (Lya at 794, 1009, 1166 kms) \\
 
 
 \subsection{UGC06446}
-$V_{sys} = 645$ \kms (\cite{swaters2009}, \cite{verheijen2001}) \\
+$V_{sys} = 645$ \kms. \citep{swaters2009, verheijen2001} \\
 MCG9-19-073 at 179kpc - low res only \\ 
 SDSSJ112448.30+531818.0 at 143kpc, 22 az (Lya at 664kms) \\
 RBS971 at 226kpc, 88 az (clobbered by huge H2 system) \\
@@ -612,7 +624,7 @@ RX\_J1117.6+5301 at 417kpc, 52 az (Lya at 685kms) \\
 
 
 \subsection{UGC06399}
- $V_{sys} = 791$ \kms \cite{swaters2009} \\
+ $V_{sys} = 791$ \kms. \cite{swaters2009} \\
 SBS1116+523 at 471kpc, 13.4 az (Lya at 731kms) \\
 MCG9-19-078 at 301kpc (G160M only) \\
 
@@ -1032,13 +1044,6 @@ SBS1304+594 at 235 kpc, 15 az (no lines, low SN) \\
 
 
 
-\section{Halo Rotation Model}
-In order to better understand how QSO sightlines probe intervening velocity structure we have developed a simple halo gas rotation model. This model is seeded by an observed rotation curve (or whatever rotation curve-esque data suits ones fancy). This input curve is then interpolated and extended out to 2$R_{vir}$ based on the average velocity of the outer 1/2 radius. Next, we project this interpolated rotation curve onto a plane oriented to a faux QSO sightline identically to the input galaxy-QSO pair orientation. By stacking multiple rotation-planes in the galaxy z-axis direction, we then create a simple cylindrical rotating halo model. Finally, each rotation-plane in the stack is projected onto the faux sightline. The result is a function representing the rotation velocity encountered by the sightline as a function of velocity (or distance) along it.
-
-For each galaxy-QSO pair we created 2 rotation models: 1) a purely cylindrical halo extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius, and 2) a cylindrical model extending 2$R_{vir}$ in height and 3$R_{vir}$ in radius with rotation velocities which smoothly decline toward systemic based on a fitted NFW profile.
-
-
-
 %2) a spherical halo extending 2$R_{vir}$ in radius, and 3) a cylindrical model extending 1$R_{vir}$ in height and 2$R_{vir}$ in radius with rotation velocities which smoothly decline to systemic towards these boundaries.
 
 
@@ -1135,7 +1140,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{CGCG039-137_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_CGCG039-137}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{CGCG039-137_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_CGCG039-137}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{CGCG039-137_Finding_chart.pdf}\label{finderchart_CGCG039-137}}
   \caption{\small{a) Rotation curve of CGCG039-137. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for CGCG039-137 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1144,7 +1149,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{IC5325_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_IC5325}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{IC5325_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_IC5325}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{IC5325_FindingChart.pdf}\label{finderchart_IC5325}}
   \caption{\small{a) Rotation curve of IC5325. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for IC5325 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1153,7 +1158,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{MCG-03-58-009_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_MCG-03-58-009}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{MCG-03-58-009_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_MCG-03-58-009}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{MCG-03-58-009_FindingChart.pdf}\label{finderchart_MCG-03-58-009}}
   \caption{\small{a) Rotation curve of MCG-03-58-009. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for MCG-03-58-009 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1162,7 +1167,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC1566_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC1566}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC1566_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC1566}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC1566_FindingChart.pdf}\label{finderchart_NGC1566}}
   \caption{\small{a) Rotation curve of NGC1566. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC1566 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1171,7 +1176,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC3513_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC3513}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC3513_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC3513}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC3513_Finding_chart.pdf}\label{finderchart_NGC3513}}
   \caption{\small{a) Rotation curve of NGC3513. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC3513 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1180,7 +1185,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC3633}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC3633_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC3633}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC3633_FindingChart.pdf}\label{finderchart_NGC3633}}
   \caption{\small{a) Rotation curve of NGC4536. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC3633 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1189,7 +1194,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC4536_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC4536}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC4536_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC4536}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC4536_FindingChart.pdf}\label{finderchart_NGC4536}}
   \caption{\small{a) Rotation curve of NGC4536. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC4536 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1198,7 +1203,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC4939_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC4939}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC4939_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC4939}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC4939_FindingChart.pdf}\label{finderchart_NGC4939}}
   \caption{\small{a) Rotation curve of NGC4939. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC4939 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1207,7 +1212,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC5364_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC5364}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC5364_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC5364}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC5364_FindingChart.pdf}\label{finderchart_NGC5364}}
   \caption{\small{a) Rotation curve of NGC5364. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC5364 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1216,7 +1221,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{NGC5786_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC5786}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{NGC5786_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_NGC5786}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{NGC5786_FindingChart.pdf}\label{finderchart_NGC5786}}
   \caption{\small{a) Rotation curve of NGC5786. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC5786 showing the position of the slit in red.}}
 \vspace{5pt}
@@ -1225,7 +1230,7 @@ Here we present rotation curves with finder charts indicating the slit position 
 
 \begin{figure}[t!]
 \centering
-  \subfigure[]{\includegraphics[width=.5\linewidth]{RFGC3781_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_RFGC3781}}
+  \subfigure[]{\includegraphics[width=.54\linewidth]{RFGC3781_2_rotation_curve_xphys_helio_vobs_vrotObs_new4.pdf}}{\label{rotationcurve_RFGC3781}}
   \subfigure[]{\includegraphics[width=0.45\linewidth]{RFGC3781_FindingChart.pdf}\label{finderchart_RFGC3781}}
   \caption{\small{a) Rotation curve of NGC5364. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC5364 showing the position of the slit in red.}}
 \vspace{5pt}

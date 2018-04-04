@@ -394,8 +394,8 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
         
-        saveDirectory = '/Users/frenchd/Research/test/Rhee_targets/'
-        outputFile = '/Users/frenchd/Research/test/Rhee_targets/test.csv'
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
     else:
         print "Unknown user: ",user
         sys.exit()
@@ -542,19 +542,22 @@ def main():
 #     targets = [('UGC04238',1544,True)]
 
 
-    targets = [('NGC2770',1947,True),\
-    ('NGC3432',616,True),\
-    ('NGC3666',1060,True),\
-    ('NGC3769',737,True),\
-    ('NGC3949',800,True),\
-    ('NGC4157',774,True),\
-    ('NGC4414',716,True),\
-    ('NGC4534',802,True),\
-    ('NGC5951',1780,True),\
-    ('NGC7741',750,True),\
-    ('NGC7817',2309,True),\
-    ('UGC05459',1112,True),\
-    ('UGC08146',670,True)]
+#     targets = [('NGC2770',1947,True),\
+#     ('NGC3432',616,True),\
+#     ('NGC3666',1060,True),\
+#     ('NGC3769',737,True),\
+#     ('NGC3949',800,True),\
+#     ('NGC4157',774,True),\
+#     ('NGC4414',716,True),\
+#     ('NGC4534',802,True),\
+#     ('NGC5951',1780,True),\
+#     ('NGC7741',750,True),\
+#     ('NGC7817',2309,True),\
+#     ('UGC05459',1112,True),\
+#     ('UGC08146',670,True)]
+
+
+    targets = [('NGC4238',2762,True)]
 
 
 
