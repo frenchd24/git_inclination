@@ -1,0 +1,9 @@
+Galaxy name: UGC09760
+Target name: SDSSJ151237.15+012846.0
+flipInclination: False
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [0.0981833377605, 27.3628863066]
+Allowed X-velocity range: [-30.1739953493, 30.1917848099]
+Combined velocity range: [-30.0758073039, 30.2899681477]

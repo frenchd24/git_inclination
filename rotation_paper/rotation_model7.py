@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/Users/frenchd/anaconda2/bin/python
 
 '''
 By David French (frenchd@astro.wisc.edu)
@@ -248,7 +248,9 @@ def plot_NFW(xData, yData, popt, x_lim):
 #     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
     legend()
+    
     xlim(0, x_lim)
+    ylim(0, round(np.nanmax(yData),-1)+25)
 
     # x-axis
     majorLocator   = MultipleLocator(25)
@@ -272,11 +274,31 @@ def plot_NFW(xData, yData, popt, x_lim):
     return fig
     
     
-    
 def main():
     hubbleConstant = 71.0
-    fit_NFW = True
-    galaxyName = 'NGC3198'
+    fit_NFW = False
+#     galaxyName = 'CGCG039-137'
+#     galaxyName = 'ESO343-G014'
+#     galaxyName = 'IC5325'
+#     galaxyName = 'MCG-03-58-009'
+#     galaxyName = 'NGC1566'
+#     galaxyName = 'NGC3513'
+#     galaxyName = 'NGC3633'
+#     galaxyName = 'NGC4536'
+#     galaxyName = 'NGC4939'
+#     galaxyName = 'NGC5364'
+#     galaxyName = 'NGC5786'
+#     galaxyName = 'UGC09760'
+
+#     galaxyName = 'NGC3198'
+#     galaxyName = 'NGC4565'
+#     galaxyName = 'NGC3351'
+#     galaxyName = 'UGC04238'
+#     galaxyName = 'NGC4529'
+    galaxyName = 'NGC6140'
+
+
+
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
 
 
@@ -348,37 +370,62 @@ def main():
         agn = data['agn']
         
         R_vir = calculateVirialRadius(majDiam)
+        
+        print 'PA: ',PA
+        print 'inc: ',inc
+        print 'dist: ',dist
+        print 'AGN: ',agn
+        print
+
+
 
         # which agn do you want to target?
 
         # CGCG039-137
+#         flipInclination = False
+#         reverse = False
 #         agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
-        
-        # IC5325
-#         agnName = 'RBS2000'
-        
+
+
         # RFGC3781 or ESO343-G014
+#         flipInclination = False
+#         reverse = False
 #         agnName = 'RBS1768'
         
+        
+        # IC5325
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'RBS2000'
+        
+        
         # MCG-03-58-009
+#         flipInclination = False
+#         reverse = True
 #         agnName = 'MRC2251-178'
+        
         
         # NGC1566
 #         flipInclination = True
+#         reverse = True
 #         agnName = 'HE0439-5254'
 #         agnName = 'HE0435-5304'
 #         agnName = 'RBS567'
 #         agnName = 'HE0429-5343'
 #         agnName = '1H0419-577'
 
+
         # NGC3513
 #         flipInclination = True
+        # reverse true for NFW, false for cylindrical
+#         reverse = False
 #         agnName = 'H1101-232'
 
         
         # NGC3633
 #         flipInclination = False
+#         reverse = False
 #         agnName = 'SDSSJ112005.00+041323.0'
 #         agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
@@ -386,8 +433,10 @@ def main():
 
         # NGC4536
 #         flipInclination = False
+#         reverse = False
 #         agnName = '3C273.0'
 #         agnName = 'HE1228+0131'
+
 
         # NGC4939
 #         flipInclination = True
@@ -397,14 +446,70 @@ def main():
 
         # NGC5364
 #         flipInclination = True
+#         # reverse for 2x3R_vir, not reverse for NFW
 #         reverse = True
 #         agnName = 'SDSSJ135726.27+043541.4'
 
+        
+        # NGC5786
+#         flipInclination = False
+#         reverse = True
+#         agnName = 'QSO1500-4140'
+        
+        
+        # UGC09760
+#         flipInclination = False
+        # not reverse for 2x3R_vir, reverse for NFW
+#         reverse = True
+#         agnName = 'SDSSJ151237.15+012846.0'
+
+
+##########################################################################################
 
         # NGC3198
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'RX_J1017.5+4702'
+#         agnName = 'SDSSJ101622.60+470643.0'
+
+
+      # NGC4565
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'RX_J1236.0+2641'
+
+
+      # NGC3351
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'SDSSJ104335.90+115129.0'
+        
+#         agnName = 'SDSSJ104341.53+085558.2'
+#         agnName = 'SDSSJ104709.80+130454.0'
+#         agnName = 'SDSSJ104816.30+120735.0'
+#         agnName = 'SDSSJ104843.50+130605.0'
+#         agnName = 'SDSSJ105220.60+101751.0'
+
+
+      # UGC04238
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'PG0804+761'
+
+
+      # NGC4529
+#         flipInclination = False
+#         reverse = True
+#         agnName = 'MRK771'
+
+
+      # NGC6140
         flipInclination = True
+        # reverse for 2x3R_vir, not for NFW
         reverse = False
-        agnName = 'RX_J1017.5+4702'
+        agnName = 'MRK876'
+#         agnName = 'KAZ49'
+#         agnName = 'HS1626+6433'
 
 
         # grab the coordinates for this target
@@ -420,9 +525,12 @@ def main():
     xvals = deepcopy(xVals)
     vsys = vsys_measured
     
-    print 'xVals: ',xVals
-    print
-    print 'vels: ',vels
+#     vels2 = [float(i) for i in vels]
+#     xvals2 = [float(i) for i in xvals]
+# 
+#     vels = vels2
+#     xvals = xvals2
+
 
     # this works for all positive xvals
     # xvalStart = xvals[0]
@@ -445,12 +553,6 @@ def main():
     #     xvals2.insert(0,xvalStart)
     #     xvals2.append(xvalEnd)
 
-    
-    # reverse it?
-    if reverse:
-#     xData.reverse()
-        vels.reverse()
-#     yData = np.array(yData)*-1
 
     from scipy.interpolate import interp1d
     from scipy import interpolate
@@ -458,6 +560,13 @@ def main():
     
     
     if fit_NFW:
+#         reverse it?
+#         if reverse:
+#         xData.reverse()
+#             vels.reverse()
+#         yData = np.array(yData)*-1
+    
+    
         # fold the data over so approaching and receding sides are both positive
         newVals = []
         newX = []
@@ -467,22 +576,33 @@ def main():
         yData1 = []
         xData2 = []
         yData2 = []
-        for v,x in zip(vrot_incCorrected_vals,xVals):
+        
+        print 'vels: ',vels
+        print
+        print 'xVals: ',xVals
+        print
+        print
+        
+        for v,x in zip(vels, xVals):
             xData1.append(x)
             yData1.append(v)
         
-            print 'x: ',x
+#             print 'x: ',x
+#             
+#             if x <0:
+#                 xData2.append(x*-1)
+#                 x =x*-1
+#         
+#             if v <0:
+#                 yData2.append(v*-1)
+#                 v =v*-1
+#         
+#             
+#             newX.append(x)
+#             newVals.append(v)
             
-            if x <0:
-                xData2.append(x*-1)
-                x =x*-1
-        
-            if v <0:
-                yData2.append(v*-1)
-                v =v*-1
-        
-            newX.append(x)
-            newVals.append(v)
+            newX.append(abs(x))
+            newVals.append(abs(v))
     
         newX = np.array(newX)
         newVals = np.array(newVals)
@@ -495,18 +615,38 @@ def main():
         a = 3.95
         rho = 500.
         
-        v200 = 50
+        v200 = 150
         c = 10
         r200 = R_vir
+        print 'r200: ',r200
+        
 
         r200_lowerbound = 10
-        r200_upperbound = 300
+        r200_upperbound = 350
         v200_lowerbound = 10
         v200_upperbound = 500
         c_lowerbound = 1
         c_upperbound = 35
-        popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
-        bounds=((v200_lowerbound, c_lowerbound, r200_lowerbound), (v200_upperbound, c_upperbound, r200_upperbound)))
+
+#         r200_lowerbound = 10
+#         r200_upperbound = 250
+#         v200_lowerbound = 10
+#         v200_upperbound = 90
+#         c_lowerbound = 1
+#         c_upperbound = 35
+        
+        v200 = 50
+        c = 10
+        r200 = R_vir
+        
+        try:
+            popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
+            bounds=((v200_lowerbound, c_lowerbound, r200_lowerbound), (v200_upperbound, c_upperbound, r200_upperbound)))
+            
+        except Exception,e:
+            print 'exception in curve_fit: ',e
+            print
+            sys.exit()
         
         print
         print 'popt: ',popt
@@ -521,13 +661,13 @@ def main():
         # plot it
 #         xData_fit = linspace(0,max(xvals),num=1000)
 #         y_fit = NFW(xData_fit,*popt)
-        x_lim = 100
+        x_lim = 30
         fig = plot_NFW(newX, newVals, popt, x_lim)
-        fig.savefig("{0}{1}_NFW.jpg".format(saveDirectory,galaxyName),dpi=300,bbox_inches='tight')
+        fig.savefig("{0}{1}_NFW_{2}.jpg".format(saveDirectory,galaxyName,x_lim),dpi=300,bbox_inches='tight')
         
         x_lim = 500
         fig = plot_NFW(newX, newVals, popt, x_lim)
-        fig.savefig("{0}{1}_NFW_500.jpg".format(saveDirectory,galaxyName),dpi=300,bbox_inches='tight')
+        fig.savefig("{0}{1}_NFW_{2}.jpg".format(saveDirectory,galaxyName,x_lim),dpi=300,bbox_inches='tight')
         
         
         def fit(x):
@@ -538,16 +678,20 @@ def main():
                 
                 e.g., if x < 0: y = y* -1
             '''
-            
+
             y_val = 0
             if x >= 0:
                 y_val = NFW(x, *popt)
+
             else:
                 y = NFW(abs(x), *popt)
                 y_val = -y
             
+            if reverse:
+                y_val = -y_val
+
             return y_val
-    
+
     else:
     
         # this one is for 0 centered
@@ -565,7 +709,7 @@ def main():
         print 'left_vrot_incCorrected_avg: ',left_vrot_incCorrected_avg
         print
 
-        for i in range(100):
+        for i in range(250):
             vels.insert(0,right_vrot_incCorrected_avg)
             vels.append(left_vrot_incCorrected_avg)
 
@@ -573,6 +717,12 @@ def main():
             xvalEnd -=step
             xvals.insert(0,xvalStart)
             xvals.append(xvalEnd)
+            
+        # reverse it?
+        if reverse:
+    #     xData.reverse()
+            vels.reverse()
+    #     yData = np.array(yData)*-1
 
     #     xData_fit = linspace(min(xvals),max(xvals),num=100)    
         fit = interp1d(xvals, vels, kind='cubic')
@@ -787,8 +937,10 @@ def main():
     print 'p1: ',p1
     print
     
-#     minorTheta = (180. - PA + 90.) * math.pi/180
-    minorTheta = 90. * math.pi/180
+    minorTheta = (180. - PA + 90.) * math.pi/180
+#     minorTheta = 90. * math.pi/180
+    
+    
 #     minorPhi = (90. - inc) * math.pi/180
 #     minorPhi = (90. - inc) * math.pi/180
     minorPhi = (effectiveInc) * math.pi/180
@@ -827,8 +979,9 @@ def main():
 #     rayPoint = np.array([0, -95.169, -26.816])
 #     rayPoint = np.array([0, 95.169, -26.816])
 
-    # CGCG039-137
     rayPoint = np.array([0, impact_RA, impact_Dec])
+    
+    
     print 'rayPoint: ',rayPoint
 #     print 'should be equal to : ([0, 95.169, -26.816])'
     print
@@ -862,7 +1015,7 @@ def main():
     elif inc <=80:
         s = 0.01
     else:
-        s = 0.001
+        s = 0.0001
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
@@ -903,7 +1056,8 @@ def main():
                 v_intersect = 0
                 print 'Ran out of interpolation range for {0}'.format(p2)
                 print "Built in exception is {0}".format(e)
-            
+                sys.exit()
+                
             #######
             #######
             #######
@@ -974,7 +1128,20 @@ def main():
 ##########################################################################################
 
     # how big to make the plot boundary?
-    plotExtent = 3*R_vir
+    plotExtent = round(3*R_vir,-1)
+    
+    if plotExtent < 400.:
+        plotExtent = 400.
+    
+    elif plotExtent > 400 and plotExtent <= 800.:
+        plotExtent = 800.
+        
+    else:
+        plotExtent = 1000.
+        
+    print
+    print 'plotExtent: ', plotExtent
+    print
     
     # how big to make the plotted cylinder?
     zHeight = zcutoff
@@ -1108,10 +1275,6 @@ def main():
 #         ax.plot([planePoint_end2[0]],[planePoint_end2[1]],[planePoint_end2[2]],color='green',marker='*',lw=0)
 
         ax.plot([intersect[0]],[intersect[1]],[intersect[2]],color='red',marker='*',lw=0)
-
-        ax.set_xlim(-plotExtent, plotExtent)
-        ax.set_ylim(-plotExtent, plotExtent)
-        ax.set_zlim(-plotExtent, plotExtent)
         
 ##########################################################################################
 ##########################################################################################
@@ -1139,27 +1302,42 @@ def main():
 
         ax.set_xlabel(r'$\rm z ~ [kpc]$')
         ax.set_ylabel(r'$\rm R.A.~ [kpc]$')
-        ax.set_zlabel(r'$ Dec.~ [kpc]$')
+        ax.set_zlabel(r'$\rm Dec.~ [kpc]$')
+        
+        ax.set_xlim(-plotExtent, plotExtent)
+        ax.set_ylim(-plotExtent, plotExtent)
+        ax.set_zlim(-plotExtent, plotExtent)
     
         # reverse the RA axis so negative is on the right
     #     ax = plt.gca()
         ax.invert_xaxis()
 
         # rotate the plot
-#         ax.view_init(elev=10., azim=20)
-        ax.view_init(elev=10., azim=15)
-
+#         ax.view_init(elev=10., azim=5)
+        ax.view_init(elev=15., azim=10)
+        
+        tight_layout()
 
         # reverse the X-axis ticks without actually reversing the x-axis
-        yticks((-400, -200, 0, 200, 400), (400,200, 0, -200, -400))
-    
-    
+        if plotExtent <= 400:
+            yticks((-400, -200, 0, 200, 400), (400, 200, 0, -200, -400))
+            xticks((-400, -200, 0, 200, 400), (-400, -200, 0, 200, 400))
+        else:
+            yticks((-800, -400, 0, 400, 800), (800, 400, 0, -400, -800))
+            xticks((-800, -400, 0, 400, 800), (-800, -400, 0, 400, 800))
+
+
+#         yticks((-1000, -500, 0, 500, 1000), (1000, 500, 0, -500, -1000))
+
+#         xticks((-400, -200, 0, 200, 400), (-400, -200, 0, 200, 400))
+#         ax.set_zticks((-400, -200, 0, 200, 400), (-400, -200, 0, 200, 400))
+
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
-#         if i == 49:
-#             show()
+        if i == 5:
+            show()
     
 #         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
 #         directory = '/Users/frenchd/Research/test/ESO343-G014/'
@@ -1180,38 +1358,38 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
-        summary_file = open(directory+'summary.txt','wt')
+    summary_file = open(directory+'summary.txt','wt')
 #         summary_file.write('Sightline X-velocities: {0}'.format(intersect_v_list))
 #         summary_file.write('\n')
 #         summary_file.write('Sightline Y-velocities: {0}'.format(v_proj_list))
 #         summary_file.write('\n')
-        summary_file.write('Galaxy name: {0}\n'.format(galaxyName))
-        summary_file.write('Target name: {0}\n'.format(agnName))
-        summary_file.write('flipInclination: {0}\n'.format(flipInclination))
-        summary_file.write('reverse: {0}\n'.format(reverse))
-        summary_file.write('fit_NFW: {0}\n'.format(fit_NFW))
-        summary_file.write('\n')
-        summary_file.write('Allowed Y-velocity range: [{0}, {1}]'.format(min(v_proj_list),max(v_proj_list)))
-        summary_file.write('\n')
-        summary_file.write('Allowed X-velocity range: [{0}, {1}]'.format(min(intersect_v_list),max(intersect_v_list)))
-        
-        totals = []
-        for x, y in zip(intersect_v_list, v_proj_list):
-            totals.append(x+y)
-        
-        totals.sort()
-        total_nozeros = []
-        for i in totals:
-            if i != 0:
-                total_nozeros.append(i)
-        
-        total_min = min(total_nozeros)
-        
-        summary_file.write('\n')
-        summary_file.write('Combined velocity range: [{0}, {1}]'.format(total_min,max(totals)))
-        summary_file.write('\n')
-        
-        summary_file.close()
+    summary_file.write('Galaxy name: {0}\n'.format(galaxyName))
+    summary_file.write('Target name: {0}\n'.format(agnName))
+    summary_file.write('flipInclination: {0}\n'.format(flipInclination))
+    summary_file.write('reverse: {0}\n'.format(reverse))
+    summary_file.write('fit_NFW: {0}\n'.format(fit_NFW))
+    summary_file.write('\n')
+    summary_file.write('Allowed Y-velocity range: [{0}, {1}]'.format(min(v_proj_list),max(v_proj_list)))
+    summary_file.write('\n')
+    summary_file.write('Allowed X-velocity range: [{0}, {1}]'.format(min(intersect_v_list),max(intersect_v_list)))
+    
+    totals = []
+    for x, y in zip(intersect_v_list, v_proj_list):
+        totals.append(x+y)
+    
+    totals.sort()
+    total_nozeros = []
+    for i in totals:
+        if i != 0:
+            total_nozeros.append(i)
+    
+    total_min = min(total_nozeros)
+    
+    summary_file.write('\n')
+    summary_file.write('Combined velocity range: [{0}, {1}]'.format(total_min,max(totals)))
+    summary_file.write('\n')
+    
+    summary_file.close()
     
     
     

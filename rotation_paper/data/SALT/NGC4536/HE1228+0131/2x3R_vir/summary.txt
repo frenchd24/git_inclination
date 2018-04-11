@@ -1,0 +1,9 @@
+Galaxy name: NGC4536
+Target name: HE1228+0131
+flipInclination: False
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [6.22451757527, 139.910332657]
+Allowed X-velocity range: [-9.05745388903, 32.1504485767]
+Combined velocity range: [23.2122119167, 131.404732657]

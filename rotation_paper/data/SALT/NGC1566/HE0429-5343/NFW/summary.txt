@@ -1,0 +1,9 @@
+Galaxy name: NGC1566
+Target name: HE0429-5343
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [-10.0543023136, -5.26807094336]
+Allowed X-velocity range: [-11.7536158411, 22.5217220002]
+Combined velocity range: [-21.8079181547, 17.2536510568]

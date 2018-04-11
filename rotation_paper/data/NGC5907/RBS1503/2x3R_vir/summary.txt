@@ -1,0 +1,9 @@
+Galaxy name: NGC5907
+Target name: RBS1503
+flipInclination: False
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [-227.399652121, -62.7565319876]
+Allowed X-velocity range: [-53.2968137097, 53.4028214947]
+Combined velocity range: [-227.864612855, -9.35371049287]

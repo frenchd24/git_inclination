@@ -557,7 +557,8 @@ def main():
 #     ('UGC08146',670,True)]
 
 
-    targets = [('NGC4238',2762,True)]
+#     targets = [('NGC4238',2762,True)]
+    targets = [('NGC3351',778,True)]
 
 
 

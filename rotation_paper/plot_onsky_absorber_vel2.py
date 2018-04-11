@@ -8,7 +8,7 @@ $Id:  plot_onsky_absorber_vel.py, v2.0 04/04/18
 Plot an impact parameter map showing the locations and velocities of each absorber wrt 
 the galaxy (2/19/18)
 
-v2: Orient so all the galaxies have approaching side on the right (04/04/18)
+v2: Orient so all the galaxies have approaching side on the left (04/04/18)
 
 '''
 
@@ -240,6 +240,9 @@ def main():
         Dec_target = eval(t['DEdeg_target'])
         vHel = eval(t['Vhel'])
         
+        PA_observed = eval(t['PA_observed'])
+        PA_adjust = eval(t['PA_adjust'])
+        
         gfilename = directory + 'rot_curves/' + name + '-summary4.json'
         vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam = get_data(gfilename)
         
@@ -271,7 +274,12 @@ def main():
                 impact_Dec *= -1
                 
         # rotate everything to PA = 90 deg (major axis horizontal)
-        x = 90. - PA
+#         x = 90. - PA
+
+        # rotate everything to PA = 90 deg (major axis horizontal, approaching on left)
+#         x = 90. - PA
+        x = -PA_adjust
+
         
 #         theta = math.atan(impact_Dec/impact_RA) - (x * math.pi/180.)
 #         
@@ -460,7 +468,7 @@ def main():
         matplotlib.rcParams['text.latex.unicode'] = False
 
 #         combinedName = '${\rm '+name + '-' + target+'}$'.format(name,target)
-        combinedName = r'$\rm {0} -  {1}$'.format(name,target)
+        combinedName = r'$\rm {0} : {1}$'.format(name,target)
 
 #         if bfind(combinedName,'_') and not bfind(combinedName,'\_'):
 #             combinedName = combinedName.replace('_','\_')
@@ -646,16 +654,19 @@ def main():
     phis=np.arange(0,2*np.pi,0.01)
     
     r = 1.0
-    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
     
     r = 2.0
-    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
     
     r = 3.0
-    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.5)
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
     
-    ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.5)
-    ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.5)
+    r = 4.0
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+    ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
+    ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
 
     
 #     print 'full RA_targetList2: ',RA_targetList2
@@ -695,7 +706,7 @@ def main():
         s=newSizeList[i], marker=marker, edgecolor='black', lw=0.8)
     
     
-    xTagOffset = 0.1
+    xTagOffset = -35.0
     yTagOffset = 0.1
     
     # put some labels on it
@@ -705,11 +716,17 @@ def main():
 
     previousNames = {}
     for i in arange(len(combinedNameList2)):
-        yTagOffset = newSizeList[i]/35.
+        print 'newSizeList[i]/50. : ', newSizeList[i]/65.
+        print '(newSizeList[i]/50.)**-1 : ',(newSizeList[i]/65.)**-1
+        print
+        yTagOffset = 4.0 + (newSizeList[i]/65.)**-1
+        
+        
+#         xTagOffset = newSizeList[i]/50.
         
         if not previousNames.has_key(combinedNameList2[i]):
             annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
+            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
 
             previousNames[combinedNameList2[i]] = 1.
         else:
@@ -723,9 +740,12 @@ def main():
     xlabel(r'$\rm R.A. ~[R_{vir}]$')
     ylabel(r'$\rm Dec. ~[R_{vir}]$')
     
-    ax.set_xlim(-3.0, 3.0)
-    ax.set_ylim(-3.0, 3.0)
+    ax.set_xlim(-4.0, 4.0)
+    ax.set_ylim(-4.0, 4.0)
     ax.invert_xaxis()
+    
+    annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
+    xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
     # x-axis
@@ -756,7 +776,7 @@ def main():
     blue_line = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
                               markersize=15, label=r'$\rm Co-rotation$')
                               
-    plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower left')
+    plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower right')
 
 
         
@@ -769,7 +789,7 @@ def main():
     
     directory = '/Users/frenchd/Research/test/'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}SALT_map4.pdf".format(directory),bbox_inches='tight')
+    savefig("{0}SALT_map6.pdf".format(directory),bbox_inches='tight')
 
 
     

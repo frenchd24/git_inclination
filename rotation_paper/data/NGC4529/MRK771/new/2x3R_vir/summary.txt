@@ -1,0 +1,9 @@
+Galaxy name: NGC4529
+Target name: MRK771
+flipInclination: False
+reverse: True
+fit_NFW: False
+
+Allowed Y-velocity range: [-101.192413333, -55.1567753034]
+Allowed X-velocity range: [-18.2045435791, 15.3910844574]
+Combined velocity range: [-103.193754661, -39.7656908459]
