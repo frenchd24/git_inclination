@@ -544,8 +544,8 @@ def main():
         # UGC06446
         flipInclination = False
         reverse = False
-        agnName = 'SDSSJ112448.30+531818.0'
-#         agnName = 'RX_J1117.6+5301'
+#         agnName = 'SDSSJ112448.30+531818.0'
+        agnName = 'RX_J1117.6+5301'
 
 
 
@@ -672,9 +672,9 @@ def main():
 #         c_lowerbound = 1
 #         c_upperbound = 35
         
-        v200 = 50
-        c = 10
-        r200 = R_vir
+#         v200 = 50
+#         c = 10
+#         r200 = R_vir
         
         try:
             popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \

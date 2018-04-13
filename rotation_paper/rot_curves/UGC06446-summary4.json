@@ -143,9 +143,8 @@
     "vrot_errs": [
     ],
     "agn": {
-        "SBS1503+570":{"RAdeg":226.2316667,"DEdeg":56.82222222},
-        "SDSSJ152053.59+571122.1":{"RAdeg":230.22375,"DEdeg":57.18972222},
-        "RBS1503":{"RAdeg":232.28125,"DEdeg":56.26861111}
+        "RX_J1117.6+5301":{"RAdeg":169.41875,"DEdeg":53.03083333},
+        "SDSSJ112448.30+531818.0":{"RAdeg":171.20125,"DEdeg":53.30527778}
     },
     "left_vrot_avg": -99,
     "vrot_incCorrected_errs": [
@@ -155,7 +154,7 @@
     "vsys_measured": 645,
     "right_vrot_avg_err": -99,
     "vsys_published": 645.0,
-    "vsys_measured_err": 3.0,
+    "vsys_measured_err": 1.0,
     "left_vrot_incCorrected_avg_err": 1.0,
     "right_vrot_avg":-99,
     "dist": 15.7,
@@ -167,6 +166,6 @@
     "vrot_observed": [
     ],
     "left_vrot_avg_err": -99,
-    "dvsys_published": 3.0,
+    "dvsys_published": 1.0,
     "right_vrot_incCorrected_avg_err": 1.0
 }
