@@ -525,7 +525,6 @@ def main():
 #     targets = [('UGC05272',513,True)]
 #     targets = [('UGC06399',791,True)]
 #     targets = [('UGC06446',645,True)]
-#     targets = [('NGC3726',1109,True)]
 #     targets = [('NGC3972',852,True)]
 #     targets = [('NGC3985',948,True)]
 #     targets = [('UGC07089',770,True)]
@@ -560,8 +559,9 @@ def main():
 #     targets = [('NGC4238',2762,True)]
 #     targets = [('NGC3351',778,True)]
 #     targets = [('NGC4254',2407,True)]
-    targets = [('NGC4559',807,True)]
+#     targets = [('NGC4559',807,True)]
 
+    targets = [('NGC3726',866,True)]
 
 
     c = 0

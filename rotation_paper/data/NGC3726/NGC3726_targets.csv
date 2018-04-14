@@ -1,0 +1,3 @@
+Name,Target,z,z_target,b,RAdeg,DEdeg,RAdeg_target,DEdeg_target,Vhel,vcorr,bestDist,MajDiam,MinDiam,e_MajDiam,e_MinDiam,R_vir,inc,e_inc,PA,azimuth,RC3_type,RC3_d25,RC3_r25,RC3_pa,group_num,group_mem,group_dist,MType,flag,distIndicator,Bmag,Bmag_sdss,Lstar_med,e_Lstar_med,Lstar_sdss,e_Lstar_sdss
+NGC3726,CSO1208,0.002887,0.115,368.942,173.33801,47.02921,175.1995833,46.36805556,866,1109,14.7,31.4,19.15,6.5,4,187.45,52,3,25,87.8,.SXR5..,369.96,0.69,10,100008,65,10.5,SAB(r)c_HII,0,TF,10.9,15.9,1.5,1.4,0.015,0.014
+NGC3726,RX_J1142.7+4625,0.002887,0.115,440.252,173.33801,47.02921,175.6716667,46.41,866,1109,14.7,31.4,19.15,6.5,4,187.45,52,3,25,86,.SXR5..,369.96,0.69,10,100008,65,10.5,SAB(r)c_HII,0,TF,10.9,15.9,1.5,1.4,0.015,0.014
