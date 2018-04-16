@@ -295,7 +295,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = False
+    fit_NFW = True
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
@@ -316,7 +316,9 @@ def main():
 #     galaxyName = 'NGC4529'
 #     galaxyName = 'NGC6140'
 #     galaxyName = 'NGC5907'
-    galaxyName = 'UGC06446'
+#     galaxyName = 'UGC06446'
+#     galaxyName = 'UGC06399'
+    galaxyName = 'NGC3726'
 
 
 
@@ -542,10 +544,23 @@ def main():
 
 
         # UGC06446
-        flipInclination = False
-        reverse = False
-        agnName = 'SDSSJ112448.30+531818.0'
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'SDSSJ112448.30+531818.0'
 #         agnName = 'RX_J1117.6+5301'
+
+
+        # UGC06399
+#         flipInclination = False
+#         reverse = True
+#         agnName = 'SBS1116+523'
+
+
+        # NGC3726
+        flipInclination = True
+        reverse = True
+#         agnName = 'CSO1208'
+        agnName = 'RX_J1142.7+4625'
 
 
 
@@ -672,9 +687,9 @@ def main():
 #         c_lowerbound = 1
 #         c_upperbound = 35
         
-        v200 = 50
-        c = 10
-        r200 = R_vir
+#         v200 = 50
+#         c = 10
+#         r200 = R_vir
         
         try:
             popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
@@ -1038,7 +1053,7 @@ def main():
     # Define ray -> [0,RA_dif,Dec_dif]
     rayDirection = np.array([1, 0, 0])
 
-    rayPoint = np.array([0, impact_RA, impact_Dec])
+    rayPoint = np.array([0, impact_RA, impact_Dec-100])
     print 'rayPoint: ',rayPoint
     print
 

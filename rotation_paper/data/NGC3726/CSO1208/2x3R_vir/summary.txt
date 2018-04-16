@@ -1,0 +1,9 @@
+Galaxy name: NGC3726
+Target name: CSO1208
+flipInclination: True
+reverse: True
+fit_NFW: False
+
+Allowed Y-velocity range: [3.88237235906, 19.9668303105]
+Allowed X-velocity range: [-30.4071301301, 9.43020826638]
+Combined velocity range: [-26.524757771, 29.3970385769]

@@ -1,0 +1,9 @@
+Galaxy name: UGC06399
+Target name: SBS1116+523
+flipInclination: False
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [-74.4422569701, -62.4243628437]
+Allowed X-velocity range: [-16.4102072725, 20.4039305597]
+Combined velocity range: [-79.7837246701, -42.020432284]
