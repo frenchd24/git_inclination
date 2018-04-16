@@ -318,8 +318,8 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-    galaxyName = 'NGC3726'
-
+#     galaxyName = 'NGC3726'
+    galaxyName = 'NGC3067'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -557,10 +557,18 @@ def main():
 
 
         # NGC3726
-        flipInclination = True
+#         flipInclination = True
+#         reverse = True
+# #         agnName = 'CSO1208'
+#         agnName = 'RX_J1142.7+4625'
+
+        # NGC3067
+        flipInclination = False
         reverse = True
-#         agnName = 'CSO1208'
-        agnName = 'RX_J1142.7+4625'
+        agnName = '3C232'
+#         agnName = 'RX_J1002.9+3240'
+#         agnName = 'SDSSJ095914.80+320357.0'
+
 
 
 
@@ -1053,7 +1061,7 @@ def main():
     # Define ray -> [0,RA_dif,Dec_dif]
     rayDirection = np.array([1, 0, 0])
 
-    rayPoint = np.array([0, impact_RA, impact_Dec-100])
+    rayPoint = np.array([0, impact_RA, impact_Dec])
     print 'rayPoint: ',rayPoint
     print
 
