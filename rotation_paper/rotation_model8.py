@@ -295,7 +295,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = True
+    fit_NFW = False
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
@@ -318,8 +318,8 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-#     galaxyName = 'NGC3726'
-    galaxyName = 'NGC3067'
+    galaxyName = 'NGC3726'
+#     galaxyName = 'NGC3067'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -557,15 +557,15 @@ def main():
 
 
         # NGC3726
-#         flipInclination = True
-#         reverse = True
-# #         agnName = 'CSO1208'
+        flipInclination = True
+        reverse = True
+        agnName = 'CSO1208'
 #         agnName = 'RX_J1142.7+4625'
 
         # NGC3067
-        flipInclination = False
-        reverse = True
-        agnName = '3C232'
+#         flipInclination = False
+#         reverse = True
+#         agnName = '3C232'
 #         agnName = 'RX_J1002.9+3240'
 #         agnName = 'SDSSJ095914.80+320357.0'
 
@@ -617,7 +617,7 @@ def main():
     from scipy.interpolate import interp1d
     from scipy import interpolate
     from scipy import interpolate, optimize
-    
+    from scipy.interpolate import Rbf, InterpolatedUnivariateSpline
     
     if fit_NFW:
 #         reverse it?
@@ -757,7 +757,6 @@ def main():
         # this one is for 0 centered
         xvalStart = xvals[0]
         xvalEnd = xvals[-1]
-        step = 5
  
         lowMean = mean(vels[:6])
         highMean = mean(vels[-6:])
@@ -769,6 +768,11 @@ def main():
         print 'left_vrot_incCorrected_avg: ',left_vrot_incCorrected_avg
         print
 
+        print 'vels[0]: ',vels[0]
+        print 'vels[-1]: ',vels[-1]
+        print
+        
+        step = 5
         for i in range(250):
             vels.insert(0,right_vrot_incCorrected_avg)
             vels.append(left_vrot_incCorrected_avg)
@@ -782,12 +786,26 @@ def main():
         if reverse:
     #     xData.reverse()
             vels.reverse()
-    #     yData = np.array(yData)*-1
-
-    #     xData_fit = linspace(min(xvals),max(xvals),num=100)    
-        fit = interp1d(xvals, vels, kind='cubic')
+            
+        splineKind = 'linear'
+        
+        fit = interp1d(xvals, vels, kind=splineKind)
     
-
+        fig = plt.figure(figsize=(8,8))
+        ax = fig.add_subplot(1,1,1)
+        
+        x_fit = linspace(-50,50,num=1000)
+    
+        scatter(xvals,vels, color = 'red',s=10, label = 'Data')
+        scatter(x_fit, fit(x_fit), color='black', s=10, lw=0, label = '{0} - spline fit'.format(splineKind))
+        legend()
+        
+        xlim(-50,50)
+        xlabel(r'$\rm R~[kpc]$')
+        ylabel(r'$\rm V_{rot}$')
+        
+        fig.savefig("{0}{1}_splineFit_{2}.jpg".format(saveDirectory,galaxyName,splineKind),dpi=300,bbox_inches='tight')
+        
 ##########################################################################################
     # impact = impact parameter
     # az = azimuth
