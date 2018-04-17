@@ -1,3 +1,0 @@
-AGNname,galaxyName,environment,degreesJ2000RA_DecAGN,degreesJ2000RA_DecGalaxy,impactParameter (kpc),redshiftDistances,vcorrGalaxy (km/s),distGalaxy (Mpc),AGN S/N,majorAxis (kpc),minorAxis (kpc),inclination (deg),positionAngle (deg),azimuth (deg),corrected_az (deg),RC3flag,RC3type,RC3inc (deg),RC3pa (deg),morphology,galaxyRedshift
-SDSSJ080908.13+461925.6,UGC04260,x,"('122.28375', '46.32389')","(122.78651, 46.4654)",217.66339805071163,x,2391.0,33.299999,x,8.4,3.5,65.2,110.0,x,x,UGC4260,.I..9*.,24.2,-99,Im:,0.007519
-SDSSJ080908.13+461925.6,KUG0809+465,x,"('122.28375', '46.32389')","(123.32155, 46.37236)",428.494596028193,x,2427.7,34.19349887,x,8.5,4.0,62.0,115.0,x,x,0,x,x,x,Spiral,0.007634
