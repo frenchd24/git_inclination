@@ -295,7 +295,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = False
+    fit_NFW = True
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
@@ -310,6 +310,7 @@ def main():
 #     galaxyName = 'UGC09760'
 
 #     galaxyName = 'NGC3198'
+
 #     galaxyName = 'NGC4565'
 #     galaxyName = 'NGC3351'
 #     galaxyName = 'UGC04238'
@@ -318,8 +319,9 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-    galaxyName = 'NGC3726'
+#     galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
+    galaxyName = 'NGC2770'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -503,8 +505,8 @@ def main():
 
 
         # NGC3351
-#         flipInclination = False
-#         reverse = False
+#         flipInclination = True
+#         reverse = True
 #         agnName = 'SDSSJ104335.90+115129.0'
         
 #         agnName = 'SDSSJ104341.53+085558.2'
@@ -515,7 +517,9 @@ def main():
 
 
         # UGC04238
+        # need to set tighter NFW fit bounds for this one
 #         flipInclination = False
+        # reverse for 2x3R_vir, not for NFW
 #         reverse = False
 #         agnName = 'PG0804+761'
 
@@ -529,7 +533,7 @@ def main():
         # NGC6140
 #         flipInclination = False
         # reverse for 2x3R_vir, not for NFW
-#         reverse = False
+#         reverse = True
 #         agnName = 'MRK876'
 #         agnName = 'KAZ49' - don't bother
 #         agnName = 'HS1626+6433' - don't bother
@@ -557,9 +561,9 @@ def main():
 
 
         # NGC3726
-        flipInclination = True
-        reverse = True
-        agnName = 'CSO1208'
+#         flipInclination = True
+#         reverse = True
+#         agnName = 'CSO1208'
 #         agnName = 'RX_J1142.7+4625'
 
         # NGC3067
@@ -570,6 +574,15 @@ def main():
 #         agnName = 'SDSSJ095914.80+320357.0'
 
 
+        # NGC2770
+        flipInclination = True
+        # reverse for NFW, not for 2x3R_vir
+        reverse = True
+#         agnName = 'FBQSJ0908+3246'
+        agnName = 'TON1009'
+#         agnName = 'TON1015'
+#         agnName = 'SDSSJ091052.80+333008.0'
+#         agnName = 'SDSSJ091127.30+325337.0'
 
 
         # grab the coordinates for this target
@@ -687,14 +700,28 @@ def main():
         v200_upperbound = 500
         c_lowerbound = 1
         c_upperbound = 35
+        
+        # slightly tighter (e.g., for NGC2770)
+        r200_lowerbound = 10
+        r200_upperbound = 250
+        v200_lowerbound = 10
+        v200_upperbound = 130
+        c_lowerbound = 1
+        c_upperbound = 35
+        
+        v200 = 50
+        c = 10
+        r200 = R_vir
+        
 
+        # tighter bounds (e.g., for UGC04238)
 #         r200_lowerbound = 10
 #         r200_upperbound = 250
 #         v200_lowerbound = 10
 #         v200_upperbound = 90
 #         c_lowerbound = 1
 #         c_upperbound = 35
-        
+#         
 #         v200 = 50
 #         c = 10
 #         r200 = R_vir
@@ -1427,6 +1454,7 @@ def main():
 ##########################################################################################
 #         if i == 5:
 #             show()
+    
     
 #         directory = '/Users/frenchd/Research/test/CGCG039-137_3/'
 #         directory = '/Users/frenchd/Research/test/ESO343-G014/'

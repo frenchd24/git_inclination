@@ -562,7 +562,8 @@ def main():
 #     targets = [('NGC4559',807,True)]
 
 #     targets = [('NGC3726',866,True)]
-    targets = [('NGC3067',1476,True)]
+#     targets = [('NGC3067',1476,True)]
+    targets = [('PG1302-102',3447,True)]
 
 
     c = 0
