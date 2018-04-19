@@ -295,7 +295,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = True
+    fit_NFW = False
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
@@ -579,10 +579,10 @@ def main():
         # reverse for NFW, not for 2x3R_vir
         reverse = True
 #         agnName = 'FBQSJ0908+3246'
-        agnName = 'TON1009'
+#         agnName = 'TON1009'
 #         agnName = 'TON1015'
 #         agnName = 'SDSSJ091052.80+333008.0'
-#         agnName = 'SDSSJ091127.30+325337.0'
+        agnName = 'SDSSJ091127.30+325337.0'
 
 
         # grab the coordinates for this target
