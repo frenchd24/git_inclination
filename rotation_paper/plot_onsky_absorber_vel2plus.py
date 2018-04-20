@@ -229,7 +229,7 @@ def main():
     markerColorList = []
     VhelList = []
     
-    
+    # non-detections/not finished sightlines
     nameList_non = []
     targetList_non = []
     combinedNameList_non = []
