@@ -1,0 +1,9 @@
+Galaxy name: NGC2770
+Target name: TON1009
+flipInclination: True
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [-147.721161557, -69.1680431068]
+Allowed X-velocity range: [-25.4351215135, 29.7831372026]
+Combined velocity range: [-146.277143931, -39.3849059041]

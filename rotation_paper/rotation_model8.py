@@ -310,7 +310,6 @@ def main():
 #     galaxyName = 'UGC09760'
 
 #     galaxyName = 'NGC3198'
-
 #     galaxyName = 'NGC4565'
 #     galaxyName = 'NGC3351'
 #     galaxyName = 'UGC04238'
@@ -492,8 +491,8 @@ def main():
 ##########################################################################################
 
         # NGC3198
-#         flipInclination = False
-#         reverse = False
+#         flipInclination = True
+#         reverse = True
 #         agnName = 'RX_J1017.5+4702'
 #         agnName = 'SDSSJ101622.60+470643.0'
 
@@ -577,7 +576,7 @@ def main():
         # NGC2770
         flipInclination = True
         # reverse for NFW, not for 2x3R_vir
-        reverse = True
+        reverse = False
 #         agnName = 'FBQSJ0908+3246'
 #         agnName = 'TON1009'
 #         agnName = 'TON1015'
@@ -702,16 +701,16 @@ def main():
         c_upperbound = 35
         
         # slightly tighter (e.g., for NGC2770)
-        r200_lowerbound = 10
-        r200_upperbound = 250
-        v200_lowerbound = 10
-        v200_upperbound = 130
-        c_lowerbound = 1
-        c_upperbound = 35
-        
-        v200 = 50
-        c = 10
-        r200 = R_vir
+#         r200_lowerbound = 10
+#         r200_upperbound = 250
+#         v200_lowerbound = 10
+#         v200_upperbound = 130
+#         c_lowerbound = 1
+#         c_upperbound = 35
+#         
+#         v200 = 50
+#         c = 10
+#         r200 = R_vir
         
 
         # tighter bounds (e.g., for UGC04238)
@@ -1406,14 +1405,18 @@ def main():
         X2, Y2, Z2 = bottom
         X3, Y3, Z3 = top
     
-        alphaTube = 0.2
-        alphaBottom = 0.5
+        alphaTube = 0.15
+        alphaBottom = 0.3
         alphaTop = 0.5
+        
+        colorTube = 'blue'
+        colorBottom = 'red'
+        colorTop = 'blue'
     
     #     ax=plt.subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, color='blue',alpha = alphaTube)
-        ax.plot_surface(X2, Y2, Z2, color='blue',alpha = alphaBottom)
-        ax.plot_surface(X3, Y3, Z3, color='blue',alpha = alphaTop)
+        ax.plot_surface(X, Y, Z, color=colorTube, alpha = alphaTube)
+        ax.plot_surface(X2, Y2, Z2, color=colorBottom, alpha = alphaBottom)
+        ax.plot_surface(X3, Y3, Z3, color=colorTop, alpha = alphaTop)
 
 
         ax.set_xlabel(r'$\rm z ~ [kpc]$')

@@ -1,0 +1,9 @@
+Galaxy name: NGC2770
+Target name: SDSSJ091127.30+325337.0
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [-130.009739185, -50.4771590927]
+Allowed X-velocity range: [-29.0830890332, 26.1719682262]
+Combined velocity range: [-131.943732373, -25.4451166979]
