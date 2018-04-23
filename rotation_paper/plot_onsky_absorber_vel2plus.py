@@ -90,8 +90,8 @@ def get_data(filename):
     # 'agn': include any information about AGN here
     # 'xVals': physical (kpc) x axis along the slit
 
-    print 'current file: ',filename
-    print
+#     print 'current file: ',filename
+#     print
     with open(filename) as data_file:
         data = json.load(data_file)
   
@@ -210,8 +210,8 @@ def main():
     # collect data
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
 #     filename = '{0}salt_galaxy_sightlines_cut.csv'.format(directory)
-    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary.csv'.format(directory)
-
+    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary.csv'.format(directory)    
+    
     theFile = open(filename,'rU')
     tableReader = csv.DictReader(theFile)
 
@@ -321,10 +321,11 @@ def main():
         # switch it around actually, this matches the rotation curve (positive is going
         # away, or higher than systemic velocity gas)
         
-        if isNumber(lyaV):
+        if lyaV != -99:
             dv = lyaV - vsys_measured
-            print 'lyaV, dv = ',lyaV,dv
+#             print 'lyaV, dv = ',lyaV,dv
         else:
+            print 'else. dv = x'
             dv = 'x'
                 
         # check which 'side' of the galaxy the absorber is found
@@ -474,8 +475,35 @@ def main():
             else:
                 rot_vel = right_vrot_avg
 
+        if name == 'UGC06399':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
                 
-                
+        if name == 'NGC3726':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+
+        if name == 'NGC3067':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+
+        if name == 'NGC2770':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+
+
 #         if az2 > az and impact_Dec >0:
 #             # if az increases when increasing PA, then the target is on the "left" side of
 #             # the galaxy
@@ -509,6 +537,8 @@ def main():
             else:
                 markerColor = 'black'
         else:
+            print 'dv == x :', dv, name
+            print
             markerColor = color_nonDetection
             
 #         if abs(dv - rot_vel) <= 50 or az >= 85.:
@@ -593,7 +623,7 @@ def main():
         markerColorList2.append(c)
         wList2.append(w)
         combinedNameList2.append(name)
-        print 'name - markerColor',name,' - ',c
+#         print 'name - markerColor',name,' - ',c
     
     
 ##########################################################################################
@@ -606,7 +636,7 @@ def main():
     ax = fig.add_subplot(1,1,1)
 #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
 
-
+##########################################################################################
     # plot circles
     def xy(r,phi):
       return r*np.cos(phi), r*np.sin(phi)
@@ -627,15 +657,10 @@ def main():
     
     ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
     ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
-
-    
-#     print 'full RA_targetList2: ',RA_targetList2
-#     print
-#     print
-#     print 'full Dec_targetList2: ',Dec_targetList2
-#     print
     
     ax.scatter(0,0,c='black',marker='*',s=25)
+##########################################################################################
+
     
     # plot the rest
     largestEW = max(wList2)
@@ -661,41 +686,62 @@ def main():
         if markerColorList2[i] == color_yes:
             marker = 'D'
             
-            
         ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList2[i], \
         s=newSizeList[i], marker=marker, edgecolor='black', lw=0.8)
     
     
-    xTagOffset = -35.0
-    yTagOffset = 0.1
-    
-    # put some labels on it
-#     for i in arange(len(combinedNameList2)):
-#         annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-#         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=8)
+#     xTagOffset = -35.0
+#     yTagOffset = 0.1
+    xTagOffset = 2.0
+    yTagOffset = 1.
 
     previousNames = {}
+    counter = 1
     for i in arange(len(combinedNameList2)):
-        print 'newSizeList[i]/50. : ', newSizeList[i]/65.
-        print '(newSizeList[i]/50.)**-1 : ',(newSizeList[i]/65.)**-1
-        print
-        yTagOffset = 4.0 + (newSizeList[i]/65.)**-1
+#         print 'newSizeList[i]/50. : ', newSizeList[i]/65.
+#         print '(newSizeList[i]/50.)**-1 : ',(newSizeList[i]/65.)**-1
+#         yTagOffset = 5.0 + (newSizeList[i]/65.)**-1
         
-        
-#         xTagOffset = newSizeList[i]/50.
-        
+        yTagOffset = 5.0 + (newSizeList[i]/50.)
+        print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
+        print 'yTagOffset: ',yTagOffset
+                
         if not previousNames.has_key(combinedNameList2[i]):
-            annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+            annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+
+            previousNames[combinedNameList2[i]] = counter
+            counter +=1
+        else:
+#             previousNames[combinedNameList2[i]] += 1.
+            pass
+
+##########################################################################################
+    # now the non-detections
+
+    non_size = 10
+    non_marker = 'o'
+    for i in arange(len(markerColorList_non)):
+        ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
+        ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
+
+        yTagOffset = 5.0
+
+        if not previousNames.has_key(combinedNameList_non[i]):
+#             annotate(combinedNameList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+            annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
 
-            previousNames[combinedNameList2[i]] = 1.
+            previousNames[combinedNameList_non[i]] = counter
+            counter +=1
         else:
-            previousNames[combinedNameList2[i]] += 1.
+#             previousNames[combinedNameList_non[i]] += 1.
+            pass
 
-#         print 'previousName: ',previousName
-#         print 'currentName: ',combinedNameList2[i]
-#         print
-#         previousName = combinedNameList2[i]
+##########################################################################################
 
     xlabel(r'$\rm R.A. ~[R_{vir}]$')
     ylabel(r'$\rm Dec. ~[R_{vir}]$')
@@ -731,12 +777,17 @@ def main():
 #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
     yellow_line = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
                               markersize=15, label='Within Uncertainties')
+                              
     red_line = mlines.Line2D([], [], color=color_no, marker='x',lw=0,
                               markersize=15, label=r'$\rm Anti-rotation$')
+                              
     blue_line = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
                               markersize=15, label=r'$\rm Co-rotation$')
                               
-    plt.legend(handles=[yellow_line,red_line,blue_line],loc='lower right')
+    non_legend = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0, markeredgecolor='grey',
+                              markersize=15, markerfacecolor = 'none', label='Non-detection')
+                              
+    plt.legend(handles=[yellow_line,red_line,blue_line, non_legend],loc='lower right')
 
 
         
@@ -749,9 +800,26 @@ def main():
     
     directory = '/Users/frenchd/Research/test/'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}SALT_map_plus.pdf".format(directory),bbox_inches='tight')
+    savefig("{0}SALT_map_plus2.pdf".format(directory),bbox_inches='tight')
 
+    summary_filename = '{0}SALT_map_plus2_summary.txt'.format(directory)
+    summary_file = open(summary_filename,'wt')
 
+#     keys = previousNames.keys()
+#     values = previousNames.values()
+    
+#     reverse_name_dict = {}
+#     for k,v in zip(keys,values):
+#         reverse_name_dict[v] = k
+
+#     for k,v in zip(keys,values):
+#         summary_file.write('{0} : {1}\n'.format(v,k))
+    
+    for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
+        summary_file.write('{0}. {1}, \n'.format(v,k))
+    
+    summary_file.close()
+    
     
 if __name__ == '__main__':
     main()
