@@ -52,7 +52,7 @@ HYDRO? simulations such as those by \cite{stewart2011, stewart2013} suggests tha
 
 Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., \citealt{french2017}, MORE).
 
-To make progress here, we have obtained rotation curves for 12 nearby spiral galaxies which are located within 500 kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. 
+To make progress here, we have obtained rotation curves for 12 nearby spiral galaxies which are located within 500 kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. A literature search yielded an additional 17 galaxies with published rotation curves and known orientations. Each of these is probed by at least one QSO within 500 kpc. 
 
 We have augmented this new sample with additional galaxies with known rotation velocity and orientation from the literature. In Section 2 we describe the selection and reduction of both SALT and COS spectra. We then discuss each galaxy-QSO system in detail in Section 3, and introduce our halo-velocity model for interpreting these systems in Section 4. In Section 5 we discuss the overall results of this exercise and present a physically-motivated interpretation of these results. See Section 6 for a summary of our results and conclusions.
 
@@ -63,9 +63,9 @@ We have augmented this new sample with additional galaxies with known rotation v
 \begin{center}
 \begin{tabular}{l l l l l l l l l l c}
  \hline \hline
-  Target 					& Galaxy				& R.A. 				& Dec. 				& \textit{z}		& Program 	 & Cyl. Vel. Range		& NFW Vel. Range	& $T_{exp}*$	   & S/N*  \\ 
-  	    					& 	       				&	  				& 		  	 		& 		    	& 		  	 & [\kms]	  	   		& [\kms]	     		& [ks]		   & [1238] \\ 
- \scriptsize (1)  				& \scriptsize (2) 		& \scriptsize (3) 		& \scriptsize (4) 		& \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) 		& \scriptsize (8) 	& \scriptsize (9) & \scriptsize (10)  \\ \hline \hline
+  Target 					& Galaxy				& R.A. 				& Dec. 				& \textit{z}		& Program 	 & Cyl. Vel. Range		& NFW Vel. Range	& $T_{exp}*$	   \\ 
+  	    					& 	       				&	  				& 		  	 		& 		    	& 		  	 & [\kms]	  	   		& [\kms]	     		& [ks]		   \\
+ \scriptsize (1)  				& \scriptsize (2) 		& \scriptsize (3) 		& \scriptsize (4) 		& \scriptsize (5) & \scriptsize (6) & \scriptsize  (7) 		& \scriptsize (8) 	& \scriptsize (9)  \\ \hline \hline
 \\
 1H0419-577  				&      NGC1566  		&      04  26  00.7  		&	-57  12  02.0  		&   0.10400  	& 11686		&   [49, 77]			&   [-2, 31]			& 20429	\\
 HE0429-5343  				&      NGC1566  		&      04  30  40.0  		&	-53  36  56.0 		&   0.04001  	& 12275		&   [-54, -2]			&   [-22, 17]  		& 2067	\\
@@ -82,7 +82,7 @@ HE1228+0131  				&      NGC4536  		&      12  30  50.0  		&	+01  15  23.0  		&  
 PG1302-102  				&      NGC4939  		&      13  05  33.0  		&	-10  33  19.0  		&   0.27840  	& 12038		&   [-219, 14]			&   [-119, 36]  		& 5979	\\
 SDSSJ135726.27+043541.4  	&	NGC5364  		&      13  57  26.3  		&	+04  35  41.0  		&   1.23453  	& 12264		&   [-38, 123]			&   [-41, 80]  		& 14148	\\
 QSO1500-4140  			&      NGC5786  		&      15  03  34.0  		&	-41  52  23.0  		&   0.33500  	& 11659		&   [120, 175]			&   [26, 69]  		& 9258	\\
-SDSSJ151237.15+012846.0  	& 	UGC09760  		&      15  12  37.2  		&	+01  28  46.0  		&   0.26625  	& 12603		&   [-30, 30]			&   [-30, 95]  		& 7590	\\
+SDSSJ151237.15+012846.0  	& 	UGC09760  		&      15  12  37.2  		&	+01  28  46.0  		&   0.26625  	& 12603		&   [-30, 30]			&   [-30,86]  		& 7590	\\
 RBS1768  				&      ESO343-G014  	&   	21  38  49.9  		&	-38  28  40.0  		&   0.18299  	& 12936		&   [-203, 10]			&   [-122, 30]  		& 6962	\\
 MRC2251-178  			&      MCG-03-58-009  	& 	22  54  05.9  		&	-17  34  55.0  		&   0.06609  	& 12029		&   [-52, 166]			&   [-61, 110]  		& 5515	\\
 RBS2000  				&      IC5325  			&      23  24  44.7  		&	-40  40  49.0  		&   0.17359  	& 13448		&   [-46, 5]				&   [-24, 17]  		& 5046	\\
@@ -126,9 +126,11 @@ SDSSJ091127.30+325337.0	&	NGC2770			&	09 11 27.3			&	+32 53 37.0		&   0.29038	& 
 TON1009					&	NGC2770			&	09 09 06.2		&	+32 36 30.0		&   0.81028	& 12603		&   [-146, -39]			&   [-125, -20]		&  4740	\\
 TON1015					&	NGC2770			&	09 10 37.0		&	+33 29 24.0		&   0.35400	& 14240		&   [3, 146]			&   [-7, 130]		&  4774	\\
 
-CSO295					&	NGC3432			&	10 52 05.6		&	+36 40 40.0		&   0.60900	& 14772		&   					&   				&  1088	\\
-MS1047.3+3518			&	NGC3432			&	10 50 10.9		&	+35 02 02.0		&   0.04125	& 8316		&   					&   				&  8301	\\
-RX_J1054.2+3511			&	NGC3432			&	10 54 16.2		&	+35 11 24.0		&   0.20300	& 14772		&   					&   				&  533	\\
+CSO295					&	NGC3432			&	10 52 05.6		&	+36 40 40.0		&   0.60900	& 14772		&   [-37, 48]			&   [-37, 134]		&  1088	\\
+MS1047.3+3518			&	NGC3432			&	10 50 10.9		&	+35 02 02.0		&   0.04125	& 8316		&   [35, 124]			&   [19, 109]		&  8301	\\
+RX\_J1054.2+3511			&	NGC3432			&	10 54 16.2		&	+35 11 24.0		&   0.20300	& 14772		&   [0, 123]			&   [-9, 111]		&  533	\\
+
+
 
  \\
 \hline
@@ -746,15 +748,17 @@ Toward the northeast on the receding side they are the following: TON1015 at 218
 
 
 \subsection{NGC3432}
-$V_{sys} = 616$ \kms. Interacting with the nearby dwarf galaxy UGC05983 located 11 kpc away and at $V_{sys} = 765$ \kms. \cite{rhee1996}. \\
+NGC3432 is an edge-on SB(s)m type galaxy at $V_{sys} = 616$ \kms. It is interacting with the nearby dwarf galaxy UGC05983 located 11 kpc away and at $V_{sys} = 765$ \kms. We take a rotation curve and orientation for NGC3432 from \cite{rhee1996}. The quasar CSO295 is located just 20 kpc away and just to the receding side of the minor axis. This is the second closest pair in our sample, after the 11 kpc separated NGC3067-3C232 system. We detect Ly$\alpha$ toward CSO295 at 600 and 662 \kms. Both of these lines fall well within our expected range for co-rotation ([-37, 134] \kms~for an NFW halo). This would represent the lower-velocity cloud existing toward the near-edge of the halo and the higher velocity cloud lying very close to the plane of the stellar disk.
 
-Inclination: 78 \\ 
-Adjusted Inc: 90 \\ 
-Morphology: SB(s)m \\ 
-$L_{\**}$ = 0.42 \\
-SW is receding \\
+\\
 
-CSO295 at 20 kpc, 82 az (Lya 600, 662) \\ 
+%Inclination: 78 \\ 
+%Adjusted Inc: 90 \\ 
+%Morphology: SB(s)m \\ 
+%$L_{\**}$ = 0.42 \\
+%SW is receding \\
+
+CSO295 at 20 kpc, 82 az (Lya 600, 662), [-37, 134]NFW \\ 
 RX\_J1054.2+3511 at 290 kpc, 57 az (Looks like a feature around 600 \kms~but no ID?) \\
 MS1047.3+3518 at 326 kpc, 26 az (low SN, not ID'd, possible feature?) \\
 SDSSJ110349.70+371527.0 (low res only) \\
@@ -1081,8 +1085,6 @@ SBS1304+594 at 235 kpc, 15 az (no lines, low SN) \\
 %NGC7793 - 230kms - too close
 
 
-
-%2) a spherical halo extending 2$R_{vir}$ in radius, and 3) a cylindrical model extending 1$R_{vir}$ in height and 2$R_{vir}$ in radius with rotation velocities which smoothly decline to systemic towards these boundaries.
 
 
 

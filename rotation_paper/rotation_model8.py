@@ -302,7 +302,7 @@ def main():
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-#     galaxyName = 'NGC3633'
+    galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -321,7 +321,7 @@ def main():
 #     galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
 #     galaxyName = 'NGC2770'
-    galaxyName = 'NGC3432'
+#     galaxyName = 'NGC3432'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -449,9 +449,9 @@ def main():
 
         
         # NGC3633
-#         flipInclination = False
-#         reverse = False
-#         agnName = 'SDSSJ112005.00+041323.0'
+        flipInclination = False
+        reverse = False
+        agnName = 'SDSSJ112005.00+041323.0'
 #         agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
@@ -464,27 +464,27 @@ def main():
 
 
         # NGC4939
-#         flipInclination = True
+#         flipInclination = False
 #         reverse = True
 #         agnName = 'PG1302-102'
 
 
         # NGC5364
-#         flipInclination = True
-#         # reverse for 2x3R_vir, not reverse for NFW
+#         flipInclination = False
+        # reverse for 2x3R_vir, not reverse for NFW
 #         reverse = True
 #         agnName = 'SDSSJ135726.27+043541.4'
 
         
         # NGC5786
-#         flipInclination = False
-#         reverse = True
+#         flipInclination = True
+#         reverse = False
 #         agnName = 'QSO1500-4140'
         
         
         # UGC09760
-#         flipInclination = False
-        # not reverse for 2x3R_vir, reverse for NFW
+#         flipInclination = True
+        # reverse for 2x3R_vir, not reverse for NFW
 #         reverse = True
 #         agnName = 'SDSSJ151237.15+012846.0'
 
@@ -586,11 +586,11 @@ def main():
 
 
         # NGC3432
-        flipInclination = True
+#         flipInclination = True
         # reverse for NFW, not for 2x3R_vir
-        reverse = True
+#         reverse = True
 #         agnName = 'MS1047.3+3518'
-        agnName = 'CSO295'
+#         agnName = 'CSO295'
 #         agnName = 'RX_J1054.2+3511'
 
 
@@ -724,7 +724,7 @@ def main():
 #         r200 = R_vir
         
 
-        # tighter bounds (e.g., for UGC04238)
+        # tighter bounds (e.g., for UGC04238, UGC09760)
 #         r200_lowerbound = 10
 #         r200_upperbound = 250
 #         v200_lowerbound = 10
@@ -1124,8 +1124,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 2
-    rcutoffm = 3
+    zcutoffm = 3
+    rcutoffm = 4
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -1256,7 +1256,9 @@ def main():
 ##########################################################################################
 
     # how big to make the plot boundary?
-    plotExtent = round(3*R_vir,-1)
+#     plotExtent = round(3*R_vir,-1)
+    plotExtent = round(1.5*rcutoff,-1)
+
     
     if plotExtent < 400.:
         plotExtent = 400.
