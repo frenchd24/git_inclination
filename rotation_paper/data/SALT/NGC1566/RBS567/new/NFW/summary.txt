@@ -1,0 +1,9 @@
+Galaxy name: NGC1566
+Target name: RBS567
+flipInclination: True
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [-5.92733420182, -4.30654954164]
+Allowed X-velocity range: [-16.2623759174, 14.2621433727]
+Combined velocity range: [-22.1897101192, 9.95559383103]

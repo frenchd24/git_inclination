@@ -296,13 +296,15 @@ def plot_NFW(xData, yData, popt, x_lim):
 def main():
     hubbleConstant = 71.0
     fit_NFW = False
+    extendedHalo = False
+
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
-#     galaxyName = 'MCG-03-58-009'
+    galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-    galaxyName = 'NGC3633'
+#     galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -325,7 +327,6 @@ def main():
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
-
 
 ##########################################################################################
     # get the data
@@ -426,14 +427,16 @@ def main():
         
         
         # MCG-03-58-009
-#         flipInclination = False
-#         reverse = True
-#         agnName = 'MRC2251-178'
+        flipInclination = False
+        reverse = True
+        agnName = 'MRC2251-178'
         
         
         # NGC1566
 #         flipInclination = True
-#         reverse = True
+#         reverse = False
+        # extendedHalo for HE0439-5254, RBS567
+#         extendedHalo = True
 #         agnName = 'HE0439-5254'
 #         agnName = 'HE0435-5304'
 #         agnName = 'RBS567'
@@ -442,17 +445,17 @@ def main():
 
 
         # NGC3513
-#         flipInclination = True
+#         flipInclination = False
         # reverse true for NFW, false for cylindrical
-#         reverse = False
+#         reverse = True
 #         agnName = 'H1101-232'
 
         
         # NGC3633
-        flipInclination = False
-        reverse = False
+#         flipInclination = False
+#         reverse = False
 #         agnName = 'SDSSJ112005.00+041323.0'
-        agnName = 'RX_J1121.2+0326'
+#         agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
 
@@ -826,6 +829,8 @@ def main():
             vels.reverse()
             
         splineKind = 'linear'
+#         splineKind = 'cubic'
+
         
         fit = interp1d(xvals, vels, kind=splineKind)
     
@@ -1125,8 +1130,13 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 2
-    rcutoffm = 3
+    if extendedHalo:
+        zcutoffm = 3
+        rcutoffm = 4
+    else:
+        zcutoffm = 2
+        rcutoffm = 3
+        
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print
@@ -1328,6 +1338,10 @@ def main():
 #         v_proj_dif = max(v_proj_list) - min(v_proj_list)
         tick_num = 10
         tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,2)
+        
+        if tick_spacing == 0.0:
+            tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,4)
+
         print 'tick_spacing: ',tick_spacing
         print 'max(v_proj_list): ',max(v_proj_list)
         print 'min(v_proj_list): ',min(v_proj_list)
