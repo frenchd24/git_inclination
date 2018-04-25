@@ -295,7 +295,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = True
+    fit_NFW = False
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
@@ -451,8 +451,8 @@ def main():
         # NGC3633
         flipInclination = False
         reverse = False
-        agnName = 'SDSSJ112005.00+041323.0'
-#         agnName = 'RX_J1121.2+0326'
+#         agnName = 'SDSSJ112005.00+041323.0'
+        agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
 
@@ -565,6 +565,7 @@ def main():
 #         reverse = True
 #         agnName = 'CSO1208'
 #         agnName = 'RX_J1142.7+4625'
+
 
         # NGC3067
 #         flipInclination = False
@@ -1124,8 +1125,8 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now loop through layers of galaxy planes
-    zcutoffm = 3
-    rcutoffm = 4
+    zcutoffm = 2
+    rcutoffm = 3
     zcutoff = zcutoffm * R_vir
     print 'zcutoff: ',zcutoff
     print

@@ -521,7 +521,8 @@ def main():
         # now compare to the rotation velocity
         color_yes = '#1b9e77'    # greenish
         color_no = '#d95f02'     # orange
-        color_maybe = '#7570b3'  # blue-ish purple
+#         color_maybe = '#7570b3'  # blue-ish purple
+        color_maybe = 'grey'
         color_nonDetection = 'grey'
         markerColor = 'black'
         
@@ -687,7 +688,7 @@ def main():
             marker = 'D'
             
         ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList2[i], \
-        s=newSizeList[i], marker=marker, edgecolor='black', lw=0.8)
+        s=newSizeList[i], marker=marker, edgecolor='black', lw=0.6)
     
     
 #     xTagOffset = -35.0
