@@ -295,8 +295,9 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = False
+    fit_NFW = True
     extendedHalo = False
+    diskOnly = False
 
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
@@ -320,11 +321,11 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-#     galaxyName = 'NGC3726'
+    galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
 #     galaxyName = 'NGC2770'
 #     galaxyName = 'NGC3432'
-    galaxyName = 'NGC3666'
+#     galaxyName = 'NGC3666'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -566,10 +567,11 @@ def main():
 
 
         # NGC3726
-#         flipInclination = True
-#         reverse = True
+        flipInclination = True
+        reverse = True
+        NFW_fit = 'standard'
 #         agnName = 'CSO1208'
-#         agnName = 'RX_J1142.7+4625'
+        agnName = 'RX_J1142.7+4625'
 
 
         # NGC3067
@@ -601,12 +603,13 @@ def main():
 
 
         # NGC3666
-        flipInclination = True
+#         flipInclination = True
         # reverse for NFW, not for 2x3R_vir
-        reverse = False
+#         reverse = True
+#         NFW_fit = 'tighter'
 #         agnName = 'SDSSJ112439.50+113117.0'
 #         agnName = 'SDSSJ112632.90+120437.0'
-        agnName = 'SDSSJ112756.70+115427.0'
+#         agnName = 'SDSSJ112756.70+115427.0'
 
 
         # grab the coordinates for this target
@@ -712,7 +715,6 @@ def main():
         r200 = R_vir
         print 'r200: ',r200
         
-
         r200_lowerbound = 10
         r200_upperbound = 350
         v200_lowerbound = 10
@@ -721,29 +723,46 @@ def main():
         c_upperbound = 35
         
         # slightly tighter (e.g., for NGC2770)
-#         r200_lowerbound = 10
-#         r200_upperbound = 250
-#         v200_lowerbound = 10
-#         v200_upperbound = 130
-#         c_lowerbound = 1
-#         c_upperbound = 35
-#         
-#         v200 = 50
-#         c = 10
-#         r200 = R_vir
+        if NFW_fit == 'tight':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 130
+            c_lowerbound = 1
+            c_upperbound = 35
+        
+            v200 = 50
+            c = 10
+            r200 = R_vir
         
 
         # tighter bounds (e.g., for UGC04238, UGC09760)
-#         r200_lowerbound = 10
-#         r200_upperbound = 250
-#         v200_lowerbound = 10
-#         v200_upperbound = 90
-#         c_lowerbound = 1
-#         c_upperbound = 35
-#         
-#         v200 = 50
-#         c = 10
-#         r200 = R_vir
+        if NFW_fit == 'tighter':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 110
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+
+
+        # tighter bounds (e.g., for UGC04238, UGC09760)
+        if NFW_fit == 'tightest':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 90
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+            
         
         try:
             popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
@@ -1005,6 +1024,10 @@ def main():
         s = 0.01
     else:
         s = 0.0001
+        
+    if diskOnly:
+        zcutoff = 0.1
+        s = 0.1
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
