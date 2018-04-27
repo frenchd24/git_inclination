@@ -509,6 +509,21 @@ def main():
                 rot_vel = left_vrot_avg
             else:
                 rot_vel = right_vrot_avg
+                
+        if name == 'NGC3666':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
+        if name == 'NGC5951':
+            # reverse
+            if impact_RA_vir < 0:
+                rot_vel = left_vrot_avg
+            else:
+                rot_vel = right_vrot_avg
+                
 
 
 #         if az2 > az and impact_Dec >0:

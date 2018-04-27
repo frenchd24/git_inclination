@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id:  rotation_model5.py, v6.0 3/28/18
+$Id:  rotation_model8.py, v8.0 4/27/18
 
 v2: Calculate AGN position from coordinates. (1/30/18)
 
@@ -14,6 +14,12 @@ v4: Make a movie of the sightline piercing the halo (2/09/18)
 v5: general updates
 
 v6: add NFW profile fitting (03/28/18)
+
+v7: don't remember
+
+v8: Total rewrite. Rotates a single normal vector now to deal with orientation, works 
+    much better. Also added summary files, removed some outdated stuff and added more 
+    comments. (04/27/18)
 
 '''
 
@@ -295,8 +301,15 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = True
+    
+    # fit an NFW profile to the rotation curve and use that? Otherwise it takes the maximal
+    # rotation value and extends it forever. NFW decreases with distance
+    fit_NFW = False
+    
+    # Makes the halo 3x4 R_vir if true. 2x3R_vir if false
     extendedHalo = False
+    
+    # only us the plane of the galaxy (no z-direction, or height, to the disk)
     diskOnly = False
 
 #     galaxyName = 'CGCG039-137'
@@ -321,11 +334,14 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-    galaxyName = 'NGC3726'
+#     galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
 #     galaxyName = 'NGC2770'
 #     galaxyName = 'NGC3432'
 #     galaxyName = 'NGC3666'
+#     galaxyName = 'NGC5951'
+#     galaxyName = 'NGC7817'
+    galaxyName = 'UGC08146'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -405,9 +421,17 @@ def main():
         print 'AGN: ',agn
         print
 
+        
 
-
-        # which agn do you want to target?
+        # which agn do you want to target? Also decide here if you want to mirror around
+        # the inclination axis (i.e., so the galaxy is "facing" left vs right for PA=0)
+        # 
+        # reverse = True to reverse the rotation direction
+        #
+        # NFW_fit decides how tightly to bound the NFW profile fit. 
+        # Options are: standard, tight, tighter, tightest, tightester
+        
+        NFW_fit = "standard"
 
         # CGCG039-137
 #         flipInclination = False
@@ -567,11 +591,11 @@ def main():
 
 
         # NGC3726
-        flipInclination = True
-        reverse = True
-        NFW_fit = 'standard'
+#         flipInclination = True
+#         reverse = True
+#         NFW_fit = 'standard'
 #         agnName = 'CSO1208'
-        agnName = 'RX_J1142.7+4625'
+#         agnName = 'RX_J1142.7+4625'
 
 
         # NGC3067
@@ -611,6 +635,27 @@ def main():
 #         agnName = 'SDSSJ112632.90+120437.0'
 #         agnName = 'SDSSJ112756.70+115427.0'
 
+
+        # NGC5951
+#         flipInclination = False
+#         reverse = True
+#         NFW_fit = 'standard'
+#         agnName = '2E1530+1511'
+
+
+        # NGC7817
+#         flipInclination = True
+#         # reverse for NFW, not for 2x3R_vir
+#         reverse = True
+#         NFW_fit = 'standard'
+#         agnName = 'MRK335'
+        
+        
+        # UGC08146
+        flipInclination = False
+        reverse = True
+        NFW_fit = 'tightester'
+        agnName = 'PG1259+593'
 
         # grab the coordinates for this target
         RA_target = agn[agnName]['RAdeg']
@@ -682,19 +727,6 @@ def main():
             xData1.append(x)
             yData1.append(v)
         
-#             print 'x: ',x
-#             
-#             if x <0:
-#                 xData2.append(x*-1)
-#                 x =x*-1
-#         
-#             if v <0:
-#                 yData2.append(v*-1)
-#                 v =v*-1
-#         
-#             
-#             newX.append(x)
-#             newVals.append(v)
             
             newX.append(abs(x))
             newVals.append(abs(v))
@@ -750,12 +782,25 @@ def main():
             r200 = R_vir
 
 
-        # tighter bounds (e.g., for UGC04238, UGC09760)
+        # tightest bounds (e.g., for UGC04238, UGC09760)
         if NFW_fit == 'tightest':
             r200_lowerbound = 10
             r200_upperbound = 250
             v200_lowerbound = 10
             v200_upperbound = 90
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+            
+        # more than tightest bounds (e.g., for UGC08146)
+        if NFW_fit == 'tightester':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 80
             c_lowerbound = 1
             c_upperbound = 35
             
@@ -937,27 +982,6 @@ def main():
     dsvfinal_list = []
     
     
-#     do some shit that is currently irrevelant
-#     zcutoff = 100
-#     lcutoff = 700
-#      R_vir = 300
-#     verbose = True
-#    
-#     maxAngle = int(math.acos(impact/lcutoff) * 180./math.pi)
-#     print 'maxAngle with lcutoff: ',maxAngle
-#     maxAngle = 80
-#     print 'maxAngle: ',maxAngle
-#    
-# 
-#     l is the radial component of the sightline's impact parameter
-#     l = impact * math.cos(az * math.pi/180.)
-#     print 'l: ',l
-# 
-#    
-#     z is the 'height' above the disk component of impact
-#     z = impact * math.sin(az * math.pi/180.)
-#     print 'z: ',z
-    
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
@@ -1022,6 +1046,8 @@ def main():
         s = 0.1
     elif inc <=80:
         s = 0.01
+    elif inc <= 87:
+        s = 0.005
     else:
         s = 0.0001
         
@@ -1356,7 +1382,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
-#         if i == 5:
+#         if i == 2:
 #             show()
     
     
@@ -1392,7 +1418,8 @@ def main():
     summary_file.write('\n')
     summary_file.write('Allowed X-velocity range: [{0}, {1}]'.format(min(intersect_v_list),max(intersect_v_list)))
     
-    
+    # this part sums the x and y velocities. For example, if you're at -10 km/s along the 
+    # sightline and the measured velocity is -10, the velocity at that point is -20 km/s.
     totals = []
     for x, y in zip(intersect_v_list, v_proj_list):
         totals.append(x+y)
