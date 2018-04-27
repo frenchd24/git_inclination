@@ -295,13 +295,14 @@ def plot_NFW(xData, yData, popt, x_lim):
     
 def main():
     hubbleConstant = 71.0
-    fit_NFW = False
+    fit_NFW = True
     extendedHalo = False
+    diskOnly = False
 
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
-    galaxyName = 'MCG-03-58-009'
+#     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
 #     galaxyName = 'NGC3633'
@@ -320,10 +321,11 @@ def main():
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
 #     galaxyName = 'UGC06399'
-#     galaxyName = 'NGC3726'
+    galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
 #     galaxyName = 'NGC2770'
 #     galaxyName = 'NGC3432'
+#     galaxyName = 'NGC3666'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -427,9 +429,10 @@ def main():
         
         
         # MCG-03-58-009
-        flipInclination = False
-        reverse = True
-        agnName = 'MRC2251-178'
+#         flipInclination = False
+        # reverse for 2x3R_vir, not for NFW
+#         reverse = False
+#         agnName = 'MRC2251-178'
         
         
         # NGC1566
@@ -564,10 +567,11 @@ def main():
 
 
         # NGC3726
-#         flipInclination = True
-#         reverse = True
+        flipInclination = True
+        reverse = True
+        NFW_fit = 'standard'
 #         agnName = 'CSO1208'
-#         agnName = 'RX_J1142.7+4625'
+        agnName = 'RX_J1142.7+4625'
 
 
         # NGC3067
@@ -598,6 +602,15 @@ def main():
 #         agnName = 'RX_J1054.2+3511'
 
 
+        # NGC3666
+#         flipInclination = True
+        # reverse for NFW, not for 2x3R_vir
+#         reverse = True
+#         NFW_fit = 'tighter'
+#         agnName = 'SDSSJ112439.50+113117.0'
+#         agnName = 'SDSSJ112632.90+120437.0'
+#         agnName = 'SDSSJ112756.70+115427.0'
+
 
         # grab the coordinates for this target
         RA_target = agn[agnName]['RAdeg']
@@ -611,12 +624,7 @@ def main():
     vels = vrot_incCorrected_vals
     xvals = deepcopy(xVals)
     vsys = vsys_measured
-    
-#     vels2 = [float(i) for i in vels]
-#     xvals2 = [float(i) for i in xvals]
-# 
-#     vels = vels2
-#     xvals = xvals2
+
 
 
     # this works for all positive xvals
@@ -707,7 +715,6 @@ def main():
         r200 = R_vir
         print 'r200: ',r200
         
-
         r200_lowerbound = 10
         r200_upperbound = 350
         v200_lowerbound = 10
@@ -716,29 +723,46 @@ def main():
         c_upperbound = 35
         
         # slightly tighter (e.g., for NGC2770)
-#         r200_lowerbound = 10
-#         r200_upperbound = 250
-#         v200_lowerbound = 10
-#         v200_upperbound = 130
-#         c_lowerbound = 1
-#         c_upperbound = 35
-#         
-#         v200 = 50
-#         c = 10
-#         r200 = R_vir
+        if NFW_fit == 'tight':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 130
+            c_lowerbound = 1
+            c_upperbound = 35
+        
+            v200 = 50
+            c = 10
+            r200 = R_vir
         
 
         # tighter bounds (e.g., for UGC04238, UGC09760)
-#         r200_lowerbound = 10
-#         r200_upperbound = 250
-#         v200_lowerbound = 10
-#         v200_upperbound = 90
-#         c_lowerbound = 1
-#         c_upperbound = 35
-#         
-#         v200 = 50
-#         c = 10
-#         r200 = R_vir
+        if NFW_fit == 'tighter':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 110
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+
+
+        # tighter bounds (e.g., for UGC04238, UGC09760)
+        if NFW_fit == 'tightest':
+            r200_lowerbound = 10
+            r200_upperbound = 250
+            v200_lowerbound = 10
+            v200_upperbound = 90
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+            
         
         try:
             popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
@@ -850,116 +874,6 @@ def main():
         fig.savefig("{0}{1}_splineFit_{2}.jpg".format(saveDirectory,galaxyName,splineKind),dpi=300,bbox_inches='tight')
         
 ##########################################################################################
-    # impact = impact parameter
-    # az = azimuth
-    # inc = inclination (adjustedInc)
-
-#     CGCG039-137
-#     target = 'RX_J1121.2+0326'
-#     RA_target = agn[target]['RAdeg']
-#     Dec_target = agn[target]['DEdeg']
-#     
-#     RA_galaxy = 170.36231
-#     Dec_galaxy = 3.44491
-#     dist = 101.21
-#     majDiam = 26.35
-#     
-#     impact = 98.9
-#     R_vir = 166.09
-#     az = 71.
-#     inc = 63.
-#     PA = 157.
-#     
-#     ESO343-G014
-#     target = 'RBS1768'
-#     RA_target = 324.7079167
-#     Dec_target = -38.47777778
-#     
-#     RA_galaxy = 324.43825
-#     Dec_galaxy = -38.49256
-#     dist = 126.07
-#     majDiam = 45.23
-#     
-#     impact = 465.6
-#     az = 74.
-#     inc = 89.9
-#     PA = 158.
-#     
-#     IC5325
-#     target = 'RBS2000'
-#     RA_target = 351.18625
-#     Dec_target = -40.68027778
-#     
-#     RA_galaxy = 352.18096
-#     Dec_galaxy = -41.33347
-#     dist = 18.1
-#     majDiam = 20.45
-#     
-#     impact = 314.335827
-#     az = 64.1
-#     inc = 25.
-#     PA = 15.
-#     
-#     MCG-03-58-009
-#     target = 'MRC2251-178'
-#     RA_target = 343.5245833
-#     Dec_target = -17.58194444
-#     
-#     RA_galaxy = 343.42021
-#     Dec_galaxy = -17.47889
-#     dist = 142.
-#     majDiam = 75.31
-#     
-#     impact = 355.0699641
-#     az = 71.
-#     inc = 49.
-#     PA = 27.
-#     
-#     NGC1566
-#     target = '1H0419-577'
-#     RA_target = 66.50291667
-#     Dec_target = -57.20055556
-#     
-#     RA_galaxy = 65.00175
-#     Dec_galaxy = -54.93781
-#     dist = 7.19
-#     majDiam = 15.34
-#     
-#     impact = 302.77587
-#     az = 9.8
-#     inc = 48.
-#     PA = 170.
-# 
-#     NGC1566
-#     target = 'HE0429-5343'
-#     RA_target = 67.66666667
-#     Dec_target = -53.61555556
-#     
-#     RA_galaxy = 65.00175
-#     Dec_galaxy = -54.93781
-#     dist = 7.19
-#     majDiam = 15.34
-#     
-#     impact = 256.2063291
-#     az = 60.1
-#     inc = 48.
-#     PA = 170.
-# 
-#     NGC1566
-#     target = 'RBS567'
-#     RA_target = 69.91125
-#     Dec_target = -53.19194444
-#     
-#     RA_galaxy = 65.00175
-#     Dec_galaxy = -54.93781
-#     dist = 7.19
-#     majDiam = 15.34
-#     
-#     impact = 422.6192722
-#     az = 69.3
-#     inc = 48.
-#     PA = 170.
-
     
     # calculate impact parameter and shit
     impact = calculateImpactParameter(RA_galaxy,Dec_galaxy,RA_target,Dec_target,dist)
@@ -989,9 +903,7 @@ def main():
         
     if RA_target > RA_galaxy:
         impact_RA = -impact_RA
-        
-#     impact_RA -= 30.
-    
+            
     
     print
     print 'impact: ',impact
@@ -1025,26 +937,26 @@ def main():
     dsvfinal_list = []
     
     
-    # do some shit that is currently irrevelant
-    zcutoff = 100
-    lcutoff = 700
-#     R_vir = 300
-    verbose = True
-    
-    maxAngle = int(math.acos(impact/lcutoff) * 180./math.pi)
-    print 'maxAngle with lcutoff: ',maxAngle
-    maxAngle = 80
-    print 'maxAngle: ',maxAngle
-    
-
-    # l is the radial component of the sightline's impact parameter
-    l = impact * math.cos(az * math.pi/180.)
-    print 'l: ',l
-
-    
-    # z is the 'height' above the disk component of impact
-    z = impact * math.sin(az * math.pi/180.)
-    print 'z: ',z
+#     do some shit that is currently irrevelant
+#     zcutoff = 100
+#     lcutoff = 700
+#      R_vir = 300
+#     verbose = True
+#    
+#     maxAngle = int(math.acos(impact/lcutoff) * 180./math.pi)
+#     print 'maxAngle with lcutoff: ',maxAngle
+#     maxAngle = 80
+#     print 'maxAngle: ',maxAngle
+#    
+# 
+#     l is the radial component of the sightline's impact parameter
+#     l = impact * math.cos(az * math.pi/180.)
+#     print 'l: ',l
+# 
+#    
+#     z is the 'height' above the disk component of impact
+#     z = impact * math.sin(az * math.pi/180.)
+#     print 'z: ',z
     
 ##########################################################################################
 ##########################################################################################
@@ -1074,50 +986,7 @@ def main():
     
     normal = N_inc_pa
     origin = np.array([0.,0.,0.])
-    
-#     majorTheta = (180. - PA) * math.pi/180.
-#     majorPhi = (90.) * math.pi/180.
-#     majorR = 1.
 
-#     majorTheta = (180. - PA) * math.pi/180.
-#     majorPhi = (effectiveInc) * math.pi/180.
-#     majorR = 1.
-#     p1_x = majorR * math.sin(majorTheta) * math.cos(majorPhi)
-#     p1_y = majorR * math.sin(majorTheta) * math.sin(majorPhi)
-#     p1_z = majorR * math.cos(majorTheta)
-#     p1 = np.array([p1_x, p1_y, p1_z])
-#     print 'p1: ',p1
-#     print
-    
-    
-#     minorTheta = 90. * math.pi/180
-#     minorTheta = (180. - PA + 90.) * math.pi/180.
-#     minorPhi = (effectiveInc) * math.pi/180.
-#     minorR = 1.
-
-    
-#     p2_x = minorR * math.sin(minorTheta) * math.cos(minorPhi)
-#     p2_y = minorR * math.sin(minorTheta) * math.sin(minorPhi)
-#     p2_z = minorR * math.cos(minorTheta)
-    
-#     p2 = np.array([p2_x, p2_y, p2_z])
-#     print 'p2: ',p2
-#     print
-# 
-#     p_z = 0.
-#     p_y = 0.
-#     p_z = 0.
-#     p = np.array([p_z, p_y, p_z])
-#     
-#     pp1 = p1 - p
-#     pp2 = p2 - p
-    
-    
-    # define the normal
-#     N = np.cross(pp2,pp1,axisa=0, axisb=0, axisc=0)
-#     N = N / np.linalg.norm(N)
-#     print 'N:' ,N
-#     print
     
     # Define ray -> [0,RA_dif,Dec_dif]
     rayDirection = np.array([1, 0, 0])
@@ -1155,6 +1024,10 @@ def main():
         s = 0.01
     else:
         s = 0.0001
+        
+    if diskOnly:
+        zcutoff = 0.1
+        s = 0.1
     
 #     for i in arange(-zcutoff,zcutoff,.1):
 #     for i in arange(-99,-97.5,.0005):
@@ -1505,12 +1378,10 @@ def main():
     
 ##########################################################################################
 ##########################################################################################
-
+    # write out a summary txt file
+    
     summary_file = open(directory+'summary.txt','wt')
-#         summary_file.write('Sightline X-velocities: {0}'.format(intersect_v_list))
-#         summary_file.write('\n')
-#         summary_file.write('Sightline Y-velocities: {0}'.format(v_proj_list))
-#         summary_file.write('\n')
+    
     summary_file.write('Galaxy name: {0}\n'.format(galaxyName))
     summary_file.write('Target name: {0}\n'.format(agnName))
     summary_file.write('flipInclination: {0}\n'.format(flipInclination))
@@ -1520,6 +1391,7 @@ def main():
     summary_file.write('Allowed Y-velocity range: [{0}, {1}]'.format(min(v_proj_list),max(v_proj_list)))
     summary_file.write('\n')
     summary_file.write('Allowed X-velocity range: [{0}, {1}]'.format(min(intersect_v_list),max(intersect_v_list)))
+    
     
     totals = []
     for x, y in zip(intersect_v_list, v_proj_list):
@@ -1538,7 +1410,6 @@ def main():
     summary_file.write('\n')
     
     summary_file.close()
-    
     
     
 if __name__ == '__main__':
