@@ -304,7 +304,7 @@ def main():
     
     # fit an NFW profile to the rotation curve and use that? Otherwise it takes the maximal
     # rotation value and extends it forever. NFW decreases with distance
-    fit_NFW = False
+    fit_NFW = True
     
     # Makes the halo 3x4 R_vir if true. 2x3R_vir if false
     extendedHalo = False
@@ -340,8 +340,8 @@ def main():
 #     galaxyName = 'NGC3432'
 #     galaxyName = 'NGC3666'
 #     galaxyName = 'NGC5951'
-#     galaxyName = 'NGC7817'
-    galaxyName = 'UGC08146'
+    galaxyName = 'NGC7817'
+#     galaxyName = 'UGC08146'
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
@@ -644,18 +644,18 @@ def main():
 
 
         # NGC7817
-#         flipInclination = True
+        flipInclination = True
 #         # reverse for NFW, not for 2x3R_vir
-#         reverse = True
-#         NFW_fit = 'standard'
-#         agnName = 'MRK335'
+        reverse = True
+        NFW_fit = 'standard'
+        agnName = 'MRK335'
         
         
         # UGC08146
-        flipInclination = False
-        reverse = True
-        NFW_fit = 'tightester'
-        agnName = 'PG1259+593'
+#         flipInclination = False
+#         reverse = True
+#         NFW_fit = 'tightester'
+#         agnName = 'PG1259+593'
 
         # grab the coordinates for this target
         RA_target = agn[agnName]['RAdeg']
@@ -1015,7 +1015,7 @@ def main():
     # Define ray -> [0,RA_dif,Dec_dif]
     rayDirection = np.array([1, 0, 0])
 
-    rayPoint = np.array([0, impact_RA, impact_Dec])
+    rayPoint = np.array([0, impact_RA+20, impact_Dec])
     print 'rayPoint: ',rayPoint
     print
 

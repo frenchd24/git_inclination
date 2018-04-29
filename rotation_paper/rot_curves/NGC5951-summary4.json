@@ -68,6 +68,8 @@
     "DEdeg": 15.00728,
     "majDiam": 23.54,
     "PA": 0.0,
+    "Lstar": 1.4,
+    "e_Lstar": 1.1,
     "vrot_observed": [
     ],
     "left_vrot_avg_err": -99,
