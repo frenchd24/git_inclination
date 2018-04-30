@@ -122,8 +122,8 @@ def get_data(filename):
   
 #         vrot_vals = data['vrot_vals']
 #         vrot_incCorrected_vals = data['vrot_incCorrected_vals']
-#         right_vrot_incCorrected_avg = data['right_vrot_incCorrected_avg']
-#         left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
+        right_vrot_incCorrected_avg = data['right_vrot_incCorrected_avg']
+        left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
 
         right_vrot_avg = data['right_vrot_avg']
         left_vrot_avg = data['left_vrot_avg']
@@ -137,9 +137,15 @@ def get_data(filename):
         dist = data['dist']
         majDiam = data['majDiam']
         PA = data['PA']
+
+        Lstar = data['Lstar']
+        e_Lstar = data['e_Lstar']
+        
+#         print "Lstar: ", Lstar, "type(Lstar): ",type(Lstar)
+    
 #         agn = data['agn']
         
-        return vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam
+        return vsys_measured, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar
         
 
 
@@ -213,14 +219,18 @@ def main():
         PA_observed = eval(t['PA_observed'])
         PA_adjust = eval(t['PA_adjust'])
         
-        Lstar = eval(t['Lstar'])
-        e_Lstar = eval(t['e_Lstar'])
-        
         model_range = eval(t['model_range'])
         NFW_range = eval(t['NFW_range'])
         
         gfilename = directory + 'rot_curves/' + name + '-summary4.json'
-        vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam = get_data(gfilename)
+        vsys_measured, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
+#         vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
+        
+#         leftVel = left_vrot_incCorrected_avg
+#         rightVel = right_vrot_incCorrected_avg
+
+        leftVel = left_vrot_avg
+        rightVel = right_vrot_avg
         
         
         # calculate impact parameter and shit
@@ -292,79 +302,79 @@ def main():
         if name == 'CGCG039-137':
              # regular - left side of rotation curve is 'left' on sky
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'ESO343-G014':
              # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'IC5325':
              # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'MCG-03-58-009':
              # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'NGC1566':
              # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC3513':
              # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC3633':
              # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC4536':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC4939':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC5364':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC5786':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
             print 'impact_RA_vir: ',impact_RA_vir
             print 'rot_vel: ',rot_vel
@@ -372,9 +382,9 @@ def main():
         if name == 'UGC09760':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
 ##########################################################################################
 ##########################################################################################
@@ -382,135 +392,121 @@ def main():
         if name == 'NGC3198':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC4565':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'UGC04238':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC3351':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC4529':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC6140':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'NGC5907':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'UGC06446':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'UGC06399':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC3726':
             # regular
             if impact_RA_vir > 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'NGC3067':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'NGC2770':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
 
         if name == 'NGC3432':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC3666':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC5951':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'NGC7817':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
+                rot_vel = rightVel
                 
         if name == 'UGC08146':
             # reverse
             if impact_RA_vir < 0:
-                rot_vel = left_vrot_avg
+                rot_vel = leftVel
             else:
-                rot_vel = right_vrot_avg
-
-
-#         if az2 > az and impact_Dec >0:
-#             # if az increases when increasing PA, then the target is on the "left" side of
-#             # the galaxy
-#             rot_vel = left_vrot_avg
-#             print 'az2 < az, using left: ',rot_vel
-#         elif az2 < az and impact_Dec < 0:
-#             rot_vel = left_vrot_avg
-#             print 'az2 < az, using left: ',rot_vel
-# 
-#         else:
-#             rot_vel = right_vrot_avg
-#             print 'az2 > az, using right: ',rot_vel
+                rot_vel = rightVel
 
             
         # now compare to the rotation velocity
@@ -532,39 +528,39 @@ def main():
             
             else:
                 markerColor = 'black'
+
+            
+            # compare to the models
+            error = 10.
+            model_answer = compareToModel(dv, model_range, error)
+            NFW_model_answer = compareToModel(dv, NFW_range, error)
+        
+            if model_answer:
+                markerColor_model = color_yes
+            else:
+                markerColor_model = color_no
+            
+            if NFW_model_answer:
+                markerColor_NFWmodel = color_yes
+            else:
+                markerColor_NFWmodel = color_no
+            
+            if az >= 85.:
+                markerColor_model = color_maybe
+                markerColor_NFWmodel = color_maybe
+
         else:
             print 'dv == x :', dv, name
             print
             markerColor = color_nonDetection
-            
-#         if abs(dv - rot_vel) <= 50 or az >= 85.:
-#             markerColor = color_maybe
-   
+        
+        
+        # if too close to the minor axis, call it uncertain/maybe
         if az >= 85.:
             markerColor = color_maybe
             
         if name == 'NGC3513':
             markerColor = color_maybe
-            
-        
-        # compare to the models
-        error = 10.
-        model_answer = compareToModel(rot_vel, model_range, error)
-        NFW_model_answer = compareToModel(rot_vel, NFW_range, error)
-
-        if model_answer:
-            markerColor_model = color_yes
-        else:
-            markerColor_model = color_no
-            
-        if NFW_model_answer:
-            markerColor_NFWmodel = color_yes
-        else:
-            markerColor_NFWmodel = color_no
-            
-        if az >= 85.:
-            markerColor_model = color_maybe
-            markerColor_NFWmodel = color_maybe
 
 
         matplotlib.rcParams['text.usetex'] = True
@@ -572,6 +568,10 @@ def main():
 
 #         combinedName = '${\rm '+name + '-' + target+'}$'.format(name,target)
         combinedName = r'$\rm {0} : {1}$'.format(name,target)
+            
+        print '{0} - dv={1} vs model={2} => {3}'.format(combinedName, dv, model_range, model_answer)
+        print
+
             
         # populate the lists
         
@@ -641,8 +641,6 @@ def main():
 #         print
         
 ##########################################################################################
-
-    
 ##########################################################################################
 ##########################################################################################
     # sort in order of largest to smallest equivalent width
@@ -671,13 +669,21 @@ def main():
         markerColorList2.append(c)
         wList2.append(w)
         combinedNameList2.append(name)
-        markerColorList_NFWmodel.append(NFW)
-        markerColorList_model.append(model)
+        markerColorList_NFWmodel2.append(NFW)
+        markerColorList_model2.append(model)
         
         count +=1
         
-            
-    
+    countList_non = []
+    for name in combinedNameList_non:
+        countList_non.append(count)
+        count +=1
+        
+##########################################################################################
+##########################################################################################
+# simple apparent on-sky velocity plot
+#
+#
 ##########################################################################################
 ##########################################################################################
 
@@ -752,8 +758,8 @@ def main():
     for i in arange(len(combinedNameList2)):
         
         yTagOffset = 5.0 + (newSizeList[i]/50.)
-        print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
-        print 'yTagOffset: ',yTagOffset
+#         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
+#         print 'yTagOffset: ',yTagOffset
                 
         annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
         xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
@@ -776,7 +782,192 @@ def main():
         ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
         yTagOffset = 5.0
-        annotate(countList[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+        annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+        xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+        
+
+#         if not previousNames.has_key(combinedNameList_non[i]):
+#             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+# 
+#             previousNames[combinedNameList_non[i]] = counter
+#             counter +=1
+
+
+##########################################################################################
+
+    xlabel(r'$\rm R.A. ~[R_{vir}]$')
+    ylabel(r'$\rm Dec. ~[R_{vir}]$')
+    
+    ax.set_xlim(-4.0, 4.0)
+    ax.set_ylim(-4.0, 4.0)
+    ax.invert_xaxis()
+    
+    annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
+    xytext=(0.0,0.0),textcoords='offset points',size=9)
+
+
+    # x-axis
+#     majorLocator   = MultipleLocator(0.5)
+#     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+#     minorLocator   = MultipleLocator(0.25)
+#     ax.yaxis.set_major_locator(majorLocator)
+#     ax.yaxis.set_major_formatter(majorFormatter)
+#     ax.yaxis.set_minor_locator(minorLocator)
+
+    # y axis
+#     majorLocator   = MultipleLocator(0.5)
+#     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+#     minorLocator   = MultipleLocator(0.25)
+#     ax.yaxis.set_major_locator(majorLocator)
+#     ax.yaxis.set_major_formatter(majorFormatter)
+#     ax.yaxis.set_minor_locator(minorLocator)
+
+
+    import matplotlib.patches as mpatches
+    import matplotlib.lines as mlines
+#     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
+#                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
+    yellow_line = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+                              markersize=15, markeredgecolor='black', label='Within Uncertainties')
+                              
+    red_line = mlines.Line2D([], [], color=color_no, marker='x',lw=0,
+                              markersize=15, markeredgecolor=color_no, label=r'$\rm Anti-rotation$')
+                              
+    blue_line = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+                              markersize=15, markeredgecolor='black', label=r'$\rm Co-rotation$')
+                              
+    non_legend = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0, markeredgecolor='grey',
+                              markersize=15, markerfacecolor = 'none', label='Non-detection')
+                              
+    plt.legend(handles=[yellow_line,red_line,blue_line, non_legend],loc='lower right')
+
+##########################################################################################
+        
+    directory = '/Users/frenchd/Research/test/'
+    save_name = 'SALT_map_plus2_velstrict'
+#     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
+    savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+
+    summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+    summary_file = open(summary_filename,'wt')
+    
+#     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
+#         summary_file.write('{0}. {1}, \n'.format(v,k))
+        
+    for num, name in zip(countList, combinedNameList2):
+        summary_file.write('{0}. {1}, \n'.format(num,name))
+        
+    for num, name in zip(countList_non, combinedNameList_non):
+        summary_file.write('{0}. {1}, \n'.format(num,name))        
+    
+    summary_file.close()
+    
+    
+    
+    
+    
+##########################################################################################
+##########################################################################################
+# Cylindrical Model plot
+#
+#
+##########################################################################################
+##########################################################################################
+
+    # initial figure
+    fig = plt.figure(figsize=(8,8))
+    ax = fig.add_subplot(1,1,1)
+#     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+
+##########################################################################################
+    # plot circles
+    def xy(r,phi):
+      return r*np.cos(phi), r*np.sin(phi)
+
+    phis=np.arange(0,2*np.pi,0.01)
+    
+    r = 1.0
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+    r = 2.0
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+    r = 3.0
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+    r = 4.0
+    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+    ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
+    ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
+    
+    ax.scatter(0,0,c='black',marker='*',s=25)
+##########################################################################################
+
+    
+    # plot the rest
+    largestEW = max(wList2)
+    smallestEW = min(wList2)
+    maxSize = 500
+    minSize = 30
+    
+    newSizeList = []
+    for w in wList2:
+        newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
+        newSizeList.append(newSize)
+
+    # make different style markers for different colors
+    for i in arange(len(markerColorList_model2)):
+        marker = '*'
+        marker_lw = 0.6
+
+        if markerColorList_model2[i] == color_maybe:
+            marker = 'o'
+        if markerColorList_model2[i] == color_no:
+            marker = 'x'
+            marker_lw = 1.5
+        if markerColorList_model2[i] == color_yes:
+            marker = 'D'
+        
+
+        ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList_model2[i], \
+        s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
+    
+    
+    xTagOffset = 2.0
+    yTagOffset = 1.
+
+    previousNames = {}
+    counter = 1
+    for i in arange(len(combinedNameList2)):
+        
+        yTagOffset = 5.0 + (newSizeList[i]/50.)
+#         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
+#         print 'yTagOffset: ',yTagOffset
+                
+        annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+        xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+                
+#         if not previousNames.has_key(combinedNameList2[i]):
+#             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+# 
+#             previousNames[combinedNameList2[i]] = counter
+#             counter +=1
+
+
+##########################################################################################
+    # now the non-detections
+
+    non_size = 10
+    non_marker = 'o'
+    for i in arange(len(markerColorList_non)):
+        ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
+        ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
+
+        yTagOffset = 5.0
+        annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
         
 
@@ -837,28 +1028,38 @@ def main():
     plt.legend(handles=[yellow_line,red_line,blue_line, non_legend],loc='lower right')
 
 
-        
 ##########################################################################################
         
     directory = '/Users/frenchd/Research/test/'
-    save_name = 'SALT_map_plus2_velstrict'
+    save_name = 'SALT_map_cyl_model'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
     savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
 
     summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
     summary_file = open(summary_filename,'wt')
     
-    for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-        summary_file.write('{0}. {1}, \n'.format(v,k))
+#     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
+#         summary_file.write('{0}. {1}, \n'.format(v,k))
+
+    for num, name in zip(countList, combinedNameList2):
+        summary_file.write('{0}. {1}, \n'.format(num,name))
+        
+    for num, name in zip(countList_non, combinedNameList_non):
+        summary_file.write('{0}. {1}, \n'.format(num,name))
     
     summary_file.close()
-    
-    
+
+
+
+
 ##########################################################################################
 ##########################################################################################
+# NFW model plot
+#
+#
 ##########################################################################################
 ##########################################################################################
-    
+
     # initial figure
     fig = plt.figure(figsize=(8,8))
     ax = fig.add_subplot(1,1,1)
@@ -901,27 +1102,24 @@ def main():
         newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
         newSizeList.append(newSize)
 
-    # just plot them all the same
-#     ax.scatter(RA_targetList2,Dec_targetList2, color=markerColorList2,s=newSizeList)
-
     # make different style markers for different colors
-    for i in arange(len(markerColorList2)):
+    for i in arange(len(markerColorList_NFWmodel2)):
         marker = '*'
         marker_lw = 0.6
 
-        if markerColorList2[i] == color_maybe:
+        if markerColorList_NFWmodel2[i] == color_maybe:
             marker = 'o'
-        if markerColorList2[i] == color_no:
+        if markerColorList_NFWmodel2[i] == color_no:
             marker = 'x'
             marker_lw = 1.5
-        if markerColorList2[i] == color_yes:
+        if markerColorList_NFWmodel2[i] == color_yes:
             marker = 'D'
         
 
-        ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList2[i], \
+        ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList_NFWmodel2[i], \
         s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
     
-
+    
     xTagOffset = 2.0
     yTagOffset = 1.
 
@@ -930,20 +1128,19 @@ def main():
     for i in arange(len(combinedNameList2)):
         
         yTagOffset = 5.0 + (newSizeList[i]/50.)
-        print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
-        print 'yTagOffset: ',yTagOffset
+#         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
+#         print 'yTagOffset: ',yTagOffset
                 
-        if not previousNames.has_key(combinedNameList2[i]):
-#             annotate(combinedNameList2[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-            annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+        annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+        xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+                
+#         if not previousNames.has_key(combinedNameList2[i]):
+#             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+# 
+#             previousNames[combinedNameList2[i]] = counter
+#             counter +=1
 
-            previousNames[combinedNameList2[i]] = counter
-            counter +=1
-        else:
-#             previousNames[combinedNameList2[i]] += 1.
-            pass
 
 ##########################################################################################
     # now the non-detections
@@ -955,18 +1152,17 @@ def main():
         ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
         yTagOffset = 5.0
+        annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+        xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+        
 
-        if not previousNames.has_key(combinedNameList_non[i]):
-#             annotate(combinedNameList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#         if not previousNames.has_key(combinedNameList_non[i]):
+#             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
 #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-            annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+# 
+#             previousNames[combinedNameList_non[i]] = counter
+#             counter +=1
 
-            previousNames[combinedNameList_non[i]] = counter
-            counter +=1
-        else:
-#             previousNames[combinedNameList_non[i]] += 1.
-            pass
 
 ##########################################################################################
 
@@ -1017,23 +1213,27 @@ def main():
     plt.legend(handles=[yellow_line,red_line,blue_line, non_legend],loc='lower right')
 
 
-        
 ##########################################################################################
         
     directory = '/Users/frenchd/Research/test/'
-    save_name = 'SALT_map_cyl_model'
+    save_name = 'SALT_map_NFW_model'
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
     savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
 
     summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
     summary_file = open(summary_filename,'wt')
     
-    for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-        summary_file.write('{0}. {1}, \n'.format(v,k))
+#     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
+#         summary_file.write('{0}. {1}, \n'.format(v,k))
+
+    for num, name in zip(countList, combinedNameList2):
+        summary_file.write('{0}. {1}, \n'.format(num,name))
+        
+    for num, name in zip(countList_non, combinedNameList_non):
+        summary_file.write('{0}. {1}, \n'.format(num,name))
     
-    summary_file.close()    
-    
-    
+    summary_file.close()
+
     
 if __name__ == '__main__':
     main()
