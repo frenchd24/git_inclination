@@ -1,0 +1,94 @@
+\begin{thebibliography}{22}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Bowen} {et~al.}(2016){Bowen}, {Chelouche}, {Jenkins}, {Tripp},
+  {Pettini}, {York}, \& {Frye}}]{bowen2016}
+{Bowen}, D.~V., {Chelouche}, D., {Jenkins}, E.~B., {et~al.} 2016, \apj, 826, 50
+
+\bibitem[{{Carilli} {et~al.}(1989){Carilli}, {van Gorkom}, \&
+  {Stocke}}]{carilli1989}
+{Carilli}, C.~L., {van Gorkom}, J.~H., \& {Stocke}, J.~T. 1989, \nat, 338, 134
+
+\bibitem[{{C{\^o}t{\'e}} {et~al.}(2005){C{\^o}t{\'e}}, {Wyse}, {Carignan},
+  {Freeman}, \& {Broadhurst}}]{cote2005}
+{C{\^o}t{\'e}}, S., {Wyse}, R.~F.~G., {Carignan}, C., {Freeman}, K.~C., \&
+  {Broadhurst}, T. 2005, \apj, 618, 178
+
+\bibitem[{{de Blok} {et~al.}(2008){de Blok}, {Walter}, {Brinks},
+  {Trachternach}, {Oh}, \& {Kennicutt}}]{deblok2008}
+{de Blok}, W.~J.~G., {Walter}, F., {Brinks}, E., {et~al.} 2008, \aj, 136, 2648
+
+\bibitem[{{Dicaire} {et~al.}(2008){Dicaire}, {Carignan}, {Amram}, {Hernandez},
+  {Chemin}, {Daigle}, {de Denus-Baillargeon}, {Balkowski}, {Boselli}, {Fathi},
+  \& {Kennicutt}}]{dicaire2008}
+{Dicaire}, I., {Carignan}, C., {Amram}, P., {et~al.} 2008, \mnras, 385, 553
+
+\bibitem[{{Falco} {et~al.}(1999){Falco}, {Kurtz}, {Geller}, {Huchra}, {Peters},
+  {Berlind}, {Mink}, {Tokarz}, \& {Elwell}}]{falco1999}
+{Falco}, E.~E., {Kurtz}, M.~J., {Geller}, M.~J., {et~al.} 1999, \pasp, 111, 438
+
+\bibitem[{{French} \& {Wakker}(2017)}]{french2017}
+{French}, D.~M., \& {Wakker}, B.~P. 2017, \apj, 837, 138
+
+\bibitem[{{Green} {et~al.}(2012){Green}, {Froning}, {Osterman}, {Ebbets},
+  {Heap}, {Leitherer}, {Linsky}, {Savage}, {Sembach}, {Shull}, {Siegmund},
+  {Snow}, {Spencer}, {Stern}, {Stocke}, {Welsh}, {B{\'e}land}, {Burgh},
+  {Danforth}, {France}, {Keeney}, {McPhate}, {Penton}, {Andrews},
+  {Brownsberger}, {Morse}, \& {Wilkinson}}]{green2012}
+{Green}, J.~C., {Froning}, C.~S., {Osterman}, S., {et~al.} 2012, \apj, 744, 60
+
+\bibitem[{{Keeney} {et~al.}(2005){Keeney}, {Momjian}, {Stocke}, {Carilli}, \&
+  {Tumlinson}}]{keeney2005}
+{Keeney}, B.~A., {Momjian}, E., {Stocke}, J.~T., {Carilli}, C.~L., \&
+  {Tumlinson}, J. 2005, \apj, 622, 267
+
+\bibitem[{{Navarro} {et~al.}(1996){Navarro}, {Frenk}, \& {White}}]{navarro1996}
+{Navarro}, J.~F., {Frenk}, C.~S., \& {White}, S.~D.~M. 1996, \apj, 462, 563
+
+\bibitem[{{Navarro} {et~al.}(1997){Navarro}, {Frenk}, \& {White}}]{navarro1997}
+---. 1997, \apj, 490, 493
+
+\bibitem[{{Rhee} \& {van Albada}(1996)}]{rhee1996}
+{Rhee}, M.-H., \& {van Albada}, T.~S. 1996, \aaps, 115, 407
+
+\bibitem[{{Rubin} {et~al.}(1982){Rubin}, {Thonnard}, \& {Ford}}]{rubin1982}
+{Rubin}, V.~C., {Thonnard}, N.~T., \& {Ford}, Jr., W.~K. 1982, \aj, 87, 477
+
+\bibitem[{{Sofue}(1996)}]{sofue1996}
+{Sofue}, Y. 1996, \apj, 458, 120
+
+\bibitem[{{Stewart} {et~al.}(2013){Stewart}, {Brooks}, {Bullock}, {Maller},
+  {Diemand}, {Wadsley}, \& {Moustakas}}]{stewart2013}
+{Stewart}, K.~R., {Brooks}, A.~M., {Bullock}, J.~S., {et~al.} 2013, \apj, 769,
+  74
+
+\bibitem[{{Stewart} {et~al.}(2011){Stewart}, {Kaufmann}, {Bullock}, {Barton},
+  {Maller}, {Diemand}, \& {Wadsley}}]{stewart2011}
+{Stewart}, K.~R., {Kaufmann}, T., {Bullock}, J.~S., {et~al.} 2011, \apj, 738,
+  39
+
+\bibitem[{{Stocke} {et~al.}(2010){Stocke}, {Keeney}, \&
+  {Danforth}}]{stocke2010}
+{Stocke}, J.~T., {Keeney}, B.~A., \& {Danforth}, C.~W. 2010, \pasa, 27, 256
+
+\bibitem[{{Swaters} {et~al.}(2009){Swaters}, {Sancisi}, {van Albada}, \& {van
+  der Hulst}}]{swaters2009}
+{Swaters}, R.~A., {Sancisi}, R., {van Albada}, T.~S., \& {van der Hulst}, J.~M.
+  2009, \aap, 493, 871
+
+\bibitem[{{Verheijen} \& {Sancisi}(2001)}]{verheijen2001}
+{Verheijen}, M.~A.~W., \& {Sancisi}, R. 2001, \aap, 370, 765
+
+\bibitem[{{Wakker} {et~al.}(2015){Wakker}, {Hernandez}, {French}, {Kim},
+  {Oppenheimer}, \& {Savage}}]{wakker2015}
+{Wakker}, B.~P., {Hernandez}, A.~K., {French}, D.~M., {et~al.} 2015, \apj, 814,
+  40
+
+\bibitem[{{Wakker} \& {Savage}(2009)}]{wakker2009}
+{Wakker}, B.~P., \& {Savage}, B.~D. 2009, \apjs, 182, 378
+
+\bibitem[{{Yim} {et~al.}(2014){Yim}, {Wong}, {Xue}, {Rand}, {Rosolowsky}, {van
+  der Hulst}, {Benjamin}, \& {Murphy}}]{yim2014}
+{Yim}, K., {Wong}, T., {Xue}, R., {et~al.} 2014, \aj, 148, 127
+
+\end{thebibliography}

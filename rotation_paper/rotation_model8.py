@@ -1015,7 +1015,7 @@ def main():
     # Define ray -> [0,RA_dif,Dec_dif]
     rayDirection = np.array([1, 0, 0])
 
-    rayPoint = np.array([0, impact_RA+20, impact_Dec])
+    rayPoint = np.array([0, impact_RA, impact_Dec])
     print 'rayPoint: ',rayPoint
     print
 

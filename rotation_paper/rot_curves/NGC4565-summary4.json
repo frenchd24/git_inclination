@@ -224,7 +224,7 @@
     "agn": {
         "RX_J1236.0+2641":{"RAdeg":189.0166667,"DEdeg":26.69333333}
     },
-    "left_vrot_avg": -99,
+    "left_vrot_avg": -253.0,
     "vrot_incCorrected_errs": [
     ],
     "inclination": 75.0,
@@ -234,7 +234,7 @@
     "vsys_published": 1230.0,
     "vsys_measured_err": 5.0,
     "left_vrot_incCorrected_avg_err": -99.0,
-    "right_vrot_avg":-99,
+    "right_vrot_avg": 253.0,
     "dist": 11.9,
     "name": "NGC4565",
     "RAdeg":189.08658,
