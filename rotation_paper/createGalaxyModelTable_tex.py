@@ -33,7 +33,7 @@ def main():
     if getpass.getuser() == 'frenchd':
         filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
         resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut_plus_ancillary.csv'
-        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/table2.txt'
+        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table.txt'
         
     else:
         print 'Could not determine username. Exiting.'
@@ -111,21 +111,39 @@ def main():
         NFW_range))
                     
 
-    padding = 4
-    widths =[\
-    max(len(str(d)) for d in nameList) + padding,\
-    max(len(str(d)) for d in targetList) + padding,\
-    max(len(str(d)) for d in rhoList) + padding,\
-    max(len(str(d)) for d in azList) + padding,\
-    max(len(str(d)) for d in v_sysList) + padding,\
-    max(len(str(d)) for d in v_rotList) + padding,\
-    max(len(str(d)) for d in v_LyaList) + padding,\
-    max(len(str(d)) for d in w_LyaList) + padding,\
-    max(len(str(d)) for d in cyl_modelList) + padding,\
-    max(len(str(d)) for d in nfw_modelList) + padding]
+#     padding = 4
+#     widths =[\
+#     max(len(str(d)) for d in nameList) + padding,\
+#     max(len(str(d)) for d in targetList) + padding,\
+#     max(len(str(d)) for d in rhoList) + padding,\
+#     max(len(str(d)) for d in azList) + padding,\
+#     max(len(str(d)) for d in v_sysList) + padding,\
+#     max(len(str(d)) for d in v_rotList) + padding,\
+#     max(len(str(d)) for d in v_LyaList) + padding,\
+#     max(len(str(d)) for d in w_LyaList) + padding,\
+#     max(len(str(d)) for d in cyl_modelList) + padding,\
+#     max(len(str(d)) for d in nfw_modelList) + padding]
+# 
+#     for row in summaryList:
+#         output.write("".join(str(i + '  &').ljust(width) for i,width in zip(row,widths))+'\\\\\n')
 
-    for row in summaryList:
-        output.write("".join(str(i + '  &').ljust(width) for i,width in zip(row,widths))+'\\\\\n')
+   
+    length_d = max(len(str(d)) for d in nameList)
+    length_t = max(len(str(d)) for d in targetList)
+    length_r = max(len(str(d)) for d in rhoList)
+    length_a = max(len(str(d)) for d in azList)
+    length_vs = max(len(str(d)) for d in v_sysList)
+    length_vr = max(len(str(d)) for d in v_rotList)
+    length_vlya = max(len(str(d)) for d in v_LyaList)
+    length_wlya = max(len(str(d)) for d in w_LyaList)
+    length_cyl = max(len(str(d)) for d in cyl_modelList)
+    length_nfw = max(len(str(d)) for d in nfw_modelList)
+    
+    for d, t, r, a, vs, vr, vlya, wlya, cyl, nfw in zip(nameList, targetList, azList, v_sysList, v_rotList, v_LyaList, w_LyaList, cyl_modelList, nfw_modelList):
+        output.write("".join(str(d + ' &').ljust(
+    
+
+
 
 
     file.close()
