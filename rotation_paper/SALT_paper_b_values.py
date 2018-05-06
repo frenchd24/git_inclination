@@ -183,9 +183,8 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-#     Lstar_range = [0.0, 100.0]
-    Lstar_range = [0.0, 0.8]
-
+    Lstar_range = [0.0, 100.0]
+#     Lstar_range = [0.0, 0.8]
 
     # azimuth limit for "maybe" trigger
     az_limit = 85.
@@ -203,10 +202,8 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_onsky = True
-    plot_cyl = True
-    plot_NFW = True
-    plot_zoom_in = True
+    plot_b_comparison = True
+
 
 ##########################################################################################
 ##########################################################################################
@@ -234,7 +231,8 @@ def main():
     VhelList = []
     markerColorList_model = []
     markerColorList_NFWmodel = []
-
+    bList = []
+    LstarList = []
     
     # non-detections/not finished sightlines
     nameList_non = []
@@ -259,6 +257,7 @@ def main():
         target = t['Target']
         lyaV = eval(t['Lya_v'])
         lyaW = eval(t['Lya_W'])
+        b = eval(t['b'])
         RA_galaxy = eval(t['RAdeg'])
         Dec_galaxy = eval(t['DEdeg'])
         RA_target = eval(t['RAdeg_target'])
@@ -676,7 +675,8 @@ def main():
                     combinedNameList.append(combinedName)
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)
-                
+                    bList.append(b)
+                    LstarList.append(Lstar)
                 
                 else:
                     print 'too far: ',name,' , dv = ',dv, ' vs rot_vel = ',rot_vel
@@ -698,7 +698,9 @@ def main():
                     combinedNameList.append(combinedName)
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)                
-                
+                    bList.append(b)
+                    LstarList.append(Lstar)
+
                 
             if include_nondetection and not isNumber(dv):
                 # include non-detections?
@@ -728,1090 +730,250 @@ def main():
         
 ##########################################################################################
 ##########################################################################################
-##########################################################################################
-    # sort in order of largest to smallest equivalent width
-    orderedList = []
-    for ra,dec,c,w,name,model,NFW in zip(RA_targetList,Dec_targetList,markerColorList, wList,combinedNameList, markerColorList_model, markerColorList_NFWmodel):
-        orderedList.append([w,[ra, dec, c, name, model, NFW]])
-        
-    orderedList.sort(reverse=True)
-    
-    
-    RA_targetList2 = []
-    Dec_targetList2 = []
-    markerColorList2 = []
-    wList2 = []
-    combinedNameList2 = []
-    markerColorList_NFWmodel2 = []
-    markerColorList_model2 = []
-    countList = []
-    
-    # zoomed in
-    RA_targetList_zoom = []
-    Dec_targetList_zoom = []
-    markerColorList_zoom = []
-    wList_zoom = []
-    combinedNameList_zoom = []
-    markerColorList_NFWmodel_zoom = []
-    markerColorList_model_zoom = []
-    countList_zoom = []
-    
-    
-    count = 1
-    count_zoom = 1
-    count_dict = {}
-    count_dict_zoom = {}
-    for i in orderedList:
-        w, rest = i
-        ra, dec, c, name, model, NFW = rest
-        
-        RA_targetList2.append(ra)
-        Dec_targetList2.append(dec)
-        markerColorList2.append(c)
-        wList2.append(w)
-        combinedNameList2.append(name)
-        markerColorList_NFWmodel2.append(NFW)
-        markerColorList_model2.append(model)
-        
-        # check if this galaxy-QSO pair already has a number
-        if count_dict.has_key(name):
-            system_count = count_dict[name]
-#             countList.append(system_count)
-            countList.append('')
-        
-        else:
-            count_dict[name] = count
-            countList.append(count)
-            count +=1
-            
-            
-        # separate, 'zoomed-in' set
-        if math.sqrt(ra**2 + dec**2) <= zoom_limit:
-            RA_targetList_zoom.append(ra)
-            Dec_targetList_zoom.append(dec)
-            markerColorList_zoom.append(c)
-            wList_zoom.append(w)
-            combinedNameList_zoom.append(name)
-            markerColorList_NFWmodel_zoom.append(NFW)
-            markerColorList_model_zoom.append(model)
-        
-            # check if this galaxy-QSO pair already has a number
-            if count_dict_zoom.has_key(name):
-                system_count = count_dict_zoom[name]
-                countList_zoom.append('')
-        
-            else:
-                count_dict_zoom[name] = count_zoom
-                countList_zoom.append(count_zoom)
-                count_zoom +=1
-        
-    countList_non = []
-    countList_non_zoom = []
-    RA_targetList_non_zoom = []
-    Dec_targetList_non_zoom = []
-    markerColorList_non_zoom = []
-    combinedNameList_non_zoom = []
-    for name, ra, dec, m in zip(combinedNameList_non, RA_targetList_non, Dec_targetList_non, markerColorList_non):
-        countList_non.append(count)
-        count +=1
-        
-        if math.sqrt(ra**2 + dec**2) <= zoom_limit:
-            countList_non_zoom.append(count_zoom)
-            
-            RA_targetList_non_zoom.append(ra)
-            Dec_targetList_non_zoom.append(dec)
-            markerColorList_non_zoom.append(m)
-            combinedNameList_non_zoom.append(name)
-            
-            count_zoom +=1
-            
 
 ##########################################################################################
 ##########################################################################################
-# simple apparent on-sky velocity plot
+# Plot b values for co-rotators vs anti-rotators
 #
 #
 ##########################################################################################
 ##########################################################################################
 
-    if plot_onsky:
+    if plot_b_comparison:
         # initial figure
         fig = plt.figure(figsize=(8,8))
-        ax = fig.add_subplot(1,1,1)
-    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+        subplots_adjust(hspace=0.300)
 
-    ##########################################################################################
-        # plot circles
-        def xy(r,phi):
-          return r*np.cos(phi), r*np.sin(phi)
+        ax = fig.add_subplot(311)
 
-        phis=np.arange(0,2*np.pi,0.01)
-    
-        r = 1.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 2.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 3.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 4.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
-        ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
-    
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    ##########################################################################################
+#         bins = arange(0,100,10)
+        bins = arange(10,90,10)
 
-    
-        # plot the rest
-        largestEW = max(wList2)
-        smallestEW = min(wList2)
-        maxSize = 500
-        minSize = 30
-    
-        newSizeList = []
-        for w in wList2:
-            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
-            newSizeList.append(newSize)
-
-        # just plot them all the same
-    #     ax.scatter(RA_targetList2,Dec_targetList2, color=markerColorList2,s=newSizeList)
-
-        # make different style markers for different colors
-        for i in arange(len(markerColorList2)):
-            marker = '*'
-            marker_lw = 0.6
-
-            if markerColorList2[i] == color_maybe:
-                marker = 'o'
-            if markerColorList2[i] == color_no:
-                marker = 'X'
-                marker_lw = 0.5
-            if markerColorList2[i] == color_yes:
-                marker = 'D'
+        alpha = 0.6
+        
+        L_limit = 0.5
         
 
-            ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList2[i], \
-            s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
-    
-    
-        xTagOffset = 2.0
-        yTagOffset = 1.
-
-        previousNames = {}
-        counter = 1
-        for i in arange(len(combinedNameList2)):
+        corotate_b = []
+        antirotate_b = []
         
-            yTagOffset = 5.0 + (newSizeList[i]/50.)
-    #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
-    #         print 'yTagOffset: ',yTagOffset
+        corotate_b_close = []
+        antirotate_b_close = []
+        
+        corotate_b_far = []
+        antirotate_b_far = []
+        
+        Lstar_high = []
+        Lstar_low = []
+        
+        for m, b, ra, dec, L in zip(markerColorList_NFWmodel, bList, RA_targetList, Dec_targetList, LstarList):
+            if m == color_yes:
+                corotate_b.append(b)
                 
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-                
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-        # now the non-detections
-
-        non_size = 10
-        non_marker = 'o'
-        for i in arange(len(markerColorList_non)):
-            ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
-            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
-
-            yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-        
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
-    
-        ax.set_xlim(-4.0, 4.0)
-        ax.set_ylim(-4.0, 4.0)
-        ax.invert_xaxis()
-    
-        annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
-        xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
-        # x-axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-        # y axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-
-        import matplotlib.patches as mpatches
-        import matplotlib.lines as mlines
-    #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
-    #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
-        corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
-
-        maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
-                              
-        antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
-                              
-        nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
-                                markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
-                              
-        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
-                                borderpad=0.8, fontsize=legend_font, fancybox=True)
-
-    ##########################################################################################
-        
-        directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, az_limit)
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
-
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
-        summary_file = open(summary_filename,'wt')
-    
-    #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-    #         summary_file.write('{0}. {1}, \n'.format(v,k))
-        
-        for num, name in zip(countList, combinedNameList2):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-        
-        for num, name in zip(countList_non, combinedNameList_non):
-            summary_file.write('{0}. {1}, \n'.format(num,name))      
-            
-        
-        # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
-        stats_file = open(stats_filename,'wt')
-
-        combinedNameList_corotate = []
-        combinedNameList_antirotate = []
-        combinedNameList_maybe = []
-
-        combinedNameList_corotate_zoom_in = []
-        combinedNameList_antirotate_zoom_in = []
-        combinedNameList_maybe_zoom_in = []
-        
-        combinedNameList_corotate_zoom_out = []
-        combinedNameList_antirotate_zoom_out = []
-        combinedNameList_maybe_zoom_out = []
-        
-        for name, ra, dec, c in zip(combinedNameList2, RA_targetList2, Dec_targetList2, markerColorList2):
-            if c == color_yes:
-                combinedNameList_corotate.append(name)
-            if c == color_maybe:
-                combinedNameList_maybe.append(name)
-            if c == color_no:
-                combinedNameList_antirotate.append(name)
-                
-            if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_in.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_in.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_in.append(name)
+                if np.sqrt(ra**2 + dec**2) <= zoom_limit:
+                    corotate_b_close.append(b)
                     
-            else:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_out.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_out.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_out.append(name)
-                
-                
-        stats_file.write('Total co-rotate = {0} \n'.format(len(combinedNameList_corotate)))
-        stats_file.write('Total anti-rotate = {0} \n'.format(len(combinedNameList_antirotate)))
-        stats_file.write('Total uncertain = {0} \n'.format(len(combinedNameList_maybe)))
-        stats_file.write('\n')
-        stats_file.write('Total co-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_in)))
-        stats_file.write('Total co-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total anti-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_in)))
-        stats_file.write('Total anti-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total uncertain within = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_in)))
-        stats_file.write('Total uncertain outside = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_out)))
-        stats_file.write('\n')
-        
-        stats_file.write('Co-rotating systems: \n')
-        for i in combinedNameList_corotate:
-            stats_file.write('{0}\n'.format(i))
-        
-        stats_file.write('\n')
-        stats_file.write('Anti-rotating systems: \n')
-        for i in combinedNameList_antirotate:
-            stats_file.write('{0}\n'.format(i))
-    
-        stats_file.write('\n')
-        stats_file.write('Uncertain systems: \n')
-        for i in combinedNameList_maybe:
-            stats_file.write('{0}\n'.format(i))
+                else:
+                    corotate_b_far.append(b)
             
-            
-        stats_file.close()
-        summary_file.close()
-    
-    
-##########################################################################################
-##########################################################################################
-# Cylindrical Model plot
-#
-#
-##########################################################################################
-##########################################################################################
-
-    if plot_cyl:
-        # initial figure
-        fig = plt.figure(figsize=(8,8))
-        ax = fig.add_subplot(1,1,1)
-    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
-
-    ##########################################################################################
-        # plot circles
-        def xy(r,phi):
-          return r*np.cos(phi), r*np.sin(phi)
-
-        phis=np.arange(0,2*np.pi,0.01)
-    
-        r = 1.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 2.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 3.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 4.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
-        ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
-    
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    ##########################################################################################
-
-    
-        # plot the rest
-        largestEW = max(wList2)
-        smallestEW = min(wList2)
-        maxSize = 500
-        minSize = 30
-    
-        newSizeList = []
-        for w in wList2:
-            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
-            newSizeList.append(newSize)
-
-        # make different style markers for different colors
-        for i in arange(len(markerColorList_model2)):
-            marker = '*'
-            marker_lw = 0.6
-
-            if markerColorList_model2[i] == color_maybe:
-                marker = 'o'
-            if markerColorList_model2[i] == color_no:
-                marker = 'X'
-                marker_lw = 0.5
-            if markerColorList_model2[i] == color_yes:
-                marker = 'D'
-        
-
-            ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList_model2[i], \
-            s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
-    
-    
-        xTagOffset = 2.0
-        yTagOffset = 1.
-
-        previousNames = {}
-        counter = 1
-        for i in arange(len(combinedNameList2)):
-        
-            yTagOffset = 5.0 + (newSizeList[i]/50.)
-    #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
-    #         print 'yTagOffset: ',yTagOffset
+            if m == color_no:
+                antirotate_b.append(b)
                 
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-                
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-        # now the non-detections
-
-        non_size = 10
-        non_marker = 'o'
-        for i in arange(len(markerColorList_non)):
-            ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
-            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
-
-            yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-        
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
-    
-        ax.set_xlim(-4.0, 4.0)
-        ax.set_ylim(-4.0, 4.0)
-        ax.invert_xaxis()
-    
-        annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
-        xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
-        # x-axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-        # y axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-
-        import matplotlib.patches as mpatches
-        import matplotlib.lines as mlines
-    #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
-    #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
-        corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
-
-        maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
-                              
-        antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
-                              
-        nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
-                                markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
-                              
-        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
-                                borderpad=0.8, fontsize=legend_font, fancybox=True)
-
-
-    ##########################################################################################
-        
-        directory = '/Users/frenchd/Research/test/'
-
-        save_name = 'SALTmap_cyl_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, az_limit)    
-    
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
-
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
-        summary_file = open(summary_filename,'wt')
-    
-    #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-    #         summary_file.write('{0}. {1}, \n'.format(v,k))
-
-        for num, name in zip(countList, combinedNameList2):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-        
-        for num, name in zip(countList_non, combinedNameList_non):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-
-
-        # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
-        stats_file = open(stats_filename,'wt')
-
-        combinedNameList_corotate = []
-        combinedNameList_antirotate = []
-        combinedNameList_maybe = []
-
-        combinedNameList_corotate_zoom_in = []
-        combinedNameList_antirotate_zoom_in = []
-        combinedNameList_maybe_zoom_in = []
-        
-        combinedNameList_corotate_zoom_out = []
-        combinedNameList_antirotate_zoom_out = []
-        combinedNameList_maybe_zoom_out = []
-        
-        for name, ra, dec, c in zip(combinedNameList2, RA_targetList2, Dec_targetList2, markerColorList_model2):
-            if c == color_yes:
-                combinedNameList_corotate.append(name)
-            if c == color_maybe:
-                combinedNameList_maybe.append(name)
-            if c == color_no:
-                combinedNameList_antirotate.append(name)
-                
-            if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_in.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_in.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_in.append(name)
+                if np.sqrt(ra**2 + dec**2) <= zoom_limit:
+                    antirotate_b_close.append(b)
                     
-            else:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_out.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_out.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_out.append(name)
-                
-                
-        stats_file.write('Total co-rotate = {0} \n'.format(len(combinedNameList_corotate)))
-        stats_file.write('Total anti-rotate = {0} \n'.format(len(combinedNameList_antirotate)))
-        stats_file.write('Total uncertain = {0} \n'.format(len(combinedNameList_maybe)))
-        stats_file.write('\n')
-        stats_file.write('Total co-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_in)))
-        stats_file.write('Total co-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total anti-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_in)))
-        stats_file.write('Total anti-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total uncertain within = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_in)))
-        stats_file.write('Total uncertain outside = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_out)))
-        stats_file.write('\n')
-        
-        stats_file.write('\n')
-        stats_file.write('Co-rotating systems: \n')
-        for i in combinedNameList_corotate:
-            stats_file.write('{0}\n'.format(i))
-        
-        stats_file.write('\n')
-        stats_file.write('Anti-rotating systems: \n')
-        for i in combinedNameList_antirotate:
-            stats_file.write('{0}\n'.format(i))
-    
-        stats_file.write('\n')
-        stats_file.write('Uncertain systems: \n')
-        for i in combinedNameList_maybe:
-            stats_file.write('{0}\n'.format(i))
-            
-            
-        stats_file.close()
-        summary_file.close()
-
-
-##########################################################################################
-##########################################################################################
-# NFW model plot
-#
-#
-##########################################################################################
-##########################################################################################
-
-    if plot_NFW:
-        # initial figure
-        fig = plt.figure(figsize=(8,8))
-        ax = fig.add_subplot(1,1,1)
-    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
-
-    ##########################################################################################
-        # plot circles
-        def xy(r,phi):
-          return r*np.cos(phi), r*np.sin(phi)
-
-        phis=np.arange(0,2*np.pi,0.01)
-    
-        r = 1.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 2.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 3.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 4.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
-        ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
-    
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    ##########################################################################################
-
-    
-        # plot the rest
-        largestEW = max(wList2)
-        smallestEW = min(wList2)
-        maxSize = 500
-        minSize = 30
-    
-        newSizeList = []
-        for w in wList2:
-            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
-            newSizeList.append(newSize)
-
-        # make different style markers for different colors
-        for i in arange(len(markerColorList_NFWmodel2)):
-            marker = '*'
-            marker_lw = 0.6
-
-            if markerColorList_NFWmodel2[i] == color_maybe:
-                marker = 'o'
-            if markerColorList_NFWmodel2[i] == color_no:
-                marker = 'X'
-                marker_lw = 0.5
-            if markerColorList_NFWmodel2[i] == color_yes:
-                marker = 'D'
-        
-
-            ax.scatter(RA_targetList2[i], Dec_targetList2[i], color=markerColorList_NFWmodel2[i], \
-            s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
-    
-    
-        xTagOffset = 2.0
-        yTagOffset = 1.
-
-        previousNames = {}
-        counter = 1
-        for i in arange(len(combinedNameList2)):
-        
-            yTagOffset = 5.0 + (newSizeList[i]/50.)
-    #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
-    #         print 'yTagOffset: ',yTagOffset
-                
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-                
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-        # now the non-detections
-
-        non_size = 10
-        non_marker = 'o'
-        for i in arange(len(markerColorList_non)):
-            ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
-            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
-
-            yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-        
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
-    
-        ax.set_xlim(-4.0, 4.0)
-        ax.set_ylim(-4.0, 4.0)
-        ax.invert_xaxis()
-    
-        annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
-        xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
-        # x-axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-        # y axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
-
-
-        import matplotlib.patches as mpatches
-        import matplotlib.lines as mlines
-    #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
-    #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
-        corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
-
-        maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
-                              
-        antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
-                              
-        nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
-                                markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
-                              
-        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
-                                borderpad=0.8, fontsize=legend_font, fancybox=True)
-
-
-    ##########################################################################################
-        
-        directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,az_limit)
-
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
-
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
-        summary_file = open(summary_filename,'wt')
-    
-    #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-    #         summary_file.write('{0}. {1}, \n'.format(v,k))
-
-        for num, name in zip(countList, combinedNameList2):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-        
-        for num, name in zip(countList_non, combinedNameList_non):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-    
-        # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
-        stats_file = open(stats_filename,'wt')
-
-        combinedNameList_corotate = []
-        combinedNameList_antirotate = []
-        combinedNameList_maybe = []
-
-        combinedNameList_corotate_zoom_in = []
-        combinedNameList_antirotate_zoom_in = []
-        combinedNameList_maybe_zoom_in = []
-        
-        combinedNameList_corotate_zoom_out = []
-        combinedNameList_antirotate_zoom_out = []
-        combinedNameList_maybe_zoom_out = []
-        
-        for name, ra, dec, c in zip(combinedNameList2, RA_targetList2, Dec_targetList2, markerColorList_NFWmodel2):
-            if c == color_yes:
-                combinedNameList_corotate.append(name)
-            if c == color_maybe:
-                combinedNameList_maybe.append(name)
-            if c == color_no:
-                combinedNameList_antirotate.append(name)
-                
-            if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_in.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_in.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_in.append(name)
+                else:
+                    antirotate_b_far.append(b)
                     
+            if L <= L_limit:
+                Lstar_low.append(b)
             else:
-                if c == color_yes:
-                    combinedNameList_corotate_zoom_out.append(name)
-                if c == color_maybe:
-                    combinedNameList_maybe_zoom_out.append(name)
-                if c == color_no:
-                    combinedNameList_antirotate_zoom_out.append(name)
-                
-                
-        stats_file.write('Total co-rotate = {0} \n'.format(len(combinedNameList_corotate)))
-        stats_file.write('Total anti-rotate = {0} \n'.format(len(combinedNameList_antirotate)))
-        stats_file.write('Total uncertain = {0} \n'.format(len(combinedNameList_maybe)))
-        stats_file.write('\n')
-        stats_file.write('Total co-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_in)))
-        stats_file.write('Total co-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_corotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total anti-rotate within {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_in)))
-        stats_file.write('Total anti-rotate outside {0} = {1} \n'.format(zoom_limit, len(combinedNameList_antirotate_zoom_out)))
-        stats_file.write('\n')
-        stats_file.write('Total uncertain within = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_in)))
-        stats_file.write('Total uncertain outside = {0} \n'.format(zoom_limit, len(combinedNameList_maybe_zoom_out)))
-        stats_file.write('\n')
-        
-        stats_file.write('\n')
-        stats_file.write('Co-rotating systems: \n')
-        for i in combinedNameList_corotate:
-            stats_file.write('{0}\n'.format(i))
-        
-        stats_file.write('\n')
-        stats_file.write('Anti-rotating systems: \n')
-        for i in combinedNameList_antirotate:
-            stats_file.write('{0}\n'.format(i))
-    
-        stats_file.write('\n')
-        stats_file.write('Uncertain systems: \n')
-        for i in combinedNameList_maybe:
-            stats_file.write('{0}\n'.format(i))
-            
-            
-        stats_file.close()
-        summary_file.close()
-
-
-
-##########################################################################################
-##########################################################################################
-# NFW model plot but zoomed into 1 R_vir radius only
-#
-#
-##########################################################################################
-##########################################################################################
-
-    if plot_zoom_in:
-        # initial figure
-        fig = plt.figure(figsize=(8,8))
-        ax = fig.add_subplot(1,1,1)
-    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
-
-    ##########################################################################################
-        # plot circles
-        def xy(r,phi):
-          return r*np.cos(phi), r*np.sin(phi)
-
-        phis=np.arange(0,2*np.pi,0.01)
-    
-        r = 0.5
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        r = 1.0
-        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
-    
-        ax.plot([0,0],[-1,1],c='black',ls='-',lw=0.6)
-        ax.plot([-1,1],[0,0],c='black',ls='-',lw=0.6)
-    
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    
-    ##########################################################################################
-
-    
-        # plot the rest
-        largestEW = max(wList_zoom)
-        smallestEW = min(wList_zoom)
-        maxSize = 500
-        minSize = 30
-    
-        newSizeList = []
-        for w in wList_zoom:
-            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
-            newSizeList.append(newSize)
-
-        # make different style markers for different colors
-        for i in arange(len(markerColorList_NFWmodel_zoom)):
-            marker = '*'
-            marker_lw = 0.6
-
-            if markerColorList_NFWmodel_zoom[i] == color_maybe:
-                marker = 'o'
-            if markerColorList_NFWmodel_zoom[i] == color_no:
-                marker = 'X'
-#                 marker_lw = 1.5
-                marker_lw = 0.5
-            if markerColorList_NFWmodel_zoom[i] == color_yes:
-                marker = 'D'
-        
-
-            ax.scatter(RA_targetList_zoom[i], Dec_targetList_zoom[i], color=markerColorList_NFWmodel_zoom[i], \
-            s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
-    
-        xTagOffset = 2.0
-        yTagOffset = 1.
-
-        previousNames = {}
-        counter = 1
-        for i in arange(len(combinedNameList_zoom)):
-        
-            yTagOffset = 5.0 + (newSizeList[i]/50.)
-
-            annotate(countList_zoom[i],xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-
-
-    ##########################################################################################
-        # now the non-detections
-
-        non_size = 10
-        non_marker = 'o'
-        for i in arange(len(markerColorList_non_zoom)):
-            ax.plot(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i], color=markerColorList_non_zoom[i], \
-            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
-
-            yTagOffset = 5.0
-            annotate(countList_non_zoom[i],xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-        
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
-
-    ##########################################################################################
-
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
-    
-        ax.set_xlim(-zoom_limit, zoom_limit)
-        ax.set_ylim(-zoom_limit, zoom_limit)
-        ax.invert_xaxis()
-    
-        annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.04, 0.06),\
-        xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
+                Lstar_high.append(b)
+                    
         # x-axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(corotate_b, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators$')
+        hist(antirotate_b, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators$')
+        
+        ylim(0, 12)
+        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
 
-        # y axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
+
+        ax = fig.add_subplot(312)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(corotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators~(\rho \leq {0} R_{{vir}})$'.format(zoom_limit))
+        hist(antirotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators~(\rho \leq {0}R_{{vir}})$'.format(zoom_limit))
+        
+        ylim(0, 3)
+        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+        
+        ax = fig.add_subplot(313)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(Lstar_low, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Lstar \leq {0})$'.format(L_limit))
+        hist(Lstar_high, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Lstar > {0})$'.format(L_limit))
+        
+#         ylim(0, 3)
+        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+        
 
 
-        import matplotlib.patches as mpatches
-        import matplotlib.lines as mlines
-    #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
-    #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
-        corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
-
-        maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
-                              
-        antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
-                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
-                              
-        nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
-                                markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
-                              
-        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
-                                borderpad=0.8, fontsize=legend_font, fancybox=True)
-
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+# 
+#         corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+# 
+#         maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+#                               
+#         antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+#         plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
 
     ##########################################################################################
         
         directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_zoom_{4}_azlim_{5}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,zoom_limit, az_limit)
-
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
+        save_name = 'SALT_bhist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, az_limit)
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
-
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
-        summary_file = open(summary_filename,'wt')
-    
-    #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-    #         summary_file.write('{0}. {1}, \n'.format(v,k))
-
-        for num, name in zip(countList_zoom, combinedNameList_zoom):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
+            
         
-        for num, name in zip(countList_non_zoom, combinedNameList_non_zoom):
-            summary_file.write('{0}. {1}, \n'.format(num,name))
-    
-    
         # write out a file breaking down all this shit
         stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
         stats_file = open(stats_filename,'wt')
 
-        combinedNameList_corotate = []
-        combinedNameList_antirotate = []
-        combinedNameList_maybe = []
-        for name, ra, dec, c in zip(combinedNameList_zoom, RA_targetList_zoom, Dec_targetList_zoom, markerColorList_NFWmodel_zoom):
-            if c == color_yes:
-                combinedNameList_corotate.append(name)
-            if c == color_maybe:
-                combinedNameList_maybe.append(name)
-            if c == color_no:
-                combinedNameList_antirotate.append(name)
-                
-                
-        stats_file.write('Total co-rotate = {0} \n'.format(len(combinedNameList_corotate)))
-        stats_file.write('Total anti-rotate = {0} \n'.format(len(combinedNameList_antirotate)))
-        stats_file.write('Total uncertain = {0} \n'.format(len(combinedNameList_maybe)))
+        avg_b_corotate = mean(corotate_b)
+        avg_b_antirotate = mean(antirotate_b)
         
-        stats_file.write('\n')
-        stats_file.write('Co-rotating systems: \n')
-        for i in combinedNameList_corotate:
-            stats_file.write('{0}\n'.format(i))
+        med_b_corotate = median(corotate_b)
+        med_b_antirotate = median(antirotate_b)
         
+        std_b_corotate = std(corotate_b)
+        std_b_antirotate = std(antirotate_b)
+
+        # now the zoomed in ones
+        avg_b_corotate_close = mean(corotate_b_close)
+        avg_b_antirotate_close = mean(antirotate_b_close)
+        
+        med_b_corotate_close = median(corotate_b_close)
+        med_b_antirotate_close = median(antirotate_b_close)
+        
+        std_b_corotate_close = std(corotate_b_close)
+        std_b_antirotate_close = std(antirotate_b_close)
+
+
+        # now the zoomed out ones
+        avg_b_corotate_far = mean(corotate_b_far)
+        avg_b_antirotate_far = mean(antirotate_b_far)
+        
+        med_b_corotate_far = median(corotate_b_far)
+        med_b_antirotate_far = median(antirotate_b_far)
+        
+        std_b_corotate_far = std(corotate_b_far)
+        std_b_antirotate_far = std(antirotate_b_far)
+        
+        
+        # now the Lstars
+        avg_b_Lstar_high = mean(Lstar_high)
+        avg_b_Lstar_low = mean(Lstar_low)
+        
+        med_b_Lstar_high = median(Lstar_high)
+        med_b_Lstar_low = median(Lstar_low)
+        
+        std_b_Lstar_high = std(Lstar_high)
+        std_b_Lstar_low = std(Lstar_low)
+                
+        stats_file.write('Average b co-rotate = {0} \n'.format(avg_b_corotate))
+        stats_file.write('Average b anti-rotate = {0} \n'.format(avg_b_antirotate))
+        stats_file.write('Median b co-rotate = {0} \n'.format(med_b_corotate))
+        stats_file.write('Median b anti-rotate = {0} \n'.format(med_b_antirotate))
+        stats_file.write('Std b co-rotate = {0} \n'.format(std_b_corotate))
+        stats_file.write('Std b anti-rotate = {0} \n'.format(std_b_antirotate))
         stats_file.write('\n')
-        stats_file.write('Anti-rotating systems: \n')
-        for i in combinedNameList_antirotate:
-            stats_file.write('{0}\n'.format(i))
-    
         stats_file.write('\n')
-        stats_file.write('Uncertain systems: \n')
-        for i in combinedNameList_maybe:
-            stats_file.write('{0}\n'.format(i))
-            
-            
-        stats_file.close()
-        summary_file.close()
+        stats_file.write('Average b co-rotate zoom_in = {0} \n'.format(avg_b_corotate_close))
+        stats_file.write('Average b anti-rotate zoom_in = {0} \n'.format(avg_b_antirotate_close))
+        stats_file.write('Median b co-rotate zoom_in = {0} \n'.format(med_b_corotate_close))
+        stats_file.write('Median b anti-rotate zoom_in = {0} \n'.format(med_b_antirotate_close))
+        stats_file.write('Std b co-rotate zoom_in = {0} \n'.format(std_b_corotate_close))
+        stats_file.write('Std b anti-rotate zoom_in = {0} \n'.format(std_b_antirotate_close))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        stats_file.write('Average b co-rotate zoom_out = {0} \n'.format(avg_b_corotate_far))
+        stats_file.write('Average b anti-rotate zoom_out = {0} \n'.format(avg_b_antirotate_far))
+        stats_file.write('Median b co-rotate zoom_out = {0} \n'.format(med_b_corotate_far))
+        stats_file.write('Median b anti-rotate zoom_out = {0} \n'.format(med_b_antirotate_far))
+        stats_file.write('Std b co-rotate zoom_out = {0} \n'.format(std_b_corotate_far))
+        stats_file.write('Std b anti-rotate zoom_out = {0} \n'.format(std_b_antirotate_far))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        stats_file.write('Average b Lstar high = {0} \n'.format(avg_b_Lstar_high))
+        stats_file.write('Average b Lstar low = {0} \n'.format(avg_b_Lstar_low))
+        stats_file.write('Median b Lstar high = {0} \n'.format(med_b_Lstar_high))
+        stats_file.write('Median b Lstar low = {0} \n'.format(med_b_Lstar_low))
+        stats_file.write('Std b Lstar high = {0} \n'.format(std_b_Lstar_high))
+        stats_file.write('Std b Lstar low = {0} \n'.format(std_b_Lstar_low))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        
+        
+        stats_file.close()    
 
     
 if __name__ == '__main__':

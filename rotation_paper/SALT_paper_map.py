@@ -184,7 +184,7 @@ def main():
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
 #     Lstar_range = [0.0, 100.0]
-    Lstar_range = [0.0, 0.8]
+    Lstar_range = [0.0, 0.5]
 
 
     # azimuth limit for "maybe" trigger
@@ -197,7 +197,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = False
+    min_separation = 20.0
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
