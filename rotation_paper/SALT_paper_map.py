@@ -175,7 +175,7 @@ def main():
     hubbleConstant = 71.0
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True

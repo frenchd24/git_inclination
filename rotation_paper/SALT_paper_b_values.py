@@ -742,7 +742,7 @@ def main():
     if plot_b_comparison:
         # initial figure
         fig = plt.figure(figsize=(8,8))
-        subplots_adjust(hspace=0.300)
+        subplots_adjust(hspace=0.500)
 
         ax = fig.add_subplot(311)
 
@@ -809,7 +809,7 @@ def main():
         hist(corotate_b, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators$')
         hist(antirotate_b, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators$')
         
-        ylim(0, 12)
+        ylim(0, 14)
         legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
         xlabel(r'$\rm b ~ [km~s^{-1}]$')
         ylabel(r'$\rm Number$')
@@ -836,7 +836,7 @@ def main():
         hist(corotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators~(\rho \leq {0} R_{{vir}})$'.format(zoom_limit))
         hist(antirotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators~(\rho \leq {0}R_{{vir}})$'.format(zoom_limit))
         
-        ylim(0, 3)
+        ylim(0, 4)
         legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
         xlabel(r'$\rm b ~ [km~s^{-1}]$')
         ylabel(r'$\rm Number$')
