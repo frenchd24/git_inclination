@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{24}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Bowen} {et~al.}(2016){Bowen}, {Chelouche}, {Jenkins}, {Tripp},
@@ -13,6 +13,11 @@
   {Freeman}, \& {Broadhurst}}]{cote2005}
 {C{\^o}t{\'e}}, S., {Wyse}, R.~F.~G., {Carignan}, C., {Freeman}, K.~C., \&
   {Broadhurst}, T. 2005, \apj, 618, 178
+
+\bibitem[{{Danovich} {et~al.}(2012){Danovich}, {Dekel}, {Hahn}, \&
+  {Teyssier}}]{danovich2012}
+{Danovich}, M., {Dekel}, A., {Hahn}, O., \& {Teyssier}, R. 2012, \mnras, 422,
+  1732
 
 \bibitem[{{de Blok} {et~al.}(2008){de Blok}, {Walter}, {Brinks},
   {Trachternach}, {Oh}, \& {Kennicutt}}]{deblok2008}
@@ -54,6 +59,10 @@
 \bibitem[{{Rubin} {et~al.}(1982){Rubin}, {Thonnard}, \& {Ford}}]{rubin1982}
 {Rubin}, V.~C., {Thonnard}, N.~T., \& {Ford}, Jr., W.~K. 1982, \aj, 87, 477
 
+\bibitem[{{Shen} {et~al.}(2013){Shen}, {Madau}, {Guedes}, {Mayer}, {Prochaska},
+  \& {Wadsley}}]{shen2013}
+{Shen}, S., {Madau}, P., {Guedes}, J., {et~al.} 2013, \apj, 765, 89
+
 \bibitem[{{Sofue}(1996)}]{sofue1996}
 {Sofue}, Y. 1996, \apj, 458, 120
 
@@ -63,7 +72,7 @@
   74
 
 \bibitem[{{Stewart} {et~al.}(2011){Stewart}, {Kaufmann}, {Bullock}, {Barton},
-  {Maller}, {Diemand}, \& {Wadsley}}]{stewart2011}
+  {Maller}, {Diemand}, \& {Wadsley}}]{stewart2011b}
 {Stewart}, K.~R., {Kaufmann}, T., {Bullock}, J.~S., {et~al.} 2011, \apj, 738,
   39
 

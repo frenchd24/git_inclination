@@ -3,19 +3,9 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id: SALT_paper_map.py, v3.0 04/30/18
+$Id: SALT_paper_EW_hist.py, v1.0 05/10/18
 
-Makes straight on-sky orientation plot as well as cylindrical and NFW model comparison
-maps.
-
-
-
-Previously: plot_onsky_absorber_vel.py, v2.0 04/04/18
-
-Plot an impact parameter map showing the locations and velocities of each absorber wrt 
-the galaxy (2/19/18)
-
-v2: Orient so all the galaxies have approaching side on the left (04/04/18)
+Plot EW histograms for co-rotating and anti-rotating absorbers
 
 '''
 
@@ -202,10 +192,13 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_b_comparison = True
+    plot_EW_comparison = True
 
     # use fits vs integrated values?
-    use_fits = True
+    use_fits = False
+    
+    # don't include absorbers with EW above this
+    EW_cut = 1000.
     
 ##########################################################################################
 ##########################################################################################
@@ -558,12 +551,22 @@ def main():
 
             
         # now compare to the rotation velocity
-        color_yes = '#1b9e77'    # greenish
-        color_no = '#d95f02'     # orange
+#         color_yes = '#1b9e77'    # greenish
+#         color_no = '#d95f02'     # orange
 #         color_maybe = '#7570b3'  # blue-ish purple
         color_maybe = 'grey'
         color_nonDetection = 'grey'
         markerColor = 'black'
+        
+        color_yes = '#436bad'      # french blue
+        color_no = '#ec2d01'     # tomato red
+#         color_no = '#ef8a62'     # red
+#         color_yes = '#67a9cf'      # blue
+#         color_no = '#d95f02'     # orange
+#         color_yes = '#7570b3'      # purple
+#         color_yes = '#1b9e77'      # greenish
+
+        
         
         if isNumber(dv):
             # the absorption and rotation velocity match
@@ -658,6 +661,9 @@ def main():
                         break
         
         
+        if lyaW > EW_cut:
+            add_to_list = False
+        
         # populate the lists
         if add_to_list:
             # first detections
@@ -746,13 +752,13 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-# Plot b values for co-rotators vs anti-rotators
+# Plot EW values for co-rotators vs anti-rotators
 #
 #
 ##########################################################################################
 ##########################################################################################
 
-    if plot_b_comparison:
+    if plot_EW_comparison:
         # initial figure
         fig = plt.figure(figsize=(8,8))
         subplots_adjust(hspace=0.500)
@@ -760,53 +766,54 @@ def main():
         ax = fig.add_subplot(311)
 
 #         bins = arange(0,100,10)
-        bins = arange(10,90,10)
+        bins = arange(0, EW_cut, 100)
 
-        alpha = 0.6
-        
-        L_limit = 0.6
+        alpha_no = 0.55
+        alpha_yes = 0.65
+
+        L_limit = 0.5
         
 
-        corotate_b = []
-        antirotate_b = []
+        corotate_EW = []
+        antirotate_EW = []
         
-        corotate_b_close = []
-        antirotate_b_close = []
+        corotate_EW_close = []
+        antirotate_EW_close = []
         
-        corotate_b_far = []
-        antirotate_b_far = []
+        corotate_EW_far = []
+        antirotate_EW_far = []
         
         Lstar_high = []
         Lstar_low = []
         
-        for m, b, ra, dec, L in zip(markerColorList_NFWmodel, bList, RA_targetList, Dec_targetList, LstarList):
+        for m, EW, ra, dec, L in zip(markerColorList_NFWmodel, wList, RA_targetList, Dec_targetList, LstarList):
             if m == color_yes:
-                corotate_b.append(b)
+                corotate_EW.append(EW)
                 
                 if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                    corotate_b_close.append(b)
+                    corotate_EW_close.append(EW)
                     
                 else:
-                    corotate_b_far.append(b)
+                    corotate_EW_far.append(EW)
             
             if m == color_no:
-                antirotate_b.append(b)
+                antirotate_EW.append(EW)
                 
                 if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                    antirotate_b_close.append(b)
+                    antirotate_EW_close.append(EW)
                     
                 else:
-                    antirotate_b_far.append(b)
+                    antirotate_EW_far.append(EW)
                     
             if L <= L_limit:
-                Lstar_low.append(b)
+                Lstar_low.append(EW)
             else:
-                Lstar_high.append(b)
+                Lstar_high.append(EW)
                     
         # x-axis
-        majorLocator   = MultipleLocator(10)
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
+        minorLocator   = MultipleLocator(100)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -819,21 +826,21 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(corotate_b, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators$')
-        hist(antirotate_b, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators$')
+        hist(antirotate_EW, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
+        hist(corotate_EW, bins=bins, histtype='bar', lw=1.5, color = color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators$')
         
-        ylim(0, 14)
-        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
-        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylim(0, 12)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm EW ~ [m \AA]$')
         ylabel(r'$\rm Number$')
 
 
         ax = fig.add_subplot(312)
                     
         # x-axis
-        majorLocator   = MultipleLocator(10)
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
+        minorLocator   = MultipleLocator(100)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -846,20 +853,20 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(corotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Co-rotators~(\rho \leq {0} R_{{vir}})$'.format(zoom_limit))
-        hist(antirotate_b_close, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Anti-rotators~(\rho \leq {0}R_{{vir}})$'.format(zoom_limit))
-        
-        ylim(0, 4)
-        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
-        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        hist(antirotate_EW_close, bins=bins, histtype='bar', lw=1.5, hatch='//', color=color_no, edgecolor='black', alpha=alpha_no, label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+        hist(corotate_EW_close, bins=bins, histtype='bar', lw=1.5, color=color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+
+        ylim(0, 5)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm EW ~ [m \AA]$')
         ylabel(r'$\rm Number$')
         
         ax = fig.add_subplot(313)
                     
         # x-axis
-        majorLocator   = MultipleLocator(10)
+        majorLocator   = MultipleLocator(200)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
+        minorLocator   = MultipleLocator(100)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -872,12 +879,12 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(Lstar_low, bins=bins, histtype='bar', lw=1.5, color = 'blue', alpha=alpha, label=r'$\rm Lstar \leq {0})$'.format(L_limit))
-        hist(Lstar_high, bins=bins, histtype='bar', lw=1.5, color = 'red', alpha=alpha, label=r'$\rm Lstar > {0})$'.format(L_limit))
+        hist(Lstar_high, bins=bins, histtype='bar', lw=1.5, hatch='//', color=color_no, alpha=alpha_no, edgecolor='black', label=r'$\rm L^{{\**}} > {0})$'.format(L_limit))
+        hist(Lstar_low, bins=bins, histtype='bar', lw=1.5, color=color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm L^{{\**}} \leq {0})$'.format(L_limit))
         
-#         ylim(0, 3)
-        legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
-        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylim(0, 14)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm EW ~ [m \AA]$')
         ylabel(r'$\rm Number$')
         
 
@@ -903,7 +910,7 @@ def main():
     ##########################################################################################
         
         directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALT_bhist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        save_name = 'SALT_EW_hist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_cut_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, EW_cut)
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
             
         
@@ -911,77 +918,77 @@ def main():
         stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
         stats_file = open(stats_filename,'wt')
 
-        avg_b_corotate = mean(corotate_b)
-        avg_b_antirotate = mean(antirotate_b)
+        avg_EW_corotate = mean(corotate_EW)
+        avg_EW_antirotate = mean(antirotate_EW)
         
-        med_b_corotate = median(corotate_b)
-        med_b_antirotate = median(antirotate_b)
+        med_EW_corotate = median(corotate_EW)
+        med_EW_antirotate = median(antirotate_EW)
         
-        std_b_corotate = std(corotate_b)
-        std_b_antirotate = std(antirotate_b)
+        std_EW_corotate = std(corotate_EW)
+        std_EW_antirotate = std(antirotate_EW)
 
         # now the zoomed in ones
-        avg_b_corotate_close = mean(corotate_b_close)
-        avg_b_antirotate_close = mean(antirotate_b_close)
+        avg_EW_corotate_close = mean(corotate_EW_close)
+        avg_EW_antirotate_close = mean(antirotate_EW_close)
         
-        med_b_corotate_close = median(corotate_b_close)
-        med_b_antirotate_close = median(antirotate_b_close)
+        med_EW_corotate_close = median(corotate_EW_close)
+        med_EW_antirotate_close = median(antirotate_EW_close)
         
-        std_b_corotate_close = std(corotate_b_close)
-        std_b_antirotate_close = std(antirotate_b_close)
+        std_EW_corotate_close = std(corotate_EW_close)
+        std_EW_antirotate_close = std(antirotate_EW_close)
 
 
         # now the zoomed out ones
-        avg_b_corotate_far = mean(corotate_b_far)
-        avg_b_antirotate_far = mean(antirotate_b_far)
+        avg_EW_corotate_far = mean(corotate_EW_far)
+        avg_EW_antirotate_far = mean(antirotate_EW_far)
         
-        med_b_corotate_far = median(corotate_b_far)
-        med_b_antirotate_far = median(antirotate_b_far)
+        med_EW_corotate_far = median(corotate_EW_far)
+        med_EW_antirotate_far = median(antirotate_EW_far)
         
-        std_b_corotate_far = std(corotate_b_far)
-        std_b_antirotate_far = std(antirotate_b_far)
+        std_EW_corotate_far = std(corotate_EW_far)
+        std_EW_antirotate_far = std(antirotate_EW_far)
         
         
         # now the Lstars
-        avg_b_Lstar_high = mean(Lstar_high)
-        avg_b_Lstar_low = mean(Lstar_low)
+        avg_EW_Lstar_high = mean(Lstar_high)
+        avg_EW_Lstar_low = mean(Lstar_low)
         
-        med_b_Lstar_high = median(Lstar_high)
-        med_b_Lstar_low = median(Lstar_low)
+        med_EW_Lstar_high = median(Lstar_high)
+        med_EW_Lstar_low = median(Lstar_low)
         
-        std_b_Lstar_high = std(Lstar_high)
-        std_b_Lstar_low = std(Lstar_low)
+        std_EW_Lstar_high = std(Lstar_high)
+        std_EW_Lstar_low = std(Lstar_low)
                 
-        stats_file.write('Average b co-rotate = {0} \n'.format(avg_b_corotate))
-        stats_file.write('Average b anti-rotate = {0} \n'.format(avg_b_antirotate))
-        stats_file.write('Median b co-rotate = {0} \n'.format(med_b_corotate))
-        stats_file.write('Median b anti-rotate = {0} \n'.format(med_b_antirotate))
-        stats_file.write('Std b co-rotate = {0} \n'.format(std_b_corotate))
-        stats_file.write('Std b anti-rotate = {0} \n'.format(std_b_antirotate))
+        stats_file.write('Average EW co-rotate = {0} \n'.format(avg_EW_corotate))
+        stats_file.write('Average EW anti-rotate = {0} \n'.format(avg_EW_antirotate))
+        stats_file.write('Median EW co-rotate = {0} \n'.format(med_EW_corotate))
+        stats_file.write('Median EW anti-rotate = {0} \n'.format(med_EW_antirotate))
+        stats_file.write('Std EW co-rotate = {0} \n'.format(std_EW_corotate))
+        stats_file.write('Std EW anti-rotate = {0} \n'.format(std_EW_antirotate))
         stats_file.write('\n')
         stats_file.write('\n')
-        stats_file.write('Average b co-rotate zoom_in = {0} \n'.format(avg_b_corotate_close))
-        stats_file.write('Average b anti-rotate zoom_in = {0} \n'.format(avg_b_antirotate_close))
-        stats_file.write('Median b co-rotate zoom_in = {0} \n'.format(med_b_corotate_close))
-        stats_file.write('Median b anti-rotate zoom_in = {0} \n'.format(med_b_antirotate_close))
-        stats_file.write('Std b co-rotate zoom_in = {0} \n'.format(std_b_corotate_close))
-        stats_file.write('Std b anti-rotate zoom_in = {0} \n'.format(std_b_antirotate_close))
+        stats_file.write('Average EW co-rotate zoom_in = {0} \n'.format(avg_EW_corotate_close))
+        stats_file.write('Average EW anti-rotate zoom_in = {0} \n'.format(avg_EW_antirotate_close))
+        stats_file.write('Median EW co-rotate zoom_in = {0} \n'.format(med_EW_corotate_close))
+        stats_file.write('Median EW anti-rotate zoom_in = {0} \n'.format(med_EW_antirotate_close))
+        stats_file.write('Std EW co-rotate zoom_in = {0} \n'.format(std_EW_corotate_close))
+        stats_file.write('Std EW anti-rotate zoom_in = {0} \n'.format(std_EW_antirotate_close))
         stats_file.write('\n')
         stats_file.write('\n')
-        stats_file.write('Average b co-rotate zoom_out = {0} \n'.format(avg_b_corotate_far))
-        stats_file.write('Average b anti-rotate zoom_out = {0} \n'.format(avg_b_antirotate_far))
-        stats_file.write('Median b co-rotate zoom_out = {0} \n'.format(med_b_corotate_far))
-        stats_file.write('Median b anti-rotate zoom_out = {0} \n'.format(med_b_antirotate_far))
-        stats_file.write('Std b co-rotate zoom_out = {0} \n'.format(std_b_corotate_far))
-        stats_file.write('Std b anti-rotate zoom_out = {0} \n'.format(std_b_antirotate_far))
+        stats_file.write('Average EW co-rotate zoom_out = {0} \n'.format(avg_EW_corotate_far))
+        stats_file.write('Average EW anti-rotate zoom_out = {0} \n'.format(avg_EW_antirotate_far))
+        stats_file.write('Median EW co-rotate zoom_out = {0} \n'.format(med_EW_corotate_far))
+        stats_file.write('Median EW anti-rotate zoom_out = {0} \n'.format(med_EW_antirotate_far))
+        stats_file.write('Std EW co-rotate zoom_out = {0} \n'.format(std_EW_corotate_far))
+        stats_file.write('Std EW anti-rotate zoom_out = {0} \n'.format(std_EW_antirotate_far))
         stats_file.write('\n')
         stats_file.write('\n')
-        stats_file.write('Average b Lstar high = {0} \n'.format(avg_b_Lstar_high))
-        stats_file.write('Average b Lstar low = {0} \n'.format(avg_b_Lstar_low))
-        stats_file.write('Median b Lstar high = {0} \n'.format(med_b_Lstar_high))
-        stats_file.write('Median b Lstar low = {0} \n'.format(med_b_Lstar_low))
-        stats_file.write('Std b Lstar high = {0} \n'.format(std_b_Lstar_high))
-        stats_file.write('Std b Lstar low = {0} \n'.format(std_b_Lstar_low))
+        stats_file.write('Average EW Lstar high = {0} \n'.format(avg_EW_Lstar_high))
+        stats_file.write('Average EW Lstar low = {0} \n'.format(avg_EW_Lstar_low))
+        stats_file.write('Median EW Lstar high = {0} \n'.format(med_EW_Lstar_high))
+        stats_file.write('Median EW Lstar low = {0} \n'.format(med_EW_Lstar_low))
+        stats_file.write('Std EW Lstar high = {0} \n'.format(std_EW_Lstar_high))
+        stats_file.write('Std EW Lstar low = {0} \n'.format(std_EW_Lstar_low))
         stats_file.write('\n')
         stats_file.write('\n')
         

@@ -175,7 +175,7 @@ def main():
     hubbleConstant = 71.0
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = False
+    only_close_velocities = True
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -183,8 +183,9 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-#     Lstar_range = [0.0, 100.0]
-    Lstar_range = [0.0, 0.5]
+    Lstar_range = [0.0, 100.0]
+#     Lstar_range = [0.0, 0.5]
+#     Lstar_range = [0.50001, 100.0]
 
 
     # azimuth limit for "maybe" trigger
@@ -197,10 +198,13 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = 20.0
+    min_separation = False
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
+    
+    # remove systems of lower inclination than this:
+    inc_limit = 80.
     
     # which plot to make?
     plot_onsky = True
@@ -560,8 +564,19 @@ def main():
         color_no = '#d95f02'     # orange
 #         color_maybe = '#7570b3'  # blue-ish purple
         color_maybe = 'grey'
-        color_nonDetection = 'grey'
+        color_nonDetection = 'black'
         markerColor = 'black'
+        
+        
+#         color_yes = '#0652ff'    # blue
+#         color_no = '#ff9408'     # orange
+        
+        color_yes = '#1805db'    # ultramarine blue
+        color_yes = '#436bad'      # french blue
+        color_no = '#ec2d01'     # tomato red
+
+        
+        
         
         if isNumber(dv):
             # the absorption and rotation velocity match
@@ -654,6 +669,10 @@ def main():
                         print 'False for {0} - {1}'.format(name, separation)
                         print
                         break
+        
+        
+        if inc <= inc_limit:
+            add_to_list = False
         
         
         # populate the lists
@@ -994,7 +1013,7 @@ def main():
     ##########################################################################################
         
         directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, az_limit)
+        save_name = 'SALTmap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
 
@@ -1252,7 +1271,7 @@ def main():
         
         directory = '/Users/frenchd/Research/test/'
 
-        save_name = 'SALTmap_cyl_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, az_limit)    
+        save_name = 'SALTmap_cyl_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)    
     
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
@@ -1511,7 +1530,7 @@ def main():
     ##########################################################################################
         
         directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_azlim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,az_limit)
+        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)
 
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
@@ -1756,7 +1775,7 @@ def main():
     ##########################################################################################
         
         directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_zoom_{4}_azlim_{5}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,zoom_limit, az_limit)
+        save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_zoom_{4}_inclim_{5}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,zoom_limit, inc_limit)
 
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
         savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
