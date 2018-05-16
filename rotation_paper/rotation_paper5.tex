@@ -144,9 +144,9 @@ Finally, we calculate our approaching and receding velocities via a weighted mea
 \tablenotetext{k}{\cite{dinella1996}}
 \tablenotetext{l}{\cite{giovanelli1997}}
 \tablerefs{\cite{giovanelli1997}}
+ \label{salt_targets}
 \end{deluxetable*}
 
-% \label{salt_targets} \\
 
 \subsection{COS Spectra}
 The Barbara A. Mikulski Archive for Space Telescopes (MAST) archives yield 19 QSO targets observed by COS which lie within 500 kpc of our SALT galaxies. These targets vary widely in signal-to-noise from approximately 5 to 100 due to our choosing them based only on their proximity to galaxies with known rotation. The reduction procedure for these spectra follow those described by \cite{french2017} and \cite{wakker2015}. In short, spectra are processed with CALCOS v3.0 or higher and combined via the method of \cite{wakker2015}, which helps corrects the COS wavelength scale misalignments produced by CALCOS. Multiple exposures are combined via alignment with Galactic 21cm absorption spectra and summing total counts per pixel before converting to flux. The COS instrument is described in detail by \cite{green2012}.
@@ -168,7 +168,7 @@ For each galaxy-QSO pair we created 2 rotation models: 1) a purely cylindrical h
 %\tablewidth{2.0pt}
 \tablecaption{Summary of QSO Sample\label{tab:params}}
 \tablehead{
-\colhead{Target}  		&  \colhead{Galaxy} 			&  \colhead{R.A.}  		&  \colhead{Dec.}		& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{exp}}^a$}	\\
+\colhead{Target}  		&  \colhead{Galaxy} 			&  \colhead{R.A.}  		&  \colhead{Dec.}		& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{exp}}$}	\\
 			  		&          					&  			 		& 		  			& 		     	&				  & \colhead{(ks)}}
 \colnumbers
 \startdata
@@ -214,7 +214,7 @@ SDSSJ101622.60+470643.0	&	NGC3198			&	10 16 22.6		&	+47 06 43.0		&   0.82222	& 1
 SDSSJ104335.90+115129.0	&	NGC3351			&	10 43 35.9		&	+11 05 29.0		&   0.79400	& 14071		& 4736	\\
 SDSSJ112005.00+041323.0  	& 	NGC3633  		&      11 20 05.0  		&	+04 13 23.0 		&   0.54689  	& 12603		& 4708	\\
 SDSSJ112224.10+031802.0	&	NGC3633			&	11 22 24.1			&	+03 18 02.0		&   0.47528	& 12603		& 7588	\\
-SDSSJ112224.10+031802.0  	& 	CGCG039-137 		&  	11 22 24.1  		&	+03 18 02.0 		&   0.47528  	& 12603		& 7588	\\
+%SDSSJ112224.10+031802.0  	& 	CGCG039-137 		&  	11 22 24.1  		&	+03 18 02.0 		&   0.47528  	& 12603		& 7588	\\
 SDSSJ112439.50+113117.0	&	NGC3666			&	11 24 39.4			&	+11 31 17.0		&   0.14300	& 14071		& 10427	\\
 SDSSJ112448.30+531818.0	&	UGC06446		&	11 24 48.3			&	+53 18 19.0		&   0.53151	& 14240		& 7920	\\
 SDSSJ112632.90+120437.0	&	NGC3666			&	11 26 32.9			&	+12 04 37.0		&   0.97700	& 13314		& 8289	\\
@@ -225,19 +225,24 @@ SDSSJ152053.59+571122.1	&	NGC5907			&	15 20 53.7		&	+57 11 23.0		&   0.02952	& 1
 TON1009					&	NGC2770			&	09 09 06.2		&	+32 36 30.0		&   0.81028	& 12603		&  4740	\\
 TON1015					&	NGC2770			&	09 10 37.0		&	+33 29 24.0		&   0.35400	& 14240		&  4774	\\
 \enddata
-\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
+%\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
 \tablecomments{Summary of COS targets in this sample.}
 \end{deluxetable*}
 
 
 
 \section{SALT Galaxies}
+In this section we summarize each galaxy-QSO system observed by SALT. We calculate impact parameters to QSOs and galaxy-absorber velocity separations ($\Delta v = V_{Ly\alpha} - V_{sys}$) based on our measured $V_{sys}$ values. Both measured and previously published values for $V_{sys}$ are given in Table \ref{salt_targets} for reference.
 
 \subsection{CGCG039-137}
 
-CGCG039-137 is an isolated Scd type galaxy with a measured systemic velocity of $6918 \pm 24$ \kms~and inclination of $63^{\circ}$. There are two associated sightlines: RX\_J1121.2+0326 at an impact parameter of 99 kpc and azimuth angle of $71^{\circ}$ on the receding side, and SDSSJ112224.10+031802.0 at 491 kpc and $24^{\circ}$ on the approaching side. Ly$\alpha$ absorption is detected in both sightlines within $400$\kms~ of CGCG039-137. 
+CGCG039-137 is an isolated Scd type galaxy with a measured systemic velocity of $6918 \pm 24$ \kms~and inclination of $63^{\circ}$. The QSO RX\_J1121.2+0326 is located nearby at an impact parameter of 99 kpc and azimuth angle of $71^{\circ}$ on the receding side. The data for  RX\_J1121.2+0326 has low signal-to-noise ($\sim 4.2$), but we are able to detect Ly$\alpha$ at 6975 \kms~, which, at $\Delta v = 57$ \kms, lies well within the range of projected velocities consistent with co-rotation (cylindrical model = [-36, 137], NFW = [-37, 164] \kms). 
 
-Towards RX\_J1121.2+0326 we detect Ly$\alpha$ at 6975 \kms~, which, at $\Delta v = 57$ \kms, lies well within the range of projected velocities consistent with co-rotation. The absorber detected toward SDSSJ112224.10+031802.0 occurs at a more distant 6606 \kms ($\Delta v = -312$ \kms). Although this absorber has the correct sign for co-rotation (blue-ward on the approaching side of the disk), the large velocity difference and impact parameter make it unlikely that this absorption can be linked to coherent halo rotation.
+
+%, and SDSSJ112224.10+031802.0 at 491 kpc and $24^{\circ}$ on the approaching side. Ly$\alpha$ absorption is detected in both sightlines within $400$\kms~ of CGCG039-137. 
+
+
+%The absorber detected toward SDSSJ112224.10+031802.0 occurs at a more distant 6606 \kms ($\Delta v = -312$ \kms). Although this absorber has the correct sign for co-rotation (blue-ward on the approaching side of the disk), the large velocity difference and impact parameter make it unlikely that this absorption can be linked to coherent halo rotation.
 
 
 %Systemic velocity as published: 6902
@@ -258,7 +263,7 @@ Towards RX\_J1121.2+0326 we detect Ly$\alpha$ at 6975 \kms~, which, at $\Delta v
 
 
 \subsection{ESO343-G014}
-ESO343-G014 is an edge on spiral galaxy with a measured systemic velocity of 9138.9 $\pm$ 31.7 \kms. It has a smaller neighboring galaxy, 2MASXJ21372816-3824412, located north of it's major axis at a projected distance of 216 kpc and velocity of 9129. The nearest sightline is towards RBS1768 at an impact parameter of 466kpc and $74^{\circ}$ azimuth angle on the approaching side. We detect 3 Ly$\alpha$ absorption lines within 300 \kms of ESO343-G014 (at 9308, 9360, and 9434 \kms). All of these are anti-aligned with the rotation of ESO343-G014, but unfortunately the presence of 2MASXJ21372816-3824412 makes it difficult to attribute this gas solely to ESO343-G014. Additionally, this gas could be attributed to either the approaching or receding side of the disk due to the large impact parameter and high azimuth angle of the sightline.
+ESO343-G014 is an edge on spiral galaxy with a measured systemic velocity of 9139 $\pm$ 32 \kms. It has a smaller neighboring galaxy, 2MASXJ21372816-3824412, located north of it's major axis at a projected distance of 216 kpc and velocity of 9129 \kms. The nearest sightline is towards RBS1768 at an impact parameter of 466 kpc and $74^{\circ}$ azimuth angle on the approaching side. We detect 3 blended Ly$\alpha$ absorption components toward RBS1768 at $V_{Ly\alpha} = 9308, 9360, 9434$ \kms ($\Delta v = 169, 221, 295$ \kms). This system is highly blended and contaminated with galactic S\,{\sc i}, and therefore their widths are not reliable. All of these are anti-aligned with the rotation of ESO343-G014 relative to the models (cylindrical = [-203, 10], NFW = [-122, 31] \kms). Unfortunately the presence of 2MASXJ21372816-3824412 makes it difficult to attribute this gas solely to ESO343-G014. Additionally, this gas could be attributed to either the approaching or receding side of the disk due to the large impact parameter and high azimuth angle of the sightline.
 
 
 %Systemic velocity as published: 9162
@@ -278,7 +283,7 @@ ESO343-G014 is an edge on spiral galaxy with a measured systemic velocity of 913
 
 
 \subsection{IC5325}
-IC5325 is a face-on SAB(rs)bc type galaxy with a measured velocity of 1511.9 $\pm$ 8.4 \kms. It's inclination is just high enough ($25^{\circ}$) to obtain a reasonable rotation curve. The closest neighboring galaxy is ESO347-G020 to the Southeast at 306 kpc and a heliocentric velocity of 1745 \kms. Three other much smaller galaxies are also located $\sim 450$ kpc to the Southwest. We detect Ly$\alpha$ absorption at 1598\kms, $\Delta v = 86$\kms~in the spectrum towards RBS2000 at an impact parameter of 314 kpc and azimuth angle of $64^{\circ}$ on the approaching side. While this velocity is anti-aligned with the rotation the disk gas, the low inclination angle of IC5325 leads to a highly uncertain position angle. Without additional observations, we cannot say for certain if the location of RBS2000 actually lies on the approaching or receding side. This position angle uncertainty also means our SALT rotation curve is a lower limit on the true rotation velocity of IC5325.
+IC5325 is a face-on SAB(rs)bc type galaxy with a measured systemic velocity of $1512 \pm 8$ \kms. It's inclination is just high enough ($i = 25^{\circ}$) to obtain a reasonable rotation curve. The closest neighboring galaxy is ESO347-G020 to the Southeast at 306 kpc and $V_{sys} = 1745$ \kms. Three other much smaller galaxies are also located $\sim 450$ kpc to the Southwest. We detect Ly$\alpha$ absorption at 1598 \kms ($\Delta v = 86$ \kms) in the spectrum towards RBS2000 at an impact parameter of 314 kpc and azimuth angle of $64^{\circ}$ on the approaching side. While this velocity is anti-aligned with the rotation the disk gas, the low inclination angle of IC5325 leads to a highly uncertain position angle. Without additional observations, we cannot say for certain if the location of RBS2000 actually lies on the approaching or receding side. This position angle uncertainty also means our SALT rotation curve is a lower limit on the true rotation velocity of IC5325.
 
 %The velocity of the absorber, $\Delta v = 86$\kms, is also outside the range of projected co-rotation velocities
 
@@ -301,7 +306,7 @@ IC5325 is a face-on SAB(rs)bc type galaxy with a measured velocity of 1511.9 $\p
 
 
 \subsection{MCG-03-58-009}
-MCG-03-58-009 is a massive and very isolated Sc type galaxy at a measured velocity of $9015 \pm 19$ \kms~ and inclination angle of $49^{\circ}$. A weak Ly$\alpha$ absorber is detected at $9029$ \kms~towards MRC2251-178, which lies 355 kpc away at an azimuth angle of $71^{\circ}$ on the receding side. Although this absorber matches the velocity direction expected for co-rotation, the velocity difference ($\Delta v = 14$ \kms) is within the systemic velocity uncertainty. The relative weakness of this absorber (EW = $62 \pm 4$ m\AA) is somewhat surprising given it's proximity (just outside of 1 $R_{vir}$) to a massive galaxy. If this is representative of an isolated system such as MCG-03-58-009, then we should expect the halo rotational velocity to approach systemic by 1 $R_{vir}$.
+MCG-03-58-009 is a massive and very isolated Sc type galaxy at a measured systemic velocity of $9015 \pm 19$ \kms~and inclination angle of $49^{\circ}$. The QSO MRC2251-178 is located 355 kpc away at an azimuth angle of $71^{\circ}$ on the receding side. We detect a weak Ly$\alpha$ absorber at $V_{Ly\alpha} = 9029$ \kms ($\Delta v = 14$ \kms)~towards MRC2251-178. This absorber velocity falls well within the expected range for co-rotation relative to our models (cylindrical = [-26, 137], NFW = [-42, 83] \kms). Although this absorber matches the velocity expected for co-rotation, the velocity difference ($\Delta v = 14$ \kms) is also within the systemic velocity uncertainty for MCG-03-58-009. The relative weakness of this absorber (EW = $62 \pm 4$ m\AA) is somewhat unusual given it's proximity (just outside of 1 $R_{vir}$) to a massive galaxy. If this is representative of an isolated system such as MCG-03-58-009, then we should expect the halo rotational velocity to approach systemic by 1 $R_{vir}$.
 
 %Systemic velocity as published: 9030
 %Velocity as measured: 9014.9 $\pm$ 18.6
@@ -319,9 +324,11 @@ MCG-03-58-009 is a massive and very isolated Sc type galaxy at a measured veloci
 
 
 \subsection{NGC1566}
+NGC1566 is a SAB(rs)bc type galaxy with measured systemic velocity of $1502 \pm 15$ \kms~and inclination angle of $46^{\circ}$. There are several other large galaxies at $\rho \gtrsim 200$ kpc from NGC1566 (e.g., NGC1549, NGC1596, and NGC1581).
+
 NGC1566 is well sampled (5 nearby QSO sightlines), but unfortunately also part of a complex environment of neighboring galaxies. We detect Ly$\alpha$ in all 5 of these sightlines. The farthest three, HE0439-5254, RBS567, and HE0435-5304, are clustered close together toward the northeast of NGC1566 at 459, 423, and 396 kpc and $\sim 60^{\circ}$ azimuth angle. HE0439-5254 and RBS567 are both located beyond our 2 x 3 $R_{vir}$ model limits and therefore are only included here for the sake of completeness. The slightly closer HE0435-5304 sneaks under the limit.
 
-HE0429-5343 is in the same direction and azimuth angle but closer at $\rho = 256$ kpc, and shows Ly$\alpha$ absorption at 1167 and 1358 \kms. These absorbers both have the correct velocity \emph{sign}, but we would expect a smaller velocity for co-rotation (approximately $\Delta v \sim \pm40$ \kms~projected). This difference could be explained by invoking either a warped extended disk, or perhaps inflowing gas.
+%HE0429-5343 is in the same direction and azimuth angle but closer at $\rho = 256$ kpc, and shows Ly$\alpha$ absorption at 1167 and 1358 \kms. These absorbers both have the correct velocity \emph{sign}, but we would expect a smaller velocity for co-rotation (approximately $\Delta v \sim \pm40$ \kms~projected). This difference could be explained by invoking either a warped extended disk, or perhaps inflowing gas.
 
 1H0419-577 is located to the south at 303 kpc and just east of the receding side of the major axis at an azimuth angle of $10^{\circ}$. We detect Ly$\alpha$ at 1071, 1123, 1188, and 1264 \kms, all of which are the wrong sign for co-rotation or distant in velocity. This sightline is actually closer to a small group of galaxies including NGC1549, NGC1546 and NGC1536, all with systemic velocities near $1200$ \kms. We expect all of these lines to be associated with this group rather than with NGC1566.
 
