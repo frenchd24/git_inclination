@@ -566,7 +566,8 @@ def main():
 #     targets = [('PG1302-102',3447,True)]
 #     targets = [('RX_J1142.5+2503',550,True)]
 #     targets = [('2E1530+1511',1953,True)]
-    targets = [('MRK335',1954,True)]
+#     targets = [('MRK335',1954,True)]
+    targets = [('SBS1503+570',708,True)]
 
 
 
