@@ -567,9 +567,15 @@ def main():
 #     targets = [('RX_J1142.5+2503',550,True)]
 #     targets = [('2E1530+1511',1953,True)]
 #     targets = [('MRK335',1954,True)]
-    targets = [('SBS1503+570',708,True)]
+#     targets = [('RX_J1236.0+2641',794,True),
+#                 ('RX_J1236.0+2641',1009,True),
+#                 ('RX_J1236.0+2641',1166,True),
+#                 ('RX_J1236.0+2641',1254,True)]
 
+#     targets = [('SDSSJ112448.30+531818.0',645,True),
+#                 ('SDSSJ112448.30+531818.0',1156,True)]
 
+    targets = [('NGC3631',1156,True)]
 
     c = 0
     for i in targets:
