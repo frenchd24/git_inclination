@@ -575,7 +575,7 @@ def main():
 #     targets = [('SDSSJ112448.30+531818.0',645,True),
 #                 ('SDSSJ112448.30+531818.0',1156,True)]
 
-    targets = [('NGC3631',1156,True)]
+    targets = [('SBS1116+523',731,True)]
 
     c = 0
     for i in targets:

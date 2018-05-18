@@ -333,6 +333,7 @@ def main():
 #     galaxyName = 'NGC6140'
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
+    galaxyName = 'NGC3631'
 #     galaxyName = 'UGC06399'
 #     galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
@@ -340,7 +341,7 @@ def main():
 #     galaxyName = 'NGC3432'
 #     galaxyName = 'NGC3666'
 #     galaxyName = 'NGC5951'
-    galaxyName = 'NGC7817'
+#     galaxyName = 'NGC7817'
 #     galaxyName = 'UGC08146'
 
 
@@ -584,6 +585,15 @@ def main():
 #         agnName = 'RX_J1117.6+5301'
 
 
+        # NGC3631
+        flipInclination = False
+        reverse = False
+        agnName = 'SDSSJ111443.70+525834.0'
+#         agnName = 'RX_J1117.6+5301'
+#         agnName = 'SBS1116+523'
+#         agnName = 'SDSSJ112448.30+531818.0'
+
+
         # UGC06399
 #         flipInclination = False
 #         reverse = True
@@ -644,11 +654,11 @@ def main():
 
 
         # NGC7817
-        flipInclination = True
+#         flipInclination = True
 #         # reverse for NFW, not for 2x3R_vir
-        reverse = True
-        NFW_fit = 'standard'
-        agnName = 'MRK335'
+#         reverse = True
+#         NFW_fit = 'standard'
+#         agnName = 'MRK335'
         
         
         # UGC08146
@@ -1224,19 +1234,25 @@ def main():
         
         if plotXVelocity:
             ax.scatter(intersect_v_list[:i*len_step],v_proj_list[:i*len_step], color='black',s=10)
-            ylabel(r'$\rm v_{proj} ~[km/s]$')
-            xlabel(r'$\rm intersect ~[km/s]$')
+            ylabel(r'$\rm V_{proj} ~[km~s^{-1}]$')
+            xlabel(r'$\rm Intersect ~[km~s^{-1}]$')
         
         else:
             ax.scatter(intersect_list,v_proj_list, color='black',s=10)
-            ylabel(r'$\rm v_{proj} ~(km/s)$')
-            xlabel(r'$\rm intersect ~(kpc)$')
+            ylabel(r'$\rm V_{proj} ~[km~s^{-1}]$')
+            xlabel(r'$\rm Intersect ~kpc]$')
     
-#         ax.scatter(intersect_v_list,v_proj_list, color='black',s=10)
         
-#         v_proj_dif = max(v_proj_list) - min(v_proj_list)
-        tick_num = 10
+        tick_num = 9.
+        x_tick_num = 6.
         tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,2)
+        x_tick_spacing = round((max(intersect_v_list) - min(intersect_v_list))/x_tick_num,2)
+        
+        y_extent = max(v_proj_list) - min(v_proj_list)
+        x_extent = max(intersect_v_list) - min(intersect_v_list)
+        tick_spacing = round(y_extent + y_extent/4., 0)/tick_num
+        x_tick_spacing = round(x_extent + x_extent/4., 0)/x_tick_num
+
         
         if tick_spacing == 0.0:
             tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,4)
@@ -1248,12 +1264,12 @@ def main():
 #                 tick_spacing = 0.01
 
 
-        xlim_pos = max(intersect_v_list) +1
-        xlim_neg = min(intersect_v_list) -1
+        xlim_pos = max(intersect_v_list) + x_tick_spacing
+        xlim_neg = min(intersect_v_list) - x_tick_spacing
 #         ylim_pos = max(v_proj_list) +2
 #         ylim_neg = min(v_proj_list) -2
-        ylim_pos = max(v_proj_list) + tick_spacing*2
-        ylim_neg = min(v_proj_list) - tick_spacing*2
+        ylim_pos = max(v_proj_list) + tick_spacing
+        ylim_neg = min(v_proj_list) - tick_spacing *2
         
         print '########################################'
         print 'xlim_pos: ',xlim_pos
@@ -1267,11 +1283,64 @@ def main():
         print 'v_proj_list: ',v_proj_list
         print
         
-        ax.set_xlim(xlim_neg, xlim_pos)
-        ax.set_ylim(ylim_neg,ylim_pos)
+#         ax.set_xlim(xlim_neg, xlim_pos)
+#         ax.set_ylim(ylim_neg,ylim_pos)
 
-        ax.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+#         xlim_neg2 = math.floor(xlim_neg - tick_spacing)
+#         xlim_pos2 = math.floor(xlim_pos + tick_spacing)
+#         ylim_neg2 = math.floor(ylim_neg - tick_spacing)
+#         ylim_pos2 = math.floor(ylim_pos + tick_spacing)
 
+        
+#         ax.set_xlim(math.floor(xlim_neg), math.floor(xlim_pos))
+#         ax.set_ylim(math.floor(ylim_neg), math.floor(ylim_pos))
+
+#         ax.set_xlim(int(xlim_neg), int(xlim_pos))
+#         ax.set_ylim(int(ylim_neg), int(ylim_pos))
+
+#         ax.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+
+        x_tick_spacing = (int(xlim_pos) - int(xlim_neg))/x_tick_num
+        tick_spacing =  (int(ylim_pos) - int(ylim_neg))/tick_num
+        
+
+        # x-axis
+        majorLocator   = MultipleLocator(x_tick_spacing)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(x_tick_spacing/2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(tick_spacing)
+        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        minorLocator   = MultipleLocator(tick_spacing/2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         ax.set_xbound(lower=int(xlim_neg), upper=int(xlim_pos))
+#         xlim(int(xlim_neg), int(xlim_pos))
+        ax.set_xbound(lower=math.floor(xlim_neg), upper=math.floor(xlim_pos))
+
+        ylim(int(ylim_neg), int(ylim_pos))
+                
+        print
+        print
+        print 'int(xlim_neg): ', int(xlim_neg)
+        print 'int(xlim_pos): ', int(xlim_pos)
+        print 'int(ylim_neg): ',int(ylim_neg)
+        print 'int(ylim_pos): ',int(ylim_pos)
+        print
+        print 'x_tick_spacing: ',x_tick_spacing
+        print 'tick_spacing: ',tick_spacing
+        print 'xlim_neg: ',xlim_neg
+        print 'xlim_pos: ',xlim_pos
+        print
+        print
+        print
+        print
         
         # next plot the 3d fig
         ax = fig.add_subplot(1,2,2,projection='3d')
@@ -1288,7 +1357,7 @@ def main():
                 
         len_step = len(z)/steps
         
-        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black',lw=plotExtent/190)
+        ax.plot(x[:i*len_step], y[:i*len_step], z[:i*len_step], color='black', alpha = 0.6, lw=plotExtent/190)
 
         # some interesting points: 
         # v is the velocity vector in the direction of intersect point
@@ -1344,11 +1413,6 @@ def main():
         ax.plot_surface(X, Y, Z, color=colorTube, alpha = alphaTube)
         ax.plot_surface(X2, Y2, Z2, color=colorBottom, alpha = alphaBottom)
         ax.plot_surface(X3, Y3, Z3, color=colorTop, alpha = alphaTop)
-
-
-        ax.set_xlabel(r'$\rm z ~ [kpc]$')
-        ax.set_ylabel(r'$\rm R.A.~ [kpc]$')
-        ax.set_zlabel(r'$\rm Dec.~ [kpc]$')
         
         ax.set_xlim(-plotExtent, plotExtent)
         ax.set_ylim(-plotExtent, plotExtent)
@@ -1360,10 +1424,8 @@ def main():
 
         # rotate the plot
 #         ax.view_init(elev=10., azim=5)
-        ax.view_init(elev=15., azim=10)
+        ax.view_init(elev=15., azim=20)
         
-        tight_layout()
-
         # reverse the X-axis ticks without actually reversing the x-axis
         if plotExtent <= 400:
             yticks((-400, -200, 0, 200, 400), (400, 200, 0, -200, -400))
@@ -1371,7 +1433,58 @@ def main():
         else:
             yticks((-800, -400, 0, 400, 800), (800, 400, 0, -400, -800))
             xticks((-800, -400, 0, 400, 800), (-800, -400, 0, 400, 800))
+        
+        [t.set_va('center') for t in ax.get_yticklabels()]
+        [t.set_ha('center') for t in ax.get_yticklabels()]
+        
+        [t.set_va('bottom') for t in ax.get_xticklabels()]
+        [t.set_ha('left') for t in ax.get_xticklabels()]
+        
+        [t.set_va('center') for t in ax.get_zticklabels()]
+        [t.set_ha('right') for t in ax.get_zticklabels()]
+        
+        ax.grid(True)
+        ax.xaxis.pane.set_edgecolor('black')
+        ax.yaxis.pane.set_edgecolor('black')
+        ax.xaxis.pane.fill = False
+        ax.yaxis.pane.fill = False
+        ax.zaxis.pane.fill = False
 
+        ax.xaxis._axinfo['tick']['inward_factor'] = 0
+        ax.xaxis._axinfo['tick']['outward_factor'] = 0.6
+        ax.yaxis._axinfo['tick']['inward_factor'] = 0
+        ax.yaxis._axinfo['tick']['outward_factor'] = 0.6
+        ax.zaxis._axinfo['tick']['inward_factor'] = 0
+        ax.zaxis._axinfo['tick']['outward_factor'] = 0.6
+        ax.zaxis._axinfo['tick']['outward_factor'] = 0.6
+        
+        ax.set_xlabel(r'$\rm z ~ [kpc]$')
+        ax.set_ylabel(r'$\rm R.A.~ [kpc]$')
+        ax.set_zlabel(r'$\rm Dec.~ [kpc]$')
+        
+        x_label = r'$\rm z ~ [kpc]$'
+        y_label = r'$\rm R.A.~ [kpc]$'
+        z_label = r'$\rm Dec.~ [kpc]$'
+        
+        z_label = 'Dec. [kpc]'
+#         z_label = 'abcde'
+        
+        ax.set_zlabel(z_label, rotation=0, fontsize=14, labelpad=40)
+#         ax.set_xlabel(x_label, rotation=0, fontsize=14, labelpad=40)
+#         ax.set_ylabel(y_label, rotation=0, fontsize=14, labelpad=40)
+
+#         ax.xaxis.set_label_coords(10.0, -200.02)
+        
+        ax.xaxis.labelpad=18.0
+        ax.yaxis.labelpad=1.0
+        ax.zaxis.labelpad=28.0
+
+        tight_layout()
+
+
+        # disable auto rotation
+#         ax.xaxis.set_rotate_label(False)
+#         ax.yaxis.set_rotate_label(False)
 
 #         yticks((-1000, -500, 0, 500, 1000), (1000, 500, 0, -500, -1000))
 
