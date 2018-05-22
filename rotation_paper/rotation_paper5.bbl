@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{36}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Abazajian} {et~al.}(2005){Abazajian}, {Adelman-McCarthy},
@@ -101,6 +101,9 @@
   {Tumlinson}}]{keeney2005}
 {Keeney}, B.~A., {Momjian}, E., {Stocke}, J.~T., {Carilli}, C.~L., \&
   {Tumlinson}, J. 2005, \apj, 622, 267
+
+\bibitem[{{Knapen}(1997)}]{knapen1997}
+{Knapen}, J.~H. 1997, \mnras, 286, 403
 
 \bibitem[{{Koribalski} {et~al.}(2004){Koribalski}, {Staveley-Smith}, {Kilborn},
   {Ryder}, {Kraan-Korteweg}, {Ryan-Weber}, {Ekers}, {Jerjen}, {Henning},

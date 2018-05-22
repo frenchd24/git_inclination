@@ -174,8 +174,11 @@ def get_data(filename):
 def main():
     hubbleConstant = 71.0
     
+    # where to write to?
+    out_directory = '/Users/frenchd/Research/test/SALT_maps/'
+    
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -204,20 +207,24 @@ def main():
     zoom_limit = 1.0
     
     # remove systems of lower inclination than this:
-    inc_limit = 80.
-    
+#     inc_limit = 75.
+    inc_limit = 0.
+
     # which plot to make?
     plot_onsky = True
     plot_cyl = True
     plot_NFW = True
     plot_zoom_in = True
+    
+    # include tags to include
+    include_tags = ['yes','maybe']
 
 ##########################################################################################
 ##########################################################################################
     # collect data
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
 #     filename = '{0}salt_galaxy_sightlines_cut.csv'.format(directory)
-    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary.csv'.format(directory)    
+    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'.format(directory)    
     
     theFile = open(filename,'rU')
     tableReader = csv.DictReader(theFile)
@@ -268,6 +275,8 @@ def main():
         RA_target = eval(t['RAdeg_target'])
         Dec_target = eval(t['DEdeg_target'])
         vHel = eval(t['Vhel'])
+        
+        include_tag = t['include']
         
         PA_observed = eval(t['PA_observed'])
         PA_adjust = eval(t['PA_adjust'])
@@ -558,6 +567,7 @@ def main():
             else:
                 rot_vel = rightVel
 
+
             
         # now compare to the rotation velocity
         color_yes = '#1b9e77'    # greenish
@@ -575,7 +585,6 @@ def main():
         color_yes = '#436bad'      # french blue
         color_no = '#ec2d01'     # tomato red
 
-        
         
         
         if isNumber(dv):
@@ -639,6 +648,12 @@ def main():
             add_to_list = True
         else:
             add_to_list = False
+            
+        if inc <= inc_limit:
+            add_to_list = False
+            
+        if include_tag not in include_tags:
+            add_to_list = False
         
         separation = 500.
         if min_separation and add_to_list:
@@ -669,10 +684,6 @@ def main():
                         print 'False for {0} - {1}'.format(name, separation)
                         print
                         break
-        
-        
-        if inc <= inc_limit:
-            add_to_list = False
         
         
         # populate the lists
@@ -1012,12 +1023,11 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALTmap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+    #     savefig("{0}SALT_map1.pdf".format(out_directory),dpi=400,bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
         summary_file = open(summary_filename,'wt')
     
     #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
@@ -1031,7 +1041,7 @@ def main():
             
         
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         combinedNameList_corotate = []
@@ -1269,14 +1279,12 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
-
         save_name = 'SALTmap_cyl_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)    
     
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+    #     savefig("{0}SALT_map1.pdf".format(out_directory),dpi=400,bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
         summary_file = open(summary_filename,'wt')
     
     #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
@@ -1290,7 +1298,7 @@ def main():
 
 
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         combinedNameList_corotate = []
@@ -1529,13 +1537,12 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_inclim_{4}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation, inc_limit)
 
-    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+    #     savefig("{0}SALT_map1.pdf".format(out_directory),dpi=400,bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
         summary_file = open(summary_filename,'wt')
     
     #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
@@ -1548,7 +1555,7 @@ def main():
             summary_file.write('{0}. {1}, \n'.format(num,name))
     
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         combinedNameList_corotate = []
@@ -1774,13 +1781,12 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALTmap_NFW_model_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_zoom_{4}_inclim_{5}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,zoom_limit, inc_limit)
 
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
-        summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
         summary_file = open(summary_filename,'wt')
     
     #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
@@ -1794,7 +1800,7 @@ def main():
     
     
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         combinedNameList_corotate = []

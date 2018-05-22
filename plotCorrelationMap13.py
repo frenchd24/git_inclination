@@ -575,7 +575,25 @@ def main():
 #     targets = [('SDSSJ112448.30+531818.0',645,True),
 #                 ('SDSSJ112448.30+531818.0',1156,True)]
 
-    targets = [('SBS1116+523',731,True)]
+#     targets = [('SBS1116+523',731,True)]
+
+#     targets = [('CSO1208',874,True)]
+#     targets = [('MRK876',939,True)]
+#     targets = [('PG0804+761',1143,True)]
+
+#     targets = [('SDSSJ112439.50+113117.0',1047,True)]
+#     targets = [('SDSSJ112632.90+120437.0',1060,True)]
+#     targets = [('MRK335',1954,True)]
+#     targets = [('PG1259+593',670,True)]
+#     targets = [('SDSSJ101622.60+470643.0',661,True)]
+#     targets = [('RBS1503',667,True)]
+#     targets = [('SBS1503+570',667,True)]
+#     targets = [('SDSSJ112448.30+531818.0',1019,True), ('SDSSJ112448.30+531818.0',1141,True)]
+
+#     targets = [('SDSSJ112632.90+120437.0',1060,True)]
+    targets = [('2E1530+1511',1953,True)]
+
+
 
     c = 0
     for i in targets:

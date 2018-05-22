@@ -4,6 +4,6 @@ flipInclination: False
 reverse: False
 fit_NFW: True
 
-Allowed Y-velocity range: [19.0106245804, 96.2193481574]
+Allowed Y-velocity range: [14.7511857186, 77.3223658818]
 Allowed X-velocity range: [-24.6132229132, 20.3537925372]
-Combined velocity range: [-5.60259833276, 94.0596348099]
+Combined velocity range: [-9.86203719461, 75.2263922338]

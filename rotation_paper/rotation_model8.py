@@ -304,7 +304,7 @@ def main():
     
     # fit an NFW profile to the rotation curve and use that? Otherwise it takes the maximal
     # rotation value and extends it forever. NFW decreases with distance
-    fit_NFW = True
+    fit_NFW = False
     
     # Makes the halo 3x4 R_vir if true. 2x3R_vir if false
     extendedHalo = False
@@ -323,7 +323,7 @@ def main():
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
 #     galaxyName = 'NGC5786'
-#     galaxyName = 'UGC09760'
+    galaxyName = 'UGC09760'
 
 #     galaxyName = 'NGC3198'
 #     galaxyName = 'NGC4565'
@@ -333,7 +333,7 @@ def main():
 #     galaxyName = 'NGC6140'
 #     galaxyName = 'NGC5907'
 #     galaxyName = 'UGC06446'
-    galaxyName = 'NGC3631'
+#     galaxyName = 'NGC3631'
 #     galaxyName = 'UGC06399'
 #     galaxyName = 'NGC3726'
 #     galaxyName = 'NGC3067'
@@ -514,10 +514,13 @@ def main():
         
         
         # UGC09760
-#         flipInclination = True
+        flipInclination = True
         # reverse for 2x3R_vir, not reverse for NFW
-#         reverse = True
-#         agnName = 'SDSSJ151237.15+012846.0'
+        reverse = True
+        agnName = 'SDSSJ151237.15+012846.0'
+        PA = 56.
+        NFW_fit = 'tightester2'
+
 
 
 ##########################################################################################
@@ -549,6 +552,7 @@ def main():
 
         # UGC04238
         # need to set tighter NFW fit bounds for this one
+#         NFW_fit = 'tightester2'
 #         flipInclination = False
         # reverse for 2x3R_vir, not for NFW
 #         reverse = False
@@ -556,6 +560,7 @@ def main():
 
 
         # NGC4529
+#         NFW_fit = 'tightester'
 #         flipInclination = False
 #         reverse = True
 #         agnName = 'MRK771'
@@ -586,9 +591,9 @@ def main():
 
 
         # NGC3631
-        flipInclination = False
-        reverse = False
-        agnName = 'SDSSJ111443.70+525834.0'
+#         flipInclination = False
+#         reverse = False
+#         agnName = 'SDSSJ111443.70+525834.0'
 #         agnName = 'RX_J1117.6+5301'
 #         agnName = 'SBS1116+523'
 #         agnName = 'SDSSJ112448.30+531818.0'
@@ -618,8 +623,9 @@ def main():
 
         # NGC2770
 #         flipInclination = True
+#         NFW_fit = 'tighter'
         # reverse for NFW, not for 2x3R_vir
-#         reverse = False
+#         reverse = True
 #         agnName = 'FBQSJ0908+3246'
 #         agnName = 'TON1009'
 #         agnName = 'TON1015'
@@ -629,6 +635,7 @@ def main():
 
         # NGC3432
 #         flipInclination = True
+#         NFW_fit = 'tightest'
         # reverse for NFW, not for 2x3R_vir
 #         reverse = True
 #         agnName = 'MS1047.3+3518'
@@ -649,7 +656,7 @@ def main():
         # NGC5951
 #         flipInclination = False
 #         reverse = True
-#         NFW_fit = 'standard'
+#         NFW_fit = 'tightest'
 #         agnName = '2E1530+1511'
 
 
@@ -659,12 +666,12 @@ def main():
 #         reverse = True
 #         NFW_fit = 'standard'
 #         agnName = 'MRK335'
-        
+#         PA = 43.
         
         # UGC08146
 #         flipInclination = False
 #         reverse = True
-#         NFW_fit = 'tightester'
+#         NFW_fit = 'tightester2'
 #         agnName = 'PG1259+593'
 
         # grab the coordinates for this target
@@ -778,12 +785,12 @@ def main():
             r200 = R_vir
         
 
-        # tighter bounds (e.g., for UGC04238, UGC09760)
+        # tighter bounds (e.g., for UGC09760)
         if NFW_fit == 'tighter':
             r200_lowerbound = 10
             r200_upperbound = 250
             v200_lowerbound = 10
-            v200_upperbound = 110
+            v200_upperbound = 115
             c_lowerbound = 1
             c_upperbound = 35
             
@@ -818,6 +825,18 @@ def main():
             c = 10
             r200 = R_vir
             
+        # for UGC04238
+        if NFW_fit == 'tightester2':
+            r200_lowerbound = 10
+            r200_upperbound = 200
+            v200_lowerbound = 10
+            v200_upperbound = 75
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
         
         try:
             popt, pcov = optimize.curve_fit(NFW, newX, newVals, p0=[v200,c,r200], \
@@ -1179,8 +1198,24 @@ def main():
 #     plotExtent = round(3*R_vir,-1)
     plotExtent = round(1.5*rcutoff,-1)
 
+    print 'beginning plotExtent: ',plotExtent
+    print 'rcutoff: ',rcutoff
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
+    print
     
-    if plotExtent < 400.:
+    
+    if plotExtent <= 400.:
         plotExtent = 400.
     
     elif plotExtent > 400 and plotExtent <= 800.:
@@ -1230,7 +1265,7 @@ def main():
         intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
         
         print 'len_step: ',len_step
-        print 'intersect_v_list[:i*len_step] vs v_proj_list[:i*len_step]: ',intersect_v_list[:i*len_step],' , ',v_proj_list[:i*len_step]
+#         print 'intersect_v_list[:i*len_step] vs v_proj_list[:i*len_step]: ',intersect_v_list[:i*len_step],' , ',v_proj_list[:i*len_step]
         
         if plotXVelocity:
             ax.scatter(intersect_v_list[:i*len_step],v_proj_list[:i*len_step], color='black',s=10)
@@ -1253,9 +1288,6 @@ def main():
         tick_spacing = round(y_extent + y_extent/4., 0)/tick_num
         x_tick_spacing = round(x_extent + x_extent/4., 0)/x_tick_num
 
-        
-        if tick_spacing == 0.0:
-            tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,4)
 
         print 'tick_spacing: ',tick_spacing
         print 'max(v_proj_list): ',max(v_proj_list)
@@ -1280,7 +1312,7 @@ def main():
         print
         print 'intersect_v_list: ',intersect_v_list
         print
-        print 'v_proj_list: ',v_proj_list
+#         print 'v_proj_list: ',v_proj_list
         print
         
 #         ax.set_xlim(xlim_neg, xlim_pos)
@@ -1302,7 +1334,26 @@ def main():
 
         x_tick_spacing = (int(xlim_pos) - int(xlim_neg))/x_tick_num
         tick_spacing =  (int(ylim_pos) - int(ylim_neg))/tick_num
+
+        if tick_spacing == 0.0:
+            tick_spacing = round((max(v_proj_list) - min(v_proj_list))/tick_num,5)
+            print 'inside'
         
+        print
+        print
+        print 'int(xlim_neg): ', int(xlim_neg)
+        print 'int(xlim_pos): ', int(xlim_pos)
+        print 'int(ylim_neg): ',int(ylim_neg)
+        print 'int(ylim_pos): ',int(ylim_pos)
+        print
+        print 'x_tick_spacing: ',x_tick_spacing
+        print 'tick_spacing: ',tick_spacing
+        print 'xlim_neg: ',xlim_neg
+        print 'xlim_pos: ',xlim_pos
+        print
+        print
+        print
+        print
 
         # x-axis
         majorLocator   = MultipleLocator(x_tick_spacing)
@@ -1325,22 +1376,9 @@ def main():
         ax.set_xbound(lower=math.floor(xlim_neg), upper=math.floor(xlim_pos))
 
         ylim(int(ylim_neg), int(ylim_pos))
-                
-        print
-        print
-        print 'int(xlim_neg): ', int(xlim_neg)
-        print 'int(xlim_pos): ', int(xlim_pos)
-        print 'int(ylim_neg): ',int(ylim_neg)
-        print 'int(ylim_pos): ',int(ylim_pos)
-        print
-        print 'x_tick_spacing: ',x_tick_spacing
-        print 'tick_spacing: ',tick_spacing
-        print 'xlim_neg: ',xlim_neg
-        print 'xlim_pos: ',xlim_pos
-        print
-        print
-        print
-        print
+        
+        if tick_spacing <1:
+            ylim(ylim_neg-ylim_neg/10, ylim_pos + ylim_pos/10)
         
         # next plot the 3d fig
         ax = fig.add_subplot(1,2,2,projection='3d')
