@@ -3,10 +3,19 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id: SALT_paper_Lstar_fraction.py, v1.0 05/10/18
+$Id: SALT_paper_map.py, v3.0 04/30/18
 
-Plot co-rotating fraction as a funtion of Lstar
+Makes straight on-sky orientation plot as well as cylindrical and NFW model comparison
+maps.
 
+
+
+Previously: plot_onsky_absorber_vel.py, v2.0 04/04/18
+
+Plot an impact parameter map showing the locations and velocities of each absorber wrt 
+the galaxy (2/19/18)
+
+v2: Orient so all the galaxies have approaching side on the left (04/04/18)
 
 '''
 
@@ -144,6 +153,7 @@ def get_data(filename):
 #         xVals = data['xVals']
         inc = data['inclination']
         vsys_measured = data['vsys_measured']
+        vsys_measured_err = data['vsys_measured_err']
 #         galaxyName = data['name']
 #         RA_galaxy = data['RAdeg']
 #         Dec_galaxy = data['DEdeg']
@@ -158,16 +168,12 @@ def get_data(filename):
     
 #         agn = data['agn']
         
-        return vsys_measured, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar
+        return vsys_measured, vsys_measured_err, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar
         
 
 
 def main():
     hubbleConstant = 71.0
-    
-    # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe/'
-#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
     only_close_velocities = True
@@ -197,20 +203,17 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_Lstar_hist = False
-    plot_corotate_fraction = False
-    plot_corotate_fraction_minimum = True
+    plot_b_comparison = False
+    plot_b_vs_dv_apparent = True
+    plot_b_vs_dv_NFW = True
+    plot_b_vs_dv_NFW_Lstar = True
 
     # use fits vs integrated values?
-    use_fits = False
-    
-    # don't include absorbers with EW above this
-    EW_cut = 10000.
+    use_fits = True
     
     # include tags to include
-    include_tags = ['yes','maybe']
-#     include_tags = ['yes']
-    
+#     include_tags = ['yes','maybe']
+    include_tags = ['yes']
     
 ##########################################################################################
 ##########################################################################################
@@ -239,9 +242,10 @@ def main():
     markerColorList_model = []
     markerColorList_NFWmodel = []
     bList = []
+    e_bList = []
     LstarList = []
-    e_LstarList = []
-    
+    dvList = []
+    e_dvList = []
     
     # non-detections/not finished sightlines
     nameList_non = []
@@ -265,9 +269,12 @@ def main():
         name = t['Name']
         target = t['Target']
         lyaV = eval(t['Lya_v'])
+        e_fit_v = eval(t['e_fit_v'])
         lyaW = eval(t['Lya_W'])
         b = eval(t['b'])
+        e_b = eval(t['e_b'])
         fit_b = eval(t['fit_b'])
+        e_fit_b = eval(t['e_fit_b'])
         RA_galaxy = eval(t['RAdeg'])
         Dec_galaxy = eval(t['DEdeg'])
         RA_target = eval(t['RAdeg_target'])
@@ -283,7 +290,7 @@ def main():
         NFW_range = eval(t['NFW_range'])
         
         gfilename = directory + 'rot_curves/' + name + '-summary4.json'
-        vsys_measured, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
+        vsys_measured, vsys_measured_err, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
 #         vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
         
         # remove inclination correction to get apparent velocity
@@ -349,10 +356,20 @@ def main():
         # away, or higher than systemic velocity gas)
         if lyaV != -99:
             dv = lyaV - vsys_measured
-#             print 'lyaV, dv = ',lyaV,dv
+            
+            e_dv = np.sqrt(e_fit_v**2 + vsys_measured_err**2)
+            
+#             e_dv1 = abs((lyaV + e_lyaV) - (vsys_measured + e_vsys_measured))
+#             e_dv2 = abs((lyaV + e_lyaV) - (vsys_measured - e_vsys_measured))
+#             e_dv3 = abs((lyaV - e_lyaV) - (vsys_measured + e_vsys_measured))
+#             e_dv4 = abs((lyaV - e_lyaV) - (vsys_measured - e_vsys_measured))
+# 
+#             e_dv = max([e_dv1, e_dv2, e_dv3, e_dv4])
+
         else:
             print 'else. dv = x'
             dv = 'x'
+            e_dv = 'x'
             
 
         # check on which 'side' of the galaxy the absorber is found
@@ -576,13 +593,6 @@ def main():
         
         color_yes = '#436bad'      # french blue
         color_no = '#ec2d01'     # tomato red
-#         color_no = '#ef8a62'     # red
-#         color_yes = '#67a9cf'      # blue
-#         color_no = '#d95f02'     # orange
-#         color_yes = '#7570b3'      # purple
-#         color_yes = '#1b9e77'      # greenish
-
-        
         
         if isNumber(dv):
             # the absorption and rotation velocity match
@@ -646,12 +656,10 @@ def main():
         else:
             add_to_list = False
             
-        if lyaW > EW_cut:
+        if include_tag not in include_tags:
             add_to_list = False
             
-        if include_tag not in include_tags:
-            add_to_list = False            
-            
+        
         separation = 500.
         if min_separation and add_to_list:
             # correlate with environment
@@ -682,7 +690,6 @@ def main():
                         print
                         break
         
-    
         
         # populate the lists
         if add_to_list:
@@ -705,13 +712,17 @@ def main():
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)
                     
+                    dvList.append(dv)
+                    e_dvList.append(e_dv)
+                    
                     if use_fits:
                         bList.append(fit_b)
+                        e_bList.append(e_fit_b)
                     else:
                         bList.append(b)
+                        e_bList.append(e_b)
                         
                     LstarList.append(Lstar)
-                    e_LstarList.append(e_Lstar)
                 
                 else:
                     print 'too far: ',name,' , dv = ',dv, ' vs rot_vel = ',rot_vel
@@ -733,14 +744,19 @@ def main():
                     combinedNameList.append(combinedName)
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)
-                                  
+                    
+                    dvList.append(dv)
+                    e_dvList.append(e_dv)
+                       
                     if use_fits:
                         bList.append(fit_b)
+                        e_bList.append(e_fit_b)
+
                     else:
                         bList.append(b)
+                        e_bList.append(e_b)
 
                     LstarList.append(Lstar)
-                    e_LstarList.append(e_Lstar)
 
                 
             if include_nondetection and not isNumber(dv):
@@ -774,115 +790,192 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-# Plot Lstar values for co-rotators vs anti-rotators
+# Plot b values for co-rotators vs anti-rotators
 #
 #
 ##########################################################################################
 ##########################################################################################
 
-    if plot_Lstar_hist:
+    if plot_b_comparison:
         # initial figure
         fig = plt.figure(figsize=(8,8))
         subplots_adjust(hspace=0.500)
 
-        ax = fig.add_subplot(211)
+        ax = fig.add_subplot(311)
 
 #         bins = arange(0,100,10)
-#         bins = arange(0.2, 1.2, 0.2)
-        bins = arange(0.25, 15.0, 0.25)
+        bins = arange(10,90,10)
 
         alpha_no = 0.55
         alpha_yes = 0.65
 
         L_limit = 0.5
+        
 
-        corotate_Lstar = []
-        antirotate_Lstar = []
+        corotate_b = []
+        antirotate_b = []
         
-        corotate_Lstar_close = []
-        antirotate_Lstar_close = []
+        corotate_b_close = []
+        antirotate_b_close = []
         
-        corotate_Lstar_far = []
-        antirotate_Lstar_far = []
+        corotate_b_far = []
+        antirotate_b_far = []
         
         Lstar_high = []
         Lstar_low = []
         
-        for m, Lstar, ra, dec, L in zip(markerColorList_NFWmodel, LstarList, RA_targetList, Dec_targetList, LstarList):
+        for m, b, ra, dec, L in zip(markerColorList_NFWmodel, bList, RA_targetList, Dec_targetList, LstarList):
             if m == color_yes:
-                corotate_Lstar.append(Lstar)
+                corotate_b.append(b)
                 
                 if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                    corotate_Lstar_close.append(Lstar)
+                    corotate_b_close.append(b)
                     
                 else:
-                    corotate_Lstar_far.append(Lstar)
+                    corotate_b_far.append(b)
             
             if m == color_no:
-                antirotate_Lstar.append(Lstar)
+                antirotate_b.append(b)
                 
                 if np.sqrt(ra**2 + dec**2) <= zoom_limit:
-                    antirotate_Lstar_close.append(Lstar)
+                    antirotate_b_close.append(b)
                     
                 else:
-                    antirotate_Lstar_far.append(Lstar)
+                    antirotate_b_far.append(b)
                     
             if L <= L_limit:
-                Lstar_low.append(Lstar)
+                Lstar_low.append(b)
             else:
-                Lstar_high.append(Lstar)
+                Lstar_high.append(b)
                     
         # x-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-        minorLocator   = MultipleLocator(0.05)
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
         majorLocator   = MultipleLocator(2)
-        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(antirotate_Lstar, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
-        hist(corotate_Lstar, bins=bins, histtype='bar', lw=1.5, color = color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators$')
+        hist(antirotate_b,
+        bins=bins,
+        histtype='bar',
+        lw=1.5,
+        color=color_no,
+        alpha=alpha_no,
+        edgecolor='black',
+        hatch='/',
+        label=r'$\rm Anti-rotators$')
+
+        hist(corotate_b,
+        bins=bins,
+        histtype='bar',
+        lw=1.5,
+        color=color_yes,
+        alpha=alpha_yes,
+        edgecolor='black',
+        label=r'$\rm Co-rotators$')
         
-#         ylim(0, 12)
-        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
-        xlabel(r'$\rm L^{{\**}}$')
+        
+        ylim(0, 14)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
         ylabel(r'$\rm Number$')
 
 
-        ax = fig.add_subplot(212)
+        ax = fig.add_subplot(312)
                     
         # x-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-        minorLocator   = MultipleLocator(0.05)
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
         majorLocator   = MultipleLocator(2)
-        majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        hist(antirotate_Lstar_close, bins=bins, histtype='bar', lw=1.5, hatch='//', color=color_no, edgecolor='black', alpha=alpha_no, label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
-        hist(corotate_Lstar_close, bins=bins, histtype='bar', lw=1.5, color=color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
-
-#         ylim(0, 5)
-        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
-        xlabel(r'$\rm L^{{\**}}$')
+        hist(antirotate_b_close,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_no,
+            alpha=alpha_no, 
+            edgecolor='black',
+            hatch='/',
+            label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+        
+        hist(corotate_b_close,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_yes,
+            alpha=alpha_yes,
+            edgecolor='black',
+            label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+        
+        ylim(0, 4)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
         ylabel(r'$\rm Number$')
         
+        ax = fig.add_subplot(313)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(Lstar_high,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_no,
+            alpha=alpha_no,
+            hatch='/',
+            edgecolor='black',
+            label=r'$\rm L^{{\**}} > {0})$'.format(L_limit))
+            
+        hist(Lstar_low,
+            bins=bins, 
+            histtype='bar', 
+            lw=1.5,
+            color=color_yes,
+            alpha=alpha_yes,
+            edgecolor='black',
+            label=r'$\rm L^{{\**}} \leq {0})$'.format(L_limit))
+        
+        
+#         ylim(0, 3)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+        
+
 
 #         import matplotlib.patches as mpatches
 #         import matplotlib.lines as mlines
@@ -904,600 +997,535 @@ def main():
 
     ##########################################################################################
         
-        save_name = 'SALT_Lstar_hist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
-        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+        directory = '/Users/frenchd/Research/test/'
+        save_name = 'SALT_bhist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
             
         
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
         stats_file = open(stats_filename,'wt')
 
-        avg_Lstar_corotate = mean(corotate_Lstar)
-        avg_Lstar_antirotate = mean(antirotate_Lstar)
+        avg_b_corotate = mean(corotate_b)
+        avg_b_antirotate = mean(antirotate_b)
         
-        med_Lstar_corotate = median(corotate_Lstar)
-        med_Lstar_antirotate = median(antirotate_Lstar)
+        med_b_corotate = median(corotate_b)
+        med_b_antirotate = median(antirotate_b)
         
-        std_Lstar_corotate = std(corotate_Lstar)
-        std_Lstar_antirotate = std(antirotate_Lstar)
+        std_b_corotate = std(corotate_b)
+        std_b_antirotate = std(antirotate_b)
 
         # now the zoomed in ones
-        avg_Lstar_corotate_close = mean(corotate_Lstar_close)
-        avg_Lstar_antirotate_close = mean(antirotate_Lstar_close)
+        avg_b_corotate_close = mean(corotate_b_close)
+        avg_b_antirotate_close = mean(antirotate_b_close)
         
-        med_Lstar_corotate_close = median(corotate_Lstar_close)
-        med_Lstar_antirotate_close = median(antirotate_Lstar_close)
+        med_b_corotate_close = median(corotate_b_close)
+        med_b_antirotate_close = median(antirotate_b_close)
         
-        std_Lstar_corotate_close = std(corotate_Lstar_close)
-        std_Lstar_antirotate_close = std(antirotate_Lstar_close)
+        std_b_corotate_close = std(corotate_b_close)
+        std_b_antirotate_close = std(antirotate_b_close)
 
 
         # now the zoomed out ones
-        avg_Lstar_corotate_far = mean(corotate_Lstar_far)
-        avg_Lstar_antirotate_far = mean(antirotate_Lstar_far)
+        avg_b_corotate_far = mean(corotate_b_far)
+        avg_b_antirotate_far = mean(antirotate_b_far)
         
-        med_Lstar_corotate_far = median(corotate_Lstar_far)
-        med_Lstar_antirotate_far = median(antirotate_Lstar_far)
+        med_b_corotate_far = median(corotate_b_far)
+        med_b_antirotate_far = median(antirotate_b_far)
         
-        std_Lstar_corotate_far = std(corotate_Lstar_far)
-        std_Lstar_antirotate_far = std(antirotate_Lstar_far)
+        std_b_corotate_far = std(corotate_b_far)
+        std_b_antirotate_far = std(antirotate_b_far)
+        
+        
+        # now the Lstars
+        avg_b_Lstar_high = mean(Lstar_high)
+        avg_b_Lstar_low = mean(Lstar_low)
+        
+        med_b_Lstar_high = median(Lstar_high)
+        med_b_Lstar_low = median(Lstar_low)
+        
+        std_b_Lstar_high = std(Lstar_high)
+        std_b_Lstar_low = std(Lstar_low)
                 
-        stats_file.write('Average Lstar co-rotate = {0} \n'.format(avg_Lstar_corotate))
-        stats_file.write('Average Lstar anti-rotate = {0} \n'.format(avg_Lstar_antirotate))
-        stats_file.write('Median Lstar co-rotate = {0} \n'.format(med_Lstar_corotate))
-        stats_file.write('Median Lstar anti-rotate = {0} \n'.format(med_Lstar_antirotate))
-        stats_file.write('Std Lstar co-rotate = {0} \n'.format(std_Lstar_corotate))
-        stats_file.write('Std Lstar anti-rotate = {0} \n'.format(std_Lstar_antirotate))
+        stats_file.write('Average b co-rotate = {0} \n'.format(avg_b_corotate))
+        stats_file.write('Average b anti-rotate = {0} \n'.format(avg_b_antirotate))
+        stats_file.write('Median b co-rotate = {0} \n'.format(med_b_corotate))
+        stats_file.write('Median b anti-rotate = {0} \n'.format(med_b_antirotate))
+        stats_file.write('Std b co-rotate = {0} \n'.format(std_b_corotate))
+        stats_file.write('Std b anti-rotate = {0} \n'.format(std_b_antirotate))
         stats_file.write('\n')
         stats_file.write('\n')
-        stats_file.write('Average Lstar co-rotate zoom_in = {0} \n'.format(avg_Lstar_corotate_close))
-        stats_file.write('Average Lstar anti-rotate zoom_in = {0} \n'.format(avg_Lstar_antirotate_close))
-        stats_file.write('Median Lstar co-rotate zoom_in = {0} \n'.format(med_Lstar_corotate_close))
-        stats_file.write('Median Lstar anti-rotate zoom_in = {0} \n'.format(med_Lstar_antirotate_close))
-        stats_file.write('Std Lstar co-rotate zoom_in = {0} \n'.format(std_Lstar_corotate_close))
-        stats_file.write('Std Lstar anti-rotate zoom_in = {0} \n'.format(std_Lstar_antirotate_close))
+        stats_file.write('Average b co-rotate zoom_in = {0} \n'.format(avg_b_corotate_close))
+        stats_file.write('Average b anti-rotate zoom_in = {0} \n'.format(avg_b_antirotate_close))
+        stats_file.write('Median b co-rotate zoom_in = {0} \n'.format(med_b_corotate_close))
+        stats_file.write('Median b anti-rotate zoom_in = {0} \n'.format(med_b_antirotate_close))
+        stats_file.write('Std b co-rotate zoom_in = {0} \n'.format(std_b_corotate_close))
+        stats_file.write('Std b anti-rotate zoom_in = {0} \n'.format(std_b_antirotate_close))
         stats_file.write('\n')
         stats_file.write('\n')
-        stats_file.write('Average Lstar co-rotate zoom_out = {0} \n'.format(avg_Lstar_corotate_far))
-        stats_file.write('Average Lstar anti-rotate zoom_out = {0} \n'.format(avg_Lstar_antirotate_far))
-        stats_file.write('Median Lstar co-rotate zoom_out = {0} \n'.format(med_Lstar_corotate_far))
-        stats_file.write('Median Lstar anti-rotate zoom_out = {0} \n'.format(med_Lstar_antirotate_far))
-        stats_file.write('Std Lstar co-rotate zoom_out = {0} \n'.format(std_Lstar_corotate_far))
-        stats_file.write('Std Lstar anti-rotate zoom_out = {0} \n'.format(std_Lstar_antirotate_far))
+        stats_file.write('Average b co-rotate zoom_out = {0} \n'.format(avg_b_corotate_far))
+        stats_file.write('Average b anti-rotate zoom_out = {0} \n'.format(avg_b_antirotate_far))
+        stats_file.write('Median b co-rotate zoom_out = {0} \n'.format(med_b_corotate_far))
+        stats_file.write('Median b anti-rotate zoom_out = {0} \n'.format(med_b_antirotate_far))
+        stats_file.write('Std b co-rotate zoom_out = {0} \n'.format(std_b_corotate_far))
+        stats_file.write('Std b anti-rotate zoom_out = {0} \n'.format(std_b_antirotate_far))
         stats_file.write('\n')
         stats_file.write('\n')
+        stats_file.write('Average b Lstar high = {0} \n'.format(avg_b_Lstar_high))
+        stats_file.write('Average b Lstar low = {0} \n'.format(avg_b_Lstar_low))
+        stats_file.write('Median b Lstar high = {0} \n'.format(med_b_Lstar_high))
+        stats_file.write('Median b Lstar low = {0} \n'.format(med_b_Lstar_low))
+        stats_file.write('Std b Lstar high = {0} \n'.format(std_b_Lstar_high))
+        stats_file.write('Std b Lstar low = {0} \n'.format(std_b_Lstar_low))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        
         
         stats_file.close()    
 
 
 
 
+
 ##########################################################################################
 ##########################################################################################
-##########################################################################################
-# Plot co-rotation fraction as a function of MINIMUM Lstar
+# Plot b values vs dv - NFW model
 #
 #
 ##########################################################################################
 ##########################################################################################
 
-    if plot_corotate_fraction_minimum:
+    if plot_b_vs_dv_NFW:
         # initial figure
         fig = plt.figure(figsize=(8,8))
         subplots_adjust(hspace=0.500)
 
         ax = fig.add_subplot(111)
 
-#         bins = arange(0,100,10)
-#         bins = arange(0, 100, 100)
-
-        alpha_no = 0.55
-        alpha_yes = 0.65
-
-        marker_lw = 1.5
-        marker_size = 12
+        alpha_no = 1.
+        alpha_yes = 1.
 
         L_limit = 0.5
+        
+        corotate_b = []
+        antirotate_b = []
+        e_corotate_b= []
+        e_antirotate_b= []
 
-        # no model
-        corotate_02 = 0
-        e_Lstar_02 = 0
-        total_02 = 0
-        
-        corotate_04 = 0
-        e_Lstar_04 = 0
-        total_04 = 0
-        
-        corotate_06 = 0
-        e_Lstar_06 = 0
-        total_06 = 0
+        corotate_dv = []
+        e_corotate_dv = []
+        antirotate_dv = []
+        e_antirotate_dv = []
 
-        corotate_08 = 0
-        e_Lstar_08 = 0
-        total_08 = 0
-
-        corotate_1 = 0
-        e_Lstar_1 = 0
-        total_1 = 0
         
-        corotate_12 = 0
-        e_Lstar_12 = 0
-        total_12 = 0
-        
-        corotate_14 = 0
-        e_Lstar_14 = 0
-        total_14 = 0
-
-        corotate_16 = 0
-        e_Lstar_16 = 0
-        total_16 = 0
-        
-        
-        # cylindrical model
-        corotate_02_cyl = 0
-        e_Lstar_02_cyl = 0
-        total_02_cyl = 0
-        
-        corotate_04_cyl = 0
-        e_Lstar_04_cyl = 0
-        total_04_cyl = 0
-        
-        corotate_06_cyl = 0
-        e_Lstar_06_cyl = 0
-        total_06_cyl = 0
-
-        corotate_08_cyl = 0
-        e_Lstar_08_cyl = 0
-        total_08_cyl = 0
-
-        corotate_1_cyl = 0
-        e_Lstar_1_cyl = 0
-        total_1_cyl = 0
-        
-        corotate_12_cyl = 0
-        e_Lstar_12_cyl = 0
-        total_12_cyl = 0
-        
-        corotate_14_cyl = 0
-        e_Lstar_14_cyl = 0
-        total_14_cyl = 0
-
-        corotate_16_cyl = 0
-        e_Lstar_16_cyl = 0
-        total_16_cyl = 0
-        
-        # NFW model
-        corotate_02_nfw = 0
-        e_Lstar_02_nfw = 0
-        total_02_nfw = 0
-        
-        corotate_04_nfw = 0
-        e_Lstar_04_nfw = 0
-        total_04_nfw = 0
-        
-        corotate_06_nfw = 0
-        e_Lstar_06_nfw = 0
-        total_06_nfw = 0
-
-        corotate_08_nfw = 0
-        e_Lstar_08_nfw = 0
-        total_08_nfw = 0
-
-        corotate_1_nfw = 0
-        e_Lstar_1_nfw = 0
-        total_1_nfw = 0
-        
-        corotate_12_nfw = 0
-        e_Lstar_12_nfw = 0
-        total_12_nfw = 0
-        
-        corotate_14_nfw = 0
-        e_Lstar_14_nfw = 0
-        total_14_nfw = 0
-
-        corotate_16_nfw = 0
-        e_Lstar_16_nfw = 0
-        total_16_nfw = 0
-        
-        
-        for m, m_nfw, m_cyl, e_L, ra, dec, L in zip(markerColorList, markerColorList_NFWmodel, markerColorList_model, e_LstarList, RA_targetList, Dec_targetList, LstarList):
-            if withinRange(L, [0., 0.25], 0.0):
-                if m == color_yes:
-                    corotate_02 +=1.
-                    e_Lstar_02 += e_L**2
-                    
-                if m != color_maybe:
-                    total_02 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_02_cyl +=1.
-                    e_Lstar_02_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_02_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_02_nfw +=1.
-                    e_Lstar_02_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_02_nfw +=1.
+        for m, b, ra, dec, L, dv, e_v, e_b in zip(markerColorList_NFWmodel, bList, RA_targetList, Dec_targetList, LstarList, dvList, e_dvList, e_bList):
+            print 'b +/- e_b, dv +/- e_dv : ',b,'+/-',e_b, ', ',dv,'+/-',e_dv
+            if m == color_yes:
+                corotate_b.append(b)
+                e_corotate_b.append(e_b)
+                corotate_dv.append(dv)
+                e_corotate_dv.append(e_dv)
             
-            if withinRange(L, [0., 0.5], 0.0):
-                if m == color_yes:
-                    corotate_04 +=1.
-                    e_Lstar_04 += e_L**2
-
-                if m != color_maybe:
-                    total_04 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_04_cyl +=1.
-                    e_Lstar_04_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_04_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_04_nfw +=1.
-                    e_Lstar_04_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_04_nfw +=1.
-                    
-
-            if withinRange(L, [0., 0.75], 0.0):
-                if m == color_yes:
-                    corotate_06 +=1.
-                    e_Lstar_06 += e_L**2
-
-                if m != color_maybe:
-                    total_06 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_06_cyl +=1.
-                    e_Lstar_06_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_06_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_06_nfw +=1.
-                    e_Lstar_06_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_06_nfw +=1.
-                    
-
-            if withinRange(L, [0., 1.0], 0.0):
-                if m == color_yes:
-                    corotate_08 +=1.
-                    e_Lstar_08 += e_L**2
-
-                if m != color_maybe:
-                    total_08 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_08_cyl +=1.
-                    e_Lstar_08_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_08_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_08_nfw +=1.
-                    e_Lstar_08_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_08_nfw +=1.
-                    
-            
-            if withinRange(L, [0., 1.25], 0.0):
-                if m == color_yes:
-                    corotate_1 +=1.
-                    e_Lstar_1 += e_L**2
-
-                if m != color_maybe:
-                    total_1 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_1_cyl +=1.
-                    e_Lstar_1_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_1_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_1_nfw +=1.
-                    e_Lstar_1_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_1_nfw +=1.
-
-            if withinRange(L, [0., 1.5], 0.0):
-                if m == color_yes:
-                    corotate_12 +=1.
-                    e_Lstar_12 += e_L**2
-                    print 'Lstar: ',L
-                    print 'e_Lstar_12: ',e_L
-
-                if m != color_maybe:
-                    total_12 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_12_cyl +=1.
-                    e_Lstar_12_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_12_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_12_nfw +=1.
-                    e_Lstar_12_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_12_nfw +=1.
-                    
-
-            if withinRange(L, [0., 1.75], 0.0):
-                if m == color_yes:
-                    corotate_14 +=1.
-                    e_Lstar_14 += e_L**2
-                    print 'Lstar: ',L
-                    print 'e_Lstar_14: ',e_L
-
-                if m != color_maybe:
-                    total_14 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_14_cyl +=1.
-                    e_Lstar_14_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_14_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_14_nfw +=1.
-                    e_Lstar_14_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_14_nfw +=1.
-                    
-                    
-            if withinRange(L, [0., 100.0], 0.0):
-                if m == color_yes:
-                    corotate_16 +=1.
-                    e_Lstar_16 += e_L**2
-                    print 'Lstar: ',L
-                    print 'e_Lstar_16: ',e_L
-
-                if m != color_maybe:
-                    total_16 +=1.
-                    
-                # cyl model
-                if m_cyl == color_yes:
-                    corotate_16_cyl +=1.
-                    e_Lstar_16_cyl += e_L**2
-                    
-                if m_cyl != color_maybe:
-                    total_16_cyl +=1.
-                    
-                # NFW model
-                if m_nfw == color_yes:
-                    corotate_16_nfw +=1.
-                    e_Lstar_16_nfw += e_L**2
-                    
-                if m_nfw != color_maybe:
-                    total_16_nfw +=1.
-                    
-                    
-                    
-        print 'total_02 = ',total_02
-        print 'total_04 = ',total_04
-        print 'total_06 = ',total_06
-        print 'total_08 = ',total_08
-        print 'total_1 = ',total_1
-        print 'total_12 = ',total_12
-        print 'total_14 = ',total_14
-        print 'total_15 = ',total_16
-        print
-        print 'largest Lstar: ',max(LstarList)
+            if m == color_no:
+                antirotate_b.append(b)
+                e_antirotate_b.append(e_b)
+                antirotate_dv.append(dv)
+                e_antirotate_dv.append(e_dv)
         
-        
-        e_Lstar_02 = np.sqrt(e_Lstar_02)
-        e_Lstar_04 = np.sqrt(e_Lstar_04)
-        e_Lstar_06 = np.sqrt(e_Lstar_06)
-        e_Lstar_08 = np.sqrt(e_Lstar_08)
-        e_Lstar_1 = np.sqrt(e_Lstar_1)
-        e_Lstar_12 = np.sqrt(e_Lstar_12)
-        e_Lstar_12 = np.sqrt(e_Lstar_14)
-        e_Lstar_12 = np.sqrt(e_Lstar_16)
+#         plot(antirotate_dv,
+#         antirotate_b,
+#         lw=0,
+#         marker='X',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_no,
+#         alpha=alpha_no,
+#         label=r'$\rm Anti-rotators$')
+# 
+#         plot(corotate_dv,
+#         corotate_b,
+#         lw=0,
+#         marker='D',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_yes,
+#         alpha=alpha_yes,
+#         label=r'$\rm Co-rotators$')
 
-        xerr = [e_Lstar_02, e_Lstar_04, e_Lstar_06, e_Lstar_08, e_Lstar_1, e_Lstar_12, e_Lstar_14, e_Lstar_16]
-        
-        e_02 = np.sqrt(corotate_02)
-        e_04 = np.sqrt(corotate_04)
-        e_06 = np.sqrt(corotate_06)
-        e_08 = np.sqrt(corotate_08)
-        e_1 = np.sqrt(corotate_1)
-        e_12 = np.sqrt(corotate_12)
-        e_14 = np.sqrt(corotate_14)
-        e_16 = np.sqrt(corotate_16)
-        
-        yerr = [e_02, e_04, e_06, e_08, e_1, e_12, e_14, e_16]
+        errorbar(antirotate_dv,
+        antirotate_b,
+        xerr=e_antirotate_dv,
+        yerr=e_antirotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='X',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_no,
+        alpha=alpha_no,
+        label=r'$\rm Anti-rotators$')
 
-        lstars = np.arange(0.25, 2.25, 0.25)
-        try:
-            fraction = [corotate_02/total_02,
-                        corotate_04/total_04,
-                        corotate_06/total_06,
-                        corotate_08/total_08,
-                        corotate_1/total_1,
-                        corotate_12/total_12,
-                        corotate_14/total_14,
-                        corotate_16/total_16]
-                        
-            fraction_str = [str(int(corotate_02)) + '/' + str(int(total_02)),
-                            str(int(corotate_04)) + '/' + str(int(total_04)),
-                            str(int(corotate_06)) + '/' + str(int(total_06)),
-                            str(int(corotate_08)) + '/' + str(int(total_08)),
-                            str(int(corotate_1)) + '/' + str(int(total_1)),
-                            str(int(corotate_12)) + '/' + str(int(total_12)),
-                            str(int(corotate_14)) + '/' + str(int(total_14)),
-                            str(int(corotate_16)) + '/' + str(int(total_16))]
-
-            fraction_cyl = [corotate_02_cyl/total_02_cyl,
-                            corotate_04_cyl/total_04_cyl,
-                            corotate_06_cyl/total_06_cyl,
-                            corotate_08_cyl/total_08_cyl,
-                            corotate_1_cyl/total_1_cyl,
-                            corotate_12_cyl/total_12_cyl,
-                            corotate_14_cyl/total_14_cyl,
-                            corotate_16_cyl/total_16_cyl]
-                        
-            fraction_str_cyl = [str(int(corotate_02_cyl)) + '/' + str(int(total_02_cyl)),
-                                str(int(corotate_04_cyl)) + '/' + str(int(total_04_cyl)),
-                                str(int(corotate_06_cyl)) + '/' + str(int(total_06_cyl)),
-                                str(int(corotate_08_cyl)) + '/' + str(int(total_08_cyl)),
-                                str(int(corotate_1_cyl)) + '/' + str(int(total_1_cyl)),
-                                str(int(corotate_12_cyl)) + '/' + str(int(total_12_cyl)),
-                                str(int(corotate_14_cyl)) + '/' + str(int(total_14_cyl)),
-                                str(int(corotate_16_cyl)) + '/' + str(int(total_16_cyl))]
-
-
-            fraction_NFW = [corotate_02_nfw/total_02_nfw,
-                            corotate_04_nfw/total_04_nfw,
-                            corotate_06_nfw/total_06_nfw,
-                            corotate_08_nfw/total_08_nfw,
-                            corotate_1_nfw/total_1_nfw,
-                            corotate_12_nfw/total_12_nfw,
-                            corotate_14_nfw/total_14_nfw,
-                            corotate_16_nfw/total_16_nfw]
-                        
-            fraction_str_NFW = [str(int(corotate_02_nfw)) + '/' + str(int(total_02_nfw)),
-                                str(int(corotate_04_nfw)) + '/' + str(int(total_04_nfw)),
-                                str(int(corotate_06_nfw)) + '/' + str(int(total_06_nfw)),
-                                str(int(corotate_08_nfw)) + '/' + str(int(total_08_nfw)),
-                                str(int(corotate_1_nfw)) + '/' + str(int(total_1_nfw)),
-                                str(int(corotate_12_nfw)) + '/' + str(int(total_12_nfw)),
-                                str(int(corotate_14_nfw)) + '/' + str(int(total_14_nfw)),
-                                str(int(corotate_16_nfw)) + '/' + str(int(total_16_nfw))]
-
-        except Exception,e:
-            print 'Exception: ',e
-            fraction = [0,
-                        corotate_04/total_04,
-                        corotate_06/total_06,
-                        corotate_08/total_08,
-                        corotate_1/total_1,
-                        corotate_12/total_12,
-                        corotate_14/total_14,
-                        corotate_16/total_16]
-                        
-            sys.exit()
-
-        print 'minimum fraction: ',fraction
-        
-        
-        yerr = np.sqrt(np.array(fraction))*np.array(fraction)
-        print 'yerr: ',yerr
+        errorbar(corotate_dv,
+        corotate_b,
+        xerr=e_corotate_dv,
+        yerr=e_corotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='D',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_yes,
+        alpha=alpha_yes,
+        label=r'$\rm Co-rotators$')
 
         
-        # plot apparent
-        plot(lstars, fraction, lw=marker_lw, marker = 'D', color=color_maybe, ms=marker_size, markeredgecolor='black')
-        xTagOffset = -11
-        yTagOffset = -18
-        for l, f, f_str in zip(lstars, fraction, fraction_str):
-            annotate(f_str,xy=(l, f),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=9)     
-        
-        
-        # plot Cylindrical model
-        plot(lstars, fraction_cyl, lw=marker_lw, marker = 'D', color=color_no, ms=marker_size, markeredgecolor='black')
-        xTagOffset = -11
-        yTagOffset = -18
-        for l, f, f_str in zip(lstars, fraction_cyl, fraction_str_cyl):
-            annotate(f_str,xy=(l, f),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=9)
-        
-
-        # plot NFW model
-        plot(lstars, fraction_NFW, lw=marker_lw, marker = 'D', color=color_yes, ms=marker_size, markeredgecolor='black')
-        xTagOffset = -11
-        yTagOffset = -18
-        for l, f, f_str in zip(lstars, fraction_NFW, fraction_str_NFW):
-            annotate(f_str,xy=(l, f),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=9)
-        
-        ylim(0, 1.05)
-        xlim(0.125, 2.1)
-        
-#         hist(antirotate_inc, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
-#         errorbar(lstars, fraction, yerr=yerr, lw=2, marker = 'D', color=color_yes, ms=15)
-
-#         ylim(0, 12)
-#         legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
-        xlabel(r'$\rm L^{\**} ~ CDF $')
-        ylabel(r'$\rm Co-rotating ~ Fraction$')
-
-
         # x-axis
-        majorLocator   = MultipleLocator(0.25)
-        majorFormatter = FormatStrFormatter(r'$\rm %.2f$')
-        minorLocator   = MultipleLocator(0.25/2)
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(10)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.05)
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
-
-        tight_layout()
         
-        import matplotlib.patches as mpatches
-        import matplotlib.lines as mlines
+        
+        ylim(0, 130)
+        xlim(-250, 250)
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        ylabel(r'$\rm b ~ [km~s^{-1}]$')
+        xlabel(r'$\rm \Delta v ~[km~s^{-1}]$')
+        
 
-        NFW = mlines.Line2D([], [], color=color_yes, marker='D', lw=marker_lw,
-                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm NFW ~Model $')
 
-        apparent = mlines.Line2D([], [], color=color_maybe, marker='D', lw=marker_lw,
-                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Apparent $')
-                              
-        cyl = mlines.Line2D([], [], color=color_no, marker='D', lw=marker_lw,
-                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Cyl.~ Model $')
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+# 
+#         corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+# 
+#         maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+#                               
+#         antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
 #                               
 #         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
 #                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
 #                               
-        plt.legend(handles=[NFW, cyl, apparent],loc='lower right', labelspacing=1,
-                                borderpad=0.8, fontsize=legend_font, fancybox=True)
+#         plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
 
     ##########################################################################################
         
-        save_name = 'SALT_corotate_vs_Lstar_minimum_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_ALLmodel'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
-        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+        directory = '/Users/frenchd/Research/test/'
+        save_name = 'SALT_b_vs_dv_NFW_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
 
 
+##########################################################################################
+##########################################################################################
+# Plot b values vs dv 
+#
+#
+##########################################################################################
+##########################################################################################
 
+    if plot_b_vs_dv_apparent:
+        # initial figure
+        fig = plt.figure(figsize=(8,8))
+        subplots_adjust(hspace=0.500)
+
+        ax = fig.add_subplot(111)
+
+        alpha_no = 1.
+        alpha_yes = 1.
+
+        L_limit = 0.5
+        
+        corotate_b = []
+        antirotate_b = []
+        e_corotate_b= []
+        e_antirotate_b= []
+
+        corotate_dv = []
+        e_corotate_dv = []
+        antirotate_dv = []
+        e_antirotate_dv = []
+
+        
+        for m, b, ra, dec, L, dv, e_v, e_b in zip(markerColorList, bList, RA_targetList, Dec_targetList, LstarList, dvList, e_dvList, e_bList):
+            print 'b +/- e_b, dv +/- e_dv : ',b,'+/-',e_b, ', ',dv,'+/-',e_dv
+            if m == color_yes:
+                corotate_b.append(b)
+                e_corotate_b.append(e_b)
+                corotate_dv.append(dv)
+                e_corotate_dv.append(e_dv)
+            
+            if m == color_no:
+                antirotate_b.append(b)
+                e_antirotate_b.append(e_b)
+                antirotate_dv.append(dv)
+                e_antirotate_dv.append(e_dv)
+        
+#         plot(antirotate_dv,
+#         antirotate_b,
+#         lw=0,
+#         marker='X',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_no,
+#         alpha=alpha_no,
+#         label=r'$\rm Anti-rotators$')
+# 
+#         plot(corotate_dv,
+#         corotate_b,
+#         lw=0,
+#         marker='D',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_yes,
+#         alpha=alpha_yes,
+#         label=r'$\rm Co-rotators$')
+
+        errorbar(antirotate_dv,
+        antirotate_b,
+        xerr=e_antirotate_dv,
+        yerr=e_antirotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='X',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_no,
+        alpha=alpha_no,
+        label=r'$\rm Anti-rotators$')
+
+        errorbar(corotate_dv,
+        corotate_b,
+        xerr=e_corotate_dv,
+        yerr=e_corotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='D',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_yes,
+        alpha=alpha_yes,
+        label=r'$\rm Co-rotators$')
+
+        
+        # x-axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(10)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        ylim(0, 130)
+        xlim(-250, 250)
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        ylabel(r'$\rm b ~ [km~s^{-1}]$')
+        xlabel(r'$\rm \Delta v ~[km~s^{-1}]$')
+        
+
+
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+# 
+#         corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+# 
+#         maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+#                               
+#         antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+#         plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+    ##########################################################################################
+        
+        directory = '/Users/frenchd/Research/test/'
+        save_name = 'SALT_b_vs_dv_apparent_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+
+##########################################################################################
+##########################################################################################
+# Plot b values vs dv - NFW model, separate based on Lstar, not co-rotation
+#
+#
+##########################################################################################
+##########################################################################################
+
+    if plot_b_vs_dv_NFW_Lstar:
+        # initial figure
+        fig = plt.figure(figsize=(8,8))
+        subplots_adjust(hspace=0.500)
+
+        ax = fig.add_subplot(111)
+
+        alpha_no = 1.
+        alpha_yes = 1.
+
+        L_limit = 0.7
+        
+        corotate_b = []
+        antirotate_b = []
+        e_corotate_b= []
+        e_antirotate_b= []
+
+        corotate_dv = []
+        e_corotate_dv = []
+        antirotate_dv = []
+        e_antirotate_dv = []
+
+        
+        for m, b, ra, dec, L, dv, e_v, e_b in zip(markerColorList_NFWmodel, bList, RA_targetList, Dec_targetList, LstarList, dvList, e_dvList, e_bList):
+            print 'b +/- e_b, dv +/- e_dv : ',b,'+/-',e_b, ', ',dv,'+/-',e_dv
+            if L <= L_limit:
+                corotate_b.append(b)
+                e_corotate_b.append(e_b)
+                corotate_dv.append(dv)
+                e_corotate_dv.append(e_dv)
+            
+            else:
+                antirotate_b.append(b)
+                e_antirotate_b.append(e_b)
+                antirotate_dv.append(dv)
+                e_antirotate_dv.append(e_dv)
+        
+#         plot(antirotate_dv,
+#         antirotate_b,
+#         lw=0,
+#         marker='X',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_no,
+#         alpha=alpha_no,
+#         label=r'$\rm Anti-rotators$')
+# 
+#         plot(corotate_dv,
+#         corotate_b,
+#         lw=0,
+#         marker='D',
+#         markeredgewidth=0.8,
+#         markeredgecolor='black',
+#         ms = 9,
+#         color=color_yes,
+#         alpha=alpha_yes,
+#         label=r'$\rm Co-rotators$')
+
+        errorbar(antirotate_dv,
+        antirotate_b,
+        xerr=e_antirotate_dv,
+        yerr=e_antirotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='X',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_no,
+        alpha=alpha_no,
+        label=r'$\rm L^{{\**}} > {0}$'.format(L_limit))
+
+        errorbar(corotate_dv,
+        corotate_b,
+        xerr=e_corotate_dv,
+        yerr=e_corotate_b,
+        lw=0,
+        elinewidth = 0.8,
+        marker='D',
+        markeredgewidth=0.8,
+        markeredgecolor='black',
+        ms = 9,
+        color=color_yes,
+        alpha=alpha_yes,
+        label=r'$\rm L^{{\**}} \leq {0}$'.format(L_limit))
+
+        
+        # x-axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(10)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        ylim(0, 130)
+        xlim(-250, 250)
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        ylabel(r'$\rm b ~ [km~s^{-1}]$')
+        xlabel(r'$\rm \Delta v ~[km~s^{-1}]$')
+        
+
+
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+# 
+#         corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+# 
+#         maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+#                               
+#         antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+#         plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+    ##########################################################################################
+        
+        directory = '/Users/frenchd/Research/test/'
+        save_name = 'SALT_b_vs_dv_NFW_Lstar_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+
+    
+    
+    
 if __name__ == '__main__':
     main()
     
