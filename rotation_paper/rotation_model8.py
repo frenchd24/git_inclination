@@ -261,33 +261,36 @@ def plot_NFW(xData, yData, popt, x_lim):
     returns the figure object, to be shown or saved
     '''
     
-    fig = plt.figure(figsize=(8,8))
+#     fig = plt.figure(figsize=(8,8))
+    fig = plt.figure(figsize=(7.7,5.7))
     ax = fig.add_subplot(1,1,1)
     
     v200, c, r200 = popt
     
     x_fit = linspace(0,x_lim,num=1000)
     
-    scatter(xData, yData, color='black', s=10, lw=0)
+    scatter(xData, yData, color='black', s=40, lw=0, label = r'$\rm Data$')
 #     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
-    plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
+    plot(x_fit, NFW(x_fit, *popt), 'r-', color='green', alpha=0.7, lw=2, \
+    label='NFW Fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
+    
     legend()
     
     xlim(0, x_lim)
-    ylim(0, round(np.nanmax(yData),-1)+25)
+    ylim(0, round(np.nanmax(yData),-1) + 15)
 
     # x-axis
     majorLocator   = MultipleLocator(25)
-    majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
     minorLocator   = MultipleLocator(5)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
 
     # y axis
-    majorLocator   = MultipleLocator(25)
-    majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    minorLocator   = MultipleLocator(5)
+    majorLocator   = MultipleLocator(50)
+    majorFormatter = FormatStrFormatter(r'$\rm %d$')
+    minorLocator   = MultipleLocator(10)
     ax.yaxis.set_major_locator(majorLocator)
     ax.yaxis.set_major_formatter(majorFormatter)
     ax.yaxis.set_minor_locator(minorLocator)
@@ -311,6 +314,9 @@ def main():
     
     # only us the plane of the galaxy (no z-direction, or height, to the disk)
     diskOnly = False
+    
+    color_blue = '#436bad'      # french blue
+    color_red = '#ec2d01'     # tomato red
 
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'ESO343-G014'
@@ -318,12 +324,12 @@ def main():
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-#     galaxyName = 'NGC3633'
+    galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
 #     galaxyName = 'NGC5786'
-    galaxyName = 'UGC09760'
+#     galaxyName = 'UGC09760'
 
 #     galaxyName = 'NGC3198'
 #     galaxyName = 'NGC4565'
@@ -480,10 +486,10 @@ def main():
 
         
         # NGC3633
-#         flipInclination = False
-#         reverse = False
+        flipInclination = False
+        reverse = False
 #         agnName = 'SDSSJ112005.00+041323.0'
-#         agnName = 'RX_J1121.2+0326'
+        agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
 
@@ -514,12 +520,14 @@ def main():
         
         
         # UGC09760
-        flipInclination = True
+#         flipInclination = True
         # reverse for 2x3R_vir, not reverse for NFW
-        reverse = True
-        agnName = 'SDSSJ151237.15+012846.0'
-        PA = 56.
-        NFW_fit = 'tightester2'
+#         reverse = True
+#         agnName = 'SDSSJ151237.15+012846.0'
+
+        # just testing a different PA, don't actually use this. PA = 57
+#         PA = 56.
+#         NFW_fit = 'tightester2'
 
 
 
@@ -864,7 +872,9 @@ def main():
         fig = plot_NFW(newX, newVals, popt, x_lim)
         fig.savefig("{0}{1}_NFW_{2}.jpg".format(saveDirectory,galaxyName,x_lim),dpi=300,bbox_inches='tight')
         
-        x_lim = 500
+#         x_lim = 500
+        x_lim = round(R_vir + 10,0)
+        print 'x_lim: ',x_lim
         fig = plot_NFW(newX, newVals, popt, x_lim)
         fig.savefig("{0}{1}_NFW_{2}.jpg".format(saveDirectory,galaxyName,x_lim),dpi=300,bbox_inches='tight')
         
@@ -932,14 +942,32 @@ def main():
         
         fit = interp1d(xvals, vels, kind=splineKind)
     
-        fig = plt.figure(figsize=(8,8))
+#         fig = plt.figure(figsize=(7,5))
+        fig = plt.figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(1,1,1)
         
         x_fit = linspace(-50,50,num=1000)
     
-        scatter(xvals,vels, color = 'red',s=10, label = 'Data')
-        scatter(x_fit, fit(x_fit), color='black', s=10, lw=0, label = '{0} - spline fit'.format(splineKind))
+        scatter(xvals, vels, color='black', s=40, label = r'$\rm Data$')
+        plot(x_fit, fit(x_fit), color='green', alpha=0.7, ms=0, lw=2, label = r'$\rm Linear-Spline ~Fit$')
         legend()
+        
+        # x-axis
+        majorLocator   = MultipleLocator(20)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(10)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
         
         xlim(-50,50)
         xlabel(r'$\rm R~[kpc]$')
@@ -1183,7 +1211,7 @@ def main():
 
             d = -planePoint.dot(normal)
             d_plot_list.append(d)
-        
+
     
 #     print 'v_proj_list: ',v_proj_list
 #     print 'intersect_list: ',intersect_list
@@ -1256,7 +1284,7 @@ def main():
         ax = fig.add_subplot(1,2,1)
         
 #         agnName = agnName.replace('_','\_')
-        fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+#         fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
 
 
         # number of actual intercept elements to take for each step
