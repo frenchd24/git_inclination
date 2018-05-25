@@ -166,7 +166,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe3/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -197,9 +197,10 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_Lstar_hist = False
-    plot_corotate_fraction = False
+    plot_Lstar_hist = True
+    plot_corotate_fraction = True
     plot_corotate_fraction_minimum = True
+    plot_corotate_fraction_dist = True
 
     # use fits vs integrated values?
     use_fits = False
@@ -210,6 +211,17 @@ def main():
     # include tags to include
     include_tags = ['yes','maybe']
 #     include_tags = ['yes']
+    
+    # plot properties:
+    # markers
+    m_apparent = 's'
+    m_cylindrical = 'd'
+    m_NFW = 'D'
+    
+    # line styles
+    ls_apparent = '--'
+    ls_cyl = '-.'
+    ls_NFW = '-'
     
     
 ##########################################################################################
@@ -241,6 +253,7 @@ def main():
     bList = []
     LstarList = []
     e_LstarList = []
+    impactvirList = []
     
     
     # non-detections/not finished sightlines
@@ -257,7 +270,7 @@ def main():
     RvirList_non = []
     markerColorList_non = []
     VhelList_non = []
-    
+    impactvirList_non = []
     
     
     for t in tableReader:
@@ -564,6 +577,13 @@ def main():
                 rot_vel = leftVel
             else:
                 rot_vel = rightVel
+                
+        if name == 'NGC3631':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = leftVel
+            else:
+                rot_vel = rightVel
 
             
         # now compare to the rotation velocity
@@ -622,12 +642,22 @@ def main():
             markerColor = color_nonDetection
         
         
+#         if az >= az_limit:
+#             markerColor = color_maybe
+#             
+#         if name == 'NGC3513':
+#             markerColor = color_maybe
+
         # if too close to the minor axis, call it uncertain/maybe
         if az >= az_limit:
             markerColor = color_maybe
+            markerColor_model = color_maybe
+            markerColor_NFWmodel = color_maybe
             
         if name == 'NGC3513':
             markerColor = color_maybe
+            markerColor_model = color_maybe
+            markerColor_NFWmodel = color_maybe
 
 
         matplotlib.rcParams['text.usetex'] = True
@@ -712,6 +742,7 @@ def main():
                         
                     LstarList.append(Lstar)
                     e_LstarList.append(e_Lstar)
+                    impactvirList.append(impact_rvir)
                 
                 else:
                     print 'too far: ',name,' , dv = ',dv, ' vs rot_vel = ',rot_vel
@@ -741,6 +772,7 @@ def main():
 
                     LstarList.append(Lstar)
                     e_LstarList.append(e_Lstar)
+                    impactvirList.append(impact_rvir)
 
                 
             if include_nondetection and not isNumber(dv):
@@ -757,7 +789,8 @@ def main():
                 RvirList_non.append(Rvir)
                 markerColorList_non.append(markerColor)
                 combinedNameList_non.append(combinedName)
-        
+                impactvirList_non.append(impact_rvir)
+
         else:
             print 'outside range: {0} - {1} Lstar, {2} = separation'.format(Lstar, Lstar_range,separation)
             print
@@ -1415,10 +1448,9 @@ def main():
         
         yerr = np.sqrt(np.array(fraction))*np.array(fraction)
         print 'yerr: ',yerr
-
         
         # plot apparent
-        plot(lstars, fraction, lw=marker_lw, marker = 'D', color=color_maybe, ms=marker_size, markeredgecolor='black')
+        plot(lstars, fraction, lw=marker_lw, marker=m_apparent, ls=ls_apparent, color=color_maybe, ms=marker_size, markeredgecolor='black')
         xTagOffset = -11
         yTagOffset = -18
         for l, f, f_str in zip(lstars, fraction, fraction_str):
@@ -1427,7 +1459,7 @@ def main():
         
         
         # plot Cylindrical model
-        plot(lstars, fraction_cyl, lw=marker_lw, marker = 'D', color=color_no, ms=marker_size, markeredgecolor='black')
+        plot(lstars, fraction_cyl, lw=marker_lw, marker=m_cylindrical, ls=ls_cyl, color=color_no, ms=marker_size, markeredgecolor='black')
         xTagOffset = -11
         yTagOffset = -18
         for l, f, f_str in zip(lstars, fraction_cyl, fraction_str_cyl):
@@ -1436,7 +1468,7 @@ def main():
         
 
         # plot NFW model
-        plot(lstars, fraction_NFW, lw=marker_lw, marker = 'D', color=color_yes, ms=marker_size, markeredgecolor='black')
+        plot(lstars, fraction_NFW, lw=marker_lw, marker=m_NFW, ls= ls_NFW, color=color_yes, ms=marker_size, markeredgecolor='black')
         xTagOffset = -11
         yTagOffset = -18
         for l, f, f_str in zip(lstars, fraction_NFW, fraction_str_NFW):
@@ -1476,13 +1508,13 @@ def main():
         import matplotlib.patches as mpatches
         import matplotlib.lines as mlines
 
-        NFW = mlines.Line2D([], [], color=color_yes, marker='D', lw=marker_lw,
+        NFW = mlines.Line2D([], [], color=color_yes, marker=m_NFW, lw=marker_lw, ls= ls_NFW,
                                   markersize=marker_size, markeredgecolor='black', label=r'$\rm NFW ~Model $')
 
-        apparent = mlines.Line2D([], [], color=color_maybe, marker='D', lw=marker_lw,
+        apparent = mlines.Line2D([], [], color=color_maybe, marker=m_apparent, lw=marker_lw, ls= ls_apparent,
                                   markersize=marker_size, markeredgecolor='black', label=r'$\rm Apparent $')
                               
-        cyl = mlines.Line2D([], [], color=color_no, marker='D', lw=marker_lw,
+        cyl = mlines.Line2D([], [], color=color_no, marker=m_cylindrical, lw=marker_lw, ls= ls_cyl,
                                   markersize=marker_size, markeredgecolor='black', label=r'$\rm Cyl.~ Model $')
 #                               
 #         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
@@ -1495,6 +1527,606 @@ def main():
         
         save_name = 'SALT_corotate_vs_Lstar_minimum_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_ALLmodel'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
         savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+
+
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+# Plot co-rotation fraction as a function of binned Lstar
+#
+#
+##########################################################################################
+##########################################################################################
+
+    if plot_corotate_fraction:
+        # initial figure
+        fig = plt.figure(figsize=(7.7,5.7))
+        subplots_adjust(hspace=0.500)
+
+        ax = fig.add_subplot(111)
+
+#         bins = arange(0,100,10)
+#         bins = arange(0, 100, 100)
+
+        alpha_no = 0.55
+        alpha_yes = 0.65
+
+        marker_lw = 1.5
+        marker_size = 12
+
+        L_limit = 0.5
+
+        # no model
+        
+        corotate_04 = 0
+        e_Lstar_04 = 0
+        total_04 = 0
+
+        corotate_08 = 0
+        e_Lstar_08 = 0
+        total_08 = 0
+        
+        corotate_12 = 0
+        e_Lstar_12 = 0
+        total_12 = 0
+
+        corotate_16 = 0
+        e_Lstar_16 = 0
+        total_16 = 0
+        
+        
+        # cylindrical model
+        corotate_04_cyl = 0
+        e_Lstar_04_cyl = 0
+        total_04_cyl = 0
+
+        corotate_08_cyl = 0
+        e_Lstar_08_cyl = 0
+        total_08_cyl = 0
+
+        corotate_12_cyl = 0
+        e_Lstar_12_cyl = 0
+        total_12_cyl = 0
+    
+        corotate_16_cyl = 0
+        e_Lstar_16_cyl = 0
+        total_16_cyl = 0
+        
+        
+        # NFW model
+        corotate_04_nfw = 0
+        e_Lstar_04_nfw = 0
+        total_04_nfw = 0
+
+        corotate_08_nfw = 0
+        e_Lstar_08_nfw = 0
+        total_08_nfw = 0
+        
+        corotate_12_nfw = 0
+        e_Lstar_12_nfw = 0
+        total_12_nfw = 0
+
+        corotate_16_nfw = 0
+        e_Lstar_16_nfw = 0
+        total_16_nfw = 0
+        
+        
+        for m, m_nfw, m_cyl, e_L, ra, dec, L in zip(markerColorList, markerColorList_NFWmodel, markerColorList_model, e_LstarList, RA_targetList, Dec_targetList, LstarList):
+            
+            if withinRange(L, [0., 0.5], 0.0):
+                if m == color_yes:
+                    corotate_04 +=1.
+                    e_Lstar_04 += e_L**2
+
+                if m != color_maybe:
+                    total_04 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_04_cyl +=1.
+                    e_Lstar_04_cyl += e_L**2
+                    
+                if m_cyl != color_maybe:
+                    total_04_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_04_nfw +=1.
+                    e_Lstar_04_nfw += e_L**2
+                    
+                if m_nfw != color_maybe:
+                    total_04_nfw +=1.
+                    
+
+            if withinRange(L, [0.50001, 1.0], 0.0):
+                if m == color_yes:
+                    corotate_08 +=1.
+                    e_Lstar_08 += e_L**2
+
+                if m != color_maybe:
+                    total_08 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_08_cyl +=1.
+                    e_Lstar_08_cyl += e_L**2
+                    
+                if m_cyl != color_maybe:
+                    total_08_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_08_nfw +=1.
+                    e_Lstar_08_nfw += e_L**2
+                    
+                if m_nfw != color_maybe:
+                    total_08_nfw +=1.
+                    
+
+            if withinRange(L, [1.00001, 1.7], 0.0):
+                if m == color_yes:
+                    corotate_12 +=1.
+                    e_Lstar_12 += e_L**2
+                    print 'Lstar: ',L
+                    print 'e_Lstar_12: ',e_L
+
+                if m != color_maybe:
+                    total_12 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_12_cyl +=1.
+                    e_Lstar_12_cyl += e_L**2
+                    
+                if m_cyl != color_maybe:
+                    total_12_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_12_nfw +=1.
+                    e_Lstar_12_nfw += e_L**2
+                    
+                if m_nfw != color_maybe:
+                    total_12_nfw +=1.
+                    
+                    
+            if withinRange(L, [1.70001, 100.0], 0.0):
+                if m == color_yes:
+                    corotate_16 +=1.
+                    e_Lstar_16 += e_L**2
+                    print 'Lstar: ',L
+                    print 'e_Lstar_16: ',e_L
+
+                if m != color_maybe:
+                    total_16 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_16_cyl +=1.
+                    e_Lstar_16_cyl += e_L**2
+                    
+                if m_cyl != color_maybe:
+                    total_16_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_16_nfw +=1.
+                    e_Lstar_16_nfw += e_L**2
+                    
+                if m_nfw != color_maybe:
+                    total_16_nfw +=1.
+                    
+                    
+                    
+        print 'total_04 = ',total_04
+        print 'total_08 = ',total_08
+        print 'total_12 = ',total_12
+        print 'total_15 = ',total_16
+        print
+        print 'largest Lstar: ',max(LstarList)
+        
+        
+        e_Lstar_04 = np.sqrt(e_Lstar_04)
+        e_Lstar_08 = np.sqrt(e_Lstar_08)
+        e_Lstar_12 = np.sqrt(e_Lstar_12)
+        e_Lstar_12 = np.sqrt(e_Lstar_16)
+
+        xerr = [e_Lstar_04, e_Lstar_08, e_Lstar_12, e_Lstar_16]
+        
+        e_04 = np.sqrt(corotate_04)
+        e_08 = np.sqrt(corotate_08)
+        e_12 = np.sqrt(corotate_12)
+        e_16 = np.sqrt(corotate_16)
+        
+        yerr = [e_04, e_08, e_12, e_16]
+
+#         lstars = np.arange(0.4, 2.0, 0.4)
+        lstars = np.array([0.5, 1.0, 1.7, 2.4])
+
+        try:
+            fraction = [corotate_04/total_04,
+                        corotate_08/total_08,
+                        corotate_12/total_12,
+                        corotate_16/total_16]
+                        
+            fraction_str = [str(int(corotate_04)) + '/' + str(int(total_04)),
+                            str(int(corotate_08)) + '/' + str(int(total_08)),
+                            str(int(corotate_12)) + '/' + str(int(total_12)),
+                            str(int(corotate_16)) + '/' + str(int(total_16))]
+
+            fraction_cyl = [corotate_04_cyl/total_04_cyl,
+                            corotate_08_cyl/total_08_cyl,
+                            corotate_12_cyl/total_12_cyl,
+                            corotate_16_cyl/total_16_cyl]
+                        
+            fraction_str_cyl = [str(int(corotate_04_cyl)) + '/' + str(int(total_04_cyl)),
+                                str(int(corotate_08_cyl)) + '/' + str(int(total_08_cyl)),
+                                str(int(corotate_12_cyl)) + '/' + str(int(total_12_cyl)),
+                                str(int(corotate_16_cyl)) + '/' + str(int(total_16_cyl))]
+
+
+            fraction_NFW = [corotate_04_nfw/total_04_nfw,
+                            corotate_08_nfw/total_08_nfw,
+                            corotate_12_nfw/total_12_nfw,
+                            corotate_16_nfw/total_16_nfw]
+                        
+            fraction_str_NFW = [str(int(corotate_04_nfw)) + '/' + str(int(total_04_nfw)),
+                                str(int(corotate_08_nfw)) + '/' + str(int(total_08_nfw)),
+                                str(int(corotate_12_nfw)) + '/' + str(int(total_12_nfw)),
+                                str(int(corotate_16_nfw)) + '/' + str(int(total_16_nfw))]
+
+        except Exception,e:
+            print 'Exception: ',e
+            fraction = [corotate_04/total_04,
+                        corotate_08/total_08,
+                        corotate_12/total_12,
+                        corotate_16/total_16]
+                        
+            sys.exit()
+
+        print 'minimum fraction: ',fraction
+        
+        
+        yerr = np.sqrt(np.array(fraction))*np.array(fraction)
+        print 'yerr: ',yerr
+        
+        # plot apparent
+        plot(lstars, fraction, lw=marker_lw, marker=m_apparent, ls=ls_apparent, color=color_maybe, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -18
+        yTagOffset = -14
+        for l, f, f_str in zip(lstars, fraction, fraction_str):
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)     
+        
+        
+        # plot Cylindrical model
+        print 'm_cylindrical: ',m_cylindrical
+        plot(lstars, fraction_cyl, lw=marker_lw, marker=m_cylindrical, ls=ls_cyl, color=color_no, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -18
+        yTagOffset = -14
+        for l, f, f_str in zip(lstars, fraction_cyl, fraction_str_cyl):
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)
+        
+
+        # plot NFW model
+        plot(lstars, fraction_NFW, lw=marker_lw, ls=ls_NFW, marker=m_NFW, color=color_yes, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -18
+        yTagOffset = -14
+        for l, f, f_str in zip(lstars, fraction_NFW, fraction_str_NFW):
+            print 'f_str, len(f_str): ',f_str, len(f_str)
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)
+        
+        ylim(0, 1.05)
+        xlim(0.125, 2.6)
+        
+#         hist(antirotate_inc, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
+#         errorbar(lstars, fraction, yerr=yerr, lw=2, marker = 'D', color=color_yes, ms=15)
+
+#         ylim(0, 12)
+#         legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm L^{\**}$')
+        ylabel(r'$\rm Co-rotating ~ Fraction$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(0.25)
+        majorFormatter = FormatStrFormatter(r'$\rm %.2f$')
+        minorLocator   = MultipleLocator(0.25/2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(0.2)
+        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
+        minorLocator   = MultipleLocator(0.05)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        tight_layout()
+        
+        import matplotlib.patches as mpatches
+        import matplotlib.lines as mlines
+
+        NFW = mlines.Line2D([], [], color=color_yes, marker=m_NFW, lw=marker_lw, ls=ls_NFW,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm NFW ~Model $')
+
+        apparent = mlines.Line2D([], [], color=color_maybe, marker=m_apparent, lw=marker_lw, ls=ls_apparent,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Apparent $')
+                              
+        cyl = mlines.Line2D([], [], color=color_no, marker=m_cylindrical, lw=marker_lw, ls=ls_cyl,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Cyl.~ Model $')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+        plt.legend(handles=[NFW, cyl, apparent],loc='lower right', labelspacing=1,
+                                borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+    ##########################################################################################
+        
+        save_name = 'SALT_corotate_vs_Lstar_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_ALLmodel'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+# Plot co-rotation fraction as a function of binned impact / Rvir
+#
+#
+##########################################################################################
+##########################################################################################
+
+    if plot_corotate_fraction_dist:
+        # initial figure
+        fig = plt.figure(figsize=(7.7,5.7))
+        subplots_adjust(hspace=0.500)
+
+        ax = fig.add_subplot(111)
+
+#         bins = arange(0,100,10)
+#         bins = arange(0, 100, 100)
+
+        alpha_no = 0.55
+        alpha_yes = 0.65
+
+        marker_lw = 1.5
+        marker_size = 12
+
+        L_limit = 0.5
+
+        # no model
+        corotate_05 = 0
+        total_05 = 0
+        
+        corotate_15 = 0
+        total_15 = 0
+        
+        corotate_3 = 0
+        total_3 = 0
+        
+        # cylindrical model
+        corotate_05_cyl = 0
+        total_05_cyl = 0
+
+        corotate_15_cyl = 0
+        total_15_cyl = 0
+
+        corotate_3_cyl = 0
+        total_3_cyl = 0
+        
+        # NFW model
+        corotate_05_nfw = 0
+        total_05_nfw = 0
+        
+        corotate_15_nfw = 0
+        total_15_nfw = 0
+        
+        corotate_3_nfw = 0
+        total_3_nfw = 0
+        
+        
+        for m, m_nfw, m_cyl, imp, ra, dec, L in zip(markerColorList, markerColorList_NFWmodel, markerColorList_model, impactvirList, RA_targetList, Dec_targetList, LstarList):
+            if withinRange(imp, [0., 0.5], 0.0):
+                if m == color_yes:
+                    corotate_05 +=1.
+
+                if m != color_maybe:
+                    total_05 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_05_cyl +=1.
+                    
+                if m_cyl != color_maybe:
+                    total_05_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_05_nfw +=1.
+                    
+                if m_nfw != color_maybe:
+                    total_05_nfw +=1.
+                    
+
+            if withinRange(imp, [0.50001, 1.5], 0.0):
+                if m == color_yes:
+                    corotate_15 +=1.
+
+                if m != color_maybe:
+                    total_15 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_15_cyl +=1.
+                    
+                if m_cyl != color_maybe:
+                    total_15_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_15_nfw +=1.
+                    
+                if m_nfw != color_maybe:
+                    total_15_nfw +=1.
+
+                    
+            if withinRange(imp, [1.50001, 3.0], 0.0):
+                if m == color_yes:
+                    corotate_3 +=1.
+
+                if m != color_maybe:
+                    total_3 +=1.
+                    
+                # cyl model
+                if m_cyl == color_yes:
+                    corotate_3_cyl +=1.
+                    
+                if m_cyl != color_maybe:
+                    total_3_cyl +=1.
+                    
+                # NFW model
+                if m_nfw == color_yes:
+                    corotate_3_nfw +=1.
+                    
+                if m_nfw != color_maybe:
+                    total_3_nfw +=1.
+                    
+                    
+                    
+                    
+        print 'total_05 = ',total_05
+        print 'total_15 = ',total_15
+        print 'total_3 = ',total_3
+        print
+
+#         xdata = np.arange(0.5, 3.5, 0.5)
+        xdata = np.array([0.5, 1.5, 3.0])
+
+        try:
+            fraction = [corotate_05/total_05,
+                        corotate_15/total_15,
+                        corotate_3/total_3]
+                        
+            fraction_str = [str(int(corotate_05)) + '/' + str(int(total_05)),
+                            str(int(corotate_15)) + '/' + str(int(total_15)),
+                            str(int(corotate_3)) + '/' + str(int(total_3))]
+
+            fraction_cyl = [corotate_05_cyl/total_05_cyl,
+                            corotate_15_cyl/total_15_cyl,
+                            corotate_3_cyl/total_3_cyl]
+                        
+            fraction_str_cyl = [str(int(corotate_05_cyl)) + '/' + str(int(total_05_cyl)),
+                                str(int(corotate_15_cyl)) + '/' + str(int(total_15_cyl)),
+                                str(int(corotate_3_cyl)) + '/' + str(int(total_3_cyl))]
+
+
+            fraction_NFW = [corotate_05_nfw/total_05_nfw,
+                            corotate_15_nfw/total_15_nfw,
+                            corotate_3_nfw/total_3_nfw]
+                        
+            fraction_str_NFW = [str(int(corotate_05_nfw)) + '/' + str(int(total_05_nfw)),
+                                str(int(corotate_15_nfw)) + '/' + str(int(total_15_nfw)),
+                                str(int(corotate_3_nfw)) + '/' + str(int(total_3_nfw))]
+
+        except Exception,e:
+            print 'Exception: ',e
+            
+            sys.exit()
+            
+        print 'minimum fraction: ',fraction
+        
+                
+        # plot apparent
+        plot(xdata, fraction, lw=marker_lw, marker=m_apparent, ls=ls_apparent, color=color_maybe, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -20
+        yTagOffset = -14
+        for l, f, f_str in zip(xdata, fraction, fraction_str):
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)     
+        
+        
+        # plot Cylindrical model
+        print 'm_cylindrical: ',m_cylindrical
+        plot(xdata, fraction_cyl, lw=marker_lw, marker=m_cylindrical, ls=ls_cyl, color=color_no, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -20
+        yTagOffset = -14
+        for l, f, f_str in zip(xdata, fraction_cyl, fraction_str_cyl):
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)
+        
+
+        # plot NFW model
+        plot(xdata, fraction_NFW, lw=marker_lw, ls=ls_NFW, marker=m_NFW, color=color_yes, ms=marker_size, markeredgecolor='black')
+        xTagOffset = -20
+        yTagOffset = -14
+        for l, f, f_str in zip(xdata, fraction_NFW, fraction_str_NFW):
+            print 'f_str, len(f_str): ',f_str, len(f_str)
+            annotate(f_str,xy=(l, f),\
+            xytext=(-len(f_str)+xTagOffset, yTagOffset),textcoords='offset points',size=9)
+        
+        ylim(0, 1.05)
+        xlim(0.125, 3.1)
+        
+#         hist(antirotate_inc, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
+#         errorbar(lstars, fraction, yerr=yerr, lw=2, marker = 'D', color=color_yes, ms=15)
+
+#         ylim(0, 12)
+#         legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm \rho / R_{vir}$')
+        ylabel(r'$\rm Co-rotating ~ Fraction$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(0.25)
+        majorFormatter = FormatStrFormatter(r'$\rm %.2f$')
+        minorLocator   = MultipleLocator(0.25/2)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(0.2)
+        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
+        minorLocator   = MultipleLocator(0.05)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        tight_layout()
+        
+        import matplotlib.patches as mpatches
+        import matplotlib.lines as mlines
+
+        NFW = mlines.Line2D([], [], color=color_yes, marker=m_NFW, lw=marker_lw, ls=ls_NFW,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm NFW ~Model $')
+
+        apparent = mlines.Line2D([], [], color=color_maybe, marker=m_apparent, lw=marker_lw, ls=ls_apparent,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Apparent $')
+                              
+        cyl = mlines.Line2D([], [], color=color_no, marker=m_cylindrical, lw=marker_lw, ls=ls_cyl,
+                                  markersize=marker_size, markeredgecolor='black', label=r'$\rm Cyl.~ Model $')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+        plt.legend(handles=[NFW, cyl, apparent],loc='lower right', labelspacing=1,
+                                borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+    ##########################################################################################
+        
+        save_name = 'SALT_corotate_vs_dist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_ALLmodel'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+
+
 
 
 

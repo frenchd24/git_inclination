@@ -164,6 +164,11 @@ def get_data(filename):
 def main():
     hubbleConstant = 71.0
     
+    # where to write to?
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe2/'
+#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
+
+    
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
     only_close_velocities = True
     
@@ -199,6 +204,10 @@ def main():
     
     # don't include absorbers with EW above this
     EW_cut = 1000.
+    
+    # include tags to include
+    include_tags = ['yes','maybe']
+#     include_tags = ['yes']
     
 ##########################################################################################
 ##########################################################################################
@@ -262,6 +271,8 @@ def main():
         
         PA_observed = eval(t['PA_observed'])
         PA_adjust = eval(t['PA_adjust'])
+        
+        include_tag = t['include']
         
         model_range = eval(t['model_range'])
         NFW_range = eval(t['NFW_range'])
@@ -548,6 +559,13 @@ def main():
                 rot_vel = leftVel
             else:
                 rot_vel = rightVel
+                
+        if name == 'NGC3631':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = leftVel
+            else:
+                rot_vel = rightVel
 
             
         # now compare to the rotation velocity
@@ -630,6 +648,12 @@ def main():
         else:
             add_to_list = False
         
+        if include_tag not in include_tags:
+            add_to_list = False
+            
+        if lyaW > EW_cut:
+            add_to_list = False
+        
         separation = 500.
         if min_separation and add_to_list:
             # correlate with environment
@@ -660,9 +684,6 @@ def main():
                         print
                         break
         
-        
-        if lyaW > EW_cut:
-            add_to_list = False
         
         # populate the lists
         if add_to_list:
@@ -909,13 +930,12 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALT_EW_hist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_cut_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, EW_cut)
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
             
         
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         avg_EW_corotate = mean(corotate_EW)

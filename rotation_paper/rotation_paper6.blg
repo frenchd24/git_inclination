@@ -3,47 +3,45 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: rotation_paper6.aux
 The style file: apj.bst
 Database file #1: /Users/frenchd/Research/bib.bib
-Warning--I didn't find a database entry for "chen2003"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 39 entries,
+You've used 45 entries,
             3010 wiz_defined-function locations,
-            883 strings with 16275 characters,
-and the built_in function-call counts, 22388 in all, are:
-= -- 1657
-> -- 2146
-< -- 8
-+ -- 726
-- -- 780
-* -- 2149
-:= -- 4375
-add.period$ -- 39
-call.type$ -- 39
-change.case$ -- 298
-chr.to.int$ -- 38
-cite$ -- 39
-duplicate$ -- 737
-empty$ -- 1049
-format.name$ -- 818
-if$ -- 4254
+            913 strings with 17556 characters,
+and the built_in function-call counts, 25392 in all, are:
+= -- 1904
+> -- 2384
+< -- 9
++ -- 805
+- -- 868
+* -- 2418
+:= -- 4950
+add.period$ -- 45
+call.type$ -- 45
+change.case$ -- 339
+chr.to.int$ -- 44
+cite$ -- 45
+duplicate$ -- 851
+empty$ -- 1210
+format.name$ -- 913
+if$ -- 4841
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 39
-newline$ -- 121
-num.names$ -- 156
-pop$ -- 320
+missing$ -- 45
+newline$ -- 139
+num.names$ -- 180
+pop$ -- 366
 preamble$ -- 1
-purify$ -- 298
+purify$ -- 339
 quote$ -- 0
-skip$ -- 599
+skip$ -- 690
 stack$ -- 0
-substring$ -- 804
+substring$ -- 927
 swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 351
+type$ -- 405
 warning$ -- 0
-while$ -- 149
+while$ -- 171
 width$ -- 0
-write$ -- 393
-(There was 1 warning)
+write$ -- 453

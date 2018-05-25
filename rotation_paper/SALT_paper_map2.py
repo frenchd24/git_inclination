@@ -175,8 +175,8 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe/'
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe3/'
+#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
     only_close_velocities = False
@@ -202,7 +202,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = False
+    min_separation = 20.0
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
@@ -216,10 +216,11 @@ def main():
     plot_cyl = True
     plot_NFW = True
     plot_zoom_in = True
+    plot_NFW_zoom_in = True
     
     # include tags to include
-#     include_tags = ['yes','maybe']
-    include_tags = ['yes']
+    include_tags = ['yes','maybe']
+#     include_tags = ['yes']
 
 ##########################################################################################
 ##########################################################################################
@@ -247,7 +248,7 @@ def main():
     VhelList = []
     markerColorList_model = []
     markerColorList_NFWmodel = []
-
+    nameDict = {}
     
     # non-detections/not finished sightlines
     nameList_non = []
@@ -279,6 +280,7 @@ def main():
         vHel = eval(t['Vhel'])
         
         include_tag = t['include']
+        sysNumber = t['number']
         
         PA_observed = eval(t['PA_observed'])
         PA_adjust = eval(t['PA_adjust'])
@@ -569,6 +571,12 @@ def main():
             else:
                 rot_vel = rightVel
 
+        if name == 'NGC3631':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = leftVel
+            else:
+                rot_vel = rightVel
 
             
         # now compare to the rotation velocity
@@ -630,17 +638,23 @@ def main():
         # if too close to the minor axis, call it uncertain/maybe
         if az >= az_limit:
             markerColor = color_maybe
+            markerColor_model = color_maybe
+            markerColor_NFWmodel = color_maybe
             
         if name == 'NGC3513':
             markerColor = color_maybe
-
+            markerColor_model = color_maybe
+            markerColor_NFWmodel = color_maybe
+            
 
         matplotlib.rcParams['text.usetex'] = True
         matplotlib.rcParams['text.latex.unicode'] = False
 
 #         combinedName = '${\rm '+name + '-' + target+'}$'.format(name,target)
         combinedName = r'$\rm {0} : {1}$'.format(name,target)
-            
+        
+        nameDict[combinedName] = sysNumber
+        
         print '{0} - dv={1} vs model={2} => {3}'.format(combinedName, dv, model_range, model_answer)
         print
 
@@ -758,6 +772,7 @@ def main():
 #         print
 #         print
         
+        
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
@@ -805,17 +820,7 @@ def main():
         markerColorList_NFWmodel2.append(NFW)
         markerColorList_model2.append(model)
         
-        # check if this galaxy-QSO pair already has a number
-        if count_dict.has_key(name):
-            system_count = count_dict[name]
-#             countList.append(system_count)
-            countList.append('')
-        
-        else:
-            count_dict[name] = count
-            countList.append(count)
-            count +=1
-            
+        countList.append(nameDict[name])
             
         # separate, 'zoomed-in' set
         if math.sqrt(ra**2 + dec**2) <= zoom_limit:
@@ -828,14 +833,7 @@ def main():
             markerColorList_model_zoom.append(model)
         
             # check if this galaxy-QSO pair already has a number
-            if count_dict_zoom.has_key(name):
-                system_count = count_dict_zoom[name]
-                countList_zoom.append('')
-        
-            else:
-                count_dict_zoom[name] = count_zoom
-                countList_zoom.append(count_zoom)
-                count_zoom +=1
+            countList_zoom.append(nameDict[name])
         
     countList_non = []
     countList_non_zoom = []
@@ -844,19 +842,16 @@ def main():
     markerColorList_non_zoom = []
     combinedNameList_non_zoom = []
     for name, ra, dec, m in zip(combinedNameList_non, RA_targetList_non, Dec_targetList_non, markerColorList_non):
-        countList_non.append(count)
-        count +=1
+    
+        countList_non.append(nameDict[name])
         
         if math.sqrt(ra**2 + dec**2) <= zoom_limit:
-            countList_non_zoom.append(count_zoom)
+            countList_non_zoom.append(nameDict[name])
             
             RA_targetList_non_zoom.append(ra)
             Dec_targetList_non_zoom.append(dec)
             markerColorList_non_zoom.append(m)
-            combinedNameList_non_zoom.append(name)
-            
-            count_zoom +=1
-            
+            combinedNameList_non_zoom.append(name)            
 
 ##########################################################################################
 ##########################################################################################
@@ -940,16 +935,16 @@ def main():
             yTagOffset = 5.0 + (newSizeList[i]/50.)
     #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
     #         print 'yTagOffset: ',yTagOffset
+
+#             annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
                 
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-                
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
+            tag = nameDict[combinedNameList2[i]]        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
 
     ##########################################################################################
@@ -965,14 +960,14 @@ def main():
             annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
         
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
+        
+            tag = nameDict[combinedNameList_non[i]]
+        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
     ##########################################################################################
 
@@ -983,7 +978,7 @@ def main():
         ax.set_ylim(-3.0, 3.0)
         ax.invert_xaxis()
     
-        annotate(r'$\rm Approaching~ Side$',xy=(2.95, 0.06),\
+        annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
@@ -1197,15 +1192,15 @@ def main():
     #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
     #         print 'yTagOffset: ',yTagOffset
                 
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
                 
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
+            tag = nameDict[combinedNameList2[i]]
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
 
     ##########################################################################################
@@ -1218,17 +1213,16 @@ def main():
             ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
             yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
         
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
-
+            tag = nameDict[combinedNameList_non[i]]
+        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
     ##########################################################################################
 
@@ -1246,7 +1240,7 @@ def main():
         ax.set_ylim(-3.0, 3.0)
         ax.invert_xaxis()
     
-        annotate(r'$\rm Approaching~ Side$',xy=(2.95, 0.06),\
+        annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
@@ -1462,15 +1456,15 @@ def main():
     #         print 'combinedNameList2[i]: ',combinedNameList2[i], 'dec = ',Dec_targetList2[i]
     #         print 'yTagOffset: ',yTagOffset
                 
-            annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
                 
-    #         if not previousNames.has_key(combinedNameList2[i]):
-    #             annotate(counter,xy=(RA_targetList2[i], Dec_targetList2[i]),\
-    #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList2[i]] = counter
-    #             counter +=1
+            tag = nameDict[combinedNameList2[i]]        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
 
     ##########################################################################################
@@ -1483,16 +1477,16 @@ def main():
             ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
             yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
         
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
+            tag = nameDict[combinedNameList_non[i]]
+        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
 
     ##########################################################################################
@@ -1511,7 +1505,7 @@ def main():
         ax.set_ylim(-3.0, 3.0)
         ax.invert_xaxis()
     
-        annotate(r'$\rm Approaching~ Side$',xy=(2.95, 0.06),\
+        annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
@@ -1649,13 +1643,228 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-# NFW model plot but zoomed into 1 R_vir radius only
+# On-sky apparent plot but zoomed into 1 R_vir radius only
 #
 #
 ##########################################################################################
 ##########################################################################################
 
     if plot_zoom_in:
+        # initial figure
+        fig = plt.figure(figsize=(8,8))
+        ax = fig.add_subplot(1,1,1)
+    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+
+    ##########################################################################################
+        # plot circles
+        def xy(r,phi):
+          return r*np.cos(phi), r*np.sin(phi)
+
+        phis=np.arange(0,2*np.pi,0.01)
+    
+        r = 0.5
+        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+        r = 1.0
+        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+        ax.plot([0,0],[-1,1],c='black',ls='-',lw=0.6)
+        ax.plot([-1,1],[0,0],c='black',ls='-',lw=0.6)
+    
+        ax.scatter(0,0,c='black',marker='*',s=25)
+    
+    ##########################################################################################
+
+    
+        # plot the rest
+        largestEW = max(wList_zoom)
+        smallestEW = min(wList_zoom)
+        maxSize = 500
+        minSize = 30
+    
+        newSizeList = []
+        for w in wList_zoom:
+            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
+            newSizeList.append(newSize)
+
+        # make different style markers for different colors
+        for i in arange(len(markerColorList_zoom)):
+            marker = '*'
+            marker_lw = 0.6
+
+            if markerColorList_zoom[i] == color_maybe:
+                marker = 'o'
+            if markerColorList_zoom[i] == color_no:
+                marker = 'X'
+#                 marker_lw = 1.5
+                marker_lw = 0.5
+            if markerColorList_zoom[i] == color_yes:
+                marker = 'D'
+        
+
+            ax.scatter(RA_targetList_zoom[i], Dec_targetList_zoom[i], color=markerColorList_zoom[i], \
+            s=newSizeList[i], marker=marker, edgecolor='black', lw=marker_lw)
+    
+        xTagOffset = 2.0
+        yTagOffset = 1.
+
+        previousNames = {}
+        counter = 1
+        for i in arange(len(combinedNameList_zoom)):
+        
+            yTagOffset = 5.0 + (newSizeList[i]/50.)
+
+#             annotate(countList_zoom[i],xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+
+            tag = nameDict[combinedNameList_zoom[i]]        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
+
+    ##########################################################################################
+        # now the non-detections
+
+        non_size = 10
+        non_marker = 'o'
+        for i in arange(len(markerColorList_non_zoom)):
+            ax.plot(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i], color=markerColorList_non_zoom[i], \
+            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
+
+            yTagOffset = 5.0
+#             annotate(countList_non_zoom[i],xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+            
+            tag = nameDict[combinedNameList_non_zoom[i]]
+        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
+
+    ##########################################################################################
+
+        xlabel(r'$\rm R.A. ~[R_{vir}]$')
+        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+    
+        ax.set_xlim(-zoom_limit, zoom_limit)
+        ax.set_ylim(-zoom_limit, zoom_limit)
+        ax.invert_xaxis()
+    
+        annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.06, 0.02),\
+        xytext=(0.0,0.0),textcoords='offset points',size=9)
+
+
+        # x-axis
+    #     majorLocator   = MultipleLocator(0.5)
+    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    #     minorLocator   = MultipleLocator(0.25)
+    #     ax.yaxis.set_major_locator(majorLocator)
+    #     ax.yaxis.set_major_formatter(majorFormatter)
+    #     ax.yaxis.set_minor_locator(minorLocator)
+
+        # y axis
+    #     majorLocator   = MultipleLocator(0.5)
+    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    #     minorLocator   = MultipleLocator(0.25)
+    #     ax.yaxis.set_major_locator(majorLocator)
+    #     ax.yaxis.set_major_formatter(majorFormatter)
+    #     ax.yaxis.set_minor_locator(minorLocator)
+
+
+        import matplotlib.patches as mpatches
+        import matplotlib.lines as mlines
+    #     yellow_line = mlines.Line2D([], [], color='blue', marker='o',lw=0,
+    #                               markersize=15, label=r'$\rm \Delta v \leq 50 ~km s^{-1}$')
+        corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+
+        maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+                              
+        antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
+                              
+        nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+                                markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+                              
+        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower left', 
+                                borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+
+    ##########################################################################################
+        
+        save_name = 'SALTmap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_zoom_{4}_inclim_{5}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation,zoom_limit, inc_limit)
+
+    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
+        summary_file = open(summary_filename,'wt')
+    
+    #     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
+    #         summary_file.write('{0}. {1}, \n'.format(v,k))
+
+        for num, name in zip(countList_zoom, combinedNameList_zoom):
+            summary_file.write('{0}. {1}, \n'.format(num,name))
+        
+        for num, name in zip(countList_non_zoom, combinedNameList_non_zoom):
+            summary_file.write('{0}. {1}, \n'.format(num,name))
+    
+    
+        # write out a file breaking down all this shit
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
+        stats_file = open(stats_filename,'wt')
+
+        combinedNameList_corotate = []
+        combinedNameList_antirotate = []
+        combinedNameList_maybe = []
+        for name, ra, dec, c in zip(combinedNameList_zoom, RA_targetList_zoom, Dec_targetList_zoom, markerColorList_zoom):
+            if c == color_yes:
+                combinedNameList_corotate.append(name)
+            if c == color_maybe:
+                combinedNameList_maybe.append(name)
+            if c == color_no:
+                combinedNameList_antirotate.append(name)
+                
+                
+        stats_file.write('Total co-rotate = {0} \n'.format(len(combinedNameList_corotate)))
+        stats_file.write('Total anti-rotate = {0} \n'.format(len(combinedNameList_antirotate)))
+        stats_file.write('Total uncertain = {0} \n'.format(len(combinedNameList_maybe)))
+        
+        stats_file.write('\n')
+        stats_file.write('Co-rotating systems: \n')
+        for i in combinedNameList_corotate:
+            stats_file.write('{0}\n'.format(i))
+        
+        stats_file.write('\n')
+        stats_file.write('Anti-rotating systems: \n')
+        for i in combinedNameList_antirotate:
+            stats_file.write('{0}\n'.format(i))
+    
+        stats_file.write('\n')
+        stats_file.write('Uncertain systems: \n')
+        for i in combinedNameList_maybe:
+            stats_file.write('{0}\n'.format(i))
+            
+            
+        stats_file.close()
+        summary_file.close()
+
+
+
+##########################################################################################
+##########################################################################################
+# NFW model plot but zoomed into 1 R_vir radius only
+#
+#
+##########################################################################################
+##########################################################################################
+
+    if plot_NFW_zoom_in:
         # initial figure
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot(1,1,1)
@@ -1720,10 +1929,16 @@ def main():
         
             yTagOffset = 5.0 + (newSizeList[i]/50.)
 
-            annotate(countList_zoom[i],xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
-            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList_zoom[i],xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
+#             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
 
-
+            tag = nameDict[combinedNameList_zoom[i]]        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_zoom[i], Dec_targetList_zoom[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
+                
     ##########################################################################################
         # now the non-detections
 
@@ -1734,16 +1949,16 @@ def main():
             ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
             yTagOffset = 5.0
-            annotate(countList_non_zoom[i],xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+#             annotate(countList_non_zoom[i],xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+            
+            tag = nameDict[combinedNameList_non_zoom[i]]
         
-
-    #         if not previousNames.has_key(combinedNameList_non[i]):
-    #             annotate(counter,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-    #             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-    # 
-    #             previousNames[combinedNameList_non[i]] = counter
-    #             counter +=1
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non_zoom[i], Dec_targetList_non_zoom[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+                previousNames[tag] = 1
 
 
     ##########################################################################################
@@ -1755,7 +1970,7 @@ def main():
         ax.set_ylim(-zoom_limit, zoom_limit)
         ax.invert_xaxis()
     
-        annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.04, 0.06),\
+        annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.06, 0.02),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
@@ -1792,7 +2007,7 @@ def main():
         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
                               
-        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+        plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower left', 
                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
 
 

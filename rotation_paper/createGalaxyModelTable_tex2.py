@@ -33,7 +33,7 @@ def main():
     if getpass.getuser() == 'frenchd':
         filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
         resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'
-        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table2.txt'
+        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table3.txt'
         
     else:
         print 'Could not determine username. Exiting.'
@@ -51,6 +51,7 @@ def main():
 
     summaryList = []
     summaryList.append((\
+    'System #',\
     'Galaxy',\
     'Target',\
     '$\\rho$',\
@@ -64,6 +65,7 @@ def main():
     
     targetList = ['Target']
     nameList = ['Galaxy']
+    sysNumberList = ['System #']
     rhoList = ['$\\rho$']
     azList = ['Az.']
     v_sysList = ['$V_{sys}$']
@@ -85,8 +87,9 @@ def main():
         model_range = eval(l['model_range'])
         NFW_range = eval(l['NFW_range'])
         azimuth = int(round(float(l['azimuth']),0))
+        sysNumber = l['number']
         
-        
+        sysNumberList.append(sysNumber)
         nameList.append(name)
         targetList.append(target)
         rhoList.append(impact)
@@ -105,7 +108,8 @@ def main():
         NFW_low = int(Vhel_measured) + int(NFW_range[0])
         NFW_high = int(Vhel_measured) + int(NFW_range[1])
   
-        summaryList.append((name,\
+        summaryList.append((sysNumber,\
+        name,\
         target,\
         str(impact),\
         str(azimuth),\
@@ -119,6 +123,7 @@ def main():
 
     padding = 4
     widths =[\
+    max(len(str(d)) for d in sysNumberList) + padding,\
     max(len(str(d)) for d in nameList) + padding,\
     max(len(str(d)) for d in targetList) + padding,\
     max(len(str(d)) for d in rhoList) + padding,\

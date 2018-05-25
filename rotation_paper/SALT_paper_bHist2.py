@@ -175,6 +175,10 @@ def get_data(filename):
 def main():
     hubbleConstant = 71.0
     
+    # where to write to?
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe2/'
+#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
+    
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
     only_close_velocities = True
     
@@ -203,17 +207,18 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_b_comparison = False
-    plot_b_vs_dv_apparent = True
-    plot_b_vs_dv_NFW = True
-    plot_b_vs_dv_NFW_Lstar = True
+    plot_b_comparison = True
+    plot_b_comparison_NFW = True
+    plot_b_vs_dv_apparent = False
+    plot_b_vs_dv_NFW = False
+    plot_b_vs_dv_NFW_Lstar = False
 
     # use fits vs integrated values?
     use_fits = True
     
     # include tags to include
-#     include_tags = ['yes','maybe']
-    include_tags = ['yes']
+    include_tags = ['yes','maybe']
+#     include_tags = ['yes']
     
 ##########################################################################################
 ##########################################################################################
@@ -581,6 +586,14 @@ def main():
                 rot_vel = leftVel
             else:
                 rot_vel = rightVel
+                
+        if name == 'NGC3631':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = leftVel
+            else:
+                rot_vel = rightVel
+                
 
             
         # now compare to the rotation velocity
@@ -790,7 +803,7 @@ def main():
 
 ##########################################################################################
 ##########################################################################################
-# Plot b values for co-rotators vs anti-rotators
+# Plot b values for co-rotators vs anti-rotators - apparent
 #
 #
 ##########################################################################################
@@ -809,7 +822,302 @@ def main():
         alpha_no = 0.55
         alpha_yes = 0.65
 
-        L_limit = 0.5
+        L_limit = 0.6
+        
+
+        corotate_b = []
+        antirotate_b = []
+        
+        corotate_b_close = []
+        antirotate_b_close = []
+        
+        corotate_b_far = []
+        antirotate_b_far = []
+        
+        Lstar_high = []
+        Lstar_low = []
+        
+        for m, b, ra, dec, L in zip(markerColorList, bList, RA_targetList, Dec_targetList, LstarList):
+            if m == color_yes:
+                corotate_b.append(b)
+                
+                if np.sqrt(ra**2 + dec**2) <= zoom_limit:
+                    corotate_b_close.append(b)
+                    
+                else:
+                    corotate_b_far.append(b)
+            
+            if m == color_no:
+                antirotate_b.append(b)
+                
+                if np.sqrt(ra**2 + dec**2) <= zoom_limit:
+                    antirotate_b_close.append(b)
+                    
+                else:
+                    antirotate_b_far.append(b)
+                    
+            if L <= L_limit:
+                Lstar_low.append(b)
+            else:
+                Lstar_high.append(b)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(antirotate_b,
+        bins=bins,
+        histtype='bar',
+        lw=1.5,
+        color=color_no,
+        alpha=alpha_no,
+        edgecolor='black',
+        hatch='/',
+        label=r'$\rm Anti-rotators$')
+
+        hist(corotate_b,
+        bins=bins,
+        histtype='bar',
+        lw=1.5,
+        color=color_yes,
+        alpha=alpha_yes,
+        edgecolor='black',
+        label=r'$\rm Co-rotators$')
+        
+        
+        ylim(0, 14)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+
+
+        ax = fig.add_subplot(312)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(antirotate_b_close,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_no,
+            alpha=alpha_no, 
+            edgecolor='black',
+            hatch='/',
+            label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(int(zoom_limit)))
+        
+        hist(corotate_b_close,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_yes,
+            alpha=alpha_yes,
+            edgecolor='black',
+            label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(int(zoom_limit)))
+        
+        ylim(0, 4)
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+        
+        ax = fig.add_subplot(313)
+                    
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        hist(Lstar_high,
+            bins=bins,
+            histtype='bar',
+            lw=1.5,
+            color=color_no,
+            alpha=alpha_no,
+            hatch='/',
+            edgecolor='black',
+            label=r'$\rm L^{{\**}} > {0})$'.format(L_limit))
+            
+        hist(Lstar_low,
+            bins=bins, 
+            histtype='bar', 
+            lw=1.5,
+            color=color_yes,
+            alpha=alpha_yes,
+            edgecolor='black',
+            label=r'$\rm L^{{\**}} \leq {0})$'.format(L_limit))
+        
+        
+#         ylim(0, 3)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        xlabel(r'$\rm b ~ [km~s^{-1}]$')
+        ylabel(r'$\rm Number$')
+        
+
+
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+# 
+#         corotate = mlines.Line2D([], [], color=color_yes, marker='D',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Co-rotation$')
+# 
+#         maybe = mlines.Line2D([], [], color=color_maybe, marker='o',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label='Within Uncertainties')
+#                               
+#         antirotate = mlines.Line2D([], [], color=color_no, marker='X',lw=0,
+#                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm Anti-rotation$')
+#                               
+#         nondetection = mlines.Line2D([], [], color=color_nonDetection, marker='o',lw=0,
+#                                 markeredgecolor='grey', markersize=legend_size, markerfacecolor = 'none', label='Non-detection')
+#                               
+#         plt.legend(handles=[corotate, maybe, antirotate, nondetection],loc='lower right', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+    ##########################################################################################
+        
+        save_name = 'SALT_bhist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+            
+        
+        # write out a file breaking down all this shit
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
+        stats_file = open(stats_filename,'wt')
+
+        avg_b_corotate = mean(corotate_b)
+        avg_b_antirotate = mean(antirotate_b)
+        
+        med_b_corotate = median(corotate_b)
+        med_b_antirotate = median(antirotate_b)
+        
+        std_b_corotate = std(corotate_b)
+        std_b_antirotate = std(antirotate_b)
+
+        # now the zoomed in ones
+        avg_b_corotate_close = mean(corotate_b_close)
+        avg_b_antirotate_close = mean(antirotate_b_close)
+        
+        med_b_corotate_close = median(corotate_b_close)
+        med_b_antirotate_close = median(antirotate_b_close)
+        
+        std_b_corotate_close = std(corotate_b_close)
+        std_b_antirotate_close = std(antirotate_b_close)
+
+
+        # now the zoomed out ones
+        avg_b_corotate_far = mean(corotate_b_far)
+        avg_b_antirotate_far = mean(antirotate_b_far)
+        
+        med_b_corotate_far = median(corotate_b_far)
+        med_b_antirotate_far = median(antirotate_b_far)
+        
+        std_b_corotate_far = std(corotate_b_far)
+        std_b_antirotate_far = std(antirotate_b_far)
+        
+        
+        # now the Lstars
+        avg_b_Lstar_high = mean(Lstar_high)
+        avg_b_Lstar_low = mean(Lstar_low)
+        
+        med_b_Lstar_high = median(Lstar_high)
+        med_b_Lstar_low = median(Lstar_low)
+        
+        std_b_Lstar_high = std(Lstar_high)
+        std_b_Lstar_low = std(Lstar_low)
+                
+        stats_file.write('Average b co-rotate = {0} \n'.format(avg_b_corotate))
+        stats_file.write('Average b anti-rotate = {0} \n'.format(avg_b_antirotate))
+        stats_file.write('Median b co-rotate = {0} \n'.format(med_b_corotate))
+        stats_file.write('Median b anti-rotate = {0} \n'.format(med_b_antirotate))
+        stats_file.write('Std b co-rotate = {0} \n'.format(std_b_corotate))
+        stats_file.write('Std b anti-rotate = {0} \n'.format(std_b_antirotate))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        stats_file.write('Average b co-rotate zoom_in = {0} \n'.format(avg_b_corotate_close))
+        stats_file.write('Average b anti-rotate zoom_in = {0} \n'.format(avg_b_antirotate_close))
+        stats_file.write('Median b co-rotate zoom_in = {0} \n'.format(med_b_corotate_close))
+        stats_file.write('Median b anti-rotate zoom_in = {0} \n'.format(med_b_antirotate_close))
+        stats_file.write('Std b co-rotate zoom_in = {0} \n'.format(std_b_corotate_close))
+        stats_file.write('Std b anti-rotate zoom_in = {0} \n'.format(std_b_antirotate_close))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        stats_file.write('Average b co-rotate zoom_out = {0} \n'.format(avg_b_corotate_far))
+        stats_file.write('Average b anti-rotate zoom_out = {0} \n'.format(avg_b_antirotate_far))
+        stats_file.write('Median b co-rotate zoom_out = {0} \n'.format(med_b_corotate_far))
+        stats_file.write('Median b anti-rotate zoom_out = {0} \n'.format(med_b_antirotate_far))
+        stats_file.write('Std b co-rotate zoom_out = {0} \n'.format(std_b_corotate_far))
+        stats_file.write('Std b anti-rotate zoom_out = {0} \n'.format(std_b_antirotate_far))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        stats_file.write('Average b Lstar high = {0} \n'.format(avg_b_Lstar_high))
+        stats_file.write('Average b Lstar low = {0} \n'.format(avg_b_Lstar_low))
+        stats_file.write('Median b Lstar high = {0} \n'.format(med_b_Lstar_high))
+        stats_file.write('Median b Lstar low = {0} \n'.format(med_b_Lstar_low))
+        stats_file.write('Std b Lstar high = {0} \n'.format(std_b_Lstar_high))
+        stats_file.write('Std b Lstar low = {0} \n'.format(std_b_Lstar_low))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        
+        
+        stats_file.close()    
+
+
+##########################################################################################
+##########################################################################################
+# Plot b values for co-rotators vs anti-rotators - NFW
+#
+#
+##########################################################################################
+##########################################################################################
+
+    if plot_b_comparison_NFW:
+        # initial figure
+        fig = plt.figure(figsize=(8,8))
+        subplots_adjust(hspace=0.500)
+
+        ax = fig.add_subplot(311)
+
+#         bins = arange(0,100,10)
+        bins = arange(10,90,10)
+
+        alpha_no = 0.55
+        alpha_yes = 0.65
+
+        L_limit = 0.6
         
 
         corotate_b = []
@@ -916,7 +1224,7 @@ def main():
             alpha=alpha_no, 
             edgecolor='black',
             hatch='/',
-            label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+            label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(int(zoom_limit)))
         
         hist(corotate_b_close,
             bins=bins,
@@ -925,10 +1233,10 @@ def main():
             color=color_yes,
             alpha=alpha_yes,
             edgecolor='black',
-            label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
+            label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(int(zoom_limit)))
         
         ylim(0, 4)
-        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
         xlabel(r'$\rm b ~ [km~s^{-1}]$')
         ylabel(r'$\rm Number$')
         
@@ -997,13 +1305,12 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
-        save_name = 'SALT_bhist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+        save_name = 'SALT_bhist_NFW_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
             
         
         # write out a file breaking down all this shit
-        stats_filename = '{0}/{1}_stats.txt'.format(directory, save_name)
+        stats_filename = '{0}/{1}_stats.txt'.format(out_directory, save_name)
         stats_file = open(stats_filename,'wt')
 
         avg_b_corotate = mean(corotate_b)
@@ -1085,8 +1392,6 @@ def main():
 
 
 
-
-
 ##########################################################################################
 ##########################################################################################
 # Plot b values vs dv - NFW model
@@ -1105,7 +1410,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.5
+        L_limit = 0.6
         
         corotate_b = []
         antirotate_b = []
@@ -1200,7 +1505,7 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
         
         
-        ylim(0, 130)
+        ylim(0, 140)
         xlim(-250, 250)
         legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
         ylabel(r'$\rm b ~ [km~s^{-1}]$')
@@ -1228,9 +1533,8 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALT_b_vs_dv_NFW_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
 
 ##########################################################################################
@@ -1251,7 +1555,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.5
+        L_limit = 0.6
         
         corotate_b = []
         antirotate_b = []
@@ -1374,9 +1678,8 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALT_b_vs_dv_apparent_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
 ##########################################################################################
 ##########################################################################################
@@ -1396,7 +1699,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.7
+        L_limit = 0.6
         
         corotate_b = []
         antirotate_b = []
@@ -1519,10 +1822,8 @@ def main():
 
     ##########################################################################################
         
-        directory = '/Users/frenchd/Research/test/'
         save_name = 'SALT_b_vs_dv_NFW_Lstar_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_fits_{4}'.format(only_close_velocities, include_nondetection, L_limit, min_separation, use_fits)
-        savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
-
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
     
     
     

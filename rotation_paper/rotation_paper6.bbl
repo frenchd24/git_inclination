@@ -1,4 +1,4 @@
-\begin{thebibliography}{39}
+\begin{thebibliography}{45}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Abazajian} {et~al.}(2005){Abazajian}, {Adelman-McCarthy},
@@ -32,12 +32,21 @@
   {Pettini}, {York}, \& {Frye}}]{bowen2016}
 {Bowen}, D.~V., {Chelouche}, D., {Jenkins}, E.~B., {et~al.} 2016, \apj, 826, 50
 
+\bibitem[{{Brook} {et~al.}(2011){Brook}, {Governato}, {Ro{\v s}kar}, {Stinson},
+  {Brooks}, {Wadsley}, {Quinn}, {Gibson}, {Snaith}, {Pilkington}, {House}, \&
+  {Pontzen}}]{brook2011}
+{Brook}, C.~B., {Governato}, F., {Ro{\v s}kar}, R., {et~al.} 2011, \mnras, 415,
+  1051
+
 \bibitem[{{Carilli} {et~al.}(1989){Carilli}, {van Gorkom}, \&
   {Stocke}}]{carilli1989}
 {Carilli}, C.~L., {van Gorkom}, J.~H., \& {Stocke}, J.~T. 1989, \nat, 338, 134
 
 \bibitem[{{Charlton} \& {Churchill}(1998)}]{charlton1998}
 {Charlton}, J.~C., \& {Churchill}, C.~W. 1998, \apj, 499, 181
+
+\bibitem[{{Chen} {et~al.}(2003){Chen}, {Jing}, \& {Yoshikaw}}]{chen2003}
+{Chen}, D.~N., {Jing}, Y.~P., \& {Yoshikaw}, K. 2003, \apj, 597, 35
 
 \bibitem[{{Corwin} {et~al.}(1994){Corwin}, {Buta}, \& {de Vaucouleurs}}]{RC3}
 {Corwin}, Jr., H.~G., {Buta}, R.~J., \& {de Vaucouleurs}, G. 1994, \aj, 108,
@@ -105,6 +114,10 @@
 {Keeney}, B.~A., {Momjian}, E., {Stocke}, J.~T., {Carilli}, C.~L., \&
   {Tumlinson}, J. 2005, \apj, 622, 267
 
+\bibitem[{{Kimm} {et~al.}(2011){Kimm}, {Slyz}, {Devriendt}, \&
+  {Pichon}}]{kimm2011}
+{Kimm}, T., {Slyz}, A., {Devriendt}, J., \& {Pichon}, C. 2011, \mnras, 413, L51
+
 \bibitem[{{Knapen}(1997)}]{knapen1997}
 {Knapen}, J.~H. 1997, \mnras, 286, 403
 
@@ -137,11 +150,18 @@
 \bibitem[{{Navarro} {et~al.}(1997){Navarro}, {Frenk}, \& {White}}]{navarro1997}
 ---. 1997, \apj, 490, 493
 
+\bibitem[{{Pichon} {et~al.}(2011){Pichon}, {Pogosyan}, {Kimm}, {Slyz},
+  {Devriendt}, \& {Dubois}}]{pichon2011}
+{Pichon}, C., {Pogosyan}, D., {Kimm}, T., {et~al.} 2011, \mnras, 418, 2493
+
 \bibitem[{{Rhee} \& {van Albada}(1996)}]{rhee1996}
 {Rhee}, M.-H., \& {van Albada}, T.~S. 1996, \aaps, 115, 407
 
 \bibitem[{{Rubin} {et~al.}(1982){Rubin}, {Thonnard}, \& {Ford}}]{rubin1982}
 {Rubin}, V.~C., {Thonnard}, N.~T., \& {Ford}, Jr., W.~K. 1982, \aj, 87, 477
+
+\bibitem[{{Sharma} \& {Steinmetz}(2005)}]{sharma2005}
+{Sharma}, S., \& {Steinmetz}, M. 2005, \apj, 628, 21
 
 \bibitem[{{Shen} {et~al.}(2013){Shen}, {Madau}, {Guedes}, {Mayer}, {Prochaska},
   \& {Wadsley}}]{shen2013}
@@ -168,6 +188,12 @@
 \bibitem[{{Stewart} {et~al.}(2011{\natexlab{b}}){Stewart}, {Kaufmann},
   {Bullock}, {Barton}, {Maller}, {Diemand}, \& {Wadsley}}]{stewart2011b}
 ---. 2011{\natexlab{b}}, \apj, 738, 39
+
+\bibitem[{{Stewart} {et~al.}(2017){Stewart}, {Maller}, {O{\~n}orbe}, {Bullock},
+  {Joung}, {Devriendt}, {Ceverino}, {Kere{\v s}}, {Hopkins}, \&
+  {Faucher-Gigu{\`e}re}}]{stewart2017}
+{Stewart}, K.~R., {Maller}, A.~H., {O{\~n}orbe}, J., {et~al.} 2017, \apj, 843,
+  47
 
 \bibitem[{{Stocke} {et~al.}(2010){Stocke}, {Keeney}, \&
   {Danforth}}]{stocke2010}

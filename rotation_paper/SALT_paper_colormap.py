@@ -152,6 +152,10 @@ def get_data(filename):
 def main():
     hubbleConstant = 71.0
     
+    # where to write to?
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe2/'
+#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
+    
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
     only_close_velocities = True
     
@@ -169,7 +173,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = 25.
+    min_separation = False
     
     # colormap
     colmap = cm.RdBu_r
@@ -177,13 +181,16 @@ def main():
     # limit in velocity difference between absorber and galaxy
     vel_limit = 400.
 
+    # include tags to include
+    include_tags = ['yes','maybe']
+#     include_tags = ['yes']
 
 ##########################################################################################
 ##########################################################################################
     # collect data
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
 #     filename = '{0}salt_galaxy_sightlines_cut.csv'.format(directory)
-    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary.csv'.format(directory)    
+    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'.format(directory)    
     
     theFile = open(filename,'rU')
     tableReader = csv.DictReader(theFile)
@@ -205,7 +212,7 @@ def main():
     markerColorList_model = []
     markerColorList_NFWmodel = []
     dvList = []
-
+    nameDict = {}
     
     # non-detections/not finished sightlines
     nameList_non = []
@@ -233,6 +240,9 @@ def main():
         RA_target = eval(t['RAdeg_target'])
         Dec_target = eval(t['DEdeg_target'])
         vHel = eval(t['Vhel'])
+        
+        include_tag = t['include']
+        sysNumber = t['number']
         
         PA_observed = eval(t['PA_observed'])
         PA_adjust = eval(t['PA_adjust'])
@@ -523,6 +533,13 @@ def main():
             else:
                 rot_vel = rightVel
 
+        if name == 'NGC3631':
+            # regular
+            if impact_RA_vir > 0:
+                rot_vel = leftVel
+            else:
+                rot_vel = rightVel
+                
             
         # now compare to the rotation velocity
         color_yes = '#1b9e77'    # greenish
@@ -583,6 +600,8 @@ def main():
 
 #         combinedName = '${\rm '+name + '-' + target+'}$'.format(name,target)
         combinedName = r'$\rm {0} : {1}$'.format(name,target)
+        
+        nameDict[combinedName] = sysNumber
             
         print '{0} - dv={1} vs model={2} => {3}'.format(combinedName, dv, model_range, model_answer)
         print
@@ -598,6 +617,9 @@ def main():
         if isNumber(dv):
             if abs(dv) > vel_limit:
                 add_to_list = False
+                
+        if include_tag not in include_tags:
+            add_to_list = False
         
         separation = 500.
         if min_separation and add_to_list:
@@ -722,21 +744,11 @@ def main():
         markerColorList_model2.append(model)
         dvList2.append(dv)
         
-        # check if this galaxy-QSO pair already has a number
-        if count_dict.has_key(name):
-            system_count = count_dict[name]
-#             countList.append(system_count)
-            countList.append('')
-        
-        else:
-            count_dict[name] = count
-            countList.append(count)
-            count +=1
+        countList.append(nameDict[name])
         
     countList_non = []
     for name in combinedNameList_non:
-        countList_non.append(count)
-        count +=1
+        countList_non.append(nameDict[name])
 
 ##########################################################################################
 ##########################################################################################
@@ -767,8 +779,8 @@ def main():
     r = 3.0
     ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
     
-    r = 4.0
-    ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+#     r = 4.0
+#     ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
     
     ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
     ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
@@ -837,25 +849,40 @@ def main():
     previousNames = {}
     counter = 1
     for i in arange(len(combinedNameList2)):
-        
-        yTagOffset = 5.0 + (newSizeList[i]/50.)
-                
-        annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
-        xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+#                 
+#         annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
+#         xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
 
+        tag = nameDict[combinedNameList2[i]]
+        yTagOffset = 5.0 + (newSizeList[i]/50.)
+        
+        if not previousNames.has_key(tag):
+            annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+            previousNames[tag] = 1
 
 ##########################################################################################
     # now the non-detections
 
     non_size = 10
     non_marker = 'o'
-    for i in arange(len(markerColorList_non)):
+    for i in arange(len(combinedNameList_non)):
         ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
         ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
-        yTagOffset = 5.0
-        annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-        xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+#         yTagOffset = 5.0
+#         annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#         xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
+        
+        tag = nameDict[combinedNameList_non[i]]
+        yTagOffset = 5.0 + (newSizeList[i]/50.)
+        
+        if not previousNames.has_key(tag):
+            annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+            xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
+            
+            previousNames[tag] = 1
         
 
 ##########################################################################################
@@ -863,11 +890,11 @@ def main():
     xlabel(r'$\rm R.A. ~[R_{vir}]$')
     ylabel(r'$\rm Dec. ~[R_{vir}]$')
     
-    ax.set_xlim(-4.0, 4.0)
-    ax.set_ylim(-4.0, 4.0)
+    ax.set_xlim(-3.0, 3.0)
+    ax.set_ylim(-3.0, 3.0)
     ax.invert_xaxis()
     
-    annotate(r'$\rm Approaching~ Side$',xy=(3.95, 0.06),\
+    annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
     xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
@@ -910,17 +937,14 @@ def main():
 
 ##########################################################################################
         
-    directory = '/Users/frenchd/Research/test/'
     save_name = 'SALTcolormap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation)
 
 #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
-    savefig("{0}/{1}.pdf".format(directory, save_name),bbox_inches='tight')
+    savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
 
-    summary_filename = '{0}/{1}_summary.txt'.format(directory, save_name)
+    summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
     summary_file = open(summary_filename,'wt')
     
-#     for k, v in sorted(previousNames.iteritems(), key=lambda (k,v): (v,k)):
-#         summary_file.write('{0}. {1}, \n'.format(v,k))
 
     for num, name in zip(countList, combinedNameList2):
         summary_file.write('{0}. {1}, \n'.format(num,name))
