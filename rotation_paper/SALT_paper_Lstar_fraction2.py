@@ -166,11 +166,11 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe3/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -197,13 +197,16 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_Lstar_hist = True
+    plot_Lstar_hist = False
     plot_corotate_fraction = True
     plot_corotate_fraction_minimum = True
     plot_corotate_fraction_dist = True
 
     # use fits vs integrated values?
     use_fits = False
+    
+    # include a +\- 10 km/s error in apparent also?
+    use_apparent_errors = True
     
     # don't include absorbers with EW above this
     EW_cut = 10000.
@@ -602,23 +605,46 @@ def main():
 #         color_yes = '#7570b3'      # purple
 #         color_yes = '#1b9e77'      # greenish
 
-        
+        error = 10.
         
         if isNumber(dv):
-            # the absorption and rotation velocity match
-            if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
-                markerColor = color_yes
+        
+            dv_up = dv + error
+            dv_down = dv - error
             
-            # mismatch
-            elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
-                markerColor = color_no
+            if use_apparent_errors:
+                # take errors into account
+                if (dv_up > 0 and rot_vel > 0) or (dv_up < 0 and rot_vel < 0):
+                    markerColor = color_yes
+                
+                elif (dv_down > 0 and rot_vel > 0) or (dv_down < 0 and rot_vel < 0):
+                    markerColor = color_yes
             
+                # mismatch
+                elif (dv_up < 0 and rot_vel > 0) or (dv_up > 0 and rot_vel < 0):
+                    markerColor = color_no
+                
+                elif (dv_down < 0 and rot_vel > 0) or (dv_down > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+                    
             else:
-                markerColor = 'black'
-
+            # the absorption and rotation velocity match
+                if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
+                    markerColor = color_yes
+            
+                # mismatch
+                elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+            
+            
             
             # compare to the models
-            error = 10.
             model_answer = withinRange(dv, model_range, error)
             NFW_model_answer = withinRange(dv, NFW_range, error)
         
@@ -1016,7 +1042,7 @@ def main():
 
     if plot_corotate_fraction_minimum:
         # initial figure
-        fig = plt.figure(figsize=(8,8))
+        fig = plt.figure(figsize=(7.7,6.7))
         subplots_adjust(hspace=0.500)
 
         ax = fig.add_subplot(111)
@@ -1543,7 +1569,7 @@ def main():
 
     if plot_corotate_fraction:
         # initial figure
-        fig = plt.figure(figsize=(7.7,5.7))
+        fig = plt.figure(figsize=(7.7,6.7))
         subplots_adjust(hspace=0.500)
 
         ax = fig.add_subplot(111)
@@ -1887,7 +1913,7 @@ def main():
 
     if plot_corotate_fraction_dist:
         # initial figure
-        fig = plt.figure(figsize=(7.7,5.7))
+        fig = plt.figure(figsize=(7.7,6.7))
         subplots_adjust(hspace=0.500)
 
         ax = fig.add_subplot(111)
@@ -2125,8 +2151,6 @@ def main():
         
         save_name = 'SALT_corotate_vs_dist_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}_ALLmodel'.format(only_close_velocities, include_nondetection, L_limit, min_separation)
         savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
-
-
 
 
 

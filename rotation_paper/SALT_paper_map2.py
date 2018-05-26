@@ -175,11 +175,11 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe3/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = False
+    only_close_velocities = True
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -202,7 +202,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = 20.0
+    min_separation = False
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
@@ -210,13 +210,16 @@ def main():
     # remove systems of lower inclination than this:
 #     inc_limit = 75.
     inc_limit = 0.
+    
+    # include a +/- 10 km/s error in apparent results also?
+    use_apparent_errors = True
 
     # which plot to make?
     plot_onsky = True
-    plot_cyl = True
-    plot_NFW = True
+    plot_cyl = False
+    plot_NFW = False
     plot_zoom_in = True
-    plot_NFW_zoom_in = True
+    plot_NFW_zoom_in = False
     
     # include tags to include
     include_tags = ['yes','maybe']
@@ -595,23 +598,56 @@ def main():
         color_yes = '#436bad'      # french blue
         color_no = '#ec2d01'     # tomato red
 
-        
+        error = 10.
         
         if isNumber(dv):
             # the absorption and rotation velocity match
-            if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
-                markerColor = color_yes
+#             if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
+#                 markerColor = color_yes
+#             
+#             # mismatch
+#             elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
+#                 markerColor = color_no
+#             
+#             else:
+#                 markerColor = 'black'
+
+            dv_up = dv + error
+            dv_down = dv - error
             
-            # mismatch
-            elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
-                markerColor = color_no
+            if use_apparent_errors:
+                # take errors into account
+                if (dv_up > 0 and rot_vel > 0) or (dv_up < 0 and rot_vel < 0):
+                    markerColor = color_yes
+                
+                elif (dv_down > 0 and rot_vel > 0) or (dv_down < 0 and rot_vel < 0):
+                    markerColor = color_yes
             
+                # mismatch
+                elif (dv_up < 0 and rot_vel > 0) or (dv_up > 0 and rot_vel < 0):
+                    markerColor = color_no
+                
+                elif (dv_down < 0 and rot_vel > 0) or (dv_down > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+                    
             else:
-                markerColor = 'black'
+            # the absorption and rotation velocity match
+                if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
+                    markerColor = color_yes
+            
+                # mismatch
+                elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+
 
             
             # compare to the models
-            error = 10.
             model_answer = withinRange(dv, model_range, error)
             NFW_model_answer = withinRange(dv, NFW_range, error)
         
