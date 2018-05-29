@@ -23,7 +23,9 @@ However, the picture may have changed since $z \sim 0.5$, ether epoch most of th
 - Neutral Ly-alpha traces cool, pristine IGM material
 
 
-
+-Co-rotation vs spin rate?
+-Co-rotation vs EW?
+-EW vs spin rate (markers designate co-rotation)
 
 
 
@@ -40,3 +42,11 @@ Pichon 2011 - AMR Mare Nostrum simulation:  at redshift 1.5 and above, gas inflo
 Lutz 2018 - higher spin halos impede star formation efficiency
 
 Steidel 2002 - MgII study of 5 galaxies - 4/5 co-rotate
+
+
+Brook 2011 - Later accreted material has higher angular momentum. A reservoir of high angular momentum material exists beyond the star-forming regions.
+
+Brooks 2009 - Low -mass galaxies are dominated by accretion of sub-viral temperature gas, and dense filaments of this gas exist even in massive galaxies with hot haloes. For galaxies up to Star, this cold accretion gas is responsible for SF in the disk up to the present.
+
+Keres 2005, 2009 - N-body+SPH simulations found galaxies with halo masses below ~10^11 are dominated by cold gas accretion, never shock heated to viral temperature. Ocvirk 2008 also same.
+

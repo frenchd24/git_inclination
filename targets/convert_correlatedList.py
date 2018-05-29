@@ -53,16 +53,18 @@ def main():
     hubbleC = 71
     
 
-    AGNFile = open('/Users/frenchd/Research/inclination/git_inclination/targets/correlatedList_12_17_17 copy.rtf','rU')
+#     AGNFile = open('/Users/frenchd/Research/inclination/git_inclination/targets/correlatedList_12_17_17 copy.rtf','rU')
+#     outFilename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_12_17_17.csv'
 
-    outFilename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_12_17_17.csv'
+    AGNFile = open('/Users/frenchd/Research/inclination/git_inclination/targets/correlatedList_5_29_18_data_edit.txt','rU')
+    outFilename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_data.csv'
 
     AGNFilelines = AGNFile.readlines()
     
     fieldnames = ('target', 'identified', 'v_limits', 'e_v_center', 'Lya_v', 'Lya_W',\
     'e_Lya_W', 'Na', 'e_Na', 'b', 'e_b', 'W', 'e_W', 'comment', 'z_target', 'RAdeg_target',\
     'DEdeg_target','type', 'glon', 'glat', 'z', 'program PI', 'program #', 'obsid',\
-    'SN(N=1238,C=1548,O=1031)', 'calver', 'status')
+    'SN(N=1238,C=1548,O=1031)', 'calver', 'nightonly', 'IGMPARS', 'FPN')
     
     writerOutFile = open(outFilename,'wt')
     writer = csv.DictWriter(writerOutFile, fieldnames=fieldnames)
@@ -78,7 +80,7 @@ def main():
     for row in AGNFilelines:
         # test for start of the good stuff
         
-        print 'row: ',row
+#         print 'row: ',row
         if not start:
             if bfind(row,separator):
                 start = True
@@ -95,60 +97,76 @@ def main():
                     row = row.strip()
                     
                     # replace all white space with a single ','
-                    row = re.sub("\s+", ",", row.strip())
-                    
+#                     row = re.sub("\s+", ",", row.strip())
+
+                    # replace multiple whitespace with a a single one
+                    row = re.sub("\s+", " ", row.strip())
+
+#                     # split the row
+#                     sr = row.split(',')
+#                     print 'splitrow: ',sr
+
                     # split the row
-                    sr = row.split(',')
+                    sr = row.split(' ')
                     print 'splitrow: ',sr
         
                     target = sr[0]
-                    type = sr[1]
-                    glon = sr[2]
-                    glat = sr[3]
-                    z = sr[4]
-                    PI = sr[5]
-                    progNum = sr[6]
-                    obsid = sr[7]
-                    SN = sr[8]
-                    calver = sr[9]
-                    status = sr[10].replace('\n','')
+                    
+                    if target != "Classification" and len(sr) >10:
+                        type = sr[1]
+                        glon = sr[2]
+                        glat = sr[3]
+                        z = sr[4]
+                        PI = sr[5].replace('PI:','')
+                        progNum = str(sr[6])
+                        obsid = sr[7]
+                        SN = sr[8]
+                        calver = sr[9]
+                        nightonly = sr[10].replace('\n','')
+                        IGMPARS = sr[11].replace('\n','')
+                        FPN = sr[12].replace('\n','')
+                        
+                        
+                        print 'progNum: ',progNum
         
                 
-                    objectInfoList = [target,\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    '',\
-                    type,
-                    glon,\
-                    glat,\
-                    z,\
-                    PI,\
-                    progNum,\
-                    obsid,\
-                    SN,\
-                    calver,\
-                    status]
+                        objectInfoList = [target,\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        '',\
+                        type,
+                        glon,\
+                        glat,\
+                        z,\
+                        PI,\
+                        progNum,\
+                        obsid,\
+                        SN,\
+                        calver,\
+                        nightonly,
+                        IGMPARS,
+                        FPN]
                     
-                    print objectInfoList
+                        print objectInfoList
         
-                    row = dict((f,o) for f,o in zip(fieldnames,objectInfoList))
-                    writer.writerow(row)
+                        row = dict((f,o) for f,o in zip(fieldnames,objectInfoList))
+                        writer.writerow(row)
                         
-                    counter +=1
-                    lastThing = row
+                        counter +=1
+                        lastThing = row
                     
     print 'Count: ',counter
     
