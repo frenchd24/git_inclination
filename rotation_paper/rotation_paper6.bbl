@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{46}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Abazajian} {et~al.}(2005){Abazajian}, {Adelman-McCarthy},
@@ -100,6 +100,11 @@
 
 \bibitem[{{Grogin} {et~al.}(1998){Grogin}, {Geller}, \& {Huchra}}]{grogin1998}
 {Grogin}, N.~A., {Geller}, M.~J., \& {Huchra}, J.~P. 1998, \apjs, 119, 277
+
+\bibitem[{{Ho} {et~al.}(2017){Ho}, {Martin}, {Kacprzak}, \&
+  {Churchill}}]{ho2017}
+{Ho}, S.~H., {Martin}, C.~L., {Kacprzak}, G.~G., \& {Churchill}, C.~W. 2017,
+  \apj, 835, 267
 
 \bibitem[{{Jones} {et~al.}(2009){Jones}, {Read}, {Saunders}, {Colless},
   {Jarrett}, {Parker}, {Fairall}, {Mauch}, {Sadler}, {Watson}, {Burton},

@@ -216,8 +216,8 @@ def main():
 
     # which plot to make?
     plot_onsky = True
-    plot_cyl = False
-    plot_NFW = False
+    plot_cyl = True
+    plot_NFW = True
     plot_zoom_in = True
     plot_NFW_zoom_in = False
     
@@ -599,6 +599,7 @@ def main():
         color_no = '#ec2d01'     # tomato red
 
         error = 10.
+        rot_error = 10
         
         if isNumber(dv):
             # the absorption and rotation velocity match
@@ -742,7 +743,7 @@ def main():
         if add_to_list:
             # first detections
             if isNumber(dv) and only_close_velocities:
-                if abs(dv) <= (abs(rot_vel) + 10):
+                if abs(dv) <= (abs(rot_vel) + rot_error):
 
                     nameList.append(name)
                     targetList.append(target)
