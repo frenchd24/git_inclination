@@ -176,7 +176,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe2/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -209,12 +209,12 @@ def main():
     # which plot to make?
     plot_b_comparison = True
     plot_b_comparison_NFW = True
-    plot_b_vs_dv_apparent = False
-    plot_b_vs_dv_NFW = False
-    plot_b_vs_dv_NFW_Lstar = False
+    plot_b_vs_dv_apparent = True
+    plot_b_vs_dv_NFW = True
+    plot_b_vs_dv_NFW_Lstar = True
 
     # use fits vs integrated values?
-    use_fits = True
+    use_fits = False
     
     # include tags to include
     include_tags = ['yes','maybe']
@@ -822,7 +822,7 @@ def main():
         alpha_no = 0.55
         alpha_yes = 0.65
 
-        L_limit = 0.6
+        L_limit = 0.5
         
 
         corotate_b = []
@@ -1117,7 +1117,7 @@ def main():
         alpha_no = 0.55
         alpha_yes = 0.65
 
-        L_limit = 0.6
+        L_limit = 0.5
         
 
         corotate_b = []
@@ -1410,7 +1410,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.6
+        L_limit = 0.5
         
         corotate_b = []
         antirotate_b = []
@@ -1555,7 +1555,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.6
+        L_limit = 0.5
         
         corotate_b = []
         antirotate_b = []
@@ -1699,7 +1699,7 @@ def main():
         alpha_no = 1.
         alpha_yes = 1.
 
-        L_limit = 0.6
+        L_limit = 0.5
         
         corotate_b = []
         antirotate_b = []

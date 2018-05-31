@@ -4,44 +4,44 @@ The top-level auxiliary file: rotation_paper6.aux
 The style file: apj.bst
 Database file #1: /Users/frenchd/Research/bib.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 45 entries,
+You've used 46 entries,
             3010 wiz_defined-function locations,
-            913 strings with 17556 characters,
-and the built_in function-call counts, 25392 in all, are:
-= -- 1904
-> -- 2384
+            918 strings with 17732 characters,
+and the built_in function-call counts, 25896 in all, are:
+= -- 1948
+> -- 2422
 < -- 9
-+ -- 805
-- -- 868
-* -- 2418
-:= -- 4950
-add.period$ -- 45
-call.type$ -- 45
-change.case$ -- 339
-chr.to.int$ -- 44
-cite$ -- 45
-duplicate$ -- 851
-empty$ -- 1210
-format.name$ -- 913
-if$ -- 4841
++ -- 818
+- -- 883
+* -- 2462
+:= -- 5044
+add.period$ -- 46
+call.type$ -- 46
+change.case$ -- 347
+chr.to.int$ -- 45
+cite$ -- 46
+duplicate$ -- 870
+empty$ -- 1237
+format.name$ -- 928
+if$ -- 4940
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 45
-newline$ -- 139
-num.names$ -- 180
-pop$ -- 366
+missing$ -- 46
+newline$ -- 142
+num.names$ -- 184
+pop$ -- 374
 preamble$ -- 1
-purify$ -- 339
+purify$ -- 347
 quote$ -- 0
-skip$ -- 690
+skip$ -- 706
 stack$ -- 0
-substring$ -- 927
+substring$ -- 948
 swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 405
+type$ -- 414
 warning$ -- 0
-while$ -- 171
+while$ -- 175
 width$ -- 0
-write$ -- 453
+write$ -- 463

@@ -50,3 +50,4 @@ Brooks 2009 - Low -mass galaxies are dominated by accretion of sub-viral tempera
 
 Keres 2005, 2009 - N-body+SPH simulations found galaxies with halo masses below ~10^11 are dominated by cold gas accretion, never shock heated to viral temperature. Ocvirk 2008 also same.
 
+Also see: (Oppenheimer et al. 2010; Brook et al. 2012; Shen et al. 2012; Ford et al. 2014, 2016; Muratov et al. 2015; Christensen et al. 2016).

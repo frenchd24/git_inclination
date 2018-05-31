@@ -153,7 +153,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe2/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
