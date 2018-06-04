@@ -2,11 +2,11 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: rotation_paper6.aux
 The style file: apj.bst
-Database file #1: /Users/frenchd/Research/bib.bib
+Database file #1: /Users/frenchd/Research/inclination/git_inclination/bib.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 You've used 46 entries,
             3010 wiz_defined-function locations,
-            918 strings with 17732 characters,
+            918 strings with 17760 characters,
 and the built_in function-call counts, 25896 in all, are:
 = -- 1948
 > -- 2422

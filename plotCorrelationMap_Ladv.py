@@ -356,7 +356,7 @@ def main():
     AGNsize = 50
 
     # color map: 
-    colmap = cm.RdBu_r
+    colmap = cm.RdBu
 #     colmap = cm.inferno
 
     # which way to plot RA axis? RAeastLeft = True puts east to the left, matching
@@ -416,184 +416,8 @@ def main():
     # targets from a file, use this:
     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
-    
-    # or build up a custom list of AGN names and absorption velocities here:
-#     targets = [('1H0419-577',0.003678*c,True),\
-#     ('3C273.0',0.005277*c,True)]
+    targets = [('2E1530+1511',1953,True)]
 
-#     targets = [('MCG-03-58-009',9015,True)]
-#     targets = [('NGC0891',528,True)]
-#     targets = [('NGC3633',2587,True)]
-
-#     targets = [('NGC4939',3093,True)]
-#     targets = [('RX_J1217.2+2749',1326,True)]
-#     targets = [('NGC6140',910,True)]
-
-    
-
-
-#     targets = [('CGCG039-137',6918,True),\
-#     ('ESO343-G014',9139,True),\
-#     ('IC5325',1512,True),\
-#     ('MCG-03-58-009',9015,True),\
-#     ('NGC1566',1502,True),\
-#     ('NGC3513',1204,True),\
-#     ('NGC3633',2587,True),\
-#     ('NGC3640',1298,True),\
-#     ('NGC4536',1867,True),\
-#     ('NGC4939',3093,True),\
-#     ('NGC5364',1238,True),\
-#     ('NGC5786',2975,True),\
-#     ('UGC09760',2094,True)]
-    
-    
-#     targets = [('MRK279',9294,True),\
-#     ('PG0838+770',721,True),\
-#     ('PG0838+770',2911,True),\
-#     ('SDSSJ104335.90+115129.0',717,True),\
-#     ('SDSSJ104335.90+115129.0',882,True),\
-#     ('SDSSJ104335.90+115129.0',1030,True),\
-#     ('MRK504',9706,True),\
-#     ('2dFGRS_S393Z082',1241,True),\
-#     ('US2816',2848,True),\
-#     ('2E1530+1511',1953,True),\
-#     ('2E1530+1511',1795,True),\
-#     ('FBQSJ1134+2555',9552,True),\
-#     ('FBQSJ1134+2555',6343,True),\
-#     ('FBQSJ1134+2555',3070,True),\
-#     ('RX_J2139.7+0246',9219,True),\
-#     ('RX_J2139.7+0246',4181,True),\
-#     ('RX_J2139.7+0246',4083,True),\
-#     ('CSO1124',1653,True),\
-#     ('HE0241-3043',1219,True),\
-#     ('HE0241-3043',1310,True),\
-#     ('CSO327',1812,True),\
-#     ('RX_J1303.7+2633',8955,True),\
-#     ('RX_J1303.7+2633',7853,True)]
-
-#     targets = [('RX_J2139.7+0246',9219,True),\
-#     ('RX_J2139.7+0246',4181,True),\
-#     ('RX_J2139.7+0246',4083,True),\
-#     ('CSO1124',1653,True),\
-#     ('HE0241-3043',1219,True),\
-#     ('HE0241-3043',1310,True),\
-#     ('CSO327',1812,True),\
-#     ('RX_J1303.7+2633',8955,True),\
-#     ('RX_J1303.7+2633',7853,True)]
-
-##########################################################################################
-    # THINGS galaxies
-    
-#     targets = [('NGC2403',133,True),\
-#     ('MCG-02-07-026',2102,True),\
-#     ('NGC4789A',374,True),\
-#     ('NGC0628',657,True),\
-#     ('NGC0925',553,True),\
-#     ('NGC2841',638,True),\
-#     ('NGC2903',550,True),\
-#     ('NGC2976',3,True),\
-#     ('NGC3077',14,True),\
-#     ('NGC3184',592,True),\
-#     ('NGC3198',660,True),\
-#     ('NGC3351',778,True),\
-#     ('NGC3521',801,True),\
-#     ('NGC3627',727,True),\
-#     ('NGC4214',291,True),\
-#     ('NGC4449',207,True),\
-#     ('NGC4736',308,True),\
-#     ('NGC4826',408,True),\
-#     ('NGC5055',484,True),\
-#     ('NGC5194',463,True),\
-#     ('NGC5236',513,True),\
-#     ('NGC5457',241,True),\
-#     ('NGC6946',40,True),\
-#     ('NGC7331',816,True),\
-#     ('NGC7793',230,True)]
-
-#     targets = [('NGC4579',1517,True)]
-#     targets = [('NGC3198',660,True)]
-#     targets = [('NGC4414',716,True)]
-#     targets = [('NGC5907',667,True)]
-#     targets = [('NGC0973',4855,True)]
-#     targets = [('UGC04277',5459,True)]
-#     targets = [('NGC5529',2875,True)]
-#     targets = [('NGC4157',774,True)]
-#     targets = [('NGC4565',1230,True)]
-#     targets = [('NGC3982',1109,True)]
-#     targets = [('NGC4527',1736,True)]
-#     targets = [('NGC3079',1116,True)]
-#     targets = [('UGC05272',513,True)]
-#     targets = [('UGC06399',791,True)]
-#     targets = [('UGC06446',645,True)]
-#     targets = [('NGC3972',852,True)]
-#     targets = [('NGC3985',948,True)]
-#     targets = [('UGC07089',770,True)]
-#     targets = [('NGC4218',975,True)]
-#     targets = [('NGC4455',637,True)]
-#     targets = [('NGC5033',875,True)]
-#     targets = [('UGC09211',686,True)]
-#     targets = [('UGC09211',686,True)]
-#     targets = [('NGC3877',895,True)]
-#     targets = [('NGC3893',967,True)]
-#     targets = [('NGC3718',993,True)]
-#     targets = [('NGC0891',528,True)]
-#     targets = [('NGC4529',2536,True)]
-#     targets = [('UGC04238',1544,True)]
-
-
-#     targets = [('NGC2770',1947,True),\
-#     ('NGC3432',616,True),\
-#     ('NGC3666',1060,True),\
-#     ('NGC3769',737,True),\
-#     ('NGC3949',800,True),\
-#     ('NGC4157',774,True),\
-#     ('NGC4414',716,True),\
-#     ('NGC4534',802,True),\
-#     ('NGC5951',1780,True),\
-#     ('NGC7741',750,True),\
-#     ('NGC7817',2309,True),\
-#     ('UGC05459',1112,True),\
-#     ('UGC08146',670,True)]
-
-
-#     targets = [('NGC4238',2762,True)]
-#     targets = [('NGC3351',778,True)]
-#     targets = [('NGC4254',2407,True)]
-#     targets = [('NGC4559',807,True)]
-
-#     targets = [('NGC3726',866,True)]
-#     targets = [('NGC3067',1476,True)]
-#     targets = [('PG1302-102',3447,True)]
-#     targets = [('RX_J1142.5+2503',550,True)]
-#     targets = [('2E1530+1511',1953,True)]
-#     targets = [('MRK335',1954,True)]
-#     targets = [('RX_J1236.0+2641',794,True),
-#                 ('RX_J1236.0+2641',1009,True),
-#                 ('RX_J1236.0+2641',1166,True),
-#                 ('RX_J1236.0+2641',1254,True)]
-
-#     targets = [('SDSSJ112448.30+531818.0',645,True),
-#                 ('SDSSJ112448.30+531818.0',1156,True)]
-
-#     targets = [('SBS1116+523',731,True)]
-
-#     targets = [('CSO1208',874,True)]
-#     targets = [('MRK876',939,True)]
-#     targets = [('PG0804+761',1143,True)]
-
-#     targets = [('SDSSJ112439.50+113117.0',1047,True)]
-#     targets = [('SDSSJ112632.90+120437.0',1060,True)]
-#     targets = [('MRK335',1954,True)]
-#     targets = [('PG1259+593',670,True)]
-#     targets = [('SDSSJ101622.60+470643.0',661,True)]
-#     targets = [('RBS1503',667,True)]
-#     targets = [('SBS1503+570',667,True)]
-#     targets = [('SDSSJ112448.30+531818.0',1019,True), ('SDSSJ112448.30+531818.0',1141,True)]
-
-#     targets = [('SDSSJ112632.90+120437.0',1060,True)]
-#     targets = [('2E1530+1511',1953,True)]
-
-    targets = [('NGC2770',1947,True)]
 
     c = 0
     for i in targets:
@@ -923,9 +747,7 @@ def main():
             # check if there's more than one
             for v in plotVelocity:
                 # convert to delta-v = v_absorber - v_galaxy (neg = absorber is blueward of galaxy)
-#                 velocity = center - v
-                velocity = v - center
-
+                velocity = center - v
 #                 newVelocity = ((float(velocity) - smallestVelocity)/(largestVelocity-smallestVelocity)) * (vmaxVal-0)+0
 #                 newVelocities.append(newVelocity)
 
