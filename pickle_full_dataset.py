@@ -933,7 +933,18 @@ def main():
         targetlist_filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
 
         filename = '/Users/frenchd/Research/inclination/git_inclination/correlatedTargetList_5_29_18_measurements.csv'
-        pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/full_dataset.p'
+        
+        # pickle files
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group.p'
+
+
 
     else:
         print 'Could not determine username. Exiting.'
@@ -945,16 +956,18 @@ def main():
     
     reader = csv.DictReader(theFile)
     
+    # open the pickle files
+    isolated_pickle_file = open(pickleFilename,'wt')
+    L_isolated_pickle_file = open(pickleFilename,'wt')
+    L_associated_isolated_file = open(pickleFilename,'wt')
+    L_associated_file = open(pickleFilename,'wt')
+    L_nonassociated_file = open(pickleFilename,'wt')
+    L_two_file = open(pickleFilename,'wt')
+    L_two_plus_file = open(pickleFilename,'wt')
+    L_group_file = open(pickleFilename,'wt')
+
     
-    
-    # overall structure: fullDict is a dictionary with all the lines and their data in it
-    # separated into 'associated' and 'ambiguous' as the two keys. Associated contains
-    # all the lists of data for lines associated with a galaxy. Ambiguous contains all
-    # the lists of data for lines not unambiguously associated (could be many galaxies
-    # or none)
-    
-    fullDict = {}
-    
+    # here are the dictionaries to be pickled. each one will the lists which follow
     isolated = {}
     L_isolated = {}
     L_associated_isolated = {}
@@ -963,6 +976,7 @@ def main():
     L_two = {}
     L_two_plus = {}
     L_group = {}
+    
     
     # isolated: add empty lists
     isolated['Lya_vs'] = []
@@ -997,6 +1011,7 @@ def main():
     L_isolated['target_zs'] = []
     L_isolated['RAs'] = []
     L_isolated['Decs'] = []
+    
     
     # L_associated_isolated: add empty lists
     L_associated_isolated['Lya_vs'] = []
@@ -1078,6 +1093,7 @@ def main():
     L_associated['Lstars'] = []
     L_associated['e_Lstars'] = []
     L_associated['B_mags'] = []
+    
     
     # L_associated: add empty lists
     L_two['Lya_vs'] = []
@@ -1200,7 +1216,6 @@ def main():
     L_group['Lstars'] = []
     L_group['e_Lstars'] = []
     L_group['B_mags'] = []
-
 
 
 
@@ -1529,196 +1544,219 @@ def main():
                         
                         
             # if there's more than one with L > min_L
-            elif len(candidates) > 1:
-                top_likelihood, top_galaxy_info = candidates[0]
+            else:
+                likelihood, galaxy_info = candidates[0]
                 
                 candidates_within_rigor = []
-                others_within_rigor = []
                 
                 # first compare to other candidates
                 for c in candidates:
-                    l, galaxy_info = c
+                    l, candidate_info = c
                     
                     if l * rigor >= top_likelihood:
-                        candidates_within_rigor.append(galaxy_info)
-                        
-                        
+                        candidates_within_rigor.append(candidate_info)
                         
                 for o in others:
                     l, other_info = o
                     
-                    if 
-                        others_within_rigor.append(other_info)
+                    if l * rigor >= top_likelihood:
+                        candidates_within_rigor.append(other_info)
                     
+                # if none are close enough, add this one to L_associated
+                # len == 1 means the top candidate is the only one in the list
+                if len(candidates_within_rigor) == 1:
+                    add_to_L_associated(galaxy_info['Lya_v'],\
+                    galaxy_info['e_Lya_v'],\
+                    galaxy_info['Lya_W'],\
+                    galaxy_info['e_Lya_W'],\
+                    galaxy_info['Na'],\
+                    galaxy_info['e_Na'],\
+                    galaxy_info['b'],\
+                    galaxy_info['e_b'],\
+                    galaxy_info['W'],\
+                    galaxy_info['e_W'],\
+                    galaxy_info['target'],\
+                    galaxy_info['z_target'],\
+                    galaxy_info['RA_target'],\
+                    galaxy_info['Dec_target'],\
+                    galaxy_info['galaxyName'],\
+                    galaxy_info['RA_galaxy'],\
+                    galaxy_info['Dec_galaxy'],\
+                    galaxy_info['impact'],\
+                    galaxy_info['azimuth'],\
+                    galaxy_info['pa'],\
+                    galaxy_info['inclination'],\
+                    galaxy_info['adjustedInc'],\
+                    galaxy_info['l'],\
+                    galaxy_info['l_cus'],\
+                    galaxy_info['Rvir'],\
+                    galaxy_info['cus'],\
+                    galaxy_info['diam'],\
+                    galaxy_info['morph'],\
+                    galaxy_info['vhel'],\
+                    galaxy_info['vcorr'],\
+                    galaxy_info['bestDist'],\
+                    galaxy_info['e_bestDist'],\
+                    galaxy_info['group_num'],\
+                    galaxy_info['group_mem'],\
+                    galaxy_info['group_dist'],\
+                    galaxy_info['Lstar'],\
+                    galaxy_info['e_Lstar'],\
+                    galaxy_info['B_mag'])
                     
-                    
-                    
-                    
-                    
-                    
-    
-    
-    oneCount = 0
-    for l in reader:
-        #grab all the values
-        targetName = l['targetName']
-        center = eval(l['center'])    
-        
-        goOn = True
-        if goOn:
-            galaxyName = l['galaxyName']
-            environment = eval(l['environment'])
-            degreesJ2000RA_DecAGN = eval(l['degreesJ2000RA_DecAGN'])
-            degreesJ2000RA_DecGalaxy = eval(l['degreesJ2000RA_DecGalaxy'])
-            likelihood = l['likelihood']
-            likelihood_cus = l['likelihood_1.5']
-            virialRadius = l['virialRadius']
-            cus = l['d^1.5']
-            impactParameter = l['impactParameter (kpc)']
-            redshiftDistances = l['redshiftDistances']
-            vcorrGalaxy = l['vcorrGalaxy (km/s)']
-            radialVelocity = l['radialVelocity (km/s)']
-            vel_diff = l['vel_diff']
-            distGalaxy = l['distGalaxy (Mpc)']
-            AGN = l['AGN S/N']
-            majorAxis = l['majorAxis (kpc)']
-            minorAxis = l['minorAxis (kpc)']
-            inclination = l['inclination (deg)']
-            positionAngle = l['positionAngle (deg)']
-            azimuth = l['azimuth (deg)']
-            RC3flag = l['RC3flag']
-            RC3type = l['RC3type']
-            RC3inc = l['RC3inc (deg)']
-            RC3pa = l['RC3pa (deg)']
-            morphology = l['morphology']
-            final_morphology = l['final_morphology']
-            galaxyRedshift = l['galaxyRedshift']
-            AGNredshift = l['AGNredshift']
-            spectrumStatus = l['spectrumStatus']
-            include = l['include']
-            include_vir = l['include_vir']
-            include_custom = l['include_custom']
-            Lya_v = eval(l['Lya_v'])
-            vlimits = eval(l['vlimits'])
-            Lya_W = float(str(l['Lya_W']).partition('pm')[0])
-            Na = float(str(l['Na']).partition('pm')[0])
-#             print 'b: ',l['b']
-            b = float(str(l['b']).partition('pm')[0])
-            identified = l['identified']
-            source = l['source']
-            comment = l['comment']
+                # if one other is within *rigor*, add to L_two list
+                elif len(candidates_within_rigor) == 2:
+                    for galaxy_info in candidates_within_rigor:
+                        add_to_L_two(galaxy_info['Lya_v'],\
+                        galaxy_info['e_Lya_v'],\
+                        galaxy_info['Lya_W'],\
+                        galaxy_info['e_Lya_W'],\
+                        galaxy_info['Na'],\
+                        galaxy_info['e_Na'],\
+                        galaxy_info['b'],\
+                        galaxy_info['e_b'],\
+                        galaxy_info['W'],\
+                        galaxy_info['e_W'],\
+                        galaxy_info['target'],\
+                        galaxy_info['z_target'],\
+                        galaxy_info['RA_target'],\
+                        galaxy_info['Dec_target'],\
+                        galaxy_info['galaxyName'],\
+                        galaxy_info['RA_galaxy'],\
+                        galaxy_info['Dec_galaxy'],\
+                        galaxy_info['impact'],\
+                        galaxy_info['azimuth'],\
+                        galaxy_info['pa'],\
+                        galaxy_info['inclination'],\
+                        galaxy_info['adjustedInc'],\
+                        galaxy_info['l'],\
+                        galaxy_info['l_cus'],\
+                        galaxy_info['Rvir'],\
+                        galaxy_info['cus'],\
+                        galaxy_info['diam'],\
+                        galaxy_info['morph'],\
+                        galaxy_info['vhel'],\
+                        galaxy_info['vcorr'],\
+                        galaxy_info['bestDist'],\
+                        galaxy_info['e_bestDist'],\
+                        galaxy_info['group_num'],\
+                        galaxy_info['group_mem'],\
+                        galaxy_info['group_dist'],\
+                        galaxy_info['Lstar'],\
+                        galaxy_info['e_Lstar'],\
+                        galaxy_info['B_mag'])
+                
+                elif len(candidates_within_rigor) > 2:
+                    for galaxy_info in candidates_within_rigor:
+                        add_to_L_two_plus(galaxy_info['Lya_v'],\
+                        galaxy_info['e_Lya_v'],\
+                        galaxy_info['Lya_W'],\
+                        galaxy_info['e_Lya_W'],\
+                        galaxy_info['Na'],\
+                        galaxy_info['e_Na'],\
+                        galaxy_info['b'],\
+                        galaxy_info['e_b'],\
+                        galaxy_info['W'],\
+                        galaxy_info['e_W'],\
+                        galaxy_info['target'],\
+                        galaxy_info['z_target'],\
+                        galaxy_info['RA_target'],\
+                        galaxy_info['Dec_target'],\
+                        galaxy_info['galaxyName'],\
+                        galaxy_info['RA_galaxy'],\
+                        galaxy_info['Dec_galaxy'],\
+                        galaxy_info['impact'],\
+                        galaxy_info['azimuth'],\
+                        galaxy_info['pa'],\
+                        galaxy_info['inclination'],\
+                        galaxy_info['adjustedInc'],\
+                        galaxy_info['l'],\
+                        galaxy_info['l_cus'],\
+                        galaxy_info['Rvir'],\
+                        galaxy_info['cus'],\
+                        galaxy_info['diam'],\
+                        galaxy_info['morph'],\
+                        galaxy_info['vhel'],\
+                        galaxy_info['vcorr'],\
+                        galaxy_info['bestDist'],\
+                        galaxy_info['e_bestDist'],\
+                        galaxy_info['group_num'],\
+                        galaxy_info['group_mem'],\
+                        galaxy_info['group_dist'],\
+                        galaxy_info['Lstar'],\
+                        galaxy_info['e_Lstar'],\
+                        galaxy_info['B_mag'])
             
             
-            if int(include) == 1:
-                oneCount+=1
-        
-            RA_agn, Dec_agn = degreesJ2000RA_DecAGN
-            RA_gal, Dec_gal = degreesJ2000RA_DecGalaxy
+            # now deal with group galaxies
+            if len(candidates) >= 1:
+                for c in candidates:
+                    l, galaxy_info = c
+                    group_num = galaxy_info['group_num']
+                    
+                    if group_num != -99:
+                        add_to_L_group(galaxy_info['Lya_v'],\
+                        galaxy_info['e_Lya_v'],\
+                        galaxy_info['Lya_W'],\
+                        galaxy_info['e_Lya_W'],\
+                        galaxy_info['Na'],\
+                        galaxy_info['e_Na'],\
+                        galaxy_info['b'],\
+                        galaxy_info['e_b'],\
+                        galaxy_info['W'],\
+                        galaxy_info['e_W'],\
+                        galaxy_info['target'],\
+                        galaxy_info['z_target'],\
+                        galaxy_info['RA_target'],\
+                        galaxy_info['Dec_target'],\
+                        galaxy_info['galaxyName'],\
+                        galaxy_info['RA_galaxy'],\
+                        galaxy_info['Dec_galaxy'],\
+                        galaxy_info['impact'],\
+                        galaxy_info['azimuth'],\
+                        galaxy_info['pa'],\
+                        galaxy_info['inclination'],\
+                        galaxy_info['adjustedInc'],\
+                        galaxy_info['l'],\
+                        galaxy_info['l_cus'],\
+                        galaxy_info['Rvir'],\
+                        galaxy_info['cus'],\
+                        galaxy_info['diam'],\
+                        galaxy_info['morph'],\
+                        galaxy_info['vhel'],\
+                        galaxy_info['vcorr'],\
+                        galaxy_info['bestDist'],\
+                        galaxy_info['e_bestDist'],\
+                        galaxy_info['group_num'],\
+                        galaxy_info['group_mem'],\
+                        galaxy_info['group_dist'],\
+                        galaxy_info['Lstar'],\
+                        galaxy_info['e_Lstar'],\
+                        galaxy_info['B_mag'])
 
-            targetNameL.append(targetName)
-            centerL.append(center)
-            galaxyNameL.append(galaxyName)
-            environmentL.append(environment)
-            RA_agnL.append(RA_agn)
-            Dec_agnL.append(Dec_agn)
-            RA_galL.append(RA_gal)
-            Dec_galL.append(Dec_gal)
-            likelihoodL.append(likelihood)
-            likelihood_cusL.append(likelihood_cus)
-            virialRadiusL.append(virialRadius)
-            cusL.append(cus)
-            impactParameterL.append(impactParameter)
-            redshiftDistancesL.append(redshiftDistances)
-            vcorrGalaxyL.append(vcorrGalaxy)
-            radialVelocityL.append(radialVelocity)
-            vel_diffL.append(vel_diff)
-            distGalaxyL.append(distGalaxy)
-            AGNL.append(AGN)
-            majorAxisL.append(majorAxis)
-            minorAxisL.append(minorAxis)
-            inclinationL.append(inclination)
-            positionAngleL.append(positionAngle)
-            azimuthL.append(azimuth)
-            RC3flagL.append(RC3flag)
-            RC3typeL.append(RC3type)
-            RC3incL.append(RC3inc)
-            RC3paL.append(RC3pa)
-            morphologyL.append(morphology)
-            final_morphologyL.append(final_morphology)
-            galaxyRedshiftL.append(galaxyRedshift)
-            AGNredshiftL.append(AGNredshift)
-            spectrumStatusL.append(spectrumStatus)
-            includeL.append(include)
-            include_virL.append(include_vir)
-            include_customL.append(include_custom)
-            Lya_vL.append(Lya_v)
-            vlimitsL.append(vlimits)
-            Lya_WL.append(Lya_W)
-            NaL.append(Na)
-            bL.append(b)
-            identifiedL.append(identified)
-            sourceL.append(source)
-            commentL.append(comment)
-
-
-    # populate the dictionary
-
-        
-    fullDict['targetName'] = targetNameL
-    fullDict['center'] = centerL
-    fullDict['galaxyName'] = galaxyNameL
-    fullDict['environment'] = environmentL
-    fullDict['RA_agn'] = RA_agnL
-    fullDict['Dec_agn'] = Dec_agnL
-    fullDict['RA_gal'] = RA_galL
-    fullDict['Dec_gal'] = Dec_galL
-    fullDict['likelihood'] = likelihoodL
-    fullDict['likelihood_cus'] = likelihood_cusL
-    fullDict['virialRadius'] = virialRadiusL
-    fullDict['cus'] = cusL
-    fullDict['impact'] = impactParameterL
-    fullDict['redshiftDistances'] = redshiftDistancesL
-    fullDict['vcorr'] = vcorrGalaxyL
-    fullDict['radialVelocity'] = radialVelocityL
-    fullDict['vel_diff'] = vel_diffL
-    fullDict['distGalaxy'] = distGalaxyL
-    fullDict['AGNsn'] = AGNL
-    fullDict['majorAxis'] = majorAxisL
-    fullDict['minorAxis'] = minorAxisL
-    fullDict['inclination'] = inclinationL
-    fullDict['PA'] = positionAngleL
-    fullDict['azimuth'] = azimuthL
-    fullDict['RC3flag'] = RC3flagL
-    fullDict['RC3type'] = RC3typeL
-    fullDict['RC3inc'] = RC3incL
-    fullDict['RC3pa'] = RC3paL
-    fullDict['morphology'] = morphologyL
-    fullDict['final_morphology'] = final_morphologyL
-    fullDict['galaxyRedshift'] = galaxyRedshiftL
-    fullDict['AGNredshift'] = AGNredshiftL
-    fullDict['spectrumStatus'] = spectrumStatusL
-    fullDict['include'] = includeL
-    fullDict['include_vir'] = include_virL
-    fullDict['include_custom'] = include_customL
-    fullDict['Lya_v'] = Lya_vL
-    fullDict['vlimits'] = vlimitsL
-    fullDict['Lya_W'] = Lya_WL
-    fullDict['Na'] = NaL
-    fullDict['b'] = bL
-    fullDict['identified'] = identifiedL
-    fullDict['source'] = sourceL
-    fullDict['comment'] = commentL
-    
-    
-    print 'oneCount: ',oneCount
 
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
+    pickle.dump(isolated, isolated_pickle_file)
+    pickle.dump(L_isolated, L_isolated_pickle_file)
+    pickle.dump(L_associated_isolated, L_associated_isolated_file)
+    pickle.dump(L_associated, L_associated_file)
+    pickle.dump(L_nonassociated, L_nonassociated_file)
+    pickle.dump(L_two, L_two_file)
+    pickle.dump(L_two_plus, L_two_plus_file)
+    pickle.dump(L_group, L_group_file)
 
     
-    pickle.dump(fullDict, pickleFile)
-    pickleFile.close()
+    isolated_pickle_file.close()
+    L_isolated_pickle_file.close()
+    L_associated_isolated_file.close()
+    L_associated_file.close()
+    L_nonassociated_file.close()
+    L_two_file.close()
+    L_two_plus_file.close()
+    L_group_file.close()
+
     theFile.close()
     
     
