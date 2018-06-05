@@ -1221,19 +1221,20 @@ def main():
 
 ##########################################################################################
     # grab the target coordinates
-    targetFile = open(targetlist_filename,'rU')
-    targetReader = csv.DictReader(targetFile)
+#     targetFile = open(targetlist_filename,'rU')
+#     targetReader = csv.DictReader(targetFile)
+#     
+#     target_coords = {}
+#     for t in targetReader:
+#         name = t['targetName']
+#         ra = t['degreesRA']
+#         dec = t['degreesDec']
+#         
+#         if not target_coords.has_key(target_coords):
+#             target_coords[name] = {'RA':ra,'Dec':dec}
+#     
+#     targetFile.close()
     
-    target_coords = {}
-    for t in targetReader:
-        name = t['targetName']
-        ra = t['degreesRA']
-        dec = t['degreesDec']
-        
-        if not target_coords.has_key(target_coords):
-            target_coords[name] = {'RA':ra,'Dec':dec}
-    
-    targetFile.close()
 ##########################################################################################
 ##########################################################################################
     # now the full data set
@@ -1241,8 +1242,8 @@ def main():
     for i in reader:
         target = i['target']
         
-        target_ra = target_coords[target]['RA']
-        target_dec = target_coords[target]['Dec']
+#         target_ra = target_coords[target]['RA']
+#         target_dec = target_coords[target]['Dec']
 
         identified = i['identified']
         Lya_v = i['Lya_v']
