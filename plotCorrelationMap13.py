@@ -593,8 +593,29 @@ def main():
 #     targets = [('SDSSJ112632.90+120437.0',1060,True)]
 #     targets = [('2E1530+1511',1953,True)]
 
-    targets = [('NGC2770',1947,True)]
+#     targets = [('NGC2770',1947,True)]
+#     targets = [('MRK876',939,True),\
+#     ('MRK876',3478,True),\
+#     ('MRK876',4508,True),\
+#     ('MRK876',5036,True),\
+#     ('MRK876',6037,True),\
+#     ('MRK876',7005,True),\
+#     ('MRK876',9895,True)]
+    
+    
+    targets = [('1H0419-577',1075,True),\
+            ('1H0419-577',1123,True),\
+            ('1H0419-577',1188,True),\
+            ('1H0419-577',1264,True),\
+            ('1H0419-577',2020,True)]
 
+
+
+
+
+
+
+    
     c = 0
     for i in targets:
         # find AGN environment using the imported version of correlateSingle
