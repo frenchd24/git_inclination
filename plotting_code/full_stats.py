@@ -138,44 +138,46 @@ def main():
     # regardless of the others
     match = False
     
-    Lya_vs = L_associated_isolated['Lya_vs']
-    e_Lya_vs = L_associated_isolated['e_Lya_vs']
-    Lya_Ws = L_associated_isolated['Lya_Ws']
-    e_Lya_Ws = L_associated_isolated['e_Lya_Ws']
-    Nas = L_associated_isolated['Nas']
-    e_Nas = L_associated_isolated['e_Nas']
-    bs = L_associated_isolated['bs']
-    e_bs = L_associated_isolated['e_bs']
-    Ws = L_associated_isolated['Ws']
-    e_Ws = L_associated_isolated['e_Ws']
-    targets = L_associated_isolated['targets']
-    z_targets = L_associated_isolated['z_targets']
-    RA_targets = L_associated_isolated['RA_targets']
-    Dec_targets = L_associated_isolated['Dec_targets']
-    Names = L_associated_isolated['Names']
-    RA_galaxies = L_associated_isolated['RA_galaxies']
-    Dec_galaxies = L_associated_isolated['Dec_galaxies']
-    impacts = L_associated_isolated['impacts']
-    azimuths = L_associated_isolated['azimuths']
-    PAs = L_associated_isolated['PAs']
-    incs = L_associated_isolated['incs']
-    adjustedIncs = L_associated_isolated['adjustedIncs']
-    ls = L_associated_isolated['ls']
-    l_cuss = L_associated_isolated['l_cuss']
-    R_virs = L_associated_isolated['R_virs']
-    cuss = L_associated_isolated['cuss']
-    MajDiams = L_associated_isolated['MajDiams']
-    MTypes = L_associated_isolated['MTypes']
-    Vhels = L_associated_isolated['Vhels']
-    vcorrs = L_associated_isolated['vcorrs']
-    bestDists = L_associated_isolated['bestDists']
-    e_bestDists = L_associated_isolated['e_bestDists']
-    group_nums = L_associated_isolated['group_nums']
-    group_mems = L_associated_isolated['group_mems']
-    group_dists = L_associated_isolated['group_dists']
-    Lstar_meds = L_associated_isolated['Lstar_meds']
-    e_Lstar_meds = L_associated_isolated['e_Lstar_meds']
-    Bmags = L_associated_isolated['Bmags']
+    dataSet = L_associated_isolated
+    
+    Lya_vs = dataSet['Lya_vs']
+    e_Lya_vs = dataSet['e_Lya_vs']
+    Lya_Ws = dataSet['Lya_Ws']
+    e_Lya_Ws = dataSet['e_Lya_Ws']
+    Nas = dataSet['Nas']
+    e_Nas = dataSet['e_Nas']
+    bs = dataSet['bs']
+    e_bs = dataSet['e_bs']
+    Ws = dataSet['Ws']
+    e_Ws = dataSet['e_Ws']
+    targets = dataSet['targets']
+    z_targets = dataSet['z_targets']
+    RA_targets = dataSet['RA_targets']
+    Dec_targets = dataSet['Dec_targets']
+    Names = dataSet['Names']
+    RA_galaxies = dataSet['RA_galaxies']
+    Dec_galaxies = dataSet['Dec_galaxies']
+    impacts = dataSet['impacts']
+    azimuths = dataSet['azimuths']
+    PAs = dataSet['PAs']
+    incs = dataSet['incs']
+    adjustedIncs = dataSet['adjustedIncs']
+    ls = dataSet['ls']
+    l_cuss = dataSet['l_cuss']
+    R_virs = dataSet['R_virs']
+    cuss = dataSet['cuss']
+    MajDiams = dataSet['MajDiams']
+    MTypes = dataSet['MTypes']
+    Vhels = dataSet['Vhels']
+    vcorrs = dataSet['vcorrs']
+    bestDists = dataSet['bestDists']
+    e_bestDists = dataSet['e_bestDists']
+    group_nums = dataSet['group_nums']
+    group_mems = dataSet['group_mems']
+    group_dists = dataSet['group_dists']
+    Lstar_meds = dataSet['Lstar_meds']
+    e_Lstar_meds = dataSet['e_Lstar_meds']
+    Bmags = dataSet['Bmags']
 
 
 
@@ -245,6 +247,8 @@ def main():
     redW = []
     blueB = []
     redB = []
+    e_blueB = []
+    e_redB = []
     blueErr = []
     redErr = []
     blueV = []
@@ -263,66 +267,36 @@ def main():
     redPA = []
     blueVcorr = []
     redVcorr = []
-    blueEnv = []
-    redEnv = []
     blueVir = []
     redVir = []
     blueLike = []
     redLike = []
     
-
-    # ambiguous stuff
-    void = []
-    ambig = []
-    for v,w,e in zip(lyaVAmbList,lyaWAmbList,envAmbList):
-        if e == 0:
-            void.append(w)
-        else:
-            ambig.append(w)
-    
-    
-    # for targets
-    finalTargets = {}
-    for a in AGNnameList:
-        if finalTargets.has_key(a):
-            i = finalTargets[a]
-            i+=1
-            finalTargets[a] = i
-            
-        else:
-            finalTargets[a] = 1
-            
-    # for ambiguous targets
-    ambTargets = {}
-    for a in ambAGNnameList:
-        if ambTargets.has_key(a):
-            i = ambTargets[a]
-            i+=1
-            ambTargets[a] = i
-            
-        else:
-            ambTargets[a] = 1
-        
     
     # for absorbers
-    for d,w,e,v,i,b in zip(difList,lyaWList,lyaErrList,lyaVList,impactList,bList):
-        if d>=0:
-            blues.append(float(d))
-            blueW.append(float(w))
-            blueErr.append(float(e))
-            blueV.append(float(v))
-            blueImpact.append(float(i))
-            blueAbs.append(abs(d))
-            blueB.append(float(b))
-        else:
-            reds.append(float(d))
+    for Lya_v, w, e_w, Vhel, i, b, e_b in zip(Lya_vs, Lya_Ws, e_Lya_Ws, Vhels, impacts, bs, e_bs):
+        vel_dif = Lya_v - Vhel
+        if vel_dif >=0:
+            reds.append(float(vel_dif))
             redW.append(float(w))
-            redErr.append(float(e))
-            redV.append(float(v))
+            redErr.append(float(e_w))
+            redV.append(float(Vhel))
             redImpact.append(float(i))
-            redAbs.append(abs(d))
+            redAbs.append(abs(vel_dif))
             redB.append(float(b))
-            
+            e_redB.append(float(e_b))
+
+        else:
+
+            blues.append(float(vel_dif))
+            blueW.append(float(w))
+            blueErr.append(float(e_w))
+            blueV.append(float(Vhel))
+            blueImpact.append(float(i))
+            blueAbs.append(abs(vel_dif))
+            blueB.append(float(b))
+            e_blueB.append(float(e_b))
+
             
 ##########################################################################################
 ##########################################################################################
@@ -330,7 +304,9 @@ def main():
             
     nameDict = {}
     # for galaxies
-    for d,inc,finc,az,pa,vcorr,e,vir,l,name in zip(difList,incList,fancyIncList,azList,paList,vcorrList,envList,virList, likeList,nameList):
+    for Lya_v, Vhel, inc, adjustedInc, az, pa, vcorr, vir, l, name in zip(Lya_vs, Vhels, incs, adjustedIncs, azimuths, PAs, vcorrs, R_virs, ls, Names):
+        vel_dif = Lya_v - Vhel
+
         if nameDict.has_key(name):
             i = nameDict[name]
             i+=1
@@ -338,38 +314,38 @@ def main():
         else:
             nameDict[name] = 1
         
-        if d>=0:
-            if inc !=-99:
-                blueInc.append(float(inc))
-            if finc !=-99:
-                blueFancyInc.append(float(finc))
-            if az !=-99:
-                blueAz.append(float(az))
-            if pa !=-99:
-                bluePA.append(float(pa))
-            if vcorr !=-99:
-                blueVcorr.append(float(vcorr))
-            blueEnv.append(float(e))
-            if vir !=-99:
-                blueVir.append(float(vir))
-            if l !=-99:
-                blueLike.append(float(l))
-        else:
+        if vel_dif>=0:
             if inc !=-99:
                 redInc.append(float(inc))
-            if finc !=-99:
-                redFancyInc.append(float(finc))
+            if adjustedInc !=-99:
+                redFancyInc.append(float(adjustedInc))
             if az !=-99:
                 redAz.append(float(az))
             if pa !=-99:
                 redPA.append(float(pa))
             if vcorr !=-99:
                 redVcorr.append(float(vcorr))
-            redEnv.append(float(e))
             if vir !=-99:
                 redVir.append(float(vir))
             if l !=-99:
                 redLike.append(float(l))
+        else:
+
+            if inc !=-99:
+                blueInc.append(float(inc))
+            if adjustedInc !=-99:
+                blueFancyInc.append(float(adjustedInc))
+            if az !=-99:
+                blueAz.append(float(az))
+            if pa !=-99:
+                bluePA.append(float(pa))
+            if vcorr !=-99:
+                blueVcorr.append(float(vcorr))
+            if vir !=-99:
+                blueVir.append(float(vir))
+            if l !=-99:
+                blueLike.append(float(l))
+                
                 
     galaxyNames = nameDict.keys()
                 
@@ -392,10 +368,10 @@ def main():
             redVelCount100 +=1
     
 
-    assocFancyInc = blueFancyInc + redFancyInc
+    assocFancyInc = adjustedIncs
     
     AGNnameDict = {}
-    for i in AGNnameList:
+    for i in targets:
         if AGNnameDict.has_key(i):
             c = AGNnameDict[i]
             c +=1
@@ -405,39 +381,32 @@ def main():
         
     AGN_list = AGNnameDict.keys()
 
+
+    # write out a file breaking down all this shit
+#     out_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
+#     save_name = 'full_stats.txt'
+#     stats_filename = '{0}/{1}'.format(out_directory, save_name)
+#     stats_file = open(stats_filename,'wt')
+    
     
     print
-    print '------------------------ Pilot Data ------------------------------'
-    print
-    print ' FOR THE FOLLOWING INCLUDE SET:'
-    print ' Virial radius include = ',virInclude
-    print ' Custom include =        ',cusInclude
-    print ' Final include =         ',finalInclude
-    print ' Match =                 ',match
+    print '------------------------ Pilot Data -----------------------------'
     print
 #     print 'total number of lines: ', len(lyaWList) + len(lyaWAmbList)
-    print 'total number of lines: ', len(lyaV_all)
+    print 'total number of lines: ', len(Lya_vs)
     print 'total number of unique galaxies matched: ',len(galaxyNames)
     print 'total number of AGN: ',len(AGN_list)
-    print 'total number of associated lines: ',len(difList)
-    print 'total number of ambiguous lines: ',len(ambig)
-    print 'total number of void lines: ',len(void)
     print '# of redshifted lines: ',len(reds)
     print '# of blueshifted lines: ',len(blues)
     print
     print
-    print ' ASSOCIATED TARGETS '
+    print ' TARGETS '
     print
-    print 'final target number: ',len(finalTargets.keys())
-    for i in finalTargets.keys():
+    print 'final target number: ',len(AGNnameDict.keys())
+    for i in AGNnameDict.keys():
         print i
     print
     print
-    print ' AMBIGUOUS TARGTS '
-    print
-    print 'final ambiguous number: ',len(ambTargets.keys())
-    for i in ambTargets.keys():
-        print i
     print
     print
     print '----------------------- Absorber info ----------------------------'
@@ -462,7 +431,7 @@ def main():
     print '% blueshifted which have vel_diff >= 100 km/s: {0}'.format(float(blueVelCount100)/len(blues))
     print 'total number with abs(vel_diff) >= 100 km/s: {0}'.format(blueVelCount100)
     print
-    
+    print
     print 'avg blue velocity: ',mean(blueV)
     print 'median blue velocity: ',median(blueV)
     print 'std(blue Velocity): ',std(blueV)
@@ -471,6 +440,7 @@ def main():
     print 'stats.sem(blue impact): ',stats.sem(blueImpact)
     print 'stats.describe(blue impact): ',stats.describe(blueImpact)
 
+    print
     print
     
     print 'avg redshifted EW: ',mean(redW)
@@ -514,6 +484,14 @@ def main():
     incCut = 50
     totalBlueInc = len(blueInc)
     totalRedInc = len(redInc)
+    
+    print
+    print
+    print 'totalBlueInc: ',totalBlueInc
+    print 'totalRedInc: ',totalRedInc
+    print
+    print "blueInc: ",blueInc
+    print
     
     blueIncCount = 0
     for i in blueInc:
@@ -591,7 +569,7 @@ def main():
     print
     print 'stats.sem(red): ',stats.sem(redFancyInc)
     print 'stats.describe(red): ',stats.describe(redFancyInc)
-    
+    print
     print
     print "  AZIMUTHS and PA:  "
     print
@@ -710,7 +688,7 @@ def main():
     ans3 = stats.ks_2samp(redInc, allInclinations)
     print 'KS for red vs all inclinations: ',ans3
     
-    assocInc = blueInc + redInc
+    assocInc = incs
     ans4 = stats.ks_2samp(assocInc, allInclinations)
     print 'KS for associated vs all inclinations: ',ans4
     
@@ -771,16 +749,6 @@ def main():
     print 'AD for erd vs flat azimuth: ',ans1a
     print
     
-            
-    print
-    print ' Environment Distributions: '
-    print
-    
-    # perform the K-S and AD tests for environment
-    ans1 = stats.ks_2samp(blueEnv, redEnv)
-    ans1a = stats.anderson_ksamp([blueEnv,redEnv])
-    print 'KS for blue vs red environment: ',ans1
-    print 'AD for blue vs red environment: ',ans1a
     
     print
     print ' R_vir Distributions: '

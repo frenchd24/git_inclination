@@ -949,21 +949,22 @@ def main():
 #         filename = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14_edit.csv'
 #         pickleFilename = '/Users/frenchd/Research/inclination/git_inclination/picklePilot_plusSALT_14.p'
 
-        targetlist_filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
+#         targetlist_filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
+        targetlist_filename = '/Users/frenchd/Research/correlation/TARGETLIST_06_06_18_TOTAL.csv'
 
 #         filename = '/Users/frenchd/Research/inclination/git_inclination/correlatedTargetList_5_29_18_measurements.csv'
 #         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy_short.csv'
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated2.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated2.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated2.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated2.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated2.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two2.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus2.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group2.p'
 
 
     else:
