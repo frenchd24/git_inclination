@@ -2,7 +2,7 @@
 """
 By David French (frenchd@astro.wisc.edu)
 
-$Id: plotCorrelationMap13.py, v 13 12/06/17
+$Id: plotCorrelationMap14.py, v 14 06/13/18
 
 This program takes in a list of AGN targets and generates an environment map (i.e. nearby
 galaxies) for each. 
@@ -132,6 +132,9 @@ v13: version12 incorrectly plots the orientation of galaxies. They need to be re
     
 v13.1: diamonds were plotted backwards (-PA), fixed this. (12/18/17)
 
+v14: Fix colorbar direction (i.e., red = redshifted), update for the full and final
+    targetlist: correlatedTargetList_5_29_18_measurements.csv (06/13/18)
+ 
 """
 
 import sys
@@ -317,7 +320,7 @@ def main():
     
     # Save the full results with "include" tags? This is the whole big correlation table
     # which looks like LG_correlation_combined5_11_25cut_edit4.csv
-    saveResults = False
+    saveResults = True
     
     # 2nd place galaxy likelihood * rigor <= 1st place galaxy for 'include'
     rigor = 5
@@ -344,7 +347,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = False
+    sortIntoFolders = True
     
     # include AGN background targets as well?
     includeAGN = True
@@ -375,7 +378,9 @@ def main():
 #         targetFile = '/Users/David/Research_Documents/metal_absorbers/met.dat'
 #         saveDirectory = '/Users/David/Research_Documents/metal_absorbers/'
 #         outputFile = '/Users/David/Research_Documents/metal_absorbers/metal_absorbers.csv'
-        pass
+        
+        sys.stdout.write("Wrong user: {0}".format(user))
+        sys.exit()
 
     elif user == "frenchd":
 #         targetFile = '/Users/frenchd/Research/fullListMaps/LG_correlation_combined5_11_25cut_edit4.csv'
@@ -394,8 +399,8 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
         
-        saveDirectory = '/Users/frenchd/Research/test/'
-        outputFile = '/Users/frenchd/Research/test/test.csv'
+        saveDirectory = '/Users/frenchd/Research/test/target_maps/'
+        outputFile = '/Users/frenchd/Research/test/target_maps/target_maps.csv'
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
     else:
@@ -403,20 +408,22 @@ def main():
         sys.exit()
     
     # what are the column names in this file for the AGN name and absorption velocity?
-    targetHeader = 'Target'
+    targetHeader = 'target'
     velocityHeader = 'Lya_v'
-#     z_targetHeader = 'z_target'
-#     v_limitsHeader = 'v_limits'
-    z_targetHeader = 'AGNredshift'
-    v_limitsHeader = 'vlimits'
+    z_targetHeader = 'z_target'
+    v_limitsHeader = 'v_limits'
+#     z_targetHeader = 'AGNredshift'
+#     v_limitsHeader = 'vlimits'
     Lya_WHeader = 'Lya_W'
     NaHeader = 'Na'
     bHeader = 'b'
     identifiedHeader = 'identified'
-    AGN_coordsHeader = ('degreesJ2000RA_DecAGN')
+#     AGN_coordsHeader = ('degreesJ2000RA_DecAGN')
+    AGN_coordsHeader = ('RAdeg_target')
+
 
     # targets from a file, use this:
-    targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
+    targets = buildFullTargetList(targetFile, targetHeader, velocityHeader)
 
     
     # or build up a custom list of AGN names and absorption velocities here:
