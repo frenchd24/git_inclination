@@ -142,14 +142,14 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated2.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated2.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated2.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated2.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated2.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two2.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus2.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group2.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
 
 
     else:
@@ -551,11 +551,11 @@ def main():
         
         lw = 2.0
         
-        color_L_associated_isolated = '#377eb8' # blue
-        color_L_associated = 'black'
-        color_L_two = '#ff7f00' # orange
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
 #         color_L_two_plus = '#984ea3'
-        color_L_group = 'grey'
+        color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
@@ -565,33 +565,37 @@ def main():
         
 
         ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
 
         # L_associated_isolated
-        hist(azimuths,
+        hist(all_associated_azimuths,
         bins=bins,
         histtype='step',
-        color=color_L_associated_isolated,
+        color=color_black,
         lw=lw,
         alpha=alpha_L_associated_isolated,
-        label=r'$\rm L\_associated\_isolated$')
+        label=r'$\rm All~ Assoc.$')
+
 
         # L_associated
-        hist(L_associated_azimuths,
-        bins=bins,
-        histtype='step',
-        color=color_L_associated,
-        lw=lw,
-        alpha=alpha_L_associated,
-        label=r'$\rm L\_associated$')
+#         hist(L_associated_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_associated,
+#         lw=lw,
+#         alpha=alpha_L_associated,
+#         label=r'$\rm L\_associated$')
+
 
         # L_two
         hist(L_two_azimuths + L_two_plus_azimuths,
         bins=bins,
         histtype='step',
-        color=color_L_two,
+        color=color_orange,
         lw=lw,
         alpha=alpha_L_two,
-        label=r'$\rm L\_two (or more)$')
+        label=r'$\rm L\_two+$')
         
         # L_two_plus_azimuths
 #         hist(L_two_plus_azimuths,
@@ -603,13 +607,13 @@ def main():
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
-        hist(L_group_azimuths,
-        bins=bins,
-        histtype='step',
-        color=color_L_group,
-        lw=lw,
-        alpha=alpha_L_group,
-        label=r'$\rm L\_group$')
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
 
 
         # x-axis
@@ -637,7 +641,7 @@ def main():
 
 
         if plot_az_all_subsets_save:
-            savefig('{0}/hist(azimuth)_all_subsets.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_all_assoc_subsets.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 

@@ -3,6 +3,12 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
+$Id:  plot_EW_diam.py, v 6.0 06/13/18
+
+Plot EW as a function of MajDiam and R_vir
+
+
+Based on:
 $Id:  plotW_Diameter2_final.py, v 5.8 01/05/18
 
 Plot equivalent width, NaV and Doppler parameter as a function of galaxy diameter and R_vir
@@ -661,8 +667,8 @@ def main():
         alpha_bins = 0.94
         markerSize = 60
         
-        binSize = 20
-        bins = arange(0, 100, binSize)
+        binSize = 100
+        bins = arange(0, 500, binSize)
         
         label_isolated = r'$\rm Isolated$'
         label_associated = r'$\rm Associated$'
@@ -689,7 +695,7 @@ def main():
         maxW = 1500.
 
         # define the x and y data for the isolated set
-        isolated_xs = np.array(MajDiams)
+        isolated_xs = np.array(R_virs)
         isolated_ys = Lya_Ws
 
         # grab the associated data and define the x and y data
@@ -795,9 +801,9 @@ def main():
     
         
         # x-axis
-        majorLocator   = MultipleLocator(10)
+        majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
+        minorLocator   = MultipleLocator(10)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -817,8 +823,8 @@ def main():
 #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1300)
-        xlim(0, 100)
+        ylim(0, 1300)
+        xlim(0, 400)
 
         if plot_EW_vir_median_save:
             savefig('{0}/W(vir)_median_plus_{1}_binSize{2}.pdf'.format(saveDirectory, second, binSize),format='pdf',bbox_inches='tight')

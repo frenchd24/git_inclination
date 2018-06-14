@@ -1141,16 +1141,16 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all3.p'
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated3.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated3.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated3.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated3.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated3.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two3.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus3.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group3.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed3.p'
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all4.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed4.p'
 
 
     else:
@@ -1162,9 +1162,9 @@ def main():
     reader = csv.DictReader(theFile)
     
     # open the pickle files
-    all_pickle_file = open(all_filename,'wt')
-    isolated_pickle_file = open(isolated_filename,'wt')
-    L_isolated_pickle_file = open(L_isolated_filename,'wt')
+    all_file = open(all_filename,'wt')
+    isolated_file = open(isolated_filename,'wt')
+    L_isolated_file = open(L_isolated_filename,'wt')
     L_associated_isolated_file = open(L_associated_isolated_filename,'wt')
     L_associated_file = open(L_associated_filename,'wt')
     L_nonassociated_file = open(L_nonassociated_filename,'wt')
@@ -1540,7 +1540,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now the full data set
-    total = 1362
+    total = 1402
     counter = 0
     stopCount = 5000
     print
@@ -2138,24 +2138,29 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
-    pickle.dump(isolated, isolated_pickle_file)
-    pickle.dump(L_isolated, L_isolated_pickle_file)
+    pickle.dump(isolated, isolated_file)
+    pickle.dump(L_isolated, L_isolated_file)
     pickle.dump(L_associated_isolated, L_associated_isolated_file)
     pickle.dump(L_associated, L_associated_file)
     pickle.dump(L_nonassociated, L_nonassociated_file)
     pickle.dump(L_two, L_two_file)
     pickle.dump(L_two_plus, L_two_plus_file)
     pickle.dump(L_group, L_group_file)
+    pickle.dump(L_summed, L_summed_file)
+    pickle.dump(all, all_file)
 
     
-    isolated_pickle_file.close()
-    L_isolated_pickle_file.close()
+    isolated_file.close()
+    L_isolated_file.close()
     L_associated_isolated_file.close()
     L_associated_file.close()
     L_nonassociated_file.close()
     L_two_file.close()
     L_two_plus_file.close()
     L_group_file.close()
+    L_summed_file.close()
+    all_file.close()
+
 
     theFile.close()
     print

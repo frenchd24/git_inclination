@@ -65,14 +65,14 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
 
 
     else:
@@ -116,27 +116,10 @@ def main():
     L_group_file.close()
     
     
-    # save each plot?
-    save = False
-    
-#     results = open(resultsFilename,'rU')
-#     reader = csv.DictReader(results)
-    
-#     WS = open(WS09data,'rU')
-#     WSreader = csv.DictReader(WS,delimiter=';')
-    
-    virInclude = False
-    cusInclude = False
-    finalInclude = 1
-    
-    maxEnv = 3000
-    minL = 0.001
-    
     # if match, then the includes in the file have to MATCH the includes above. e.g., if 
     # virInclude = False, cusInclude = True, finalInclude = False, then only systems
     # matching those three would be included. Otherwise, all cusInclude = True would be included
     # regardless of the others
-    match = False
     
     dataSet = L_associated_isolated
     
@@ -210,10 +193,9 @@ def main():
             cosi2 = cos(i)
             allCosInclinations.append(cosi2)
             
-    allFancyInclinations = []
     allCosFancyCosInclinations = []
     for i in adjustedIncL:
-        if i != -99:
+        if str(i) != '-99':
             i = float(i)
 
             allAdjustedIncs.append(i)
@@ -225,6 +207,8 @@ def main():
     allDiameter = majorAxisL
 
     print 'finished with this shit'
+    print 'len(allAdjustedIncs): ',len(allAdjustedIncs)
+    print
 
     total = 0
     totalNo = 0
@@ -527,9 +511,9 @@ def main():
     combinedCount = redFancyIncCount + blueFancyIncCount
     totalCombinedCount = totalRedFancyInc + totalBlueFancyInc
             
-    totalFancyInc = len(allFancyInclinations)
+    totalFancyInc = len(allAdjustedIncs)
     totalFancyCount = 0
-    for i in allFancyInclinations:
+    for i in allAdjustedIncs:
         if i >= incCut:
             totalFancyCount +=1
     
@@ -547,8 +531,8 @@ def main():
     print 'All: {0} % of ALL galaxies have >={1}% fancy inclination'.format(float(totalFancyCount)/float(totalFancyInc),incCut)
     print 'Combined: {0} % of associated galaxies have >= {1} fancy inclination'.format(float(combinedCount)/float(totalCombinedCount),incCut)
     print
-    print 'Average all fancy inclination: ',mean(allFancyInclinations)
-    print 'stats.sem(all): ',stats.sem(allFancyInclinations)
+    print 'Average all fancy inclination: ',mean(allAdjustedIncs)
+    print 'stats.sem(all): ',stats.sem(allAdjustedIncs)
     print    
     print 'avg blue inclination: ',mean(blueInc)
     print 'median blue inclination: ',median(blueInc)
@@ -598,14 +582,6 @@ def main():
     print 'avg red vcorr: ',mean(redVcorr)
     print 'median red vcorr: ',median(redVcorr)
     
-    print
-    print ' ENVIRONMENT: '
-    print
-    print 'avg blue environment: ',mean(blueEnv)
-    print 'median blue environment: ',median(blueEnv)
-    print
-    print 'avg red environment: ',mean(redEnv)
-    print 'median red environment: ',median(redEnv)
     
     print
     print ' R_vir: '
@@ -644,21 +620,21 @@ def main():
     print 'KS for blue vs red fancy inclinations: ',ans1
     print 'AD for blue vs red fancy inclinations: ',ans1a
     
-    ans2 = stats.ks_2samp(blueFancyInc, allFancyInclinations)
+    ans2 = stats.ks_2samp(blueFancyInc, allAdjustedIncs)
     print 'KS for blue vs all fancy inclinations: ',ans2
     
-    ans3 = stats.ks_2samp(redFancyInc, allFancyInclinations)
+    ans3 = stats.ks_2samp(redFancyInc, allAdjustedIncs)
     print 'KS for red vs all fancy inclinations: ',ans3
     
     print
     z_statrb, p_valrb = stats.ranksums(blueFancyInc, redFancyInc)
-    z_statall, p_valall = stats.ranksums(assocFancyInc, allFancyInclinations)
+    z_statall, p_valall = stats.ranksums(assocFancyInc, allAdjustedIncs)
     print 'ranksum red vs blue p-value: ',p_valrb
     print 'ranksum associated vs all: ',p_valall
 
 
-    ans4 = stats.ks_2samp(assocFancyInc, allFancyInclinations)
-    ans4a = stats.anderson_ksamp([assocFancyInc,allFancyInclinations])
+    ans4 = stats.ks_2samp(assocFancyInc, allAdjustedIncs)
+    ans4a = stats.anderson_ksamp([assocFancyInc,allAdjustedIncs])
 
     print 'KS for all associated vs all fancy inclinations: ',ans4
     print 'AD for all associated vs all fancy inclinations: ',ans4a
