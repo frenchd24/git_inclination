@@ -1141,16 +1141,16 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all4.p'
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed4.p'
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all6.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
 
 
     else:
@@ -1540,7 +1540,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now the full data set
-    total = 1402
+    total = 1452
     counter = 0
     stopCount = 5000
     print

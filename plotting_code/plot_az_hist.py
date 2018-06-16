@@ -123,12 +123,45 @@ def main():
     plot_az_hist_dif_save = False
     
     # plot all azimuth distributions for each subset (e.g., L_associated, L_two, etc)
-    plot_az_all_subsets = True
-    plot_az_all_subsets_save = True
+    plot_az_all_subsets = False
+    plot_az_all_subsets_save = False
+    
+    # plot azimuth distributions for L_isolated_associated
+    plot_az_isolated = False
+    plot_az_isolated_save = False
+
+    # plot azimuth distributions for L_associated
+    plot_az_assoc = False
+    plot_az_assoc_save = False
+    
+    # plot azimuth distributions for L_two
+    plot_az_two = False
+    plot_az_two_save = False
+    
+    # plot azimuth distributions for L_isolated_associated and L_associated
+    plot_az_isolated_vs_assoc = False
+    plot_az_isolated_vs_assoc_save = False
+    
+    # plot azimuth distributions for L_isolated_associated and L_two
+    plot_az_isolated_vs_two = False
+    plot_az_isolated_vs_two_save = False
+    
+    # plot azimuth distributions for L_isolated_associated + L_associated vs L_two + L_two_plus
+    plot_az_all_assoc_vs_not = True
+    plot_az_all_assoc_vs_not_save = True
     
 
     color_blue = '#436bad'      # french blue
     color_red = '#ec2d01'     # tomato red
+    
+    color_green = '#1b9e77'
+    color_orange = '#d95f02'
+    color_purple3 = '#7570b3'
+    color_pink = '#e7298a'
+    color_lime = '#66a61e'
+    color_yellow = '#e6ab02'
+    color_brown = '#a6761d'
+    color_coal = '#666666'
     
 
     if getpass.getuser() == 'frenchd':
@@ -142,14 +175,14 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
 
 
     else:
@@ -192,28 +225,6 @@ def main():
     L_two_plus_file.close()
     L_group_file.close()
     
-    
-    # save each plot?
-    save = False
-    
-#     results = open(resultsFilename,'rU')
-#     reader = csv.DictReader(results)
-    
-#     WS = open(WS09data,'rU')
-#     WSreader = csv.DictReader(WS,delimiter=';')
-    
-    virInclude = False
-    cusInclude = False
-    finalInclude = 1
-    
-    maxEnv = 3000
-    minL = 0.001
-    
-    # if match, then the includes in the file have to MATCH the includes above. e.g., if 
-    # virInclude = False, cusInclude = True, finalInclude = False, then only systems
-    # matching those three would be included. Otherwise, all cusInclude = True would be included
-    # regardless of the others
-    match = False
     
     dataSet = L_associated_isolated
     
@@ -644,6 +655,703 @@ def main():
             savefig('{0}/hist(azimuth)_all_assoc_subsets.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_isolated:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+
+        # L_associated_isolated
+        hist(azimuths,
+        bins=bins,
+        histtype='bar',
+        color=color_green,
+        lw=lw,
+        alpha=alpha_L_associated_isolated,
+        edgecolor='black',
+        label=r'$\rm Isolated$')
+
+
+
+        # L_associated
+#         hist(L_associated_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_associated,
+#         lw=lw,
+#         alpha=alpha_L_associated,
+#         label=r'$\rm L\_associated$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+
+        if plot_az_isolated_save:
+            savefig('{0}/hist(azimuth)_isolated.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_assoc:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+
+        # L_associated_isolated
+        hist(L_associated_azimuths,
+        bins=bins,
+        histtype='bar',
+        color=color_orange,
+        lw=lw,
+        alpha=alpha_L_associated_isolated,
+        edgecolor='black',
+        label=r'$\rm Assoc.$')
+
+
+        # L_associated
+#         hist(L_associated_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_associated,
+#         lw=lw,
+#         alpha=alpha_L_associated,
+#         label=r'$\rm L\_associated$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+
+        if plot_az_assoc_save:
+            savefig('{0}/hist(azimuth)_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_two:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+
+        # L_associated_isolated
+        hist(L_two_azimuths,
+        bins=bins,
+        histtype='bar',
+        color=color_purple3,
+        lw=lw,
+        alpha=alpha_L_two,
+        edgecolor='black',
+        label=r'$\rm Two$')
+
+
+        # L_associated
+#         hist(L_associated_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_associated,
+#         lw=lw,
+#         alpha=alpha_L_associated,
+#         label=r'$\rm L\_associated$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+        if plot_az_two_save:
+            savefig('{0}/hist(azimuth)_two.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_isolated_vs_assoc:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+
+        # L_associated_isolated
+        hist(azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_green,
+        lw=lw,
+        alpha=alpha_L_two,
+        label=r'$\rm Isolated$')
+
+
+        # L_associated
+        hist(L_associated_azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_orange,
+        lw=lw,
+        alpha=alpha_L_associated,
+        label=r'$\rm Assoc.$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+        if plot_az_two_save:
+            savefig('{0}/hist(azimuth)_isolated_vs_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_isolated_vs_two:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+
+        # L_associated_isolated
+        hist(azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_green,
+        lw=lw,
+        alpha=alpha_L_two,
+        label=r'$\rm Isolated$')
+
+
+        # L_associated
+        hist(L_two_azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_purple3,
+        lw=lw,
+        alpha=alpha_L_associated,
+        label=r'$\rm Two$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+        if plot_az_isolated_vs_two_save:
+            savefig('{0}/hist(azimuth)_isolated_vs_two.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_all_assoc_vs_not:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 3.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+        
+
+        ax = fig.add_subplot(111)
+        
+        all_associated_azimuths = azimuths + L_associated_azimuths
+        all_not_azimuths = L_two_azimuths + L_two_plus_azimuths
+
+        # all associated
+        hist(all_associated_azimuths,
+        bins=bins,
+        histtype='step',
+        color='black',
+        lw=lw,
+        alpha=alpha_L_two,
+        label=r'$\rm All~ Assoc.$')
+
+
+        # Two plus
+        hist(all_not_azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_red,
+        lw=lw,
+        alpha=alpha_L_associated,
+        label=r'$\rm Two+$')
+
+
+        # L_two
+#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_orange,
+#         lw=lw,
+#         alpha=alpha_L_two,
+#         label=r'$\rm L\_two+$')
+        
+        # L_two_plus_azimuths
+#         hist(L_two_plus_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_two_plus,
+#         lw=lw,
+#         alpha=alpha_L_two_plus,
+#         label=r'$\rm L\_two\_plus$')
+        
+        # L_group_azimuths
+#         hist(L_group_azimuths,
+#         bins=bins,
+#         histtype='step',
+#         color=color_L_group,
+#         lw=lw,
+#         alpha=alpha_L_group,
+#         label=r'$\rm L\_group$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+        ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+        if plot_az_all_assoc_vs_not_save:
+            savefig('{0}/hist(azimuth)_all_assoc_vs_not.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
 
 ##########################################################################################
 ##########################################################################################

@@ -85,16 +85,16 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated4.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated4.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated4.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated4.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated4.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two4.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus4.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group4.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed4.p'
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all4.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all6.p'
 
 
     else:
@@ -474,8 +474,6 @@ def main():
         
         
         
-        
-        
         # L_nonassociated
 #         hist(L_nonassociated_Lya_Ws_cut,
 #         bins=bins,
@@ -537,7 +535,7 @@ def main():
         xlim(0, 1000)
 
         if plot_EW_cdf_save:
-            savefig('{0}/hist(EW)_all_bins{1}_6.pdf'.format(saveDirectory, bins),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(EW)_all6_bins{1}_6.pdf'.format(saveDirectory, bins),format='pdf',bbox_inches='tight')
         else:
             show()
 

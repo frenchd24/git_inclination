@@ -114,8 +114,38 @@ def perc50(a):
 def main():
     # plot equivalent width as a function of azimuth angle for red vs blue
     # shifted absorption
-    plot_EW_az = True
-    plot_EW_az_save = True
+    plot_EW_az = False
+    plot_EW_az_save = False
+    
+    plot_EW_az_allsubsets = False
+    plot_EW_az_allsubsets_save = False
+    
+    
+    # plot combined L_isolated_associated + L_associated vs combined L_two + L_two_plus
+    # median histograms ONLY, no data points
+    plot_EW_az_assoc_vs_not = False
+    plot_EW_az_assoc_vs_not_save = False
+    
+    # plot EW vs azimuth for L_isolated_associated sample. Median 
+    # histograms included
+    plot_EW_az_isolated = True
+    plot_EW_az_isolated_save = True
+    
+    # plot EW vs azimuth for L_associated sample. Median 
+    # histograms included
+    plot_EW_az_assoc = True
+    plot_EW_az_assoc_save = True
+    
+    # plot EW vs azimuth for L_two sample. Median 
+    # histograms included
+    plot_EW_az_two = True
+    plot_EW_az_two_save = True
+    
+    # plot EW vs azimuth for L_isolated_associated and L_associated samples. Median 
+    # histograms included
+    plot_EW_az_isolated_assoc = False
+    plot_EW_az_isolated_assoc_save = False
+    
     
 
     # some colors
@@ -133,14 +163,14 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated2.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated2.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated2.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated2.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated2.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two2.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus2.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group2.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
 
 
     else:
@@ -682,7 +712,800 @@ def main():
         if plot_EW_az_allsubsets_save:
             savefig('{0}/W(azimuth)_allsubsets.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
+            show()       
+            
+            
+#########################################################################################
+#########################################################################################
+    
+    if plot_EW_az_isolated:
+        fig = figure(figsize=(7.7, 5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        symbol_diamond = 'D'
+        symbol_circle = 'o'
+        alpha = 0.7
+#         bins = 9.
+#         bins = 10.
+        bins = arange(0,100, 10)
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        alpha_isolated = 0.4
+        alpha_assoc = 0.4
+        
+        size_isolated = 30
+        size_assoc = 30
+        
+
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_plus_Lya_Ws = L_two_plus['Lya_Ws']
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_L_associated_isolated = '#377eb8' # blue
+        color_L_associated = 'black'
+        color_L_two = '#ff7f00' # orange
+        color_L_two_plus = '#984ea3' # purple
+        color_L_group = 'grey'
+    
+    
+        all_assoc_azimuths = azimuths + L_associated_azimuths
+        all_assoc_EWs = Lya_Ws + L_associated_Lya_Ws
+        
+        all_not_assoc_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_not_assoc_EWs = L_two_Lya_Ws + L_two_plus_Lya_Ws
+        
+        
+        # mean L_isolated_associated
+        
+        plot1 = ax.scatter(azimuths,
+                            Lya_Ws,
+                            c=color_green,
+                            s=size_isolated,
+                            label=r'$\rm Isolated$',
+                            marker=symbol_diamond,
+                            alpha=alpha_isolated)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(azimuths), 
+                                                            array(Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=1.0,label=r'$\rm Isolated$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(azimuths), array(Lya_Ws), \
+        statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dotted',color='dimgrey',lw=2.0,alpha=1.0,label=r'$\rm Isolated ~90th\% ~EW$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        ylim(0,1300)
+        xlim(0,90)
+        tight_layout()
+    
+    
+        print
+        print 'len(azimuths): ',len(azimuths)
+        print
+        print 'max(Lya_Ws): ',max(Lya_Ws)
+
+        if plot_EW_az_isolated_save:
+            savefig('{0}/W(azimuth)_isolated.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
             show()
+            
+            
+            
+#########################################################################################
+#########################################################################################
+    
+    if plot_EW_az_assoc:
+        fig = figure(figsize=(7.7, 5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        symbol_diamond = 'D'
+        symbol_circle = 'o'
+        alpha = 0.7
+#         bins = 9.
+#         bins = 10.
+        bins = arange(0,100, 10)
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        alpha_isolated = 0.4
+        alpha_assoc = 0.4
+        
+        size_isolated = 30
+        size_assoc = 30
+        
+
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_plus_Lya_Ws = L_two_plus['Lya_Ws']
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_L_associated_isolated = '#377eb8' # blue
+        color_L_associated = 'black'
+        color_L_two = '#ff7f00' # orange
+        color_L_two_plus = '#984ea3' # purple
+        color_L_group = 'grey'
+    
+    
+        all_assoc_azimuths = azimuths + L_associated_azimuths
+        all_assoc_EWs = Lya_Ws + L_associated_Lya_Ws
+        
+        all_not_assoc_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_not_assoc_EWs = L_two_Lya_Ws + L_two_plus_Lya_Ws
+        
+        
+        # mean L_isolated_associated
+        
+        plot1 = ax.scatter(L_associated_azimuths,
+                            L_associated_Lya_Ws,
+                            c=color_orange,
+                            s=size_assoc,
+                            label=r'$\rm Assoc.$',
+                            marker=symbol_diamond,
+                            alpha=alpha_assoc)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(L_associated_azimuths), 
+                                                            array(L_associated_Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Assoc.$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(L_associated_azimuths), 
+        array(L_associated_Lya_Ws), statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dotted',color='dimgrey',lw=2.0,alpha=1.0,label=r'$\rm Assoc. ~90th\% ~EW$')
+        
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        ylim(0,1300)
+        xlim(0,90)
+        tight_layout()
+    
+    
+        print
+        print 'len(azimuths): ',len(azimuths)
+        print
+        print 'max(Lya_Ws): ',max(Lya_Ws)
+
+        if plot_EW_az_assoc_save:
+            savefig('{0}/W(azimuth)_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+
+
+#########################################################################################
+#########################################################################################
+    
+    if plot_EW_az_two:
+        fig = figure(figsize=(7.7, 5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        symbol_diamond = 'D'
+        symbol_circle = 'o'
+        alpha = 0.7
+#         bins = 9.
+#         bins = 10.
+        bins = arange(0,100, 10)
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        alpha_isolated = 0.4
+        alpha_assoc = 0.4
+        alpha = 0.4
+        
+        size_isolated = 30
+        size_assoc = 30
+        size = 30
+        
+
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_plus_Lya_Ws = L_two_plus['Lya_Ws']
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_L_associated_isolated = '#377eb8' # blue
+        color_L_associated = 'black'
+        color_L_two = '#ff7f00' # orange
+        color_L_two_plus = '#984ea3' # purple
+        color_L_group = 'grey'
+    
+    
+        all_assoc_azimuths = azimuths + L_associated_azimuths
+        all_assoc_EWs = Lya_Ws + L_associated_Lya_Ws
+        
+        all_not_assoc_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_not_assoc_EWs = L_two_Lya_Ws + L_two_plus_Lya_Ws
+        
+        
+        # mean L_isolated_associated
+        
+        plot1 = ax.scatter(L_two_azimuths,
+                            L_two_Lya_Ws,
+                            c=color_purple3,
+                            s=size,
+                            label=r'$\rm Two$',
+                            marker=symbol_circle,
+                            alpha=alpha)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(L_two_azimuths), 
+                                                            array(L_two_Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Two$')
+        
+        # 90% percentile
+        bin_means,edges,binNumber = stats.binned_statistic(array(L_two_azimuths), 
+        array(L_two_Lya_Ws), statistic=lambda y: perc90(y), bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dotted',color='dimgrey',lw=2.0,alpha=1.0,label=r'$\rm Two ~90th\% ~EW$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        ylim(0,1300)
+        xlim(0,90)
+        tight_layout()
+    
+    
+        print
+        print 'len(azimuths): ',len(azimuths)
+        print
+        print 'max(Lya_Ws): ',max(Lya_Ws)
+
+        if plot_EW_az_two_save:
+            savefig('{0}/W(azimuth)_two.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+#########################################################################################
+#########################################################################################
+    
+    if plot_EW_az_isolated_assoc:
+        fig = figure(figsize=(7.7, 5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        symbol_diamond = 'D'
+        symbol_circle = 'o'
+        alpha = 0.7
+#         bins = 9.
+#         bins = 10.
+        bins = arange(0,100, 10)
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        alpha_isolated = 0.4
+        alpha_assoc = 0.4
+        
+        size_isolated = 30
+        size_assoc = 30
+        
+
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_plus_Lya_Ws = L_two_plus['Lya_Ws']
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_L_associated_isolated = '#377eb8' # blue
+        color_L_associated = 'black'
+        color_L_two = '#ff7f00' # orange
+        color_L_two_plus = '#984ea3' # purple
+        color_L_group = 'grey'
+    
+    
+        all_assoc_azimuths = azimuths + L_associated_azimuths
+        all_assoc_EWs = Lya_Ws + L_associated_Lya_Ws
+        
+        all_not_assoc_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_not_assoc_EWs = L_two_Lya_Ws + L_two_plus_Lya_Ws
+        
+        
+        # mean L_isolated_associated
+        
+        plot1 = ax.scatter(azimuths,
+                            Lya_Ws,
+                            c=color_green,
+                            s=size_isolated,
+                            label=r'$\rm Isolated$',
+                            marker=symbol_diamond,
+                            alpha=alpha_isolated)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(azimuths), 
+                                                            array(Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dashed',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Isolated$')
+        
+        
+        # mean L_associated
+        plot1 = ax.scatter(L_associated_azimuths,
+                            L_associated_Lya_Ws,
+                            c=color_orange,
+                            s=size_assoc,
+                            label=r'$\rm Isolated$',
+                            marker=symbol_circle,
+                            alpha=alpha_assoc)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(L_associated_azimuths), 
+                                                            array(L_associated_Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dotted',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Assoc$')
+        
+        
+        
+        
+#         bin_means,edges,binNumber = stats.binned_statistic(array(all_assoc_azimuths), 
+#                                                             array(all_assoc_EWs),
+#                                                             statistic='mean',
+#                                                             bins=bins)
+#                                                             
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm All ~Assoc.$')
+        
+        
+        
+
+
+        # mean L_two
+#         bin_means,edges,binNumber = stats.binned_statistic(array(all_not_assoc_azimuths), 
+#                                                             array(all_not_assoc_EWs),
+#                                                             statistic='mean',
+#                                                             bins=bins)
+#                                                             
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='solid',color=color_red,lw=2.0,alpha=alpha+0.1,label=r'$\rm Two+$')
+        
+        
+        
+        # 90% percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allAz), array(allW), \
+#         statistic=lambda y: perc90(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha+0.1,label=r'$\rm 90th\% ~EW$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        ylim(0,1300)
+        xlim(0,90)
+        tight_layout()
+    
+    
+        print
+        print 'len(azimuths): ',len(azimuths)
+        print
+        print 'max(Lya_Ws): ',max(Lya_Ws)
+
+        if plot_EW_az_isolated_assoc_save:
+            savefig('{0}/W(azimuth)_isolated_vs_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+            
+            
+#########################################################################################
+#########################################################################################
+    
+    if plot_EW_az_assoc_vs_not:
+        fig = figure(figsize=(7.7, 5.7))
+        ax = fig.add_subplot(111)
+        countb = 0
+        countr = 0
+        count = -1
+        labelr = 'Redshifted Absorber'
+        labelb = "Blueshifted Absorber"
+        symbol_diamond = 'D'
+        symbol_circle = 'o'
+        alpha = 0.7
+#         bins = 9.
+#         bins = 10.
+        bins = arange(0,100, 10)
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        alpha_isolated = 0.8
+        alpha_assoc = 0.8
+        
+
+        L_associated_azimuths = L_associated['azimuths']
+        L_nonassociated_azimuths = L_nonassociated['azimuths']
+        L_two_azimuths = L_two['azimuths']
+        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_group_azimuths = L_group['azimuths']
+        
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_plus_Lya_Ws = L_two_plus['Lya_Ws']
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        
+        lw = 2.0
+        
+        color_L_associated_isolated = '#377eb8' # blue
+        color_L_associated = 'black'
+        color_L_two = '#ff7f00' # orange
+        color_L_two_plus = '#984ea3' # purple
+        color_L_group = 'grey'
+    
+    
+        all_assoc_azimuths = azimuths + L_associated_azimuths
+        all_assoc_EWs = Lya_Ws + L_associated_Lya_Ws
+        
+        all_not_assoc_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_not_assoc_EWs = L_two_Lya_Ws + L_two_plus_Lya_Ws
+        
+        
+        # mean L_isolated_associated
+        
+        plot1 = ax.scatter(azimuths,
+                            Lya_Ws,
+                            c=color_green,
+                            s=50,
+                            label=r'$\rm Isolated$',
+                            marker=symbol_diamond,
+                            alpha=alpha_isolated)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(azimuths), 
+                                                            array(Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dashed',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Isolated$')
+        
+        
+        # mean L_associated
+        plot1 = ax.scatter(L_associated_azimuths,
+                            L_associated_Lya_Ws,
+                            c=color_orange,
+                            s=50,
+                            label=r'$\rm Isolated$',
+                            marker=symbol_circle,
+                            alpha=alpha_assoc)
+        
+        bin_means,edges,binNumber = stats.binned_statistic(array(azimuths), 
+                                                            array(Lya_Ws),
+                                                            statistic='mean',
+                                                            bins=bins)
+                                                            
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plt.plot(X,Y, ls='dotted',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm Assoc$')
+        
+        
+        
+        
+#         bin_means,edges,binNumber = stats.binned_statistic(array(all_assoc_azimuths), 
+#                                                             array(all_assoc_EWs),
+#                                                             statistic='mean',
+#                                                             bins=bins)
+#                                                             
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='solid',color='black',lw=2.0,alpha=alpha+0.1,label=r'$\rm All ~Assoc.$')
+        
+        
+        
+
+
+        # mean L_two
+#         bin_means,edges,binNumber = stats.binned_statistic(array(all_not_assoc_azimuths), 
+#                                                             array(all_not_assoc_EWs),
+#                                                             statistic='mean',
+#                                                             bins=bins)
+#                                                             
+#         left,right = edges[:-1],edges[1:]
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='solid',color=color_red,lw=2.0,alpha=alpha+0.1,label=r'$\rm Two+$')
+        
+        
+        
+        # 90% percentile
+#         bin_means,edges,binNumber = stats.binned_statistic(array(allAz), array(allW), \
+#         statistic=lambda y: perc90(y), bins=bins)
+#         left,right = edges[:-1],edges[1:]        
+#         X = array([left,right]).T.flatten()
+#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+#         plt.plot(X,Y, ls='dashed',color='dimgrey',lw=2.0,alpha=alpha+0.1,label=r'$\rm 90th\% ~EW$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+#         title('W(azimuth) for red vs blue shifted absorption')
+        xlabel(r'$\rm Azimuth ~[deg]$')
+        ylabel(r'$\rm Equivalent ~Width ~[m\AA]$')
+        
+#         legend(scatterpoints=1,fancybox=True,prop={'size':15},loc=2)
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1200)
+        xlim(0,90)
+        tight_layout()
+    
+    
+        print
+        print 'len(azimuths): ',len(azimuths)
+        print
+        print 'max(Lya_Ws): ',max(Lya_Ws)
+
+        if plot_EW_az_assoc_vs_not_save:
+            savefig('{0}/W(azimuth)_assoc_vs_not.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+            
+
 
 ###############################################################################
 ###############################################################################
