@@ -347,7 +347,7 @@ def main():
     # sort results into /associated/, ~/ambiguous/, and ~/nonassociated/ folders?
     # if True, these folders must already exist
     # if False, puts all the files into saveDirectory as set below
-    sortIntoFolders = True
+    sortIntoFolders = False
     
     # include AGN background targets as well?
     includeAGN = True
@@ -395,13 +395,16 @@ def main():
 #         saveDirectory = '/Users/frenchd/Research/test/'
 #         outputFile = '/Users/frenchd/Research/test/test.csv'
 
-#         targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_12_edit_plusSALTcut.csv'
+        targetFile = '/Users/frenchd/Research/inclination/git_inclination/LG_correlation_combined5_12_edit_plusSALTcut.csv'
 #         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/maps/'
 #         outputFile = '/Users/frenchd/Research/inclination/git_inclination/maps/LG_correlation_combined5_14.csv'
         
-        saveDirectory = '/Users/frenchd/Research/test/target_maps/'
-        outputFile = '/Users/frenchd/Research/test/target_maps/target_maps.csv'
-        targetFile = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
+#         saveDirectory = '/Users/frenchd/Research/test/target_maps/'
+#         outputFile = '/Users/frenchd/Research/test/target_maps/target_maps.csv'
+#         targetFile = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
+
+        saveDirectory = '/Users/frenchd/Research/test/'
+        outputFile = '/Users/frenchd/Research/test/test.csv'
 
     else:
         print "Unknown user: ",user
@@ -423,7 +426,8 @@ def main():
 
 
     # targets from a file, use this:
-    targets = buildFullTargetList(targetFile, targetHeader, velocityHeader)
+#     targets = buildFullTargetList(targetFile, targetHeader, velocityHeader)
+    targets = [('CGCG039-137',6918,True)]
 
     
     # or build up a custom list of AGN names and absorption velocities here:
@@ -617,9 +621,6 @@ def main():
 #             ('1H0419-577',1188,True),\
 #             ('1H0419-577',1264,True),\
 #             ('1H0419-577',2020,True)]
-
-
-
 
 
 
@@ -1393,7 +1394,7 @@ def main():
                 else:
                     newTargetName = targetName
 #                 title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
-                title(r'$\rm {0} ~ centered ~ velocity = {1} +/- {2}~ km/s $'.format(targetName,center,velocityWindow))
+                title(r'$\rm {0} ~ : ~ {1} \pm {2}~ km s^{{-1}}$'.format(targetName,center,velocityWindow))
 
             # now write it all to file, or display the finished figure
             if saveMaps:

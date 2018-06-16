@@ -187,7 +187,7 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-    Lstar_range = [0.0, 100.0]
+    Lstar_range = [0.0, 1.5]
 #     Lstar_range = [0.0, 0.5]
 #     Lstar_range = [0.50001, 100.0]
 
@@ -215,8 +215,8 @@ def main():
     use_apparent_errors = True
 
     # which plot to make?
-    plot_onsky = True
-    plot_cyl = True
+    plot_onsky = False
+    plot_cyl = False
     plot_NFW = True
     plot_zoom_in = True
     plot_NFW_zoom_in = False

@@ -414,9 +414,9 @@ def main():
     AGN_coordsHeader = ('degreesJ2000RA_DecAGN')
 
     # targets from a file, use this:
-    targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
+#     targets = buildFullTargetList(targetFile,targetHeader,velocityHeader)
 
-    targets = [('2E1530+1511',1953,True)]
+    targets = [('CGCG039-137',6918,True)]
 
 
     c = 0
