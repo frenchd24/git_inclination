@@ -187,7 +187,7 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-    Lstar_range = [0.0, 1.5]
+    Lstar_range = [0.0, 100.0]
 #     Lstar_range = [0.0, 0.5]
 #     Lstar_range = [0.50001, 100.0]
 
@@ -646,7 +646,7 @@ def main():
                 else:
                     markerColor = 'black'
 
-
+            print 'dv = {0} - markerColor = {1}'.format(dv, markerColor)
             
             # compare to the models
             model_answer = withinRange(dv, model_range, error)
@@ -665,7 +665,10 @@ def main():
             if az >= az_limit:
                 markerColor_model = color_maybe
                 markerColor_NFWmodel = color_maybe
-
+                
+            print 'dv = {0} - markerColor_NFW = {1}'.format(dv, markerColor_NFWmodel)
+            print
+            
         else:
             print 'dv == x :', dv, name
             print
@@ -888,7 +891,7 @@ def main():
             RA_targetList_non_zoom.append(ra)
             Dec_targetList_non_zoom.append(dec)
             markerColorList_non_zoom.append(m)
-            combinedNameList_non_zoom.append(name)            
+            combinedNameList_non_zoom.append(name)
 
 ##########################################################################################
 ##########################################################################################
@@ -1496,7 +1499,7 @@ def main():
 #             annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
 #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
                 
-            tag = nameDict[combinedNameList2[i]]        
+            tag = nameDict[combinedNameList2[i]]
             if not previousNames.has_key(tag):
                 annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
