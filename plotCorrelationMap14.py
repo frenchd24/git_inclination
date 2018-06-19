@@ -304,7 +304,7 @@ def main():
     xTagOffset = -10
     
     # name tag font size
-    nameTagFont = 4.5
+    nameTagFont = 10
     
     # include a title on the plots?
     includeTitle = True
@@ -428,7 +428,8 @@ def main():
     # targets from a file, use this:
 #     targets = buildFullTargetList(targetFile, targetHeader, velocityHeader)
 #     targets = [('CGCG039-137',6918,True)]
-    targets = [('NGC3633',2587,True)]
+#     targets = [('NGC3633',2587,True)]
+    targets = [('SDSSJ080838.80+051440.0',8738,True)]
 
     
     # or build up a custom list of AGN names and absorption velocities here:

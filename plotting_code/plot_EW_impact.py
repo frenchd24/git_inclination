@@ -144,9 +144,12 @@ def main():
     
     # plot EW as a function of impact, also include L_group and median
     # EW histograms for both
-    plot_EW_impact_median_plus_group = True
-    plot_EW_impact_median_plus_group_save = True
-
+    plot_EW_impact_median_plus_group = False
+    plot_EW_impact_median_plus_group_save = False
+    
+    # plot EW as a function of impact/r_vir w/o splitting, add other sets if you want
+    plot_EW_impact_vir_mean_plus = True
+    plot_EW_impact_vir_mean_plus_save = True
 
     # some colors
     color_blue = '#436bad'      # french blue
@@ -1788,6 +1791,306 @@ def main():
         else:
             show()
 
+
+
+
+##########################################################################################
+##########################################################################################
+    
+    if plot_EW_impact_vir_mean_plus:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(111)
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        color_purple = '#7570b3'
+        color_purple2 = '#984ea3'
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+
+        alpha_isolated = 0.5
+        alpha_assoc = 0.5
+        alpha_two = 0.5
+        alpha_three = 0.5
+        alpha_group = 0.5
+        alpha_bins = 0.99
+        markerSize = 30
+        
+#         binSize = 50
+#         bins = arange(0, 550, binSize)
+        binSize = 0.5
+        bins = arange(0, 3.0, binSize)
+
+        
+        label_isolated = r'$\rm Isolated$'
+        label_assoc = r'$\rm Associated$'
+        label_two = r'$\rm Two$'
+        label_three = r'$\rm Three+$'
+        label_group = r'$\rm Group$'
+
+        symbol_isolated = 'D'
+        symbol_assoc = 'o'
+        symbol_two = 'o'
+        symbol_three = 'o'
+        symbol_group = 'o'
+
+#         color_isolated = color_green
+#         color_assoc = color_orange
+#         color_two = color_purple3
+#         color_group = color_yellow
+
+        color_isolated = 'black'
+        color_assoc = color_green
+        color_two = color_purple2
+        color_group = color_orange
+        
+        maxEW = 1500.
+
+        # define the x and y data for the isolated set
+        
+        Lya_Ws2 = []
+        R_virs2 = []
+        impacts2 = []
+        for w, r, i in zip(Lya_Ws, R_virs, impacts):
+            if float(w) <= maxEW:
+                Lya_Ws2.append(w)
+                R_virs2.append(r)
+                impacts2.append(i)
+        
+        isolated_xs = np.array(impacts2)/np.array(R_virs2)
+        isolated_ys = np.array(Lya_Ws2)
+        
+        
+
+        # grab the associated data and define the x and y data
+        associated_Lya_Ws = L_associated['Lya_Ws']
+        associated_R_virs = L_associated['R_virs']
+        associated_impacts = L_associated['impacts']
+        
+        associated_Lya_Ws2 = []
+        associated_R_virs2 = []
+        associated_impacts2 = []
+        for w, r, i in zip(associated_Lya_Ws, associated_R_virs, associated_impacts):
+            if float(w) <= maxEW:
+                associated_Lya_Ws2.append(w)
+                associated_R_virs2.append(r)
+                associated_impacts2.append(i)
+        
+        associated_xs = np.array(associated_impacts2)/np.array(associated_R_virs2)
+        associated_ys = np.array(associated_Lya_Ws2)
+        
+        
+        # grab the two data and define the x and y data
+        two_Lya_Ws = L_two['Lya_Ws']
+        two_R_virs = L_two['R_virs']
+        two_impacts = L_two['impacts']
+
+        two_Lya_Ws2 = []
+        two_R_virs2 = []
+        two_impacts2 = []
+        for w, r, i in zip(two_Lya_Ws, two_R_virs, two_impacts):
+            if float(w) <= maxEW:
+                two_Lya_Ws2.append(w)
+                two_R_virs2.append(r)
+                two_impacts2.append(i)
+        
+        two_xs = np.array(two_impacts2)/np.array(two_R_virs2)
+        two_ys = np.array(two_Lya_Ws2)
+        
+        
+        # grab the two_plus data and define the x and y data
+        three_Lya_Ws = L_two_plus['Lya_Ws']
+        three_R_virs = L_two_plus['R_virs']
+        three_impacts = L_two_plus['impacts']
+        
+        three_Lya_Ws2 = []
+        three_R_virs2 = []
+        three_impacts2 = []
+        for w, r, i in zip(three_Lya_Ws, three_R_virs, three_impacts):
+            if float(w) <= maxEW:
+                three_Lya_Ws2.append(w)
+                three_R_virs2.append(r)
+                three_impacts2.append(i)
+        
+        three_xs = np.array(three_impacts2)/np.array(three_R_virs2)
+        three_ys = np.array(three_Lya_Ws2)
+        
+        
+        
+        # grab the group data and define the x and y data
+        group_Lya_Ws = L_group['Lya_Ws']
+        group_R_virs = L_group['R_virs']
+        group_impacts = L_group['impacts']
+        group_mems = L_group['group_mems']
+
+        group_Lya_Ws2 = []
+        group_R_virs2 = []
+        group_impacts2 = []
+        for w, r, i, group in zip(group_Lya_Ws, group_R_virs, group_impacts, group_mems):
+            if float(group) >= 2 and float(w) <= maxEW:
+                group_Lya_Ws2.append(w)
+                group_R_virs2.append(r)
+                group_impacts2.append(i)
+        
+        group_xs = np.array(group_impacts2)/np.array(group_R_virs2)
+        group_ys = np.array(group_Lya_Ws2)
+        
+        
+        
+##########################################################################################
+        # do the plotting 
+        
+        # isolated
+        plot1 = scatter(isolated_xs,
+                        isolated_ys,
+                        marker=symbol_isolated,
+                        c=color_isolated,
+                        s=markerSize,
+                        edgecolor='black',
+                        alpha=alpha_isolated,
+                        label=label_isolated)
+                        
+                        
+                        
+        # histogram isolated
+        bin_means, edges, binNumber = stats.binned_statistic(isolated_xs,
+                                                            isolated_ys,
+                                                            statistic='mean',
+                                                            bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,
+            Y,
+            ls='solid',
+            color=color_isolated,
+            lw=2.0,
+            alpha=alpha_bins,
+            label=r'$\rm Isolated~ Median ~EW$')
+            
+            
+        # associated
+        plot1 = scatter(associated_xs,
+                        associated_ys,
+                        marker=symbol_assoc,
+                        c=color_assoc,
+                        s=markerSize,
+                        edgecolor='black',
+                        alpha=alpha_assoc,
+                        label=label_assoc)
+        
+        # histogram associated
+        bin_means, edges, binNumber = stats.binned_statistic(associated_xs,
+                                                            associated_ys,
+                                                            statistic='mean',
+                                                            bins=bins)
+        left,right = edges[:-1],edges[1:]        
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,
+            Y,
+            ls='solid',
+            color=color_assoc,
+            lw=2.0,
+            alpha=alpha_bins,
+            label=r'$\rm Assoc. ~Median ~EW$')
+
+           
+        # group
+        plot1 = scatter(two_xs,
+                        two_ys,
+                        marker=symbol_two,
+                        c=color_two,
+                        s=markerSize,
+                        edgecolor='black',
+                        alpha=alpha_two,
+                        label=label_two)
+        
+        # histogram group
+        bin_means, edges, binNumber = stats.binned_statistic(two_xs,
+                                                            two_ys,
+                                                            statistic='mean',
+                                                            bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,
+            Y,
+            ls='solid',
+            color=color_two,
+            lw=2.0,
+            alpha=alpha_bins,
+            label=r'$\rm Two ~Mean ~EW$')
+           
+                        
+        # group
+        plot1 = scatter(group_xs,
+                        group_ys,
+                        marker=symbol_group,
+                        c=color_group,
+                        s=markerSize,
+                        edgecolor='black',
+                        alpha=alpha_group,
+                        label=label_group)
+        
+        # histogram group
+        bin_means, edges, binNumber = stats.binned_statistic(group_xs,
+                                                            group_ys,
+                                                            statistic='mean',
+                                                            bins=bins)
+        left,right = edges[:-1],edges[1:]
+        X = array([left,right]).T.flatten()
+        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+        plot(X,
+            Y,
+            ls='solid',
+            color=color_group,
+            lw=2.0,
+            alpha=alpha_bins,
+            label=r'$\rm Group ~Mean ~EW$')
+        
+    
+        
+        # x-axis
+        majorLocator   = MultipleLocator(0.5)
+        majorFormatter = FormatStrFormatter(r'$\rm %.2f$')
+        minorLocator   = MultipleLocator(0.25)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
+        xlabel(r'$\rm \rho / R_{{vir}}$')
+        ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
+        leg = ax.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
+#         leg.get_frame().set_alpha(0.5)
+
+        ax.grid(b=None,which='major',axis='both')
+        ylim(0,1500)
+        xlim(0, 2.5)
+
+        if plot_EW_impact_vir_mean_plus_save:
+            savefig('{0}/W(impact_vir)_mean_binSize{1}_plus4_cut{2}.pdf'.format(saveDirectory, binSize, maxEW),format='pdf',bbox_inches='tight')
+        else:
+            show()
 
 #########################################################################################
 #########################################################################################

@@ -117,7 +117,6 @@ def main():
     plot_EW_summed_median = True
     plot_EW_summed_median_save = True
     
-    
 
     # some colors
     color_blue = '#436bad'      # french blue
@@ -134,15 +133,15 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated3.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated3.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated3.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated3.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated3.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two3.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus3.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group3.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed3.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
 
 
     else:
@@ -703,38 +702,46 @@ def main():
         countr = 0
         count = -1
         
-        second = False
+        maxEW =1500
+          
+        color_purple = '#7570b3'
+        color_purple2 = '#984ea3'
         
         color_green = '#1b9e77'
-        color_purple = '#7570b3'
         color_orange = '#d95f02'
-        color_purple2 = '#984ea3'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
 
         alpha_isolated = 0.45
         alpha_associated = 0.35
         alpha_two = 0.35
         alpha_three = 0.35
         alpha_group = 0.35
-        alpha_second = 0.35
         alpha_bins = 0.94
-        markerSize = 60
+        alpha_summed = 0.35
+        markerSize = 30
         
-        binSize = 0.2
-        bins = arange(0, 1.2, binSize)
+        binSize = 0.25
+        bins = arange(0, 1.25, binSize)
         
         label_isolated = r'$\rm Isolated$'
         label_associated = r'$\rm Associated$'
         label_two = r'$\rm Two$'
         label_three = r'$\rm Three+$'
         label_group = r'$\rm Group$'
-        label_second = r'$\rm {0}$'.format(second)
 
+        
         symbol_isolated = 'D'
         symbol_associated = 'o'
         symbol_two = 'o'
         symbol_three = 'o'
         symbol_group = 'o'
-        symbol_second = 'o'
+        symbol_summed = 'D'
 
 
         color_isolated = 'black'
@@ -742,16 +749,8 @@ def main():
         color_two = color_red
         color_three = color_purple
         color_group = color_orange
-        color_second = color_orange
+        color_summed = 'black'
         
-        maxW = 1500.
-
-        # define the x and y data for the summed set
-        summed_ls = L_summed['summed_ls']
-        summed_Lya_Ws = L_summed['Lya_Ws']
-        
-        main_xs = np.sum(np.array(summed_ls))
-        main_ys = Lya_Ws
 
         # grab the associated data and define the x and y data
         associated_Lya_Ws = L_associated['Lya_Ws']
@@ -795,47 +794,45 @@ def main():
         group_l_cuss = L_group['l_cuss']
         group_xs = np.array(group_l_cuss)
         group_ys = np.array(group_Lya_Ws)
-        
-        
-        
-        
-        if second == 'Group':
-            second_xs = group_xs
-            second_ys = group_ys
 
-        if second == 'Associated':
-            second_xs = associated_xs
-            second_ys = associated_ys
-            
+
+        # define the x and y data for the summed set
+        summed_ls = L_summed['summed_ls']
+        summed_Lya_Ws = L_summed['Lya_Ws']
         
-            
+        summed_ls2 = []
+        summed_Lya_Ws2 = []
+        for w, l in zip(summed_Lya_Ws, summed_ls):
+            if float(w) <= maxEW:
+                summed_ls2.append(np.sum(np.array(l)))
+                summed_Lya_Ws2.append(w)
+
+        main_xs = np.array(summed_ls2)
+        main_ys = summed_Lya_Ws2
         
-        # isolated
+        print
+        print 'len(main_xs): ',len(main_xs)
+        print 'len(main_ys): ',len(main_ys)
+        print
+        print main_xs
+        
+##########################################################################################
+        # plot it 
+        
+        # summed
         plot1 = scatter(main_xs,
                         main_ys,
-                        marker=symbol_isolated,
-                        c=color_isolated,
+                        marker=symbol_summed,
+                        c=color_summed,
                         s=markerSize,
                         edgecolor='black',
-                        alpha=alpha_isolated,
-                        label=label_isolated)
+                        alpha=alpha_summed)
         
-        if second:                
-            # second data set
-            plot1 = scatter(second_xs,
-                            second_ys,
-                            marker=symbol_second,
-                            c=color_second,
-                            s=markerSize,
-                            edgecolor='black',
-                            alpha=alpha_second,
-                            label=label_second)
-
     
         # histogram isolated
         bin_means, edges, binNumber = stats.binned_statistic(main_xs,
                                                             main_ys,
-                                                            statistic='median',
+                                                            statistic='mean',
                                                             bins=bins)
         left,right = edges[:-1],edges[1:]        
         X = array([left,right]).T.flatten()
@@ -843,28 +840,10 @@ def main():
         plot(X,
             Y,
             ls='solid',
-            color=color_isolated,
+            color=color_summed,
             lw=2.0,
             alpha=alpha_bins,
-            label=r'$\rm Isolated~ Median ~EW$')
-        
-        
-        if second:
-            # histogram two
-            bin_means, edges, binNumber = stats.binned_statistic(second_xs,
-                                                                second_ys,
-                                                                statistic='median',
-                                                                bins=bins)
-            left,right = edges[:-1],edges[1:]        
-            X = array([left,right]).T.flatten()
-            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-            plot(X,
-                Y,
-                ls='dashed',
-                color=color_second,
-                lw=2.0,
-                alpha=alpha_bins,
-                label=r'$\rm {0} ~Median ~EW$'.format(second))
+            label=r'$\rm Summed~ Mean ~EW$')
         
     
         
@@ -887,15 +866,14 @@ def main():
         
         xlabel(r'$\rm \Sigma \mathcal{L} $')
         ylabel(r'$\rm Equivalent ~ Width ~ [m\AA]$')
-        leg = ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
+#         leg = ax.legend(scatterpoints=1,prop={'size':14},loc=1,fancybox=True)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1300)
+        ylim(0,1500)
         xlim(0, 1)
 
         if plot_EW_summed_median_save:
-            savefig('{0}/W(summed_ls)_median_plus_{1}_binSize{2}.pdf'.format(saveDirectory, second, binSize),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(summed_ls)_mean_binSize{1}_cut{2}.pdf'.format(saveDirectory, binSize, maxEW),format='pdf',bbox_inches='tight')
         else:
             show()
 

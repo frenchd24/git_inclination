@@ -87,8 +87,8 @@ def main():
     # This one plots two histograms. The top one has red and blue shifted absorbers
     # overlaid, with a combined black outline histogram. The bottom plot is the full 
     # galaxy table
-    plot_adjustedInc_redblue_overlaid_all = False
-    plot_adjustedInc_redblue_overlaid_all_save = False
+    plot_adjustedInc_redblue_overlaid_all = True
+    plot_adjustedInc_redblue_overlaid_all_save = True
     
     # This one plots a CDF for red, blue and all galaxy inclinations all in the same frame
     plot_CDF_red_blue_all = False
@@ -96,12 +96,12 @@ def main():
     
     # this plots histograms of inclination for the L_associated_isolated, L_associated,
     # and L_group all at once
-    plot_adjustedInc_all_associated_isolated_group = False
-    plot_adjustedInc_all_associated_isolated_group_save = False
+    plot_adjustedInc_all_associated_isolated_group = True
+    plot_adjustedInc_all_associated_isolated_group_save = True
     
     # 
-    plot_CDF_adjustedInc_all_associated_isolated_group = True
-    plot_CDF_adjustedInc_all_associated_isolated_group_save = True
+    plot_CDF_adjustedInc_all_associated_isolated_group = False
+    plot_CDF_adjustedInc_all_associated_isolated_group_save = False
     
     
     color_blue = '#436bad'      # french blue
@@ -120,14 +120,14 @@ def main():
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
+        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
 
 
     else:
@@ -170,28 +170,7 @@ def main():
     L_two_plus_file.close()
     L_group_file.close()
     
-    
-    # save each plot?
-    save = False
-    
-#     results = open(resultsFilename,'rU')
-#     reader = csv.DictReader(results)
-    
-#     WS = open(WS09data,'rU')
-#     WSreader = csv.DictReader(WS,delimiter=';')
-    
-    virInclude = False
-    cusInclude = False
-    finalInclude = 1
-    
-    maxEnv = 3000
-    minL = 0.001
-    
-    # if match, then the includes in the file have to MATCH the includes above. e.g., if 
-    # virInclude = False, cusInclude = True, finalInclude = False, then only systems
-    # matching those three would be included. Otherwise, all cusInclude = True would be included
-    # regardless of the others
-    match = False
+
     
     Lya_vs = L_associated_isolated['Lya_vs']
     e_Lya_vs = L_associated_isolated['e_Lya_vs']
@@ -313,6 +292,8 @@ def main():
         bins = arange(0,100,10)
         blue = []
         red = []
+        blue_assoc = []
+        red_assoc = []
         
         alpha_red = 0.6
         alpha_blue = 0.7
@@ -325,6 +306,10 @@ def main():
         redLya = []
         redLyaErr = []
         
+        adjustedIncs_associated = L_associated['adjustedIncs']
+        Lya_vs_associated = L_associated['Lya_vs']
+        Vhels_associated = L_associated['Vhels']
+
                 
         for Lya_v, e_Lya_v, i, w, Vhel in zip(Lya_vs, e_Lya_vs, adjustedIncs, Lya_Ws, Vhels):
             vel_dif = Lya_v - Vhel
@@ -340,6 +325,18 @@ def main():
                 blue.append(i)
                 blueLya.append(w)
                 blueLyaErr.append(e_Lya_v)
+                
+                
+        for Lya_v, i, Vhel in zip(Lya_vs_associated, adjustedIncs_associated, Vhels_associated):
+            vel_dif = Lya_v - Vhel
+            
+            if vel_dif >=0:
+                # blue shifted galaxy, but absorber is REDSHIFTED
+#                 print 'd: ',d
+                red_assoc.append(i)
+            else:
+                # red shifted absorber, but galaxy is BLUESHIFTED
+                blue_assoc.append(i)                
                 
                 
         # just associated
@@ -365,7 +362,7 @@ def main():
 #         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = alpha,label=r'$\rm Blueshifted$')
 
         # blue
-        hist(blue,
+        hist(blue+blue_assoc,
         bins=bins,
         histtype='bar',
         color=color_blue,
@@ -375,7 +372,7 @@ def main():
         label=r'$\rm v_{{Ly\alpha}} < v_{{sys}}$')
 
         # red
-        hist(red,
+        hist(red+red_assoc,
         bins=bins,
         histtype='bar',
         color=color_red,
@@ -386,7 +383,7 @@ def main():
         label=r'$\rm v_{{Ly\alpha}} \ge v_{{sys}}$')
 
         # together
-        hist(adjustedIncs,
+        hist(adjustedIncs+adjustedIncs_associated,
         bins=bins,
         histtype='step',
         color='black',
@@ -441,7 +438,7 @@ def main():
 #         tight_layout()
 
         if plot_adjustedInc_redblue_overlaid_all_save:
-            savefig('{0}/hist(adjustedInc)_redblue_overlaid_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(adjustedInc)_redblue_overlaid_allassoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
             
@@ -621,6 +618,12 @@ def main():
         adjustedIncs_associated_isolated = L_associated_isolated['adjustedIncs']
         adjustedIncs_associated = L_associated['adjustedIncs']
         adjustedIncs_group = L_group['adjustedIncs']
+        group_mems = L_group['group_mems']
+        
+        group_incs = []
+        for inc, group_mem in zip(adjustedIncs_group, group_mems):
+            if float(group_mem) >=2:
+                group_incs.append(inc)
 
 #         L_nonassociated
 #         L_two
@@ -667,7 +670,7 @@ def main():
         label=r'$\rm Associated$')
 
         # together
-        hist(adjustedIncs_group,
+        hist(group_incs,
         bins=bins,
         histtype='step',
         color=color_L_group,

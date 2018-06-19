@@ -3,4 +3,6 @@ Overall introduction:
 What are the questions I want answered? - Does gas care about galaxies?
 1. How do absorber properties depend on galaxy properties?
 2. Co-rotation?
-3. 
+3. Missing baryons question? X-ray possibly solved this, detecting hot gas in halos traced by OVII, OVIII, NeVIII (others?)
+4. Where are the metals?
+
