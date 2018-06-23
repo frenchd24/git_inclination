@@ -66,8 +66,20 @@ def errors(a):
 
 def main():
     # plot CDF of EWs
-    plot_EW_cdf = True
-    plot_EW_cdf_save = True
+    plot_EW_cdf = False
+    plot_EW_cdf_save = False
+
+    # plot histogram of EWs
+    plot_EW_hist = False
+    plot_EW_hist_save = False
+    
+    # plot EW histograms as a function of number of group members
+    plot_EW_hist_group = False
+    plot_EW_hist_group_save = False
+    
+    # plot EW histograms as a function of number of group members
+    plot_EW_hist_MType = True
+    plot_EW_hist_MType_save = True
 
     
     # some colors
@@ -254,7 +266,8 @@ def main():
         fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
         
-        EW_cut = 1000
+        maxEW = 10000
+        minEW = 100
         
         countb = 0
         countr = 0
@@ -290,9 +303,10 @@ def main():
         alpha_red = 0.8
         alpha_black = 0.8
         
-        binSize = 100
-#         bins = arange(0, 1200, binSize)
-        bins = 100
+        binSize = 10
+        bins = arange(0, 1050, binSize)
+#         bins = 100
+        
         
         label_isolated = r'$\rm Isolated$'
         label_associated = r'$\rm Associated$'
@@ -315,7 +329,7 @@ def main():
         
         all_Lya_Ws_cut = []
         for w in all_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 all_Lya_Ws_cut.append(w)
                 
                 
@@ -323,14 +337,14 @@ def main():
         isolated_Lya_Ws = isolated['Lya_Ws']
         isolated_Lya_Ws_cut = []
         for w in isolated_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 isolated_Lya_Ws_cut.append(w)
                 
         # L_isolated
         L_isolated_Lya_Ws = L_isolated['Lya_Ws']
         L_isolated_Lya_Ws_cut = []
         for w in L_isolated_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 L_isolated_Lya_Ws_cut.append(w)
                 
 
@@ -338,14 +352,14 @@ def main():
         L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
         L_nonassociated_Lya_Ws_cut = []
         for w in L_nonassociated_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 L_nonassociated_Lya_Ws_cut.append(w)
 
 
         # L_isolate_associated
         L_isolated_associated_Lya_Ws_cut = []
         for w in Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 L_isolated_associated_Lya_Ws_cut.append(w)
         
         # grab the associated data 
@@ -357,7 +371,7 @@ def main():
         
         L_associated_Lya_Ws_cut = []
         for w in L_associated_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 L_associated_Lya_Ws_cut.append(w)
         
         # grab the two data 
@@ -369,7 +383,7 @@ def main():
         
         L_two_Lya_Ws_cut = []
         for w in L_two_Lya_Ws:
-            if w <= 1200:
+            if w <= maxEW and w >= minEW:
                 L_two_Lya_Ws_cut.append(w)
         
         
@@ -382,7 +396,7 @@ def main():
         
         L_three_Lya_Ws_cut = []
         for w in L_three_Lya_Ws:
-            if w <= EW_cut:
+            if w <= maxEW and w >= minEW:
                 L_three_Lya_Ws_cut.append(w)
         
         # grab the group data and define the x and y data
@@ -395,7 +409,7 @@ def main():
         
         L_group_Lya_Ws_cut = []
         for w, m in zip(L_group_Lya_Ws, L_group_mems):
-            if w <= EW_cut and int(m) >= 6:
+            if w <= maxEW and w >= minEW and int(m) >= 6:
                 print 'm: ',m
                 L_group_Lya_Ws_cut.append(w)
                 
@@ -535,7 +549,7 @@ def main():
         xlim(0, 1000)
 
         if plot_EW_cdf_save:
-            savefig('{0}/hist(EW)_all6_bins{1}_6.pdf'.format(saveDirectory, bins),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(EW)_all6_bins{1}_6_min_maxEW_{2}_{3}.pdf'.format(saveDirectory, binSize, minEW, maxEW),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -543,6 +557,778 @@ def main():
 ##########################################################################################
 ##########################################################################################
 
+    
+##########################################################################################
+##########################################################################################
+    
+    if plot_EW_hist:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(111)
+        
+        maxEW = 1000
+        minEW = 50
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        second = 'Associated'
+        
+        color_green = '#1b9e77'
+        color_purple = '#7570b3'
+        color_orange = '#d95f02'
+        color_purple2 = '#984ea3'
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+
+
+        alpha_green = 0.8
+        alpha_orange = 0.8
+        alpha_purple = 0.8
+        alpha_pink = 0.8
+        alpha_lime = 0.8
+        alpha_yellow = 0.8
+        alpha_brown = 0.8
+        alpha_coal = 0.8
+        alpha_blue = 0.8
+        alpha_red = 0.8
+        alpha_black = 0.8
+        
+        binSize = 50
+        bins = arange(0, 1050, binSize)
+        
+        label_isolated = r'$\rm Isolated$'
+        label_associated = r'$\rm Associated$'
+        label_two = r'$\rm Two$'
+        label_three = r'$\rm Three+$'
+        label_group = r'$\rm Group$'
+        label_second = r'$\rm {0}$'.format(second)
+
+
+        color_isolated = 'black'
+        color_associated = color_red
+        color_two = color_red
+        color_three = color_purple
+        color_group = color_orange
+        color_second = color_orange
+        
+        
+        # grab the full set
+        all_Lya_Ws = all['Lya_Ws']
+        
+        all_Lya_Ws_cut = []
+        for w in all_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                all_Lya_Ws_cut.append(w)
+                
+                
+        # isolated
+        isolated_Lya_Ws = isolated['Lya_Ws']
+        isolated_Lya_Ws_cut = []
+        for w in isolated_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                isolated_Lya_Ws_cut.append(w)
+                
+        # L_isolated
+        L_isolated_Lya_Ws = L_isolated['Lya_Ws']
+        L_isolated_Lya_Ws_cut = []
+        for w in L_isolated_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_isolated_Lya_Ws_cut.append(w)
+                
+
+        # L_nonassociated
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_nonassociated_Lya_Ws_cut = []
+        for w in L_nonassociated_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_nonassociated_Lya_Ws_cut.append(w)
+
+
+        # L_isolate_associated
+        L_isolated_associated_Lya_Ws_cut = []
+        for w in Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_isolated_associated_Lya_Ws_cut.append(w)
+        
+        # grab the associated data 
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_associated_R_virs = L_associated['R_virs']
+        L_associated_impacts = L_associated['impacts']
+        L_associated_MajDiams = L_associated['MajDiams']
+        L_associated_ls = L_associated['ls']
+        
+        L_associated_Lya_Ws_cut = []
+        for w in L_associated_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_associated_Lya_Ws_cut.append(w)
+        
+        # grab the two data 
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_R_virs = L_two['R_virs']
+        L_two_impacts = L_two['impacts']
+        L_two_MajDiams = L_two['MajDiams']
+        L_two_ls = L_two['ls']
+        
+        L_two_Lya_Ws_cut = []
+        for w in L_two_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_two_Lya_Ws_cut.append(w)
+        
+        
+        # grab the two_plus data 
+        L_three_Lya_Ws = L_two_plus['Lya_Ws']
+        L_three_R_virs = L_two_plus['R_virs']
+        L_three_impacts = L_two_plus['impacts']
+        L_three_MajDiams = L_two_plus['MajDiams']
+        L_three_ls = L_two_plus['ls']
+        
+        L_three_Lya_Ws_cut = []
+        for w in L_three_Lya_Ws:
+            if w <= maxEW and w >= minEW:
+                L_three_Lya_Ws_cut.append(w)
+        
+        # grab the group data and define the x and y data
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        L_group_R_virs = L_group['R_virs']
+        L_group_impacts = L_group['impacts']
+        L_group_MajDiams = L_group['MajDiams']
+        L_group_mems = L_group['group_mems']
+        L_group_ls = L_group['ls']
+        
+        L_group_Lya_Ws_cut = []
+        for w, m in zip(L_group_Lya_Ws, L_group_mems):
+            if w <= maxEW and w >= minEW and int(m) >= 9:
+                print 'm: ',m
+                L_group_Lya_Ws_cut.append(w)
+                
+                
+        # all EWs
+#         hist(all_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='step',
+#         cumulative=True,
+#         normed=1,
+#         color='black',
+#         lw=1.5,
+#         alpha=alpha_black,
+#         label=r'$\rm All$')
+        
+        
+        # isolated 
+#         hist(isolated_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color='black',
+#         lw=1.5,
+#         alpha=alpha_black,
+#         label=r'$\rm Isolated$')
+        
+        
+        # L_isolated 
+#         hist(L_isolated_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_brown,
+#         lw=1.5,
+#         alpha=alpha_brown,
+#         label=r'$\rm L\_isolated$')
+        
+
+        # isolated associated
+#         hist(L_isolated_associated_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_green,
+#         lw=1.5,
+#         alpha=alpha_green,
+#         label=r'$\rm L\_isolated\_assoc.$')
+        
+        
+        # associated
+#         hist(L_associated_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_orange,
+#         lw=1.5,
+#         alpha=alpha_orange,
+#         label=r'$\rm L\_assoc.$')
+
+
+        # L_two
+#         hist(L_two_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_purple3,
+#         lw=1.5,
+#         alpha=alpha_purple,
+#         label=r'$\rm L\_two$')
+
+        # three
+#         hist(L_three_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_red,
+#         lw=1.5,
+#         alpha=alpha_red,
+#         label=r'$\rm L\_three$')
+        
+        
+        # L_nonassociated
+#         hist(L_nonassociated_Lya_Ws_cut,
+#         bins=bins,
+#         histtype='bar',
+#         color=color_pink,
+#         lw=1.5,
+#         alpha=alpha_pink,
+#         label=r'$\rm L\_nonassoc.$')
+        
+        
+        # L_group
+        hist(L_group_Lya_Ws_cut,
+        bins=bins,
+        histtype='bar',
+        color=color_blue,
+        lw=1.5,
+        alpha=alpha_yellow,
+        label=r'$\rm L\_group$')
+        
+        
+#         color_green = '#1b9e77'
+#         color_orange = '#d95f02'
+#         color_purple3 = '#7570b3'
+#         color_pink = '#e7298a'
+#         color_lime = '#66a61e'
+#         color_yellow = '#e6ab02'
+#         color_brown = '#a6761d'
+#         color_coal = '#666666'
+
+        
+        # x-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        xlabel(r'$\rm Equivalent~Width ~[m\AA]$')
+        ylabel(r'$\rm Number$')
+
+        ax.grid(b=None,which='major',axis='both')
+#         ylim(0,1300)
+        xlim(0, 1000)
+
+        if plot_EW_hist_save:
+            savefig('{0}/hist(EW)_bins{1}_L_group9.pdf'.format(saveDirectory, binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+##########################################################################################
+##########################################################################################
+
+
+##########################################################################################
+##########################################################################################
+    
+    if plot_EW_hist_group:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(111)
+        ax.grid(b=None,which='major',axis='both')
+
+        EW_cut = 1000
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        second = 'Associated'
+        
+        color_green = '#1b9e77'
+        color_purple = '#7570b3'
+        color_orange = '#d95f02'
+        color_purple2 = '#984ea3'
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+
+
+        alpha_green = 0.8
+        alpha_orange = 0.8
+        alpha_purple = 0.8
+        alpha_pink = 0.8
+        alpha_lime = 0.8
+        alpha_yellow = 0.99
+        alpha_brown = 0.8
+        alpha_coal = 0.8
+        alpha_blue = 0.8
+        alpha_red = 0.8
+        alpha_black = 0.8
+        
+        binSize = 100
+        bins = arange(0, 1100, binSize)
+        
+        label_isolated = r'$\rm Isolated$'
+        label_associated = r'$\rm Associated$'
+        label_two = r'$\rm Two$'
+        label_three = r'$\rm Three+$'
+        label_group = r'$\rm Group$'
+        label_second = r'$\rm {0}$'.format(second)
+
+
+        color_isolated = 'black'
+        color_associated = color_red
+        color_two = color_red
+        color_three = color_purple
+        color_group = color_orange
+        color_second = color_orange
+        
+        
+        # grab the full set
+        all_Lya_Ws = all['Lya_Ws']
+        
+        all_Lya_Ws_cut = []
+        for w in all_Lya_Ws:
+            if w <= EW_cut:
+                all_Lya_Ws_cut.append(w)
+                
+                
+        # isolated
+        isolated_Lya_Ws = isolated['Lya_Ws']
+        isolated_Lya_Ws_cut = []
+        for w in isolated_Lya_Ws:
+            if w <= EW_cut:
+                isolated_Lya_Ws_cut.append(w)
+                
+        # L_isolated
+        L_isolated_Lya_Ws = L_isolated['Lya_Ws']
+        L_isolated_Lya_Ws_cut = []
+        for w in L_isolated_Lya_Ws:
+            if w <= EW_cut:
+                L_isolated_Lya_Ws_cut.append(w)
+                
+
+        # L_nonassociated
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_nonassociated_Lya_Ws_cut = []
+        for w in L_nonassociated_Lya_Ws:
+            if w <= EW_cut:
+                L_nonassociated_Lya_Ws_cut.append(w)
+
+
+        # L_isolate_associated
+        L_isolated_associated_Lya_Ws_cut = []
+        for w in Lya_Ws:
+            if w <= EW_cut:
+                L_isolated_associated_Lya_Ws_cut.append(w)
+        
+        # grab the associated data 
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_associated_R_virs = L_associated['R_virs']
+        L_associated_impacts = L_associated['impacts']
+        L_associated_MajDiams = L_associated['MajDiams']
+        L_associated_ls = L_associated['ls']
+        
+        L_associated_Lya_Ws_cut = []
+        for w in L_associated_Lya_Ws:
+            if w <= EW_cut:
+                L_associated_Lya_Ws_cut.append(w)
+        
+        # grab the two data 
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_R_virs = L_two['R_virs']
+        L_two_impacts = L_two['impacts']
+        L_two_MajDiams = L_two['MajDiams']
+        L_two_ls = L_two['ls']
+        
+        L_two_Lya_Ws_cut = []
+        for w in L_two_Lya_Ws:
+            if w <= 1200:
+                L_two_Lya_Ws_cut.append(w)
+        
+        
+        # grab the two_plus data 
+        L_three_Lya_Ws = L_two_plus['Lya_Ws']
+        L_three_R_virs = L_two_plus['R_virs']
+        L_three_impacts = L_two_plus['impacts']
+        L_three_MajDiams = L_two_plus['MajDiams']
+        L_three_ls = L_two_plus['ls']
+        
+        L_three_Lya_Ws_cut = []
+        for w in L_three_Lya_Ws:
+            if w <= EW_cut:
+                L_three_Lya_Ws_cut.append(w)
+        
+        # grab the group data and define the x and y data
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        L_group_R_virs = L_group['R_virs']
+        L_group_impacts = L_group['impacts']
+        L_group_MajDiams = L_group['MajDiams']
+        L_group_mems = L_group['group_mems']
+        L_group_ls = L_group['ls']
+        
+        L_group_Lya_Ws_cut24 = []
+        L_group_Lya_Ws_cut57 = []
+        L_group_Lya_Ws_cut810 = []
+        L_group_Lya_Ws_cut11plus = []
+        for w, m in zip(L_group_Lya_Ws, L_group_mems):
+            if w <= EW_cut:
+                if int(m) >=2 and int(m) <=4:
+                    L_group_Lya_Ws_cut24.append(w)
+                    
+                if int(m) >4 and int(m) <=7:
+                    L_group_Lya_Ws_cut57.append(w)
+                    
+                if int(m) >7 and int(m) <=10:
+                    L_group_Lya_Ws_cut810.append(w)
+                    
+                if int(m) >10:
+                    L_group_Lya_Ws_cut11plus.append(w)
+                    
+        # L_group
+        hist(L_group_Lya_Ws_cut24,
+        bins=bins,
+        histtype='step',
+        color=color_blue,
+        lw=2.5,
+        alpha=alpha_yellow,
+        label=r'$\rm L\_group~2-4$')
+        
+        # L_group
+        hist(L_group_Lya_Ws_cut57,
+        bins=bins,
+        histtype='step',
+        color=color_green,
+        lw=2.5,
+        alpha=alpha_yellow,
+        label=r'$\rm L\_group~5-7$')
+        
+        # L_group
+        hist(L_group_Lya_Ws_cut810,
+        bins=bins,
+        histtype='step',
+        color=color_red,
+        lw=2.5,
+        alpha=alpha_yellow,
+        label=r'$\rm L\_group~8-10$')
+        
+        # L_group
+        hist(L_group_Lya_Ws_cut11plus,
+        bins=bins,
+        histtype='step',
+        color='black',
+        lw=2.5,
+        alpha=alpha_yellow,
+        label=r'$\rm L\_group~11+$')
+
+        
+#         color_green = '#1b9e77'
+#         color_orange = '#d95f02'
+#         color_purple3 = '#7570b3'
+#         color_pink = '#e7298a'
+#         color_lime = '#66a61e'
+#         color_yellow = '#e6ab02'
+#         color_brown = '#a6761d'
+#         color_coal = '#666666'
+
+        
+        # x-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        xlabel(r'$\rm Equivalent~Width ~[m\AA]$')
+        ylabel(r'$\rm Number$')
+
+#         ylim(0,1300)
+        xlim(0, 1000)
+
+        if plot_EW_hist_group_save:
+            savefig('{0}/hist(EW_group)_bins{1}.pdf'.format(saveDirectory, binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+
+##########################################################################################
+##########################################################################################
+    
+    if plot_EW_hist_MType:
+        fig = figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(211)
+
+        maxEW = 1000
+        
+        countb = 0
+        countr = 0
+        count = -1
+        
+        second = 'Associated'
+        
+        color_green = '#1b9e77'
+        color_purple = '#7570b3'
+        color_orange = '#d95f02'
+        color_purple2 = '#984ea3'
+        
+        
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+
+
+        alpha_green = 0.8
+        alpha_orange = 0.8
+        alpha_purple = 0.8
+        alpha_pink = 0.8
+        alpha_lime = 0.8
+        alpha_yellow = 0.99
+        alpha_brown = 0.8
+        alpha_coal = 0.8
+        alpha_blue = 0.8
+        alpha_red = 0.8
+        alpha_black = 0.8
+        
+        binSize = 100
+        bins = arange(0, 1100, binSize)
+        
+        label_isolated = r'$\rm Isolated$'
+        label_associated = r'$\rm Associated$'
+        label_two = r'$\rm Two$'
+        label_three = r'$\rm Three+$'
+        label_group = r'$\rm Group$'
+        label_second = r'$\rm {0}$'.format(second)
+
+
+        color_isolated = 'black'
+        color_associated = color_red
+        color_two = color_red
+        color_three = color_purple
+        color_group = color_orange
+        color_second = color_orange
+
+
+        # L_nonassociated
+        L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
+        L_nonassociated_MTypes = L_nonassociated['MTypes']
+        
+        L_nonassociated_Lya_Ws_cut = []
+        L_nonassociated_MTypes_cut = []
+        for w, type in zip(L_nonassociated_Lya_Ws, L_nonassociated_MTypes):
+            if w <= maxEW:
+                L_nonassociated_Lya_Ws_cut.append(w)
+                L_nonassociated_MTypes_cut.append(type)
+
+
+        # L_isolate_associated
+        L_isolated_associated_MTypes = MTypes
+        
+        L_isolated_associated_Lya_Ws_cut = []
+        L_isolated_associated_MTypes_cut = []
+        for w, type in zip(Lya_Ws, L_isolated_associated_MTypes):
+            if w <= maxEW:
+                L_isolated_associated_Lya_Ws_cut.append(w)
+                L_isolated_associated_MTypes_cut.append(type)
+
+
+        # grab the associated data 
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_associated_R_virs = L_associated['R_virs']
+        L_associated_impacts = L_associated['impacts']
+        L_associated_MajDiams = L_associated['MajDiams']
+        L_associated_ls = L_associated['ls']
+        L_associated_MTypes = L_associated['MTypes']
+        
+        L_associated_Lya_Ws_cut_e = []
+        L_associated_Lya_Ws_cut_s = []
+
+        L_associated_MTypes_cut_e = []
+        L_associated_MTypes_cut_s = []
+
+        for w, type in zip(L_associated_Lya_Ws, L_associated_MTypes):
+            if w <= maxEW:                
+                if type[0] == 'E':
+                    L_associated_MTypes_cut_e.append(type)
+                    L_associated_Lya_Ws_cut_e.append(w)
+
+                else:
+                    L_associated_MTypes_cut_s.append(type)
+                    L_associated_Lya_Ws_cut_s.append(w)
+
+
+        
+        # grab the two data 
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_R_virs = L_two['R_virs']
+        L_two_impacts = L_two['impacts']
+        L_two_MajDiams = L_two['MajDiams']
+        L_two_ls = L_two['ls']
+        L_two_MTypes = L_two['MTypes']
+        
+        L_two_Lya_Ws_cut = []
+        L_two_MTypes_cut = []
+        for w, type in zip(L_two_Lya_Ws, L_two_MTypes):
+            if w <= maxEW:
+                L_two_Lya_Ws_cut.append(w)
+                L_two_MTypes_cut.append(type)
+
+        
+        # grab the two_plus data 
+        L_three_Lya_Ws = L_two_plus['Lya_Ws']
+        L_three_R_virs = L_two_plus['R_virs']
+        L_three_impacts = L_two_plus['impacts']
+        L_three_MajDiams = L_two_plus['MajDiams']
+        L_three_ls = L_two_plus['ls']
+        
+        L_three_Lya_Ws_cut = []
+        for w in L_three_Lya_Ws:
+            if w <= maxEW:
+                L_three_Lya_Ws_cut.append(w)
+        
+        # grab the group data and define the x and y data
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        L_group_R_virs = L_group['R_virs']
+        L_group_impacts = L_group['impacts']
+        L_group_MajDiams = L_group['MajDiams']
+        L_group_mems = L_group['group_mems']
+        L_group_ls = L_group['ls']
+        
+        L_group_Lya_Ws_cut24 = []
+        L_group_Lya_Ws_cut57 = []
+        L_group_Lya_Ws_cut810 = []
+        L_group_Lya_Ws_cut11plus = []
+        for w, m in zip(L_group_Lya_Ws, L_group_mems):
+            if w <= maxEW:
+                if int(m) >=2 and int(m) <=4:
+                    L_group_Lya_Ws_cut24.append(w)
+                    
+        # L_group
+        hist(L_associated_Lya_Ws_cut_e,
+        bins=bins,
+        histtype='bar',
+        color=color_red,
+        lw=2.5,
+        alpha=alpha_red,
+        edgecolor='black',
+        label=r'$\rm E-Type$')
+        
+        # x-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        xlabel(r'$\rm Equivalent~Width ~[m\AA]$')
+        ylabel(r'$\rm Number$')
+        
+#         ylim(0,1300)
+#         xlim(0, 1000)
+#         ax.grid(b=None,which='major',axis='both')
+#         ax.set_axisbelow(True)
+#         ax.yaxis.grid(color='gray', linestyle='dashed')
+
+##########################################################################################
+        ax = fig.add_subplot(212)
+
+        # L_group
+        hist(L_associated_Lya_Ws_cut_s,
+        bins=bins,
+        histtype='bar',
+        color=color_blue,
+        lw=2.5,
+        alpha=alpha_blue,
+        edgecolor='black',
+        label=r'$\rm S-type$')
+        
+        
+        # x-axis
+        majorLocator   = MultipleLocator(200)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(100)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        xlabel(r'$\rm Equivalent~Width ~[m\AA]$')
+        ylabel(r'$\rm Number$')
+        
+#         ylim(0,1300)
+#         xlim(0, 1000)
+        
+#         ax.grid(b=None,which='major',axis='both')
+#         ax.set_axisbelow(True)
+#         ax.yaxis.grid(color='gray', linestyle='dashed')
+
+        if plot_EW_hist_MType_save:
+            savefig('{0}/hist(EW)_MType_bins{1}.pdf'.format(saveDirectory, binSize),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+##########################################################################################
+##########################################################################################
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################

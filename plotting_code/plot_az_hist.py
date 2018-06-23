@@ -147,8 +147,13 @@ def main():
     plot_az_isolated_vs_two_save = False
     
     # plot azimuth distributions for L_isolated_associated + L_associated vs L_two + L_two_plus
-    plot_az_all_assoc_vs_not = True
-    plot_az_all_assoc_vs_not_save = True
+    plot_az_all_assoc_vs_not = False
+    plot_az_all_assoc_vs_not_save = False
+    
+    # plot azimuth distributions for L_isolated_associated + L_associated as a function
+    # of MType
+    plot_az_assoc_MType = True
+    plot_az_assoc_MType_save = True
     
 
     color_blue = '#436bad'      # french blue
@@ -1349,6 +1354,217 @@ def main():
 
         if plot_az_all_assoc_vs_not_save:
             savefig('{0}/hist(azimuth)_all_assoc_vs_not.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        else:
+            show()
+
+
+#########################################################################################
+#########################################################################################    
+    if plot_az_assoc_MType:
+    
+        fig = figure(figsize=(10,6))
+        subplots_adjust(hspace=0.200)
+        bins = arange(0,100,10)
+        
+        
+        maxEW = 10000
+        minEW = 0
+        
+#         L_associated_azimuths = L_associated['azimuths']
+#         L_nonassociated_azimuths = L_nonassociated['azimuths']
+#         L_two_azimuths = L_two['azimuths']
+#         L_two_plus_azimuths = L_two_plus['azimuths']
+#         L_group_azimuths = L_group['azimuths']
+        
+        alpha_L_associated_isolated = 1.0
+        alpha_L_associated = 0.8
+        alpha_L_two = 1.0
+        alpha_L_two_plus = 1.0
+        alpha_L_group = 1.0
+        alpha_red = 0.9
+        alpha_blue = 0.9
+        
+        lw = 3.0
+        
+        color_blue = '#377eb8' # blue
+        color_black = 'black'
+        color_orange = '#ff7f00' # orange
+#         color_L_two_plus = '#984ea3'
+        color_grey = 'grey'
+
+#         color_L_associated_isolated = '#e41a1c' # red
+#         color_L_associated = '#377eb8' # blue
+#         color_L_two = '#4daf4a' # green
+#         color_L_two_plus = '#984ea3' # purple
+#         color_L_group = '#ff7f00' # orange
+
+        # L_isolate_associated
+        L_isolated_associated_MTypes = MTypes
+        
+        L_isolated_associated_Lya_Ws_cut = []
+        L_isolated_associated_MTypes_cut = []
+        for w, type in zip(Lya_Ws, L_isolated_associated_MTypes):
+            if w <= maxEW:
+                L_isolated_associated_Lya_Ws_cut.append(w)
+                L_isolated_associated_MTypes_cut.append(type)
+
+
+        # grab the associated data 
+        L_associated_Lya_Ws = L_associated['Lya_Ws']
+        L_associated_R_virs = L_associated['R_virs']
+        L_associated_impacts = L_associated['impacts']
+        L_associated_MajDiams = L_associated['MajDiams']
+        L_associated_ls = L_associated['ls']
+        L_associated_MTypes = L_associated['MTypes']
+        L_associated_azimuths = L_associated['azimuths']
+        
+        L_associated_Lya_Ws_cut_e = []
+        L_associated_Lya_Ws_cut_s = []
+        
+        L_associated_azimuths_cut_e = []
+        L_associated_azimuths_cut_s = []
+
+        L_associated_MTypes_cut_e = []
+        L_associated_MTypes_cut_s = []
+
+        for w, type, az in zip(L_associated_Lya_Ws, L_associated_MTypes, L_associated_azimuths):
+            if w <= maxEW:                
+                if str(type)[0] == 'E':
+                    L_associated_MTypes_cut_e.append(type)
+                    L_associated_Lya_Ws_cut_e.append(w)
+                    L_associated_azimuths_cut_e.append(az)
+
+                else:
+                    L_associated_MTypes_cut_s.append(type)
+                    L_associated_Lya_Ws_cut_s.append(w)
+                    L_associated_azimuths_cut_s.append(az)
+
+        
+        # grab the two data 
+        L_two_Lya_Ws = L_two['Lya_Ws']
+        L_two_R_virs = L_two['R_virs']
+        L_two_impacts = L_two['impacts']
+        L_two_MajDiams = L_two['MajDiams']
+        L_two_ls = L_two['ls']
+        L_two_MTypes = L_two['MTypes']
+        
+        L_two_Lya_Ws_cut = []
+        L_two_MTypes_cut = []
+        for w, type in zip(L_two_Lya_Ws, L_two_MTypes):
+            if w <= maxEW:
+                L_two_Lya_Ws_cut.append(w)
+                L_two_MTypes_cut.append(type)
+
+        
+        # grab the two_plus data 
+        L_three_Lya_Ws = L_two_plus['Lya_Ws']
+        L_three_R_virs = L_two_plus['R_virs']
+        L_three_impacts = L_two_plus['impacts']
+        L_three_MajDiams = L_two_plus['MajDiams']
+        L_three_ls = L_two_plus['ls']
+        
+        L_three_Lya_Ws_cut = []
+        for w in L_three_Lya_Ws:
+            if w <= maxEW:
+                L_three_Lya_Ws_cut.append(w)
+        
+        # grab the group data and define the x and y data
+        L_group_Lya_Ws = L_group['Lya_Ws']
+        L_group_R_virs = L_group['R_virs']
+        L_group_impacts = L_group['impacts']
+        L_group_MajDiams = L_group['MajDiams']
+        L_group_mems = L_group['group_mems']
+        L_group_ls = L_group['ls']
+        
+        L_group_Lya_Ws_cut24 = []
+        L_group_Lya_Ws_cut57 = []
+        L_group_Lya_Ws_cut810 = []
+        L_group_Lya_Ws_cut11plus = []
+        for w, m in zip(L_group_Lya_Ws, L_group_mems):
+            if w <= maxEW:
+                if int(m) >=2 and int(m) <=4:
+                    L_group_Lya_Ws_cut24.append(w)
+                   
+                  
+                  
+##########################################################################################
+        ax = fig.add_subplot(211)
+        
+        print
+        print 'L_associated_azimuths_cut_e: ',L_associated_azimuths_cut_e
+        print 'L_associated_azimuths_cut_s: ',L_associated_azimuths_cut_s
+        print
+        
+                    
+        # L_group
+        hist(L_associated_azimuths_cut_e,
+        bins=bins,
+        histtype='bar',
+        color=color_red,
+        lw=2.5,
+        alpha=alpha_red,
+        edgecolor='black',
+        label=r'$\rm E-Type$')
+        
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        legend(scatterpoints=1, prop={'size':14}, loc='upper right', fancybox=True)
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        ylabel(r'$\rm Number$')
+        
+
+##########################################################################################
+        ax = fig.add_subplot(212)
+
+        # spiral type
+        hist(L_associated_azimuths_cut_s,
+        bins=bins,
+        histtype='bar',
+        color=color_blue,
+        lw=2.5,
+        alpha=alpha_blue,
+        edgecolor='black',
+        label=r'$\rm S-type$')
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y axis
+        majorLocator   = MultipleLocator(4)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(2)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        ylabel(r'$\rm Number$')
+        xlabel(r'$\rm Azimuth ~ [deg]$')
+        xlim(0,90)
+#         ylim(0,40)
+        legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
+
+        if plot_az_assoc_MType_save:
+            savefig('{0}/hist(azimuth)_assoc_MType.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
