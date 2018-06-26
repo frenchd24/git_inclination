@@ -429,7 +429,8 @@ def main():
 #     targets = buildFullTargetList(targetFile, targetHeader, velocityHeader)
 #     targets = [('CGCG039-137',6918,True)]
 #     targets = [('NGC3633',2587,True)]
-    targets = [('SDSSJ080838.80+051440.0',8738,True)]
+#     targets = [('SDSSJ080838.80+051440.0',8738,True)]
+    targets = [('HE2258-5524',1000,True)]
 
     
     # or build up a custom list of AGN names and absorption velocities here:

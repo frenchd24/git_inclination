@@ -1,2 +1,26 @@
 Final Chapter Introduction:
 
+Our goal is to produce the largest possible sample of Lya absorption lines, and use that to study the connection between galaxies and Lya absorption in a purely statistical sense. Because we're aiming for as many systems as possible, we want to maximize the usability of available data and thus minimize the need for time intensive additional observations. For this reason we are limiting the survey to low-redshift range z < 0.033. Within this region the available galaxy data is mostly complete to 0.2Lstar or better. 
+
+What did COS-Halos do? 
+
+What did Wakker and Savage 2009 do?
+
+Data: See Chapter 2?
+
+Results: Describe updating/changing likelihood method? Give various plots
+
+Discussion: 
+What does this result mean?
+	- More galaxies nearby -> higher EW:
+		- What does EW tell you? Broader means higher turbulence, or LOWER ionizing radiation levels, or just more material. The third doesn't make sense, so it must be a either more turbulence, more gas, or a combination of both.
+
+
+	- More galaxies -> higher b-values:
+		- What does b-value tell you? Higher means either higher temperature, or more turbulent motions. 
+
+
+	- Azimuth dependence -> clustered near axes but just offset:
+		- Very slightly higher EW for isolated-associated absorbers near minor and major axis as well. Is there a statistically significant difference here? No discernible dependence of b-value on azimuth.
+
+	- Inclination dependence -> 

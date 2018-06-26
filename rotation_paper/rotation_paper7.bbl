@@ -1,4 +1,4 @@
-\begin{thebibliography}{48}
+\begin{thebibliography}{57}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Abazajian} {et~al.}(2005){Abazajian}, {Adelman-McCarthy},
@@ -28,6 +28,12 @@
 {Abazajian}, K., {Adelman-McCarthy}, J.~K., {Ag{\"u}eros}, M.~A., {et~al.}
   2005, \aj, 129, 1755
 
+\bibitem[{{Bertschinger}(1985)}]{bertschinger1985}
+{Bertschinger}, E. 1985, \apjs, 58, 39
+
+\bibitem[{{Birnboim} \& {Dekel}(2003)}]{birnboim2003}
+{Birnboim}, Y., \& {Dekel}, A. 2003, \mnras, 345, 349
+
 \bibitem[{{Bowen} {et~al.}(2016){Bowen}, {Chelouche}, {Jenkins}, {Tripp},
   {Pettini}, {York}, \& {Frye}}]{bowen2016}
 {Bowen}, D.~V., {Chelouche}, D., {Jenkins}, E.~B., {et~al.} 2016, \apj, 826, 50
@@ -37,6 +43,11 @@
   {Pontzen}}]{brook2011}
 {Brook}, C.~B., {Governato}, F., {Ro{\v s}kar}, R., {et~al.} 2011, \mnras, 415,
   1051
+
+\bibitem[{{Brooks} {et~al.}(2009){Brooks}, {Governato}, {Quinn}, {Brook}, \&
+  {Wadsley}}]{brooks2009}
+{Brooks}, A.~M., {Governato}, F., {Quinn}, T., {Brook}, C.~B., \& {Wadsley}, J.
+  2009, \apj, 694, 396
 
 \bibitem[{{Carilli} {et~al.}(1989){Carilli}, {van Gorkom}, \&
   {Stocke}}]{carilli1989}
@@ -66,6 +77,14 @@
   {Trachternach}, {Oh}, \& {Kennicutt}}]{deblok2008}
 {de Blok}, W.~J.~G., {Walter}, F., {Brinks}, E., {et~al.} 2008, \aj, 136, 2648
 
+\bibitem[{{Dekel} \& {Birnboim}(2006)}]{dekel2006}
+{Dekel}, A., \& {Birnboim}, Y. 2006, \mnras, 368, 2
+
+\bibitem[{{Dekel} {et~al.}(2009){Dekel}, {Birnboim}, {Engel}, {Freundlich},
+  {Goerdt}, {Mumcuoglu}, {Neistein}, {Pichon}, {Teyssier}, \&
+  {Zinger}}]{dekel2009}
+{Dekel}, A., {Birnboim}, Y., {Engel}, G., {et~al.} 2009, \nat, 457, 451
+
 \bibitem[{{di Nella} {et~al.}(1996){di Nella}, {Paturel}, {Walsh},
   {Bottinelli}, {Gouguenheim}, \& {Theureau}}]{dinella1996}
 {di Nella}, H., {Paturel}, G., {Walsh}, A.~J., {et~al.} 1996, \aaps, 118, 311
@@ -83,6 +102,9 @@
 \bibitem[{{Falco} {et~al.}(1999){Falco}, {Kurtz}, {Geller}, {Huchra}, {Peters},
   {Berlind}, {Mink}, {Tokarz}, \& {Elwell}}]{falco1999}
 {Falco}, E.~E., {Kurtz}, M.~J., {Geller}, M.~J., {et~al.} 1999, \pasp, 111, 438
+
+\bibitem[{{Fillmore} \& {Goldreich}(1984)}]{fillmore1984}
+{Fillmore}, J.~A., \& {Goldreich}, P. 1984, \apj, 281, 1
 
 \bibitem[{{French} \& {Wakker}(2017)}]{french2017}
 {French}, D.~M., \& {Wakker}, B.~P. 2017, \apj, 837, 138
@@ -129,6 +151,11 @@
 {Keeney}, B.~A., {Momjian}, E., {Stocke}, J.~T., {Carilli}, C.~L., \&
   {Tumlinson}, J. 2005, \apj, 622, 267
 
+\bibitem[{{Kere{\v s}} {et~al.}(2005){Kere{\v s}}, {Katz}, {Weinberg}, \&
+  {Dav{\'e}}}]{keres2005}
+{Kere{\v s}}, D., {Katz}, N., {Weinberg}, D.~H., \& {Dav{\'e}}, R. 2005,
+  \mnras, 363, 2
+
 \bibitem[{{Kimm} {et~al.}(2011){Kimm}, {Slyz}, {Devriendt}, \&
   {Pichon}}]{kimm2011}
 {Kimm}, T., {Slyz}, A., {Devriendt}, J., \& {Pichon}, C. 2011, \mnras, 413, L51
@@ -165,9 +192,16 @@
 \bibitem[{{Navarro} {et~al.}(1997){Navarro}, {Frenk}, \& {White}}]{navarro1997}
 ---. 1997, \apj, 490, 493
 
+\bibitem[{{Ocvirk} {et~al.}(2008){Ocvirk}, {Pichon}, \&
+  {Teyssier}}]{ocvirk2008}
+{Ocvirk}, P., {Pichon}, C., \& {Teyssier}, R. 2008, \mnras, 390, 1326
+
 \bibitem[{{Pichon} {et~al.}(2011){Pichon}, {Pogosyan}, {Kimm}, {Slyz},
   {Devriendt}, \& {Dubois}}]{pichon2011}
 {Pichon}, C., {Pogosyan}, D., {Kimm}, T., {et~al.} 2011, \mnras, 418, 2493
+
+\bibitem[{{Powell} {et~al.}(2011){Powell}, {Slyz}, \& {Devriendt}}]{powell2011}
+{Powell}, L.~C., {Slyz}, A., \& {Devriendt}, J. 2011, \mnras, 414, 3671
 
 \bibitem[{{Rhee} \& {van Albada}(1996)}]{rhee1996}
 {Rhee}, M.-H., \& {van Albada}, T.~S. 1996, \aaps, 115, 407
