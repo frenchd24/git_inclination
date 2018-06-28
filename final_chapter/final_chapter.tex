@@ -42,7 +42,7 @@
 
 \begin{document}
 
-\title{The luminosity dependent co-rotation fraction of Ly$\alpha$ absorbing gas: evidence for low-$z$ cold-mode accretion?}
+\title{The environmental dependence of low-$z$ Ly$\alpha$ absorption}
 
 %Do Ly$\alpha$ absorbers co-rotate with galaxies?}
 
@@ -63,9 +63,51 @@ We present the results of a large-scale study of the Ly$\alpha$-probed CGM of ne
 
 
 
+\section{DATA ANALYSIS}
 
 
-\section{
+\section{RESULTS}
+
+In our sample of XXXXXX QSOs we have detected XXXXXX Ly$\alpha$ absorbers. Figure \textbf{FULL SKY MAP} shows an all-sky map of the positions of all absorbers split into 4 velocity bins ($v_{\rm Ly\alpha} = 0 - 2500$, $2501 - 5000$, $5001 - 7500$, and $7501 - 10,000$ \kms). Comparing this to an all-sky map of the galaxies within this range shown in Figure \textbf{ALL SKY GALAXIES} (see \textbf{Chapter 1}), we see that the Ly$\alpha$ absorbers broadly trace the locations of the galaxies. If the current $\Lambda$ Cold-Dark Matter ($\Lambda$CDM) cosmology is to be believed, this should not be remarkably surprising. Galaxies and the gas traced by $\rm Ly\alpha$ absorbers should both follow the underlying potential produced by the Dark Matter, and should therefore be found in similar places. Beyond this big-picture result however, we want to know how the absorbers react to the presence of the galaxies on a more local scale.
+
+
+
+As first introduced in \cite{french2017}, we employ a unique likelihood-method for objectively matching absorbers with nearby galaxies. We define the likelihood as follows: 
+
+\begin{equation}
+\mathcal{L} = A \times e^{-(\frac{\rho}{R_{eff}})^2} \times e^{-(\frac{\Delta v}{v_{norm}})^2},
+\end{equation}
+
+where $A$ is a normalization constant, $\rho$ is the impact parameter, $R_{eff}$ is one of two possible ``effective - radii" we use for the galaxy (virial radius and $D^{1.5}$, or diameter to the 1.5 power), $\Delta v$ is the velocity separation between absorber and galaxy heliocentric, and $v_{norm}$ is a velocity normalization (equal to one of 150, 200, or 250). We calculate $\mathcal{L}$ for every absorber-galaxy combination, which then gives us a single number as a three-dimensional proxy for the physical separation between the two. We furthermore explore the results of adjusting the several possible $\mathcal{L}$ normalizations. We calculate $\mathcal{L}$ with $R_{eff}$ equal to $R_{vir}$ and $D^{1.5}$ and $v_{norm}$ equal to 150, 200, and 250. For each of these combinations, we also calculate a variant with $A =1$ and another with $A = 2$ if $R_{eff} \ge \rho$, and $A=1$ otherwise. Table \textbf{TABLE} summarizes the resulting subsets for each of these combinations.
+
+
+
+
+\begin{figure*}[ht!]
+        \centering
+        \vspace{0pt}
+        \includegraphics[width=0.95\textwidth]{hist(EW)_all6_bins10_6alt_min_maxEW_0_10000_err.pdf}
+        \caption{\small{The equivalent width (EW) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors.}}
+        \vspace{-5pt}
+        \label{cdf_ew}
+\end{figure*}
+
+
+\begin{figure*}[ht!]
+        \centering
+        \vspace{0pt}
+        \includegraphics[width=0.95\textwidth]{hist(b)_all6_bins1_6_min_maxEW_0_10000.pdf}
+        \caption{\small{The Doppler b-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors.}}
+        \vspace{-5pt}
+        \label{cdf_b}
+\end{figure*}
+
+
+
+\section{DISCUSSION}
+
+
+\section{SUMMARY}
 
 
  \begin{deluxetable*}{l l l l l l l l l l l}

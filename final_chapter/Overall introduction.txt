@@ -18,3 +18,8 @@ Check out Hafen, Z. et al 2017 paper - low redshift LLSs as diagnostics of cosmo
 What does EW and Doppler-b actually tell you about Lya? - include this somewhere
 
 Plot Lstar distribution of non-detections; for a particular likelihood bin
+
+Bouche et al 2013: "Galaxies are thought to be fed by the continuous accretion of intergalactic gas, but direct observational evidence has been elusive. The accreted gas is expected to orbit about the galaxy’s halo, delivering not just fuel for star formation but also angular momentum to the galaxy, leading to distinct kinematic signatures. We report observations showing these distinct signatures near a typical distant star-forming galaxy, where the gas is detected using a background quasar passing 26 kiloparsecs from the host."
+
+
+

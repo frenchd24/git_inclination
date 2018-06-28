@@ -1199,14 +1199,17 @@ def main():
     minVcorr = 450.
     minSize = 0.
     max_deltav = 400.
-    min_likelihood = 0.01
+    min_likelihood = 0.005
     rigor = 5
-    v_norm = 200.
-    L_norm = 1.
+    v_norm = 150.
+    l_norm = 1.
     
+    # sort based on likelihood cus instead of the regular one?
     use_likelihood_cus = False
-    min_likelihood_cus = 0.01
-
+    
+    # double l if impact <= 1 R_vir?
+    double_l_within_rvir = False
+    
 
     # assuming 'theFile' contains one name per line, read the file
     
@@ -1223,16 +1226,16 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all6.p'
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
-        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus6.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all7_min005_v150.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated7_min005_v150.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated7_min005.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated7_min005_v150.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated7_min005_v150.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated7_min005_v150.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two7_min005_v150.p'
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus7_min005_v150.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group7_min005_v150.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed7_min005_v150.p'
 
 
     else:
@@ -1643,7 +1646,7 @@ def main():
 ##########################################################################################
 ##########################################################################################
     # now the full data set
-    total = 1452
+    total = 1506
     counter = 0
     stopCount = 5000
     print
@@ -1787,13 +1790,21 @@ def main():
                             cus = MajDiam**1.5
 
                             # first for the virial radius
-                            likelihood = l_norm * math.exp(-(impact/R_vir)**2) * math.exp(-(vel_dif/v_norm.)**2)
+                            likelihood = l_norm * math.exp(-(impact/R_vir)**2) * math.exp(-(vel_dif/v_norm)**2)
                         
                             # then for the second 'virial like' m15 radius
-                            likelihood_cus = l_norm * math.exp(-(impact/cus)**2) * math.exp(-(vel_dif/v_norm.)**2)                
+                            likelihood_cus = l_norm * math.exp(-(impact/cus)**2) * math.exp(-(vel_dif/v_norm)**2)
                 
-        #                     if rVir>= impact:
-        #                         likelihood = likelihood*2
+                            # sort based on which likelihood metric?
+                            if use_likelihood_cus:
+                                l_used = likelihood_cus
+                            else:
+                                l_used = likelihood
+                            
+                            # multiply the likelihood by two if within 1 R_vir?
+                            if double_l_within_rvir:
+                                if impact <= R_vir:
+                                    l_used = l_used * 2
 
                             # add likelihoods and stuff to the dictionary entries
                             correlation[c]['l'] = likelihood
@@ -1801,11 +1812,11 @@ def main():
                             correlation[c]['cus'] = cus
                     
                             # if they make the cut, add them to the candidate lists
-                            if likelihood >= min_likelihood:
-                                candidates.append([likelihood,correlation[c]])
+                            if l_used >= min_likelihood:
+                                candidates.append([l_used,correlation[c]])
                         
                             else:
-                                others.append([likelihood,correlation[c]])
+                                others.append([l_used,correlation[c]])
                                 
                             
                             # add to the summed list:
@@ -2119,7 +2130,7 @@ def main():
                                             galaxy_info['e_Lstar_med'],\
                                             galaxy_info['Lstar_sdss'],\
                                             galaxy_info['e_Lstar_sdss'],\
-                                            galaxy_info['Bmag'],\                            
+                                            galaxy_info['Bmag'],\
                                             galaxy_info['Bmag_sdss'])
                     
                     # if one other is within *rigor*, add to L_two list
@@ -2258,7 +2269,7 @@ def main():
                             galaxy_info['e_Lstar_med'],\
                             galaxy_info['Lstar_sdss'],\
                             galaxy_info['e_Lstar_sdss'],\
-                            galaxy_info['Bmag']
+                            galaxy_info['Bmag'],\
                             galaxy_info['Bmag_sdss'])
                             
                             break
