@@ -61,27 +61,92 @@ We present the results of a large-scale study of the Ly$\alpha$-probed CGM of ne
 
 \section{INTRODUCTION}
 
+The relationship between high column-density \HI absorption ($N(\HI) \gtrsim 10^14 ~cm^{-2}$) and galaxies has been well studied in the past several decades (e.g., \citealt{lanzetta1995, bowen1996, chen2003, chen2008, rubin2010, rubin2012, steidel2010, prochaska2011b}). Relatively few studies have probed the $\rm Ly\alpha$-forest - galaxy relationship below this column density however (e.g., \citealt{wakker2009, french2017, bowen2002}). The most obvious reason for this is due to the technically demanding nature of detecting these weak absorption systems. The installation of the Cosmic Origins Spectrograph (COS) on the Hubble Space Telescope (\emph{HST}) in ??2011?? however has finally opened a window to study this rich reservoir of intergalactic gas.  Thanks to the high throughput and sensitivity available with COS, a large number of distant quasi-stellar objects (QSOs) have been observed with high signal-to-noise for a large variety of science priorities. 
+
+This publicly available data 
+
+To make progress here we have completed the largest-to-date survey of low-$N$(\HI) $\rm Ly\alpha$ absorbers in the local Universe and their relationship to nearby galaxies. This survey is made possible by taking advantage of the large archival sample of COS QSO sightlines, and the high completeness of existing galaxy data in the redshift range $cz \leq 10,000$ \kms. In Section 2 we present the datasets, sample selection, and galaxy-absorber matching methods. In Section 3 we present and discuss the results of the galaxy-absorber correlation, and in Section 4 we offer our conclusions and areas of future work.
+
 
 
 \section{DATA ANALYSIS}
+In this section we discuss the selection and reduction of our sample of archival QSO spectra taken by the Cosmic Origins Spectrograph (COS) on \textit{HST}. There currently exist over 700 COS spectra in the Barbara A. Mikulski Archive for Space Telescopes (MAST) with G130M exposures which cover the $Ly\alpha$ transition in our survey's redshift range ($cz \leq 10,000$ \kms). In order to choose the most useful spectra for our purposes, we first sort them by signal-to-noise (SN) and make a cut at approximately SN=10. A signal-to-noise of approximately 10 or higher measured near $1238 \AA$ allows us to detect an absorption feature down to an equivalent width of $\sim 50 m\AA$ at $5\sigma$. We then correlate the resulting (SN$\gtrsim 10$) sample with our galaxy catalog (see \ref{chapter1}), and sort the spectra by proximity to a galaxy. While this introduces a bias against void or isolated absorption features, we are presently most interested in the absorber-galaxy relation and therefore choose this method to maximize the associated absorber-galaxy sample size. Finally, from this galaxy-proximity sorted spectra list we choose 264 based on the relative ease of spectral feature identification. Data reduction, continuum fitting and line measurement are then conducted in an identical fashion to \cite{french2017}.
 
 
-\section{RESULTS}
-
-In our sample of XXXXXX QSOs we have detected XXXXXX Ly$\alpha$ absorbers. Figure \textbf{FULL SKY MAP} shows an all-sky map of the positions of all absorbers split into 4 velocity bins ($v_{\rm Ly\alpha} = 0 - 2500$, $2501 - 5000$, $5001 - 7500$, and $7501 - 10,000$ \kms). Comparing this to an all-sky map of the galaxies within this range shown in Figure \textbf{ALL SKY GALAXIES} (see \textbf{Chapter 1}), we see that the Ly$\alpha$ absorbers broadly trace the locations of the galaxies. If the current $\Lambda$ Cold-Dark Matter ($\Lambda$CDM) cosmology is to be believed, this should not be remarkably surprising. Galaxies and the gas traced by $\rm Ly\alpha$ absorbers should both follow the underlying potential produced by the Dark Matter, and should therefore be found in similar places. Beyond this big-picture result however, we want to know how the absorbers react to the presence of the galaxies on a more local scale.
+In our sample of 264 QSOs we have detected 1135 Ly$\alpha$ absorbers. Figure \textbf{FULL SKY MAP} shows an all-sky map of the positions of all absorbers split into 4 velocity bins ($v_{\rm Ly\alpha} = 0 - 2500$, $2501 - 5000$, $5001 - 7500$, and $7501 - 10,000$ \kms). Comparing this to an all-sky map of the galaxies within this range shown in Figure \textbf{ALL SKY GALAXIES} (see \textbf{Chapter 1}), we see that the Ly$\alpha$ absorbers broadly trace the locations of the galaxies. If the current $\Lambda$ Cold-Dark Matter ($\Lambda$CDM) cosmology is to be believed, this should not be remarkably surprising. Galaxies and the gas traced by $\rm Ly\alpha$ absorbers should both follow the underlying potential produced by the Dark Matter, and should therefore be found in similar places. Beyond this big-picture result however, we want to know how the absorbers react to the presence of the galaxies on a more local scale.
 
 
+\begin{figure*}
+\centering
+  \subfigure[]{\includegraphics[width=0.99\linewidth]{2500kms_galaxies-True.pdf}}{\label{allsky_2500}}
+  \subfigure[]{\includegraphics[width=0.99\linewidth]{5000kms_galaxies-True.pdf}\label{allsky_5000}}
+  \caption{\small{All sky maps of the locations of all absorbers and galaxies. Absorbers are plotted as stars and scaled in size based on their EW. Galaxies are plotted as dots. The colors of both galaxies and absorbers are mapped to their heliocentric velocities. \textbf{Top-Left:} All galaxies and absorbers in the velocity range $450 \leq cz \leq 2500$ \kms. \textbf{Top-Right:} All galaxies and absorbers in the velocity range $2500 < cz \leq 5000$ \kms.}}
+\vspace{0pt}
+\end{figure*}
 
+\begin{figure*}
+\centering
+  \subfigure[]{\includegraphics[width=0.99\linewidth]{7500kms_galaxies-True.pdf}\label{allsky_7500}}
+  \subfigure[]{\includegraphics[width=0.99\linewidth]{10000kms_galaxies-True.pdf}\label{allsky_10000}}
+  \caption{\small{All sky maps of the locations of all absorbers and galaxies. Absorbers are plotted as stars and scaled in size based on their EW. Galaxies are plotted as dots. The colors of both galaxies and absorbers are mapped to their heliocentric velocities. \textbf{a:} All galaxies and absorbers in the velocity range $5000 < cz \leq 7500$ \kms. \textbf{Bottom-Right:} All galaxies and absorbers in the velocity range $7500 < cz \leq 10,000$ \kms.}}
+\vspace{0pt}
+\end{figure*}
+
+
+
+
+\subsection{Sub-sample selection}
 As first introduced in \cite{french2017}, we employ a unique likelihood-method for objectively matching absorbers with nearby galaxies. We define the likelihood as follows: 
 
 \begin{equation}
 \mathcal{L} = A \times e^{-(\frac{\rho}{R_{eff}})^2} \times e^{-(\frac{\Delta v}{v_{norm}})^2},
+\label{likelihood}
 \end{equation}
 
 where $A$ is a normalization constant, $\rho$ is the impact parameter, $R_{eff}$ is one of two possible ``effective - radii" we use for the galaxy (virial radius and $D^{1.5}$, or diameter to the 1.5 power), $\Delta v$ is the velocity separation between absorber and galaxy heliocentric, and $v_{norm}$ is a velocity normalization (equal to one of 150, 200, or 250). We calculate $\mathcal{L}$ for every absorber-galaxy combination, which then gives us a single number as a three-dimensional proxy for the physical separation between the two. We furthermore explore the results of adjusting the several possible $\mathcal{L}$ normalizations. We calculate $\mathcal{L}$ with $R_{eff}$ equal to $R_{vir}$ and $D^{1.5}$ and $v_{norm}$ equal to 150, 200, and 250. For each of these combinations, we also calculate a variant with $A =1$ and another with $A = 2$ if $R_{eff} \ge \rho$, and $A=1$ otherwise. Table \textbf{TABLE} summarizes the resulting subsets for each of these combinations.
 
 
 
+%($A=1$, $R_{eff} = R_{vir}$, $v_{norm} = 200$, $\mathcal{L}_{min} = 0.01$)
+
+% this table is from pickle version 8 results
+\begin{deluxetable*}{| l | c | c | c | c | c |}
+\setlength{\tabcolsep}{0.1in}
+\tablecolumns{8}
+\tabletypesize{\scriptsize}
+%\tablewidth{1pt}
+\tablecaption{Summary of $\mathcal{L}$ Variants \label{likelihood_variants}}
+\tablehead{
+\colhead{$\mathcal{L}$ variant}  										&  \colhead{Isolated}		&  \colhead{$\mathcal{L}$-isolated}	&  \colhead{$\mathcal{L}$ - Assoc. (Isolated)}	&  \colhead{$\mathcal{L}$ - Assoc.}	&  \colhead{$\mathcal{L}$-Two+} 	}
+\startdata
+Standard															&	571				&	267						&	56								&	146						&	58						\\
+\hline
+$\mathcal{L}_{min} = 0.001$											&	571				&	227						&	69								&	167						&	65						\\
+\hline
+$D^{1.5}$, $\mathcal{L}_{min} = 0.001$ 									&	571				&	317						&	39								&	174						&	32						\\
+\hline
+$A=2~if~\rho \leq R_{vir}$, $\mathcal{L}_{min} = 0.001$						&	571				&	227						&	69								&	181						&	62						\\
+\hline
+$\mathcal{L}_{min} = 0.005$, $v_{norm} = 150$							&	571				&	265						&	58								&	148						&	63						\\
+\hline
+$\mathcal{L}_{min} = 0.005$, $v_{norm} = 250$							&	571				&	246						&	64								&	151						&	64						\\
+\hline
+\enddata
+\tablecomments{A summary of the subset sizes resulting from varying the likelihood metric's normalization parameters.}
+\vspace{-5pt}
+\end{deluxetable*}
+
+
+\section{Results \& Discussion}
+
+First we explore the $\rm Ly\alpha$ detection fraction as a function of galaxy proximity. To calculate this, we start by correlating the position of every QSO with our galaxy sample. For every galaxy found within 1000 kpc in physical impact parameter of each sightline we then check if a $\rm Ly\alpha$ line appears in that sightline and within 400 \kms~of the galaxy's systemic velocity. This results in a detection fraction as a function of impact parameter. Additionally, we calculate the detection fraction as a function of likelihood, $\mathcal{L}$, in a similar manner. However, as we are calculating detection fraction without any a priori knowledge of the velocity of the absorption lines, the likelihood we calculate is simply $e^{-(\rho/R_{vir})^2}$, or only the impact parameter - virial radius portion of our usual likelihood function given by Eq. \ref{likelihood}. Note that this adjusted likelihood function is identical to Eq. \ref{1} if $\Delta v = 0$. We have plotted both detection fractions in Figure \ref{detection_fraction}. 
+
+
+
+
+\subsection{Equivalent Width}
+
+Here we explore the effect of environment on the equivalent width of our $\rm Ly\alpha$ absorber sample. 
 
 \begin{figure*}[ht!]
         \centering
@@ -93,6 +158,9 @@ where $A$ is a normalization constant, $\rho$ is the impact parameter, $R_{eff}$
 \end{figure*}
 
 
+\subsection{Doppler b-parameter}
+
+Here we explore the effect of environment on the Doppler b-parameter of our $\rm Ly\alpha$ absorber sample.
 \begin{figure*}[ht!]
         \centering
         \vspace{0pt}
@@ -104,11 +172,18 @@ where $A$ is a normalization constant, $\rho$ is the impact parameter, $R_{eff}$
 
 
 
-\section{DISCUSSION}
+\section{Future Work}
+
+Cross-correlation functions \cite{chen2005}
+
+Metals
+
+
+
 
 
 \section{SUMMARY}
-
+1. $\rm Ly\alpha$ absorbers with $\rm EW \lesssim 100 m\AA$ are ubiquitous, making up nearly $50\%$ of all $\rm Ly\alpha$ systems in the nearby Universe, and do not correlate strongly with environment ($70\%$ of these weak absorbers are isolated). 
 
  \begin{deluxetable*}{l l l l l l l l l l l}
 %\setlength{\tabcolsep}{0.05in}

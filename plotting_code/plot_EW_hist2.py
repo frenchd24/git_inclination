@@ -81,6 +81,19 @@ def main():
     plot_EW_hist_MType = False
     plot_EW_hist_MType_save = False
 
+
+
+    # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
+    # =4 adds groups with 2 or more members
+    plot_number = 2
+    
+    # which data set to use? Options are '', '_min001', '_cus','_min001_cus',
+    # '_min001_double', '_min005_v150', '_min005_v250'
+    data_set = ''
+    
+    min_EW = 0
+    max_EW = 15000
+
     
     # some colors
     color_blue = '#436bad'      # french blue
@@ -97,16 +110,16 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all6.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8{0}.p'.format(data_set)
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8{0}.p'.format(data_set)
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8{0}.p'.format(data_set)
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8{0}.p'.format(data_set)
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8{0}.p'.format(data_set)
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8{0}.p'.format(data_set)
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8{0}.p'.format(data_set)
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8{0}.p'.format(data_set)
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8{0}.p'.format(data_set)
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all8{0}.p'.format(data_set)
 
 
     else:
@@ -126,7 +139,7 @@ def main():
     L_associated_file = open(L_associated_filename,'r')
     L_nonassociated_file = open(L_nonassociated_filename,'r')
     L_two_file = open(L_two_filename,'r')
-    L_two_plus_file = open(L_two_plus_filename,'r')
+    L_three_plus_file = open(L_three_plus_filename,'r')
     L_group_file = open(L_group_filename,'r')
     L_summed_file = open(L_summed_filename,'r')
     all_file = open(all_filename,'r')
@@ -139,7 +152,7 @@ def main():
     L_associated = pickle.load(L_associated_file)
     L_nonassociated = pickle.load(L_nonassociated_file)
     L_two = pickle.load(L_two_file)
-    L_two_plus = pickle.load(L_two_plus_file)
+    L_three_plus = pickle.load(L_three_plus_file)
     L_group = pickle.load(L_group_file)
     L_summed = pickle.load(L_summed_file)
     all = pickle.load(all_file)
@@ -152,7 +165,7 @@ def main():
     L_associated_file.close()
     L_nonassociated_file.close()
     L_two_file.close()
-    L_two_plus_file.close()
+    L_three_plus_file.close()
     L_group_file.close()
     L_summed_file.close()
     all_file.close()
@@ -264,9 +277,6 @@ def main():
     
     if plot_EW_cdf:
         
-        maxEW = 10000
-        minEW = 50
-        
         countb = 0
         countr = 0
         count = -1
@@ -332,7 +342,7 @@ def main():
         all_Lya_Ws_cut = []
         all_e_Lya_Ws_cut = []
         for w, e in zip(all_Lya_Ws, all_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 all_Lya_Ws_cut.append(w)
                 all_e_Lya_Ws_cut.append(e)
 
@@ -344,7 +354,7 @@ def main():
         isolated_Lya_Ws_cut = []
         isolated_e_Lya_Ws_cut = []
         for w, e in zip(isolated_Lya_Ws, isolated_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 isolated_Lya_Ws_cut.append(w)
                 isolated_e_Lya_Ws_cut.append(e)
 
@@ -356,7 +366,7 @@ def main():
         L_isolated_Lya_Ws_cut = []
         L_isolated_e_Lya_Ws_cut = []
         for w, e in zip(L_isolated_Lya_Ws, L_isolated_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_isolated_Lya_Ws_cut.append(w)
                 L_isolated_e_Lya_Ws_cut.append(e)
 
@@ -368,7 +378,7 @@ def main():
         L_nonassociated_Lya_Ws_cut = []
         L_nonassociated_e_Lya_Ws_cut = []
         for w, e in zip(L_nonassociated_Lya_Ws, L_nonassociated_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_nonassociated_Lya_Ws_cut.append(w)
                 L_nonassociated_e_Lya_Ws_cut.append(e)
 
@@ -377,7 +387,7 @@ def main():
         L_isolated_associated_Lya_Ws_cut = []
         L_isolated_associated_e_Lya_Ws_cut = []
         for w, e in zip(Lya_Ws, e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_isolated_associated_Lya_Ws_cut.append(w)
                 L_isolated_associated_e_Lya_Ws_cut.append(e)
 
@@ -393,7 +403,7 @@ def main():
         L_associated_Lya_Ws_cut = []
         L_associated_e_Lya_Ws_cut = []
         for w, e in zip(L_associated_Lya_Ws, L_associated_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_associated_Lya_Ws_cut.append(w)
                 L_associated_e_Lya_Ws_cut.append(e)
 
@@ -409,23 +419,23 @@ def main():
         L_two_Lya_Ws_cut = []
         L_two_e_Lya_Ws_cut = []
         for w, e in zip(L_two_Lya_Ws, L_two_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_two_Lya_Ws_cut.append(w)
                 L_two_e_Lya_Ws_cut.append(e)
 
         
-        # grab the two_plus data 
-        L_three_Lya_Ws = L_two_plus['Lya_Ws']
-        L_three_e_Lya_Ws = L_two_plus['e_Lya_Ws']
-        L_three_R_virs = L_two_plus['R_virs']
-        L_three_impacts = L_two_plus['impacts']
-        L_three_MajDiams = L_two_plus['MajDiams']
-        L_three_ls = L_two_plus['ls']
+        # grab the three_plus data 
+        L_three_Lya_Ws = L_three_plus['Lya_Ws']
+        L_three_e_Lya_Ws = L_three_plus['e_Lya_Ws']
+        L_three_R_virs = L_three_plus['R_virs']
+        L_three_impacts = L_three_plus['impacts']
+        L_three_MajDiams = L_three_plus['MajDiams']
+        L_three_ls = L_three_plus['ls']
         
         L_three_Lya_Ws_cut = []
         L_three_e_Lya_Ws_cut = []
         for w, e in zip(L_three_Lya_Ws, L_three_e_Lya_Ws):
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_three_Lya_Ws_cut.append(w)
                 L_three_e_Lya_Ws_cut.append(e)
 
@@ -442,7 +452,7 @@ def main():
         L_group_Lya_Ws_cut = []
         L_group_e_Lya_Ws_cut = []
         for w, m, e in zip(L_group_Lya_Ws, L_group_mems, L_group_e_Lya_Ws):
-            if w <= maxEW and w >= minEW and int(m) >= 6:
+            if w <= max_EW and w >= min_EW and int(m) >= 2:
                 L_group_Lya_Ws_cut.append(w)
                 L_group_e_Lya_Ws_cut.append(e)
 
@@ -666,7 +676,10 @@ def main():
         
             # two
             if count >=6:
-                hist(L_two_Lya_Ws_cut,
+                two_plus_Lya_Ws_cut = np.array(list(L_two_Lya_Ws_cut) + list(L_three_Lya_Ws_cut))
+                two_plus_e_Lya_Ws_cut = np.array(list(L_two_e_Lya_Ws_cut) + list(L_three_e_Lya_Ws_cut))
+
+                hist(two_plus_Lya_Ws_cut,
                 bins=bins,
                 histtype='step',
                 cumulative=True,
@@ -674,9 +687,9 @@ def main():
                 color=color_purple3,
                 lw=1.5,
                 alpha=alpha_purple,
-                label=r'$\rm L\_two$')
+                label=r'$\rm L\_two+$')
         
-                min_n, min_bins, min_p = hist(np.array(L_two_Lya_Ws_cut) - np.array(L_two_e_Lya_Ws_cut),
+                min_n, min_bins, min_p = hist(np.array(two_plus_Lya_Ws_cut) - np.array(two_plus_e_Lya_Ws_cut),
                                                 bins=bins,
                                                 histtype='step',
                                                 cumulative=True,
@@ -685,14 +698,14 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)
                                         
-                max_n, max_bins, max_p = hist(np.array(L_two_Lya_Ws_cut) + np.array(L_two_e_Lya_Ws_cut),
+                max_n, max_bins, max_p = hist(np.array(two_plus_Lya_Ws_cut) + np.array(two_plus_e_Lya_Ws_cut),
                                                 bins=bins,
                                                 histtype='step',
                                                 cumulative=True,
                                                 normed=1,
                                                 color=color_purple3,
                                                 lw=1.5,
-                                                alpha=0)           
+                                                alpha=0)
 
                 fill_between(bins_right, min_n, max_n, facecolor=color_purple3, alpha=0.5)
         
@@ -779,7 +792,7 @@ def main():
             xlim(0, 1000)
 
             if plot_EW_cdf_save:
-                savefig('{0}/hist(EW)_all6_bins{1}_{2}_min_maxEW_{3}_{4}_err.pdf'.format(saveDirectory, binSize, count, minEW, maxEW),format='pdf',bbox_inches='tight')
+                savefig('{0}/hist(EW)_bins{1}_{2}_EWcut{3}-{4}_err_dataset{5}.pdf'.format(saveDirectory, binSize, count, min_EW, max_EW, data_set),format='pdf',bbox_inches='tight')
             else:
                 show()
 
@@ -794,9 +807,6 @@ def main():
     if plot_EW_hist:
         fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(111)
-        
-        maxEW = 1000
-        minEW = 50
         
         countb = 0
         countr = 0
@@ -856,7 +866,7 @@ def main():
         
         all_Lya_Ws_cut = []
         for w in all_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 all_Lya_Ws_cut.append(w)
                 
                 
@@ -864,14 +874,14 @@ def main():
         isolated_Lya_Ws = isolated['Lya_Ws']
         isolated_Lya_Ws_cut = []
         for w in isolated_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 isolated_Lya_Ws_cut.append(w)
                 
         # L_isolated
         L_isolated_Lya_Ws = L_isolated['Lya_Ws']
         L_isolated_Lya_Ws_cut = []
         for w in L_isolated_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_isolated_Lya_Ws_cut.append(w)
                 
 
@@ -879,14 +889,14 @@ def main():
         L_nonassociated_Lya_Ws = L_nonassociated['Lya_Ws']
         L_nonassociated_Lya_Ws_cut = []
         for w in L_nonassociated_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_nonassociated_Lya_Ws_cut.append(w)
 
 
         # L_isolate_associated
         L_isolated_associated_Lya_Ws_cut = []
         for w in Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_isolated_associated_Lya_Ws_cut.append(w)
         
         # grab the associated data 
@@ -898,7 +908,7 @@ def main():
         
         L_associated_Lya_Ws_cut = []
         for w in L_associated_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_associated_Lya_Ws_cut.append(w)
         
         # grab the two data 
@@ -910,20 +920,20 @@ def main():
         
         L_two_Lya_Ws_cut = []
         for w in L_two_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_two_Lya_Ws_cut.append(w)
         
         
-        # grab the two_plus data 
-        L_three_Lya_Ws = L_two_plus['Lya_Ws']
-        L_three_R_virs = L_two_plus['R_virs']
-        L_three_impacts = L_two_plus['impacts']
-        L_three_MajDiams = L_two_plus['MajDiams']
-        L_three_ls = L_two_plus['ls']
+        # grab the three_plus data 
+        L_three_Lya_Ws = L_three_plus['Lya_Ws']
+        L_three_R_virs = L_three_plus['R_virs']
+        L_three_impacts = L_three_plus['impacts']
+        L_three_MajDiams = L_three_plus['MajDiams']
+        L_three_ls = L_three_plus['ls']
         
         L_three_Lya_Ws_cut = []
         for w in L_three_Lya_Ws:
-            if w <= maxEW and w >= minEW:
+            if w <= max_EW and w >= min_EW:
                 L_three_Lya_Ws_cut.append(w)
         
         # grab the group data and define the x and y data
@@ -936,7 +946,7 @@ def main():
         
         L_group_Lya_Ws_cut = []
         for w, m in zip(L_group_Lya_Ws, L_group_mems):
-            if w <= maxEW and w >= minEW and int(m) >= 9:
+            if w <= max_EW and w >= min_EW and int(m) >= 9:
                 print 'm: ',m
                 L_group_Lya_Ws_cut.append(w)
                 
@@ -1203,12 +1213,12 @@ def main():
                 L_two_Lya_Ws_cut.append(w)
         
         
-        # grab the two_plus data 
-        L_three_Lya_Ws = L_two_plus['Lya_Ws']
-        L_three_R_virs = L_two_plus['R_virs']
-        L_three_impacts = L_two_plus['impacts']
-        L_three_MajDiams = L_two_plus['MajDiams']
-        L_three_ls = L_two_plus['ls']
+        # grab the three_plus data 
+        L_three_Lya_Ws = L_three_plus['Lya_Ws']
+        L_three_R_virs = L_three_plus['R_virs']
+        L_three_impacts = L_three_plus['impacts']
+        L_three_MajDiams = L_three_plus['MajDiams']
+        L_three_ls = L_three_plus['ls']
         
         L_three_Lya_Ws_cut = []
         for w in L_three_Lya_Ws:
@@ -1325,8 +1335,6 @@ def main():
     if plot_EW_hist_MType:
         fig = figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(211)
-
-        maxEW = 1000
         
         countb = 0
         countr = 0
@@ -1388,7 +1396,7 @@ def main():
         L_nonassociated_Lya_Ws_cut = []
         L_nonassociated_MTypes_cut = []
         for w, type in zip(L_nonassociated_Lya_Ws, L_nonassociated_MTypes):
-            if w <= maxEW:
+            if w <= max_EW:
                 L_nonassociated_Lya_Ws_cut.append(w)
                 L_nonassociated_MTypes_cut.append(type)
 
@@ -1399,7 +1407,7 @@ def main():
         L_isolated_associated_Lya_Ws_cut = []
         L_isolated_associated_MTypes_cut = []
         for w, type in zip(Lya_Ws, L_isolated_associated_MTypes):
-            if w <= maxEW:
+            if w <= max_EW:
                 L_isolated_associated_Lya_Ws_cut.append(w)
                 L_isolated_associated_MTypes_cut.append(type)
 
@@ -1419,7 +1427,7 @@ def main():
         L_associated_MTypes_cut_s = []
 
         for w, type in zip(L_associated_Lya_Ws, L_associated_MTypes):
-            if w <= maxEW:                
+            if w <= max_EW:                
                 if type[0] == 'E':
                     L_associated_MTypes_cut_e.append(type)
                     L_associated_Lya_Ws_cut_e.append(w)
@@ -1441,21 +1449,21 @@ def main():
         L_two_Lya_Ws_cut = []
         L_two_MTypes_cut = []
         for w, type in zip(L_two_Lya_Ws, L_two_MTypes):
-            if w <= maxEW:
+            if w <= max_EW:
                 L_two_Lya_Ws_cut.append(w)
                 L_two_MTypes_cut.append(type)
 
         
-        # grab the two_plus data 
-        L_three_Lya_Ws = L_two_plus['Lya_Ws']
-        L_three_R_virs = L_two_plus['R_virs']
-        L_three_impacts = L_two_plus['impacts']
-        L_three_MajDiams = L_two_plus['MajDiams']
-        L_three_ls = L_two_plus['ls']
+        # grab the three_plus data 
+        L_three_Lya_Ws = L_three_plus['Lya_Ws']
+        L_three_R_virs = L_three_plus['R_virs']
+        L_three_impacts = L_three_plus['impacts']
+        L_three_MajDiams = L_three_plus['MajDiams']
+        L_three_ls = L_three_plus['ls']
         
         L_three_Lya_Ws_cut = []
         for w in L_three_Lya_Ws:
-            if w <= maxEW:
+            if w <= max_EW:
                 L_three_Lya_Ws_cut.append(w)
         
         # grab the group data and define the x and y data
@@ -1471,7 +1479,7 @@ def main():
         L_group_Lya_Ws_cut810 = []
         L_group_Lya_Ws_cut11plus = []
         for w, m in zip(L_group_Lya_Ws, L_group_mems):
-            if w <= maxEW:
+            if w <= max_EW:
                 if int(m) >=2 and int(m) <=4:
                     L_group_Lya_Ws_cut24.append(w)
                     

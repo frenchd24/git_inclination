@@ -24,3 +24,16 @@ What does this result mean?
 		- Very slightly higher EW for isolated-associated absorbers near minor and major axis as well. Is there a statistically significant difference here? No discernible dependence of b-value on azimuth.
 
 	- Inclination dependence -> 
+
+
+
+
+
+
+
+Stinson et al 2012 - has a nice intro/overview of CGM studies
+
+Make histograms split into sky regions show the number of absorbers per unit cz compared to the galaxies there
+
+Number of Ly as a function of impact or impact/R_vir? Compare to number of galaxies as a function of impact or impact/R_vir
+

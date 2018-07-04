@@ -1199,13 +1199,13 @@ def main():
     minVcorr = 450.
     minSize = 0.
     max_deltav = 400.
-    min_likelihood = 0.005
+    min_likelihood = 0.01
     rigor = 5
-    v_norm = 150.
+    v_norm = 200.
     l_norm = 1.
     
     # sort based on likelihood cus instead of the regular one?
-    use_likelihood_cus = False
+    use_likelihood_cus = True
     
     # double l if impact <= 1 R_vir?
     double_l_within_rvir = False
@@ -1226,16 +1226,16 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all7_min005_v150.p'
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated7_min005_v150.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated7_min005.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated7_min005_v150.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated7_min005_v150.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated7_min005_v150.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two7_min005_v150.p'
-        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus7_min005_v150.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group7_min005_v150.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed7_min005_v150.p'
+        all_filename = '/Users/frenchd/Research/inclination/git_inclination/all8_cus.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8_cus.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8_cus.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8_cus.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8_cus.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8_cus.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8_cus.p'
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8_cus.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8_cus.p'
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8_cus.p'
 
 
     else:

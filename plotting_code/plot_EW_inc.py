@@ -82,12 +82,24 @@ def errors(a):
     
 def main():
     # plot dopplar b parameter as a function of velocity w/o splitting, add other sets if you want
-    plot_EW_inc_mean_plus = True
-    plot_EW_inc_mean_plus_save = True
+    plot_EW_inc_mean_plus = False
+    plot_EW_inc_mean_plus_save = False
     
     # plot dopplar b parameter as a function of dv w/o splitting, add other sets if you want
     plot_EW_adjustedInc_mean_plus = True
     plot_EW_adjustedInc_mean_plus_save = True
+
+
+    # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
+    # =4 adds groups with 2 or more members
+    plot_number = 2
+    
+    # which data set to use? Options are '', '_min001', '_cus','_min001_cus',
+    # '_min001_double', '_min005_v150', '_min005_v250'
+    data_set = '_min005_v250'
+    
+    min_EW = 0
+    max_EW = 15000
 
     # some colors
     color_blue = '#436bad'      # french blue
@@ -104,15 +116,15 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
-        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed6.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8{0}.p'.format(data_set)
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8{0}.p'.format(data_set)
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8{0}.p'.format(data_set)
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8{0}.p'.format(data_set)
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8{0}.p'.format(data_set)
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8{0}.p'.format(data_set)
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8{0}.p'.format(data_set)
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8{0}.p'.format(data_set)
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8{0}.p'.format(data_set)
 
 
     else:
@@ -132,7 +144,7 @@ def main():
     L_associated_file = open(L_associated_filename,'r')
     L_nonassociated_file = open(L_nonassociated_filename,'r')
     L_two_file = open(L_two_filename,'r')
-    L_two_plus_file = open(L_two_plus_filename,'r')
+    L_three_plus_file = open(L_three_plus_filename,'r')
     L_group_file = open(L_group_filename,'r')
     L_summed_file = open(L_summed_filename,'r')
 
@@ -144,7 +156,7 @@ def main():
     L_associated = pickle.load(L_associated_file)
     L_nonassociated = pickle.load(L_nonassociated_file)
     L_two = pickle.load(L_two_file)
-    L_two_plus = pickle.load(L_two_plus_file)
+    L_three_plus = pickle.load(L_three_plus_file)
     L_group = pickle.load(L_group_file)
     L_summed = pickle.load(L_summed_file)
 
@@ -156,7 +168,7 @@ def main():
     L_associated_file.close()
     L_nonassociated_file.close()
     L_two_file.close()
-    L_two_plus_file.close()
+    L_three_plus_file.close()
     L_group_file.close()
     L_summed_file.close()
 
@@ -321,8 +333,6 @@ def main():
         color_two = color_purple2
         color_group = color_orange
         
-        maxEW = 1500.
-
         # define the x and y data for the isolated set
         
         Lya_Ws2 = []
@@ -335,7 +345,7 @@ def main():
         Lya_vs2 = []
         incs2 =[]
         for w, r, i, b, l, maj, az, v, inc in zip(Lya_Ws, R_virs, impacts, bs, ls, MajDiams, azimuths, Lya_vs, incs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 Lya_Ws2.append(w)
                 R_virs2.append(r)
                 impacts2.append(i)
@@ -373,7 +383,7 @@ def main():
         associated_Lya_vs2 = []
         associated_incs2 = []
         for w, r, i, b, l, maj, az, v, inc in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_bs, associated_ls, associated_MajDiams, associated_azimuths, associated_Lya_vs, associated_incs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 associated_Lya_Ws2.append(w)
                 associated_R_virs2.append(r)
                 associated_impacts2.append(i)
@@ -410,7 +420,7 @@ def main():
         two_Lya_vs2 = []
         two_incs2 = []
         for w, r, i, b, l, maj, az, v, inc in zip(two_Lya_Ws, two_R_virs, two_impacts, two_bs, two_ls, two_MajDiams, two_azimuths, two_Lya_vs, two_incs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 two_Lya_Ws2.append(w)
                 two_R_virs2.append(r)
                 two_impacts2.append(i)
@@ -425,17 +435,17 @@ def main():
         two_ys = np.array(two_Lya_Ws2)
         
         
-        # grab the two_plus data and define the x and y data
-        three_Lya_Ws = L_two_plus['Lya_Ws']
-        three_R_virs = L_two_plus['R_virs']
-        three_impacts = L_two_plus['impacts']
-        three_bs = L_two_plus['bs']
-        three_ls = L_two_plus['ls']
-        three_MajDiams = L_two_plus['MajDiams']
-        three_azimuths = L_two_plus['azimuths']
-        three_adjustedIncs = L_two_plus['adjustedIncs']
-        three_Lya_vs = L_two_plus['Lya_vs']
-        three_incs = L_two_plus['incs']
+        # grab the three_plus data and define the x and y data
+        three_Lya_Ws = L_three_plus['Lya_Ws']
+        three_R_virs = L_three_plus['R_virs']
+        three_impacts = L_three_plus['impacts']
+        three_bs = L_three_plus['bs']
+        three_ls = L_three_plus['ls']
+        three_MajDiams = L_three_plus['MajDiams']
+        three_azimuths = L_three_plus['azimuths']
+        three_adjustedIncs = L_three_plus['adjustedIncs']
+        three_Lya_vs = L_three_plus['Lya_vs']
+        three_incs = L_three_plus['incs']
 
         three_Lya_Ws2 = []
         three_R_virs2 = []
@@ -447,7 +457,7 @@ def main():
         three_Lya_vs2 = []
         three_incs2 = []
         for w, r, i, b, l, maj, az, v, inc in zip(three_Lya_Ws, three_R_virs, three_impacts, three_bs, three_ls, three_MajDiams, three_azimuths, three_Lya_vs, three_incs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 three_Lya_Ws2.append(w)
                 three_R_virs2.append(r)
                 three_impacts2.append(i)
@@ -488,7 +498,7 @@ def main():
         group_Lya_vs2 = []
         group_incs2 = []
         for w, r, i, group, b, l, maj, az, adjInc, v, inc in zip(group_Lya_Ws, group_R_virs, group_impacts, group_mems, group_bs, group_ls, group_MajDiams, group_azimuths, group_adjustedIncs, group_Lya_vs, group_incs):
-            if float(group) >= 2 and float(w) <= maxEW:
+            if float(group) >= 2 and float(w) <= max_EW and float(w) >= min_EW:
                 group_Lya_Ws2.append(w)
                 group_R_virs2.append(r)
                 group_impacts2.append(i)
@@ -538,84 +548,90 @@ def main():
             
             
         # associated
-        plot1 = scatter(associated_xs,
-                        associated_ys,
-                        marker=symbol_assoc,
-                        c=color_assoc,
-                        s=markerSize,
-                        edgecolor='black',
-                        alpha=alpha_assoc,
-                        label=label_assoc)
+        if plot_number >= 2:
+            plot1 = scatter(associated_xs,
+                            associated_ys,
+                            marker=symbol_assoc,
+                            c=color_assoc,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_assoc,
+                            label=label_assoc)
         
-        # histogram associated
-        bin_means, edges, binNumber = stats.binned_statistic(associated_xs,
-                                                            associated_ys,
-                                                            statistic='mean',
-                                                            bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,
-            Y,
-            ls='solid',
-            color=color_assoc,
-            lw=2.0,
-            alpha=alpha_bins,
-            label=r'$\rm Assoc. ~Mean ~EW$')
+            # histogram associated
+            bin_means, edges, binNumber = stats.binned_statistic(associated_xs,
+                                                                associated_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_assoc,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Assoc. ~Mean ~EW$')
 
            
-        # two
-#         plot1 = scatter(two_xs,
-#                         two_ys,
-#                         marker=symbol_two,
-#                         c=color_two,
-#                         s=markerSize,
-#                         edgecolor='black',
-#                         alpha=alpha_two,
-#                         label=label_two)
-#         
-#         # histogram group
-#         bin_means, edges, binNumber = stats.binned_statistic(two_xs,
-#                                                             two_ys,
-#                                                             statistic='mean',
-#                                                             bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,
-#             Y,
-#             ls='solid',
-#             color=color_two,
-#             lw=2.0,
-#             alpha=alpha_bins,
-#             label=r'$\rm Two ~Mean ~EW$')
+        # two+
+        if plot_number >=3:
+            two_plus_xs = np.array(list(two_xs) + list(three_xs))
+            two_plus_ys = np.array(list(two_ys) + list(three_ys))
+            
+            plot1 = scatter(two_plus_xs,
+                            two_plus_ys,
+                            marker=symbol_two,
+                            c=color_two,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_two,
+                            label=label_two)
+            
+            # histogram group
+            bin_means, edges, binNumber = stats.binned_statistic(two_plus_xs,
+                                                                two_plus_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_two,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Two+ ~Mean ~EW$')
            
                         
 #         # group
-#         plot1 = scatter(group_xs,
-#                         group_ys,
-#                         marker=symbol_group,
-#                         c=color_group,
-#                         s=markerSize,
-#                         edgecolor='black',
-#                         alpha=alpha_group,
-#                         label=label_group)
-#         
-#         # histogram group
-#         bin_means, edges, binNumber = stats.binned_statistic(group_xs,
-#                                                             group_ys,
-#                                                             statistic='mean',
-#                                                             bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,
-#             Y,
-#             ls='solid',
-#             color=color_group,
-#             lw=2.0,
-#             alpha=alpha_bins,
-#             label=r'$\rm Group ~Mean ~EW$')
+        if plot_number == 4:
+            plot1 = scatter(group_xs,
+                            group_ys,
+                            marker=symbol_group,
+                            c=color_group,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_group,
+                            label=label_group)
+        
+            # histogram group
+            bin_means, edges, binNumber = stats.binned_statistic(group_xs,
+                                                                group_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_group,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Group ~Mean ~EW$')
 
     
         
@@ -642,11 +658,11 @@ def main():
 #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1000)
+        ylim(0,1500)
         xlim(-1, 91)
 
         if plot_EW_inc_mean_plus_save:
-            savefig('{0}/W(inc)_mean_binSize{1}_plus2_cut{2}.pdf'.format(saveDirectory, binSize, maxEW),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(inc)_mean_binSize{1}_plus{2}_cut{3}-{4}_dataset{5}.pdf'.format(saveDirectory, binSize, plot_number, min_EW, max_EW, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -714,8 +730,6 @@ def main():
         color_two = color_purple2
         color_group = color_orange
         
-        maxEW = 1500.
-
         # define the x and y data for the isolated set
         
         Lya_Ws2 = []
@@ -729,7 +743,7 @@ def main():
         incs2 =[]
         adjustedInc2 = []
         for w, r, i, b, l, maj, az, v, adjInc in zip(Lya_Ws, R_virs, impacts, bs, ls, MajDiams, azimuths, Lya_vs, adjustedIncs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 Lya_Ws2.append(w)
                 R_virs2.append(r)
                 impacts2.append(i)
@@ -767,7 +781,7 @@ def main():
         associated_Lya_vs2 = []
         associated_adjustedIncs2 = []
         for w, r, i, b, l, maj, az, v, adjInc in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_bs, associated_ls, associated_MajDiams, associated_azimuths, associated_Lya_vs, associated_adjustedIncs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 associated_Lya_Ws2.append(w)
                 associated_R_virs2.append(r)
                 associated_impacts2.append(i)
@@ -804,7 +818,7 @@ def main():
         two_Lya_vs2 = []
         two_adjustedIncs2 = []
         for w, r, i, b, l, maj, az, v, adjInc in zip(two_Lya_Ws, two_R_virs, two_impacts, two_bs, two_ls, two_MajDiams, two_azimuths, two_Lya_vs, two_adjustedIncs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 two_Lya_Ws2.append(w)
                 two_R_virs2.append(r)
                 two_impacts2.append(i)
@@ -819,17 +833,17 @@ def main():
         two_ys = np.array(two_Lya_Ws2)
         
         
-        # grab the two_plus data and define the x and y data
-        three_Lya_Ws = L_two_plus['Lya_Ws']
-        three_R_virs = L_two_plus['R_virs']
-        three_impacts = L_two_plus['impacts']
-        three_bs = L_two_plus['bs']
-        three_ls = L_two_plus['ls']
-        three_MajDiams = L_two_plus['MajDiams']
-        three_azimuths = L_two_plus['azimuths']
-        three_adjustedIncs = L_two_plus['adjustedIncs']
-        three_Lya_vs = L_two_plus['Lya_vs']
-        three_adjustedIncs = L_two_plus['adjustedIncs']
+        # grab the three_plus data and define the x and y data
+        three_Lya_Ws = L_three_plus['Lya_Ws']
+        three_R_virs = L_three_plus['R_virs']
+        three_impacts = L_three_plus['impacts']
+        three_bs = L_three_plus['bs']
+        three_ls = L_three_plus['ls']
+        three_MajDiams = L_three_plus['MajDiams']
+        three_azimuths = L_three_plus['azimuths']
+        three_adjustedIncs = L_three_plus['adjustedIncs']
+        three_Lya_vs = L_three_plus['Lya_vs']
+        three_adjustedIncs = L_three_plus['adjustedIncs']
 
         three_Lya_Ws2 = []
         three_R_virs2 = []
@@ -842,7 +856,7 @@ def main():
         three_incs2 = []
         three_adjustedInc2 = []
         for w, r, i, b, l, maj, az, v, adjInc in zip(three_Lya_Ws, three_R_virs, three_impacts, three_bs, three_ls, three_MajDiams, three_azimuths, three_Lya_vs, three_adjustedIncs):
-            if float(w) <= maxEW:
+            if float(w) <= max_EW and float(w) >= min_EW:
                 three_Lya_Ws2.append(w)
                 three_R_virs2.append(r)
                 three_impacts2.append(i)
@@ -883,7 +897,7 @@ def main():
         group_Lya_vs2 = []
         group_incs2 = []
         for w, r, i, group, b, l, maj, az, adjInc, v, inc in zip(group_Lya_Ws, group_R_virs, group_impacts, group_mems, group_bs, group_ls, group_MajDiams, group_azimuths, group_adjustedIncs, group_Lya_vs, group_incs):
-            if float(group) >= 2 and float(w) <= maxEW:
+            if float(group) >= 2 and float(w) <= max_EW and float(w) >= min_EW:
                 group_Lya_Ws2.append(w)
                 group_R_virs2.append(r)
                 group_impacts2.append(i)
@@ -932,84 +946,90 @@ def main():
             
             
         # associated
-        plot1 = scatter(associated_xs,
-                        associated_ys,
-                        marker=symbol_assoc,
-                        c=color_assoc,
-                        s=markerSize,
-                        edgecolor='black',
-                        alpha=alpha_assoc,
-                        label=label_assoc)
+        if plot_number >=2:
+            plot1 = scatter(associated_xs,
+                            associated_ys,
+                            marker=symbol_assoc,
+                            c=color_assoc,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_assoc,
+                            label=label_assoc)
         
-        # histogram associated
-        bin_means, edges, binNumber = stats.binned_statistic(associated_xs,
-                                                            associated_ys,
-                                                            statistic='mean',
-                                                            bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,
-            Y,
-            ls='solid',
-            color=color_assoc,
-            lw=2.0,
-            alpha=alpha_bins,
-            label=r'$\rm Assoc. ~Mean ~EW$')
+            # histogram associated
+            bin_means, edges, binNumber = stats.binned_statistic(associated_xs,
+                                                                associated_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_assoc,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Assoc. ~Mean ~EW$')
 
            
         # two
-#         plot1 = scatter(two_xs,
-#                         two_ys,
-#                         marker=symbol_two,
-#                         c=color_two,
-#                         s=markerSize,
-#                         edgecolor='black',
-#                         alpha=alpha_two,
-#                         label=label_two)
-#         
-#         # histogram group
-#         bin_means, edges, binNumber = stats.binned_statistic(two_xs,
-#                                                             two_ys,
-#                                                             statistic='mean',
-#                                                             bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,
-#             Y,
-#             ls='solid',
-#             color=color_two,
-#             lw=2.0,
-#             alpha=alpha_bins,
-#             label=r'$\rm Two ~Mean ~b$')
+        if plot_number >=3:
+            two_plus_xs = np.array(list(two_xs) + list(three_xs))
+            two_plus_ys = np.array(list(two_ys) + list(three_ys))
+                    
+            plot1 = scatter(two_plus_xs,
+                            two_plus_ys,
+                            marker=symbol_two,
+                            c=color_two,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_two,
+                            label=label_two)
+        
+            # histogram group
+            bin_means, edges, binNumber = stats.binned_statistic(two_plus_xs,
+                                                                two_plus_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_two,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Two+ ~Mean ~b$')
            
                         
 #         # group
-#         plot1 = scatter(group_xs,
-#                         group_ys,
-#                         marker=symbol_group,
-#                         c=color_group,
-#                         s=markerSize,
-#                         edgecolor='black',
-#                         alpha=alpha_group,
-#                         label=label_group)
-#         
-#         # histogram group
-#         bin_means, edges, binNumber = stats.binned_statistic(group_xs,
-#                                                             group_ys,
-#                                                             statistic='mean',
-#                                                             bins=bins)
-#         left,right = edges[:-1],edges[1:]
-#         X = array([left,right]).T.flatten()
-#         Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-#         plot(X,
-#             Y,
-#             ls='solid',
-#             color=color_group,
-#             lw=2.0,
-#             alpha=alpha_bins,
-#             label=r'$\rm Group ~Mean ~b$')
+        if plot_number ==4:
+            plot1 = scatter(group_xs,
+                            group_ys,
+                            marker=symbol_group,
+                            c=color_group,
+                            s=markerSize,
+                            edgecolor='black',
+                            alpha=alpha_group,
+                            label=label_group)
+        
+            # histogram group
+            bin_means, edges, binNumber = stats.binned_statistic(group_xs,
+                                                                group_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_group,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Group ~Mean ~b$')
         
     
         
@@ -1036,11 +1056,11 @@ def main():
 #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1000)
+        ylim(0,1500)
         xlim(-1, 91)
 
         if plot_EW_adjustedInc_mean_plus_save:
-            savefig('{0}/W(adjustedInc)_mean_binSize{1}_plus2_cut{2}.pdf'.format(saveDirectory, binSize, maxEW),format='pdf',bbox_inches='tight')
+            savefig('{0}/W(adjustedInc)_mean_binSize{1}_plus{2}_cut{3}-{4}_dataset{5}.pdf'.format(saveDirectory, binSize, plot_number, min_EW, max_EW, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 

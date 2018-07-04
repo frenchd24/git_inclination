@@ -1,0 +1,81 @@
+
+Version 8:
+len(all_Lya_Ws):  1135
+len(targets_dict):  264
+
+
+likelihood:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  267
+len(L_associated_isolated_pickle):  56
+len(L_associated_pickle):  146
+len(L_nonassociated_pickle):  5
+len(L_two_pickle):  51
+len(L_three_plus_pickle):  7
+len(L_group_pickle):  168
+
+
+
+likelihood min=0.001:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  227
+len(L_associated_isolated_pickle):  69
+len(L_associated_pickle):  167
+len(L_nonassociated_pickle):  1
+len(L_two_pickle):  57
+len(L_three_plus_pickle):  8
+len(L_group_pickle):  197
+
+
+
+likelihood_cus and min=0.001:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  317
+len(L_associated_isolated_pickle):  39
+len(L_associated_pickle):  174
+len(L_nonassociated_pickle):  0
+len(L_two_pickle):  32
+len(L_three_plus_pickle):  0
+len(L_group_pickle):  170
+
+
+
+likelihood doubled within Rvir, min=0.001:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  227
+len(L_associated_isolated_pickle):  69
+len(L_associated_pickle):  181
+len(L_nonassociated_pickle):  1
+len(L_two_pickle):  56
+len(L_three_plus_pickle):  6
+len(L_group_pickle):  197
+
+
+
+likelihood min 0.005 and v_norm=150:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  265
+len(L_associated_isolated_pickle):  58
+len(L_associated_pickle):  148
+len(L_nonassociated_pickle):  4
+len(L_two_pickle):  59
+len(L_three_plus_pickle):  4
+len(L_group_pickle):  165
+
+
+
+likelihood min 0.005 and v_norm=250:
+
+len(isolated_pickle):  571
+len(L_isolated_pickle):  246
+len(L_associated_isolated_pickle):  64
+len(L_associated_pickle):  151
+len(L_nonassociated_pickle):  3
+len(L_two_pickle):  57
+len(L_three_plus_pickle):  7
+len(L_group_pickle):  183
