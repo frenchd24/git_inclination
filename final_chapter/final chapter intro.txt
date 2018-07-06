@@ -37,3 +37,5 @@ Make histograms split into sky regions show the number of absorbers per unit cz 
 
 Number of Ly as a function of impact or impact/R_vir? Compare to number of galaxies as a function of impact or impact/R_vir
 
+Non-detection fraction as a function of inclination? 
+

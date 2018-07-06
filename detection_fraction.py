@@ -71,1103 +71,14 @@ def calculate_cusLikelihood(impact, MajDiam, vel_dif):
     
     
     
-def add_to_all(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target, RA_target, Dec_target):
-    Lya_vs = all['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = all['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = all['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = all['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = all['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = all['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = all['bs']
-    bs.append(float(b))
-
-    e_bs = all['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = all['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = all['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = all['targets']
-    targets.append(target)
-
-    z_targets = all['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = all['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = all['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    pass
-    
-    
-    
-def add_to_isolated(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target, RA_target, Dec_target):
-    Lya_vs = isolated['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = isolated['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = isolated['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = isolated['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = isolated['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = isolated['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = isolated['bs']
-    bs.append(float(b))
-
-    e_bs = isolated['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = isolated['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = isolated['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = isolated['targets']
-    targets.append(target)
-
-    z_targets = isolated['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = isolated['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = isolated['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    pass
-    
-
-
-def add_to_L_isolated(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target, RA_target, Dec_target):
-    Lya_vs = L_isolated['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_isolated['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_isolated['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_isolated['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_isolated['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_isolated['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_isolated['bs']
-    bs.append(float(b))
-
-    e_bs = L_isolated['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_isolated['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_isolated['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_isolated['targets']
-    targets.append(target)
-
-    z_targets = L_isolated['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_isolated['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_isolated['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    pass
-    
-
-    
-    
-def add_to_L_associated_isolated(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss,\
-    Bmag, Bmag_sdss):
-
-
-    Lya_vs = L_associated_isolated['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_associated_isolated['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_associated_isolated['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_associated_isolated['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_associated_isolated['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_associated_isolated['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_associated_isolated['bs']
-    bs.append(float(b))
-
-    e_bs = L_associated_isolated['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_associated_isolated['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_associated_isolated['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_associated_isolated['targets']
-    targets.append(target)
-
-    z_targets = L_associated_isolated['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_associated_isolated['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_associated_isolated['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_associated_isolated['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_associated_isolated['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_associated_isolated['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_associated_isolated['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_associated_isolated['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_associated_isolated['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_associated_isolated['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_associated_isolated['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_associated_isolated['ls']
-    ls.append(float(l))
-
-    l_cuss = L_associated_isolated['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_associated_isolated['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_associated_isolated['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_associated_isolated['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_associated_isolated['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_associated_isolated['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_associated_isolated['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_associated_isolated['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_associated_isolated['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_associated_isolated['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_associated_isolated['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_associated_isolated['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_associated_isolated['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_associated_isolated['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-
-    Lstar_sdsss = L_associated_isolated['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_associated_isolated['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-
-    Bmags = L_associated_isolated['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_associated_isolated['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    pass
-    
-
-
-
-def add_to_L_associated(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss,\
-    Bmag, Bmag_sdss):
-
-
-    Lya_vs = L_associated['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_associated['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_associated['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_associated['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_associated['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_associated['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_associated['bs']
-    bs.append(float(b))
-
-    e_bs = L_associated['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_associated['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_associated['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_associated['targets']
-    targets.append(target)
-
-    z_targets = L_associated['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_associated['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_associated['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_associated['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_associated['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_associated['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_associated['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_associated['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_associated['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_associated['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_associated['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_associated['ls']
-    ls.append(float(l))
-
-    l_cuss = L_associated['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_associated['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_associated['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_associated['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_associated['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_associated['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_associated['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_associated['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_associated['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_associated['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_associated['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_associated['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_associated['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_associated['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_associated['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_associated['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_associated['Bmags']
-    Bmags.append(float(Bmag))
-
-    Bmag_sdsss = L_associated['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    pass
-
-
-
-
-def add_to_L_nonassociated(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss,
-    Bmag, Bmag_sdss, other):
-
-
-    Lya_vs = L_nonassociated['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_nonassociated['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_nonassociated['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_nonassociated['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_nonassociated['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_nonassociated['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_nonassociated['bs']
-    bs.append(float(b))
-
-    e_bs = L_nonassociated['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_nonassociated['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_nonassociated['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_nonassociated['targets']
-    targets.append(target)
-
-    z_targets = L_nonassociated['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_nonassociated['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_nonassociated['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_nonassociated['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_nonassociated['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_nonassociated['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_nonassociated['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_nonassociated['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_nonassociated['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_nonassociated['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_nonassociated['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_nonassociated['ls']
-    ls.append(float(l))
-
-    l_cuss = L_nonassociated['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_nonassociated['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_nonassociated['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_nonassociated['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_nonassociated['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_nonassociated['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_nonassociated['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_nonassociated['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_nonassociated['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_nonassociated['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_nonassociated['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_nonassociated['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_nonassociated['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_nonassociated['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_nonassociated['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_nonassociated['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_nonassociated['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_nonassociated['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    others = L_nonassociated['others']
-    others.append(other)
-
-    pass
-
-
-def add_to_L_two(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss,\
-    Bmag, Bmag_sdss, other):
-
- 
-    Lya_vs = L_two['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_two['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_two['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_two['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_two['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_two['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_two['bs']
-    bs.append(float(b))
-
-    e_bs = L_two['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_two['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_two['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_two['targets']
-    targets.append(target)
-
-    z_targets = L_two['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_two['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_two['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_two['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_two['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_two['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_two['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_two['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_two['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_two['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_two['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_two['ls']
-    ls.append(float(l))
-
-    l_cuss = L_two['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_two['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_two['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_two['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_two['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_two['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_two['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_two['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_two['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_two['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_two['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_two['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_two['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_two['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_two['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_two['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_two['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_two['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    others = L_two['others']
-    others.append(other)
-    
-    pass
-
-    
-    
-
-def add_to_L_three_plus(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss, \
-    Bmag, Bmag_sdss, other):
-
- 
-    Lya_vs = L_three_plus['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_three_plus['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_three_plus['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_three_plus['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_three_plus['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_three_plus['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_three_plus['bs']
-    bs.append(float(b))
-
-    e_bs = L_three_plus['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_three_plus['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_three_plus['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_three_plus['targets']
-    targets.append(target)
-
-    z_targets = L_three_plus['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_three_plus['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_three_plus['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_three_plus['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_three_plus['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_three_plus['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_three_plus['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_three_plus['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_three_plus['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_three_plus['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_three_plus['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_three_plus['ls']
-    ls.append(float(l))
-
-    l_cuss = L_three_plus['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_three_plus['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_three_plus['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_three_plus['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_three_plus['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_three_plus['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_three_plus['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_three_plus['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_three_plus['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_three_plus['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_three_plus['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_three_plus['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_three_plus['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_three_plus['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_three_plus['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_three_plus['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_three_plus['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_three_plus['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    others = L_three_plus['others']
-    others.append(other)
-    
-    pass
-
-
-
-
-def add_to_L_group(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss, \
-    Bmag, Bmag_sdss):
-
- 
-    Lya_vs = L_group['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_group['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_group['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_group['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_group['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_group['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_group['bs']
-    bs.append(float(b))
-
-    e_bs = L_group['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_group['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_group['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_group['targets']
-    targets.append(target)
-
-    z_targets = L_group['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_group['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_group['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_group['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_group['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_group['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_group['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_group['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_group['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_group['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_group['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_group['ls']
-    ls.append(float(l))
-
-    l_cuss = L_group['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_group['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_group['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_group['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_group['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_group['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_group['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_group['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_group['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_group['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_group['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_group['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_group['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_group['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_group['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_group['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_group['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_group['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    pass
-
-
-
-
-def add_to_L_summed(Lya_v, e_Lya_v, Lya_W, e_Lya_W, Na, e_Na, b, e_b, W, e_W, target, z_target,\
-    RA_target, Dec_target, Name, RAdeg, DEdeg, impact, azimuth, PA, inc,\
-    adjustedInc, l, l_cus, R_vir, cus, MajDiam, MType, Vhel, vcorr, bestDist, e_bestDist,\
-    group_num, group_mem, group_dist, Lstar_med, e_Lstar_med, Lstar_sdss, e_Lstar_sdss,\
-    Bmag, Bmag_sdss, summed_l, summed_l_cus):
-
- 
-    Lya_vs = L_summed['Lya_vs']
-    Lya_vs.append(float(Lya_v))
-
-    e_Lya_vs = L_summed['e_Lya_vs']
-    e_Lya_vs.append(float(e_Lya_v))
-
-    Lya_Ws = L_summed['Lya_Ws']
-    Lya_Ws.append(float(Lya_W))
-    
-    e_Lya_Ws = L_summed['e_Lya_Ws']
-    e_Lya_Ws.append(float(e_Lya_W))
-
-    Nas = L_summed['Nas']
-    Nas.append(float(Na))
-    
-    e_Nas = L_summed['e_Nas']
-    e_Nas.append(float(e_Na))
-    
-    bs = L_summed['bs']
-    bs.append(float(b))
-
-    e_bs = L_summed['e_bs']
-    e_bs.append(float(e_b))
-
-    Ws = L_summed['Ws']
-    Ws.append(float(W))
-    
-    e_Ws = L_summed['e_Ws']
-    e_Ws.append(float(e_W))
-
-    targets = L_summed['targets']
-    targets.append(target)
-
-    z_targets = L_summed['z_targets']
-    z_targets.append(float(z_target))
-
-    RA_targets = L_summed['RA_targets']
-    RA_targets.append(float(RA_target))
-    
-    Dec_targets = L_summed['Dec_targets']
-    Dec_targets.append(float(Dec_target))
-    
-    Names = L_summed['Names']
-    Names.append(Name)
-
-    RA_galaxies = L_summed['RA_galaxies']
-    RA_galaxies.append(float(RAdeg))
-    
-    Dec_galaxies = L_summed['Dec_galaxies']
-    Dec_galaxies.append(float(DEdeg))
-    
-    impacts = L_summed['impacts']
-    impacts.append(float(impact))
-    
-    azimuths = L_summed['azimuths']
-    azimuths.append(float(azimuth))
-    
-    PAs = L_summed['PAs']
-    PAs.append(float(PA))
-    
-    incs = L_summed['incs']
-    incs.append(float(inc))
-    
-    adjustedIncs = L_summed['adjustedIncs']
-    adjustedIncs.append(float(adjustedInc))
-    
-    ls = L_summed['ls']
-    ls.append(float(l))
-
-    l_cuss = L_summed['l_cuss']
-    l_cuss.append(float(l_cus))
-
-    R_virs = L_summed['R_virs']
-    R_virs.append(float(R_vir))
-    
-    cuss = L_summed['cuss']
-    cuss.append(float(cus))
-
-    MajDiams = L_summed['MajDiams']
-    MajDiams.append(float(MajDiam))
-    
-    MTypes = L_summed['MTypes']
-    MTypes.append(MType)
-    
-    Vhels = L_summed['Vhels']
-    Vhels.append(float(Vhel))
-    
-    vcorrs = L_summed['vcorrs']
-    vcorrs.append(float(vcorr))
-    
-    bestDists = L_summed['bestDists']
-    bestDists.append(float(bestDist))
-    
-    e_bestDists = L_summed['e_bestDists']
-    e_bestDists.append(float(e_bestDist))
-    
-    group_nums = L_summed['group_nums']
-    group_nums.append(group_num)
-    
-    group_mems = L_summed['group_mems']
-    group_mems.append(group_mem)
-
-    group_dists = L_summed['group_dists']
-    group_dists.append(float(group_dist))
-    
-    Lstar_meds = L_summed['Lstar_meds']
-    Lstar_meds.append(float(Lstar_med))
-    
-    e_Lstar_meds = L_summed['e_Lstar_meds']
-    e_Lstar_meds.append(float(e_Lstar_med))
-    
-    Lstar_sdsss = L_summed['Lstar_sdsss']
-    Lstar_sdsss.append(float(Lstar_sdss))
-    
-    e_Lstar_sdsss = L_summed['e_Lstar_sdsss']
-    e_Lstar_sdsss.append(float(e_Lstar_sdss))
-    
-    Bmags = L_summed['Bmags']
-    Bmags.append(float(Bmag))
-    
-    Bmag_sdsss = L_summed['Bmag_sdsss']
-    Bmag_sdsss.append(float(Bmag_sdss))
-    
-    summed_ls = L_summed['summed_ls']
-    summed_ls.append(summed_l)
-    
-    summed_l_cuss = L_summed['summed_l_cuss']
-    summed_l_cuss.append(summed_l_cus)
-    
-    pass
-    
+def bmean(a):
+    # compute the mean of 'a' but just return -99.99 if the array is empty
+
+    try:
+        return np.mean(a)
+    except Exception, e:
+        print 'Error: ',e
+        return -99.99
     
     
     
@@ -1180,7 +91,8 @@ def main():
     max_deltav = 400.
     rigor = 5
     
-    Lstar_min = 1.0
+    Lstar_min = 0.
+    Lstar_max = 1.
     
     # sort based on likelihood cus instead of the regular one?
     use_likelihood_cus = False
@@ -1205,7 +117,7 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarmin_1.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -1276,6 +188,32 @@ def main():
     dv400_imp100_non = 0
     dv400_imp50_non = 0
     dv400_imp25_non = 0
+    
+
+    
+    # inclinations of galaxies near detections within each impact parameter window
+    dv400_imp1000_det_inc = []
+    dv400_imp750_det_inc = []
+    dv400_imp500_det_inc = []
+    dv400_imp400_det_inc = []
+    dv400_imp300_det_inc = []
+    dv400_imp200_det_inc = []
+    dv400_imp100_det_inc = []
+    dv400_imp50_det_inc = []
+    dv400_imp25_det_inc = []
+    
+    
+    # inclinations of galaxies near non-detections within each impact parameter window
+    dv400_imp1000_non_inc = []
+    dv400_imp750_non_inc = []
+    dv400_imp500_non_inc = []
+    dv400_imp400_non_inc = []
+    dv400_imp300_non_inc = []
+    dv400_imp200_non_inc = []
+    dv400_imp100_non_inc = []
+    dv400_imp50_non_inc = []
+    dv400_imp25_non_inc = []
+    
 
 ##########################################################################################
     # now for likelihood thresholds
@@ -1306,6 +244,25 @@ def main():
     dv400_l1_non = 0
     dv400_l5_non = 0
     dv400_l75_non = 0
+    
+    # inclinations of galaxies near detections within each likelihood window
+    dv400_l001_det_inc = []
+    dv400_l005_det_inc = []
+    dv400_l01_det_inc = []
+    dv400_l05_det_inc = []
+    dv400_l1_det_inc = []
+    dv400_l5_det_inc = []
+    dv400_l75_det_inc = []
+    
+    
+    # inclinations of galaxies near non-detections within each likelihood window
+    dv400_l001_non_inc = []
+    dv400_l005_non_inc = []
+    dv400_l01_non_inc = []
+    dv400_l05_non_inc = []
+    dv400_l1_non_inc = []
+    dv400_l5_non_inc = []
+    dv400_l75_non_inc = []
     
     
 ##########################################################################################
@@ -1489,10 +446,17 @@ def main():
                 Lstar = Lstar_sdss
             else:
                 Lstar = Lstar_med
-                
-            if float(Lstar) >= Lstar_min:
-                proceed = True
+            
+            if str(Lstar) != '-99.99':
+                if float(Lstar) >= Lstar_min and float(Lstar) <= Lstar_max:
+                    proceed = True
 
+            Lstar = float(Lstar)
+            R_vir = float(R_vir)
+            Vhel = float(Vhel)
+            impact = float(impact)
+            adjustedInc = float(adjustedInc)
+            
 
             if proceed:
                 # if there's a galaxy within 500 kpc, search for a line 
@@ -1508,9 +472,11 @@ def main():
                             
                     if detection:
                         dv400_imp1000_det +=1
+                        dv400_imp1000_det_inc.append(adjustedInc)
                     else:
                         dv400_imp1000_non +=1
-            
+                        dv400_imp1000_non_inc.append(adjustedInc)
+                        
                 # if there's a galaxy within 500 kpc, search for a line 
                 if float(impact) <= 750:
                     detection = False
@@ -1524,9 +490,12 @@ def main():
                             
                     if detection:
                         dv400_imp750_det +=1
+                        dv400_imp750_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp750_non +=1
-            
+                        dv400_imp750_non_inc.append(adjustedInc)
+                        
                 # if there's a galaxy within 500 kpc, search for a line 
                 if float(impact) <= 500:
                     detection = False
@@ -1540,8 +509,12 @@ def main():
                             
                     if detection:
                         dv400_imp500_det +=1
+                        dv400_imp500_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp500_non +=1
+                        dv400_imp500_non_inc.append(adjustedInc)
+
             
                 # if there's a galaxy within 400 kpc, search for a line 
                 if float(impact) <= 400:
@@ -1556,9 +529,13 @@ def main():
                             
                     if detection:
                         dv400_imp400_det +=1
+                        dv400_imp400_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp400_non +=1
-            
+                        dv400_imp400_non_inc.append(adjustedInc)
+
+
                 # if there's a galaxy within 300 kpc, search for a line 
                 if float(impact) <= 300:
                     detection = False
@@ -1572,8 +549,12 @@ def main():
                             
                     if detection:
                         dv400_imp300_det +=1
+                        dv400_imp300_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp300_non +=1
+                        dv400_imp300_non_inc.append(adjustedInc)
+
 
                 # if there's a galaxy within 200 kpc, search for a line 
                 if float(impact) <= 200:
@@ -1588,8 +569,12 @@ def main():
                             
                     if detection:
                         dv400_imp200_det +=1
+                        dv400_imp200_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp200_non +=1
+                        dv400_imp200_non_inc.append(adjustedInc)
+
 
                 # if there's a galaxy within 100 kpc, search for a line 
                 if float(impact) <= 100:
@@ -1604,8 +589,12 @@ def main():
                             
                     if detection:
                         dv400_imp100_det +=1
+                        dv400_imp100_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp100_non +=1
+                        dv400_imp100_non_inc.append(adjustedInc)
+
 
                 # if there's a galaxy within 50 kpc, search for a line 
                 if float(impact) <= 50:
@@ -1620,8 +609,12 @@ def main():
                             
                     if detection:
                         dv400_imp50_det +=1
+                        dv400_imp50_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp50_non +=1
+                        dv400_imp50_non_inc.append(adjustedInc)
+
                     
                 # if there's a galaxy within 25 kpc, search for a line 
                 if float(impact) <= 25:
@@ -1636,9 +629,12 @@ def main():
                             
                     if detection:
                         dv400_imp25_det +=1
+                        dv400_imp25_det_inc.append(adjustedInc)
+
                     else:
                         dv400_imp25_non +=1
-                        
+                        dv400_imp25_non_inc.append(adjustedInc)
+
                         print 'non-detection within 25: {0} - {1}'.format(target, Name)
                     
             
@@ -1684,9 +680,12 @@ def main():
                             
                         if detection:
                             dv400_l001_det +=1
+                            dv400_l001_det_inc.append(adjustedInc)
                         else:
                             dv400_l001_non +=1
-            
+                            dv400_l001_non_inc.append(adjustedInc)
+
+
                     # if the likelihood is greater than 0.005, see if there's a corresponding
                     if l_used >= 0.005:
                         detection = False
@@ -1700,8 +699,10 @@ def main():
                             
                         if detection:
                             dv400_l005_det +=1
+                            dv400_l005_det_inc.append(adjustedInc)
                         else:
                             dv400_l005_non +=1
+                            dv400_l005_non_inc.append(adjustedInc)
 
 
                     # if the likelihood is greater than 0.01, see if there's a corresponding
@@ -1717,9 +718,10 @@ def main():
                             
                         if detection:
                             dv400_l01_det +=1
+                            dv400_l01_det_inc.append(adjustedInc)
                         else:
                             dv400_l01_non +=1
-                        
+                            dv400_l01_non_inc.append(adjustedInc)
                         
                         
                     # if the likelihood is greater than 0.05, see if there's a corresponding
@@ -1735,9 +737,11 @@ def main():
                             
                         if detection:
                             dv400_l05_det +=1
+                            dv400_l05_det_inc.append(adjustedInc)
                         else:
                             dv400_l05_non +=1
-                        
+                            dv400_l05_non_inc.append(adjustedInc)
+
                         
                     # if the likelihood is greater than 0.1, see if there's a corresponding
                     if l_used >= 0.1:
@@ -1752,9 +756,11 @@ def main():
                             
                         if detection:
                             dv400_l1_det +=1
+                            dv400_l1_det_inc.append(adjustedInc)
                         else:
                             dv400_l1_non +=1
-                        
+                            dv400_l1_non_inc.append(adjustedInc)
+
                         
                     # if the likelihood is greater than 0.5, see if there's a corresponding
                     if l_used >= 0.5:
@@ -1769,9 +775,11 @@ def main():
                             
                         if detection:
                             dv400_l5_det +=1
+                            dv400_l5_det_inc.append(adjustedInc)
                         else:
                             dv400_l5_non +=1
-                        
+                            dv400_l5_non_inc.append(adjustedInc)
+
                         
                     # if the likelihood is greater than 0.75, see if there's a corresponding
                     if l_used >= 0.75:
@@ -1786,10 +794,10 @@ def main():
                             
                         if detection:
                             dv400_l75_det +=1
+                            dv400_l75_det_inc.append(adjustedInc)
                         else:
                             dv400_l75_non +=1
-                        
-                        
+                            dv400_l75_non_inc.append(adjustedInc)
                         
                         
     ##########################################################################################            
@@ -1928,7 +936,21 @@ def main():
         print 'Detection fraction for 200 kpc: ', float(dv400_imp200_det) / (dv400_imp200_det + dv400_imp200_non)
         print 'Detection fraction for 100 kpc: ', float(dv400_imp100_det) / (dv400_imp100_det + dv400_imp100_non)
         print 'Detection fraction for 50 kpc: ', float(dv400_imp50_det)  / (dv400_imp50_det  + dv400_imp50_non)
-        print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det)  / (dv400_imp25_det  + dv400_imp25_non)    
+        print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det)  / (dv400_imp25_det  + dv400_imp25_non)
+        print
+        print
+        print 'Mean inc for 1000 kpc detections vs non: ',bmean(dv400_imp1000_det_inc), ', ',bmean(dv400_imp1000_non_inc)
+        print 'Mean inc for 750 kpc detections vs non: ',bmean(dv400_imp750_det_inc), ', ',bmean(dv400_imp750_non_inc)
+        print 'Mean inc for 500 kpc detections vs non: ',bmean(dv400_imp500_det_inc), ', ',bmean(dv400_imp500_non_inc)
+        print 'Mean inc for 400 kpc detections vs non: ',bmean(dv400_imp400_det_inc), ', ',bmean(dv400_imp400_non_inc)
+        print 'Mean inc for 300 kpc detections vs non: ',bmean(dv400_imp300_det_inc), ', ',bmean(dv400_imp300_non_inc)
+        print 'Mean inc for 200 kpc detections vs non: ',bmean(dv400_imp200_det_inc), ', ',bmean(dv400_imp200_non_inc)
+        print 'Mean inc for 100 kpc detections vs non: ',bmean(dv400_imp100_det_inc), ', ',bmean(dv400_imp100_non_inc)
+        print 'Mean inc for 50 kpc detections vs non: ',bmean(dv400_imp50_det_inc), ', ',bmean(dv400_imp50_non_inc)
+        print 'Mean inc for 25 kpc detections vs non: ',bmean(dv400_imp25_det_inc), ', ',bmean(dv400_imp25_non_inc)
+        print
+        print
+        print
         print
         print
         print 'Detection fraction for 0.001 L: ', float(dv400_l001_det) / (dv400_l001_det   + dv400_l001_non)
@@ -1938,6 +960,16 @@ def main():
         print 'Detection fraction for 0.1 L: ', float(dv400_l1_det)     / (dv400_l1_det     + dv400_l1_non)
         print 'Detection fraction for 0.5 L: ', float(dv400_l5_det)     / (dv400_l5_det     + dv400_l5_non)
         print 'Detection fraction for 0.75 L: ', float(dv400_l75_det)   / (dv400_l75_det    + dv400_l75_non)
+        print
+        print
+        print 'Mean inc for 0.001 L detections vs non: ',bmean(dv400_l001_det_inc), ', ',bmean(dv400_l001_non_inc)
+        print 'Mean inc for 0.005 L detections vs non: ',bmean(dv400_l005_det_inc), ', ',bmean(dv400_l005_non_inc)
+        print 'Mean inc for 0.01 L detections vs non: ',bmean(dv400_l01_det_inc), ', ',bmean(dv400_l01_non_inc)
+        print 'Mean inc for 0.05 L detections vs non: ',bmean(dv400_l05_det_inc), ', ',bmean(dv400_l05_non_inc)
+        print 'Mean inc for 0.1 L detections vs non: ',bmean(dv400_l1_det_inc), ', ',bmean(dv400_l1_non_inc)
+        print 'Mean inc for 0.5 L detections vs non: ',bmean(dv400_l5_det_inc), ', ',bmean(dv400_l5_non_inc)
+        print 'Mean inc for 0.75 L detections vs non: ',bmean(dv400_l75_det_inc), ', ',bmean(dv400_l75_non_inc)
+        print
         print
         print
         print 'Detection fraction for 0.25 imp/vir: ', float(dv400_rvir025_det) / (dv400_rvir025_det    + dv400_rvir025_non)
@@ -1999,6 +1031,28 @@ def main():
     full_dict['dv400_imp50_non'] = dv400_imp50_non
     full_dict['dv400_imp25_non'] = dv400_imp25_non
 
+    # now impact parameter detection inc 
+    full_dict['dv400_imp1000_det_inc'] = dv400_imp1000_det_inc
+    full_dict['dv400_imp750_det_inc'] = dv400_imp750_det_inc
+    full_dict['dv400_imp500_det_inc'] = dv400_imp500_det_inc
+    full_dict['dv400_imp400_det_inc'] = dv400_imp400_det_inc
+    full_dict['dv400_imp300_det_inc'] = dv400_imp300_det_inc
+    full_dict['dv400_imp200_det_inc'] = dv400_imp200_det_inc
+    full_dict['dv400_imp100_det_inc'] = dv400_imp100_det_inc
+    full_dict['dv400_imp50_det_inc'] = dv400_imp50_det_inc
+    full_dict['dv400_imp25_det_inc'] = dv400_imp25_det_inc
+    
+    # now impact parameter non-detection inc
+    full_dict['dv400_imp1000_non_inc'] = dv400_imp1000_non_inc
+    full_dict['dv400_imp750_non_inc'] = dv400_imp750_non_inc
+    full_dict['dv400_imp500_non_inc'] = dv400_imp500_non_inc
+    full_dict['dv400_imp400_non_inc'] = dv400_imp400_non_inc
+    full_dict['dv400_imp300_non_inc'] = dv400_imp300_non_inc
+    full_dict['dv400_imp200_non_inc'] = dv400_imp200_non_inc
+    full_dict['dv400_imp100_non_inc'] = dv400_imp100_non_inc
+    full_dict['dv400_imp50_non_inc'] = dv400_imp50_non_inc
+    full_dict['dv400_imp25_non_inc'] = dv400_imp25_non_inc
+
 
 
     # now for likelihood thresholds
@@ -2027,6 +1081,24 @@ def main():
     full_dict['dv400_l1_non'] = dv400_l1_non
     full_dict['dv400_l5_non'] = dv400_l5_non
     full_dict['dv400_l75_non'] = dv400_l75_non
+    
+    # now for likelihood detection incs
+    full_dict['dv400_l001_det_inc'] = dv400_l001_det_inc
+    full_dict['dv400_l005_det_inc'] = dv400_l005_det_inc
+    full_dict['dv400_l01_det_inc'] = dv400_l01_det_inc
+    full_dict['dv400_l05_det_inc'] = dv400_l05_det_inc
+    full_dict['dv400_l1_det_inc'] = dv400_l1_det_inc
+    full_dict['dv400_l5_det_inc'] = dv400_l5_det_inc
+    full_dict['dv400_l75_det_inc'] = dv400_l75_det_inc
+    
+    # now for likelihood non-detection incs
+    full_dict['dv400_l001_non_inc'] = dv400_l001_non_inc
+    full_dict['dv400_l005_non_inc'] = dv400_l005_non_inc
+    full_dict['dv400_l01_non_inc'] = dv400_l01_non_inc
+    full_dict['dv400_l05_non_inc'] = dv400_l05_non_inc
+    full_dict['dv400_l1_non_inc'] = dv400_l1_non_inc
+    full_dict['dv400_l5_non_inc'] = dv400_l5_non_inc
+    full_dict['dv400_l75_non_inc'] = dv400_l75_non_inc
     
     
     

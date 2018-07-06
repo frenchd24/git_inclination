@@ -116,12 +116,12 @@ def main():
     plot_detection_fraction_likelihood_save = False
     
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_inc = True
-    plot_detection_fraction_likelihood_inc_save = True
+    plot_detection_fraction_likelihood_inc = False
+    plot_detection_fraction_likelihood_inc_save = False
 
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_inc = True
-    plot_detection_fraction_impact_inc_save = True
+    plot_detection_fraction_impact_inc = False
+    plot_detection_fraction_impact_inc_save = False
 
     
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
@@ -139,7 +139,7 @@ def main():
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction3.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_01-2.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -360,232 +360,179 @@ def main():
 
 #########################################################################################
 #########################################################################################
-
-##########################################################################################
-##########################################################################################
+    # bootstrap this shit
     
-    if plot_detection_fraction_impact:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
+#     reps = 1000
+#     xb = np.random.choice(x, (n, reps), replace=True)
+#     yb = 1/np.arange(1, n+1)[:, None] * np.cumsum(xb, axis=0)
+#     upper, lower = np.percentile(yb, [2.5, 97.5], axis=1)
+
+
+    print 'dv400_l001_det_inc: ',dv400_l001_det_inc
+    print
+    print 'dv400_l005_det_inc: ',dv400_l005_det_inc
+    print
+    print 'dv400_l01_det_inc: ',dv400_l01_det_inc
+    print
+    print 'dv400_l05_det_inc: ',dv400_l05_det_inc
+    print
+    print 'dv400_l1_det_inc: ',dv400_l1_det_inc
+    print
+    print 'dv400_l5_det_inc: ',dv400_l5_det_inc
+    print
+    print 'dv400_l75_det_inc: ',dv400_l75_det_inc
+    print
+    print 'dv400_l75_non_inc: ',dv400_l75_non_inc
+    print
+
+
+
+    x001 = np.array(dv400_l001_det_inc)
+    x005 = np.array(dv400_l005_det_inc)
+    x01 = np.array(dv400_l01_det_inc)
+    x05 = np.array(dv400_l05_det_inc)
+    x1 = np.array(dv400_l1_det_inc)
+    x5 = np.array(dv400_l5_det_inc)
+    x75 = np.array(dv400_l75_det_inc)
+
+    n001 = len(x001)
+    n005 = len(x005)
+    n01 = len(x01)
+    n05 = len(x05)
+    n1 = len(x1)
+    n5 = len(x5)
+    n75 = len(x75)
+
+    reps = 1000
+    xb001 = np.random.choice(x001, (reps, n001), replace=True)
+    xb005 = np.random.choice(x005, (reps, n005), replace=True)
+    xb01 = np.random.choice(x01, (reps, n01), replace=True)
+    xb05 = np.random.choice(x05, (reps, n05), replace=True)
+    xb1 = np.random.choice(x1, (reps, n1), replace=True)
+    xb5 = np.random.choice(x5, (reps, n5), replace=True)
+    xb75 = np.random.choice(x75, (reps, n75), replace=True)
+
+    meds001 = []
+    for i in xb001:
+        med = np.mean(i)
+        meds001.append(med)
+
+    meds005 = []
+    for i in xb005:
+        med = np.mean(i)
+        meds005.append(med)
         
-        countb = 0
-        countr = 0
-        count = -1
+    meds01 = []
+    for i in xb01:
+        med = np.mean(i)
+        meds01.append(med)
         
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
+    meds05 = []
+    for i in xb05:
+        med = np.mean(i)
+        meds05.append(med)
         
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
+    meds1 = []
+    for i in xb1:
+        med = np.mean(i)
+        meds1.append(med)
         
-
-        alpha_likelihood = 0.8
-        alpha_impact = 0.8
-        markerSize = 15
-        lw = 2.
+    meds5 = []
+    for i in xb001:
+        med = np.mean(i)
+        meds5.append(med)
         
-        label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_impact = r'$\rm \rho - Detection~Fraction$'
-
-        symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting 
-        frac_imp1000 = float(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
-        frac_imp750 = float(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
-        frac_imp500 = float(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
-        frac_imp400 = float(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
-        frac_imp300 = float(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
-        frac_imp200 = float(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
-        
-        try:
-            frac_imp100 = float(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
-        except Exception, e:
-            print 'error: ',e
-            frac_imp100 = 0.
-            
-        try:
-            frac_imp50  = float(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
-        except Exception, e:
-            print 'error: ',e
-            frac_imp50 = 0.
-
-        impact_x = [50, 100, 200, 300, 400, 500, 750, 1000]
-        impact_y = [frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
-
-
-        # impact detection fraction
-        ax1.plot(impact_x,
-                impact_y,
-                marker=symbol_impact,
-                c=color_impact,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_impact,
-                label=label_impact)
-
-
-        # x-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-        ax1.xaxis.set_major_locator(majorLocator)
-        ax1.xaxis.set_major_formatter(majorFormatter)
-        ax1.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-
-        ax1.set_xlabel(r'$\rm \rho ~[kpc]$')
-        
-        ax1.set_ylabel(r'$\rm Detection~Fraction$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0, 1.)
-        xlim(0, 1000.)
-
-        if plot_detection_fraction_impact_save:
-            savefig('{0}/detection_fraction_impact_Lstarmin{1}.pdf'.format(saveDirectory, Lstar_min),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
+    meds75 = []
+    for i in xb75:
+        med = np.mean(i)
+        meds75.append(med)
     
-    if plot_detection_fraction_likelihood:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
+    print
+    print 'dv400_l001_det_inc - median(meds, std(meds): ',mean(meds001), ', ',std(meds001)
+    print 'dv400_l005_det_inc - median(meds, std(meds): ',mean(meds005), ', ',std(meds005)
+    print 'dv400_l01_det_inc - median(meds, std(meds): ',mean(meds01), ', ',std(meds01)
+    print 'dv400_l05_det_inc - median(meds, std(meds): ',mean(meds05), ', ',std(meds05)
+    print 'dv400_l1_det_inc - median(meds, std(meds): ',mean(meds1), ', ',std(meds1)
+    print 'dv400_l5_det_inc - median(meds, std(meds): ',mean(meds5), ', ',std(meds5)
+    print 'dv400_l75_det_inc - median(meds, std(meds): ',mean(meds75), ', ',std(meds75)
+    print
+    print
+
+    x001 = np.array(dv400_l001_non_inc)
+    x005 = np.array(dv400_l005_non_inc)
+    x01 = np.array(dv400_l01_non_inc)
+    x05 = np.array(dv400_l05_non_inc)
+    x1 = np.array(dv400_l1_non_inc)
+    x5 = np.array(dv400_l5_non_inc)
+    x75 = np.array(dv400_l75_non_inc)
+
+    n001 = len(x001)
+    n005 = len(x005)
+    n01 = len(x01)
+    n05 = len(x05)
+    n1 = len(x1)
+    n5 = len(x5)
+    n75 = len(x75)
+
+    reps = 1000
+    xb001 = np.random.choice(x001, (reps, n001), replace=True)
+    xb005 = np.random.choice(x005, (reps, n005), replace=True)
+    xb01 = np.random.choice(x01, (reps, n01), replace=True)
+    xb05 = np.random.choice(x05, (reps, n05), replace=True)
+    xb1 = np.random.choice(x1, (reps, n1), replace=True)
+    xb5 = np.random.choice(x5, (reps, n5), replace=True)
+    xb75 = np.random.choice(x75, (reps, n75), replace=True)
+
+
+    meds001 = []
+    for i in xb001:
+        med = np.mean(i)
+        meds001.append(med)
+
+    meds005 = []
+    for i in xb005:
+        med = np.mean(i)
+        meds005.append(med)
         
-        countb = 0
-        countr = 0
-        count = -1
+    meds01 = []
+    for i in xb01:
+        med = np.mean(i)
+        meds01.append(med)
         
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
+    meds05 = []
+    for i in xb05:
+        med = np.mean(i)
+        meds05.append(med)
         
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
+    meds1 = []
+    for i in xb1:
+        med = np.mean(i)
+        meds1.append(med)
         
-
-        alpha_likelihood = 0.8
-        alpha_impact = 0.8
-        markerSize = 15
-        lw = 2.
+    meds5 = []
+    for i in xb001:
+        med = np.mean(i)
+        meds5.append(med)
         
-        binSize = 100
-        bins = arange(0, 600, binSize)
-
-        
-        label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_impact = r'$\rm \rho - Detection~Fraction$'
-
-        symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting
-        
-        frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
-        frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
-        frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
-        frac_l05  = float(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
-        frac_l1   = float(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
-        
-        try:
-            frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
-        except Exception,e:
-            print 'error: ',e
-            frac_l5 = 0.
-            
-        try:
-            frac_l75   = float(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
-        except Exception,e:
-            print 'error: ',e
-            frac_l75 = 0.
-
-        likelihood_x = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
-        likelihood_y = [frac_l001, frac_l005, frac_l01, frac_l05, frac_l1, frac_l5, frac_l75]
+    meds75 = []
+    for i in xb75:
+        med = np.mean(i)
+        meds75.append(med)
+    
+    print
+    print 'dv400_l001_non_inc - median(meds, std(meds): ',mean(meds001), ', ',std(meds001)
+    print 'dv400_l005_non_inc - median(meds, std(meds): ',mean(meds005), ', ',std(meds005)
+    print 'dv400_l01_non_inc - median(meds, std(meds): ',mean(meds01), ', ',std(meds01)
+    print 'dv400_l05_non_inc - median(meds, std(meds): ',mean(meds05), ', ',std(meds05)
+    print 'dv400_l1_non_inc - median(meds, std(meds): ',mean(meds1), ', ',std(meds1)
+    print 'dv400_l5_non_inc - median(meds, std(meds): ',mean(meds5), ', ',std(meds5)
+    print 'dv400_l75_non_inc - median(meds, std(meds): ',mean(meds75), ', ',std(meds75)
+    print
+    print
 
 
-        # likelihood detection fraction
-        ax1.plot(likelihood_x,
-                likelihood_y,
-                marker=symbol_likelihood,
-                c=color_likelihood,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_likelihood,
-                label=label_likelihood)
 
-        ax1.set_xlabel(r'$\rm \mathcal{L}$')
-        ax1.set_xscale("log")
 
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
-
-        # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm Detection~Fraction$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0., 1.)
-        xlim(0.0001, 1.)
-
-        if plot_detection_fraction_likelihood_save:
-            savefig('{0}/detection_fraction_likelihood_Lstarmin{1}.pdf'.format(saveDirectory, Lstar_min),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
 
 
 ##########################################################################################
@@ -955,156 +902,6 @@ def main():
 
 
 
-##########################################################################################
-##########################################################################################
-    
-    if plot_detection_fraction_both:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
-
-        alpha_likelihood = 0.8
-        alpha_impact = 0.8
-        markerSize = 15
-        lw = 2.
-
-        
-        label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_impact = r'$\rm \rho - Detection~Fraction$'
-
-        symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting 
-        
-        frac_imp500 = float(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
-        frac_imp400 = float(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
-        frac_imp300 = float(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
-        frac_imp200 = float(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
-        frac_imp100 = float(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
-        frac_imp50  = float(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
-
-        impact_x = [50, 100, 200, 300, 400, 500]
-        impact_y = [frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500]
-        
-        
-        frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
-        frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
-        frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
-        frac_l05  = float(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
-        frac_l1   = float(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
-        frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
-
-        likelihood_x = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5]
-        likelihood_y = [frac_l001, frac_l005, frac_l01, frac_l05, frac_l1, frac_l5]
-
-
-        # impact detection fraction
-        ax1.plot(impact_x,
-                impact_y,
-                marker=symbol_impact,
-                c=color_impact,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_impact,
-                label=label_impact)
-
-
-        # x-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-        ax1.xaxis.set_major_locator(majorLocator)
-        ax1.xaxis.set_major_formatter(majorFormatter)
-        ax1.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-#         majorLocator   = MultipleLocator(0.2)
-#         majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-#         minorLocator   = MultipleLocator(0.1)
-#         ax1.yaxis.set_major_locator(majorLocator)
-#         ax1.yaxis.set_major_formatter(majorFormatter)
-#         ax1.yaxis.set_minor_locator(minorLocator)
-
-        ax1.set_xlabel(r'$\rm \rho ~[kpc]$')
-
-        # share a y-axis, have different top and bottom x-scales
-        ax2 = ax1.twiny()
-
-        # likelihood detection fraction
-        ax2.plot(likelihood_x,
-                likelihood_y,
-                marker=symbol_likelihood,
-                c=color_likelihood,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_likelihood,
-                label=label_likelihood)
-
-        ax2.set_xlabel(r'$\rm \mathcal{L}$')
-    
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax.xaxis.set_major_locator(majorLocator)
-#         ax.xaxis.set_major_formatter(majorFormatter)
-#         ax.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-#         majorLocator   = MultipleLocator(10)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator(5)
-#         ax.yaxis.set_major_locator(majorLocator)
-#         ax.yaxis.set_major_formatter(majorFormatter)
-#         ax.yaxis.set_minor_locator(minorLocator)
-        
-        
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm Detection~Fraction$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0.0001, 1.)
-#         xlim(0, 2.5)
-
-        if plot_detection_fraction_both_save:
-            savefig('{0}/detection_fraction.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
-        else:
-            show()
 
 
 
