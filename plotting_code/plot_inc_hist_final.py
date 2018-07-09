@@ -120,14 +120,14 @@ def main():
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8.p'
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8.p'
 
 
     else:
@@ -147,7 +147,7 @@ def main():
     L_associated_file = open(L_associated_filename,'r')
     L_nonassociated_file = open(L_nonassociated_filename,'r')
     L_two_file = open(L_two_filename,'r')
-    L_two_plus_file = open(L_two_plus_filename,'r')
+    L_three_plus_file = open(L_three_plus_filename,'r')
     L_group_file = open(L_group_filename,'r')
 
     # unload the data from them
@@ -157,7 +157,7 @@ def main():
     L_associated = pickle.load(L_associated_file)
     L_nonassociated = pickle.load(L_nonassociated_file)
     L_two = pickle.load(L_two_file)
-    L_two_plus = pickle.load(L_two_plus_file)
+    L_three_plus = pickle.load(L_three_plus_file)
     L_group = pickle.load(L_group_file)
     
     # close the files
@@ -167,7 +167,7 @@ def main():
     L_associated_file.close()
     L_nonassociated_file.close()
     L_two_file.close()
-    L_two_plus_file.close()
+    L_three_plus_file.close()
     L_group_file.close()
     
 
@@ -601,14 +601,14 @@ def main():
         alpha_L_associated_isolated = 0.7
         alpha_L_associated = 0.7
         alpha_L_two = 0.7
-        alpha_L_two_plus = 0.7
+        alpha_L_three_plus = 0.7
         alpha_L_group = 0.7
         alpha_all = 0.8
                 
         color_L_associated_isolated = '#e41a1c'
         color_L_associated = '#377eb8'
         color_L_two = '#4daf4a'
-        color_L_two_plus = '#984ea3'
+        color_L_three_plus = '#984ea3'
         color_L_group = '#ff7f00'
         
         color_L_associated_isolated = color_blue
@@ -627,7 +627,7 @@ def main():
 
 #         L_nonassociated
 #         L_two
-#         L_two_plus
+#         L_three_plus
         
         # just associated
         ax = fig.add_subplot(211)
@@ -752,14 +752,14 @@ def main():
         alpha_L_associated_isolated = 0.7
         alpha_L_associated = 0.7
         alpha_L_two = 0.7
-        alpha_L_two_plus = 0.7
+        alpha_L_three_plus = 0.7
         alpha_L_group = 0.7
         alpha_all = 0.8
                 
         color_L_associated_isolated = '#e41a1c'
         color_L_associated = '#377eb8'
         color_L_two = '#4daf4a'
-        color_L_two_plus = '#984ea3'
+        color_L_three_plus = '#984ea3'
         color_L_group = '#ff7f00'
         
         color_L_associated_isolated = color_blue
@@ -772,7 +772,7 @@ def main():
 
 #         L_nonassociated
 #         L_two
-#         L_two_plus
+#         L_three_plus
         
         # just associated
         ax = fig.add_subplot(111)

@@ -92,7 +92,7 @@ def main():
     rigor = 5
     
     Lstar_min = 0.
-    Lstar_max = 1.
+    Lstar_max = 10000.
     
     # sort based on likelihood cus instead of the regular one?
     use_likelihood_cus = False
@@ -117,7 +117,8 @@ def main():
         filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
         # pickle files
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
+#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_include.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -214,10 +215,37 @@ def main():
     dv400_imp50_non_inc = []
     dv400_imp25_non_inc = []
     
+    
+    # Lstars of galaxies near detections within each impact parameter window
+    dv400_imp1000_det_lstar = []
+    dv400_imp750_det_lstar = []
+    dv400_imp500_det_lstar = []
+    dv400_imp400_det_lstar = []
+    dv400_imp300_det_lstar = []
+    dv400_imp200_det_lstar = []
+    dv400_imp100_det_lstar = []
+    dv400_imp50_det_lstar = []
+    dv400_imp25_det_lstar = []
+    
+    
+    # Lstars of galaxies near non-detections within each impact parameter window
+    dv400_imp1000_non_lstar = []
+    dv400_imp750_non_lstar = []
+    dv400_imp500_non_lstar = []
+    dv400_imp400_non_lstar = []
+    dv400_imp300_non_lstar = []
+    dv400_imp200_non_lstar = []
+    dv400_imp100_non_lstar = []
+    dv400_imp50_non_lstar = []
+    dv400_imp25_non_lstar = []
+    
+    
 
 ##########################################################################################
     # now for likelihood thresholds
     # lists of \Delta v for galaxies within 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75 L of a target
+    dv_l0001 = []
+    dv_l0005 = []
     dv_l001 = []
     dv_l005 = []
     dv_l01 = []
@@ -227,6 +255,8 @@ def main():
     dv_l75 = []
     
     # count of detections within each likelihood window
+    dv400_l0001_det = 0
+    dv400_l0005_det = 0
     dv400_l001_det = 0
     dv400_l005_det = 0
     dv400_l01_det = 0
@@ -237,6 +267,8 @@ def main():
     
     
     # count of non-detections within each likelihood window
+    dv400_l0001_non = 0
+    dv400_l0005_non = 0
     dv400_l001_non = 0
     dv400_l005_non = 0
     dv400_l01_non = 0
@@ -246,6 +278,8 @@ def main():
     dv400_l75_non = 0
     
     # inclinations of galaxies near detections within each likelihood window
+    dv400_l0001_det_inc = []
+    dv400_l0005_det_inc = []
     dv400_l001_det_inc = []
     dv400_l005_det_inc = []
     dv400_l01_det_inc = []
@@ -254,8 +288,9 @@ def main():
     dv400_l5_det_inc = []
     dv400_l75_det_inc = []
     
-    
     # inclinations of galaxies near non-detections within each likelihood window
+    dv400_l0001_non_inc = []
+    dv400_l0005_non_inc = []
     dv400_l001_non_inc = []
     dv400_l005_non_inc = []
     dv400_l01_non_inc = []
@@ -263,6 +298,30 @@ def main():
     dv400_l1_non_inc = []
     dv400_l5_non_inc = []
     dv400_l75_non_inc = []
+    
+    
+    # lstars of galaxies near detections within each likelihood window
+    dv400_l0001_det_lstar = []
+    dv400_l0005_det_lstar = []
+    dv400_l001_det_lstar = []
+    dv400_l005_det_lstar = []
+    dv400_l01_det_lstar = []
+    dv400_l05_det_lstar = []
+    dv400_l1_det_lstar = []
+    dv400_l5_det_lstar = []
+    dv400_l75_det_lstar = []
+    
+    # lstars of galaxies near non-detections within each likelihood window
+    dv400_l0001_non_lstar = []
+    dv400_l0005_non_lstar = []
+    dv400_l001_non_lstar = []
+    dv400_l005_non_lstar = []
+    dv400_l01_non_lstar = []
+    dv400_l05_non_lstar = []
+    dv400_l1_non_lstar = []
+    dv400_l5_non_lstar = []
+    dv400_l75_non_lstar = []
+    
     
     
 ##########################################################################################
@@ -473,10 +532,12 @@ def main():
                     if detection:
                         dv400_imp1000_det +=1
                         dv400_imp1000_det_inc.append(adjustedInc)
+                        dv400_imp1000_det_lstar.append(Lstar)
                     else:
                         dv400_imp1000_non +=1
                         dv400_imp1000_non_inc.append(adjustedInc)
-                        
+                        dv400_imp1000_non_lstar.append(Lstar)
+
                 # if there's a galaxy within 500 kpc, search for a line 
                 if float(impact) <= 750:
                     detection = False
@@ -491,11 +552,12 @@ def main():
                     if detection:
                         dv400_imp750_det +=1
                         dv400_imp750_det_inc.append(adjustedInc)
-
+                        dv400_imp750_det_lstar.append(Lstar)
                     else:
                         dv400_imp750_non +=1
                         dv400_imp750_non_inc.append(adjustedInc)
-                        
+                        dv400_imp750_non_lstar.append(Lstar)
+
                 # if there's a galaxy within 500 kpc, search for a line 
                 if float(impact) <= 500:
                     detection = False
@@ -510,11 +572,11 @@ def main():
                     if detection:
                         dv400_imp500_det +=1
                         dv400_imp500_det_inc.append(adjustedInc)
-
+                        dv400_imp500_det_lstar.append(Lstar)
                     else:
                         dv400_imp500_non +=1
                         dv400_imp500_non_inc.append(adjustedInc)
-
+                        dv400_imp500_non_lstar.append(Lstar)
             
                 # if there's a galaxy within 400 kpc, search for a line 
                 if float(impact) <= 400:
@@ -530,11 +592,11 @@ def main():
                     if detection:
                         dv400_imp400_det +=1
                         dv400_imp400_det_inc.append(adjustedInc)
-
+                        dv400_imp400_det_lstar.append(Lstar)
                     else:
                         dv400_imp400_non +=1
                         dv400_imp400_non_inc.append(adjustedInc)
-
+                        dv400_imp400_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 300 kpc, search for a line 
                 if float(impact) <= 300:
@@ -550,11 +612,11 @@ def main():
                     if detection:
                         dv400_imp300_det +=1
                         dv400_imp300_det_inc.append(adjustedInc)
-
+                        dv400_imp300_det_lstar.append(Lstar)
                     else:
                         dv400_imp300_non +=1
                         dv400_imp300_non_inc.append(adjustedInc)
-
+                        dv400_imp300_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 200 kpc, search for a line 
                 if float(impact) <= 200:
@@ -570,11 +632,11 @@ def main():
                     if detection:
                         dv400_imp200_det +=1
                         dv400_imp200_det_inc.append(adjustedInc)
-
+                        dv400_imp200_det_lstar.append(Lstar)
                     else:
                         dv400_imp200_non +=1
                         dv400_imp200_non_inc.append(adjustedInc)
-
+                        dv400_imp200_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 100 kpc, search for a line 
                 if float(impact) <= 100:
@@ -590,11 +652,11 @@ def main():
                     if detection:
                         dv400_imp100_det +=1
                         dv400_imp100_det_inc.append(adjustedInc)
-
+                        dv400_imp100_det_lstar.append(Lstar)
                     else:
                         dv400_imp100_non +=1
                         dv400_imp100_non_inc.append(adjustedInc)
-
+                        dv400_imp100_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 50 kpc, search for a line 
                 if float(impact) <= 50:
@@ -630,10 +692,11 @@ def main():
                     if detection:
                         dv400_imp25_det +=1
                         dv400_imp25_det_inc.append(adjustedInc)
-
+                        dv400_imp25_det_lstar.append(Lstar)
                     else:
                         dv400_imp25_non +=1
                         dv400_imp25_non_inc.append(adjustedInc)
+                        dv400_imp25_non_lstar.append(Lstar)
 
                         print 'non-detection within 25: {0} - {1}'.format(target, Name)
                     
@@ -665,7 +728,47 @@ def main():
                     if double_l_within_rvir:
                         if impact <= R_vir:
                             l_used = l_used * 2
+                            
 
+                    # if the likelihood is greater than 0.0001, see if there's a corresponding
+                    if l_used >= 0.0001:
+                        detection = False
+                        for Lya_v in Lya_vs:
+                            if isNumber(Lya_v):
+                                dv = float(Lya_v) - Vhel
+                                dv_l0001.append(dv)
+                        
+                                if abs(dv) <= 400:
+                                    detection = True
+                            
+                        if detection:
+                            dv400_l0001_det +=1
+                            dv400_l0001_det_inc.append(adjustedInc)
+                            dv400_l0001_det_lstar.append(Lstar)
+                        else:
+                            dv400_l0001_non +=1
+                            dv400_l0001_non_inc.append(adjustedInc)
+                            dv400_l0001_non_lstar.append(Lstar)
+
+                    # if the likelihood is greater than 0.0005, see if there's a corresponding
+                    if l_used >= 0.0005:
+                        detection = False
+                        for Lya_v in Lya_vs:
+                            if isNumber(Lya_v):
+                                dv = float(Lya_v) - Vhel
+                                dv_l0005.append(dv)
+                        
+                                if abs(dv) <= 400:
+                                    detection = True
+                            
+                        if detection:
+                            dv400_l0005_det +=1
+                            dv400_l0005_det_inc.append(adjustedInc)
+                            dv400_l0005_det_lstar.append(Lstar)
+                        else:
+                            dv400_l0005_non +=1
+                            dv400_l0005_non_inc.append(adjustedInc)
+                            dv400_l0005_non_lstar.append(Lstar)
             
                     # if the likelihood is greater than 0.001, see if there's a corresponding
                     if l_used >= 0.001:
@@ -681,10 +784,11 @@ def main():
                         if detection:
                             dv400_l001_det +=1
                             dv400_l001_det_inc.append(adjustedInc)
+                            dv400_l001_det_lstar.append(Lstar)
                         else:
                             dv400_l001_non +=1
                             dv400_l001_non_inc.append(adjustedInc)
-
+                            dv400_l001_non_lstar.append(Lstar)
 
                     # if the likelihood is greater than 0.005, see if there's a corresponding
                     if l_used >= 0.005:
@@ -700,10 +804,11 @@ def main():
                         if detection:
                             dv400_l005_det +=1
                             dv400_l005_det_inc.append(adjustedInc)
+                            dv400_l005_det_lstar.append(Lstar)
                         else:
                             dv400_l005_non +=1
                             dv400_l005_non_inc.append(adjustedInc)
-
+                            dv400_l005_non_lstar.append(Lstar)
 
                     # if the likelihood is greater than 0.01, see if there's a corresponding
                     if l_used >= 0.01:
@@ -719,10 +824,11 @@ def main():
                         if detection:
                             dv400_l01_det +=1
                             dv400_l01_det_inc.append(adjustedInc)
+                            dv400_l01_det_lstar.append(Lstar)
                         else:
                             dv400_l01_non +=1
                             dv400_l01_non_inc.append(adjustedInc)
-                        
+                            dv400_l01_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.05, see if there's a corresponding
                     if l_used >= 0.05:
@@ -738,10 +844,11 @@ def main():
                         if detection:
                             dv400_l05_det +=1
                             dv400_l05_det_inc.append(adjustedInc)
+                            dv400_l05_det_lstar.append(Lstar)
                         else:
                             dv400_l05_non +=1
                             dv400_l05_non_inc.append(adjustedInc)
-
+                            dv400_l05_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.1, see if there's a corresponding
                     if l_used >= 0.1:
@@ -757,10 +864,11 @@ def main():
                         if detection:
                             dv400_l1_det +=1
                             dv400_l1_det_inc.append(adjustedInc)
+                            dv400_l1_det_lstar.append(Lstar)
                         else:
                             dv400_l1_non +=1
                             dv400_l1_non_inc.append(adjustedInc)
-
+                            dv400_l1_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.5, see if there's a corresponding
                     if l_used >= 0.5:
@@ -776,10 +884,11 @@ def main():
                         if detection:
                             dv400_l5_det +=1
                             dv400_l5_det_inc.append(adjustedInc)
+                            dv400_l5_det_lstar.append(Lstar)
                         else:
                             dv400_l5_non +=1
                             dv400_l5_non_inc.append(adjustedInc)
-
+                            dv400_l5_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.75, see if there's a corresponding
                     if l_used >= 0.75:
@@ -795,10 +904,11 @@ def main():
                         if detection:
                             dv400_l75_det +=1
                             dv400_l75_det_inc.append(adjustedInc)
+                            dv400_l75_det_lstar.append(Lstar)
                         else:
                             dv400_l75_non +=1
                             dv400_l75_non_inc.append(adjustedInc)
-                        
+                            dv400_l75_non_lstar.append(Lstar)
                         
     ##########################################################################################            
                 # now do it for imp/R_vir
@@ -953,6 +1063,8 @@ def main():
         print
         print
         print
+        print 'Detection fraction for 0.0001 L: ', float(dv400_l0001_det) / (dv400_l0001_det   + dv400_l0001_non)
+        print 'Detection fraction for 0.0005 L: ', float(dv400_l0005_det) / (dv400_l0005_det   + dv400_l0005_non)
         print 'Detection fraction for 0.001 L: ', float(dv400_l001_det) / (dv400_l001_det   + dv400_l001_non)
         print 'Detection fraction for 0.005 L: ', float(dv400_l005_det) / (dv400_l005_det   + dv400_l005_non)
         print 'Detection fraction for 0.01 L: ', float(dv400_l01_det)   / (dv400_l01_det    + dv400_l01_non)
@@ -962,6 +1074,9 @@ def main():
         print 'Detection fraction for 0.75 L: ', float(dv400_l75_det)   / (dv400_l75_det    + dv400_l75_non)
         print
         print
+        print
+        print 'Mean inc for 0.0001 L detections vs non: ',bmean(dv400_l0001_det_inc), ', ',bmean(dv400_l0001_non_inc)
+        print 'Mean inc for 0.0005 L detections vs non: ',bmean(dv400_l0005_det_inc), ', ',bmean(dv400_l0005_non_inc)
         print 'Mean inc for 0.001 L detections vs non: ',bmean(dv400_l001_det_inc), ', ',bmean(dv400_l001_non_inc)
         print 'Mean inc for 0.005 L detections vs non: ',bmean(dv400_l005_det_inc), ', ',bmean(dv400_l005_non_inc)
         print 'Mean inc for 0.01 L detections vs non: ',bmean(dv400_l01_det_inc), ', ',bmean(dv400_l01_non_inc)
@@ -969,6 +1084,18 @@ def main():
         print 'Mean inc for 0.1 L detections vs non: ',bmean(dv400_l1_det_inc), ', ',bmean(dv400_l1_non_inc)
         print 'Mean inc for 0.5 L detections vs non: ',bmean(dv400_l5_det_inc), ', ',bmean(dv400_l5_non_inc)
         print 'Mean inc for 0.75 L detections vs non: ',bmean(dv400_l75_det_inc), ', ',bmean(dv400_l75_non_inc)
+        print
+        print
+        print
+        print 'Mean lstar for 0.0001 L detections vs non: ',bmean(dv400_l0001_det_lstar), ', ',bmean(dv400_l0001_non_lstar)
+        print 'Mean lstar for 0.0005 L detections vs non: ',bmean(dv400_l0005_det_lstar), ', ',bmean(dv400_l0005_non_lstar)
+        print 'Mean lstar for 0.001 L detections vs non: ',bmean(dv400_l001_det_lstar), ', ',bmean(dv400_l001_non_lstar)
+        print 'Mean lstar for 0.005 L detections vs non: ',bmean(dv400_l005_det_lstar), ', ',bmean(dv400_l005_non_lstar)
+        print 'Mean lstar for 0.01 L detections vs non: ',bmean(dv400_l01_det_lstar), ', ',bmean(dv400_l01_non_lstar)
+        print 'Mean lstar for 0.05 L detections vs non: ',bmean(dv400_l05_det_lstar), ', ',bmean(dv400_l05_non_lstar)
+        print 'Mean lstar for 0.1 L detections vs non: ',bmean(dv400_l1_det_lstar), ', ',bmean(dv400_l1_non_lstar)
+        print 'Mean lstar for 0.5 L detections vs non: ',bmean(dv400_l5_det_lstar), ', ',bmean(dv400_l5_non_lstar)
+        print 'Mean lstar for 0.75 L detections vs non: ',bmean(dv400_l75_det_lstar), ', ',bmean(dv400_l75_non_lstar)
         print
         print
         print
@@ -1053,9 +1180,34 @@ def main():
     full_dict['dv400_imp50_non_inc'] = dv400_imp50_non_inc
     full_dict['dv400_imp25_non_inc'] = dv400_imp25_non_inc
 
+    # now impact parameter detection Lstar 
+    full_dict['dv400_imp1000_det_lstar'] = dv400_imp1000_det_lstar
+    full_dict['dv400_imp750_det_lstar'] = dv400_imp750_det_lstar
+    full_dict['dv400_imp500_det_lstar'] = dv400_imp500_det_lstar
+    full_dict['dv400_imp400_det_lstar'] = dv400_imp400_det_lstar
+    full_dict['dv400_imp300_det_lstar'] = dv400_imp300_det_lstar
+    full_dict['dv400_imp200_det_lstar'] = dv400_imp200_det_lstar
+    full_dict['dv400_imp100_det_lstar'] = dv400_imp100_det_lstar
+    full_dict['dv400_imp50_det_lstar'] = dv400_imp50_det_lstar
+    full_dict['dv400_imp25_det_lstar'] = dv400_imp25_det_lstar
+    
+    # now impact parameter non-detection Lstar
+    full_dict['dv400_imp1000_non_lstar'] = dv400_imp1000_non_lstar
+    full_dict['dv400_imp750_non_lstar'] = dv400_imp750_non_lstar
+    full_dict['dv400_imp500_non_lstar'] = dv400_imp500_non_lstar
+    full_dict['dv400_imp400_non_lstar'] = dv400_imp400_non_lstar
+    full_dict['dv400_imp300_non_lstar'] = dv400_imp300_non_lstar
+    full_dict['dv400_imp200_non_lstar'] = dv400_imp200_non_lstar
+    full_dict['dv400_imp100_non_lstar'] = dv400_imp100_non_lstar
+    full_dict['dv400_imp50_non_lstar'] = dv400_imp50_non_lstar
+    full_dict['dv400_imp25_non_lstar'] = dv400_imp25_non_lstar
+
+
 
 
     # now for likelihood thresholds
+    full_dict['dv_l0001'] = dv_l0001
+    full_dict['dv_l0005'] = dv_l0005
     full_dict['dv_l001'] = dv_l001
     full_dict['dv_l005'] = dv_l005
     full_dict['dv_l01'] = dv_l01
@@ -1065,6 +1217,8 @@ def main():
     full_dict['dv_l75'] = dv_l75
     
     # now for likelihood detections
+    full_dict['dv400_l0001_det'] = dv400_l0001_det
+    full_dict['dv400_l0005_det'] = dv400_l0005_det
     full_dict['dv400_l001_det'] = dv400_l001_det
     full_dict['dv400_l005_det'] = dv400_l005_det
     full_dict['dv400_l01_det'] = dv400_l01_det
@@ -1074,6 +1228,8 @@ def main():
     full_dict['dv400_l75_det'] = dv400_l75_det
     
     # now for likelihood non-detections
+    full_dict['dv400_l0001_non'] = dv400_l0001_non
+    full_dict['dv400_l0005_non'] = dv400_l0005_non
     full_dict['dv400_l001_non'] = dv400_l001_non
     full_dict['dv400_l005_non'] = dv400_l005_non
     full_dict['dv400_l01_non'] = dv400_l01_non
@@ -1083,6 +1239,8 @@ def main():
     full_dict['dv400_l75_non'] = dv400_l75_non
     
     # now for likelihood detection incs
+    full_dict['dv400_l0001_det_inc'] = dv400_l0001_det_inc
+    full_dict['dv400_l0005_det_inc'] = dv400_l0005_det_inc
     full_dict['dv400_l001_det_inc'] = dv400_l001_det_inc
     full_dict['dv400_l005_det_inc'] = dv400_l005_det_inc
     full_dict['dv400_l01_det_inc'] = dv400_l01_det_inc
@@ -1092,6 +1250,8 @@ def main():
     full_dict['dv400_l75_det_inc'] = dv400_l75_det_inc
     
     # now for likelihood non-detection incs
+    full_dict['dv400_l0001_non_inc'] = dv400_l0001_non_inc
+    full_dict['dv400_l0005_non_inc'] = dv400_l0005_non_inc
     full_dict['dv400_l001_non_inc'] = dv400_l001_non_inc
     full_dict['dv400_l005_non_inc'] = dv400_l005_non_inc
     full_dict['dv400_l01_non_inc'] = dv400_l01_non_inc
@@ -1099,6 +1259,28 @@ def main():
     full_dict['dv400_l1_non_inc'] = dv400_l1_non_inc
     full_dict['dv400_l5_non_inc'] = dv400_l5_non_inc
     full_dict['dv400_l75_non_inc'] = dv400_l75_non_inc
+    
+    # now for likelihood detection Lstars
+    full_dict['dv400_l0001_det_lstar'] = dv400_l0001_det_lstar
+    full_dict['dv400_l0005_det_lstar'] = dv400_l0005_det_lstar
+    full_dict['dv400_l001_det_lstar'] = dv400_l001_det_lstar
+    full_dict['dv400_l005_det_lstar'] = dv400_l005_det_lstar
+    full_dict['dv400_l01_det_lstar'] = dv400_l01_det_lstar
+    full_dict['dv400_l05_det_lstar'] = dv400_l05_det_lstar
+    full_dict['dv400_l1_det_lstar'] = dv400_l1_det_lstar
+    full_dict['dv400_l5_det_lstar'] = dv400_l5_det_lstar
+    full_dict['dv400_l75_det_lstar'] = dv400_l75_det_lstar
+    
+    # now for likelihood non-detection Lstars
+    full_dict['dv400_l0001_non_lstar'] = dv400_l0001_non_lstar
+    full_dict['dv400_l0005_non_lstar'] = dv400_l0005_non_lstar
+    full_dict['dv400_l001_non_lstar'] = dv400_l001_non_lstar
+    full_dict['dv400_l005_non_lstar'] = dv400_l005_non_lstar
+    full_dict['dv400_l01_non_lstar'] = dv400_l01_non_lstar
+    full_dict['dv400_l05_non_lstar'] = dv400_l05_non_lstar
+    full_dict['dv400_l1_non_lstar'] = dv400_l1_non_lstar
+    full_dict['dv400_l5_non_lstar'] = dv400_l5_non_lstar
+    full_dict['dv400_l75_non_lstar'] = dv400_l75_non_lstar
     
     
     
