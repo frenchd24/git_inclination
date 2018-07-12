@@ -85,13 +85,13 @@ def main():
 
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
     # =4 adds groups with 2 or more members
-    plot_number = 2
+    plot_number = 4
     
     # which data set to use? Options are '', '_min001', '_cus','_min001_cus',
     # '_min001_double', '_min005_v150', '_min005_v250'
     data_set = ''
     
-    min_EW = 0
+    min_EW = 50
     max_EW = 15000
 
     
@@ -302,20 +302,22 @@ def main():
         color_blue = '#377eb8'
 
 
-        alpha_green = 0.8
-        alpha_orange = 0.8
-        alpha_purple = 0.8
-        alpha_pink = 0.8
-        alpha_lime = 0.8
-        alpha_yellow = 0.8
-        alpha_brown = 0.8
-        alpha_coal = 0.8
-        alpha_blue = 0.8
-        alpha_red = 0.8
-        alpha_black = 0.8
+        alpha_green = 0.99
+        alpha_orange = 0.99
+        alpha_purple = 0.99
+        alpha_pink = 0.99
+        alpha_lime = 0.99
+        alpha_yellow = 0.99
+        alpha_brown = 0.99
+        alpha_coal = 0.99
+        alpha_blue = 0.99
+        alpha_red = 0.99
+        alpha_black = 0.99
+        
+        alpha_error = 0.5
         
         binSize = 10
-        bins = arange(0, 1050, binSize)
+        bins = arange(0, 1000+binSize, binSize)
 #         bins = 100
         
         
@@ -497,7 +499,7 @@ def main():
                                             lw=1.5,
                                             alpha=0)           
 
-            fill_between(bins_right, min_n, max_n, facecolor='black', alpha=0.5)
+            fill_between(bins_right, min_n, max_n, facecolor='black', alpha=alpha_error)
         
         
         
@@ -531,7 +533,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)           
 
-                fill_between(bins_right, min_n, max_n, facecolor='grey', alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor='grey', alpha=alpha_error)
         
         
         
@@ -545,7 +547,7 @@ def main():
                 color=color_brown,
                 lw=1.5,
                 alpha=alpha_brown,
-                label=r'$\rm L\_isolated$')
+                label=r'$\rm \mathcal{L}-Isolated$')
         
                 min_n, min_bins, min_p = hist(np.array(L_isolated_Lya_Ws_cut) - np.array(L_isolated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -565,7 +567,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)           
 
-                fill_between(bins_right, min_n, max_n, facecolor=color_brown, alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor=color_brown, alpha=alpha_error)
         
         
         
@@ -580,7 +582,7 @@ def main():
                 color=color_green,
                 lw=1.5,
                 alpha=alpha_green,
-                label=r'$\rm L\_isolated\_assoc.$')
+                label=r'$\rm \mathcal{L}-Isolated-Assoc.$')
         
                 min_n, min_bins, min_p = hist(np.array(L_isolated_associated_Lya_Ws_cut) - np.array(L_isolated_associated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -600,7 +602,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)           
 
-                fill_between(bins_right, min_n, max_n, facecolor=color_green, alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor=color_green, alpha=alpha_error)
         
         
         
@@ -615,7 +617,7 @@ def main():
                 color=color_orange,
                 lw=1.5,
                 alpha=alpha_orange,
-                label=r'$\rm L\_assoc.$')
+                label=r'$\rm \mathcal{L}-Assoc.$')
         
                 min_n, min_bins, min_p = hist(np.array(L_associated_Lya_Ws_cut) - np.array(L_associated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -635,7 +637,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)           
 
-                fill_between(bins_right, min_n, max_n, facecolor=color_orange, alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor=color_orange, alpha=alpha_error)
         
 
 
@@ -687,7 +689,7 @@ def main():
                 color=color_purple3,
                 lw=1.5,
                 alpha=alpha_purple,
-                label=r'$\rm L\_two+$')
+                label=r'$\rm \mathcal{L}-Two+$')
         
                 min_n, min_bins, min_p = hist(np.array(two_plus_Lya_Ws_cut) - np.array(two_plus_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -707,7 +709,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)
 
-                fill_between(bins_right, min_n, max_n, facecolor=color_purple3, alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor=color_purple3, alpha=alpha_error)
         
         
             # L_group
@@ -741,7 +743,7 @@ def main():
                                                 lw=1.5,
                                                 alpha=0)           
 
-                fill_between(bins_right, min_n, max_n, facecolor=color_blue, alpha=0.5)
+                fill_between(bins_right, min_n, max_n, facecolor=color_blue, alpha=alpha_error)
 #         
 
         

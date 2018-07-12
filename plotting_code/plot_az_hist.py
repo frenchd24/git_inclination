@@ -92,9 +92,9 @@ from matplotlib import rc
 # }
 
 
-fontScale = 24
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=24, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -123,8 +123,8 @@ def main():
     plot_az_hist_dif_save = False
     
     # plot all azimuth distributions for each subset (e.g., L_associated, L_two, etc)
-    plot_az_all_subsets = False
-    plot_az_all_subsets_save = False
+    plot_az_all_subsets = True
+    plot_az_all_subsets_save = True
     
     # plot azimuth distributions for L_isolated_associated
     plot_az_isolated = False
@@ -139,22 +139,24 @@ def main():
     plot_az_two_save = False
     
     # plot azimuth distributions for L_isolated_associated and L_associated
-    plot_az_isolated_vs_assoc = False
-    plot_az_isolated_vs_assoc_save = False
+    plot_az_isolated_vs_assoc = True
+    plot_az_isolated_vs_assoc_save = True
     
     # plot azimuth distributions for L_isolated_associated and L_two
-    plot_az_isolated_vs_two = False
-    plot_az_isolated_vs_two_save = False
+    plot_az_isolated_vs_two = True
+    plot_az_isolated_vs_two_save = True
     
     # plot azimuth distributions for L_isolated_associated + L_associated vs L_two + L_two_plus
-    plot_az_all_assoc_vs_not = False
-    plot_az_all_assoc_vs_not_save = False
+    plot_az_all_assoc_vs_not = True
+    plot_az_all_assoc_vs_not_save = True
     
     # plot azimuth distributions for L_isolated_associated + L_associated as a function
     # of MType
-    plot_az_assoc_MType = True
-    plot_az_assoc_MType_save = True
+    plot_az_assoc_MType = False
+    plot_az_assoc_MType_save = False
     
+    # which data set to use?
+    data_set = '_v250'
 
     color_blue = '#436bad'      # french blue
     color_red = '#ec2d01'     # tomato red
@@ -180,14 +182,15 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated6.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated6.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated6.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated6.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated6.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two6.p'
-        L_two_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two_plus6.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group6.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8{0}.p'.format(data_set)
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8{0}.p'.format(data_set)
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8{0}.p'.format(data_set)
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8{0}.p'.format(data_set)
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8{0}.p'.format(data_set)
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8{0}.p'.format(data_set)
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8{0}.p'.format(data_set)
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8{0}.p'.format(data_set)
+        L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8{0}.p'.format(data_set)
 
 
     else:
@@ -207,7 +210,7 @@ def main():
     L_associated_file = open(L_associated_filename,'r')
     L_nonassociated_file = open(L_nonassociated_filename,'r')
     L_two_file = open(L_two_filename,'r')
-    L_two_plus_file = open(L_two_plus_filename,'r')
+    L_three_plus_file = open(L_three_plus_filename,'r')
     L_group_file = open(L_group_filename,'r')
 
     # unload the data from them
@@ -217,7 +220,7 @@ def main():
     L_associated = pickle.load(L_associated_file)
     L_nonassociated = pickle.load(L_nonassociated_file)
     L_two = pickle.load(L_two_file)
-    L_two_plus = pickle.load(L_two_plus_file)
+    L_three_plus = pickle.load(L_three_plus_file)
     L_group = pickle.load(L_group_file)
     
     # close the files
@@ -227,7 +230,7 @@ def main():
     L_associated_file.close()
     L_nonassociated_file.close()
     L_two_file.close()
-    L_two_plus_file.close()
+    L_three_plus_file.close()
     L_group_file.close()
     
     
@@ -435,7 +438,7 @@ def main():
         tight_layout()
 
         if plot_az_hist_dif_save:
-            savefig('{0}/hist(azimuth)_dif_{1}.pdf'.format(saveDirectory, binsize),format='pdf')
+            savefig('{0}/hist(azimuth)_dif_{1}_dataset{2}.pdf'.format(saveDirectory, binsize, data_set),format='pdf')
         else:
             show()
 
@@ -541,7 +544,7 @@ def main():
 #         tight_layout()
 
         if plot_az_hist_all_overlaid_save:
-            savefig('{0}/hist(azimuth)_overlaid_all.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_overlaid_all_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -549,77 +552,111 @@ def main():
 #########################################################################################    
     if plot_az_all_subsets:
     
-        fig = figure(figsize=(10,6))
+        fig = figure(figsize=(9,5))
         subplots_adjust(hspace=0.200)
         bins = arange(0,100,10)
         
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
-        lw = 2.0
+        lw = 3.0
         
-        color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
         color_grey = 'grey'
 
-#         color_L_associated_isolated = '#e41a1c' # red
-#         color_L_associated = '#377eb8' # blue
-#         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
-#         color_L_group = '#ff7f00' # orange
+        color_red2 = '#e41a1c' # red
         
+        color_green = '#4daf4a' # green
+        color_green2 = '#1b9e77'
+        
+        color_orange2 = '#d95f02'
+        color_purple = '#7570b3'
+        color_purple2 = '#984ea3'
+        color_purple3 = '#7570b3'
+        
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        color_blue2 = '#377eb8'
+
+
+        alpha_green = 0.99
+        alpha_orange = 0.99
+        alpha_purple = 0.99
+        alpha_pink = 0.99
+        alpha_lime = 0.99
+        alpha_yellow = 0.99
+        alpha_brown = 0.99
+        alpha_coal = 0.99
+        alpha_blue = 0.99
+        alpha_red = 0.99
+        alpha_black = 0.99
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
+        all_associated_azimuths = np.array(list(azimuths) + list(L_associated_azimuths))
 
-        # L_associated_isolated
+        # all assoc
         hist(all_associated_azimuths,
         bins=bins,
         histtype='step',
         color=color_black,
         lw=lw,
-        alpha=alpha_L_associated_isolated,
-        label=r'$\rm All~ Assoc.$')
+        alpha=alpha_black,
+        label=r'$\rm All~Assoc.$')
+
+
+        # L_associated_isolated
+        hist(azimuths,
+        bins=bins,
+        histtype='step',
+        color=color_green,
+        lw=lw,
+        alpha=alpha_green,
+        label=r'$\rm L\_associated\_isolated$')
 
 
         # L_associated
-#         hist(L_associated_azimuths,
-#         bins=bins,
-#         histtype='step',
-#         color=color_L_associated,
-#         lw=lw,
-#         alpha=alpha_L_associated,
-#         label=r'$\rm L\_associated$')
-
-
-        # L_two
-        hist(L_two_azimuths + L_two_plus_azimuths,
+        hist(L_associated_azimuths,
         bins=bins,
         histtype='step',
         color=color_orange,
         lw=lw,
-        alpha=alpha_L_two,
+        alpha=alpha_orange,
+        label=r'$\rm L\_associated$')
+
+
+        # L_two
+        two_plus = np.array(list(L_two_azimuths) + list(L_three_plus_azimuths))
+        
+        hist(two_plus,
+        bins=bins,
+        histtype='step',
+        color=color_purple2,
+        lw=lw,
+        alpha=alpha_purple,
         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -657,7 +694,7 @@ def main():
 
 
         if plot_az_all_subsets_save:
-            savefig('{0}/hist(azimuth)_all_assoc_subsets.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_all_subsets_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -673,13 +710,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 2.0
@@ -687,20 +724,18 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
-
         # L_associated_isolated
         hist(azimuths,
         bins=bins,
@@ -724,7 +759,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -732,13 +767,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -775,7 +810,7 @@ def main():
 
 
         if plot_az_isolated_save:
-            savefig('{0}/hist(azimuth)_isolated.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_isolated_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -791,13 +826,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 2.0
@@ -805,20 +840,18 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
-
         # L_associated_isolated
         hist(L_associated_azimuths,
         bins=bins,
@@ -841,7 +874,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -849,13 +882,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -892,7 +925,7 @@ def main():
 
 
         if plot_az_assoc_save:
-            savefig('{0}/hist(azimuth)_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_assoc_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -908,13 +941,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 2.0
@@ -922,19 +955,18 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
 
         # L_associated_isolated
         hist(L_two_azimuths,
@@ -958,7 +990,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -966,13 +998,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -1008,7 +1040,7 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
 
         if plot_az_two_save:
-            savefig('{0}/hist(azimuth)_two.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_two_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1023,13 +1055,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 2.0
@@ -1037,19 +1069,18 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
 
         # L_associated_isolated
         hist(azimuths,
@@ -1072,7 +1103,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -1080,13 +1111,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -1121,8 +1152,8 @@ def main():
         ylim(0,40)
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
 
-        if plot_az_two_save:
-            savefig('{0}/hist(azimuth)_isolated_vs_assoc.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        if plot_az_isolated_vs_assoc_save:
+            savefig('{0}/hist(azimuth)_isolated_vs_assoc_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1138,13 +1169,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 2.0
@@ -1152,13 +1183,13 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
@@ -1187,7 +1218,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -1195,13 +1226,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -1237,7 +1268,7 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
 
         if plot_az_isolated_vs_two_save:
-            savefig('{0}/hist(azimuth)_isolated_vs_two.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_isolated_vs_two_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1253,13 +1284,13 @@ def main():
         L_associated_azimuths = L_associated['azimuths']
         L_nonassociated_azimuths = L_nonassociated['azimuths']
         L_two_azimuths = L_two['azimuths']
-        L_two_plus_azimuths = L_two_plus['azimuths']
+        L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         
         lw = 3.0
@@ -1267,20 +1298,20 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
         
 
         ax = fig.add_subplot(111)
         
-        all_associated_azimuths = azimuths + L_associated_azimuths
-        all_not_azimuths = L_two_azimuths + L_two_plus_azimuths
+        all_associated_azimuths = np.array(list(azimuths) + list(L_associated_azimuths))
+        all_not_azimuths = np.array(list(L_two_azimuths) + list(L_three_plus_azimuths))
 
         # all associated
         hist(all_associated_azimuths,
@@ -1303,7 +1334,7 @@ def main():
 
 
         # L_two
-#         hist(L_two_azimuths + L_two_plus_azimuths,
+#         hist(L_two_azimuths + L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
 #         color=color_orange,
@@ -1311,13 +1342,13 @@ def main():
 #         alpha=alpha_L_two,
 #         label=r'$\rm L\_two+$')
         
-        # L_two_plus_azimuths
-#         hist(L_two_plus_azimuths,
+        # L_three_plus_azimuths
+#         hist(L_three_plus_azimuths,
 #         bins=bins,
 #         histtype='step',
-#         color=color_L_two_plus,
+#         color=color_L_three_plus,
 #         lw=lw,
-#         alpha=alpha_L_two_plus,
+#         alpha=alpha_L_three_plus,
 #         label=r'$\rm L\_two\_plus$')
         
         # L_group_azimuths
@@ -1353,7 +1384,7 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
 
         if plot_az_all_assoc_vs_not_save:
-            savefig('{0}/hist(azimuth)_all_assoc_vs_not.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_all_assoc_vs_not_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1373,13 +1404,13 @@ def main():
 #         L_associated_azimuths = L_associated['azimuths']
 #         L_nonassociated_azimuths = L_nonassociated['azimuths']
 #         L_two_azimuths = L_two['azimuths']
-#         L_two_plus_azimuths = L_two_plus['azimuths']
+#         L_three_plus_azimuths = L_three_plus['azimuths']
 #         L_group_azimuths = L_group['azimuths']
         
         alpha_L_associated_isolated = 1.0
         alpha_L_associated = 0.8
         alpha_L_two = 1.0
-        alpha_L_two_plus = 1.0
+        alpha_L_three_plus = 1.0
         alpha_L_group = 1.0
         alpha_red = 0.9
         alpha_blue = 0.9
@@ -1389,13 +1420,13 @@ def main():
         color_blue = '#377eb8' # blue
         color_black = 'black'
         color_orange = '#ff7f00' # orange
-#         color_L_two_plus = '#984ea3'
+#         color_L_three_plus = '#984ea3'
         color_grey = 'grey'
 
 #         color_L_associated_isolated = '#e41a1c' # red
 #         color_L_associated = '#377eb8' # blue
 #         color_L_two = '#4daf4a' # green
-#         color_L_two_plus = '#984ea3' # purple
+#         color_L_three_plus = '#984ea3' # purple
 #         color_L_group = '#ff7f00' # orange
 
         # L_isolate_associated
@@ -1456,12 +1487,12 @@ def main():
                 L_two_MTypes_cut.append(type)
 
         
-        # grab the two_plus data 
-        L_three_Lya_Ws = L_two_plus['Lya_Ws']
-        L_three_R_virs = L_two_plus['R_virs']
-        L_three_impacts = L_two_plus['impacts']
-        L_three_MajDiams = L_two_plus['MajDiams']
-        L_three_ls = L_two_plus['ls']
+        # grab the three_plus data 
+        L_three_Lya_Ws = L_three_plus['Lya_Ws']
+        L_three_R_virs = L_three_plus['R_virs']
+        L_three_impacts = L_three_plus['impacts']
+        L_three_MajDiams = L_three_plus['MajDiams']
+        L_three_ls = L_three_plus['ls']
         
         L_three_Lya_Ws_cut = []
         for w in L_three_Lya_Ws:
@@ -1564,7 +1595,7 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc=2,fancybox=True)
 
         if plot_az_assoc_MType_save:
-            savefig('{0}/hist(azimuth)_assoc_MType.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/hist(azimuth)_assoc_MType_dataset{1}.pdf'.format(saveDirectory, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
 

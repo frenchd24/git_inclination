@@ -314,12 +314,54 @@ def main():
     dv400_l5_non_inc = dv400_l5_non_inc.astype(np.float)
     dv400_l75_non_inc = dv400_l75_non_inc.astype(np.float)
     
+    # remove '-99' values from the likelihood inclination lists
+    dv400_l0001_det_inc = list(filter(lambda x: x!= -99, dv400_l0001_det_inc))
+    dv400_l0005_det_inc = list(filter(lambda x: x!= -99, dv400_l0005_det_inc))
+    dv400_l001_det_inc = list(filter(lambda x: x!= -99, dv400_l001_det_inc))
+    dv400_l005_det_inc = list(filter(lambda x: x!= -99, dv400_l005_det_inc))
+    dv400_l01_det_inc = list(filter(lambda x: x!= -99, dv400_l01_det_inc))
+    dv400_l05_det_inc = list(filter(lambda x: x!= -99, dv400_l05_det_inc))
+    dv400_l1_det_inc = list(filter(lambda x: x!= -99, dv400_l1_det_inc))
+    dv400_l5_det_inc = list(filter(lambda x: x!= -99, dv400_l5_det_inc))
+    dv400_l75_det_inc = list(filter(lambda x: x!= -99, dv400_l75_det_inc))
+
+    dv400_l0001_non_inc = list(filter(lambda x: x!= -99, dv400_l0001_non_inc))
+    dv400_l0005_non_inc = list(filter(lambda x: x!= -99, dv400_l0005_non_inc))
+    dv400_l001_non_inc = list(filter(lambda x: x!= -99, dv400_l001_non_inc))
+    dv400_l005_non_inc = list(filter(lambda x: x!= -99, dv400_l005_non_inc))
+    dv400_l01_non_inc = list(filter(lambda x: x!= -99, dv400_l01_non_inc))
+    dv400_l05_non_inc = list(filter(lambda x: x!= -99, dv400_l05_non_inc))
+    dv400_l1_non_inc = list(filter(lambda x: x!= -99, dv400_l1_non_inc))
+    dv400_l5_non_inc = list(filter(lambda x: x!= -99, dv400_l5_non_inc))
+    dv400_l75_non_inc = list(filter(lambda x: x!= -99, dv400_l75_non_inc))
+    
+    # remove '-99' values from the impact parameter inclination lists
+    dv400_imp1000_det_inc = list(filter(lambda x: x!= -99, dv400_imp1000_det_inc))
+    dv400_imp750_det_inc = list(filter(lambda x: x!= -99, dv400_imp750_det_inc))
+    dv400_imp500_det_inc = list(filter(lambda x: x!= -99, dv400_imp500_det_inc))
+    dv400_imp400_det_inc = list(filter(lambda x: x!= -99, dv400_imp400_det_inc))
+    dv400_imp300_det_inc = list(filter(lambda x: x!= -99, dv400_imp300_det_inc))
+    dv400_imp200_det_inc = list(filter(lambda x: x!= -99, dv400_imp200_det_inc))
+    dv400_imp100_det_inc = list(filter(lambda x: x!= -99, dv400_imp100_det_inc))
+    dv400_imp50_det_inc = list(filter(lambda x: x!= -99, dv400_imp50_det_inc))
+    dv400_imp25_det_inc = list(filter(lambda x: x!= -99, dv400_imp25_det_inc))
+
+    dv400_imp1000_non_inc = list(filter(lambda x: x!= -99, dv400_imp1000_non_inc))
+    dv400_imp750_non_inc = list(filter(lambda x: x!= -99, dv400_imp750_non_inc))
+    dv400_imp500_non_inc = list(filter(lambda x: x!= -99, dv400_imp500_non_inc))
+    dv400_imp400_non_inc = list(filter(lambda x: x!= -99, dv400_imp400_non_inc))
+    dv400_imp300_non_inc = list(filter(lambda x: x!= -99, dv400_imp300_non_inc))
+    dv400_imp200_non_inc = list(filter(lambda x: x!= -99, dv400_imp200_non_inc))
+    dv400_imp100_non_inc = list(filter(lambda x: x!= -99, dv400_imp100_non_inc))
+    dv400_imp50_non_inc = list(filter(lambda x: x!= -99, dv400_imp50_non_inc))
+    dv400_imp25_non_inc = list(filter(lambda x: x!= -99, dv400_imp25_non_inc))
+    
     
     
     
     print 'dv400_imp1000_det_inc: ',dv400_imp1000_det_inc
 
-
+    print
     print 'Detection fraction for 1000 kpc: ', float(dv400_imp1000_det) / (dv400_imp1000_det + dv400_imp1000_non)
     print 'Detection fraction for 750 kpc: ', float(dv400_imp750_det) / (dv400_imp750_det + dv400_imp750_non)
     print 'Detection fraction for 500 kpc: ', float(dv400_imp500_det) / (dv400_imp500_det + dv400_imp500_non)
@@ -328,6 +370,18 @@ def main():
     print 'Detection fraction for 200 kpc: ', float(dv400_imp200_det) / (dv400_imp200_det + dv400_imp200_non)
     print 'Detection fraction for 100 kpc: ', float(dv400_imp100_det) / (dv400_imp100_det + dv400_imp100_non)
     print 'Detection fraction for 50 kpc: ', float(dv400_imp50_det) / (dv400_imp50_det + dv400_imp50_non)
+    print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det) / (dv400_imp25_det + dv400_imp25_non)
+    print
+    print 'dv400_imp50_det: ',dv400_imp50_det
+    print
+    print 'dv400_imp50_non: ',dv400_imp50_non
+    print
+    print 'dv400_imp25_det: ',dv400_imp25_det
+    print
+    print 'dv400_imp25_non: ',dv400_imp25_non
+    print
+    print
+    print
     
     try:
         print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det) / (dv400_imp25_det + dv400_imp25_non)
@@ -343,7 +397,7 @@ def main():
     print 'Detection fraction for 200 kpc mean inc: ', bmean(np.array(dv400_imp200_det_inc)), ', ',bmean(np.array(dv400_imp200_non_inc))
     print 'Detection fraction for 100 kpc mean inc: ', bmean(np.array(dv400_imp100_det_inc)), ', ',bmean(np.array(dv400_imp100_non_inc))
     print 'Detection fraction for 50 kpc mean inc: ', bmean(np.array(dv400_imp50_det_inc)), ', ',bmean(np.array(dv400_imp50_non_inc))
-    print 'Detection fraction for 50 kpc mean inc: ', bmean(np.array(dv400_imp25_det_inc)), ', ',bmean(np.array(dv400_imp25_non_inc))
+    print 'Detection fraction for 25 kpc mean inc: ', bmean(np.array(dv400_imp25_det_inc)), ', ',bmean(np.array(dv400_imp25_non_inc))
     print
     print
     print
@@ -592,22 +646,6 @@ def main():
         print 'len(dv400_l5_non_inc) : ',len(dv400_l5_non_inc)
         print 'len(dv400_l75_non_inc) : ',len(dv400_l75_non_inc)
         print
-
-        dv400_l001_det_inc = list(filter(lambda x: x!= -99, dv400_l001_det_inc))
-        dv400_l005_det_inc = list(filter(lambda x: x!= -99, dv400_l005_det_inc))
-        dv400_l01_det_inc = list(filter(lambda x: x!= -99, dv400_l01_det_inc))
-        dv400_l05_det_inc = list(filter(lambda x: x!= -99, dv400_l05_det_inc))
-        dv400_l1_det_inc = list(filter(lambda x: x!= -99, dv400_l1_det_inc))
-        dv400_l5_det_inc = list(filter(lambda x: x!= -99, dv400_l5_det_inc))
-        dv400_l75_det_inc = list(filter(lambda x: x!= -99, dv400_l75_det_inc))
-
-        dv400_l001_non_inc = list(filter(lambda x: x!= -99, dv400_l001_non_inc))
-        dv400_l005_non_inc = list(filter(lambda x: x!= -99, dv400_l005_non_inc))
-        dv400_l01_non_inc = list(filter(lambda x: x!= -99, dv400_l01_non_inc))
-        dv400_l05_non_inc = list(filter(lambda x: x!= -99, dv400_l05_non_inc))
-        dv400_l1_non_inc = list(filter(lambda x: x!= -99, dv400_l1_non_inc))
-        dv400_l5_non_inc = list(filter(lambda x: x!= -99, dv400_l5_non_inc))
-        dv400_l75_non_inc = list(filter(lambda x: x!= -99, dv400_l75_non_inc))
             
             
 

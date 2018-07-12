@@ -104,8 +104,8 @@ def bmedian(a):
 def main():
     # plot detection fraction as a function of both impact parameter and likelihood - 
     # does not work right now
-    plot_detection_fraction_both = False
-    plot_detection_fraction_both_save = False
+    plot_detection_fraction_both = True
+    plot_detection_fraction_both_save = True
     
     # plot detection fraction as a function of impact parameter
     plot_detection_fraction_impact = False
@@ -123,14 +123,13 @@ def main():
     plot_detection_fraction_impact_inc = False
     plot_detection_fraction_impact_inc_save = False
 
+    # plot detection fraction as a function of likelihood
+    plot_detection_fraction_likelihood_lstar = False
+    plot_detection_fraction_likelihood_lstar_save = False
 
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_lstar = True
-    plot_detection_fraction_likelihood_lstar_save = True
-
-    # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_lstar = True
-    plot_detection_fraction_impact_lstar_save = True
+    plot_detection_fraction_impact_lstar = False
+    plot_detection_fraction_impact_lstar_save = False
     
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
     # =4 adds groups with 2 or more members
@@ -379,47 +378,89 @@ def main():
     
     #######
     # cut out '-99' from all the data
-    dv400_l0001_det_inc = list(filter(lambda x: x!= -99, dv400_l0001_det_inc))
-    dv400_l0005_det_inc = list(filter(lambda x: x!= -99, dv400_l0005_det_inc))
-    dv400_l001_det_inc = list(filter(lambda x: x!= -99, dv400_l001_det_inc))
-    dv400_l005_det_inc = list(filter(lambda x: x!= -99, dv400_l005_det_inc))
-    dv400_l01_det_inc = list(filter(lambda x: x!= -99, dv400_l01_det_inc))
-    dv400_l05_det_inc = list(filter(lambda x: x!= -99, dv400_l05_det_inc))
-    dv400_l1_det_inc = list(filter(lambda x: x!= -99, dv400_l1_det_inc))
-    dv400_l5_det_inc = list(filter(lambda x: x!= -99, dv400_l5_det_inc))
-    dv400_l75_det_inc = list(filter(lambda x: x!= -99, dv400_l75_det_inc))
+    # likelihood version first - inclinations
+    dv400_l0001_det_inc = list(filter(lambda x: x!= -99., dv400_l0001_det_inc))
+    dv400_l0005_det_inc = list(filter(lambda x: x!= -99., dv400_l0005_det_inc))
+    dv400_l001_det_inc = list(filter(lambda x: x!= -99., dv400_l001_det_inc))
+    dv400_l005_det_inc = list(filter(lambda x: x!= -99., dv400_l005_det_inc))
+    dv400_l01_det_inc = list(filter(lambda x: x!= -99., dv400_l01_det_inc))
+    dv400_l05_det_inc = list(filter(lambda x: x!= -99., dv400_l05_det_inc))
+    dv400_l1_det_inc = list(filter(lambda x: x!= -99., dv400_l1_det_inc))
+    dv400_l5_det_inc = list(filter(lambda x: x!= -99., dv400_l5_det_inc))
+    dv400_l75_det_inc = list(filter(lambda x: x!= -99., dv400_l75_det_inc))
 
-    dv400_l0001_non_inc = list(filter(lambda x: x!= -99, dv400_l0001_non_inc))
-    dv400_l0005_non_inc = list(filter(lambda x: x!= -99, dv400_l0005_non_inc))
-    dv400_l001_non_inc = list(filter(lambda x: x!= -99, dv400_l001_non_inc))
-    dv400_l005_non_inc = list(filter(lambda x: x!= -99, dv400_l005_non_inc))
-    dv400_l01_non_inc = list(filter(lambda x: x!= -99, dv400_l01_non_inc))
-    dv400_l05_non_inc = list(filter(lambda x: x!= -99, dv400_l05_non_inc))
-    dv400_l1_non_inc = list(filter(lambda x: x!= -99, dv400_l1_non_inc))
-    dv400_l5_non_inc = list(filter(lambda x: x!= -99, dv400_l5_non_inc))
-    dv400_l75_non_inc = list(filter(lambda x: x!= -99, dv400_l75_non_inc))
+    dv400_l0001_non_inc = list(filter(lambda x: x!= -99., dv400_l0001_non_inc))
+    dv400_l0005_non_inc = list(filter(lambda x: x!= -99., dv400_l0005_non_inc))
+    dv400_l001_non_inc = list(filter(lambda x: x!= -99., dv400_l001_non_inc))
+    dv400_l005_non_inc = list(filter(lambda x: x!= -99., dv400_l005_non_inc))
+    dv400_l01_non_inc = list(filter(lambda x: x!= -99., dv400_l01_non_inc))
+    dv400_l05_non_inc = list(filter(lambda x: x!= -99., dv400_l05_non_inc))
+    dv400_l1_non_inc = list(filter(lambda x: x!= -99., dv400_l1_non_inc))
+    dv400_l5_non_inc = list(filter(lambda x: x!= -99., dv400_l5_non_inc))
+    dv400_l75_non_inc = list(filter(lambda x: x!= -99., dv400_l75_non_inc))
     
-    
-    dv400_l0001_det_lstar = list(filter(lambda x: x!= -99, dv400_l0001_det_lstar))
-    dv400_l0005_det_lstar = list(filter(lambda x: x!= -99, dv400_l0005_det_lstar))
-    dv400_l001_det_lstar = list(filter(lambda x: x!= -99, dv400_l001_det_lstar))
-    dv400_l005_det_lstar = list(filter(lambda x: x!= -99, dv400_l005_det_lstar))
-    dv400_l01_det_lstar = list(filter(lambda x: x!= -99, dv400_l01_det_lstar))
-    dv400_l05_det_lstar = list(filter(lambda x: x!= -99, dv400_l05_det_lstar))
-    dv400_l1_det_lstar = list(filter(lambda x: x!= -99, dv400_l1_det_lstar))
-    dv400_l5_det_lstar = list(filter(lambda x: x!= -99, dv400_l5_det_lstar))
-    dv400_l75_det_lstar = list(filter(lambda x: x!= -99, dv400_l75_det_lstar))
+    # likelihood version - lstars
+    dv400_l0001_det_lstar = list(filter(lambda x: x!= -99., dv400_l0001_det_lstar))
+    dv400_l0005_det_lstar = list(filter(lambda x: x!= -99., dv400_l0005_det_lstar))
+    dv400_l001_det_lstar = list(filter(lambda x: x!= -99., dv400_l001_det_lstar))
+    dv400_l005_det_lstar = list(filter(lambda x: x!= -99., dv400_l005_det_lstar))
+    dv400_l01_det_lstar = list(filter(lambda x: x!= -99., dv400_l01_det_lstar))
+    dv400_l05_det_lstar = list(filter(lambda x: x!= -99., dv400_l05_det_lstar))
+    dv400_l1_det_lstar = list(filter(lambda x: x!= -99., dv400_l1_det_lstar))
+    dv400_l5_det_lstar = list(filter(lambda x: x!= -99., dv400_l5_det_lstar))
+    dv400_l75_det_lstar = list(filter(lambda x: x!= -99., dv400_l75_det_lstar))
 
-    dv400_l0001_non_lstar = list(filter(lambda x: x!= -99, dv400_l0001_non_lstar))
-    dv400_l0005_non_lstar = list(filter(lambda x: x!= -99, dv400_l0005_non_lstar))
-    dv400_l001_non_lstar = list(filter(lambda x: x!= -99, dv400_l001_non_lstar))
-    dv400_l005_non_lstar = list(filter(lambda x: x!= -99, dv400_l005_non_lstar))
-    dv400_l01_non_lstar = list(filter(lambda x: x!= -99, dv400_l01_non_lstar))
-    dv400_l05_non_lstar = list(filter(lambda x: x!= -99, dv400_l05_non_lstar))
-    dv400_l1_non_lstar = list(filter(lambda x: x!= -99, dv400_l1_non_lstar))
-    dv400_l5_non_lstar = list(filter(lambda x: x!= -99, dv400_l5_non_lstar))
-    dv400_l75_non_lstar = list(filter(lambda x: x!= -99, dv400_l75_non_lstar))
+    dv400_l0001_non_lstar = list(filter(lambda x: x!= -99., dv400_l0001_non_lstar))
+    dv400_l0005_non_lstar = list(filter(lambda x: x!= -99., dv400_l0005_non_lstar))
+    dv400_l001_non_lstar = list(filter(lambda x: x!= -99., dv400_l001_non_lstar))
+    dv400_l005_non_lstar = list(filter(lambda x: x!= -99., dv400_l005_non_lstar))
+    dv400_l01_non_lstar = list(filter(lambda x: x!= -99., dv400_l01_non_lstar))
+    dv400_l05_non_lstar = list(filter(lambda x: x!= -99., dv400_l05_non_lstar))
+    dv400_l1_non_lstar = list(filter(lambda x: x!= -99., dv400_l1_non_lstar))
+    dv400_l5_non_lstar = list(filter(lambda x: x!= -99., dv400_l5_non_lstar))
+    dv400_l75_non_lstar = list(filter(lambda x: x!= -99., dv400_l75_non_lstar))
     
+    # now impact version - inclinations
+    dv400_imp1000_det_inc = list(filter(lambda x: x!= -99., dv400_imp1000_det_inc))
+    dv400_imp750_det_inc = list(filter(lambda x: x!= -99., dv400_imp750_det_inc))
+    dv400_imp500_det_inc = list(filter(lambda x: x!= -99., dv400_imp500_det_inc))
+    dv400_imp400_det_inc = list(filter(lambda x: x!= -99., dv400_imp400_det_inc))
+    dv400_imp300_det_inc = list(filter(lambda x: x!= -99., dv400_imp300_det_inc))
+    dv400_imp200_det_inc = list(filter(lambda x: x!= -99., dv400_imp200_det_inc))
+    dv400_imp100_det_inc = list(filter(lambda x: x!= -99., dv400_imp100_det_inc))
+    dv400_imp50_det_inc = list(filter(lambda x: x!= -99., dv400_imp50_det_inc))
+    dv400_imp25_det_inc = list(filter(lambda x: x!= -99., dv400_imp25_det_inc))
+
+    dv400_imp1000_non_inc = list(filter(lambda x: x!= -99., dv400_imp1000_non_inc))
+    dv400_imp750_non_inc = list(filter(lambda x: x!= -99., dv400_imp750_non_inc))
+    dv400_imp500_non_inc = list(filter(lambda x: x!= -99., dv400_imp500_non_inc))
+    dv400_imp400_non_inc = list(filter(lambda x: x!= -99., dv400_imp400_non_inc))
+    dv400_imp300_non_inc = list(filter(lambda x: x!= -99., dv400_imp300_non_inc))
+    dv400_imp200_non_inc = list(filter(lambda x: x!= -99., dv400_imp200_non_inc))
+    dv400_imp100_non_inc = list(filter(lambda x: x!= -99., dv400_imp100_non_inc))
+    dv400_imp50_non_inc = list(filter(lambda x: x!= -99., dv400_imp50_non_inc))
+    dv400_imp25_non_inc = list(filter(lambda x: x!= -99., dv400_imp25_non_inc))
+    
+    # now impact version - lstars
+    dv400_imp1000_det_lstar = list(filter(lambda x: x!= -99., dv400_imp1000_det_lstar))
+    dv400_imp750_det_lstar = list(filter(lambda x: x!= -99., dv400_imp750_det_lstar))
+    dv400_imp500_det_lstar = list(filter(lambda x: x!= -99., dv400_imp500_det_lstar))
+    dv400_imp400_det_lstar = list(filter(lambda x: x!= -99., dv400_imp400_det_lstar))
+    dv400_imp300_det_lstar = list(filter(lambda x: x!= -99., dv400_imp300_det_lstar))
+    dv400_imp200_det_lstar = list(filter(lambda x: x!= -99., dv400_imp200_det_lstar))
+    dv400_imp100_det_lstar = list(filter(lambda x: x!= -99., dv400_imp100_det_lstar))
+    dv400_imp50_det_lstar = list(filter(lambda x: x!= -99., dv400_imp50_det_lstar))
+    dv400_imp25_det_lstar = list(filter(lambda x: x!= -99., dv400_imp25_det_lstar))
+
+    dv400_imp1000_non_lstar = list(filter(lambda x: x!= -99., dv400_imp1000_non_lstar))
+    dv400_imp750_non_lstar = list(filter(lambda x: x!= -99., dv400_imp750_non_lstar))
+    dv400_imp500_non_lstar = list(filter(lambda x: x!= -99., dv400_imp500_non_lstar))
+    dv400_imp400_non_lstar = list(filter(lambda x: x!= -99., dv400_imp400_non_lstar))
+    dv400_imp300_non_lstar = list(filter(lambda x: x!= -99., dv400_imp300_non_lstar))
+    dv400_imp200_non_lstar = list(filter(lambda x: x!= -99., dv400_imp200_non_lstar))
+    dv400_imp100_non_lstar = list(filter(lambda x: x!= -99., dv400_imp100_non_lstar))
+    dv400_imp50_non_lstar = list(filter(lambda x: x!= -99., dv400_imp50_non_lstar))
+    dv400_imp25_non_lstar = list(filter(lambda x: x!= -99., dv400_imp25_non_lstar))
     
     
     
@@ -434,11 +475,30 @@ def main():
     print 'Detection fraction for 200 kpc: ', float(dv400_imp200_det) / (dv400_imp200_det + dv400_imp200_non)
     print 'Detection fraction for 100 kpc: ', float(dv400_imp100_det) / (dv400_imp100_det + dv400_imp100_non)
     print 'Detection fraction for 50 kpc: ', float(dv400_imp50_det) / (dv400_imp50_det + dv400_imp50_non)
+    print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det) / (dv400_imp25_det + dv400_imp25_non)
+    print
+    print 'dv400_imp50_det: ',dv400_imp50_det
+    print
+    print 'dv400_imp50_non: ',dv400_imp50_non
+    print
+    print 'dv400_imp25_det: ',dv400_imp25_det
+    print
+    print 'dv400_imp25_non: ',dv400_imp25_non
+    print
+    print
+    print
     
     try:
         print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det) / (dv400_imp25_det + dv400_imp25_non)
     except Exception, e:
         print 'Error: ',e
+    
+    print 'dv400_imp25_det_inc: ',dv400_imp25_det_inc
+    print 'dv400_imp25_non_inc: ',dv400_imp25_non_inc
+    print 'dv400_l75_det_inc: ',dv400_l75_det_inc
+    print 'dv400_l75_non_inc: ',dv400_l75_non_inc
+    print
+    
     print
     print
     print 'Detection fraction for 1000 kpc mean inc: ', bmean(np.array(dv400_imp1000_det_inc)), ', ',bmean(np.array(dv400_imp1000_non_inc))
@@ -449,7 +509,7 @@ def main():
     print 'Detection fraction for 200 kpc mean inc: ', bmean(np.array(dv400_imp200_det_inc)), ', ',bmean(np.array(dv400_imp200_non_inc))
     print 'Detection fraction for 100 kpc mean inc: ', bmean(np.array(dv400_imp100_det_inc)), ', ',bmean(np.array(dv400_imp100_non_inc))
     print 'Detection fraction for 50 kpc mean inc: ', bmean(np.array(dv400_imp50_det_inc)), ', ',bmean(np.array(dv400_imp50_non_inc))
-    print 'Detection fraction for 50 kpc mean inc: ', bmean(np.array(dv400_imp25_det_inc)), ', ',bmean(np.array(dv400_imp25_non_inc))
+    print 'Detection fraction for 25 kpc mean inc: ', bmean(np.array(dv400_imp25_det_inc)), ', ',bmean(np.array(dv400_imp25_non_inc))
     print
     print
     print
@@ -1291,8 +1351,10 @@ def main():
 
         impact_x = [25, 50, 100, 200, 300, 400, 500, 750, 1000]
         impact_y = [frac_imp25, frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
-        
-        
+
+
+        frac_l0001 = float(dv400_l0001_det) / float(dv400_l0001_det + dv400_l0001_non)
+        frac_l0005 = float(dv400_l0005_det) / float(dv400_l0005_det + dv400_l0005_non)
         frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
         frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
         frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
@@ -1301,8 +1363,8 @@ def main():
         frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
         frac_l75   = float(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
 
-        likelihood_x = [0.75, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001]
-        likelihood_y = [frac_l75, frac_l5, frac_l1, frac_l05, frac_l01, frac_l005, frac_l001]
+        likelihood_x = [0.75, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
+        likelihood_y = [frac_l75, frac_l5, frac_l1, frac_l05, frac_l01, frac_l005, frac_l001, frac_l0005, frac_l0001]
 
 
         # impact detection fraction
@@ -1370,9 +1432,9 @@ def main():
 #         ax.yaxis.set_minor_locator(minorLocator)
         
         
-        majorLocator   = MultipleLocator(0.2)
+        majorLocator   = MultipleLocator(0.1)
         majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
+        minorLocator   = MultipleLocator(0.05)
         ax1.yaxis.set_major_locator(majorLocator)
         ax1.yaxis.set_major_formatter(majorFormatter)
         ax1.yaxis.set_minor_locator(minorLocator)
@@ -1393,7 +1455,7 @@ def main():
 #         xlim(0, 2.5)
 
         if plot_detection_fraction_both_save:
-            savefig('{0}/detection_fraction_both_lstarcut_{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_both_lstarcut_{1}_new.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1401,6 +1463,9 @@ def main():
 ##########################################################################################
 ##########################################################################################
 ##########################################################################################
+
+
+
 
 ##########################################################################################
 ##########################################################################################

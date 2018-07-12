@@ -151,13 +151,7 @@ TON1015					&	NGC2770			&	09 10 37.0		&	+33 29 24.0		&   0.35400	& 14240		&  477
 \tablecomments{Summary of COS targets in this study. \textbf{THIS IS JUST A PLACEHOLDER}}
 \end{deluxetable*}
 
-
-
-
-In this sample of 264 QSOs we have detected 1135 Ly$\alpha$ absorbers. Figures \ref{allsky_2500-5000} and \ref{allsky_7500-10000} show all-sky maps of the positions of all absorbers split into 4 velocity bins ($v_{\rm Ly\alpha} = [0 - 2500]$, $(2500 - 5000]$, $(5000 - 7500]$, and $(7500 - 10,000]$ \kms). The distribution of galaxies in the same velocity ranges are include here also (galaxies are plotted as small circles, absorbers as stars; see \textbf{Chapter 1}). Comparing the galaxy to absorber positions and velocities within each velocity range by eye, we can clearly see that the Ly$\alpha$ absorbers broadly trace the locations of the galaxies. If the current Lambda Cold Dark Matter ($\Lambda$CDM) cosmology is to be believed, this should not be remarkably surprising. The baryons from which galaxies are built and those found within the IGM and traced by $\rm Ly\alpha$ absorption should both follow the underlying potential produced by the Dark Matter, and should therefore be found in similar places. Beyond this big-picture result however, we want to know how the absorbers react to the presence of the galaxies on a more local scale.
-
-
-\begin{figure*}
+\begin{figure*}[h!]
 \centering
   \subfigure[]{\includegraphics[width=0.99\linewidth]{2500kms_galaxies-True.pdf}}\label{allsky_2500}
   \subfigure[]{\includegraphics[width=0.99\linewidth]{5000kms_galaxies-True.pdf}}\label{allsky_5000}
@@ -165,9 +159,7 @@ In this sample of 264 QSOs we have detected 1135 Ly$\alpha$ absorbers. Figures \
 \vspace{0pt}
 \label{allsky_2500-5000}
 \end{figure*}
-
-
-\begin{figure*}
+\begin{figure*}[ht!]
 \centering
   \subfigure[]{\includegraphics[width=0.99\linewidth]{7500kms_galaxies-True.pdf}}\label{allsky_7500}
   \subfigure[]{\includegraphics[width=0.99\linewidth]{10000kms_galaxies-True.pdf}}\label{allsky_10000}
@@ -177,6 +169,9 @@ In this sample of 264 QSOs we have detected 1135 Ly$\alpha$ absorbers. Figures \
 \end{figure*}
 
 
+
+
+In this sample of 264 QSOs we have detected 1135 Ly$\alpha$ absorbers. Figures \ref{allsky_2500-5000} and \ref{allsky_7500-10000} show all-sky maps of the positions of all absorbers split into 4 velocity bins ($v_{\rm Ly\alpha} = [0 - 2500]$, $(2500 - 5000]$, $(5000 - 7500]$, and $(7500 - 10,000]$ \kms). The distribution of galaxies in the same velocity ranges are include here also (galaxies are plotted as small circles, absorbers as stars; see \textbf{Chapter 1}). Comparing the galaxy to absorber positions and velocities within each velocity range by eye, we can clearly see that the Ly$\alpha$ absorbers broadly trace the locations of the galaxies. If the current Lambda Cold Dark Matter ($\Lambda$CDM) cosmology is to be believed, this should not be remarkably surprising. The baryons from which galaxies are built and those found within the IGM and traced by $\rm Ly\alpha$ absorption should both follow the underlying potential produced by the Dark Matter, and should therefore be found in similar places. Beyond this big-picture result however, we want to know how the absorbers react to the presence of the galaxies on a more local scale.
 
 
 \subsection{Sub-sample selection}
@@ -191,10 +186,10 @@ As first introduced in \cite{french2017}, we employ a unique likelihood method f
 
 \noindent where $A$ is a normalization constant, $\rho$ is the impact parameter between a galaxy and sightline, $R_{\rm eff}$ is one of two possible ``effective - radii" we use for galaxies (virial radius and $D^{1.5}$, or diameter to the 1.5 power), $\Delta v$ is the velocity separation between absorber and galaxy heliocentric, and $v_{\rm norm}$ is a velocity normalization (equal to one of 150, 200, or 250). 
 
-We calculate $\mathcal{L}$ for every absorber-galaxy combination, which then gives us a single number as a three-dimensional proxy for the physical separation between the two. Based on this $\mathcal{L}$ we then separate our sample into the following 5 distinct bins: isolated, $\mathcal{L}$-isolated, $\mathcal{L}$-isolated-associated, $\mathcal{L}$-associated, and $\mathcal{L}$-two-plus. The isolated sample contains all the $\rm Ly\alpha$ lines that are farther than 500 kpc and 400 \kms~from \emph{any} galaxy. The $\mathcal{L}$-isolated sample contains those $\rm Ly\alpha$ lines are far enough away from any galaxy so as to not meet our minimum-$\mathcal{L}$ criteria. The $\mathcal{L}$-isolated-associated sample contains those $\rm Ly\alpha$ lines which meet our $\mathcal{L}$ criteria to be associated with a single galaxy, and that galaxy is isolated by 500 kpc and 400 \kms. The $\mathcal{L}$-associated sample contains those $\rm Ly\alpha$ lines which meet our $\mathcal{L}$ criteria to be associated with a single galaxy, but that galaxy is \emph{not} isolated. And finally, the 
-$\mathcal{L}$-two-plus sample contains those  $\rm Ly\alpha$ lines which meet our minimum-$\mathcal{L}$ criteria to be associated with \emph{more} than one galaxy.
+We calculate $\mathcal{L}$ for every absorber-galaxy combination, which then gives us a single number as a three-dimensional proxy for the physical separation between the two. Based on this $\mathcal{L}$ we then separate our sample into the following 5 distinct bins: isolated, $\mathcal{L}$-Isolated, $\mathcal{L}$-Isolated-Associated, $\mathcal{L}$-Associated, and $\mathcal{L}$-Two+. The isolated sample contains all the $\rm Ly\alpha$ lines that are farther than 500 kpc and 400 \kms~from \emph{any} galaxy. The $\mathcal{L}$-Isolated sample contains those $\rm Ly\alpha$ lines are far enough away from any galaxy so as to not meet our minimum-$\mathcal{L}$ criteria. The $\mathcal{L}$-Isolated-Associated sample contains those $\rm Ly\alpha$ lines which meet our $\mathcal{L}$ criteria to be associated with a single galaxy, and that galaxy is isolated by 500 kpc and 400 \kms. The $\mathcal{L}$-Associated sample contains those $\rm Ly\alpha$ lines which meet our $\mathcal{L}$ criteria to be associated with a single galaxy, but that galaxy is \emph{not} isolated. And finally, the 
+$\mathcal{L}$-Two+ sample contains those  $\rm Ly\alpha$ lines which meet our minimum-$\mathcal{L}$ criteria to be associated with \emph{more} than one galaxy.
 
-Our standard criteria for a positive galaxy-absorber association are $\mathcal{L} \geq 0.01$ and $\mathcal{L}_1 \geq rigor \times \mathcal{L}_2$ with $rigor =5$ (i.e., the $\mathcal{L}$-value for the most likely associated galaxy must be at least 5 times greater than that for the second most likely galaxy). However, we have also explored the results of adjusting the several possible $\mathcal{L}$ normalizations. We calculate $\mathcal{L}$ with $R_{\rm eff}$ equal to $R_{\rm vir}$ and $D^{1.5}$ and $v_{\rm norm}$ equal to 150, 200, and 250. For each of these combinations, we also calculate a variant with $A =1$ and another with $A = 2$ if $R_{\rm eff} \ge \rho$, and $A=1$ otherwise. Additionally, we investigate the effect of changing the minimum-$\mathcal{L}$ criteria to 0.005 and 0.001, and $rigor$ = 5, 6, 7, and 8. Table \textbf{TABLE} summarizes the resulting subsets for each of these combinations. Overall, we find that none of these adjustments have a major effect on the resulting samples. \textbf{MORE}
+Our standard criteria for a positive galaxy-absorber association are $\mathcal{L} \geq 0.01$ and $\mathcal{L}_1 \geq rigor \times \mathcal{L}_2$ with $rigor =5$ (i.e., the $\mathcal{L}$-value for the most likely associated galaxy must be at least 5 times greater than that for the second most likely galaxy). However, we have also explored the results of adjusting the several possible $\mathcal{L}$ normalizations. We calculate $\mathcal{L}$ with $R_{\rm eff}$ equal to $R_{\rm vir}$ and $D^{1.5}$ and $v_{\rm norm}$ equal to 150, 200, and 250. For each of these combinations, we also calculate a variant with $A =1$ and another with $A = 2$ if $R_{\rm eff} \ge \rho$, and $A=1$ otherwise. Additionally, we investigate the effect of changing the minimum-$\mathcal{L}$ criteria to 0.005 and 0.001, and $rigor$ = 5, 6, 7, and 8. Table \textbf{TABLE} summarizes the resulting subsets for each of these combinations. Overall, we find that none of these adjustments have a major effect on the resulting samples. For the remainder of this analysis we will concentrate on the $\mathcal{L}_{\rm min} = 0.005, v_{\rm norm} = 250$ normalization subsets. This represents a middle ground option while also maximizing the size of the $\mathcal{L}-isolated-associated$, $\mathcal{L}-associated$, and $\mathcal{L}-Two+$ subsets. \textbf{MORE}
 
 
 %($A=1$, $R_{eff} = R_{vir}$, $v_{norm} = 200$, $\mathcal{L}_{min} = 0.01$)
@@ -211,6 +206,8 @@ Our standard criteria for a positive galaxy-absorber association are $\mathcal{L
 \startdata
 Standard: $\mathcal{L}_{min} = 0.01, rigor = 5$								&	571				&	267						&	56								&	146						&	58						\\
 \hline
+$\mathcal{L}_{min} = 0.01, rigor = 5$, $A=2~if~\rho \leq R_{vir}$				&	571				&	267						&	56								&	160						&	55						\\
+\hline
 $\mathcal{L}_{min} = 0.001, rigor = 5$									&	571				&	227						&	69								&	167						&	65						\\
 \hline
 $\mathcal{L}_{min} = 0.001, rigor = 6$									&	571				&	227						&	69								&	162						&	68						\\
@@ -221,7 +218,7 @@ $\mathcal{L}_{min} = 0.001, rigor = 8$									&	571				&	227						&	69								&
 \hline
 $D^{1.5}$, $\mathcal{L}_{min} = 0.001, rigor = 5$ 							&	571				&	317						&	39								&	174						&	32						\\
 \hline
-$A=2~if~\rho \leq R_{vir}$, $\mathcal{L}_{min} = 0.001, rigor = 5$				&	571				&	227						&	69								&	181						&	62						\\
+$\mathcal{L}_{min} = 0.001, rigor = 5$, $A=2~if~\rho \leq R_{vir}$				&	571				&	227						&	69								&	181						&	62						\\
 \hline
 $\mathcal{L}_{min} = 0.005$, $v_{norm} = 150, rigor = 5$						&	571				&	265						&	58								&	148						&	63						\\
 \hline
@@ -235,41 +232,54 @@ $\mathcal{L}_{min} = 0.005$, $v_{norm} = 250, rigor = 5$						&	571				&	246				
 
 \section{Results \& Discussion}
 
-First we explore the $\rm Ly\alpha$ detection fraction as a function of galaxy proximity. To calculate this, we start by correlating the position of every QSO with our galaxy sample. For every galaxy found within 1000 kpc in physical impact parameter of each sightline we then check if a $\rm Ly\alpha$ line appears in that sightline and within 400 \kms~of the galaxy's systemic velocity. This results in a detection fraction as a function of impact parameter. Additionally, we calculate the detection fraction as a function of likelihood, $\mathcal{L}$, in a similar manner. However, as we are calculating detection fraction without any a priori knowledge of the velocity of the absorption lines, the likelihood we calculate is simply $e^{-(\rho/R_{vir})^2}$, or only the impact parameter - virial radius portion of our usual likelihood function given by Eq. \ref{likelihood}. Note that this adjusted likelihood function is identical to Eq. \ref{1} if $\Delta v = 0$. We have plotted both detection fractions in Figure \ref{detection_fraction}. 
+First we explore the $\rm Ly\alpha$ detection fraction as a function of galaxy proximity. To calculate this, we start by correlating the position of every QSO with our galaxy sample. For every galaxy found within 1000 kpc in physical impact parameter of each sightline we then check if a $\rm Ly\alpha$ line appears in that sightline and within 400 \kms~of the galaxy's systemic velocity. This results in a detection fraction as a function of impact parameter. Additionally, we calculate the detection fraction as a function of likelihood, $\mathcal{L}$, in a similar manner. However, as we are calculating detection fraction without any a priori knowledge of the velocity of the absorption lines, the likelihood function we use is modified from Eq. \ref{likelihood} to simply $e^{-(\rho/R_{vir})^2}$, or only the impact parameter - virial radius portion of our usual likelihood function given by Eq. \ref{likelihood}. Note that this adjusted likelihood function is identical to Eq. \ref{likelihood} when $\Delta v = 0$. 
 
+We have plotted the detection fraction as a function of both impact parameter and $\mathcal{L}$ in Figure \ref{detection_fraction}. As expected, the detection fraction clearly increases with decreasing impact parameter and increasing $\mathcal{L}$. However, while the detection fraction continues to rise all the way to the 25 kpc mark however, it levels off at $\sim 1.5 R_{\rm vir}$ ($\sim 0.1 \mathcal{L}$) as a function of likelihood. \textbf{WHY? MORE}
+
+\begin{figure}[ht!]
+        \centering
+        \vspace{0pt}
+        \includegraphics[width=0.49\textwidth]{detection_fraction_both_lstarcut_include_new.pdf}
+        \caption{\small{The detection fraction as a function of impact parameter (grey-circles) and $\mathcal{L}$ (blue-diamonds).}}
+        \vspace{5pt}
+        \label{detection_fraction}
+\end{figure}
 
 
 
 \subsection{Equivalent Width}
 
-Here we explore the effect of environment on the equivalent width of our $\rm Ly\alpha$ absorber sample. 
+Here we explore the effect of environment on the equivalent width of our $\rm Ly\alpha$ absorber sample. Figure \ref{cdf_ew} show the cumulative distribution function of equivalent widths for each of our 5 likelihood-separated subsets, along with that of the entire sample in black). We have only included $\rm EW \ge 50~m\AA$ here to mitigate any bias due to the detection limit of lower-SN targets. We find that each subset occupies a distinct space aside from the $\mathcal{L}-Isolated-Associated$ and $\mathcal{L}-Associated$ sets, which are essentially indistinguishable. The physical result of this is that the strength EW of $\rm Ly\alpha$ absorption depends strongly on environment. Stronger absorption lines are preferentially found near to galaxies, and the strongest lines are found near multiple galaxy systems. This is likely an effect of the distribution of the cosmic web; multiple galaxies should form from denser sections and intersections of intergalactic filaments, and these environments should thus also produce a stronger absorption profile. \textbf{MORE}
 
-\begin{figure*}[ht!]
+\begin{figure}[ht!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.95\textwidth]{hist(EW)_all6_bins10_6alt_min_maxEW_0_10000_err.pdf}
-        \caption{\small{The equivalent width (EW) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors.}}
-        \vspace{-5pt}
+        \includegraphics[width=0.49\textwidth]{hist(EW)_bins10_6_EWcut50-15000_err_dataset.pdf}
+        \caption{\small{The equivalent width (EW) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
+        \vspace{5pt}
         \label{cdf_ew}
-\end{figure*}
+\end{figure}
 
 
 \subsection{Doppler b-parameter}
 
-Here we explore the effect of environment on the Doppler b-parameter of our $\rm Ly\alpha$ absorber sample.
-\begin{figure*}[ht!]
+Here we explore the effect of environment on the Doppler $b$-parameter of our $\rm Ly\alpha$ absorber sample. In an analogous fashion as above, Figure \ref{cdf_b} shows the cumulative distribution functions for the Doppler $b$-parameters of each subset of absorbers. Like the EW result, the Doppler $b$-parameters trend toward larger values based on their proximity to galaxies. The separation here is weaker, but the separation between, e.g., Isolated and $\mathcal{L}-Two+$ samples, remains statistically significant.
+
+\begin{figure}[ht!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.95\textwidth]{hist(b)_all6_bins1_6_min_maxEW_0_10000.pdf}
-        \caption{\small{The Doppler b-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors.}}
-        \vspace{-5pt}
+        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset.pdf}
+        \caption{\small{The Doppler $b$-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
+        \vspace{5pt}
         \label{cdf_b}
-\end{figure*}
-
+\end{figure}
 
 
 
 \subsection{Azimuth}
+Here we investigate the dependence of $\rm Ly\alpha$ absorber properties on their orientation with respect to the major axis of nearby galaxies. It is commonly expected that gas found near the major axis of a galaxy represents accreting material, while material around the minor axis represents outflows \textbf{CITE??}. 
+
+
 
 \subsection{Inclination}
 
