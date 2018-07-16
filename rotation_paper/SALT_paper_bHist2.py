@@ -176,7 +176,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -214,7 +214,7 @@ def main():
     plot_b_vs_dv_NFW_Lstar = True
 
     # use fits vs integrated values?
-    use_fits = False
+    use_fits = True
     
     # include tags to include
     include_tags = ['yes','maybe']
@@ -649,7 +649,7 @@ def main():
         if az >= az_limit:
             markerColor = color_maybe
             
-        if name == 'NGC3513':
+        if name == 'NGC3513' or name == 'NGC4536':
             markerColor = color_maybe
 
 

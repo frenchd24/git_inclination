@@ -3,7 +3,7 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id: SALT_paper_map.py, v3.0 04/30/18
+$Id: SALT_paper_map.py, v3.1 07/15/18
 
 Makes straight on-sky orientation plot as well as cylindrical and NFW model comparison
 maps.
@@ -16,6 +16,10 @@ Plot an impact parameter map showing the locations and velocities of each absorb
 the galaxy (2/19/18)
 
 v2: Orient so all the galaxies have approaching side on the left (04/04/18)
+
+v3: Most of the updates (04/30/18)
+
+v3.1: Fixed non-detection labeling issue. THESIS VERSION: (07/15/18)
 
 '''
 
@@ -175,11 +179,11 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -202,7 +206,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = False
+    min_separation = 20.0
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
@@ -215,11 +219,11 @@ def main():
     use_apparent_errors = True
 
     # which plot to make?
-    plot_onsky = False
-    plot_cyl = False
+    plot_onsky = True
+    plot_cyl = True
     plot_NFW = True
     plot_zoom_in = True
-    plot_NFW_zoom_in = False
+    plot_NFW_zoom_in = True
     
     # include tags to include
     include_tags = ['yes','maybe']
@@ -646,7 +650,7 @@ def main():
                 else:
                     markerColor = 'black'
 
-            print 'dv = {0} - markerColor = {1}'.format(dv, markerColor)
+#             print 'dv = {0} - markerColor = {1}'.format(dv, markerColor)
             
             # compare to the models
             model_answer = withinRange(dv, model_range, error)
@@ -681,7 +685,7 @@ def main():
             markerColor_model = color_maybe
             markerColor_NFWmodel = color_maybe
             
-        if name == 'NGC3513':
+        if name == 'NGC3513' or name == 'NGC4536':
             markerColor = color_maybe
             markerColor_model = color_maybe
             markerColor_NFWmodel = color_maybe
@@ -695,8 +699,8 @@ def main():
         
         nameDict[combinedName] = sysNumber
         
-        print '{0} - dv={1} vs model={2} => {3}'.format(combinedName, dv, model_range, model_answer)
-        print
+#         print '{0} - dv={1} vs model={2} => {3}'.format(combinedName, dv, model_range, model_answer)
+#         print
 
             
         # decide some things
@@ -711,7 +715,7 @@ def main():
         if include_tag not in include_tags:
             add_to_list = False
         
-        separation = 500.
+        separation = 500
         if min_separation and add_to_list:
             # correlate with environment
             agnSeparation = False
@@ -929,7 +933,7 @@ def main():
         ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
         ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
     
-        ax.scatter(0,0,c='black',marker='*',s=25)
+#         ax.scatter(0,0,c='black',marker='*',s=25)
     ##########################################################################################
 
     
@@ -979,8 +983,9 @@ def main():
 #             annotate(countList[i],xy=(RA_targetList2[i], Dec_targetList2[i]),\
 #             xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
                 
-            tag = nameDict[combinedNameList2[i]]        
+            tag = nameDict[combinedNameList2[i]]
             if not previousNames.has_key(tag):
+                print 'tag: ',tag
                 annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
             
@@ -997,22 +1002,22 @@ def main():
             ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
 
             yTagOffset = 5.0
-            annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
-            xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
-        
+#             annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=7)
         
             tag = nameDict[combinedNameList_non[i]]
         
             if not previousNames.has_key(tag):
-                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                print 'tag non: ',tag
+                annotate(tag,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
             
                 previousNames[tag] = 1
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
 
         ax.set_xlim(-3.0, 3.0)
         ax.set_ylim(-3.0, 3.0)
@@ -1188,7 +1193,7 @@ def main():
         ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
         ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
     
-        ax.scatter(0,0,c='black',marker='*',s=25)
+#         ax.scatter(0,0,c='black',marker='*',s=25)
     ##########################################################################################
 
     
@@ -1259,15 +1264,15 @@ def main():
             tag = nameDict[combinedNameList_non[i]]
         
             if not previousNames.has_key(tag):
-                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                annotate(tag,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
             
                 previousNames[tag] = 1
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
 #         ax.set_xlim(-4.0, 4.0)
 #         ax.set_ylim(-4.0, 4.0)
@@ -1452,7 +1457,7 @@ def main():
         ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
         ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
     
-        ax.scatter(0,0,c='black',marker='*',s=25)
+#         ax.scatter(0,0,c='black',marker='*',s=25)
     ##########################################################################################
 
     
@@ -1523,7 +1528,7 @@ def main():
             tag = nameDict[combinedNameList_non[i]]
         
             if not previousNames.has_key(tag):
-                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                annotate(tag,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=7)
             
                 previousNames[tag] = 1
@@ -1531,8 +1536,8 @@ def main():
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
 #         ax.set_xlim(-4.0, 4.0)
 #         ax.set_ylim(-4.0, 4.0)
@@ -1711,8 +1716,7 @@ def main():
         ax.plot([0,0],[-1,1],c='black',ls='-',lw=0.6)
         ax.plot([-1,1],[0,0],c='black',ls='-',lw=0.6)
     
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    
+#         ax.scatter(0,0,c='black',marker='*',s=25)
     ##########################################################################################
 
     
@@ -1787,8 +1791,8 @@ def main():
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
         ax.set_xlim(-zoom_limit, zoom_limit)
         ax.set_ylim(-zoom_limit, zoom_limit)
@@ -1926,8 +1930,7 @@ def main():
         ax.plot([0,0],[-1,1],c='black',ls='-',lw=0.6)
         ax.plot([-1,1],[0,0],c='black',ls='-',lw=0.6)
     
-        ax.scatter(0,0,c='black',marker='*',s=25)
-    
+#         ax.scatter(0,0,c='black',marker='*',s=25)
     ##########################################################################################
 
     
@@ -2003,8 +2006,8 @@ def main():
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
         ax.set_xlim(-zoom_limit, zoom_limit)
         ax.set_ylim(-zoom_limit, zoom_limit)

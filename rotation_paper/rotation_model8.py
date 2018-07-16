@@ -307,7 +307,7 @@ def main():
     
     # fit an NFW profile to the rotation curve and use that? Otherwise it takes the maximal
     # rotation value and extends it forever. NFW decreases with distance
-    fit_NFW = False
+    fit_NFW = True
     
     # Makes the halo 3x4 R_vir if true. 2x3R_vir if false
     extendedHalo = False
@@ -352,6 +352,7 @@ def main():
 
 
     saveDirectory = '/Users/frenchd/Research/test/{0}/'.format(galaxyName)
+    
 
 ##########################################################################################
     # get the data
@@ -1420,6 +1421,10 @@ def main():
         z = np.ones(1000)*rayPoint[2]
         x = np.linspace(-plotExtent, plotExtent, 1000)
         y = np.ones(1000)*rayPoint[1]
+        
+        z_sightline = z
+        y_sightline = y
+        x_sightline = x
                 
         len_step = len(z)/steps
         
@@ -1490,8 +1495,10 @@ def main():
 
         # rotate the plot
 #         ax.view_init(elev=10., azim=5)
-        ax.view_init(elev=15., azim=20)
-        
+#         ax.view_init(elev=15., azim=20)
+        ax.view_init(elev=10., azim=10)
+
+
         # reverse the X-axis ticks without actually reversing the x-axis
         if plotExtent <= 400:
             yticks((-400, -200, 0, 200, 400), (400, 200, 0, -200, -400))
@@ -1616,6 +1623,39 @@ def main():
     summary_file.write('\n')
     
     summary_file.close()
+    
+    # save the full model velocity data in a pickle file?
+    save_data_pickle = True
+
+    
+    # save pickle data?
+    if save_data_pickle:
+        pickle_filename = '{0}/{1}-{2}_model_NFW{3}.p'.format(saveDirectory, galaxyName, agnName, fit_NFW)
+    
+        pickle_file = open(pickle_filename,'wt')
+        
+        d = {}
+        
+        # velocity along the sightline
+        d['intersect_v_list'] = intersect_v_list
+        
+        # projected rotation velocity
+        d['v_proj_list'] = v_proj_list
+        
+        # now the sightline
+        d['z_sightline'] = z_sightline
+        d['y_sightline'] = y_sightline
+        d['x_sightline'] = x_sightline
+        
+        # now the cylinder
+        d['intersect'] = intersect
+        d['R'] = R
+        d['p0'] = p0
+        d['p1'] = p1
+        
+        pickle.dump(d, pickle_file)
+        pickle_file.close()
+
     
     
 if __name__ == '__main__':

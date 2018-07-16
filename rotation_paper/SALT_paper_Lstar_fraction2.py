@@ -3,9 +3,11 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id: SALT_paper_Lstar_fraction.py, v1.0 05/10/18
+$Id: SALT_paper_Lstar_fraction2.py, v2.0 05/10/18
 
 Plot co-rotating fraction as a funtion of Lstar
+
+v2: Not sure when this happened... probably mid-June for Alabama WHIM conference
 
 
 '''
@@ -166,11 +168,11 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = False
+    only_close_velocities = True
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -197,7 +199,7 @@ def main():
     zoom_limit = 1.0
     
     # which plot to make?
-    plot_Lstar_hist = False
+    plot_Lstar_hist = True
     plot_corotate_fraction = True
     plot_corotate_fraction_minimum = True
     plot_corotate_fraction_dist = True
@@ -848,12 +850,12 @@ def main():
 
 #         bins = arange(0,100,10)
 #         bins = arange(0.2, 1.2, 0.2)
-        bins = arange(0.25, 15.0, 0.25)
+        bins = arange(0.25, 5.0, 0.25)
 
         alpha_no = 0.55
         alpha_yes = 0.65
 
-        L_limit = 0.5
+        L_limit = 0.6
 
         corotate_Lstar = []
         antirotate_Lstar = []
@@ -892,9 +894,9 @@ def main():
                 Lstar_high.append(Lstar)
                     
         # x-axis
-        majorLocator   = MultipleLocator(0.2)
+        majorLocator   = MultipleLocator(0.5)
         majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-        minorLocator   = MultipleLocator(0.05)
+        minorLocator   = MultipleLocator(0.25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -910,8 +912,8 @@ def main():
         hist(antirotate_Lstar, bins=bins, histtype='bar', lw=1.5, hatch='//', color = color_no, edgecolor='black',alpha=alpha_no, label=r'$\rm Anti-rotators$')
         hist(corotate_Lstar, bins=bins, histtype='bar', lw=1.5, color = color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators$')
         
-#         ylim(0, 12)
-        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        xlim(0, 4)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
         xlabel(r'$\rm L^{{\**}}$')
         ylabel(r'$\rm Number$')
 
@@ -919,9 +921,9 @@ def main():
         ax = fig.add_subplot(212)
                     
         # x-axis
-        majorLocator   = MultipleLocator(0.2)
+        majorLocator   = MultipleLocator(0.5)
         majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-        minorLocator   = MultipleLocator(0.05)
+        minorLocator   = MultipleLocator(0.25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -937,8 +939,8 @@ def main():
         hist(antirotate_Lstar_close, bins=bins, histtype='bar', lw=1.5, hatch='//', color=color_no, edgecolor='black', alpha=alpha_no, label=r'$\rm Anti-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
         hist(corotate_Lstar_close, bins=bins, histtype='bar', lw=1.5, color=color_yes, alpha=alpha_yes, edgecolor='black', label=r'$\rm Co-rotators~(\rho \leq {0} ~R_{{vir}})$'.format(zoom_limit))
 
-#         ylim(0, 5)
-        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+        xlim(0, 4)
+        legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
         xlabel(r'$\rm L^{{\**}}$')
         ylabel(r'$\rm Number$')
         
@@ -1056,7 +1058,7 @@ def main():
         marker_lw = 1.5
         marker_size = 12
 
-        L_limit = 0.5
+        L_limit = 0.6
 
         # no model
         corotate_02 = 0
@@ -1583,7 +1585,7 @@ def main():
         marker_lw = 1.5
         marker_size = 12
 
-        L_limit = 0.5
+        L_limit = 0.6
 
         # no model
         
@@ -1927,7 +1929,7 @@ def main():
         marker_lw = 1.5
         marker_size = 12
 
-        L_limit = 0.5
+        L_limit = 0.6
 
         # no model
         corotate_05 = 0
