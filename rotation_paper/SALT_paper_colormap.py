@@ -7,6 +7,8 @@ $Id:  $Id: SALT_paper_colormap.py, v3.0 04/30/18
 
 Makes colormap showing the absorption-galaxy velocity difference
 
+
+
 '''
 
 
@@ -153,7 +155,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -549,21 +551,57 @@ def main():
         color_nonDetection = 'grey'
         markerColor = 'black'
         
+        error = 10.
+        rot_error = 10
+        
         if isNumber(dv):
             # the absorption and rotation velocity match
-            if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
-                markerColor = color_yes
-            
-            # mismatch
-            elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
-                markerColor = color_no
-            
-            else:
-                markerColor = 'black'
+#             if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
+#                 markerColor = color_yes
+#             
+#             # mismatch
+#             elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
+#                 markerColor = color_no
+#             
+#             else:
+#                 markerColor = 'black'
 
+            dv_up = dv + error
+            dv_down = dv - error
+            
+            if use_apparent_errors:
+                # take errors into account
+                if (dv_up > 0 and rot_vel > 0) or (dv_up < 0 and rot_vel < 0):
+                    markerColor = color_yes
+                
+                elif (dv_down > 0 and rot_vel > 0) or (dv_down < 0 and rot_vel < 0):
+                    markerColor = color_yes
+            
+                # mismatch
+                elif (dv_up < 0 and rot_vel > 0) or (dv_up > 0 and rot_vel < 0):
+                    markerColor = color_no
+                
+                elif (dv_down < 0 and rot_vel > 0) or (dv_down > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+                    
+            else:
+            # the absorption and rotation velocity match
+                if (dv > 0 and rot_vel > 0) or (dv < 0 and rot_vel < 0):
+                    markerColor = color_yes
+            
+                # mismatch
+                elif (dv < 0 and rot_vel > 0) or (dv > 0 and rot_vel < 0):
+                    markerColor = color_no
+            
+                else:
+                    markerColor = 'black'
+
+#             print 'dv = {0} - markerColor = {1}'.format(dv, markerColor)
             
             # compare to the models
-            error = 10.
             model_answer = withinRange(dv, model_range, error)
             NFW_model_answer = withinRange(dv, NFW_range, error)
         
@@ -577,10 +615,13 @@ def main():
             else:
                 markerColor_NFWmodel = color_no
             
-            if az >= 85.:
+            if az >= az_limit:
                 markerColor_model = color_maybe
                 markerColor_NFWmodel = color_maybe
-
+                
+            print 'dv = {0} - markerColor_NFW = {1}'.format(dv, markerColor_NFWmodel)
+            print
+            
         else:
             print 'dv == x :', dv, name
             print

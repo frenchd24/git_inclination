@@ -1,4 +1,4 @@
-\begin{thebibliography}{60}
+\begin{thebibliography}{65}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Abazajian} {et~al.}(2005){Abazajian}, {Adelman-McCarthy},
@@ -49,6 +49,18 @@
 {Brooks}, A.~M., {Governato}, F., {Quinn}, T., {Brook}, C.~B., \& {Wadsley}, J.
   2009, \apj, 694, 396
 
+\bibitem[{{Buckley} {et~al.}(2006){Buckley}, {Swart}, \&
+  {Meiring}}]{buckley2006}
+{Buckley}, D.~A.~H., {Swart}, G.~P., \& {Meiring}, J.~G. 2006, in \procspie,
+  Vol. 6267, Society of Photo-Optical Instrumentation Engineers (SPIE)
+  Conference Series, 62670Z
+
+\bibitem[{{Burgh} {et~al.}(2003){Burgh}, {Nordsieck}, {Kobulnicky}, {Williams},
+  {O'Donoghue}, {Smith}, \& {Percival}}]{burgh2003}
+{Burgh}, E.~B., {Nordsieck}, K.~H., {Kobulnicky}, H.~A., {et~al.} 2003, in
+  \procspie, Vol. 4841, Instrument Design and Performance for Optical/Infrared
+  Ground-based Telescopes, ed. M.~{Iye} \& A.~F.~M. {Moorwood}, 1463--1471
+
 \bibitem[{{Carilli} {et~al.}(1989){Carilli}, {van Gorkom}, \&
   {Stocke}}]{carilli1989}
 {Carilli}, C.~L., {van Gorkom}, J.~H., \& {Stocke}, J.~T. 1989, \nat, 338, 134
@@ -67,6 +79,14 @@
   {Freeman}, \& {Broadhurst}}]{cote2005}
 {C{\^o}t{\'e}}, S., {Wyse}, R.~F.~G., {Carignan}, C., {Freeman}, K.~C., \&
   {Broadhurst}, T. 2005, \apj, 618, 178
+
+\bibitem[{{Crawford} {et~al.}(2010){Crawford}, {Still}, {Schellart}, {Balona},
+  {Buckley}, {Dugmore}, {Gulbis}, {Kniazev}, {Kotze}, {Loaring}, {Nordsieck},
+  {Pickering}, {Potter}, {Romero Colmenero}, {Vaisanen}, {Williams}, \&
+  {Zietsman}}]{crawford2010}
+{Crawford}, S.~M., {Still}, M., {Schellart}, P., {et~al.} 2010, in \procspie,
+  Vol. 7737, Observatory Operations: Strategies, Processes, and Systems III,
+  773725
 
 \bibitem[{{Danovich} {et~al.}(2012){Danovich}, {Dekel}, {Hahn}, \&
   {Teyssier}}]{danovich2012}
@@ -163,6 +183,12 @@
 \bibitem[{{Knapen}(1997)}]{knapen1997}
 {Knapen}, J.~H. 1997, \mnras, 286, 403
 
+\bibitem[{{Kobulnicky} {et~al.}(2003){Kobulnicky}, {Nordsieck}, {Burgh},
+  {Smith}, {Percival}, {Williams}, \& {O'Donoghue}}]{kobulnicky2003}
+{Kobulnicky}, H.~A., {Nordsieck}, K.~H., {Burgh}, E.~B., {et~al.} 2003, in
+  \procspie, Vol. 4841, Instrument Design and Performance for Optical/Infrared
+  Ground-based Telescopes, ed. M.~{Iye} \& A.~F.~M. {Moorwood}, 1634--1644
+
 \bibitem[{{Koribalski} {et~al.}(2004){Koribalski}, {Staveley-Smith}, {Kilborn},
   {Ryder}, {Kraan-Korteweg}, {Ryan-Weber}, {Ekers}, {Jerjen}, {Henning},
   {Putman}, {Zwaan}, {de Blok}, {Calabretta}, {Disney}, {Minchin}, {Bhathal},
@@ -203,6 +229,18 @@
 \bibitem[{{Ocvirk} {et~al.}(2008){Ocvirk}, {Pichon}, \&
   {Teyssier}}]{ocvirk2008}
 {Ocvirk}, P., {Pichon}, C., \& {Teyssier}, R. 2008, \mnras, 390, 1326
+
+\bibitem[{{O'Donoghue} {et~al.}(2006){O'Donoghue}, {Buckley}, {Balona},
+  {Bester}, {Botha}, {Brink}, {Carter}, {Charles}, {Christians}, {Ebrahim},
+  {Emmerich}, {Esterhuyse}, {Evans}, {Fourie}, {Fourie}, {Gajjar}, {Gordon},
+  {Gumede}, {de Kock}, {Koeslag}, {Koorts}, {Kriel}, {Marang}, {Meiring},
+  {Menzies}, {Menzies}, {Metcalfe}, {Meyer}, {Nel}, {O'Connor}, {Osman}, {Du
+  Plessis}, {Rall}, {Riddick}, {Romero-Colmenero}, {Potter}, {Sass},
+  {Schalekamp}, {Sessions}, {Siyengo}, {Sopela}, {Steyn}, {Stoffels},
+  {Scholtz}, {Swart}, {Swat}, {Swiegers}, {Tiheli}, {Vaisanen}, {Whittaker}, \&
+  {van Wyk}}]{odonoghue2006}
+{O'Donoghue}, D., {Buckley}, D.~A.~H., {Balona}, L.~A., {et~al.} 2006, \mnras,
+  372, 151
 
 \bibitem[{{Pichon} {et~al.}(2011){Pichon}, {Pogosyan}, {Kimm}, {Slyz},
   {Devriendt}, \& {Dubois}}]{pichon2011}

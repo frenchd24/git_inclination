@@ -48,7 +48,7 @@ Brook 2011 - Later accreted material has higher angular momentum. A reservoir of
 
 Brooks 2009 - Low -mass galaxies are dominated by accretion of sub-viral temperature gas, and dense filaments of this gas exist even in massive galaxies with hot haloes. For galaxies up to Star, this cold accretion gas is responsible for SF in the disk up to the present.
 
-Keres 2005, 2009 - N-body+SPH simulations found galaxies with halo masses below ~10^11 are dominated by cold gas accretion, never shock heated to viral temperature. Ocvirk 2008 also same.
+Keres 2005, 2009 - N-body+SPH simulations found galaxies with halo masses below ~10^11 are dominated by cold gas accretion, never shock heated to viral temperature. Ocvirk 2008 also same. 2005 - Gas which eventually accretes via cold mode is heated in the filament, the hot mode gas is heated at the halo virial shock. There is a smooth transition with galaxy mass - high mass galaxies have shocks everywhere so only have hot, intermediate has some of each as some filaments can penetrate without shocking, low mass has mostly cold mode as shocks won't develop. Transition should be at or below 10^12 solar masses at 1 Rvir
 
 Also see: (Oppenheimer et al. 2010; Brook et al. 2012; Shen et al. 2012; Ford et al. 2014, 2016; Muratov et al. 2015; Christensen et al. 2016).
 

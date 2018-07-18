@@ -153,11 +153,11 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe4/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -194,7 +194,8 @@ def main():
 
     # which plot to make?
     sequential_colormap = True
-    colormap_colormap = False
+    sequential_NFW_colormap = True
+    colormap_colormap = True
         
     # include tags to include
     include_tags = ['yes','maybe']
@@ -237,6 +238,7 @@ def main():
     markerColorList_NFWmodel = []
     nameDict = {}
     dvList = []
+    NFW_ranges = []
     
     # non-detections/not finished sightlines
     nameList_non = []
@@ -745,6 +747,8 @@ def main():
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)
                     dvList.append(dv)
+                    
+                    NFW_ranges.append(NFW_range)
                 
                 
                 else:
@@ -768,7 +772,9 @@ def main():
                     markerColorList_NFWmodel.append(markerColor_NFWmodel)
                     markerColorList_model.append(markerColor_model)
                     dvList.append(dv)
-                
+
+                    NFW_ranges.append(NFW_range)
+
                 
             if include_nondetection and not isNumber(dv):
                 # include non-detections?
@@ -796,8 +802,8 @@ def main():
 ##########################################################################################
     # sort in order of largest to smallest equivalent width
     orderedList = []
-    for ra,dec,c,w,name,model,NFW,dv in zip(RA_targetList,Dec_targetList,markerColorList, wList,combinedNameList, markerColorList_model, markerColorList_NFWmodel,dvList):
-        orderedList.append([w,[ra, dec, c, name, model, NFW, dv]])
+    for ra,dec,c,w,name,model,NFW,dv,NFW_range in zip(RA_targetList,Dec_targetList,markerColorList, wList,combinedNameList, markerColorList_model, markerColorList_NFWmodel,dvList, NFW_ranges):
+        orderedList.append([w,[ra, dec, c, name, model, NFW, dv, NFW_range]])
         
     orderedList.sort(reverse=True)
     RA_targetList2 = []
@@ -810,11 +816,13 @@ def main():
     countList = []
     dvList2 = []
     
+    NFW_ranges2 = []
+    
     count = 1
     count_dict = {}
     for i in orderedList:
         w, rest = i
-        ra, dec, c, name, model, NFW, dv = rest
+        ra, dec, c, name, model, NFW, dv, NFW_range = rest
         
         print
         print 'dv: {0} - {1}'.format(dv, name)
@@ -829,6 +837,8 @@ def main():
         markerColorList_model2.append(model)
         dvList2.append(dv)
         
+        NFW_ranges2.append(NFW_range)
+        
         countList.append(nameDict[name])
         
     countList_non = []
@@ -842,7 +852,6 @@ def main():
 #
 ##########################################################################################
 ##########################################################################################
-
 
     if colormap_colormap:
         # initial figure
@@ -974,8 +983,8 @@ def main():
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
         ax.set_xlim(-3.0, 3.0)
         ax.set_ylim(-3.0, 3.0)
@@ -1044,10 +1053,9 @@ def main():
 
 
 
-
 ##########################################################################################
 ##########################################################################################
-# Color based on velocity difference, gradient scale
+# Color based on velocity difference, sequential scale (discrete color steps)
 #
 #
 ##########################################################################################
@@ -1209,15 +1217,15 @@ def main():
             tag = nameDict[combinedNameList_non[i]]
         
             if not previousNames.has_key(tag):
-                annotate(tag,xy=(RA_targetList_non[i], RA_targetList_non[i]),\
+                annotate(tag,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
                 xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=sysNum_size)
             
                 previousNames[tag] = 1
 
     ##########################################################################################
 
-        xlabel(r'$\rm R.A. ~[R_{vir}]$')
-        ylabel(r'$\rm Dec. ~[R_{vir}]$')
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
     
         ax.set_xlim(-3.0, 3.0)
         ax.set_ylim(-3.0, 3.0)
@@ -1277,15 +1285,263 @@ def main():
         rv5_leg = mlines.Line2D([], [], color=r5, marker=marker,lw=0,
                                   markersize=legend_size, markeredgecolor='black', label=r'$\rm [{0}, {1}]$'.format(rv5,rv4))
 
-
         plt.legend(handles=[rv5_leg, rv4_leg, rv3_leg, rv2_leg, rv1_leg, bv1_leg, bv2_leg, bv3_leg, bv4_leg, bv5_leg],
                     loc='lower right', borderpad=0.8, fontsize=legend_font, fancybox=True)
-
-
 
     ##########################################################################################
         
         save_name = 'SALT_seq_colormap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation)
+
+    #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
+        savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
+
+        summary_filename = '{0}/{1}_summary.txt'.format(out_directory, save_name)
+        summary_file = open(summary_filename,'wt')
+
+
+        for num, name in zip(countList, combinedNameList2):
+            summary_file.write('{0}. {1}, \n'.format(num,name))
+        
+        for num, name in zip(countList_non, combinedNameList_non):
+            summary_file.write('{0}. {1}, \n'.format(num,name))
+    
+        summary_file.close()
+        
+        
+
+##########################################################################################
+##########################################################################################
+# NFW model - Color based on velocity difference, sequential scale (discrete color steps)
+# 
+# 
+##########################################################################################
+##########################################################################################
+
+    if sequential_NFW_colormap:
+        # initial figure
+        fig = plt.figure(figsize=(8,8))
+        ax = fig.add_subplot(1,1,1)
+    #     fig.suptitle(r'$\rm {0} - {1}:~ {2} x {3}R_{{vir}}$'.format(galaxyName,agnName,zcutoffm,rcutoffm), fontsize=16)
+
+    ##########################################################################################
+        # plot circles
+        def xy(r,phi):
+          return r*np.cos(phi), r*np.sin(phi)
+
+        phis=np.arange(0,2*np.pi,0.01)
+    
+        r = 1.0
+        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+        r = 2.0
+        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+        r = 3.0
+        ax.plot(*xy(r,phis), c='black',ls='-',lw=0.6)
+    
+        ax.plot([0,0],[-3,3],c='black',ls='-',lw=0.6)
+        ax.plot([-3,3],[0,0],c='black',ls='-',lw=0.6)
+    
+        ax.scatter(0,0,c='black',marker='*',s=25)
+    ##########################################################################################
+    
+        # colors should be:
+        # dark blue crosses - below NFW range by >10 km/s
+        # blue circles - within 10 km/s of the lower edge of NFW scale
+        # green diamonds - anywhere within the accepted range
+        # red circles - within 10 km/s of the upper edge of the NFW scale
+        # dark red crosses - above NFW range by >10 km/s
+
+
+        # blue colors
+        b1 = '#eff3ff' # vaguely blue-ish
+        b2 = '#bdd7e7' # steely-grey light blue
+        b3 = '#6baed6' # sky blue
+        b4 = '#3182bd' # nice deep, watery blue
+        b5 = '#08519c' # dark navy
+        
+        # red colors
+        r1 = '#fee5d9' # vaguely red-ish
+        r2 = '#fcae91' # light salmony red
+        r3 = '#fb6a4a' # bad sunburn-red 
+        r4 = '#de2d26' # stoplight red
+        r5 = '#a50f15' # deep red
+        
+        g1 = '#31a354' # grass-green
+        g2 = '#006837' # deep forest-green
+        
+        # blue velocity bins
+        bv1 = -50
+        bv2 = -100
+        bv3 = -150
+        bv4 = -200
+        bv5 = -400
+        
+        # red velocity bins
+        rv1 = 50
+        rv2 = 100
+        rv3 = 150
+        rv4 = 200
+        rv5 = 400
+    
+        # plot the rest
+        largestEW = max(wList2)
+        smallestEW = min(wList2)
+        maxSize = 500
+        minSize = 30
+
+        # normalize the marker size to reflect EW
+        newSizeList = []
+        for w in wList2:
+            newSize = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
+            newSizeList.append(newSize)
+
+
+        for i in arange(len(dvList2)):
+            marker = 'D'
+            marker_lw = 0.2
+            
+            dv = float(dvList2[i])
+            NFW_range = NFW_ranges2[i]
+            
+            low_edge = NFW_range[0]
+            high_edge = NFW_range[1]
+            
+            
+            
+            
+            print 'dv: ',dv
+            print '[0,bv1]: ',[0,bv1]
+            print 'withinRange(dv,[0,bv1],0): ',withinRange(dv,[0,bv1],0)
+            print
+            print
+            
+            if withinRange(dv, NFW_range, 0):
+                mc = g1
+                marker = 'D'
+            
+            elif withinRange(dv, [low_edge-10, low_edge+10], 0):
+                mc = b3
+                marker = 'o'
+                
+            elif withinRange(dv, [high_edge-10, high_edge+10], 0):
+                mc = r3
+                marker = 'o'
+            
+            elif dv < low_edge-10.:
+                mc = b5
+                marker = 'X'
+
+            elif dv > high_edge+10.:
+                mc = r5
+                marker = 'X'
+            
+            else:
+                print 'wtf? - ',dv, NFW_range
+                mc = 'grey'
+                marker = 'd'
+
+            plot1 = ax.scatter(RA_targetList2[i], 
+                                Dec_targetList2[i], 
+                                s = newSizeList[i],
+                                c = mc,
+                                marker = marker,
+                                lw = marker_lw,
+                                edgecolor = 'black')
+
+        xTagOffset = 2.0
+        yTagOffset = 1.
+
+        previousNames = {}
+        counter = 1
+        for i in arange(len(combinedNameList2)):
+        
+            yTagOffset = 5.0 + (newSizeList[i]/50.)
+                
+            tag = nameDict[combinedNameList2[i]]        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList2[i], Dec_targetList2[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=sysNum_size)
+            
+                previousNames[tag] = 1
+
+
+    ##########################################################################################
+        # now the non-detections
+
+        non_size = 10
+        non_marker = 'o'
+        for i in arange(len(markerColorList_non)):
+            ax.plot(RA_targetList_non[i], Dec_targetList_non[i], color=markerColorList_non[i], \
+            ms=non_size, marker=non_marker, markeredgecolor='grey', lw=0.8, markerfacecolor='none')
+
+            yTagOffset = 5.0
+#             annotate(countList_non[i],xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+#             xytext=(xTagOffset,yTagOffset),textcoords='offset points',size=sysNum_size)
+        
+            tag = nameDict[combinedNameList_non[i]]
+        
+            if not previousNames.has_key(tag):
+                annotate(tag,xy=(RA_targetList_non[i], Dec_targetList_non[i]),\
+                xytext=(xTagOffset, yTagOffset),textcoords='offset points',size=sysNum_size)
+            
+                previousNames[tag] = 1
+
+    ##########################################################################################
+
+        xlabel(r'$\rm x ~[R_{vir}]$')
+        ylabel(r'$\rm y ~[R_{vir}]$')
+    
+        ax.set_xlim(-3.0, 3.0)
+        ax.set_ylim(-3.0, 3.0)
+        ax.invert_xaxis()
+    
+        annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
+        xytext=(0.0,0.0),textcoords='offset points',size=9)
+
+
+        # x-axis
+    #     majorLocator   = MultipleLocator(0.5)
+    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    #     minorLocator   = MultipleLocator(0.25)
+    #     ax.yaxis.set_major_locator(majorLocator)
+    #     ax.yaxis.set_major_formatter(majorFormatter)
+    #     ax.yaxis.set_minor_locator(minorLocator)
+
+        # y axis
+    #     majorLocator   = MultipleLocator(0.5)
+    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
+    #     minorLocator   = MultipleLocator(0.25)
+    #     ax.yaxis.set_major_locator(majorLocator)
+    #     ax.yaxis.set_major_formatter(majorFormatter)
+    #     ax.yaxis.set_minor_locator(minorLocator)
+
+
+        import matplotlib.patches as mpatches
+        import matplotlib.lines as mlines
+
+        below_leg = mlines.Line2D([], [], color=b5, marker='X',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm \Delta v < NFW~range~\pm 10~[km s^{{-1}}]$')
+    
+        blue_edge_leg = mlines.Line2D([], [], color=b3, marker='o',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm \Delta v ~within~10~km s^{{-1}}~of~NFW~lower~edge$')
+                                  
+        within_leg = mlines.Line2D([], [], color=g1, marker='D',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm \Delta v ~within~NFW~range$')
+                                  
+        red_edge_leg = mlines.Line2D([], [], color=r3, marker='o',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm \Delta v ~within~10~km s^{{-1}}~of~NFW~upper~edge$')
+                                  
+        above_leg = mlines.Line2D([], [], color=r5, marker='X',lw=0,
+                                  markersize=legend_size, markeredgecolor='black', label=r'$\rm \Delta v > NFW~range~\pm 10~[km s^{{-1}}]$')
+
+        plt.legend(handles=[below_leg, blue_edge_leg, within_leg, red_edge_leg, above_leg],
+                    loc='lower right', borderpad=0.8, fontsize=legend_font, fancybox=True)
+
+
+    ##########################################################################################
+        
+        save_name = 'SALT_seq_NFW_colormap_velstrict_{0}_non_{1}_Lstar_{2}_minsep_{3}'.format(only_close_velocities, include_nondetection, Lstar_range, min_separation)
 
     #     savefig("{0}SALT_map1.pdf".format(directory),dpi=400,bbox_inches='tight')
         savefig("{0}/{1}.pdf".format(out_directory, save_name),bbox_inches='tight')
@@ -1301,7 +1557,6 @@ def main():
             summary_file.write('{0}. {1}, \n'.format(num,name))
     
         summary_file.close()
-
 
 
     
