@@ -243,7 +243,8 @@ First we explore the $\rm Ly\alpha$ detection fraction as a function of galaxy p
 \begin{figure}[t!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.49\textwidth]{detection_fraction_both_err.pdf}
+%        \includegraphics[width=0.49\textwidth]{detection_fraction_both_err.pdf}
+        \includegraphics[width=0.49\textwidth]{detection_fraction_min50_100_200_300_both.pdf}
         \caption{\small{The detection fraction as a function of impact parameter (grey-circles) and $\mathcal{L}$ (blue-diamonds). Note that the impact parameter and $\mathcal{L}$ $x$-axis scales are quite different; the lowest $\mathcal{L}$ bin (0.0001) corresponds to $\sim 3 R_{\rm vir}$, whereas the largest impact parameter bin (1000 kpc) is generally $\gg 3 R_{\rm vir}$. Error bars show the $1\sigma$ Poisson errors.}}
         \vspace{5pt}
         \label{detection_fraction}
@@ -290,17 +291,29 @@ Finally, we also see that elliptical and S0 galaxies are associated with mostly 
 
 \subsection{Doppler b-parameter}
 
-Here we explore the effect of environment on the Doppler $b$-parameter of our $\rm Ly\alpha$ absorber sample. In an analogous fashion as above, Figure \ref{cdf_b} shows the cumulative distribution functions for the Doppler $b$-parameters of each subset of absorbers. Like the EW result, the Doppler $b$-parameters trend toward larger values based on their proximity to galaxies. The separation here is weaker, but the separation between, e.g., Isolated and $\mathcal{L}-Two+$ samples, remains statistically significant.
+Here we explore the effect of environment on the Doppler $b$-parameter of our $\rm Ly\alpha$ absorber sample. In an analogous fashion as above, Figure \ref{cdf_b} shows the cumulative distribution functions for the Doppler $b$-parameters of each subset of absorbers. Like the EW result, the Doppler $b$-parameters trend toward larger values based on their proximity to galaxies. The separation here is weaker, but the separation between, e.g., Isolated and $\mathcal{L}-two+$ samples, remains statistically significant.
 
 \begin{figure}[ht!]
         \centering
         \vspace{0pt}
-        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset.pdf}
+%        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset.pdf}
+        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset_double.pdf}
         \caption{\small{The Doppler $b$-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the $b$-parameter measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
         \vspace{5pt}
         \label{cdf_b}
 \end{figure}
 
+
+
+\begin{figure*}[t!]
+        \centering
+        \vspace{0pt}
+        \subfigure[]{\includegraphics[width=0.49\textwidth]{W(impact)_MType_binSize50_EWcut0-10000_dataset_double.pdf}\label{ew_impact}}
+        \subfigure[]{\includegraphics[width=0.49\textwidth]{W(impact_vir)_MType_binSize0_5_EWcut0-10000_dataset_double.pdf}\label{ew_impact_rvir}}
+        \caption{\small{\textbf{Left: } The equivalent width (EW) of absorbers a function of impact parameter ($\rho$) to the associated galaxy. The best fit shown by the dashed-black line has the form: $EW = m (\rho) + b,$ with $m = -0.99 \pm 0.25$ and $b = 487 \pm 49$. \textbf{Right:} The EW of absorbers a function of impact parameter to the associated galaxy normalized by the galaxy virial radius ($\rho / R_{\rm vir}$). The best fit shown by the dashed-black line has the form: $EW = m (\rho / R_{\rm vir}) + b,$ with $m = -265 \pm 48$ and $b = 620 \pm 59$. \textbf{Both:} All $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ systems are included here. Blue-circles indicate spiral-type galaxies, green-squares indicate irregulars, red-crosses indicate ellipticals, purple-diamonds indicate S0's, and open black-circles indicate ambiguous morphological types. }}
+        \vspace{5pt}
+        \label{ew_both}
+\end{figure*}
 
 
 \subsection{Azimuth}

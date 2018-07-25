@@ -90,7 +90,7 @@ def main():
     plot_b_hist_MType_save = False
 
     # which data set to use?
-    data_set = ''
+    data_set = '_double'
     
     plot_errors = True
 
@@ -324,7 +324,7 @@ def main():
 #         bins = 100
         
         
-        label_isolated = r'$\rm Isolated$'
+        label_isolated = r'$Isolated$'
         label_associated = r'$\rm Associated$'
         label_two = r'$\rm Two$'
         label_three = r'$\rm Three+$'
@@ -499,7 +499,7 @@ def main():
             color='black',
             lw=1.5,
             alpha=alpha_black,
-            label=r'$\rm All$')
+            label=r'$ All$')
          
             if plot_errors:
                 min_n, min_bins, min_p = hist(np.array(all_bs_cut) - np.array(all_e_bs_cut),
@@ -534,7 +534,7 @@ def main():
                 color='grey',
                 lw=1.5,
                 alpha=alpha_black,
-                label=r'$\rm Isolated$')
+                label=r'$ Isolated$')
 
                 if plot_errors:
                     min_n, min_bins, min_p = hist(np.array(isolated_bs_cut) - np.array(isolated_e_bs_cut),
@@ -569,7 +569,7 @@ def main():
                 color=color_brown,
                 lw=1.5,
                 alpha=alpha_brown,
-                label=r'$\rm \mathcal{L}-Isolated$')
+                label=r'$ \mathcal{L}-isolated$')
         
         
                 if plot_errors:
@@ -606,7 +606,7 @@ def main():
                 color=color_green,
                 lw=1.5,
                 alpha=alpha_green,
-                label=r'$\rm \mathcal{L}-Isolated-Assoc.$')
+                label=r'$ \mathcal{L}-associated-isolated$')
         
                 if plot_errors:
                     min_n, min_bins, min_p = hist(np.array(L_isolated_associated_bs_cut) - np.array(L_isolated_associated_e_bs_cut),
@@ -642,7 +642,7 @@ def main():
                 color=color_orange,
                 lw=1.5,
                 alpha=alpha_orange,
-                label=r'$\rm \mathcal{L}-Assoc.$')
+                label=r'$ \mathcal{L}-associated$')
                 
                 if plot_errors:
                     min_n, min_bins, min_p = hist(np.array(L_associated_bs_cut) - np.array(L_associated_e_bs_cut),
@@ -715,7 +715,7 @@ def main():
                 color=color_purple3,
                 lw=1.5,
                 alpha=alpha_purple,
-                label=r'$\rm \mathcal{L}-Two+$')
+                label=r'$ \mathcal{L}-two+$')
         
                 if plot_errors:
                     min_n, min_bins, min_p = hist(np.array(two_plus_bs_cut) - np.array(two_plus_e_bs_cut),
@@ -749,7 +749,7 @@ def main():
                 color=color_blue,
                 lw=1.5,
                 alpha=alpha_blue,
-                label=r'$\rm \mathcal{L}-Group$')
+                label=r'$ \mathcal{L}-group$')
         
                 if plot_errors:
                     min_n, min_bins, min_p = hist(np.array(L_group_bs_cut) - np.array(L_group_e_bs_cut),

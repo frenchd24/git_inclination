@@ -108,14 +108,14 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8.p'
-        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8_double.p'
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8_double.p'
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8_double.p'
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8_double.p'
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8_double.p'
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8_double.p'
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8_double.p'
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8_double.p'
 
 
     else:
@@ -252,7 +252,6 @@ def main():
     totalYes = 0
     totalIsolated = 0
     totalGroup = 0
-
 
 
 #########################################################################################
@@ -439,23 +438,24 @@ def main():
                         alpha=alpha_isolated,
                         label=label_isolated)
                         
-                        
-                        
-        # histogram isolated
-        bin_means, edges, binNumber = stats.binned_statistic(isolated_xs,
-                                                            isolated_ys,
-                                                            statistic='mean',
-                                                            bins=bins)
-        left,right = edges[:-1],edges[1:]        
-        X = array([left,right]).T.flatten()
-        Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-        plot(X,
-            Y,
-            ls='solid',
-            color=color_isolated,
-            lw=2.0,
-            alpha=alpha_bins,
-            label=r'$\rm Isolated~ Mean ~b$')
+                       
+        
+        if include_histograms:       
+            # histogram isolated
+            bin_means, edges, binNumber = stats.binned_statistic(isolated_xs,
+                                                                isolated_ys,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_isolated,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm Isolated~ Mean ~b$')
             
             
         # associated
@@ -500,21 +500,22 @@ def main():
                             alpha=alpha_two,
                             label=label_two)
         
-            # histogram group
-            bin_means, edges, binNumber = stats.binned_statistic(two_xs,
-                                                                two_ys,
-                                                                statistic='mean',
-                                                                bins=bins)
-            left,right = edges[:-1],edges[1:]
-            X = array([left,right]).T.flatten()
-            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-            plot(X,
-                Y,
-                ls='solid',
-                color=color_two,
-                lw=2.0,
-                alpha=alpha_bins,
-                label=r'$\rm Two+ ~Mean ~b$')
+            if include_histograms:
+                # histogram group
+                bin_means, edges, binNumber = stats.binned_statistic(two_xs,
+                                                                    two_ys,
+                                                                    statistic='mean',
+                                                                    bins=bins)
+                left,right = edges[:-1],edges[1:]
+                X = array([left,right]).T.flatten()
+                Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+                plot(X,
+                    Y,
+                    ls='solid',
+                    color=color_two,
+                    lw=2.0,
+                    alpha=alpha_bins,
+                    label=r'$\rm Two+ ~Mean ~b$')
            
                         
 #         # group
@@ -528,21 +529,23 @@ def main():
                             alpha=alpha_group,
                             label=label_group)
             
-            # histogram group
-            bin_means, edges, binNumber = stats.binned_statistic(group_xs,
-                                                                group_ys,
-                                                                statistic='mean',
-                                                                bins=bins)
-            left,right = edges[:-1],edges[1:]
-            X = array([left,right]).T.flatten()
-            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-            plot(X,
-                Y,
-                ls='solid',
-                color=color_group,
-                lw=2.0,
-                alpha=alpha_bins,
-                label=r'$\rm Group ~Mean ~b$')
+            
+            if include_histograms:
+                # histogram group
+                bin_means, edges, binNumber = stats.binned_statistic(group_xs,
+                                                                    group_ys,
+                                                                    statistic='mean',
+                                                                    bins=bins)
+                left,right = edges[:-1],edges[1:]
+                X = array([left,right]).T.flatten()
+                Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+                plot(X,
+                    Y,
+                    ls='solid',
+                    color=color_group,
+                    lw=2.0,
+                    alpha=alpha_bins,
+                    label=r'$\rm Group ~Mean ~b$')
         
     
         

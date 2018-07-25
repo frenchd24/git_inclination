@@ -136,8 +136,7 @@ def main():
 
         # pickle files
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
-#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_dmin75_vcut2500_minEW50.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW0_closestonly.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_strictbins.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -494,39 +493,9 @@ def main():
         Lya_vs = info['Lya_vs']
 
 
-        # do the correlation: returns a dictionary where the keys are all the correlated
-        # galaxies and the values are a dictionary of all the galaxy info
-#         correlation_original = correlateSingle.correlateTarget(target, maxSep, agnSeparation, minVcorr, minSize, slow=False, searchAll=False, returnDict=True)
+        # do the correlation
         correlation = correlateSingle.correlateTarget(target, maxSep, agnSeparation, minVcorr, minSize, slow=False, searchAll=False, returnDict=True)
-
-
-        # only look at the closest galaxy
-#         impact_sorted_list = []
-#         for c in correlation_original:
-#             impact = correlation_original[c]['impact']
-#             MajDiam = correlation_original[c]['MajDiam']
-#             Vhel = correlation_original[c]['Vhel']
-# 
-#             if isNumber(MajDiam):
-#                 if float(MajDiam) >= d_min:
-#                     impact_sorted_list.append([impact, correlation_original[c]])
-#        
-#         impact_sorted_list.sort()
-#        
-#         c2 = impact_sorted_list[0][1]
-#        
-#         correlation = {}
-#         correlation[c2['Name']] = c2
-
-        other_list = []
-        for c in correlation:
-            Vhel = correlation[c]['Vhel']
-            impact = correlation[c]['impact']
-            Name = correlation[c]['Name']
-
-            other_list.append([float(impact), float(Vhel), Name])
-
-        
+            
         for c in correlation:
             proceed = False
             
@@ -562,7 +531,6 @@ def main():
             Bmag_sdss = correlation[c]['Bmag_sdss']
 
             Vhel = float(Vhel)
-            impact = float(impact)
             
             if str(Lstar_med) == '-99.99':
                 Lstar = Lstar_sdss
@@ -590,17 +558,10 @@ def main():
             else:
                 proceed = False
             
-            # check if there are other closer galaxies within 400 km/s of this one
-            for other in other_list:
-                other_impact, other_vhel, other_name = other
-                if other_impact < impact:
-                    if abs(other_vhel - Vhel) <= 400:
-                        if other_name != Name:
-                            proceed = False
-                            break
+
             if proceed:
-                # if there's a galaxy within 1000 kpc, search for a line 
-                if float(impact) <= 1000:
+                # if there's a galaxy within 1000 kpc, search for a line
+                if float(impact) <= 1000 and float(impact) > 750:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -626,7 +587,7 @@ def main():
                             dv400_imp1000_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 750 kpc, search for a line 
-                if float(impact) <= 750:
+                if float(impact) <= 750 and float(impact) > 500:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -652,7 +613,7 @@ def main():
                             dv400_imp750_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 500 kpc, search for a line 
-                if float(impact) <= 500:
+                if float(impact) <= 500 and  float(impact) > 400:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -678,7 +639,7 @@ def main():
                             dv400_imp500_non_lstar.append(Lstar)
             
                 # if there's a galaxy within 400 kpc, search for a line 
-                if float(impact) <= 400:
+                if float(impact) <= 400 and float(impact) > 300:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -704,7 +665,7 @@ def main():
                             dv400_imp400_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 300 kpc, search for a line 
-                if float(impact) <= 300:
+                if float(impact) <= 300 and float(impact) > 200:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -730,7 +691,7 @@ def main():
                             dv400_imp300_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 200 kpc, search for a line 
-                if float(impact) <= 200:
+                if float(impact) <= 200 and float(impact) > 100:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -756,7 +717,7 @@ def main():
                             dv400_imp200_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 100 kpc, search for a line 
-                if float(impact) <= 100:
+                if float(impact) <= 100 and float(impact) > 50:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -782,7 +743,7 @@ def main():
                             dv400_imp100_non_lstar.append(Lstar)
 
                 # if there's a galaxy within 50 kpc, search for a line 
-                if float(impact) <= 50:
+                if float(impact) <= 50 and float(impact) > 25:
                     detection = False
                     for Lya_v in Lya_vs:
                         if isNumber(Lya_v):
@@ -867,7 +828,7 @@ def main():
                             
 
                     # if the likelihood is greater than 0.0001, see if there's a corresponding absorber
-                    if l_used >= 0.0001:
+                    if l_used >= 0.0001 and l_used < 0.0005:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -893,7 +854,7 @@ def main():
                                 dv400_l0001_non_lstar.append(Lstar)
 
                     # if the likelihood is greater than 0.0005, see if there's a corresponding absorber
-                    if l_used >= 0.0005:
+                    if l_used >= 0.0005 and l_used < 0.001:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -919,7 +880,7 @@ def main():
                                 dv400_l0005_non_lstar.append(Lstar)
             
                     # if the likelihood is greater than 0.001, see if there's a corresponding absorber
-                    if l_used >= 0.001:
+                    if l_used >= 0.001 and l_used < 0.005:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -945,7 +906,7 @@ def main():
                                 dv400_l001_non_lstar.append(Lstar)
 
                     # if the likelihood is greater than 0.005, see if there's a corresponding absorber
-                    if l_used >= 0.005:
+                    if l_used >= 0.005 and l_used < 0.01:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -971,7 +932,7 @@ def main():
                                 dv400_l005_non_lstar.append(Lstar)
 
                     # if the likelihood is greater than 0.01, see if there's a corresponding absorber
-                    if l_used >= 0.01:
+                    if l_used >= 0.01 and l_used < 0.05:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -997,7 +958,7 @@ def main():
                                 dv400_l01_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.05, see if there's a corresponding absorber
-                    if l_used >= 0.05:
+                    if l_used >= 0.05 and l_used < 0.1:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1023,7 +984,7 @@ def main():
                                 dv400_l05_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.1, see if there's a corresponding absorber
-                    if l_used >= 0.1:
+                    if l_used >= 0.1 and l_used < 0.5:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1049,7 +1010,7 @@ def main():
                                 dv400_l1_non_lstar.append(Lstar)
                         
                     # if the likelihood is greater than 0.5, see if there's a corresponding
-                    if l_used >= 0.5:
+                    if l_used >= 0.5 and l_used < 0.75:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1106,7 +1067,7 @@ def main():
                     l_used = impact/R_vir
             
                     # if the imp/Rvir is greater than 0.25, see if there's a corresponding line
-                    if l_used >= 0.25:
+                    if l_used >= 0.25 and l_used < 0.5:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1122,7 +1083,7 @@ def main():
                             dv400_rvir025_non +=1
             
                     # if the imp/Rvir is greater than 0.5, see if there's a corresponding line
-                    if l_used >= 0.5:
+                    if l_used >= 0.5 and l_used < 0.75:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1139,7 +1100,7 @@ def main():
 
 
                     # if the imp/Rvir is greater than 0.75, see if there's a corresponding line
-                    if l_used >= 0.75:
+                    if l_used >= 0.75 and l_used < 1.0:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1157,7 +1118,7 @@ def main():
                         
                         
                     # if the imp/Rvir is greater than 1.0, see if there's a corresponding line
-                    if l_used >= 1.0:
+                    if l_used >= 1.0 and l_used < 1.5:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1174,7 +1135,7 @@ def main():
                         
                         
                     # if the imp/Rvir is greater than 1.5, see if there's a corresponding line
-                    if l_used >= 1.5:
+                    if l_used >= 1.5 and l_used < 2.0:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):
@@ -1191,7 +1152,7 @@ def main():
                         
                         
                     # if the imp/Rvir is greater than 2.0, see if there's a corresponding line
-                    if l_used >= 2.0:
+                    if l_used >= 2.0 and l_used < 2.5:
                         detection = False
                         for Lya_v in Lya_vs:
                             if isNumber(Lya_v):

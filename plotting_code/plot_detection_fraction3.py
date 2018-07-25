@@ -138,31 +138,13 @@ def main():
     
     # plot detection fraction as a function of both impact parameter and likelihood - 
     # does not work right now
-    plot_detection_fraction_velcut_both = True
-    plot_detection_fraction_velcut_both_save = True
+    plot_detection_fraction_velcut_both = False
+    plot_detection_fraction_velcut_both_save = False
     
-    # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_inc = False
-    plot_detection_fraction_likelihood_inc_save = False
-
-    # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_inc = False
-    plot_detection_fraction_impact_inc_save = False
-
-    # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_lstar = False
-    plot_detection_fraction_likelihood_lstar_save = False
-
-    # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_lstar = False
-    plot_detection_fraction_impact_lstar_save = False
     
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
     # =4 adds groups with 2 or more members
     Lstar_min = 0.5
-    
-    # only consider galaxies within this velocity limit
-    vel_cut = 2500
     
     # which lstar cut subset to use?
     lstar_cut  = 'include3'
@@ -177,11 +159,17 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/detection_fraction_figs/'
         
-#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction3.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_{0}.p'.format(lstar_cut)
+#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_{0}.p'.format(lstar_cut)
+#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW0_closestonly.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_strictbins.p'
+
 #         detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_vcut2500.p'
 #         detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut01_vcut2500.p'
-        detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_dmin75_vcut2500_minEW50.p'
+#         detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_dmin75_vcut2500_minEW50.p'
+        detection_fraction_min50_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW50_2.p'
+        detection_fraction_min100_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW100_closestonly.p'
+        detection_fraction_min200_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW200_closestonly.p'
+        detection_fraction_min300_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW300_closestonly.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -195,70 +183,228 @@ def main():
     
     # open all the pickle files
     detection_fraction_file = open(detection_fraction_filename,'r')
-    detection_fraction_vcut_file = open(detection_fraction_vcut_filename,'r')
+    detection_fraction_min50_file = open(detection_fraction_min50_filename,'r')
+    detection_fraction_min100_file = open(detection_fraction_min100_filename,'r')
+    detection_fraction_min200_file = open(detection_fraction_min200_filename,'r')
+    detection_fraction_min300_file = open(detection_fraction_min300_filename,'r')
 
     # unload the data from them
     full_dict = pickle.load(detection_fraction_file)
-    full_dict_vcut = pickle.load(detection_fraction_vcut_file)
+    full_dict_min50 = pickle.load(detection_fraction_min50_file)
+    full_dict_min100 = pickle.load(detection_fraction_min100_file)
+    full_dict_min200 = pickle.load(detection_fraction_min200_file)
+    full_dict_min300 = pickle.load(detection_fraction_min300_file)
 
     # close the files
     detection_fraction_file.close()
-    detection_fraction_vcut_file.close()
+    detection_fraction_min50_file.close()
+    detection_fraction_min100_file.close()
+    detection_fraction_min200_file.close()
+    detection_fraction_min300_file.close()
 
     
     # unload all the stuff
- 
-    # \Delta v lists for impact parameter
-    
+     
     ##############
+    # minEW 50 results
     # now impact parameter detection counts
-    dv400_imp1000_vcut_det = full_dict_vcut['dv400_imp1000_det']
-    dv400_imp750_vcut_det = full_dict_vcut['dv400_imp750_det']
-    dv400_imp500_vcut_det = full_dict_vcut['dv400_imp500_det']
-    dv400_imp400_vcut_det = full_dict_vcut['dv400_imp400_det']
-    dv400_imp300_vcut_det = full_dict_vcut['dv400_imp300_det']
-    dv400_imp200_vcut_det = full_dict_vcut['dv400_imp200_det']
-    dv400_imp100_vcut_det = full_dict_vcut['dv400_imp100_det']
-    dv400_imp50_vcut_det = full_dict_vcut['dv400_imp50_det']
-    dv400_imp25_vcut_det = full_dict_vcut['dv400_imp25_det']
+    dv400_imp1000_min50_det = full_dict_min50['dv400_imp1000_det']
+    dv400_imp750_min50_det = full_dict_min50['dv400_imp750_det']
+    dv400_imp500_min50_det = full_dict_min50['dv400_imp500_det']
+    dv400_imp400_min50_det = full_dict_min50['dv400_imp400_det']
+    dv400_imp300_min50_det = full_dict_min50['dv400_imp300_det']
+    dv400_imp200_min50_det = full_dict_min50['dv400_imp200_det']
+    dv400_imp100_min50_det = full_dict_min50['dv400_imp100_det']
+    dv400_imp50_min50_det = full_dict_min50['dv400_imp50_det']
+    dv400_imp25_min50_det = full_dict_min50['dv400_imp25_det']
 
     # now impact parameter non-detection counts
-    dv400_imp1000_vcut_non = full_dict_vcut['dv400_imp1000_non']
-    dv400_imp750_vcut_non = full_dict_vcut['dv400_imp750_non']
-    dv400_imp500_vcut_non = full_dict_vcut['dv400_imp500_non']
-    dv400_imp400_vcut_non = full_dict_vcut['dv400_imp400_non']
-    dv400_imp300_vcut_non = full_dict_vcut['dv400_imp300_non']
-    dv400_imp200_vcut_non = full_dict_vcut['dv400_imp200_non']
-    dv400_imp100_vcut_non = full_dict_vcut['dv400_imp100_non']
-    dv400_imp50_vcut_non = full_dict_vcut['dv400_imp50_non']
-    dv400_imp25_vcut_non = full_dict_vcut['dv400_imp25_non']
+    dv400_imp1000_min50_non = full_dict_min50['dv400_imp1000_non']
+    dv400_imp750_min50_non = full_dict_min50['dv400_imp750_non']
+    dv400_imp500_min50_non = full_dict_min50['dv400_imp500_non']
+    dv400_imp400_min50_non = full_dict_min50['dv400_imp400_non']
+    dv400_imp300_min50_non = full_dict_min50['dv400_imp300_non']
+    dv400_imp200_min50_non = full_dict_min50['dv400_imp200_non']
+    dv400_imp100_min50_non = full_dict_min50['dv400_imp100_non']
+    dv400_imp50_min50_non = full_dict_min50['dv400_imp50_non']
+    dv400_imp25_min50_non = full_dict_min50['dv400_imp25_non']
     
     
     # now for likelihood detections
-    dv400_l0001_vcut_det = full_dict_vcut['dv400_l0001_det']
-    dv400_l0005_vcut_det = full_dict_vcut['dv400_l0005_det']
-    dv400_l001_vcut_det = full_dict_vcut['dv400_l001_det']
-    dv400_l005_vcut_det = full_dict_vcut['dv400_l005_det']
-    dv400_l01_vcut_det = full_dict_vcut['dv400_l01_det']
-    dv400_l05_vcut_det = full_dict_vcut['dv400_l05_det']
-    dv400_l1_vcut_det = full_dict_vcut['dv400_l1_det']
-    dv400_l5_vcut_det = full_dict_vcut['dv400_l5_det']
-    dv400_l75_vcut_det = full_dict_vcut['dv400_l75_det']
+    dv400_l0001_min50_det = full_dict_min50['dv400_l0001_det']
+    dv400_l0005_min50_det = full_dict_min50['dv400_l0005_det']
+    dv400_l001_min50_det = full_dict_min50['dv400_l001_det']
+    dv400_l005_min50_det = full_dict_min50['dv400_l005_det']
+    dv400_l01_min50_det = full_dict_min50['dv400_l01_det']
+    dv400_l05_min50_det = full_dict_min50['dv400_l05_det']
+    dv400_l1_min50_det = full_dict_min50['dv400_l1_det']
+    dv400_l5_min50_det = full_dict_min50['dv400_l5_det']
+    dv400_l75_min50_det = full_dict_min50['dv400_l75_det']
     
     # now for likelihood non-detections
-    dv400_l0001_vcut_non = full_dict_vcut['dv400_l0001_non']
-    dv400_l0005_vcut_non = full_dict_vcut['dv400_l0005_non']
-    dv400_l001_vcut_non = full_dict_vcut['dv400_l001_non']
-    dv400_l005_vcut_non = full_dict_vcut['dv400_l005_non']
-    dv400_l01_vcut_non = full_dict_vcut['dv400_l01_non']
-    dv400_l05_vcut_non = full_dict_vcut['dv400_l05_non']
-    dv400_l1_vcut_non = full_dict_vcut['dv400_l1_non']
-    dv400_l5_vcut_non = full_dict_vcut['dv400_l5_non']
-    dv400_l75_vcut_non = full_dict_vcut['dv400_l75_non']
+    dv400_l0001_min50_non = full_dict_min50['dv400_l0001_non']
+    dv400_l0005_min50_non = full_dict_min50['dv400_l0005_non']
+    dv400_l001_min50_non = full_dict_min50['dv400_l001_non']
+    dv400_l005_min50_non = full_dict_min50['dv400_l005_non']
+    dv400_l01_min50_non = full_dict_min50['dv400_l01_non']
+    dv400_l05_min50_non = full_dict_min50['dv400_l05_non']
+    dv400_l1_min50_non = full_dict_min50['dv400_l1_non']
+    dv400_l5_min50_non = full_dict_min50['dv400_l5_non']
+    dv400_l75_min50_non = full_dict_min50['dv400_l75_non']
+    
+    
+    ##############
+    # minEW 100 results
+    # now impact parameter detection counts
+    dv400_imp1000_min100_det = full_dict_min100['dv400_imp1000_det']
+    dv400_imp750_min100_det = full_dict_min100['dv400_imp750_det']
+    dv400_imp500_min100_det = full_dict_min100['dv400_imp500_det']
+    dv400_imp400_min100_det = full_dict_min100['dv400_imp400_det']
+    dv400_imp300_min100_det = full_dict_min100['dv400_imp300_det']
+    dv400_imp200_min100_det = full_dict_min100['dv400_imp200_det']
+    dv400_imp100_min100_det = full_dict_min100['dv400_imp100_det']
+    dv400_imp50_min100_det = full_dict_min100['dv400_imp50_det']
+    dv400_imp25_min100_det = full_dict_min100['dv400_imp25_det']
+
+    # now impact parameter non-detection counts
+    dv400_imp1000_min100_non = full_dict_min100['dv400_imp1000_non']
+    dv400_imp750_min100_non = full_dict_min100['dv400_imp750_non']
+    dv400_imp500_min100_non = full_dict_min100['dv400_imp500_non']
+    dv400_imp400_min100_non = full_dict_min100['dv400_imp400_non']
+    dv400_imp300_min100_non = full_dict_min100['dv400_imp300_non']
+    dv400_imp200_min100_non = full_dict_min100['dv400_imp200_non']
+    dv400_imp100_min100_non = full_dict_min100['dv400_imp100_non']
+    dv400_imp50_min100_non = full_dict_min100['dv400_imp50_non']
+    dv400_imp25_min100_non = full_dict_min100['dv400_imp25_non']
+    
+    
+    # now for likelihood detections
+    dv400_l0001_min100_det = full_dict_min100['dv400_l0001_det']
+    dv400_l0005_min100_det = full_dict_min100['dv400_l0005_det']
+    dv400_l001_min100_det = full_dict_min100['dv400_l001_det']
+    dv400_l005_min100_det = full_dict_min100['dv400_l005_det']
+    dv400_l01_min100_det = full_dict_min100['dv400_l01_det']
+    dv400_l05_min100_det = full_dict_min100['dv400_l05_det']
+    dv400_l1_min100_det = full_dict_min100['dv400_l1_det']
+    dv400_l5_min100_det = full_dict_min100['dv400_l5_det']
+    dv400_l75_min100_det = full_dict_min100['dv400_l75_det']
+    
+    # now for likelihood non-detections
+    dv400_l0001_min100_non = full_dict_min100['dv400_l0001_non']
+    dv400_l0005_min100_non = full_dict_min100['dv400_l0005_non']
+    dv400_l001_min100_non = full_dict_min100['dv400_l001_non']
+    dv400_l005_min100_non = full_dict_min100['dv400_l005_non']
+    dv400_l01_min100_non = full_dict_min100['dv400_l01_non']
+    dv400_l05_min100_non = full_dict_min100['dv400_l05_non']
+    dv400_l1_min100_non = full_dict_min100['dv400_l1_non']
+    dv400_l5_min100_non = full_dict_min100['dv400_l5_non']
+    dv400_l75_min100_non = full_dict_min100['dv400_l75_non']
+    
+    
+    
+    ##############
+    # minEW 200 results
+    # now impact parameter detection counts
+    dv400_imp1000_min200_det = full_dict_min200['dv400_imp1000_det']
+    dv400_imp750_min200_det = full_dict_min200['dv400_imp750_det']
+    dv400_imp500_min200_det = full_dict_min200['dv400_imp500_det']
+    dv400_imp400_min200_det = full_dict_min200['dv400_imp400_det']
+    dv400_imp300_min200_det = full_dict_min200['dv400_imp300_det']
+    dv400_imp200_min200_det = full_dict_min200['dv400_imp200_det']
+    dv400_imp100_min200_det = full_dict_min200['dv400_imp100_det']
+    dv400_imp50_min200_det = full_dict_min200['dv400_imp50_det']
+    dv400_imp25_min200_det = full_dict_min200['dv400_imp25_det']
+
+    # now impact parameter non-detection counts
+    dv400_imp1000_min200_non = full_dict_min200['dv400_imp1000_non']
+    dv400_imp750_min200_non = full_dict_min200['dv400_imp750_non']
+    dv400_imp500_min200_non = full_dict_min200['dv400_imp500_non']
+    dv400_imp400_min200_non = full_dict_min200['dv400_imp400_non']
+    dv400_imp300_min200_non = full_dict_min200['dv400_imp300_non']
+    dv400_imp200_min200_non = full_dict_min200['dv400_imp200_non']
+    dv400_imp100_min200_non = full_dict_min200['dv400_imp100_non']
+    dv400_imp50_min200_non = full_dict_min200['dv400_imp50_non']
+    dv400_imp25_min200_non = full_dict_min200['dv400_imp25_non']
+    
+    
+    # now for likelihood detections
+    dv400_l0001_min200_det = full_dict_min200['dv400_l0001_det']
+    dv400_l0005_min200_det = full_dict_min200['dv400_l0005_det']
+    dv400_l001_min200_det = full_dict_min200['dv400_l001_det']
+    dv400_l005_min200_det = full_dict_min200['dv400_l005_det']
+    dv400_l01_min200_det = full_dict_min200['dv400_l01_det']
+    dv400_l05_min200_det = full_dict_min200['dv400_l05_det']
+    dv400_l1_min200_det = full_dict_min200['dv400_l1_det']
+    dv400_l5_min200_det = full_dict_min200['dv400_l5_det']
+    dv400_l75_min200_det = full_dict_min200['dv400_l75_det']
+    
+    # now for likelihood non-detections
+    dv400_l0001_min200_non = full_dict_min200['dv400_l0001_non']
+    dv400_l0005_min200_non = full_dict_min200['dv400_l0005_non']
+    dv400_l001_min200_non = full_dict_min200['dv400_l001_non']
+    dv400_l005_min200_non = full_dict_min200['dv400_l005_non']
+    dv400_l01_min200_non = full_dict_min200['dv400_l01_non']
+    dv400_l05_min200_non = full_dict_min200['dv400_l05_non']
+    dv400_l1_min200_non = full_dict_min200['dv400_l1_non']
+    dv400_l5_min200_non = full_dict_min200['dv400_l5_non']
+    dv400_l75_min200_non = full_dict_min200['dv400_l75_non']
+    
+    
+    
+    ##############
+    # minEW 300 results
+    # now impact parameter detection counts
+    dv400_imp1000_min300_det = full_dict_min300['dv400_imp1000_det']
+    dv400_imp750_min300_det = full_dict_min300['dv400_imp750_det']
+    dv400_imp500_min300_det = full_dict_min300['dv400_imp500_det']
+    dv400_imp400_min300_det = full_dict_min300['dv400_imp400_det']
+    dv400_imp300_min300_det = full_dict_min300['dv400_imp300_det']
+    dv400_imp200_min300_det = full_dict_min300['dv400_imp200_det']
+    dv400_imp100_min300_det = full_dict_min300['dv400_imp100_det']
+    dv400_imp50_min300_det = full_dict_min300['dv400_imp50_det']
+    dv400_imp25_min300_det = full_dict_min300['dv400_imp25_det']
+
+    # now impact parameter non-detection counts
+    dv400_imp1000_min300_non = full_dict_min300['dv400_imp1000_non']
+    dv400_imp750_min300_non = full_dict_min300['dv400_imp750_non']
+    dv400_imp500_min300_non = full_dict_min300['dv400_imp500_non']
+    dv400_imp400_min300_non = full_dict_min300['dv400_imp400_non']
+    dv400_imp300_min300_non = full_dict_min300['dv400_imp300_non']
+    dv400_imp200_min300_non = full_dict_min300['dv400_imp200_non']
+    dv400_imp100_min300_non = full_dict_min300['dv400_imp100_non']
+    dv400_imp50_min300_non = full_dict_min300['dv400_imp50_non']
+    dv400_imp25_min300_non = full_dict_min300['dv400_imp25_non']
+    
+    
+    # now for likelihood detections
+    dv400_l0001_min300_det = full_dict_min300['dv400_l0001_det']
+    dv400_l0005_min300_det = full_dict_min300['dv400_l0005_det']
+    dv400_l001_min300_det = full_dict_min300['dv400_l001_det']
+    dv400_l005_min300_det = full_dict_min300['dv400_l005_det']
+    dv400_l01_min300_det = full_dict_min300['dv400_l01_det']
+    dv400_l05_min300_det = full_dict_min300['dv400_l05_det']
+    dv400_l1_min300_det = full_dict_min300['dv400_l1_det']
+    dv400_l5_min300_det = full_dict_min300['dv400_l5_det']
+    dv400_l75_min300_det = full_dict_min300['dv400_l75_det']
+    
+    # now for likelihood non-detections
+    dv400_l0001_min300_non = full_dict_min300['dv400_l0001_non']
+    dv400_l0005_min300_non = full_dict_min300['dv400_l0005_non']
+    dv400_l001_min300_non = full_dict_min300['dv400_l001_non']
+    dv400_l005_min300_non = full_dict_min300['dv400_l005_non']
+    dv400_l01_min300_non = full_dict_min300['dv400_l01_non']
+    dv400_l05_min300_non = full_dict_min300['dv400_l05_non']
+    dv400_l1_min300_non = full_dict_min300['dv400_l1_non']
+    dv400_l5_min300_non = full_dict_min300['dv400_l5_non']
+    dv400_l75_min300_non = full_dict_min300['dv400_l75_non']
+    
+##########################################################################################
     
     
 ##########################################################################################
     
+##########################################################################################
+    # \Delta v lists for impact parameter
     
     dv_1000 = full_dict['dv_1000']
     dv_750 = full_dict['dv_750']
@@ -290,52 +436,6 @@ def main():
     dv400_imp100_non = full_dict['dv400_imp100_non']
     dv400_imp50_non = full_dict['dv400_imp50_non']
     dv400_imp25_non = full_dict['dv400_imp25_non']
-    
-    
-    # impact parameter detection inclinations
-    dv400_imp1000_det_inc = np.array(full_dict['dv400_imp1000_det_inc'])
-    dv400_imp750_det_inc = np.array(full_dict['dv400_imp750_det_inc'])
-    dv400_imp500_det_inc = np.array(full_dict['dv400_imp500_det_inc'])
-    dv400_imp400_det_inc = np.array(full_dict['dv400_imp400_det_inc'])
-    dv400_imp300_det_inc = np.array(full_dict['dv400_imp300_det_inc'])
-    dv400_imp200_det_inc = np.array(full_dict['dv400_imp200_det_inc'])
-    dv400_imp100_det_inc = np.array(full_dict['dv400_imp100_det_inc'])
-    dv400_imp50_det_inc = np.array(full_dict['dv400_imp50_det_inc'])
-    dv400_imp25_det_inc = np.array(full_dict['dv400_imp25_det_inc'])
-    
-    # now impact parameter non-detection inclinations 
-    dv400_imp1000_non_inc = np.array(full_dict['dv400_imp1000_non_inc'])
-    dv400_imp750_non_inc = np.array(full_dict['dv400_imp750_non_inc'])
-    dv400_imp500_non_inc = np.array(full_dict['dv400_imp500_non_inc'])
-    dv400_imp400_non_inc = np.array(full_dict['dv400_imp400_non_inc'])
-    dv400_imp300_non_inc = np.array(full_dict['dv400_imp300_non_inc'])
-    dv400_imp200_non_inc = np.array(full_dict['dv400_imp200_non_inc'])
-    dv400_imp100_non_inc = np.array(full_dict['dv400_imp100_non_inc'])
-    dv400_imp50_non_inc = np.array(full_dict['dv400_imp50_non_inc'])
-    dv400_imp25_non_inc = np.array(full_dict['dv400_imp25_non_inc'])
-
-
-    # impact parameter detection lstars
-    dv400_imp1000_det_lstar = np.array(full_dict['dv400_imp1000_det_lstar'])
-    dv400_imp750_det_lstar = np.array(full_dict['dv400_imp750_det_lstar'])
-    dv400_imp500_det_lstar = np.array(full_dict['dv400_imp500_det_lstar'])
-    dv400_imp400_det_lstar = np.array(full_dict['dv400_imp400_det_lstar'])
-    dv400_imp300_det_lstar = np.array(full_dict['dv400_imp300_det_lstar'])
-    dv400_imp200_det_lstar = np.array(full_dict['dv400_imp200_det_lstar'])
-    dv400_imp100_det_lstar = np.array(full_dict['dv400_imp100_det_lstar'])
-    dv400_imp50_det_lstar = np.array(full_dict['dv400_imp50_det_lstar'])
-    dv400_imp25_det_lstar = np.array(full_dict['dv400_imp25_det_lstar'])
-    
-    # now impact parameter non-detection lstars
-    dv400_imp1000_non_lstar = np.array(full_dict['dv400_imp1000_non_lstar'])
-    dv400_imp750_non_lstar = np.array(full_dict['dv400_imp750_non_lstar'])
-    dv400_imp500_non_lstar = np.array(full_dict['dv400_imp500_non_lstar'])
-    dv400_imp400_non_lstar = np.array(full_dict['dv400_imp400_non_lstar'])
-    dv400_imp300_non_lstar = np.array(full_dict['dv400_imp300_non_lstar'])
-    dv400_imp200_non_lstar = np.array(full_dict['dv400_imp200_non_lstar'])
-    dv400_imp100_non_lstar = np.array(full_dict['dv400_imp100_non_lstar'])
-    dv400_imp50_non_lstar = np.array(full_dict['dv400_imp50_non_lstar'])
-    dv400_imp25_non_lstar = np.array(full_dict['dv400_imp25_non_lstar'])
 
 
 ##########################################################################################
@@ -372,193 +472,22 @@ def main():
     dv400_l5_non = full_dict['dv400_l5_non']
     dv400_l75_non = full_dict['dv400_l75_non']
 
-    # now for likelihood detections inclinations
-    dv400_l0001_det_inc = np.array(full_dict['dv400_l0001_det_inc'])
-    dv400_l0005_det_inc = np.array(full_dict['dv400_l0005_det_inc'])
-    dv400_l001_det_inc = np.array(full_dict['dv400_l001_det_inc'])
-    dv400_l005_det_inc = np.array(full_dict['dv400_l005_det_inc'])
-    dv400_l01_det_inc = np.array(full_dict['dv400_l01_det_inc'])
-    dv400_l05_det_inc = np.array(full_dict['dv400_l05_det_inc'])
-    dv400_l1_det_inc = np.array(full_dict['dv400_l1_det_inc'])
-    dv400_l5_det_inc = np.array(full_dict['dv400_l5_det_inc'])
-    dv400_l75_det_inc = np.array(full_dict['dv400_l75_det_inc'])
-
-    # now for likelihood non-detections inclinations
-    dv400_l0001_non_inc = np.array(full_dict['dv400_l0001_non_inc'])
-    dv400_l0005_non_inc = np.array(full_dict['dv400_l0005_non_inc'])
-    dv400_l001_non_inc = np.array(full_dict['dv400_l001_non_inc'])
-    dv400_l005_non_inc = np.array(full_dict['dv400_l005_non_inc'])
-    dv400_l01_non_inc = np.array(full_dict['dv400_l01_non_inc'])
-    dv400_l05_non_inc = np.array(full_dict['dv400_l05_non_inc'])
-    dv400_l1_non_inc = np.array(full_dict['dv400_l1_non_inc'])
-    dv400_l5_non_inc = np.array(full_dict['dv400_l5_non_inc'])
-    dv400_l75_non_inc = np.array(full_dict['dv400_l75_non_inc'])
-    
-    # now for likelihood detections lstars
-    dv400_l0001_det_lstar = np.array(full_dict['dv400_l0001_det_lstar'])
-    dv400_l0005_det_lstar = np.array(full_dict['dv400_l0005_det_lstar'])
-    dv400_l001_det_lstar = np.array(full_dict['dv400_l001_det_lstar'])
-    dv400_l005_det_lstar = np.array(full_dict['dv400_l005_det_lstar'])
-    dv400_l01_det_lstar = np.array(full_dict['dv400_l01_det_lstar'])
-    dv400_l05_det_lstar = np.array(full_dict['dv400_l05_det_lstar'])
-    dv400_l1_det_lstar = np.array(full_dict['dv400_l1_det_lstar'])
-    dv400_l5_det_lstar = np.array(full_dict['dv400_l5_det_lstar'])
-    dv400_l75_det_lstar = np.array(full_dict['dv400_l75_det_lstar'])
-
-    # now for likelihood non-detections lstars
-    dv400_l0001_non_lstar = np.array(full_dict['dv400_l0001_non_lstar'])
-    dv400_l0005_non_lstar = np.array(full_dict['dv400_l0005_non_lstar'])
-    dv400_l001_non_lstar = np.array(full_dict['dv400_l001_non_lstar'])
-    dv400_l005_non_lstar = np.array(full_dict['dv400_l005_non_lstar'])
-    dv400_l01_non_lstar = np.array(full_dict['dv400_l01_non_lstar'])
-    dv400_l05_non_lstar = np.array(full_dict['dv400_l05_non_lstar'])
-    dv400_l1_non_lstar = np.array(full_dict['dv400_l1_non_lstar'])
-    dv400_l5_non_lstar = np.array(full_dict['dv400_l5_non_lstar'])
-    dv400_l75_non_lstar = np.array(full_dict['dv400_l75_non_lstar'])
-    
-    
-    
-    print 'dv400_l001_non_inc: ',dv400_l001_non_inc
-    print 'dv400_l001_det_inc: ',dv400_l001_det_inc
-    
-    dv400_imp1000_det_inc = dv400_imp1000_det_inc.astype(np.float)
-    dv400_imp750_det_inc = dv400_imp750_det_inc.astype(np.float)
-    dv400_imp500_det_inc = dv400_imp500_det_inc.astype(np.float)
-    dv400_imp400_det_inc = dv400_imp400_det_inc.astype(np.float)
-    dv400_imp300_det_inc = dv400_imp300_det_inc.astype(np.float)
-    dv400_imp200_det_inc = dv400_imp200_det_inc.astype(np.float)
-    dv400_imp100_det_inc = dv400_imp100_det_inc.astype(np.float)
-    dv400_imp50_det_inc = dv400_imp50_det_inc.astype(np.float)
-    dv400_imp25_det_inc = dv400_imp25_det_inc.astype(np.float)
-
-    dv400_imp1000_non_inc = dv400_imp1000_non_inc.astype(np.float)
-    dv400_imp750_non_inc = dv400_imp750_non_inc.astype(np.float)
-    dv400_imp500_non_inc = dv400_imp500_non_inc.astype(np.float)
-    dv400_imp400_non_inc = dv400_imp400_non_inc.astype(np.float)
-    dv400_imp300_non_inc = dv400_imp300_non_inc.astype(np.float)
-    dv400_imp200_non_inc = dv400_imp200_non_inc.astype(np.float)
-    dv400_imp100_non_inc = dv400_imp100_non_inc.astype(np.float)
-    dv400_imp50_non_inc = dv400_imp50_non_inc.astype(np.float)
-    dv400_imp25_non_inc = dv400_imp25_non_inc.astype(np.float)
-    
-    dv400_l0001_det_inc = dv400_l0001_det_inc.astype(np.float)
-    dv400_l0005_det_inc = dv400_l0005_det_inc.astype(np.float)
-    dv400_l001_det_inc = dv400_l001_det_inc.astype(np.float)
-    dv400_l005_det_inc = dv400_l005_det_inc.astype(np.float)
-    dv400_l01_det_inc = dv400_l01_det_inc.astype(np.float)
-    dv400_l05_det_inc = dv400_l05_det_inc.astype(np.float)
-    dv400_l1_det_inc = dv400_l1_det_inc.astype(np.float)
-    dv400_l5_det_inc = dv400_l5_det_inc.astype(np.float)
-    dv400_l75_det_inc = dv400_l75_det_inc.astype(np.float)
-    
-    dv400_l0001_non_inc = dv400_l0001_non_inc.astype(np.float)
-    dv400_l0005_non_inc = dv400_l0005_non_inc.astype(np.float)
-    dv400_l001_non_inc = dv400_l001_non_inc.astype(np.float)
-    dv400_l005_non_inc = dv400_l005_non_inc.astype(np.float)
-    dv400_l01_non_inc = dv400_l01_non_inc.astype(np.float)
-    dv400_l05_non_inc = dv400_l05_non_inc.astype(np.float)
-    dv400_l1_non_inc = dv400_l1_non_inc.astype(np.float)
-    dv400_l5_non_inc = dv400_l5_non_inc.astype(np.float)
-    dv400_l75_non_inc = dv400_l75_non_inc.astype(np.float)
-    
-    
-    
-    #######
-    # cut out '-99' from all the data
-    # likelihood version first - inclinations
-    dv400_l0001_det_inc = list(filter(lambda x: x!= -99., dv400_l0001_det_inc))
-    dv400_l0005_det_inc = list(filter(lambda x: x!= -99., dv400_l0005_det_inc))
-    dv400_l001_det_inc = list(filter(lambda x: x!= -99., dv400_l001_det_inc))
-    dv400_l005_det_inc = list(filter(lambda x: x!= -99., dv400_l005_det_inc))
-    dv400_l01_det_inc = list(filter(lambda x: x!= -99., dv400_l01_det_inc))
-    dv400_l05_det_inc = list(filter(lambda x: x!= -99., dv400_l05_det_inc))
-    dv400_l1_det_inc = list(filter(lambda x: x!= -99., dv400_l1_det_inc))
-    dv400_l5_det_inc = list(filter(lambda x: x!= -99., dv400_l5_det_inc))
-    dv400_l75_det_inc = list(filter(lambda x: x!= -99., dv400_l75_det_inc))
-
-    dv400_l0001_non_inc = list(filter(lambda x: x!= -99., dv400_l0001_non_inc))
-    dv400_l0005_non_inc = list(filter(lambda x: x!= -99., dv400_l0005_non_inc))
-    dv400_l001_non_inc = list(filter(lambda x: x!= -99., dv400_l001_non_inc))
-    dv400_l005_non_inc = list(filter(lambda x: x!= -99., dv400_l005_non_inc))
-    dv400_l01_non_inc = list(filter(lambda x: x!= -99., dv400_l01_non_inc))
-    dv400_l05_non_inc = list(filter(lambda x: x!= -99., dv400_l05_non_inc))
-    dv400_l1_non_inc = list(filter(lambda x: x!= -99., dv400_l1_non_inc))
-    dv400_l5_non_inc = list(filter(lambda x: x!= -99., dv400_l5_non_inc))
-    dv400_l75_non_inc = list(filter(lambda x: x!= -99., dv400_l75_non_inc))
-    
-    # likelihood version - lstars
-    dv400_l0001_det_lstar = list(filter(lambda x: x!= -99., dv400_l0001_det_lstar))
-    dv400_l0005_det_lstar = list(filter(lambda x: x!= -99., dv400_l0005_det_lstar))
-    dv400_l001_det_lstar = list(filter(lambda x: x!= -99., dv400_l001_det_lstar))
-    dv400_l005_det_lstar = list(filter(lambda x: x!= -99., dv400_l005_det_lstar))
-    dv400_l01_det_lstar = list(filter(lambda x: x!= -99., dv400_l01_det_lstar))
-    dv400_l05_det_lstar = list(filter(lambda x: x!= -99., dv400_l05_det_lstar))
-    dv400_l1_det_lstar = list(filter(lambda x: x!= -99., dv400_l1_det_lstar))
-    dv400_l5_det_lstar = list(filter(lambda x: x!= -99., dv400_l5_det_lstar))
-    dv400_l75_det_lstar = list(filter(lambda x: x!= -99., dv400_l75_det_lstar))
-
-    dv400_l0001_non_lstar = list(filter(lambda x: x!= -99., dv400_l0001_non_lstar))
-    dv400_l0005_non_lstar = list(filter(lambda x: x!= -99., dv400_l0005_non_lstar))
-    dv400_l001_non_lstar = list(filter(lambda x: x!= -99., dv400_l001_non_lstar))
-    dv400_l005_non_lstar = list(filter(lambda x: x!= -99., dv400_l005_non_lstar))
-    dv400_l01_non_lstar = list(filter(lambda x: x!= -99., dv400_l01_non_lstar))
-    dv400_l05_non_lstar = list(filter(lambda x: x!= -99., dv400_l05_non_lstar))
-    dv400_l1_non_lstar = list(filter(lambda x: x!= -99., dv400_l1_non_lstar))
-    dv400_l5_non_lstar = list(filter(lambda x: x!= -99., dv400_l5_non_lstar))
-    dv400_l75_non_lstar = list(filter(lambda x: x!= -99., dv400_l75_non_lstar))
-    
-    # now impact version - inclinations
-    dv400_imp1000_det_inc = list(filter(lambda x: x!= -99., dv400_imp1000_det_inc))
-    dv400_imp750_det_inc = list(filter(lambda x: x!= -99., dv400_imp750_det_inc))
-    dv400_imp500_det_inc = list(filter(lambda x: x!= -99., dv400_imp500_det_inc))
-    dv400_imp400_det_inc = list(filter(lambda x: x!= -99., dv400_imp400_det_inc))
-    dv400_imp300_det_inc = list(filter(lambda x: x!= -99., dv400_imp300_det_inc))
-    dv400_imp200_det_inc = list(filter(lambda x: x!= -99., dv400_imp200_det_inc))
-    dv400_imp100_det_inc = list(filter(lambda x: x!= -99., dv400_imp100_det_inc))
-    dv400_imp50_det_inc = list(filter(lambda x: x!= -99., dv400_imp50_det_inc))
-    dv400_imp25_det_inc = list(filter(lambda x: x!= -99., dv400_imp25_det_inc))
-
-    dv400_imp1000_non_inc = list(filter(lambda x: x!= -99., dv400_imp1000_non_inc))
-    dv400_imp750_non_inc = list(filter(lambda x: x!= -99., dv400_imp750_non_inc))
-    dv400_imp500_non_inc = list(filter(lambda x: x!= -99., dv400_imp500_non_inc))
-    dv400_imp400_non_inc = list(filter(lambda x: x!= -99., dv400_imp400_non_inc))
-    dv400_imp300_non_inc = list(filter(lambda x: x!= -99., dv400_imp300_non_inc))
-    dv400_imp200_non_inc = list(filter(lambda x: x!= -99., dv400_imp200_non_inc))
-    dv400_imp100_non_inc = list(filter(lambda x: x!= -99., dv400_imp100_non_inc))
-    dv400_imp50_non_inc = list(filter(lambda x: x!= -99., dv400_imp50_non_inc))
-    dv400_imp25_non_inc = list(filter(lambda x: x!= -99., dv400_imp25_non_inc))
-    
-    # now impact version - lstars
-    dv400_imp1000_det_lstar = list(filter(lambda x: x!= -99., dv400_imp1000_det_lstar))
-    dv400_imp750_det_lstar = list(filter(lambda x: x!= -99., dv400_imp750_det_lstar))
-    dv400_imp500_det_lstar = list(filter(lambda x: x!= -99., dv400_imp500_det_lstar))
-    dv400_imp400_det_lstar = list(filter(lambda x: x!= -99., dv400_imp400_det_lstar))
-    dv400_imp300_det_lstar = list(filter(lambda x: x!= -99., dv400_imp300_det_lstar))
-    dv400_imp200_det_lstar = list(filter(lambda x: x!= -99., dv400_imp200_det_lstar))
-    dv400_imp100_det_lstar = list(filter(lambda x: x!= -99., dv400_imp100_det_lstar))
-    dv400_imp50_det_lstar = list(filter(lambda x: x!= -99., dv400_imp50_det_lstar))
-    dv400_imp25_det_lstar = list(filter(lambda x: x!= -99., dv400_imp25_det_lstar))
-
-    dv400_imp1000_non_lstar = list(filter(lambda x: x!= -99., dv400_imp1000_non_lstar))
-    dv400_imp750_non_lstar = list(filter(lambda x: x!= -99., dv400_imp750_non_lstar))
-    dv400_imp500_non_lstar = list(filter(lambda x: x!= -99., dv400_imp500_non_lstar))
-    dv400_imp400_non_lstar = list(filter(lambda x: x!= -99., dv400_imp400_non_lstar))
-    dv400_imp300_non_lstar = list(filter(lambda x: x!= -99., dv400_imp300_non_lstar))
-    dv400_imp200_non_lstar = list(filter(lambda x: x!= -99., dv400_imp200_non_lstar))
-    dv400_imp100_non_lstar = list(filter(lambda x: x!= -99., dv400_imp100_non_lstar))
-    dv400_imp50_non_lstar = list(filter(lambda x: x!= -99., dv400_imp50_non_lstar))
-    dv400_imp25_non_lstar = list(filter(lambda x: x!= -99., dv400_imp25_non_lstar))
-    
-    
-    
-    print 'dv400_imp1000_det_inc: ',dv400_imp1000_det_inc
+    print 'Detection for 1000 kpc: ', float(dv400_imp1000_det)
+    print 'Detection for 750 kpc: ', float(dv400_imp750_det)
+    print 'Detection for 500 kpc: ', float(dv400_imp500_det)
+    print 'Detection for 400 kpc: ', float(dv400_imp400_det)
+    print 'Detection for 300 kpc: ', float(dv400_imp300_det)
+    print 'Detection for 200 kpc: ', float(dv400_imp200_det)
+    print 'Detection for 100 kpc: ', float(dv400_imp100_det)
+    print 'Detection for 50 kpc: ', float(dv400_imp50_det)
+    print 'Detection for 25 kpc: ', float(dv400_imp25_det)
 
 
     print 'Detection fraction for 1000 kpc: ', float(dv400_imp1000_det) / (dv400_imp1000_det + dv400_imp1000_non)
     print 'Detection fraction for 750 kpc: ', float(dv400_imp750_det) / (dv400_imp750_det + dv400_imp750_non)
     print 'Detection fraction for 500 kpc: ', float(dv400_imp500_det) / (dv400_imp500_det + dv400_imp500_non)
     print 'Detection fraction for 400 kpc: ', float(dv400_imp400_det) / (dv400_imp400_det + dv400_imp400_non)
-    print 'Detection fraction for 300 kpc: ', float(dv400_imp300_det) / (dv400_imp300_det + dv400_imp300_non)
+#     print 'Detection fraction for 300 kpc: ', float(dv400_imp300_det) / (dv400_imp300_det + dv400_imp300_non)
     print 'Detection fraction for 200 kpc: ', float(dv400_imp200_det) / (dv400_imp200_det + dv400_imp200_non)
     print 'Detection fraction for 100 kpc: ', float(dv400_imp100_det) / (dv400_imp100_det + dv400_imp100_non)
     print 'Detection fraction for 50 kpc: ', float(dv400_imp50_det) / (dv400_imp50_det + dv400_imp50_non)
@@ -579,706 +508,88 @@ def main():
         print 'Detection fraction for 25 kpc: ', float(dv400_imp25_det) / (dv400_imp25_det + dv400_imp25_non)
     except Exception, e:
         print 'Error: ',e
-    
-    print 'dv400_imp25_det_inc: ',dv400_imp25_det_inc
-    print 'dv400_imp25_non_inc: ',dv400_imp25_non_inc
-    print 'dv400_l75_det_inc: ',dv400_l75_det_inc
-    print 'dv400_l75_non_inc: ',dv400_l75_non_inc
-    print
-    
-    print
-    print
-    print 'Detection fraction for 1000 kpc mean inc: ', bmean(np.array(dv400_imp1000_det_inc)), ', ',bmean(np.array(dv400_imp1000_non_inc))
-    print 'Detection fraction for 750 kpc mean inc: ', bmean(np.array(dv400_imp750_det_inc)), ', ',bmean(np.array(dv400_imp750_non_inc))
-    print 'Detection fraction for 500 kpc mean inc: ', bmean(np.array(dv400_imp500_det_inc)), ', ',bmean(np.array(dv400_imp500_non_inc))
-    print 'Detection fraction for 400 kpc mean inc: ', bmean(np.array(dv400_imp400_det_inc)), ', ',bmean(np.array(dv400_imp400_non_inc))
-    print 'Detection fraction for 300 kpc mean inc: ', bmean(np.array(dv400_imp300_det_inc)), ', ',bmean(np.array(dv400_imp300_non_inc))
-    print 'Detection fraction for 200 kpc mean inc: ', bmean(np.array(dv400_imp200_det_inc)), ', ',bmean(np.array(dv400_imp200_non_inc))
-    print 'Detection fraction for 100 kpc mean inc: ', bmean(np.array(dv400_imp100_det_inc)), ', ',bmean(np.array(dv400_imp100_non_inc))
-    print 'Detection fraction for 50 kpc mean inc: ', bmean(np.array(dv400_imp50_det_inc)), ', ',bmean(np.array(dv400_imp50_non_inc))
-    print 'Detection fraction for 25 kpc mean inc: ', bmean(np.array(dv400_imp25_det_inc)), ', ',bmean(np.array(dv400_imp25_non_inc))
-    print
-    print
-    print
-    print
-    print 'Detection fraction for 0.0001 L mean inc: ', bmean(np.array(dv400_l0001_det_inc)), ', ',bmean(np.array(dv400_l0001_non_inc))
-    print 'Detection fraction for 0.0005 L mean inc: ', bmean(np.array(dv400_l0005_det_inc)), ', ',bmean(np.array(dv400_l0005_non_inc))
-    print 'Detection fraction for 0.001 L mean inc: ', bmean(np.array(dv400_l001_det_inc)), ', ',bmean(np.array(dv400_l001_non_inc))
-    print 'Detection fraction for 0.00 L mean inc: ', bmean(np.array(dv400_l005_det_inc)), ', ',bmean(np.array(dv400_l005_non_inc))
-    print 'Detection fraction for 0.01 L mean inc: ', bmean(np.array(dv400_l01_det_inc)), ', ',bmean(np.array(dv400_l01_non_inc))
-    print 'Detection fraction for 0.05 L mean inc: ', bmean(np.array(dv400_l05_det_inc)), ', ',bmean(np.array(dv400_l05_non_inc))
-    print 'Detection fraction for 0.1 L mean inc: ', bmean(np.array(dv400_l1_det_inc)), ', ',bmean(np.array(dv400_l1_non_inc))
-    print 'Detection fraction for 0.5 L mean inc: ', bmean(np.array(dv400_l5_det_inc)), ', ',bmean(np.array(dv400_l5_non_inc))
-    print 'Detection fraction for 0.75 L mean inc: ', bmean(np.array(dv400_l75_det_inc)), ', ',bmean(np.array(dv400_l75_non_inc))
 
 
 
 #########################################################################################
 #########################################################################################
 
-
 #########################################################################################
 #########################################################################################
-    # bootstrap this shit
+    # prepare the data
+    frac_imp1000 = float(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
+    frac_imp750 = float(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
+    frac_imp500 = float(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
+    frac_imp400 = float(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
+    frac_imp300 = float(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
+    frac_imp200 = float(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
+    frac_imp100 = float(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
+    frac_imp50  = float(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
     
-#     reps = 1000
-#     xb = np.random.choice(x, (n, reps), replace=True)
-#     yb = 1/np.arange(1, n+1)[:, None] * np.cumsum(xb, axis=0)
-#     upper, lower = np.percentile(yb, [2.5, 97.5], axis=1)
-
-    reps = 10000
-    
-    # detection fraction - likelihood
-#     dv400_l0001_det_meanerr, dv400_l0001_det_medianerr = return_bootstrap_errors(dv400_l0001_det, reps)
-#     dv400_l0005_det_meanerr, dv400_l0005_det_medianerr = return_bootstrap_errors(dv400_l0005_det, reps)
-#     dv400_l001_det_meanerr, dv400_l001_det_medianerr = return_bootstrap_errors(dv400_l001_det, reps)
-#     dv400_l005_det_meanerr, dv400_l005_det_medianerr = return_bootstrap_errors(dv400_l005_det, reps)
-#     dv400_l01_det_meanerr, dv400_l01_det_medianerr = return_bootstrap_errors(dv400_l01_det, reps)
-#     dv400_l05_det_meanerr, dv400_l05_det_medianerr = return_bootstrap_errors(dv400_l05_det, reps)
-#     dv400_l1_det_meanerr, dv400_l1_det_medianerr = return_bootstrap_errors(dv400_l1_det, reps)
-#     dv400_l5_det_meanerr, dv400_l5_det_medianerr = return_bootstrap_errors(dv400_l5_det, reps)
-#     dv400_l75_det_meanerr, dv400_l75_det_medianerr = return_bootstrap_errors(dv400_l75_det, reps)
-#     
-#     dv400_l0001_non_meanerr, dv400_l0001_non_medianerr = return_bootstrap_errors(dv400_l0001_non, reps)
-#     dv400_l0005_non_meanerr, dv400_l0005_non_medianerr = return_bootstrap_errors(dv400_l0005_non, reps)
-#     dv400_l001_non_meanerr, dv400_l001_non_medianerr = return_bootstrap_errors(dv400_l001_non, reps)
-#     dv400_l005_non_meanerr, dv400_l005_non_medianerr = return_bootstrap_errors(dv400_l005_non, reps)
-#     dv400_l01_non_meanerr, dv400_l01_non_medianerr = return_bootstrap_errors(dv400_l01_non, reps)
-#     dv400_l05_non_meanerr, dv400_l05_non_medianerr = return_bootstrap_errors(dv400_l05_non, reps)
-#     dv400_l1_non_meanerr, dv400_l1_non_medianerr = return_bootstrap_errors(dv400_l1_non, reps)
-#     dv400_l5_non_meanerr, dv400_l5_non_medianerr = return_bootstrap_errors(dv400_l5_non, reps)
-#     dv400_l75_non_meanerr, dv400_l75_non_medianerr = return_bootstrap_errors(dv400_l75_non, reps)
-#     
-# 
-#     # detection fraction - impact
-#     dv400_imp1000_det_meanerr, dv400_imp1000_det_medianerr = return_bootstrap_errors(dv400_imp1000_det_lstar, reps)
-#     dv400_imp750_det_meanerr, dv400_imp750_det_medianerr = return_bootstrap_errors(dv400_imp750_det_lstar, reps)
-#     dv400_imp500_det_meanerr, dv400_imp500_det_medianerr = return_bootstrap_errors(dv400_imp500_det_lstar, reps)
-#     dv400_imp400_det_meanerr, dv400_imp400_det_medianerr = return_bootstrap_errors(dv400_imp400_det_lstar, reps)
-#     dv400_imp300_det_meanerr, dv400_imp300_det_medianerr = return_bootstrap_errors(dv400_imp300_det_lstar, reps)
-#     dv400_imp200_det_meanerr, dv400_imp200_det_medianerr = return_bootstrap_errors(dv400_imp200_det_lstar, reps)
-#     dv400_imp100_det_meanerr, dv400_imp100_det_medianerr = return_bootstrap_errors(dv400_imp100_det_lstar, reps)
-#     dv400_imp50_det_meanerr, dv400_imp50_det_medianerr = return_bootstrap_errors(dv400_imp50_det_lstar, reps)
-#     dv400_imp25_det_meanerr, dv400_imp25_det_medianerr = return_bootstrap_errors(dv400_imp25_det_lstar, reps)
-#     
-#     dv400_imp1000_non_meanerr, dv400_imp1000_non_medianerr = return_bootstrap_errors(dv400_imp1000_non_lstar, reps)
-#     dv400_imp750_non_meanerr, dv400_imp750_non_medianerr = return_bootstrap_errors(dv400_imp750_non_lstar, reps)
-#     dv400_imp500_non_meanerr, dv400_imp500_non_medianerr = return_bootstrap_errors(dv400_imp500_non_lstar, reps)
-#     dv400_imp400_non_meanerr, dv400_imp400_non_medianerr = return_bootstrap_errors(dv400_imp400_non_lstar, reps)
-#     dv400_imp300_non_meanerr, dv400_imp300_non_medianerr = return_bootstrap_errors(dv400_imp300_non_lstar, reps)
-#     dv400_imp200_non_meanerr, dv400_imp200_non_medianerr = return_bootstrap_errors(dv400_imp200_non_lstar, reps)
-#     dv400_imp100_non_meanerr, dv400_imp100_non_medianerr = return_bootstrap_errors(dv400_imp100_non_lstar, reps)
-#     dv400_imp50_non_meanerr, dv400_imp50_non_medianerr = return_bootstrap_errors(dv400_imp50_non_lstar, reps)
-#     dv400_imp25_non_meanerr, dv400_imp25_non_medianerr = return_bootstrap_errors(dv400_imp25_non_lstar, reps)
+    frac_imp1000_err = np.sqrt(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
+    frac_imp750_err = np.sqrt(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
+    frac_imp500_err = np.sqrt(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
+    frac_imp400_err = np.sqrt(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
+    frac_imp300_err = np.sqrt(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
+    frac_imp200_err = np.sqrt(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
+    frac_imp100_err = np.sqrt(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
+    frac_imp50_err  = np.sqrt(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
     
     
+    try:
+        frac_imp25  = float(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
+        frac_imp25_err  = np.sqrt(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
+
+    except Exception,e:
+        print 'Error: ',e
+        frac_imp25 = 0
+        frac_imp25_err = 0
+
+    impact_x = [25, 50, 100, 200, 300, 400, 500, 750, 1000]
+    impact_y = [frac_imp25, frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
+    impact_y_err = [frac_imp25_err,
+                    frac_imp50_err,
+                    frac_imp100_err,
+                    frac_imp200_err,
+                    frac_imp300_err,
+                    frac_imp400_err,
+                    frac_imp500_err,
+                    frac_imp750_err,
+                    frac_imp1000_err]
+
+    frac_l0001 = float(dv400_l0001_det) / float(dv400_l0001_det + dv400_l0001_non)
+    frac_l0005 = float(dv400_l0005_det) / float(dv400_l0005_det + dv400_l0005_non)
+    frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
+    frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
+    frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
+    frac_l05  = float(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
+    frac_l1   = float(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
+    frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
+    frac_l75   = float(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
     
-    # likelihood - Lstars
-    dv400_l0001_det_lstar_meanerr, dv400_l0001_det_lstar_medianerr = return_bootstrap_errors(dv400_l0001_det_lstar, reps)
-    dv400_l0005_det_lstar_meanerr, dv400_l0005_det_lstar_medianerr = return_bootstrap_errors(dv400_l0005_det_lstar, reps)
-    dv400_l001_det_lstar_meanerr, dv400_l001_det_lstar_medianerr = return_bootstrap_errors(dv400_l001_det_lstar, reps)
-    dv400_l005_det_lstar_meanerr, dv400_l005_det_lstar_medianerr = return_bootstrap_errors(dv400_l005_det_lstar, reps)
-    dv400_l01_det_lstar_meanerr, dv400_l01_det_lstar_medianerr = return_bootstrap_errors(dv400_l01_det_lstar, reps)
-    dv400_l05_det_lstar_meanerr, dv400_l05_det_lstar_medianerr = return_bootstrap_errors(dv400_l05_det_lstar, reps)
-    dv400_l1_det_lstar_meanerr, dv400_l1_det_lstar_medianerr = return_bootstrap_errors(dv400_l1_det_lstar, reps)
-    dv400_l5_det_lstar_meanerr, dv400_l5_det_lstar_medianerr = return_bootstrap_errors(dv400_l5_det_lstar, reps)
-    dv400_l75_det_lstar_meanerr, dv400_l75_det_lstar_medianerr = return_bootstrap_errors(dv400_l75_det_lstar, reps)
-
-    dv400_l0001_non_lstar_meanerr, dv400_l0001_non_lstar_medianerr = return_bootstrap_errors(dv400_l0001_non_lstar, reps)
-    dv400_l0005_non_lstar_meanerr, dv400_l0005_non_lstar_medianerr = return_bootstrap_errors(dv400_l0005_non_lstar, reps)
-    dv400_l001_non_lstar_meanerr, dv400_l001_non_lstar_medianerr = return_bootstrap_errors(dv400_l001_non_lstar, reps)
-    dv400_l005_non_lstar_meanerr, dv400_l005_non_lstar_medianerr = return_bootstrap_errors(dv400_l005_non_lstar, reps)
-    dv400_l01_non_lstar_meanerr, dv400_l01_non_lstar_medianerr = return_bootstrap_errors(dv400_l01_non_lstar, reps)
-    dv400_l05_non_lstar_meanerr, dv400_l05_non_lstar_medianerr = return_bootstrap_errors(dv400_l05_non_lstar, reps)
-    dv400_l1_non_lstar_meanerr, dv400_l1_non_lstar_medianerr = return_bootstrap_errors(dv400_l1_non_lstar, reps)
-    dv400_l5_non_lstar_meanerr, dv400_l5_non_lstar_medianerr = return_bootstrap_errors(dv400_l5_non_lstar, reps)
-    dv400_l75_non_lstar_meanerr, dv400_l75_non_lstar_medianerr = return_bootstrap_errors(dv400_l75_non_lstar, reps)
-
-    print
-    print 'Finished likelihood - lstars bootstraping...'
+    frac_l0001_err = np.sqrt(dv400_l0001_det) / float(dv400_l0001_det + dv400_l0001_non)
+    frac_l0005_err = np.sqrt(dv400_l0005_det) / float(dv400_l0005_det + dv400_l0005_non)
+    frac_l001_err = np.sqrt(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
+    frac_l005_err = np.sqrt(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
+    frac_l01_err  = np.sqrt(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
+    frac_l05_err  = np.sqrt(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
+    frac_l1_err   = np.sqrt(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
+    frac_l5_err   = np.sqrt(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
+    frac_l75_err   = np.sqrt(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
     
-    # likelihood - inclinations
-    dv400_l0001_det_inc_meanerr, dv400_l0001_det_inc_medianerr = return_bootstrap_errors(dv400_l0001_det_inc, reps)
-    dv400_l0005_det_inc_meanerr, dv400_l0005_det_inc_medianerr = return_bootstrap_errors(dv400_l0005_det_inc, reps)
-    dv400_l001_det_inc_meanerr, dv400_l001_det_inc_medianerr = return_bootstrap_errors(dv400_l001_det_inc, reps)
-    dv400_l005_det_inc_meanerr, dv400_l005_det_inc_medianerr = return_bootstrap_errors(dv400_l005_det_inc, reps)
-    dv400_l01_det_inc_meanerr, dv400_l01_det_inc_medianerr = return_bootstrap_errors(dv400_l01_det_inc, reps)
-    dv400_l05_det_inc_meanerr, dv400_l05_det_inc_medianerr = return_bootstrap_errors(dv400_l05_det_inc, reps)
-    dv400_l1_det_inc_meanerr, dv400_l1_det_inc_medianerr = return_bootstrap_errors(dv400_l1_det_inc, reps)
-    dv400_l5_det_inc_meanerr, dv400_l5_det_inc_medianerr = return_bootstrap_errors(dv400_l5_det_inc, reps)
-    dv400_l75_det_inc_meanerr, dv400_l75_det_inc_medianerr = return_bootstrap_errors(dv400_l75_det_inc, reps)
 
-    dv400_l0001_non_inc_meanerr, dv400_l0001_non_inc_medianerr = return_bootstrap_errors(dv400_l0001_non_inc, reps)
-    dv400_l0005_non_inc_meanerr, dv400_l0005_non_inc_medianerr = return_bootstrap_errors(dv400_l0005_non_inc, reps)
-    dv400_l001_non_inc_meanerr, dv400_l001_non_inc_medianerr = return_bootstrap_errors(dv400_l001_non_inc, reps)
-    dv400_l005_non_inc_meanerr, dv400_l005_non_inc_medianerr = return_bootstrap_errors(dv400_l005_non_inc, reps)
-    dv400_l01_non_inc_meanerr, dv400_l01_non_inc_medianerr = return_bootstrap_errors(dv400_l01_non_inc, reps)
-    dv400_l05_non_inc_meanerr, dv400_l05_non_inc_medianerr = return_bootstrap_errors(dv400_l05_non_inc, reps)
-    dv400_l1_non_inc_meanerr, dv400_l1_non_inc_medianerr = return_bootstrap_errors(dv400_l1_non_inc, reps)
-    dv400_l5_non_inc_meanerr, dv400_l5_non_inc_medianerr = return_bootstrap_errors(dv400_l5_non_inc, reps)
-    dv400_l75_non_inc_meanerr, dv400_l75_non_inc_medianerr = return_bootstrap_errors(dv400_l75_non_inc, reps)
-
-    print
-    print 'Finished likelihood - inclinations bootstraping...'
+    likelihood_x = [0.75, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
+    likelihood_y = [frac_l75, frac_l5, frac_l1, frac_l05, frac_l01, frac_l005, frac_l001, frac_l0005, frac_l0001]
+    likelihood_y_err = [frac_l75_err,
+                        frac_l5_err,
+                        frac_l1_err,
+                        frac_l05_err,
+                        frac_l01_err,
+                        frac_l005_err,
+                        frac_l001_err,
+                        frac_l0005_err,
+                        frac_l0001_err]
     
-    # impact - Lstars
-    dv400_imp1000_det_lstar_meanerr, dv400_imp1000_det_lstar_medianerr = return_bootstrap_errors(dv400_imp1000_det_lstar, reps)
-    dv400_imp750_det_lstar_meanerr, dv400_imp750_det_lstar_medianerr = return_bootstrap_errors(dv400_imp750_det_lstar, reps)
-    dv400_imp500_det_lstar_meanerr, dv400_imp500_det_lstar_medianerr = return_bootstrap_errors(dv400_imp500_det_lstar, reps)
-    dv400_imp400_det_lstar_meanerr, dv400_imp400_det_lstar_medianerr = return_bootstrap_errors(dv400_imp400_det_lstar, reps)
-    dv400_imp300_det_lstar_meanerr, dv400_imp300_det_lstar_medianerr = return_bootstrap_errors(dv400_imp300_det_lstar, reps)
-    dv400_imp200_det_lstar_meanerr, dv400_imp200_det_lstar_medianerr = return_bootstrap_errors(dv400_imp200_det_lstar, reps)
-    dv400_imp100_det_lstar_meanerr, dv400_imp100_det_lstar_medianerr = return_bootstrap_errors(dv400_imp100_det_lstar, reps)
-    dv400_imp50_det_lstar_meanerr, dv400_imp50_det_lstar_medianerr = return_bootstrap_errors(dv400_imp50_det_lstar, reps)
-    dv400_imp25_det_lstar_meanerr, dv400_imp25_det_lstar_medianerr = return_bootstrap_errors(dv400_imp25_det_lstar, reps)
-
-    dv400_imp1000_non_lstar_meanerr, dv400_imp1000_non_lstar_medianerr = return_bootstrap_errors(dv400_imp1000_non_lstar, reps)
-    dv400_imp750_non_lstar_meanerr, dv400_imp750_non_lstar_medianerr = return_bootstrap_errors(dv400_imp750_non_lstar, reps)
-    dv400_imp500_non_lstar_meanerr, dv400_imp500_non_lstar_medianerr = return_bootstrap_errors(dv400_imp500_non_lstar, reps)
-    dv400_imp400_non_lstar_meanerr, dv400_imp400_non_lstar_medianerr = return_bootstrap_errors(dv400_imp400_non_lstar, reps)
-    dv400_imp300_non_lstar_meanerr, dv400_imp300_non_lstar_medianerr = return_bootstrap_errors(dv400_imp300_non_lstar, reps)
-    dv400_imp200_non_lstar_meanerr, dv400_imp200_non_lstar_medianerr = return_bootstrap_errors(dv400_imp200_non_lstar, reps)
-    dv400_imp100_non_lstar_meanerr, dv400_imp100_non_lstar_medianerr = return_bootstrap_errors(dv400_imp100_non_lstar, reps)
-    dv400_imp50_non_lstar_meanerr, dv400_imp50_non_lstar_medianerr = return_bootstrap_errors(dv400_imp50_non_lstar, reps)
-    dv400_imp25_non_lstar_meanerr, dv400_imp25_non_lstar_medianerr = return_bootstrap_errors(dv400_imp25_non_lstar, reps)
-
-    print
-    print 'Finished impact - lstars bootstraping...'
-    
-    # impact - inclinations
-    dv400_imp1000_det_inc_meanerr, dv400_imp1000_det_inc_medianerr = return_bootstrap_errors(dv400_imp1000_det_inc, reps)
-    dv400_imp750_det_inc_meanerr, dv400_imp750_det_inc_medianerr = return_bootstrap_errors(dv400_imp750_det_inc, reps)
-    dv400_imp500_det_inc_meanerr, dv400_imp500_det_inc_medianerr = return_bootstrap_errors(dv400_imp500_det_inc, reps)
-    dv400_imp400_det_inc_meanerr, dv400_imp400_det_inc_medianerr = return_bootstrap_errors(dv400_imp400_det_inc, reps)
-    dv400_imp300_det_inc_meanerr, dv400_imp300_det_inc_medianerr = return_bootstrap_errors(dv400_imp300_det_inc, reps)
-    dv400_imp200_det_inc_meanerr, dv400_imp200_det_inc_medianerr = return_bootstrap_errors(dv400_imp200_det_inc, reps)
-    dv400_imp100_det_inc_meanerr, dv400_imp100_det_inc_medianerr = return_bootstrap_errors(dv400_imp100_det_inc, reps)
-    dv400_imp50_det_inc_meanerr, dv400_imp50_det_inc_medianerr = return_bootstrap_errors(dv400_imp50_det_inc, reps)
-    dv400_imp25_det_inc_meanerr, dv400_imp25_det_inc_medianerr = return_bootstrap_errors(dv400_imp25_det_inc, reps)
-
-    dv400_imp1000_non_inc_meanerr, dv400_imp1000_non_inc_medianerr = return_bootstrap_errors(dv400_imp1000_non_inc, reps)
-    dv400_imp750_non_inc_meanerr, dv400_imp750_non_inc_medianerr = return_bootstrap_errors(dv400_imp750_non_inc, reps)
-    dv400_imp500_non_inc_meanerr, dv400_imp500_non_inc_medianerr = return_bootstrap_errors(dv400_imp500_non_inc, reps)
-    dv400_imp400_non_inc_meanerr, dv400_imp400_non_inc_medianerr = return_bootstrap_errors(dv400_imp400_non_inc, reps)
-    dv400_imp300_non_inc_meanerr, dv400_imp300_non_inc_medianerr = return_bootstrap_errors(dv400_imp300_non_inc, reps)
-    dv400_imp200_non_inc_meanerr, dv400_imp200_non_inc_medianerr = return_bootstrap_errors(dv400_imp200_non_inc, reps)
-    dv400_imp100_non_inc_meanerr, dv400_imp100_non_inc_medianerr = return_bootstrap_errors(dv400_imp100_non_inc, reps)
-    dv400_imp50_non_inc_meanerr, dv400_imp50_non_inc_medianerr = return_bootstrap_errors(dv400_imp50_non_inc, reps)
-    dv400_imp25_non_inc_meanerr, dv400_imp25_non_inc_medianerr = return_bootstrap_errors(dv400_imp25_non_inc, reps)
-    
-    print
-    print 'Finished impact - inclinations bootstraping...'
-    print 'dv400_imp300_non_inc_meanerr, dv400_imp300_non_inc_medianerr = ', dv400_imp300_non_inc_meanerr, dv400_imp300_non_inc_medianerr
-
-
-##########################################################################################
-##########################################################################################
-    
-    if plot_detection_fraction_likelihood_inc:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
-
-        alpha_det_mean = 0.9
-        alpha_non_mean = 0.9
-        alpha_det_median = 0.6
-        alpha_non_median = 0.6
-        markerSize = 10
-        lw = 2.
-        
-        binSize = 100
-        bins = arange(0, 600, binSize)
-
-        
-        label_det_mean = r'$\rm Detections - Mean~Inc.$'
-        label_non_mean = r'$\rm Non-Detections - Mean ~Inc.$'
-        
-        label_det_median = r'$\rm Detections - Median ~Inc.$'
-        label_non_median = r'$\rm Non-Detections - Median ~Inc.$'
-
-        symbol_det_mean = 'D'
-        symbol_non_mean = 'X'
-        symbol_det_median = 'D'
-        symbol_non_median = 'X'
-        
-        color_det_mean = color_blue
-        color_non_mean = color_red
-        color_det_median = color_purple2
-        color_non_median = color_orange
-
-        ls_det_mean = 'solid'
-        ls_non_mean = 'dashed'
-        ls_det_median = 'solid'
-        ls_non_median = 'dashed'
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting
-        
-        print 'len(dv400_l5_det_inc) : ',len(dv400_l1_det_inc)
-        print 'len(dv400_l5_det_inc) : ',len(dv400_l5_det_inc)
-        print 'len(dv400_l75_det_inc) : ',len(dv400_l75_det_inc)
-        print
-        print
-        print 'len(dv400_l5_non_inc) : ',len(dv400_l1_non_inc)
-        print 'len(dv400_l5_non_inc) : ',len(dv400_l5_non_inc)
-        print 'len(dv400_l75_non_inc) : ',len(dv400_l75_non_inc)
-        print            
-            
-
-        x = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
-        y_det_mean = [bmean(dv400_l0001_det_inc),
-                    bmean(dv400_l0005_det_inc),
-                    bmean(dv400_l001_det_inc),
-                    bmean(dv400_l005_det_inc),
-                    bmean(dv400_l01_det_inc),
-                    bmean(dv400_l05_det_inc),
-                    bmean(dv400_l1_det_inc),
-                    bmean(dv400_l5_det_inc),
-                    bmean(dv400_l75_det_inc)]
-                    
-        # bootstrap errors in MEAN detection inclination
-        y_det_err_mean = [dv400_l0001_det_inc_meanerr,
-                        dv400_l0005_det_inc_meanerr,
-                        dv400_l001_det_inc_meanerr,
-                        dv400_l005_det_inc_meanerr,
-                        dv400_l01_det_inc_meanerr,
-                        dv400_l05_det_inc_meanerr,
-                        dv400_l1_det_inc_meanerr,
-                        dv400_l5_det_inc_meanerr,
-                        dv400_l75_det_inc_meanerr]
-            
-        
-        y_non_mean = [bmean(dv400_l0001_non_inc),
-                    bmean(dv400_l0005_non_inc),
-                    bmean(dv400_l001_non_inc),
-                    bmean(dv400_l005_non_inc), 
-                    bmean(dv400_l01_non_inc),
-                    bmean(dv400_l05_non_inc),
-                    bmean(dv400_l1_non_inc),
-                    bmean(dv400_l5_non_inc),
-                    bmean(dv400_l75_non_inc)]
-        
-        # bootstrap errors in MEAN non-detection inclination
-        y_non_err_mean = [dv400_l0001_non_inc_meanerr,
-                        dv400_l0005_non_inc_meanerr,
-                        dv400_l001_non_inc_meanerr,
-                        dv400_l005_non_inc_meanerr,
-                        dv400_l01_non_inc_meanerr,
-                        dv400_l05_non_inc_meanerr,
-                        dv400_l1_non_inc_meanerr,
-                        dv400_l5_non_inc_meanerr,
-                        dv400_l75_non_inc_meanerr]
-                    
-                
-        y_det_median = [bmedian(dv400_l0001_det_inc),
-                    bmedian(dv400_l0005_det_inc),
-                    bmedian(dv400_l001_det_inc),
-                    bmedian(dv400_l005_det_inc), 
-                    bmedian(dv400_l01_det_inc),
-                    bmedian(dv400_l05_det_inc),
-                    bmedian(dv400_l1_det_inc),
-                    bmedian(dv400_l5_det_inc),
-                    bmedian(dv400_l75_det_inc)]
-                    
-        # bootstrap errors in MEDIAN detection inclination
-        y_det_err_median = [dv400_l0001_det_inc_medianerr,
-                        dv400_l0005_det_inc_medianerr,
-                        dv400_l001_det_inc_medianerr,
-                        dv400_l005_det_inc_medianerr,
-                        dv400_l01_det_inc_medianerr,
-                        dv400_l05_det_inc_medianerr,
-                        dv400_l1_det_inc_medianerr,
-                        dv400_l5_det_inc_medianerr,
-                        dv400_l75_det_inc_medianerr]
-                    
-            
-        y_non_median = [bmedian(dv400_l0001_non_inc),
-                    bmedian(dv400_l0005_non_inc),
-                    bmedian(dv400_l001_non_inc),
-                    bmedian(dv400_l005_non_inc), 
-                    bmedian(dv400_l01_non_inc),
-                    bmedian(dv400_l05_non_inc),
-                    bmedian(dv400_l1_non_inc),
-                    bmedian(dv400_l5_non_inc),
-                    bmedian(dv400_l75_non_inc)]
-
-        # bootstrap errors in MEDIAN non-detection inclination
-        y_non_err_median = [dv400_l0001_non_inc_medianerr,
-                        dv400_l0005_non_inc_medianerr,
-                        dv400_l001_non_inc_medianerr,
-                        dv400_l005_non_inc_medianerr,
-                        dv400_l01_non_inc_medianerr,
-                        dv400_l05_non_inc_medianerr,
-                        dv400_l1_non_inc_medianerr,
-                        dv400_l5_non_inc_medianerr,
-                        dv400_l75_non_inc_medianerr]
-                    
-
-        ###########
-
-        # MEAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_mean,
-                    yerr=y_det_err_mean,
-                    marker=symbol_det_mean,
-                    c=color_det_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_mean,
-                    lw = lw,
-                    alpha=alpha_det_mean,
-                    label=label_det_mean)
-
-        # MEDIAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_median,
-                    yerr=y_det_err_median,
-                    marker=symbol_det_median,
-                    c=color_det_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_median,
-                    lw = lw,
-                    alpha=alpha_det_median,
-                    label=label_det_median)
-
-
-        # MEAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_mean,
-                    yerr=y_non_err_mean,
-                    marker=symbol_non_mean,
-                    c=color_non_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_mean,
-                    lw = lw,
-                    alpha=alpha_non_mean,
-                    label=label_non_mean)
-
-        # MEDIAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_median,
-                    yerr=y_non_err_median,
-                    marker=symbol_non_median,
-                    c=color_non_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_median,
-                    lw = lw,
-                    alpha=alpha_non_median,
-                    label=label_non_median)
-
-
-        ax1.set_xlabel(r'$\rm \mathcal{L}$')
-        ax1.set_xscale("log")
-        
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
-
-        # y-axis
-        majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm Inclination~[deg]$')
-        
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc='lower left',fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0., 90.)
-        xlim(0.001, 1.)
-        ax1.invert_xaxis()
-
-
-        if plot_detection_fraction_likelihood_inc_save:
-            savefig('{0}/detection_fraction_likelihood_inc_errors_lstarcut{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
-
-
-##########################################################################################
-##########################################################################################
-    
-    if plot_detection_fraction_impact_inc:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
-
-        alpha_det_mean = 0.9
-        alpha_non_mean = 0.9
-        alpha_det_median = 0.6
-        alpha_non_median = 0.6
-        markerSize = 10
-        lw = 2.
-        
-        binSize = 100
-        bins = arange(0, 600, binSize)
-
-        
-        label_det_mean = r'$\rm Detections - Mean ~Inc.$'
-        label_non_mean = r'$\rm Non-Detections - Mean ~Inc.$'
-        
-        label_det_median = r'$\rm Detections - Median ~Inc.$'
-        label_non_median = r'$\rm Non-Detections - Median ~Inc.$'
-
-        symbol_det_mean = 'D'
-        symbol_non_mean = 'X'
-        symbol_det_median = 'D'
-        symbol_non_median = 'X'
-        
-        color_det_mean = color_blue
-        color_non_mean = color_red
-        color_det_median = color_purple2
-        color_non_median = color_orange
-
-        ls_det_mean = 'solid'
-        ls_non_mean = 'dashed'
-        ls_det_median = 'solid'
-        ls_non_median = 'dashed'
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting
-        
-        print 'len(dv400_imp100_det_inc) : ',len(dv400_imp100_det_inc)
-        print 'len(dv400_imp50_det_inc) : ',len(dv400_imp50_det_inc)
-        print 'len(dv400_imp25_det_inc) : ',len(dv400_imp25_det_inc)
-        print
-        print
-        print 'len(dv400_imp100_non_inc) : ',len(dv400_imp100_non_inc)
-        print 'len(dv400_imp50_non_inc) : ',len(dv400_imp50_non_inc)
-        print 'len(dv400_imp25_non_inc) : ',len(dv400_imp25_non_inc)
-        print
-
-
-        x = [1000, 750, 500, 400, 300, 200, 100, 50, 25]
-        y_det_mean = [bmean(dv400_imp1000_det_inc),
-                    bmean(dv400_imp750_det_inc),
-                    bmean(dv400_imp500_det_inc),
-                    bmean(dv400_imp400_det_inc),
-                    bmean(dv400_imp300_det_inc),
-                    bmean(dv400_imp200_det_inc),
-                    bmean(dv400_imp100_det_inc),
-                    bmean(dv400_imp50_det_inc),
-                    bmean(dv400_imp25_det_inc)]
-
-
-        y_det_err_mean = [bmean(dv400_imp1000_det_inc_meanerr),
-                        bmean(dv400_imp750_det_inc_meanerr),
-                        bmean(dv400_imp500_det_inc_meanerr),
-                        bmean(dv400_imp400_det_inc_meanerr),
-                        bmean(dv400_imp300_det_inc_meanerr),
-                        bmean(dv400_imp200_det_inc_meanerr),
-                        bmean(dv400_imp100_det_inc_meanerr),
-                        bmean(dv400_imp50_det_inc_meanerr),
-                        bmean(dv400_imp25_det_inc_meanerr)]
-
-
-        y_non_mean = [bmean(dv400_imp1000_non_inc),
-                    bmean(dv400_imp750_non_inc),
-                    bmean(dv400_imp500_non_inc),
-                    bmean(dv400_imp400_non_inc),
-                    bmean(dv400_imp300_non_inc),
-                    bmean(dv400_imp200_non_inc),
-                    bmean(dv400_imp100_non_inc),
-                    bmean(dv400_imp50_non_inc),
-                    bmean(dv400_imp25_non_inc)]
-                
-        y_non_err_mean = [bmean(dv400_imp1000_non_inc_meanerr),
-                        bmean(dv400_imp750_non_inc_meanerr),
-                        bmean(dv400_imp500_non_inc_meanerr),
-                        bmean(dv400_imp400_non_inc_meanerr),
-                        bmean(dv400_imp300_non_inc_meanerr),
-                        bmean(dv400_imp200_non_inc_meanerr),
-                        bmean(dv400_imp100_non_inc_meanerr),
-                        bmean(dv400_imp50_non_inc_meanerr),
-                        bmean(dv400_imp25_non_inc_meanerr)]
-                
-                
-                
-        y_det_median = [bmedian(dv400_imp1000_det_inc),
-                        bmedian(dv400_imp750_det_inc),
-                        bmedian(dv400_imp500_det_inc),
-                        bmedian(dv400_imp400_det_inc),
-                        bmedian(dv400_imp300_det_inc),
-                        bmedian(dv400_imp200_det_inc),
-                        bmedian(dv400_imp100_det_inc),
-                        bmedian(dv400_imp50_det_inc),
-                        bmedian(dv400_imp25_det_inc)]
-            
-        y_det_err_median = [bmedian(dv400_imp1000_det_inc_medianerr),
-                            bmedian(dv400_imp750_det_inc_medianerr),
-                            bmedian(dv400_imp500_det_inc_medianerr),
-                            bmedian(dv400_imp400_det_inc_medianerr),
-                            bmedian(dv400_imp300_det_inc_medianerr),
-                            bmedian(dv400_imp200_det_inc_medianerr),
-                            bmedian(dv400_imp100_det_inc_medianerr),
-                            bmedian(dv400_imp50_det_inc_medianerr),
-                            bmedian(dv400_imp25_det_inc_medianerr)]
-
-                
-        y_non_median = [bmedian(dv400_imp1000_non_inc),
-                        bmedian(dv400_imp750_non_inc),
-                        bmedian(dv400_imp500_non_inc),
-                        bmedian(dv400_imp400_non_inc), 
-                        bmedian(dv400_imp300_non_inc),
-                        bmedian(dv400_imp200_non_inc),
-                        bmedian(dv400_imp100_non_inc),
-                        bmedian(dv400_imp50_non_inc),
-                        bmedian(dv400_imp25_non_inc)]
-
-        y_non_err_median = [bmedian(dv400_imp1000_non_inc_medianerr),
-                            bmedian(dv400_imp750_non_inc_medianerr),
-                            bmedian(dv400_imp500_non_inc_medianerr),
-                            bmedian(dv400_imp400_non_inc_medianerr), 
-                            bmedian(dv400_imp300_non_inc_medianerr),
-                            bmedian(dv400_imp200_non_inc_medianerr),
-                            bmedian(dv400_imp100_non_inc_medianerr),
-                            bmedian(dv400_imp50_non_inc_medianerr),
-                            bmedian(dv400_imp25_non_inc_medianerr)]
-                
-
-        ###########
-
-        # MEAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_mean,
-                    yerr=y_det_err_mean,
-                    marker=symbol_det_mean,
-                    c=color_det_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_mean,
-                    lw = lw,
-                    alpha=alpha_det_mean,
-                    label=label_det_mean)
-
-        # MEDIAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_median,
-                    yerr=y_det_err_median,
-                    marker=symbol_det_median,
-                    c=color_det_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_median,
-                    lw = lw,
-                    alpha=alpha_det_median,
-                    label=label_det_median)
-
-
-        # MEAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_mean,
-                    yerr=y_non_err_mean,
-                    marker=symbol_non_mean,
-                    c=color_non_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_mean,
-                    lw = lw,
-                    alpha=alpha_non_mean,
-                    label=label_non_mean)
-
-        # MEDIAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_median,
-                    yerr=y_non_err_median,
-                    marker=symbol_non_median,
-                    c=color_non_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_median,
-                    lw = lw,
-                    alpha=alpha_non_median,
-                    label=label_non_median)
-                
-
-        ax1.set_xlabel(r'$\rm \rho~[kpc]$')
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
-
-        # y-axis
-        majorLocator   = MultipleLocator(10)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm Inclination~[deg]$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc='lower left',fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0., 90.)
-        xlim(0, 1000)
-
-        if plot_detection_fraction_impact_inc_save:
-            savefig('{0}/detection_fraction_impact_inc_errors_lstarcut{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
-
-
 
 
 ##########################################################################################
@@ -1359,84 +670,6 @@ def main():
         print
         print
         print
-        print
-
-
-
-
-        # prepare the data
-        frac_imp1000 = float(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
-        frac_imp750 = float(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
-        frac_imp500 = float(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
-        frac_imp400 = float(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
-        frac_imp300 = float(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
-        frac_imp200 = float(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
-        frac_imp100 = float(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
-        frac_imp50  = float(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
-        
-        frac_imp1000_err = np.sqrt(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
-        frac_imp750_err = np.sqrt(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
-        frac_imp500_err = np.sqrt(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
-        frac_imp400_err = np.sqrt(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
-        frac_imp300_err = np.sqrt(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
-        frac_imp200_err = np.sqrt(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
-        frac_imp100_err = np.sqrt(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
-        frac_imp50_err  = np.sqrt(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
-        
-        
-        try:
-            frac_imp25  = float(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
-            frac_imp25_err  = np.sqrt(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
-
-        except Exception,e:
-            print 'Error: ',e
-            frac_imp25 = 0
-            frac_imp25_err = 0
-
-        impact_x = [25, 50, 100, 200, 300, 400, 500, 750, 1000]
-        impact_y = [frac_imp25, frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
-        impact_y_err = [frac_imp25_err,
-                        frac_imp50_err,
-                        frac_imp100_err,
-                        frac_imp200_err,
-                        frac_imp300_err,
-                        frac_imp400_err,
-                        frac_imp500_err,
-                        frac_imp750_err,
-                        frac_imp1000_err]
-
-        frac_l0001 = float(dv400_l0001_det) / float(dv400_l0001_det + dv400_l0001_non)
-        frac_l0005 = float(dv400_l0005_det) / float(dv400_l0005_det + dv400_l0005_non)
-        frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
-        frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
-        frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
-        frac_l05  = float(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
-        frac_l1   = float(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
-        frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
-        frac_l75   = float(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
-        
-        frac_l0001_err = np.sqrt(dv400_l0001_det) / float(dv400_l0001_det + dv400_l0001_non)
-        frac_l0005_err = np.sqrt(dv400_l0005_det) / float(dv400_l0005_det + dv400_l0005_non)
-        frac_l001_err = np.sqrt(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
-        frac_l005_err = np.sqrt(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
-        frac_l01_err  = np.sqrt(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
-        frac_l05_err  = np.sqrt(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
-        frac_l1_err   = np.sqrt(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
-        frac_l5_err   = np.sqrt(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
-        frac_l75_err   = np.sqrt(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
-        
-
-        likelihood_x = [0.75, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
-        likelihood_y = [frac_l75, frac_l5, frac_l1, frac_l05, frac_l01, frac_l005, frac_l001, frac_l0005, frac_l0001]
-        likelihood_y_err = [frac_l75_err,
-                            frac_l5_err,
-                            frac_l1_err,
-                            frac_l05_err,
-                            frac_l01_err,
-                            frac_l005_err,
-                            frac_l001_err,
-                            frac_l0005_err,
-                            frac_l0001_err]
 
         # do the plotting 
 
@@ -1464,7 +697,6 @@ def main():
                     lw = lw,
                     alpha=alpha_impact,
                     label=label_impact)
-                
 
 
         # x-axis
@@ -1563,11 +795,11 @@ def main():
 
 
 #         ax1.grid(b=None,which='major',axis='both')
-        ylim(0.4, 1.)
+        ylim(0.0, 1.)
 #         xlim(0, 2.5)
 
         if plot_detection_fraction_both_save:
-            savefig('{0}/detection_fraction_dmin75_minEW50_both_err.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_strictbins.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1584,7 +816,7 @@ def main():
 ##########################################################################################
     
     if plot_detection_fraction_velcut_both:
-        fig = figure(figsize=(7.7,5.7))
+        fig = figure(figsize=(7.7,6.7))
         ax1 = fig.add_subplot(111)
         
         countb = 0
@@ -1604,104 +836,458 @@ def main():
         color_coal = '#666666'
         
         
-        alpha_likelihood = 0.9
-        alpha_impact = 0.9
+        alpha_likelihood = 0.99
+        alpha_likelihood_min50 = 0.5
+        alpha_likelihood_min100 = 0.5
+        alpha_likelihood_min200 = 0.5
+        alpha_likelihood_min300 = 0.5
+
+        alpha_impact = 0.99
+        alpha_impact_min50 = 0.5
+        alpha_impact_min100 = 0.5
+        alpha_impact_min200 = 0.5
+        alpha_impact_min300 = 0.5
+
+        
+        legend_size = 10
+        legend_font = 10
+
         markerSize = 12
+        markerSize_min50 = 6
+        markerSize_min100 = 6
+        markerSize_min200 = 6
+        markerSize_min300 = 6
+
         lw = 2.5
-        legend_size = 12
-        legend_font = 12
+        lw_min50 = 0.8
+        lw_min100 = 0.8
+        lw_min200 = 0.8
+        lw_min300 = 0.8
 
         
         label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
+        label_likelihood_min50 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 50~m\AA)$'
+        label_likelihood_min100 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 100~m\AA)$'
+        label_likelihood_min200 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 200~m\AA)$'
+        label_likelihood_min300 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 300~m\AA)$'
+
         label_impact = r'$\rm \rho - Detection~Fraction$'
+        label_impact_min50 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 50~m\AA)$'
+        label_impact_min100 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 100~m\AA)$'
+        label_impact_min200 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 200~m\AA)$'
+        label_impact_min300 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 300~m\AA)$'
+
+        label_min50 = r'$\rm EW_{{min}} = 50~m\AA$'
+        label_min100 = r'$\rm EW_{{min}} = 100~m\AA$'
+        label_min200 = r'$\rm EW_{{min}} = 200~m\AA$'
+        label_min300 = r'$\rm EW_{{min}} = 300~m\AA$'
+
 
         symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-        
-        ls_likelihood = 'dashed'
-        ls_impact = 'solid'
-        
+        symbol_likelihood_min50 = 'D'
+        symbol_likelihood_min100 = 'D'
+        symbol_likelihood_min200 = 'D'
+        symbol_likelihood_min300 = 'D'
 
+        symbol_impact = 'o'
+        symbol_impact_min50 = 'o'
+        symbol_impact_min100 = 'o'
+        symbol_impact_min200 = 'o'
+        symbol_impact_min300 = 'o'
+
+        color_likelihood = color_blue
+        color_likelihood_min50 = color_purple2
+        color_likelihood_min100 = color_green
+        color_likelihood_min200 = color_orange
+        color_likelihood_min300 = color_red
+
+        color_impact = color_coal
+        color_impact_min50 = color_purple2
+        color_impact_min100 = color_green
+        color_impact_min200 = color_orange
+        color_impact_min300 = color_red
+
+
+        ls_likelihood = 'dashed'
+        ls_likelihood_min50 = 'dashed'
+        ls_likelihood_min100 = 'dashed'
+        ls_likelihood_min200 = 'dashed'
+        ls_likelihood_min300 = 'dashed'
+
+        ls_impact = 'solid'
+        ls_impact_min50 = 'solid'
+        ls_impact_min100 = 'solid'
+        ls_impact_min200 = 'solid'
+        ls_impact_min300 = 'solid'
+
+        
         maxEW = 15000.
 
+
 ##########################################################################################
-        # do the plotting 
-        frac_imp1000 = float(dv400_imp1000_vcut_det) / float(dv400_imp1000_vcut_det + dv400_imp1000_vcut_non)
-        frac_imp750 = float(dv400_imp750_vcut_det) / float(dv400_imp750_vcut_det + dv400_imp750_vcut_non)
-        frac_imp500 = float(dv400_imp500_vcut_det) / float(dv400_imp500_vcut_det + dv400_imp500_vcut_non)
-        frac_imp400 = float(dv400_imp400_vcut_det) / float(dv400_imp400_vcut_det + dv400_imp400_vcut_non)
-        frac_imp300 = float(dv400_imp300_vcut_det) / float(dv400_imp300_vcut_det + dv400_imp300_vcut_non)
-        frac_imp200 = float(dv400_imp200_vcut_det) / float(dv400_imp200_vcut_det + dv400_imp200_vcut_non)
-        frac_imp100 = float(dv400_imp100_vcut_det) / float(dv400_imp100_vcut_det + dv400_imp100_vcut_non)
-        frac_imp50  = float(dv400_imp50_vcut_det)  / float(dv400_imp50_vcut_det  + dv400_imp50_vcut_non)
+        # prepare the data 
+        frac_imp1000_min50 = float(dv400_imp1000_min50_det) / float(dv400_imp1000_min50_det + dv400_imp1000_min50_non)
+        frac_imp750_min50 = float(dv400_imp750_min50_det) / float(dv400_imp750_min50_det + dv400_imp750_min50_non)
+        frac_imp500_min50 = float(dv400_imp500_min50_det) / float(dv400_imp500_min50_det + dv400_imp500_min50_non)
+        frac_imp400_min50 = float(dv400_imp400_min50_det) / float(dv400_imp400_min50_det + dv400_imp400_min50_non)
+        frac_imp300_min50 = float(dv400_imp300_min50_det) / float(dv400_imp300_min50_det + dv400_imp300_min50_non)
+        frac_imp200_min50 = float(dv400_imp200_min50_det) / float(dv400_imp200_min50_det + dv400_imp200_min50_non)
+        frac_imp100_min50 = float(dv400_imp100_min50_det) / float(dv400_imp100_min50_det + dv400_imp100_min50_non)
+        frac_imp50_min50  = float(dv400_imp50_min50_det)  / float(dv400_imp50_min50_det  + dv400_imp50_min50_non)
         
-        frac_imp1000_err = np.sqrt(dv400_imp1000_vcut_det) / float(dv400_imp1000_vcut_det + dv400_imp1000_vcut_non)
-        frac_imp750_err = np.sqrt(dv400_imp750_vcut_det) / float(dv400_imp750_vcut_det + dv400_imp750_vcut_non)
-        frac_imp500_err = np.sqrt(dv400_imp500_vcut_det) / float(dv400_imp500_vcut_det + dv400_imp500_vcut_non)
-        frac_imp400_err = np.sqrt(dv400_imp400_vcut_det) / float(dv400_imp400_vcut_det + dv400_imp400_vcut_non)
-        frac_imp300_err = np.sqrt(dv400_imp300_vcut_det) / float(dv400_imp300_vcut_det + dv400_imp300_vcut_non)
-        frac_imp200_err = np.sqrt(dv400_imp200_vcut_det) / float(dv400_imp200_vcut_det + dv400_imp200_vcut_non)
-        frac_imp100_err = np.sqrt(dv400_imp100_vcut_det) / float(dv400_imp100_vcut_det + dv400_imp100_vcut_non)
-        frac_imp50_err  = np.sqrt(dv400_imp50_vcut_det)  / float(dv400_imp50_vcut_det  + dv400_imp50_vcut_non)
+        frac_imp1000_min50_err = np.sqrt(dv400_imp1000_min50_det) / float(dv400_imp1000_min50_det + dv400_imp1000_min50_non)
+        frac_imp750_min50_err = np.sqrt(dv400_imp750_min50_det) / float(dv400_imp750_min50_det + dv400_imp750_min50_non)
+        frac_imp500_min50_err = np.sqrt(dv400_imp500_min50_det) / float(dv400_imp500_min50_det + dv400_imp500_min50_non)
+        frac_imp400_min50_err = np.sqrt(dv400_imp400_min50_det) / float(dv400_imp400_min50_det + dv400_imp400_min50_non)
+        frac_imp300_min50_err = np.sqrt(dv400_imp300_min50_det) / float(dv400_imp300_min50_det + dv400_imp300_min50_non)
+        frac_imp200_min50_err = np.sqrt(dv400_imp200_min50_det) / float(dv400_imp200_min50_det + dv400_imp200_min50_non)
+        frac_imp100_min50_err = np.sqrt(dv400_imp100_min50_det) / float(dv400_imp100_min50_det + dv400_imp100_min50_non)
+        frac_imp50_min50_err  = np.sqrt(dv400_imp50_min50_det)  / float(dv400_imp50_min50_det  + dv400_imp50_min50_non)
       
-        
         try:
-            frac_imp25  = float(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
-            frac_imp25_err  = np.sqrt(dv400_imp25_det)  / float(dv400_imp25_det  + dv400_imp25_non)
+            frac_imp25_min50  = float(dv400_imp25_min50_det)  / float(dv400_imp25_min50_det  + dv400_imp25_min50_non)
+            frac_imp25_min50_err  = np.sqrt(dv400_imp25_min50_det)  / float(dv400_imp25_min50_det  + dv400_imp25_min50_non)
 
         except Exception,e:
             print 'Error: ',e
-            frac_imp25 = 0
+            frac_imp25_min50 = 0
+            frac_imp25_min50_err = 0
+
+        # minEW = 100
+        frac_imp1000_min100 = float(dv400_imp1000_min100_det) / float(dv400_imp1000_min100_det + dv400_imp1000_min100_non)
+        frac_imp750_min100 = float(dv400_imp750_min100_det) / float(dv400_imp750_min100_det + dv400_imp750_min100_non)
+        frac_imp500_min100 = float(dv400_imp500_min100_det) / float(dv400_imp500_min100_det + dv400_imp500_min100_non)
+        frac_imp400_min100 = float(dv400_imp400_min100_det) / float(dv400_imp400_min100_det + dv400_imp400_min100_non)
+        frac_imp300_min100 = float(dv400_imp300_min100_det) / float(dv400_imp300_min100_det + dv400_imp300_min100_non)
+        frac_imp200_min100 = float(dv400_imp200_min100_det) / float(dv400_imp200_min100_det + dv400_imp200_min100_non)
+        frac_imp100_min100 = float(dv400_imp100_min100_det) / float(dv400_imp100_min100_det + dv400_imp100_min100_non)
+        frac_imp50_min100  = float(dv400_imp50_min100_det)  / float(dv400_imp50_min100_det  + dv400_imp50_min100_non)
+        
+        frac_imp1000_min100_err = np.sqrt(dv400_imp1000_min100_det) / float(dv400_imp1000_min100_det + dv400_imp1000_min100_non)
+        frac_imp750_min100_err = np.sqrt(dv400_imp750_min100_det) / float(dv400_imp750_min100_det + dv400_imp750_min100_non)
+        frac_imp500_min100_err = np.sqrt(dv400_imp500_min100_det) / float(dv400_imp500_min100_det + dv400_imp500_min100_non)
+        frac_imp400_min100_err = np.sqrt(dv400_imp400_min100_det) / float(dv400_imp400_min100_det + dv400_imp400_min100_non)
+        frac_imp300_min100_err = np.sqrt(dv400_imp300_min100_det) / float(dv400_imp300_min100_det + dv400_imp300_min100_non)
+        frac_imp200_min100_err = np.sqrt(dv400_imp200_min100_det) / float(dv400_imp200_min100_det + dv400_imp200_min100_non)
+        frac_imp100_min100_err = np.sqrt(dv400_imp100_min100_det) / float(dv400_imp100_min100_det + dv400_imp100_min100_non)
+        frac_imp50_min100_err  = np.sqrt(dv400_imp50_min100_det)  / float(dv400_imp50_min100_det  + dv400_imp50_min100_non)
+      
+        try:
+            frac_imp25_min100  = float(dv400_imp25_min100_det)  / float(dv400_imp25_min100_det  + dv400_imp25_min100_non)
+            frac_imp25_min100_err  = np.sqrt(dv400_imp25_min100_det)  / float(dv400_imp25_min100_det  + dv400_imp25_min100_non)
+
+        except Exception,e:
+            print 'Error: ',e
+            frac_imp25_min100 = 0
+            frac_imp25_min100_err = 0
+      
+      
+        # minEW = 200
+        frac_imp1000_min200 = float(dv400_imp1000_min200_det) / float(dv400_imp1000_min200_det + dv400_imp1000_min200_non)
+        frac_imp750_min200 = float(dv400_imp750_min200_det) / float(dv400_imp750_min200_det + dv400_imp750_min200_non)
+        frac_imp500_min200 = float(dv400_imp500_min200_det) / float(dv400_imp500_min200_det + dv400_imp500_min200_non)
+        frac_imp400_min200 = float(dv400_imp400_min200_det) / float(dv400_imp400_min200_det + dv400_imp400_min200_non)
+        frac_imp300_min200 = float(dv400_imp300_min200_det) / float(dv400_imp300_min200_det + dv400_imp300_min200_non)
+        frac_imp200_min200 = float(dv400_imp200_min200_det) / float(dv400_imp200_min200_det + dv400_imp200_min200_non)
+        frac_imp100_min200 = float(dv400_imp100_min200_det) / float(dv400_imp100_min200_det + dv400_imp100_min200_non)
+        frac_imp50_min200  = float(dv400_imp50_min200_det)  / float(dv400_imp50_min200_det  + dv400_imp50_min200_non)
+        
+        frac_imp1000_min200_err = np.sqrt(dv400_imp1000_min200_det) / float(dv400_imp1000_min200_det + dv400_imp1000_min200_non)
+        frac_imp750_min200_err = np.sqrt(dv400_imp750_min200_det) / float(dv400_imp750_min200_det + dv400_imp750_min200_non)
+        frac_imp500_min200_err = np.sqrt(dv400_imp500_min200_det) / float(dv400_imp500_min200_det + dv400_imp500_min200_non)
+        frac_imp400_min200_err = np.sqrt(dv400_imp400_min200_det) / float(dv400_imp400_min200_det + dv400_imp400_min200_non)
+        frac_imp300_min200_err = np.sqrt(dv400_imp300_min200_det) / float(dv400_imp300_min200_det + dv400_imp300_min200_non)
+        frac_imp200_min200_err = np.sqrt(dv400_imp200_min200_det) / float(dv400_imp200_min200_det + dv400_imp200_min200_non)
+        frac_imp100_min200_err = np.sqrt(dv400_imp100_min200_det) / float(dv400_imp100_min200_det + dv400_imp100_min200_non)
+        frac_imp50_min200_err  = np.sqrt(dv400_imp50_min200_det)  / float(dv400_imp50_min200_det  + dv400_imp50_min200_non)
+            
+        try:
+            frac_imp25_min200  = float(dv400_imp25_min200_det)  / float(dv400_imp25_min200_det  + dv400_imp25_min200_non)
+            frac_imp25_min200_err  = np.sqrt(dv400_imp25_min200_det)  / float(dv400_imp25_min200_det  + dv400_imp25_min200_non)
+
+        except Exception,e:
+            print 'Error: ',e
+            frac_imp25_min200 = 0
+            frac_imp25_min200_err = 0
+            
+        # minEW = 300
+        frac_imp1000_min300 = float(dv400_imp1000_min300_det) / float(dv400_imp1000_min300_det + dv400_imp1000_min300_non)
+        frac_imp750_min300 = float(dv400_imp750_min300_det) / float(dv400_imp750_min300_det + dv400_imp750_min300_non)
+        frac_imp500_min300 = float(dv400_imp500_min300_det) / float(dv400_imp500_min300_det + dv400_imp500_min300_non)
+        frac_imp400_min300 = float(dv400_imp400_min300_det) / float(dv400_imp400_min300_det + dv400_imp400_min300_non)
+        frac_imp300_min300 = float(dv400_imp300_min300_det) / float(dv400_imp300_min300_det + dv400_imp300_min300_non)
+        frac_imp200_min300 = float(dv400_imp200_min300_det) / float(dv400_imp200_min300_det + dv400_imp200_min300_non)
+        frac_imp100_min300 = float(dv400_imp100_min300_det) / float(dv400_imp100_min300_det + dv400_imp100_min300_non)
+        frac_imp50_min300  = float(dv400_imp50_min300_det)  / float(dv400_imp50_min300_det  + dv400_imp50_min300_non)
+        
+        frac_imp1000_min300_err = np.sqrt(dv400_imp1000_min300_det) / float(dv400_imp1000_min300_det + dv400_imp1000_min300_non)
+        frac_imp750_min300_err = np.sqrt(dv400_imp750_min300_det) / float(dv400_imp750_min300_det + dv400_imp750_min300_non)
+        frac_imp500_min300_err = np.sqrt(dv400_imp500_min300_det) / float(dv400_imp500_min300_det + dv400_imp500_min300_non)
+        frac_imp400_min300_err = np.sqrt(dv400_imp400_min300_det) / float(dv400_imp400_min300_det + dv400_imp400_min300_non)
+        frac_imp300_min300_err = np.sqrt(dv400_imp300_min300_det) / float(dv400_imp300_min300_det + dv400_imp300_min300_non)
+        frac_imp200_min300_err = np.sqrt(dv400_imp200_min300_det) / float(dv400_imp200_min300_det + dv400_imp200_min300_non)
+        frac_imp100_min300_err = np.sqrt(dv400_imp100_min300_det) / float(dv400_imp100_min300_det + dv400_imp100_min300_non)
+        frac_imp50_min300_err  = np.sqrt(dv400_imp50_min300_det)  / float(dv400_imp50_min300_det  + dv400_imp50_min300_non)
+            
+        try:
+            frac_imp25_min300  = float(dv400_imp25_min300_det)  / float(dv400_imp25_min300_det  + dv400_imp25_min300_non)
+            frac_imp25_min300_err  = np.sqrt(dv400_imp25_min300_det)  / float(dv400_imp25_min300_det  + dv400_imp25_min300_non)
+
+        except Exception,e:
+            print 'Error: ',e
+            frac_imp25_min300 = 0
+            frac_imp25_min300_err = 0
 
         impact_x = [25, 50, 100, 200, 300, 400, 500, 750, 1000]
-        impact_y = [frac_imp25, frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
-        impact_y_err = [frac_imp25_err,
-                        frac_imp50_err,
-                        frac_imp100_err,
-                        frac_imp200_err,
-                        frac_imp300_err,
-                        frac_imp400_err,
-                        frac_imp500_err,
-                        frac_imp750_err,
-                        frac_imp1000_err]
+        impact_y_min50 = [frac_imp25_min50,
+                    frac_imp50_min50,
+                    frac_imp100_min50,
+                    frac_imp200_min50,
+                    frac_imp300_min50,
+                    frac_imp400_min50,
+                    frac_imp500_min50,
+                    frac_imp750_min50,
+                    frac_imp1000_min50]
+                    
+        impact_y_min50_err = [frac_imp25_min50_err,
+                        frac_imp50_min50_err,
+                        frac_imp100_min50_err,
+                        frac_imp200_min50_err,
+                        frac_imp300_min50_err,
+                        frac_imp400_min50_err,
+                        frac_imp500_min50_err,
+                        frac_imp750_min50_err,
+                        frac_imp1000_min50_err]
+
+        impact_y_min100 = [frac_imp25_min100,
+                    frac_imp50_min100,
+                    frac_imp100_min100,
+                    frac_imp200_min100,
+                    frac_imp300_min100,
+                    frac_imp400_min100,
+                    frac_imp500_min100,
+                    frac_imp750_min100,
+                    frac_imp1000_min100]
+                    
+        impact_y_min100_err = [frac_imp25_min100_err,
+                        frac_imp50_min100_err,
+                        frac_imp100_min100_err,
+                        frac_imp200_min100_err,
+                        frac_imp300_min100_err,
+                        frac_imp400_min100_err,
+                        frac_imp500_min100_err,
+                        frac_imp750_min100_err,
+                        frac_imp1000_min100_err]
+
+        impact_y_min200 = [frac_imp25_min200,
+                    frac_imp50_min200,
+                    frac_imp100_min200,
+                    frac_imp200_min200,
+                    frac_imp300_min200,
+                    frac_imp400_min200,
+                    frac_imp500_min200,
+                    frac_imp750_min200,
+                    frac_imp1000_min200]
+                    
+        impact_y_min200_err = [frac_imp25_min200_err,
+                        frac_imp50_min200_err,
+                        frac_imp100_min200_err,
+                        frac_imp200_min200_err,
+                        frac_imp300_min200_err,
+                        frac_imp400_min200_err,
+                        frac_imp500_min200_err,
+                        frac_imp750_min200_err,
+                        frac_imp1000_min200_err]
+
+        impact_y_min300 = [frac_imp25_min300,
+                    frac_imp50_min300,
+                    frac_imp100_min300,
+                    frac_imp200_min300,
+                    frac_imp300_min300,
+                    frac_imp400_min300,
+                    frac_imp500_min300,
+                    frac_imp750_min300,
+                    frac_imp1000_min300]
+                    
+        impact_y_min300_err = [frac_imp25_min300_err,
+                        frac_imp50_min300_err,
+                        frac_imp100_min300_err,
+                        frac_imp200_min300_err,
+                        frac_imp300_min300_err,
+                        frac_imp400_min300_err,
+                        frac_imp500_min300_err,
+                        frac_imp750_min300_err,
+                        frac_imp1000_min300_err]
 
 
-        frac_l0001 = float(dv400_l0001_vcut_det) / float(dv400_l0001_vcut_det + dv400_l0001_vcut_non)
-        frac_l0005 = float(dv400_l0005_vcut_det) / float(dv400_l0005_vcut_det + dv400_l0005_vcut_non)
-        frac_l001 = float(dv400_l001_vcut_det) / float(dv400_l001_vcut_det + dv400_l001_vcut_non)
-        frac_l005 = float(dv400_l005_vcut_det) / float(dv400_l005_vcut_det + dv400_l005_vcut_non)
-        frac_l01 = float(dv400_l01_vcut_det)  / float(dv400_l01_vcut_det  + dv400_l01_vcut_non)
-        frac_l05 = float(dv400_l05_vcut_det)  / float(dv400_l05_vcut_det  + dv400_l05_vcut_non)
-        frac_l1 = float(dv400_l1_vcut_det)   / float(dv400_l1_vcut_det   + dv400_l1_vcut_non)
-        frac_l5 = float(dv400_l5_vcut_det)   / float(dv400_l5_vcut_det   + dv400_l5_vcut_non)
-        frac_l75 = float(dv400_l75_vcut_det)   / float(dv400_l75_vcut_det   + dv400_l75_vcut_non)
+###################
+        # now likelihoods; minEW=50 first
+        frac_l0001_min50 = float(dv400_l0001_min50_det) / float(dv400_l0001_min50_det + dv400_l0001_min50_non)
+        frac_l0005_min50 = float(dv400_l0005_min50_det) / float(dv400_l0005_min50_det + dv400_l0005_min50_non)
+        frac_l001_min50 = float(dv400_l001_min50_det) / float(dv400_l001_min50_det + dv400_l001_min50_non)
+        frac_l005_min50 = float(dv400_l005_min50_det) / float(dv400_l005_min50_det + dv400_l005_min50_non)
+        frac_l01_min50 = float(dv400_l01_min50_det)  / float(dv400_l01_min50_det  + dv400_l01_min50_non)
+        frac_l05_min50 = float(dv400_l05_min50_det)  / float(dv400_l05_min50_det  + dv400_l05_min50_non)
+        frac_l1_min50 = float(dv400_l1_min50_det)   / float(dv400_l1_min50_det   + dv400_l1_min50_non)
+        frac_l5_min50 = float(dv400_l5_min50_det)   / float(dv400_l5_min50_det   + dv400_l5_min50_non)
+        frac_l75_min50 = float(dv400_l75_min50_det)   / float(dv400_l75_min50_det   + dv400_l75_min50_non)
 
-        frac_l0001_err = np.sqrt(dv400_l0001_vcut_det) / float(dv400_l0001_vcut_det + dv400_l0001_vcut_non)
-        frac_l0005_err = np.sqrt(dv400_l0005_vcut_det) / float(dv400_l0005_vcut_det + dv400_l0005_vcut_non)
-        frac_l001_err = np.sqrt(dv400_l001_vcut_det) / float(dv400_l001_vcut_det + dv400_l001_vcut_non)
-        frac_l005_err = np.sqrt(dv400_l005_vcut_det) / float(dv400_l005_vcut_det + dv400_l005_vcut_non)
-        frac_l01_err = np.sqrt(dv400_l01_vcut_det)  / float(dv400_l01_vcut_det  + dv400_l01_vcut_non)
-        frac_l05_err = np.sqrt(dv400_l05_vcut_det)  / float(dv400_l05_vcut_det  + dv400_l05_vcut_non)
-        frac_l1_err = np.sqrt(dv400_l1_vcut_det)   / float(dv400_l1_vcut_det   + dv400_l1_vcut_non)
-        frac_l5_err = np.sqrt(dv400_l5_vcut_det)   / float(dv400_l5_vcut_det   + dv400_l5_vcut_non)
-        frac_l75_err = np.sqrt(dv400_l75_vcut_det)   / float(dv400_l75_vcut_det   + dv400_l75_vcut_non)
+        frac_l0001_min50_err = np.sqrt(dv400_l0001_min50_det) / float(dv400_l0001_min50_det + dv400_l0001_min50_non)
+        frac_l0005_min50_err = np.sqrt(dv400_l0005_min50_det) / float(dv400_l0005_min50_det + dv400_l0005_min50_non)
+        frac_l001_min50_err = np.sqrt(dv400_l001_min50_det) / float(dv400_l001_min50_det + dv400_l001_min50_non)
+        frac_l005_min50_err = np.sqrt(dv400_l005_min50_det) / float(dv400_l005_min50_det + dv400_l005_min50_non)
+        frac_l01_min50_err = np.sqrt(dv400_l01_min50_det)  / float(dv400_l01_min50_det  + dv400_l01_min50_non)
+        frac_l05_min50_err = np.sqrt(dv400_l05_min50_det)  / float(dv400_l05_min50_det  + dv400_l05_min50_non)
+        frac_l1_min50_err = np.sqrt(dv400_l1_min50_det)   / float(dv400_l1_min50_det   + dv400_l1_min50_non)
+        frac_l5_min50_err = np.sqrt(dv400_l5_min50_det)   / float(dv400_l5_min50_det   + dv400_l5_min50_non)
+        frac_l75_min50_err = np.sqrt(dv400_l75_min50_det)   / float(dv400_l75_min50_det   + dv400_l75_min50_non)
+
+        # minEW = 100
+        frac_l0001_min100 = float(dv400_l0001_min100_det) / float(dv400_l0001_min100_det + dv400_l0001_min100_non)
+        frac_l0005_min100 = float(dv400_l0005_min100_det) / float(dv400_l0005_min100_det + dv400_l0005_min100_non)
+        frac_l001_min100 = float(dv400_l001_min100_det) / float(dv400_l001_min100_det + dv400_l001_min100_non)
+        frac_l005_min100 = float(dv400_l005_min100_det) / float(dv400_l005_min100_det + dv400_l005_min100_non)
+        frac_l01_min100 = float(dv400_l01_min100_det)  / float(dv400_l01_min100_det  + dv400_l01_min100_non)
+        frac_l05_min100 = float(dv400_l05_min100_det)  / float(dv400_l05_min100_det  + dv400_l05_min100_non)
+        frac_l1_min100 = float(dv400_l1_min100_det)   / float(dv400_l1_min100_det   + dv400_l1_min100_non)
+        frac_l5_min100 = float(dv400_l5_min100_det)   / float(dv400_l5_min100_det   + dv400_l5_min100_non)
+        frac_l75_min100 = float(dv400_l75_min100_det)   / float(dv400_l75_min100_det   + dv400_l75_min100_non)
+
+        frac_l0001_min100_err = np.sqrt(dv400_l0001_min100_det) / float(dv400_l0001_min100_det + dv400_l0001_min100_non)
+        frac_l0005_min100_err = np.sqrt(dv400_l0005_min100_det) / float(dv400_l0005_min100_det + dv400_l0005_min100_non)
+        frac_l001_min100_err = np.sqrt(dv400_l001_min100_det) / float(dv400_l001_min100_det + dv400_l001_min100_non)
+        frac_l005_min100_err = np.sqrt(dv400_l005_min100_det) / float(dv400_l005_min100_det + dv400_l005_min100_non)
+        frac_l01_min100_err = np.sqrt(dv400_l01_min100_det)  / float(dv400_l01_min100_det  + dv400_l01_min100_non)
+        frac_l05_min100_err = np.sqrt(dv400_l05_min100_det)  / float(dv400_l05_min100_det  + dv400_l05_min100_non)
+        frac_l1_min100_err = np.sqrt(dv400_l1_min100_det)   / float(dv400_l1_min100_det   + dv400_l1_min100_non)
+        frac_l5_min100_err = np.sqrt(dv400_l5_min100_det)   / float(dv400_l5_min100_det   + dv400_l5_min100_non)
+        frac_l75_min100_err = np.sqrt(dv400_l75_min100_det)   / float(dv400_l75_min100_det   + dv400_l75_min100_non)
+
+
+        # minEW = 200
+        frac_l0001_min200 = float(dv400_l0001_min200_det) / float(dv400_l0001_min200_det + dv400_l0001_min200_non)
+        frac_l0005_min200 = float(dv400_l0005_min200_det) / float(dv400_l0005_min200_det + dv400_l0005_min200_non)
+        frac_l001_min200 = float(dv400_l001_min200_det) / float(dv400_l001_min200_det + dv400_l001_min200_non)
+        frac_l005_min200 = float(dv400_l005_min200_det) / float(dv400_l005_min200_det + dv400_l005_min200_non)
+        frac_l01_min200 = float(dv400_l01_min200_det)  / float(dv400_l01_min200_det  + dv400_l01_min200_non)
+        frac_l05_min200 = float(dv400_l05_min200_det)  / float(dv400_l05_min200_det  + dv400_l05_min200_non)
+        frac_l1_min200 = float(dv400_l1_min200_det)   / float(dv400_l1_min200_det   + dv400_l1_min200_non)
+        frac_l5_min200 = float(dv400_l5_min200_det)   / float(dv400_l5_min200_det   + dv400_l5_min200_non)
+        frac_l75_min200 = float(dv400_l75_min200_det)   / float(dv400_l75_min200_det   + dv400_l75_min200_non)
+
+        frac_l0001_min200_err = np.sqrt(dv400_l0001_min200_det) / float(dv400_l0001_min200_det + dv400_l0001_min200_non)
+        frac_l0005_min200_err = np.sqrt(dv400_l0005_min200_det) / float(dv400_l0005_min200_det + dv400_l0005_min200_non)
+        frac_l001_min200_err = np.sqrt(dv400_l001_min200_det) / float(dv400_l001_min200_det + dv400_l001_min200_non)
+        frac_l005_min200_err = np.sqrt(dv400_l005_min200_det) / float(dv400_l005_min200_det + dv400_l005_min200_non)
+        frac_l01_min200_err = np.sqrt(dv400_l01_min200_det)  / float(dv400_l01_min200_det  + dv400_l01_min200_non)
+        frac_l05_min200_err = np.sqrt(dv400_l05_min200_det)  / float(dv400_l05_min200_det  + dv400_l05_min200_non)
+        frac_l1_min200_err = np.sqrt(dv400_l1_min200_det)   / float(dv400_l1_min200_det   + dv400_l1_min200_non)
+        frac_l5_min200_err = np.sqrt(dv400_l5_min200_det)   / float(dv400_l5_min200_det   + dv400_l5_min200_non)
+        frac_l75_min200_err = np.sqrt(dv400_l75_min200_det)   / float(dv400_l75_min200_det   + dv400_l75_min200_non)
+
+
+       # minEW = 300
+        frac_l0001_min300 = float(dv400_l0001_min300_det) / float(dv400_l0001_min300_det + dv400_l0001_min300_non)
+        frac_l0005_min300 = float(dv400_l0005_min300_det) / float(dv400_l0005_min300_det + dv400_l0005_min300_non)
+        frac_l001_min300 = float(dv400_l001_min300_det) / float(dv400_l001_min300_det + dv400_l001_min300_non)
+        frac_l005_min300 = float(dv400_l005_min300_det) / float(dv400_l005_min300_det + dv400_l005_min300_non)
+        frac_l01_min300 = float(dv400_l01_min300_det)  / float(dv400_l01_min300_det  + dv400_l01_min300_non)
+        frac_l05_min300 = float(dv400_l05_min300_det)  / float(dv400_l05_min300_det  + dv400_l05_min300_non)
+        frac_l1_min300 = float(dv400_l1_min300_det)   / float(dv400_l1_min300_det   + dv400_l1_min300_non)
+        frac_l5_min300 = float(dv400_l5_min300_det)   / float(dv400_l5_min300_det   + dv400_l5_min300_non)
+        frac_l75_min300 = float(dv400_l75_min300_det)   / float(dv400_l75_min300_det   + dv400_l75_min300_non)
+
+        frac_l0001_min300_err = np.sqrt(dv400_l0001_min300_det) / float(dv400_l0001_min300_det + dv400_l0001_min300_non)
+        frac_l0005_min300_err = np.sqrt(dv400_l0005_min300_det) / float(dv400_l0005_min300_det + dv400_l0005_min300_non)
+        frac_l001_min300_err = np.sqrt(dv400_l001_min300_det) / float(dv400_l001_min300_det + dv400_l001_min300_non)
+        frac_l005_min300_err = np.sqrt(dv400_l005_min300_det) / float(dv400_l005_min300_det + dv400_l005_min300_non)
+        frac_l01_min300_err = np.sqrt(dv400_l01_min300_det)  / float(dv400_l01_min300_det  + dv400_l01_min300_non)
+        frac_l05_min300_err = np.sqrt(dv400_l05_min300_det)  / float(dv400_l05_min300_det  + dv400_l05_min300_non)
+        frac_l1_min300_err = np.sqrt(dv400_l1_min300_det)   / float(dv400_l1_min300_det   + dv400_l1_min300_non)
+        frac_l5_min300_err = np.sqrt(dv400_l5_min300_det)   / float(dv400_l5_min300_det   + dv400_l5_min300_non)
+        frac_l75_min300_err = np.sqrt(dv400_l75_min300_det)   / float(dv400_l75_min300_det   + dv400_l75_min300_non)
 
 
         likelihood_x = [0.75, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
-        likelihood_y = [frac_l75, frac_l5, frac_l1, frac_l05, frac_l01, frac_l005, frac_l001, frac_l0005, frac_l0001]
-        likelihood_y_err = [frac_l75_err,
-                            frac_l5_err,
-                            frac_l1_err,
-                            frac_l05_err,
-                            frac_l01_err,
-                            frac_l005_err,
-                            frac_l001_err,
-                            frac_l0005_err,
-                            frac_l0001_err]
+        likelihood_y_min50 = [frac_l75_min50,
+                        frac_l5_min50,
+                        frac_l1_min50,
+                        frac_l05_min50,
+                        frac_l01_min50,
+                        frac_l005_min50,
+                        frac_l001_min50,
+                        frac_l0005_min50,
+                        frac_l0001_min50]
+                        
+        likelihood_y_min50_err = [frac_l75_min50_err,
+                            frac_l5_min50_err,
+                            frac_l1_min50_err,
+                            frac_l05_min50_err,
+                            frac_l01_min50_err,
+                            frac_l005_min50_err,
+                            frac_l001_min50_err,
+                            frac_l0005_min50_err,
+                            frac_l0001_min50_err]
 
+        likelihood_y_min100 = [frac_l75_min100,
+                        frac_l5_min100,
+                        frac_l1_min100,
+                        frac_l05_min100,
+                        frac_l01_min100,
+                        frac_l005_min100,
+                        frac_l001_min100,
+                        frac_l0005_min100,
+                        frac_l0001_min100]
+                        
+        likelihood_y_min100_err = [frac_l75_min100_err,
+                            frac_l5_min100_err,
+                            frac_l1_min100_err,
+                            frac_l05_min100_err,
+                            frac_l01_min100_err,
+                            frac_l005_min100_err,
+                            frac_l001_min100_err,
+                            frac_l0005_min100_err,
+                            frac_l0001_min100_err]
+
+        likelihood_y_min200 = [frac_l75_min200,
+                        frac_l5_min200,
+                        frac_l1_min200,
+                        frac_l05_min200,
+                        frac_l01_min200,
+                        frac_l005_min200,
+                        frac_l001_min200,
+                        frac_l0005_min200,
+                        frac_l0001_min200]
+                        
+        likelihood_y_min200_err = [frac_l75_min200_err,
+                            frac_l5_min200_err,
+                            frac_l1_min200_err,
+                            frac_l05_min200_err,
+                            frac_l01_min200_err,
+                            frac_l005_min200_err,
+                            frac_l001_min200_err,
+                            frac_l0005_min200_err,
+                            frac_l0001_min200_err]
+
+        likelihood_y_min300 = [frac_l75_min300,
+                        frac_l5_min300,
+                        frac_l1_min300,
+                        frac_l05_min300,
+                        frac_l01_min300,
+                        frac_l005_min300,
+                        frac_l001_min300,
+                        frac_l0005_min300,
+                        frac_l0001_min300]
+                        
+        likelihood_y_min300_err = [frac_l75_min300_err,
+                            frac_l5_min300_err,
+                            frac_l1_min300_err,
+                            frac_l05_min300_err,
+                            frac_l01_min300_err,
+                            frac_l005_min300_err,
+                            frac_l001_min300_err,
+                            frac_l0005_min300_err,
+                            frac_l0001_min300_err]
 
         # impact detection fraction
 #         plot1 = ax1.plot(impact_x,
@@ -1714,6 +1300,7 @@ def main():
 #                 alpha=alpha_impact,
 #                 label=label_impact)
                 
+        # first all the stuff
         plot1 = ax1.errorbar(impact_x,
                     impact_y,
                     yerr=impact_y_err,
@@ -1726,6 +1313,53 @@ def main():
                     alpha=alpha_impact,
                     label=label_impact)
                 
+        plot1_min50 = ax1.errorbar(impact_x,
+                    impact_y_min50,
+                    yerr=impact_y_min50_err,
+                    marker=symbol_impact_min50,
+                    c=color_impact_min50,
+                    ms=markerSize_min50,
+                    markeredgecolor='black',
+                    ls=ls_impact_min50,
+                    lw=lw_min50,
+                    alpha=alpha_impact_min50,
+                    label=label_impact_min50)
+
+        plot1_min100 = ax1.errorbar(impact_x,
+                    impact_y_min100,
+                    yerr=impact_y_min100_err,
+                    marker=symbol_impact_min100,
+                    c=color_impact_min100,
+                    ms=markerSize_min100,
+                    markeredgecolor='black',
+                    ls=ls_impact_min100,
+                    lw=lw_min100,
+                    alpha=alpha_impact_min100,
+                    label=label_impact_min100)
+
+        plot1_min200 = ax1.errorbar(impact_x,
+                    impact_y_min200,
+                    yerr=impact_y_min200_err,
+                    marker=symbol_impact_min200,
+                    c=color_impact_min200,
+                    ms=markerSize_min200,
+                    markeredgecolor='black',
+                    ls=ls_impact_min200,
+                    lw=lw_min200,
+                    alpha=alpha_impact_min200,
+                    label=label_impact_min200)
+
+        plot1_min300 = ax1.errorbar(impact_x,
+                    impact_y_min300,
+                    yerr=impact_y_min300_err,
+                    marker=symbol_impact_min300,
+                    c=color_impact_min300,
+                    ms=markerSize_min300,
+                    markeredgecolor='black',
+                    ls=ls_impact_min300,
+                    lw=lw_min300,
+                    alpha=alpha_impact_min300,
+                    label=label_impact_min300)
 
         # x-axis
         majorLocator   = MultipleLocator(100)
@@ -1759,6 +1393,7 @@ def main():
 #                 alpha=alpha_likelihood,
 #                 label=label_likelihood)
                 
+        # first all of it
         plot2 = ax2.errorbar(likelihood_x,
                     likelihood_y,
                     yerr=likelihood_y_err,
@@ -1771,19 +1406,57 @@ def main():
                     alpha=alpha_likelihood,
                     label=label_likelihood)
                 
-                
+        plot2_min50 = ax2.errorbar(likelihood_x,
+                    likelihood_y_min50,
+                    yerr=likelihood_y_min50_err,
+                    marker=symbol_likelihood_min50,
+                    c=color_likelihood_min50,
+                    ms=markerSize_min50,
+                    markeredgecolor='black',
+                    ls = ls_likelihood_min50,
+                    lw = lw_min50,
+                    alpha=alpha_likelihood_min50,
+                    label=label_likelihood_min50)
+
+        plot2_min100 = ax2.errorbar(likelihood_x,
+                    likelihood_y_min100,
+                    yerr=likelihood_y_min100_err,
+                    marker=symbol_likelihood_min100,
+                    c=color_likelihood_min100,
+                    ms=markerSize_min100,
+                    markeredgecolor='black',
+                    ls = ls_likelihood_min100,
+                    lw = lw_min100,
+                    alpha=alpha_likelihood_min100,
+                    label=label_likelihood_min100)
+
+        plot2_min200 = ax2.errorbar(likelihood_x,
+                    likelihood_y_min200,
+                    yerr=likelihood_y_min200_err,
+                    marker=symbol_likelihood_min200,
+                    c=color_likelihood_min200,
+                    ms=markerSize_min200,
+                    markeredgecolor='black',
+                    ls = ls_likelihood_min200,
+                    lw = lw_min200,
+                    alpha=alpha_likelihood_min200,
+                    label=label_likelihood_min200)
+
+        plot2_min300 = ax2.errorbar(likelihood_x,
+                    likelihood_y_min300,
+                    yerr=likelihood_y_min300_err,
+                    marker=symbol_likelihood_min300,
+                    c=color_likelihood_min300,
+                    ms=markerSize_min300,
+                    markeredgecolor='black',
+                    ls = ls_likelihood_min300,
+                    lw = lw_min300,
+                    alpha=alpha_likelihood_min300,
+                    label=label_likelihood_min300)
 
         ax2.set_xlabel(r'$\rm \mathcal{L}$')
         ax2.set_xscale("log")
         ax2.invert_xaxis()
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax.xaxis.set_major_locator(majorLocator)
-#         ax.xaxis.set_major_formatter(majorFormatter)
-#         ax.xaxis.set_minor_locator(minorLocator)
         
         # y-axis 
         majorLocator   = MultipleLocator(0.1)
@@ -1809,516 +1482,114 @@ def main():
                               
         likelihood = mlines.Line2D([], [], color=color_likelihood, marker=symbol_likelihood,lw=2.5,
                                 markeredgecolor='black', markersize=legend_size, label=label_likelihood)
-                              
-        plt.legend(handles=[impact, likelihood],loc='upper right', 
+                                
+        min50 = mlines.Line2D([], [], color=color_impact_min50, marker=None,lw=lw_min50,
+                                  markersize=legend_size, markeredgecolor='black', label=label_min50)
+
+        min100 = mlines.Line2D([], [], color=color_impact_min100, marker=None,lw=lw_min100,
+                                  markersize=legend_size, markeredgecolor='black', label=label_min100)
+
+        min200 = mlines.Line2D([], [], color=color_impact_min200, marker=None,lw=lw_min200,
+                                  markersize=legend_size, markeredgecolor='black', label=label_min200)
+
+        min300 = mlines.Line2D([], [], color=color_impact_min300, marker=None,lw=lw_min300,
+                                  markersize=legend_size, markeredgecolor='black', label=label_min300)
+                                  
+        plt.legend(handles=[impact, likelihood, min50, min100, min200, min300],loc='lower left',
                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
+        
+        
+        
+        
+#         import matplotlib.patches as mpatches
+#         import matplotlib.lines as mlines
+#                               
+#         impact = mlines.Line2D([], [], color=color_impact, marker=symbol_impact,lw=2.5,
+#                                   markersize=legend_size, markeredgecolor='black', label=label_impact)
+#                               
+#         likelihood = mlines.Line2D([], [], color=color_likelihood, marker=symbol_likelihood,lw=2.5,
+#                                 markeredgecolor='black', markersize=legend_size, label=label_likelihood)
+#                                 
+#         impact_min50 = mlines.Line2D([], [], color=color_impact_min50, marker=symbol_impact_min50,lw=lw_min50,
+#                                   markersize=legend_size, markeredgecolor='black', label=label_impact_min50)
+#                               
+#         likelihood_min50 = mlines.Line2D([], [], color=color_likelihood_min50, marker=symbol_likelihood_min50,lw=lw_min50,
+#                                 markeredgecolor='black', markersize=legend_size, label=label_likelihood_min50)
+# 
+#         impact_min100 = mlines.Line2D([], [], color=color_impact_min100, marker=symbol_impact_min100,lw=lw_min100,
+#                                   markersize=legend_size, markeredgecolor='black', label=label_impact_min100)
+#                               
+#         likelihood_min100 = mlines.Line2D([], [], color=color_likelihood_min100, marker=symbol_likelihood_min100,lw=lw_min100,
+#                                 markeredgecolor='black', markersize=legend_size, label=label_likelihood_min100)
+# 
+#         impact_min200 = mlines.Line2D([], [], color=color_impact_min200, marker=symbol_impact_min200,lw=lw_min200,
+#                                   markersize=legend_size, markeredgecolor='black', label=label_impact_min200)
+#                               
+#         likelihood_min200 = mlines.Line2D([], [], color=color_likelihood_min200, marker=symbol_likelihood_min200,lw=lw_min200,
+#                                 markeredgecolor='black', markersize=legend_size, label=label_likelihood_min200)
+#                                 
+#         plt.legend(handles=[impact, likelihood, impact_min50, likelihood_min50, impact_min100, likelihood_min100, impact_min200, likelihood_min200],loc='lower left', 
+#                                 borderpad=0.8, fontsize=legend_font, fancybox=True)
+        
+        
+        
+        
+#         from matplotlib.legend_handler import HandlerBase
+# 
+#         class AnyObjectHandler(HandlerBase):
+#             def create_artists(self, legend, orig_handle,
+#                                x0, y0, width, height, fontsize, trans):
+#                 l1 = plt.Line2D([x0,y0+width], [0.7*height,0.7*height],
+#                                    linestyle=orig_handle[1], color='k')
+#                 l2 = plt.Line2D([x0,y0+width], [0.3*height,0.3*height], 
+#                                    color=orig_handle[0])
+#                 return [l1, l2]
+
+
+#         x = np.linspace(0, 3)
+#         fig, axL = plt.subplots(figsize=(4,3))
+#         axR = axL.twinx()
+# 
+#         axL.plot(x, np.sin(x), color='k', linestyle='--')
+#         axR.plot(x, 100*np.cos(x), color='r')
+# 
+#         axL.plot(x, .3*np.sin(x), color='k', linestyle=':')
+#         axR.plot(x, 20*np.cos(x), color='limegreen')
+# 
+#         axL.set_ylabel('sin(x)', color='k')
+#         axR.set_ylabel('100 cos(x)', color='r')
+#         axR.tick_params('y', colors='r')
+# 
+#         plt.legend([("r","--"), ("limegreen",":")], ['label', "label2"],
+#                    handler_map={tuple: AnyObjectHandler()})
+        
+        
+#         plt.legend([(color_likelihood_min50, ls_likelihood_min50),
+#                     (color_likelihood_min100, ls_likelihood_min100),
+#                     (color_likelihood_min200, ls_likelihood_min200)], 
+#                     [label_likelihood_min50, label_likelihood_min100, label_likelihood_min200],
+#                    handler_map={tuple: AnyObjectHandler()},
+#                    loc='lower left',
+#                    borderpad=0.8,
+#                    fontsize=legend_font,
+#                    fancybox=True)
+        
+        
+        
         
 
 #         ax1.grid(b=None,which='major',axis='both')
-        ylim(0.4, 1.)
+        ylim(0., 1.)
 #         xlim(0, 2.5)
 
         if plot_detection_fraction_velcut_both_save:
-            savefig('{0}/detection_fraction_velcut{1}_dmin75_minEW50_both.pdf'.format(saveDirectory, vel_cut),format='pdf',bbox_inches='tight')
+            print 'saving...'
+            savefig('{0}/detection_fraction_min0_50_100_200_300_both.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
         else:
             show()
 
 
 ##########################################################################################
-##########################################################################################
-##########################################################################################
-
-
-
-
-
-
-##########################################################################################
-##########################################################################################
-##########################################################################################
-
-    if plot_detection_fraction_likelihood_lstar:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-
-
-        alpha_det_mean = 0.9
-        alpha_non_mean = 0.9
-        alpha_det_median = 0.6
-        alpha_non_median = 0.6
-        markerSize = 10
-        lw = 2.
-        
-        binSize = 100
-        bins = arange(0, 600, binSize)
-
-        
-        label_det_mean = r'$\rm Detections - Mean~L^{{\**}}$'
-        label_non_mean = r'$\rm Non-Detections - Mean ~L^{{\**}}$'
-        
-        label_det_median = r'$\rm Detections - Median ~L^{{\**}}$'
-        label_non_median = r'$\rm Non-Detections - Median ~L^{{\**}}$'
-
-        symbol_det_mean = 'D'
-        symbol_non_mean = 'X'
-        symbol_det_median = 'D'
-        symbol_non_median = 'X'
-        
-        color_det_mean = color_blue
-        color_non_mean = color_red
-        color_det_median = color_purple2
-        color_non_median = color_orange
-
-        ls_det_mean = 'solid'
-        ls_non_mean = 'dashed'
-        ls_det_median = 'solid'
-        ls_non_median = 'dashed'
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting     
-            
-
-        x = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
-        y_det_mean = [bmean(dv400_l0001_det_lstar),
-                    bmean(dv400_l0005_det_lstar),
-                    bmean(dv400_l001_det_lstar),
-                    bmean(dv400_l005_det_lstar),
-                    bmean(dv400_l01_det_lstar),
-                    bmean(dv400_l05_det_lstar),
-                    bmean(dv400_l1_det_lstar),
-                    bmean(dv400_l5_det_lstar),
-                    bmean(dv400_l75_det_lstar)]
-                    
-        # bootstrap errors in MEAN detection inclination
-        y_det_err_mean = [dv400_l0001_det_lstar_meanerr,
-                        dv400_l0005_det_lstar_meanerr,
-                        dv400_l001_det_lstar_meanerr,
-                        dv400_l005_det_lstar_meanerr,
-                        dv400_l01_det_lstar_meanerr,
-                        dv400_l05_det_lstar_meanerr,
-                        dv400_l1_det_lstar_meanerr,
-                        dv400_l5_det_lstar_meanerr,
-                        dv400_l75_det_lstar_meanerr]
-            
-        
-        y_non_mean = [bmean(dv400_l0001_non_lstar),
-                    bmean(dv400_l0005_non_lstar),
-                    bmean(dv400_l001_non_lstar),
-                    bmean(dv400_l005_non_lstar), 
-                    bmean(dv400_l01_non_lstar),
-                    bmean(dv400_l05_non_lstar),
-                    bmean(dv400_l1_non_lstar),
-                    bmean(dv400_l5_non_lstar),
-                    bmean(dv400_l75_non_lstar)]
-        
-        # bootstrap errors in MEAN non-detection inclination
-        y_non_err_mean = [dv400_l0001_non_lstar_meanerr,
-                        dv400_l0005_non_lstar_meanerr,
-                        dv400_l001_non_lstar_meanerr,
-                        dv400_l005_non_lstar_meanerr,
-                        dv400_l01_non_lstar_meanerr,
-                        dv400_l05_non_lstar_meanerr,
-                        dv400_l1_non_lstar_meanerr,
-                        dv400_l5_non_lstar_meanerr,
-                        dv400_l75_non_lstar_meanerr]
-                    
-                
-        y_det_median = [bmedian(dv400_l0001_det_lstar),
-                    bmedian(dv400_l0005_det_lstar),
-                    bmedian(dv400_l001_det_lstar),
-                    bmedian(dv400_l005_det_lstar), 
-                    bmedian(dv400_l01_det_lstar),
-                    bmedian(dv400_l05_det_lstar),
-                    bmedian(dv400_l1_det_lstar),
-                    bmedian(dv400_l5_det_lstar),
-                    bmedian(dv400_l75_det_lstar)]
-                    
-        # bootstrap errors in MEDIAN detection inclination
-        y_det_err_median = [dv400_l0001_det_lstar_medianerr,
-                        dv400_l0005_det_lstar_medianerr,
-                        dv400_l001_det_lstar_medianerr,
-                        dv400_l005_det_lstar_medianerr,
-                        dv400_l01_det_lstar_medianerr,
-                        dv400_l05_det_lstar_medianerr,
-                        dv400_l1_det_lstar_medianerr,
-                        dv400_l5_det_lstar_medianerr,
-                        dv400_l75_det_lstar_medianerr]
-                    
-            
-        y_non_median = [bmedian(dv400_l0001_non_lstar),
-                    bmedian(dv400_l0005_non_lstar),
-                    bmedian(dv400_l001_non_lstar),
-                    bmedian(dv400_l005_non_lstar), 
-                    bmedian(dv400_l01_non_lstar),
-                    bmedian(dv400_l05_non_lstar),
-                    bmedian(dv400_l1_non_lstar),
-                    bmedian(dv400_l5_non_lstar),
-                    bmedian(dv400_l75_non_lstar)]
-
-        # bootstrap errors in MEDIAN non-detection inclination
-        y_non_err_median = [dv400_l0001_non_lstar_medianerr,
-                        dv400_l0005_non_lstar_medianerr,
-                        dv400_l001_non_lstar_medianerr,
-                        dv400_l005_non_lstar_medianerr,
-                        dv400_l01_non_lstar_medianerr,
-                        dv400_l05_non_lstar_medianerr,
-                        dv400_l1_non_lstar_medianerr,
-                        dv400_l5_non_lstar_medianerr,
-                        dv400_l75_non_lstar_medianerr]
-                    
-
-        ###########
-
-        # MEAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_mean,
-                    yerr=y_det_err_mean,
-                    marker=symbol_det_mean,
-                    c=color_det_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_mean,
-                    lw = lw,
-                    alpha=alpha_det_mean,
-                    label=label_det_mean)
-
-        # MEDIAN inclination for detections with errors
-        ax1.errorbar(x,
-                    y_det_median,
-                    yerr=y_det_err_median,
-                    marker=symbol_det_median,
-                    c=color_det_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_median,
-                    lw = lw,
-                    alpha=alpha_det_median,
-                    label=label_det_median)
-
-
-        # MEAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_mean,
-                    yerr=y_non_err_mean,
-                    marker=symbol_non_mean,
-                    c=color_non_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_mean,
-                    lw = lw,
-                    alpha=alpha_non_mean,
-                    label=label_non_mean)
-
-        # MEDIAN inclination for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_median,
-                    yerr=y_non_err_median,
-                    marker=symbol_non_median,
-                    c=color_non_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_median,
-                    lw = lw,
-                    alpha=alpha_non_median,
-                    label=label_non_median)
-
-
-        ax1.set_xlabel(r'$\rm \mathcal{L}$')
-        ax1.set_xscale("log")
-        
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
-
-        # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm L^{\**}$')
-        
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-#         ylim(0., .)
-        xlim(0.0001, 1.)
-        ax1.invert_xaxis()
-
-
-        if plot_detection_fraction_likelihood_lstar_save:
-            savefig('{0}/detection_fraction_likelihood_lstar_errors_lstarcut{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
-
-
-##########################################################################################
-##########################################################################################
-    
-    if plot_detection_fraction_impact_lstar:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
-
-        alpha_det_mean = 0.9
-        alpha_non_mean = 0.9
-        alpha_det_median = 0.6
-        alpha_non_median = 0.6
-        markerSize = 10
-        lw = 2.
-        
-        binSize = 100
-        bins = arange(0, 600, binSize)
-
-        
-        label_det_mean = r'$\rm Detections - Mean ~L^{{\**}}$'
-        label_non_mean = r'$\rm Non-Detections - Mean ~L^{{\**}}$'
-        
-        label_det_median = r'$\rm Detections - Median ~L^{{\**}}$'
-        label_non_median = r'$\rm Non-Detections - Median ~L^{{\**}}$'
-
-        symbol_det_mean = 'D'
-        symbol_non_mean = 'X'
-        symbol_det_median = 'D'
-        symbol_non_median = 'X'
-        
-        color_det_mean = color_blue
-        color_non_mean = color_red
-        color_det_median = color_purple2
-        color_non_median = color_orange
-
-        ls_det_mean = 'solid'
-        ls_non_mean = 'dashed'
-        ls_det_median = 'solid'
-        ls_non_median = 'dashed'
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting
-
-
-        x = [1000, 750, 500, 400, 300, 200, 100, 50, 25]
-        y_det_mean = [bmean(dv400_imp1000_det_lstar),
-                    bmean(dv400_imp750_det_lstar),
-                    bmean(dv400_imp500_det_lstar),
-                    bmean(dv400_imp400_det_lstar),
-                    bmean(dv400_imp300_det_lstar),
-                    bmean(dv400_imp200_det_lstar),
-                    bmean(dv400_imp100_det_lstar),
-                    bmean(dv400_imp50_det_lstar),
-                    bmean(dv400_imp25_det_lstar)]
-
-
-        y_det_err_mean = [bmean(dv400_imp1000_det_lstar_meanerr),
-                        bmean(dv400_imp750_det_lstar_meanerr),
-                        bmean(dv400_imp500_det_lstar_meanerr),
-                        bmean(dv400_imp400_det_lstar_meanerr),
-                        bmean(dv400_imp300_det_lstar_meanerr),
-                        bmean(dv400_imp200_det_lstar_meanerr),
-                        bmean(dv400_imp100_det_lstar_meanerr),
-                        bmean(dv400_imp50_det_lstar_meanerr),
-                        bmean(dv400_imp25_det_lstar_meanerr)]
-
-
-        y_non_mean = [bmean(dv400_imp1000_non_lstar),
-                    bmean(dv400_imp750_non_lstar),
-                    bmean(dv400_imp500_non_lstar),
-                    bmean(dv400_imp400_non_lstar),
-                    bmean(dv400_imp300_non_lstar),
-                    bmean(dv400_imp200_non_lstar),
-                    bmean(dv400_imp100_non_lstar),
-                    bmean(dv400_imp50_non_lstar),
-                    bmean(dv400_imp25_non_lstar)]
-                
-        y_non_err_mean = [bmean(dv400_imp1000_non_lstar_meanerr),
-                        bmean(dv400_imp750_non_lstar_meanerr),
-                        bmean(dv400_imp500_non_lstar_meanerr),
-                        bmean(dv400_imp400_non_lstar_meanerr),
-                        bmean(dv400_imp300_non_lstar_meanerr),
-                        bmean(dv400_imp200_non_lstar_meanerr),
-                        bmean(dv400_imp100_non_lstar_meanerr),
-                        bmean(dv400_imp50_non_lstar_meanerr),
-                        bmean(dv400_imp25_non_lstar_meanerr)]
-                
-                
-                
-        y_det_median = [bmedian(dv400_imp1000_det_lstar),
-                        bmedian(dv400_imp750_det_lstar),
-                        bmedian(dv400_imp500_det_lstar),
-                        bmedian(dv400_imp400_det_lstar),
-                        bmedian(dv400_imp300_det_lstar),
-                        bmedian(dv400_imp200_det_lstar),
-                        bmedian(dv400_imp100_det_lstar),
-                        bmedian(dv400_imp50_det_lstar),
-                        bmedian(dv400_imp25_det_lstar)]
-            
-        y_det_err_median = [bmedian(dv400_imp1000_det_lstar_medianerr),
-                            bmedian(dv400_imp750_det_lstar_medianerr),
-                            bmedian(dv400_imp500_det_lstar_medianerr),
-                            bmedian(dv400_imp400_det_lstar_medianerr),
-                            bmedian(dv400_imp300_det_lstar_medianerr),
-                            bmedian(dv400_imp200_det_lstar_medianerr),
-                            bmedian(dv400_imp100_det_lstar_medianerr),
-                            bmedian(dv400_imp50_det_lstar_medianerr),
-                            bmedian(dv400_imp25_det_lstar_medianerr)]
-
-                
-        y_non_median = [bmedian(dv400_imp1000_non_lstar),
-                        bmedian(dv400_imp750_non_lstar),
-                        bmedian(dv400_imp500_non_lstar),
-                        bmedian(dv400_imp400_non_lstar), 
-                        bmedian(dv400_imp300_non_lstar),
-                        bmedian(dv400_imp200_non_lstar),
-                        bmedian(dv400_imp100_non_lstar),
-                        bmedian(dv400_imp50_non_lstar),
-                        bmedian(dv400_imp25_non_lstar)]
-
-        y_non_err_median = [bmedian(dv400_imp1000_non_lstar_medianerr),
-                            bmedian(dv400_imp750_non_lstar_medianerr),
-                            bmedian(dv400_imp500_non_lstar_medianerr),
-                            bmedian(dv400_imp400_non_lstar_medianerr), 
-                            bmedian(dv400_imp300_non_lstar_medianerr),
-                            bmedian(dv400_imp200_non_lstar_medianerr),
-                            bmedian(dv400_imp100_non_lstar_medianerr),
-                            bmedian(dv400_imp50_non_lstar_medianerr),
-                            bmedian(dv400_imp25_non_lstar_medianerr)]
-                
-
-        ###########
-
-        # MEAN lstar for detections with errors
-        ax1.errorbar(x,
-                    y_det_mean,
-                    yerr=y_det_err_mean,
-                    marker=symbol_det_mean,
-                    c=color_det_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_mean,
-                    lw = lw,
-                    alpha=alpha_det_mean,
-                    label=label_det_mean)
-
-        # MEDIAN lstar for detections with errors
-        ax1.errorbar(x,
-                    y_det_median,
-                    yerr=y_det_err_median,
-                    marker=symbol_det_median,
-                    c=color_det_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_det_median,
-                    lw = lw,
-                    alpha=alpha_det_median,
-                    label=label_det_median)
-
-
-        # MEAN lstar for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_mean,
-                    yerr=y_non_err_mean,
-                    marker=symbol_non_mean,
-                    c=color_non_mean,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_mean,
-                    lw = lw,
-                    alpha=alpha_non_mean,
-                    label=label_non_mean)
-
-        # MEDIAN lstar for non-detections with errors
-        ax1.errorbar(x,
-                    y_non_median,
-                    yerr=y_non_err_median,
-                    marker=symbol_non_median,
-                    c=color_non_median,
-                    ms=markerSize,
-                    markeredgecolor='black',
-                    ls = ls_non_median,
-                    lw = lw,
-                    alpha=alpha_non_median,
-                    label=label_non_median)
-                
-                
-
-        ax1.set_xlabel(r'$\rm \rho~[kpc]$')
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
-
-        # y-axis
-        majorLocator   = MultipleLocator(0.05)
-        majorFormatter = FormatStrFormatter(r'$\rm %.2f$')
-        minorLocator   = MultipleLocator(0.01)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm L^{\**}$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc='upper right',fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0., 0.5)
-        xlim(0, 1000)
-
-        if plot_detection_fraction_impact_lstar_save:
-            savefig('{0}/detection_fraction_impact_lstar_errors_lstarcut{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
 ##########################################################################################
 ##########################################################################################
 
