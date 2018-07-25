@@ -148,8 +148,8 @@ def main():
     plot_EW_impact_median_plus_group_save = False
     
     # plot EW as a function of impact/r_vir w/o splitting, add other sets if you want
-    plot_EW_impact_vir_mean_plus = True
-    plot_EW_impact_vir_mean_plus_save = True
+    plot_EW_impact_vir_mean_plus = False
+    plot_EW_impact_vir_mean_plus_save = False
     
     # plot EW as a function of impact/r_vir w/o splitting, add other sets if you want
     plot_EW_impact_vir_MType = True
@@ -161,7 +161,6 @@ def main():
     
     min_EW = 0
     max_EW = 10000
-    
     
     # which data set to use
     data_set = '_double'
@@ -192,6 +191,7 @@ def main():
         L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8{0}.p'.format(data_set)
         all_filename = '/Users/frenchd/Research/inclination/git_inclination/all8{0}.p'.format(data_set)
 
+        morph_dict_filename = '/Users/frenchd/Research/inclination/git_inclination/morph_dict4.p'
     else:
         print 'Could not determine username. Exiting.'
         sys.exit()
@@ -200,6 +200,12 @@ def main():
     gtPickleFile = open(gtPickleFilename,'rU')
     gtDict = pickle.load(gtPickleFile)
     gtPickleFile.close()
+    
+    
+    # pickle file for the morph dictionary
+    morph_dict_file = open(morph_dict_filename,'rU')
+    morph_dict = pickle.load(morph_dict_file)
+    morph_dict_file.close()
     
     
     # open all the pickle files
@@ -2129,18 +2135,27 @@ def main():
         color_coal = '#666666'
         
         include_histograms = False
+        include_fit = True
 
-        alpha_S = 0.8
-        alpha_E = 0.8
-        alpha_I = 0.5
+        alpha_S = 0.6
+        alpha_S0 = 0.99
+        alpha_E = 0.99
+        alpha_I = 0.99
+        alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize = 30
-        
+        markerSize_S = 35
+        markerSize_E = 45
+        markerSize_I = 40
+        markerSize_S0 = 40
+        markerSize_other = 40
+                
 #         binSize = 50
 #         bins = arange(0, 550, binSize)
         binSize = 0.5
         bins = arange(0, 3.0, binSize)
 
+        lw = 0.6
+        lw_other = 1.2
         
         label_isolated = r'$\rm Isolated$'
         label_assoc = r'$\rm Associated$'
@@ -2148,14 +2163,23 @@ def main():
         label_three = r'$\rm Three+$'
         label_group = r'$\rm Group$'
 
-        label_S = r'$\rm S-Type$'
-        label_E = r'$\rm E-Type$'
-        label_I = r'$\rm I-Type$'
+        label_S = r'$\rm S$'
+        label_S0 = r'$\rm S0$'
+        label_E = r'$\rm E$'
+        label_I = r'$\rm I$'
+        label_other = r'$\rm ?$'
 
-        symbol_E = 'D'
+        symbol_E = 'X'
         symbol_S = 'o'
+        symbol_S0 = 'D'
         symbol_I = 's'
+        symbol_other = 'o'
 
+        color_E = color_red
+        color_S = color_blue
+        color_S0 = color_purple2
+        color_I = color_green
+        color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
@@ -2167,6 +2191,10 @@ def main():
         R_virs2_S = []
         impacts2_S = []
 
+        Lya_Ws2_S0 = []
+        R_virs2_S0 = []
+        impacts2_S0 = []
+
         Lya_Ws2_E = []
         R_virs2_E = []
         impacts2_E = []
@@ -2174,25 +2202,43 @@ def main():
         Lya_Ws2_I = []
         R_virs2_I = []
         impacts2_I = []
-        for w, r, i, mtype in zip(Lya_Ws, R_virs, impacts, MTypes):
-            mtype = mtype.lower()
+        
+        Lya_Ws2_other = []
+        R_virs2_other = []
+        impacts2_other = []
+        for w, r, i, name in zip(Lya_Ws, R_virs, impacts, Names):
+            mtype = morph_dict[name]
+            
             if float(w) <= max_EW and float(w) >= min_EW:
-                
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
+                if mtype == 'e':
                     Lya_Ws2_E.append(w)
                     R_virs2_E.append(r)
                     impacts2_E.append(i)
-        
-                elif mtype[0] == 'i':
+                    print 'e: ',name
+                
+                elif mtype == 's0':
+                    Lya_Ws2_S0.append(w)
+                    R_virs2_S0.append(r)
+                    impacts2_S0.append(i)
+                    print 's0: ',name
+                    
+                elif mtype == 'i':
                     Lya_Ws2_I.append(w)
                     R_virs2_I.append(r)
                     impacts2_I.append(i)
                     
-                elif mtype[0] != 'x':
+                elif mtype == 'sa' or mtype == 'sb':
+                    # combine sa, sb here
                     Lya_Ws2_S.append(w)
                     R_virs2_S.append(r)
                     impacts2_S.append(i)
                     
+                else:
+                    # unknown type
+                    Lya_Ws2_other.append(w)
+                    R_virs2_other.append(r)
+                    impacts2_other.append(i)
+        
         
         isolated_xs_E = np.array(impacts2_E)/np.array(R_virs2_E)
         isolated_ys_E = np.array(Lya_Ws2_E)
@@ -2200,19 +2246,30 @@ def main():
         isolated_xs_S = np.array(impacts2_S)/np.array(R_virs2_S)
         isolated_ys_S = np.array(Lya_Ws2_S)
         
+        isolated_xs_S0 = np.array(impacts2_S0)/np.array(R_virs2_S0)
+        isolated_ys_S0 = np.array(Lya_Ws2_S0)
+        
         isolated_xs_I = np.array(impacts2_I)/np.array(R_virs2_I)
         isolated_ys_I = np.array(Lya_Ws2_I)
+
+        isolated_xs_other = np.array(impacts2_other)/np.array(R_virs2_other)
+        isolated_ys_other = np.array(Lya_Ws2_other)
 
         # grab the associated data and define the x and y data
         associated_Lya_Ws = L_associated['Lya_Ws']
         associated_R_virs = L_associated['R_virs']
         associated_impacts = L_associated['impacts']
         associated_MTypes = L_associated['MTypes']
+        associated_Names = L_associated['Names']
 
         associated_Lya_Ws2_S = []
         associated_R_virs2_S = []
         associated_impacts2_S = []
 
+        associated_Lya_Ws2_S0 = []
+        associated_R_virs2_S0 = []
+        associated_impacts2_S0 = []
+        
         associated_Lya_Ws2_E = []
         associated_R_virs2_E = []
         associated_impacts2_E = []
@@ -2220,24 +2277,42 @@ def main():
         associated_Lya_Ws2_I = []
         associated_R_virs2_I = []
         associated_impacts2_I = []
-        for w, r, i, mtype in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_MTypes):
-            mtype = mtype.lower()
-            if float(w) <= max_EW and float(w) >= min_EW:
-                
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
+        
+        associated_Lya_Ws2_other = []
+        associated_R_virs2_other = []
+        associated_impacts2_other = []
+        for w, r, i, name in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_Names):
+            mtype = morph_dict[name]
+            
+            if float(w) <= max_EW and float(w) >= min_EW:            
+                if mtype == 'e':
                     associated_Lya_Ws2_E.append(w)
                     associated_R_virs2_E.append(r)
                     associated_impacts2_E.append(i)
+                    print 'e: ', name
         
-                elif mtype[0] == 'i':
+                elif mtype == 's0':
+                    associated_Lya_Ws2_S0.append(w)
+                    associated_R_virs2_S0.append(r)
+                    associated_impacts2_S0.append(i)
+                    print 's0: ', name
+        
+                elif mtype == 'i':
                     associated_Lya_Ws2_I.append(w)
                     associated_R_virs2_I.append(r)
                     associated_impacts2_I.append(i)
                     
-                elif mtype[0] != 'x':
+                elif mtype == 'sa' or mtype == 'sb':
+                    # combine sa, sb here
                     associated_Lya_Ws2_S.append(w)
                     associated_R_virs2_S.append(r)
-                    associated_impacts2_S.append(i)                
+                    associated_impacts2_S.append(i)
+                    
+                else:
+                    # unknown type
+                    associated_Lya_Ws2_other.append(w)
+                    associated_R_virs2_other.append(r)
+                    associated_impacts2_other.append(i)
         
         associated_xs_E = np.array(associated_impacts2_E)/np.array(associated_R_virs2_E)
         associated_ys_E = np.array(associated_Lya_Ws2_E)
@@ -2245,149 +2320,182 @@ def main():
         associated_xs_S = np.array(associated_impacts2_S)/np.array(associated_R_virs2_S)
         associated_ys_S = np.array(associated_Lya_Ws2_S)
         
+        associated_xs_S0 = np.array(associated_impacts2_S0)/np.array(associated_R_virs2_S0)
+        associated_ys_S0 = np.array(associated_Lya_Ws2_S0)
+        
         associated_xs_I = np.array(associated_impacts2_I)/np.array(associated_R_virs2_I)
         associated_ys_I = np.array(associated_Lya_Ws2_I)
         
+        associated_xs_other = np.array(associated_impacts2_other)/np.array(associated_R_virs2_other)
+        associated_ys_other = np.array(associated_Lya_Ws2_other)
+        
         
         # grab the two data and define the x and y data
-        two_Lya_Ws = L_two['Lya_Ws']
-        two_R_virs = L_two['R_virs']
-        two_impacts = L_two['impacts']
-        two_MTypes = L_two['MTypes']
-
-        two_Lya_Ws2_S = []
-        two_R_virs2_S = []
-        two_impacts2_S = []
-        
-        two_Lya_Ws2_E = []
-        two_R_virs2_E = []
-        two_impacts2_E = []
-        
-        two_Lya_Ws2_I = []
-        two_R_virs2_I = []
-        two_impacts2_I = []
-        for w, r, i, mtype in zip(two_Lya_Ws, two_R_virs, two_impacts, two_MTypes):
-            mtype = mtype.lower()
-            if float(w) <= max_EW and float(w) >= min_EW:
-                
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
-                    two_Lya_Ws2_E.append(w)
-                    two_R_virs2_E.append(r)
-                    two_impacts2_E.append(i)
-        
-                elif mtype[0] == 'i':
-                    two_Lya_Ws2_I.append(w)
-                    two_R_virs2_I.append(r)
-                    two_impacts2_I.append(i)
-                    
-                elif mtype[0] != 'x':
-                    two_Lya_Ws2_S.append(w)
-                    two_R_virs2_S.append(r)
-                    two_impacts2_S.append(i)
-        
-        two_xs_E = np.array(two_impacts2_E)/np.array(two_R_virs2_E)
-        two_ys_E = np.array(two_Lya_Ws2_E)
-
-        two_xs_S = np.array(two_impacts2_S)/np.array(two_R_virs2_S)
-        two_ys_S = np.array(two_Lya_Ws2_S)
-        
-        two_xs_I = np.array(two_impacts2_I)/np.array(two_R_virs2_I)
-        two_ys_I = np.array(two_Lya_Ws2_I)
+#         two_Lya_Ws = L_two['Lya_Ws']
+#         two_R_virs = L_two['R_virs']
+#         two_impacts = L_two['impacts']
+#         two_MTypes = L_two['MTypes']
+#         two_Names = L_two['Names']
+# 
+#         two_Lya_Ws2_S = []
+#         two_R_virs2_S = []
+#         two_impacts2_S = []
+#         
+#         two_Lya_Ws2_S0 = []
+#         two_R_virs2_S0 = []
+#         two_impacts2_S0 = []
+#         
+#         two_Lya_Ws2_E = []
+#         two_R_virs2_E = []
+#         two_impacts2_E = []
+#         
+#         two_Lya_Ws2_I = []
+#         two_R_virs2_I = []
+#         two_impacts2_I = []
+#         for w, r, i, name in zip(two_Lya_Ws, two_R_virs, two_impacts, two_Names):
+#             mtype = morph_dict[name]
+#             
+#             if float(w) <= max_EW and float(w) >= min_EW:
+#                 if mtype == 'e':
+#                     two_Lya_Ws2_E.append(w)
+#                     two_R_virs2_E.append(r)
+#                     two_impacts2_E.append(i)
+#                     
+#                 if mtype == 's0':
+#                     two_Lya_Ws2_S0.append(w)
+#                     two_R_virs2_S0.append(r)
+#                     two_impacts2_S0.append(i)
+#         
+#                 elif mtype == 'i':
+#                     two_Lya_Ws2_I.append(w)
+#                     two_R_virs2_I.append(r)
+#                     two_impacts2_I.append(i)
+#                     
+#                 else:
+#                     # combine sa, sb here
+#                     two_Lya_Ws2_S.append(w)
+#                     two_R_virs2_S.append(r)
+#                     two_impacts2_S.append(i)
+#         
+#         two_xs_E = np.array(two_impacts2_E)/np.array(two_R_virs2_E)
+#         two_ys_E = np.array(two_Lya_Ws2_E)
+# 
+#         two_xs_S = np.array(two_impacts2_S)/np.array(two_R_virs2_S)
+#         two_ys_S = np.array(two_Lya_Ws2_S)
+#         
+#         two_xs_S0 = np.array(two_impacts2_S0)/np.array(two_R_virs2_S0)
+#         two_ys_S0 = np.array(two_Lya_Ws2_S0)
+#         
+#         two_xs_I = np.array(two_impacts2_I)/np.array(two_R_virs2_I)
+#         two_ys_I = np.array(two_Lya_Ws2_I)
         
         
         # grab the three_plus data and define the x and y data
-        three_Lya_Ws = L_three_plus['Lya_Ws']
-        three_R_virs = L_three_plus['R_virs']
-        three_impacts = L_three_plus['impacts']
-        
-        three_Lya_Ws2 = []
-        three_R_virs2 = []
-        three_impacts2 = []
-        for w, r, i in zip(three_Lya_Ws, three_R_virs, three_impacts):
-            if float(w) <= max_EW:
-                three_Lya_Ws2.append(w)
-                three_R_virs2.append(r)
-                three_impacts2.append(i)
-        
-        three_xs = np.array(three_impacts2)/np.array(three_R_virs2)
-        three_ys = np.array(three_Lya_Ws2)
-        
-        
-        # grab the group data and define the x and y data
-        group_Lya_Ws = L_group['Lya_Ws']
-        group_R_virs = L_group['R_virs']
-        group_impacts = L_group['impacts']
-        group_mems = L_group['group_mems']
-
-        group_Lya_Ws2 = []
-        group_R_virs2 = []
-        group_impacts2 = []
-        for w, r, i, group in zip(group_Lya_Ws, group_R_virs, group_impacts, group_mems):
-            if float(group) >= 2 and float(w) <= max_EW:
-                group_Lya_Ws2.append(w)
-                group_R_virs2.append(r)
-                group_impacts2.append(i)
-        
-        group_xs = np.array(group_impacts2)/np.array(group_R_virs2)
-        group_ys = np.array(group_Lya_Ws2)
+#         three_Lya_Ws = L_three_plus['Lya_Ws']
+#         three_R_virs = L_three_plus['R_virs']
+#         three_impacts = L_three_plus['impacts']
+#         three_Names = L_three_plus['Names']
+# 
+#         three_Lya_Ws2_S = []
+#         three_R_virs2_S = []
+#         three_impacts2_S = []
+#         
+#         three_Lya_Ws2_S0 = []
+#         three_R_virs2_S0 = []
+#         three_impacts2_S0 = []
+#         
+#         three_Lya_Ws2_E = []
+#         three_R_virs2_E = []
+#         three_impacts2_E = []
+#         
+#         three_Lya_Ws2_I = []
+#         three_R_virs2_I = []
+#         three_impacts2_I = []
+#         for w, r, i, name in zip(three_Lya_Ws, three_R_virs, three_impacts, three_Names):
+#             mtype = morph_dict[name]
+#             
+#             if float(w) <= max_EW and float(w) >= min_EW:
+#                 if mtype == 'e':
+#                     three_Lya_Ws2_E.append(w)
+#                     three_R_virs2_E.append(r)
+#                     three_impacts2_E.append(i)
+#                     
+#                 if mtype == 's0':
+#                     three_Lya_Ws2_S0.append(w)
+#                     three_R_virs2_S0.append(r)
+#                     three_impacts2_S0.append(i)
+#         
+#                 elif mtype == 'i':
+#                     three_Lya_Ws2_I.append(w)
+#                     three_R_virs2_I.append(r)
+#                     three_impacts2_I.append(i)
+#                     
+#                 else:
+#                     # combine sa, sb here
+#                     three_Lya_Ws2_S.append(w)
+#                     three_R_virs2_S.append(r)
+#                     three_impacts2_S.append(i)
+#         
+#         three_xs_E = np.array(three_impacts2_E)/np.array(three_R_virs2_E)
+#         three_ys_E = np.array(three_Lya_Ws2_E)
+# 
+#         three_xs_S = np.array(three_impacts2_S)/np.array(three_R_virs2_S)
+#         three_ys_S = np.array(three_Lya_Ws2_S)
+#         
+#         three_xs_S0 = np.array(three_impacts2_S0)/np.array(three_R_virs2_S0)
+#         three_ys_S0 = np.array(three_Lya_Ws2_S0)
+#         
+#         three_xs_I = np.array(three_impacts2_I)/np.array(three_R_virs2_I)
+#         three_ys_I = np.array(three_Lya_Ws2_I)
         
         
         
 ##########################################################################################
         # do the plotting 
         
+        all_Rvir_E = np.array(list(associated_R_virs2_E) + list(R_virs2_E))
+        all_Rvir_I = np.array(list(associated_R_virs2_I) + list(R_virs2_I))
+        all_Rvir_S = np.array(list(associated_R_virs2_S) + list(R_virs2_S))
+        all_Rvir_S0 = np.array(list(associated_R_virs2_S0) + list(R_virs2_S0))
+        all_Rvir_other = np.array(list(associated_R_virs2_other) + list(R_virs2_other))
+        
+        from scipy import stats
+
+        print 'all_Rvir_E: ',stats.describe(all_Rvir_E)
+        print 'all_Rvir_S: ',stats.describe(all_Rvir_S)
+        print 'all_Rvir_I: ',stats.describe(all_Rvir_I)
+        print 'all_Rvir_S0: ',stats.describe(all_Rvir_S0)
+        print 'all_Rvir_other: ',stats.describe(all_Rvir_other)
+
+        
         all_xs_E = np.array(list(associated_xs_E) + list(isolated_xs_E))
         all_ys_E = np.array(list(associated_ys_E) + list(isolated_ys_E))
 
         all_xs_S = np.array(list(associated_xs_S) + list(isolated_xs_S))
         all_ys_S = np.array(list(associated_ys_S) + list(isolated_ys_S))
+        
+        all_xs_S0 = np.array(list(associated_xs_S0) + list(isolated_xs_S0))
+        all_ys_S0 = np.array(list(associated_ys_S0) + list(isolated_ys_S0))
 
         all_xs_I = np.array(list(associated_xs_I) + list(isolated_xs_I))
         all_ys_I = np.array(list(associated_ys_I) + list(isolated_ys_I))
 
-        # Elliptical
-        plot1 = scatter(all_xs_E,
-                        all_ys_E,
-                        marker=symbol_E,
-                        c=color_red,
-                        s=markerSize,
-                        edgecolor='black',
-                        alpha=alpha_E,
-                        label=label_E)
-                        
-                        
-                        
-        # histogram isolated
-        if include_histograms:
-            bin_means, edges, binNumber = stats.binned_statistic(all_xs_E,
-                                                                all_ys_E,
-                                                                statistic='mean',
-                                                                bins=bins)
-            left,right = edges[:-1],edges[1:]        
-            X = array([left,right]).T.flatten()
-            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-            plot(X,
-                Y,
-                ls='solid',
-                color=color_red,
-                lw=2.0,
-                alpha=alpha_bins,
-                label=r'$\rm E-type ~EW$')
-            
+        all_xs_other = np.array(list(associated_xs_other) + list(isolated_xs_other))
+        all_ys_other = np.array(list(associated_ys_other) + list(isolated_ys_other))            
 
+###########
         # Spiral
         plot1 = scatter(all_xs_S,
                         all_ys_S,
                         marker=symbol_S,
-                        c=color_blue,
-                        s=markerSize,
+                        c=color_S,
+                        s=markerSize_S,
                         edgecolor='black',
+                        lw = lw,
                         alpha=alpha_S,
                         label=label_S)
                         
-                        
-                        
-        # histogram isolated
+        # histogram spiral
         if include_histograms:
             bin_means, edges, binNumber = stats.binned_statistic(all_xs_S,
                                                                 all_ys_S,
@@ -2399,25 +2507,83 @@ def main():
             plot(X,
                 Y,
                 ls='solid',
-                color=color_blue,
+                color=color_S,
                 lw=2.0,
                 alpha=alpha_bins,
                 label=r'$\rm S-type ~EW$')
+                
+###########
+        # Elliptical
+        plot1 = scatter(all_xs_E,
+                        all_ys_E,
+                        marker=symbol_E,
+                        c=color_E,
+                        s=markerSize_E,
+                        edgecolor='black',
+                        lw = lw,
+                        alpha=alpha_E,
+                        label=label_E)
+                        
+        # histogram elliptical
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_E,
+                                                                all_ys_E,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_E,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm E-type ~EW$')
             
-            
+###########
+        # S0 type
+        plot1 = scatter(all_xs_S0,
+                        all_ys_S0,
+                        marker=symbol_S0,
+                        c=color_S0,
+                        s=markerSize_S0,
+                        edgecolor='black',
+                        lw = lw,
+                        alpha=alpha_S0,
+                        label=label_S0)
+                        
+        # histogram S0
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_S0,
+                                                                all_ys_S0,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_S0,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm S0-type ~EW$')
+                
+                
+###########
         # Irregular
         plot1 = scatter(all_xs_I,
                         all_ys_I,
                         marker=symbol_I,
-                        c='grey',
-                        s=markerSize,
+                        c=color_I,
+                        s=markerSize_I,
                         edgecolor='black',
+                        lw = lw,
                         alpha=alpha_I,
                         label=label_I)
-                        
-                        
-                        
-        # histogram isolated
+
+        # histogram irregular
         if include_histograms:
             bin_means, edges, binNumber = stats.binned_statistic(all_xs_I,
                                                                 all_ys_I,
@@ -2429,11 +2595,80 @@ def main():
             plot(X,
                 Y,
                 ls='solid',
-                color='grey',
+                color=color_I,
                 lw=2.0,
                 alpha=alpha_bins,
                 label=r'$\rm I-type ~EW$')
+                
+###########
+        # unknown
+        plot1 = scatter(all_xs_other,
+                        all_ys_other,
+                        marker=symbol_other,
+                        edgecolors=color_other,
+                        s=markerSize_other,
+                        lw=lw_other,
+                        facecolors='none',
+                        alpha=alpha_other,
+                        label=label_other)
+                        
+        # histogram unknown
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_other,
+                                                                all_ys_other,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_other,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm ?-type ~EW$')
         
+        
+###########
+        if include_fit:
+            from scipy.interpolate import interp1d
+            from scipy import interpolate, optimize
+            
+            def line_func(x, m, b):
+                y = m * x + b
+                return y
+    
+            m = -1
+            b = 500.
+    
+            x = np.linspace(0, 2.5, num=500)
+            
+            x_all =  np.array(list(all_xs_E) + list(all_xs_S) + list(all_xs_S0) + list(all_xs_I) + list(all_xs_other))
+            y_all = np.array(list(all_ys_E) + list(all_ys_S) + list(all_ys_S0) + list(all_ys_I) + list(all_ys_other))
+    
+            popt, pcov = optimize.curve_fit(line_func, x_all, y_all)
+            perr = np.sqrt(np.diag(pcov))
+            print
+            print 'popt: ',popt
+            print
+            print 'pcov: ',pcov
+            print
+            print 'perr: ',perr
+            print
+    
+    
+            m = int(round(popt[0], 0))
+            b = int(round(popt[1], 0))
+            m_err = int(perr[0])
+            b_err = int(perr[1])
+        
+#             plt.plot(x, line_func(x, *popt), ls='dashed', color='black', alpha = 0.9, label=r'$\rm Fit = {0}\pm {1}~(\rho/R_{{vir}}) + {2}\pm{3}$'.format(m, m_err, b, b_err))
+            plt.plot(x, line_func(x, *popt), ls='dashed', color='black', alpha = 0.9, label=r'$\rm Fit = {0}(\rho/R_{{vir}}) + {1}$'.format(m, b))
+
+            from scipy.stats import linregress
+            print "rho/rvir linregress(a, b) = ",linregress(x_all,y_all)
+            print
     
         
         # x-axis
@@ -2459,7 +2694,7 @@ def main():
 #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1500)
+        ylim(0,1400)
         xlim(0, 2.5)
 
         if plot_EW_impact_vir_MType_save:
@@ -2492,12 +2727,23 @@ def main():
         color_coal = '#666666'
         
         include_histograms = False
+        include_fit = True
 
-        alpha_S = 0.8
-        alpha_E = 0.8
-        alpha_I = 0.5
+        alpha_S = 0.6
+        alpha_S0 = 0.99
+        alpha_E = 0.99
+        alpha_I = 0.99
+        alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize = 30
+        markerSize_S = 35
+        markerSize_E = 45
+        markerSize_I = 40
+        markerSize_S0 = 40
+        markerSize_other = 40
+
+
+        lw = 0.6
+        lw_other = 1.2
         
         binSize = 50
         bins = arange(0, 550, binSize)
@@ -2511,14 +2757,23 @@ def main():
         label_three = r'$\rm Three+$'
         label_group = r'$\rm Group$'
 
-        label_S = r'$\rm S-Type$'
-        label_E = r'$\rm E-Type$'
-        label_I = r'$\rm I-Type$'
+        label_S = r'$\rm S$'
+        label_S0 = r'$\rm S0$'
+        label_E = r'$\rm E$'
+        label_I = r'$\rm I$'
+        label_other = r'$\rm ?$'
 
-        symbol_E = 'D'
+        symbol_E = 'X'
         symbol_S = 'o'
+        symbol_S0 = 'D'
         symbol_I = 's'
+        symbol_other = 'o'
 
+        color_E = color_red
+        color_S = color_blue
+        color_S0 = color_purple2
+        color_I = color_green
+        color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
@@ -2530,6 +2785,10 @@ def main():
         R_virs2_S = []
         impacts2_S = []
 
+        Lya_Ws2_S0 = []
+        R_virs2_S0 = []
+        impacts2_S0 = []
+
         Lya_Ws2_E = []
         R_virs2_E = []
         impacts2_E = []
@@ -2537,24 +2796,41 @@ def main():
         Lya_Ws2_I = []
         R_virs2_I = []
         impacts2_I = []
-        for w, r, i, mtype in zip(Lya_Ws, R_virs, impacts, MTypes):
-            mtype = mtype.lower()
+        
+        Lya_Ws2_other = []
+        R_virs2_other = []
+        impacts2_other = []
+        for w, r, i, name in zip(Lya_Ws, R_virs, impacts, Names):
+            mtype = morph_dict[name]
+            
             if float(w) <= max_EW and float(w) >= min_EW:
                 
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
+                if mtype == 'e':
                     Lya_Ws2_E.append(w)
                     R_virs2_E.append(r)
                     impacts2_E.append(i)
-        
-                elif mtype[0] == 'i':
+                
+                elif mtype == 's0':
+                    Lya_Ws2_S0.append(w)
+                    R_virs2_S0.append(r)
+                    impacts2_S0.append(i)
+                    
+                elif mtype == 'i':
                     Lya_Ws2_I.append(w)
                     R_virs2_I.append(r)
                     impacts2_I.append(i)
                     
-                elif mtype[0] != 'x':
+                elif mtype == 'sa' or mtype == 'sb':
+                    # combine sa, sb here
                     Lya_Ws2_S.append(w)
                     R_virs2_S.append(r)
                     impacts2_S.append(i)
+                    
+                else:
+                    # unknown type
+                    Lya_Ws2_other.append(w)
+                    R_virs2_other.append(r)
+                    impacts2_other.append(i)
                     
         
         isolated_xs_E = np.array(impacts2_E)
@@ -2563,19 +2839,30 @@ def main():
         isolated_xs_S = np.array(impacts2_S)
         isolated_ys_S = np.array(Lya_Ws2_S)
         
+        isolated_xs_S0 = np.array(impacts2_S0)
+        isolated_ys_S0 = np.array(Lya_Ws2_S0)
+        
         isolated_xs_I = np.array(impacts2_I)
         isolated_ys_I = np.array(Lya_Ws2_I)
+        
+        isolated_xs_other = np.array(impacts2_other)
+        isolated_ys_other = np.array(Lya_Ws2_other)
 
         # grab the associated data and define the x and y data
         associated_Lya_Ws = L_associated['Lya_Ws']
         associated_R_virs = L_associated['R_virs']
         associated_impacts = L_associated['impacts']
         associated_MTypes = L_associated['MTypes']
+        associated_Names = L_associated['Names']
 
         associated_Lya_Ws2_S = []
         associated_R_virs2_S = []
         associated_impacts2_S = []
 
+        associated_Lya_Ws2_S0 = []
+        associated_R_virs2_S0 = []
+        associated_impacts2_S0 = []
+        
         associated_Lya_Ws2_E = []
         associated_R_virs2_E = []
         associated_impacts2_E = []
@@ -2583,24 +2870,41 @@ def main():
         associated_Lya_Ws2_I = []
         associated_R_virs2_I = []
         associated_impacts2_I = []
-        for w, r, i, mtype in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_MTypes):
-            mtype = mtype.lower()
-            if float(w) <= max_EW and float(w) >= min_EW:
-                
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
+        
+        associated_Lya_Ws2_other = []
+        associated_R_virs2_other = []
+        associated_impacts2_other = []
+        for w, r, i, name in zip(associated_Lya_Ws, associated_R_virs, associated_impacts, associated_Names):
+            mtype = morph_dict[name]
+            
+            if float(w) <= max_EW and float(w) >= min_EW:            
+                if mtype == 'e':
                     associated_Lya_Ws2_E.append(w)
                     associated_R_virs2_E.append(r)
                     associated_impacts2_E.append(i)
         
-                elif mtype[0] == 'i':
+                elif mtype == 's0':
+                    associated_Lya_Ws2_S0.append(w)
+                    associated_R_virs2_S0.append(r)
+                    associated_impacts2_S0.append(i)
+        
+                elif mtype == 'i':
                     associated_Lya_Ws2_I.append(w)
                     associated_R_virs2_I.append(r)
                     associated_impacts2_I.append(i)
                     
-                elif mtype[0] != 'x':
+                elif mtype == 'sa' or mtype == 'sb':
+                    # combine sa, sb here
                     associated_Lya_Ws2_S.append(w)
                     associated_R_virs2_S.append(r)
-                    associated_impacts2_S.append(i)                
+                    associated_impacts2_S.append(i)
+                    
+                else:
+                    # unknown types
+                    associated_Lya_Ws2_other.append(w)
+                    associated_R_virs2_other.append(r)
+                    associated_impacts2_other.append(i)
+                    
         
         associated_xs_E = np.array(associated_impacts2_E)
         associated_ys_E = np.array(associated_Lya_Ws2_E)
@@ -2608,91 +2912,132 @@ def main():
         associated_xs_S = np.array(associated_impacts2_S)
         associated_ys_S = np.array(associated_Lya_Ws2_S)
         
+        associated_xs_S0 = np.array(associated_impacts2_S0)
+        associated_ys_S0 = np.array(associated_Lya_Ws2_S0)
+        
         associated_xs_I = np.array(associated_impacts2_I)
         associated_ys_I = np.array(associated_Lya_Ws2_I)
         
+        associated_xs_other = np.array(associated_impacts2_other)
+        associated_ys_other = np.array(associated_Lya_Ws2_other)
         
         # grab the two data and define the x and y data
-        two_Lya_Ws = L_two['Lya_Ws']
-        two_R_virs = L_two['R_virs']
-        two_impacts = L_two['impacts']
-        two_MTypes = L_two['MTypes']
-
-        two_Lya_Ws2_S = []
-        two_R_virs2_S = []
-        two_impacts2_S = []
-        
-        two_Lya_Ws2_E = []
-        two_R_virs2_E = []
-        two_impacts2_E = []
-        
-        two_Lya_Ws2_I = []
-        two_R_virs2_I = []
-        two_impacts2_I = []
-        for w, r, i, mtype in zip(two_Lya_Ws, two_R_virs, two_impacts, two_MTypes):
-            mtype = mtype.lower()
-            if float(w) <= max_EW and float(w) >= min_EW:
-                
-                if mtype[0] == 'e' or bfind(mtype, 'sa0') or bfind(mtype, 's0'):
-                    two_Lya_Ws2_E.append(w)
-                    two_R_virs2_E.append(r)
-                    two_impacts2_E.append(i)
-        
-                elif mtype[0] == 'i':
-                    two_Lya_Ws2_I.append(w)
-                    two_R_virs2_I.append(r)
-                    two_impacts2_I.append(i)
-                    
-                elif mtype[0] != 'x':
-                    two_Lya_Ws2_S.append(w)
-                    two_R_virs2_S.append(r)
-                    two_impacts2_S.append(i)
-        
-        two_xs_E = np.array(two_impacts2_E)
-        two_ys_E = np.array(two_Lya_Ws2_E)
-
-        two_xs_S = np.array(two_impacts2_S)
-        two_ys_S = np.array(two_Lya_Ws2_S)
-        
-        two_xs_I = np.array(two_impacts2_I)
-        two_ys_I = np.array(two_Lya_Ws2_I)
+#         two_Lya_Ws = L_two['Lya_Ws']
+#         two_R_virs = L_two['R_virs']
+#         two_impacts = L_two['impacts']
+#         two_MTypes = L_two['MTypes']
+#         two_Names = L_two['Names']
+# 
+#         two_Lya_Ws2_S = []
+#         two_R_virs2_S = []
+#         two_impacts2_S = []
+#         
+#         two_Lya_Ws2_S0 = []
+#         two_R_virs2_S0 = []
+#         two_impacts2_S0 = []
+#         
+#         two_Lya_Ws2_E = []
+#         two_R_virs2_E = []
+#         two_impacts2_E = []
+#         
+#         two_Lya_Ws2_I = []
+#         two_R_virs2_I = []
+#         two_impacts2_I = []
+#         for w, r, i, name in zip(two_Lya_Ws, two_R_virs, two_impacts, two_Names):
+#             mtype = morph_dict[name]
+#             
+#             if float(w) <= max_EW and float(w) >= min_EW:
+#                 if mtype == 'e':
+#                     two_Lya_Ws2_E.append(w)
+#                     two_R_virs2_E.append(r)
+#                     two_impacts2_E.append(i)
+#                     
+#                 if mtype == 's0':
+#                     two_Lya_Ws2_S0.append(w)
+#                     two_R_virs2_S0.append(r)
+#                     two_impacts2_S0.append(i)
+#         
+#                 elif mtype == 'i':
+#                     two_Lya_Ws2_I.append(w)
+#                     two_R_virs2_I.append(r)
+#                     two_impacts2_I.append(i)
+#                     
+#                 else:
+#                     # combine sa, sb here
+#                     two_Lya_Ws2_S.append(w)
+#                     two_R_virs2_S.append(r)
+#                     two_impacts2_S.append(i)
+#         
+#         two_xs_E = np.array(two_impacts2_E)
+#         two_ys_E = np.array(two_Lya_Ws2_E)
+# 
+#         two_xs_S = np.array(two_impacts2_S)
+#         two_ys_S = np.array(two_Lya_Ws2_S)
+#         
+#         two_xs_S0 = np.array(two_impacts2_S0)
+#         two_ys_S0 = np.array(two_Lya_Ws2_S0)
+#         
+#         two_xs_I = np.array(two_impacts2_I)
+#         two_ys_I = np.array(two_Lya_Ws2_I)
         
         
         # grab the three_plus data and define the x and y data
-        three_Lya_Ws = L_three_plus['Lya_Ws']
-        three_R_virs = L_three_plus['R_virs']
-        three_impacts = L_three_plus['impacts']
-        
-        three_Lya_Ws2 = []
-        three_R_virs2 = []
-        three_impacts2 = []
-        for w, r, i in zip(three_Lya_Ws, three_R_virs, three_impacts):
-            if float(w) <= max_EW:
-                three_Lya_Ws2.append(w)
-                three_R_virs2.append(r)
-                three_impacts2.append(i)
-        
-        three_xs = np.array(three_impacts2)
-        three_ys = np.array(three_Lya_Ws2)
-        
-        
-        # grab the group data and define the x and y data
-        group_Lya_Ws = L_group['Lya_Ws']
-        group_R_virs = L_group['R_virs']
-        group_impacts = L_group['impacts']
-        group_mems = L_group['group_mems']
-
-        group_Lya_Ws2 = []
-        group_R_virs2 = []
-        group_impacts2 = []
-        for w, r, i, group in zip(group_Lya_Ws, group_R_virs, group_impacts, group_mems):
-            if float(group) >= 2 and float(w) <= max_EW:
-                group_Lya_Ws2.append(w)
-                group_R_virs2.append(r)
-                group_impacts2.append(i)
-        
-        group_xs = np.array(group_impacts2)
-        group_ys = np.array(group_Lya_Ws2)
+#         three_Lya_Ws = L_three_plus['Lya_Ws']
+#         three_R_virs = L_three_plus['R_virs']
+#         three_impacts = L_three_plus['impacts']
+#         three_Names = L_three_plus['Names']
+# 
+#         three_Lya_Ws2_S = []
+#         three_R_virs2_S = []
+#         three_impacts2_S = []
+#         
+#         three_Lya_Ws2_S0 = []
+#         three_R_virs2_S0 = []
+#         three_impacts2_S0 = []
+#         
+#         three_Lya_Ws2_E = []
+#         three_R_virs2_E = []
+#         three_impacts2_E = []
+#         
+#         three_Lya_Ws2_I = []
+#         three_R_virs2_I = []
+#         three_impacts2_I = []
+#         for w, r, i, name in zip(three_Lya_Ws, three_R_virs, three_impacts, three_Names):
+#             mtype = morph_dict[name]
+#             
+#             if float(w) <= max_EW and float(w) >= min_EW:
+#                 if mtype == 'e':
+#                     three_Lya_Ws2_E.append(w)
+#                     three_R_virs2_E.append(r)
+#                     three_impacts2_E.append(i)
+#                     
+#                 if mtype == 's0':
+#                     three_Lya_Ws2_S0.append(w)
+#                     three_R_virs2_S0.append(r)
+#                     three_impacts2_S0.append(i)
+#         
+#                 elif mtype == 'i':
+#                     three_Lya_Ws2_I.append(w)
+#                     three_R_virs2_I.append(r)
+#                     three_impacts2_I.append(i)
+#                     
+#                 else:
+#                     # combine sa, sb here
+#                     three_Lya_Ws2_S.append(w)
+#                     three_R_virs2_S.append(r)
+#                     three_impacts2_S.append(i)
+#         
+#         three_xs_E = np.array(three_impacts2_E)
+#         three_ys_E = np.array(three_Lya_Ws2_E)
+# 
+#         three_xs_S = np.array(three_impacts2_S)
+#         three_ys_S = np.array(three_Lya_Ws2_S)
+#         
+#         three_xs_S0 = np.array(three_impacts2_S0)
+#         three_ys_S0 = np.array(three_Lya_Ws2_S0)
+#         
+#         three_xs_I = np.array(three_impacts2_I)
+#         three_ys_I = np.array(three_Lya_Ws2_I)
         
         
         
@@ -2704,53 +3049,30 @@ def main():
 
         all_xs_S = np.array(list(associated_xs_S) + list(isolated_xs_S))
         all_ys_S = np.array(list(associated_ys_S) + list(isolated_ys_S))
+        
+        all_xs_S0 = np.array(list(associated_xs_S0) + list(isolated_xs_S0))
+        all_ys_S0 = np.array(list(associated_ys_S0) + list(isolated_ys_S0))
 
         all_xs_I = np.array(list(associated_xs_I) + list(isolated_xs_I))
         all_ys_I = np.array(list(associated_ys_I) + list(isolated_ys_I))
 
-        # Elliptical
-        plot1 = scatter(all_xs_E,
-                        all_ys_E,
-                        marker=symbol_E,
-                        c=color_red,
-                        s=markerSize,
-                        edgecolor='black',
-                        alpha=alpha_E,
-                        label=label_E)
-                        
-                        
-                        
-        # histogram isolated
-        if include_histograms:
-            bin_means, edges, binNumber = stats.binned_statistic(all_xs_E,
-                                                                all_ys_E,
-                                                                statistic='mean',
-                                                                bins=bins)
-            left,right = edges[:-1],edges[1:]        
-            X = array([left,right]).T.flatten()
-            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
-            plot(X,
-                Y,
-                ls='solid',
-                color=color_red,
-                lw=2.0,
-                alpha=alpha_bins,
-                label=r'$\rm E-type ~EW$')
-            
+        all_xs_other = np.array(list(associated_xs_other) + list(isolated_xs_other))
+        all_ys_other = np.array(list(associated_ys_other) + list(isolated_ys_other))
 
+            
+###########
         # Spiral
         plot1 = scatter(all_xs_S,
                         all_ys_S,
                         marker=symbol_S,
-                        c=color_blue,
-                        s=markerSize,
+                        c=color_S,
+                        s=markerSize_S,
                         edgecolor='black',
+                        lw = lw,
                         alpha=alpha_S,
                         label=label_S)
                         
-                        
-                        
-        # histogram isolated
+        # histogram spiral
         if include_histograms:
             bin_means, edges, binNumber = stats.binned_statistic(all_xs_S,
                                                                 all_ys_S,
@@ -2762,25 +3084,83 @@ def main():
             plot(X,
                 Y,
                 ls='solid',
-                color=color_blue,
+                color=color_S,
                 lw=2.0,
                 alpha=alpha_bins,
                 label=r'$\rm S-type ~EW$')
             
+###########
+        # Elliptical
+        plot1 = scatter(all_xs_E,
+                        all_ys_E,
+                        marker=symbol_E,
+                        c=color_E,
+                        s=markerSize_E,
+                        edgecolor='black',
+                        lw = lw,
+                        alpha=alpha_E,
+                        label=label_E)
+                        
+        # histogram elliptical
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_E,
+                                                                all_ys_E,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_E,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm E-type ~EW$')
             
+###########
+        # S0 type
+        plot1 = scatter(all_xs_S0,
+                        all_ys_S0,
+                        marker=symbol_S0,
+                        c=color_S0,
+                        s=markerSize_S0,
+                        edgecolor='black',
+                        lw = lw,
+                        alpha=alpha_S0,
+                        label=label_S0)
+                        
+        # histogram S0
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_S0,
+                                                                all_ys_S0,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_S0,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm S0-type ~EW$')
+
+
+###########
         # Irregular
         plot1 = scatter(all_xs_I,
                         all_ys_I,
                         marker=symbol_I,
-                        c='grey',
-                        s=markerSize,
+                        c=color_I,
+                        s=markerSize_I,
                         edgecolor='black',
+                        lw = lw,
                         alpha=alpha_I,
                         label=label_I)
-                        
-                        
-                        
-        # histogram isolated
+                          
+        # histogram irregular
         if include_histograms:
             bin_means, edges, binNumber = stats.binned_statistic(all_xs_I,
                                                                 all_ys_I,
@@ -2792,13 +3172,79 @@ def main():
             plot(X,
                 Y,
                 ls='solid',
-                color='grey',
+                color=color_I,
                 lw=2.0,
                 alpha=alpha_bins,
                 label=r'$\rm I-type ~EW$')
         
+###########
+        # Unknown
+        plot1 = scatter(all_xs_other,
+                        all_ys_other,
+                        marker=symbol_other,
+                        edgecolors=color_other,
+                        s=markerSize_other,
+                        lw=lw_other,
+                        facecolors='none',
+                        alpha=alpha_other,
+                        label=label_other)
+                        
+        # histogram unknown
+        if include_histograms:
+            bin_means, edges, binNumber = stats.binned_statistic(all_xs_other,
+                                                                all_ys_other,
+                                                                statistic='mean',
+                                                                bins=bins)
+            left,right = edges[:-1],edges[1:]        
+            X = array([left,right]).T.flatten()
+            Y = array([nan_to_num(bin_means),nan_to_num(bin_means)]).T.flatten()
+            plot(X,
+                Y,
+                ls='solid',
+                color=color_other,
+                lw=2.0,
+                alpha=alpha_bins,
+                label=r'$\rm ?-type ~EW$')
+
+
+
+
+        if include_fit:
+            from scipy.interpolate import interp1d
+            from scipy import interpolate, optimize
+            
+            def line_func(x, m, b):
+                y = m * x + b
+                return y
     
+            m = -1
+            b = 500.
+    
+            x = np.linspace(0, 500, num=500)
+            
+            x_all =  np.array(list(all_xs_E) + list(all_xs_S) + list(all_xs_S0) + list(all_xs_I) + list(all_xs_other))
+            y_all = np.array(list(all_ys_E) + list(all_ys_S) + list(all_ys_S0) + list(all_ys_I) + list(all_ys_other))
+    
+            popt, pcov = optimize.curve_fit(line_func, x_all, y_all)
+            perr = np.sqrt(np.diag(pcov))
+            print
+            print 'popt: ',popt
+            print
+            print 'pcov: ',pcov
+            print
+            print 'perr: ',perr
+            print
+    
+    
+            m = round(popt[0],2)
+            b = int(round(popt[1],0))
         
+            plt.plot(x, line_func(x, *popt), ls='dashed', color='black', alpha = 0.9, label=r'$\rm Fit = {0}(\rho) + {1}$'.format(m, b))
+
+            from scipy.stats import linregress
+            print "impact only linregress(a, b) = ",linregress(x_all,y_all)
+            print
+
         # x-axis
         majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
@@ -2822,14 +3268,13 @@ def main():
 #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(0,1500)
+        ylim(0,1400)
         xlim(0, 500)
 
         if plot_EW_impact_MType_save:
             savefig('{0}/W(impact)_MType_binSize{1}_EWcut{2}-{3}_dataset{4}.pdf'.format(saveDirectory, binSize, min_EW, max_EW, data_set),format='pdf',bbox_inches='tight')
         else:
             show()
-            
             
 
 #########################################################################################

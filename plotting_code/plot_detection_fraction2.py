@@ -129,8 +129,8 @@ def main():
     Lstar_min = 0.5
 
     # some colors
-    color_blue = '#436bad'      # french blue
-    color_red = '#ec2d01'     # tomato red
+    color_blue = '#436bad'   # french blue
+    color_red = '#ec2d01'    # tomato red
 
     if getpass.getuser() == 'frenchd':
 

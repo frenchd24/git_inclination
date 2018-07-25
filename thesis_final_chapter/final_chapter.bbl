@@ -1,0 +1,36 @@
+\begin{thebibliography}{9}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Bowen} {et~al.}(2002){Bowen}, {Pettini}, \& {Blades}}]{bowen2002}
+{Bowen}, D.~V., {Pettini}, M., \& {Blades}, J.~C. 2002, \apj, 580, 169
+
+\bibitem[{{Bowen} {et~al.}(1998){Bowen}, {Pettini}, \& {Boyle}}]{bowen1998}
+{Bowen}, D.~V., {Pettini}, M., \& {Boyle}, B.~J. 1998, \mnras, 297, 239
+
+\bibitem[{{Chen} {et~al.}(2003){Chen}, {Jing}, \& {Yoshikaw}}]{chen2003}
+{Chen}, D.~N., {Jing}, Y.~P., \& {Yoshikaw}, K. 2003, \apj, 597, 35
+
+\bibitem[{{Chen} {et~al.}(2005){Chen}, {Prochaska}, {Weiner}, {Mulchaey}, \&
+  {Williger}}]{chen2005}
+{Chen}, H.-W., {Prochaska}, J.~X., {Weiner}, B.~J., {Mulchaey}, J.~S., \&
+  {Williger}, G.~M. 2005, \apjl, 629, L25
+
+\bibitem[{{Chen} \& {Tinker}(2008)}]{chen2008}
+{Chen}, H.-W., \& {Tinker}, J.~L. 2008, \apj, 687, 745
+
+\bibitem[{{French} \& {Wakker}(2017)}]{french2017}
+{French}, D.~M., \& {Wakker}, B.~P. 2017, \apj, 837, 138
+
+\bibitem[{{Lanzetta} {et~al.}(1995){Lanzetta}, {Bowen}, {Tytler}, \&
+  {Webb}}]{lanzetta1995}
+{Lanzetta}, K.~M., {Bowen}, D.~V., {Tytler}, D., \& {Webb}, J.~K. 1995, \apj,
+  442, 538
+
+\bibitem[{{Steidel} {et~al.}(2010){Steidel}, {Erb}, {Shapley}, {Pettini},
+  {Reddy}, {Bogosavljevi{\'c}}, {Rudie}, \& {Rakic}}]{steidel2010}
+{Steidel}, C.~C., {Erb}, D.~K., {Shapley}, A.~E., {et~al.} 2010, \apj, 717, 289
+
+\bibitem[{{Wakker} \& {Savage}(2009)}]{wakker2009}
+{Wakker}, B.~P., \& {Savage}, B.~D. 2009, \apjs, 182, 378
+
+\end{thebibliography}

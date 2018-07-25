@@ -99,7 +99,36 @@ def bmedian(a):
         print 'Error: ',e
         return -99.99
         
+        
+        
+def return_bootstrap_errors(x, reps):
+    # takes in x as an array of values, calculates bootstrap mean and median errors based 
+    # on 'reps' number of iterations
     
+    x = np.array(x)
+    lenx = len(x)
+
+    x_resample = np.random.choice(x, (reps, lenx), replace=True)
+
+    resampled_means = []
+    for i in x_resample:
+        m = np.mean(i)
+        resampled_means.append(m)
+    
+    mean_err = std(resampled_means)
+
+
+    resampled_medians = []
+    for i in resampled_medians:
+        med = np.median(i)
+        resampled_medians.append(med)
+    
+    median_err = std(resampled_medians)
+        
+
+    return mean_err, median_err
+
+
     
 def main():
     # plot detection fraction as a function of both impact parameter and likelihood - 
@@ -116,37 +145,37 @@ def main():
     plot_detection_fraction_likelihood_save = False
     
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_inc = False
-    plot_detection_fraction_likelihood_inc_save = False
+    plot_detection_fraction_likelihood_inc = True
+    plot_detection_fraction_likelihood_inc_save = True
 
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_inc = False
-    plot_detection_fraction_impact_inc_save = False
+    plot_detection_fraction_impact_inc = True
+    plot_detection_fraction_impact_inc_save = True
 
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_likelihood_lstar = False
-    plot_detection_fraction_likelihood_lstar_save = False
+    plot_detection_fraction_likelihood_lstar = True
+    plot_detection_fraction_likelihood_lstar_save = True
 
     # plot detection fraction as a function of likelihood
-    plot_detection_fraction_impact_lstar = False
-    plot_detection_fraction_impact_lstar_save = False
+    plot_detection_fraction_impact_lstar = True
+    plot_detection_fraction_impact_lstar_save = True
     
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
     # =4 adds groups with 2 or more members
     Lstar_min = 0.5
     
     # which lstar cut subset to use?
-    lstar_cut  = 'include'
+    lstar_cut  = 'include3'
 
     # some colors
-    color_blue = '#436bad'      # french blue
-    color_red = '#ec2d01'     # tomato red
+    color_blue = '#436bad'  # french blue
+    color_red = '#ec2d01'   # tomato red
 
     if getpass.getuser() == 'frenchd':
 
 #         gtPickleFilename = '/Users/frenchd/Research/GT_update2/pickleGT_filteredAll.p'
 
-        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
+        saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/detection_fraction_figs/'
         
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction3.p'
         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_{0}.p'.format(lstar_cut)
@@ -206,6 +235,7 @@ def main():
     dv400_imp50_non = full_dict['dv400_imp50_non']
     dv400_imp25_non = full_dict['dv400_imp25_non']
     
+    
     # impact parameter detection inclinations
     dv400_imp1000_det_inc = np.array(full_dict['dv400_imp1000_det_inc'])
     dv400_imp750_det_inc = np.array(full_dict['dv400_imp750_det_inc'])
@@ -228,6 +258,7 @@ def main():
     dv400_imp50_non_inc = np.array(full_dict['dv400_imp50_non_inc'])
     dv400_imp25_non_inc = np.array(full_dict['dv400_imp25_non_inc'])
 
+
     # impact parameter detection lstars
     dv400_imp1000_det_lstar = np.array(full_dict['dv400_imp1000_det_lstar'])
     dv400_imp750_det_lstar = np.array(full_dict['dv400_imp750_det_lstar'])
@@ -249,7 +280,6 @@ def main():
     dv400_imp100_non_lstar = np.array(full_dict['dv400_imp100_non_lstar'])
     dv400_imp50_non_lstar = np.array(full_dict['dv400_imp50_non_lstar'])
     dv400_imp25_non_lstar = np.array(full_dict['dv400_imp25_non_lstar'])
-
 
 
     # now for likelihood thresholds
@@ -514,6 +544,8 @@ def main():
     print
     print
     print
+    print 'Detection fraction for 0.0001 L mean inc: ', bmean(np.array(dv400_l0001_det_inc)), ', ',bmean(np.array(dv400_l0001_non_inc))
+    print 'Detection fraction for 0.0005 L mean inc: ', bmean(np.array(dv400_l0005_det_inc)), ', ',bmean(np.array(dv400_l0005_non_inc))
     print 'Detection fraction for 0.001 L mean inc: ', bmean(np.array(dv400_l001_det_inc)), ', ',bmean(np.array(dv400_l001_non_inc))
     print 'Detection fraction for 0.00 L mean inc: ', bmean(np.array(dv400_l005_det_inc)), ', ',bmean(np.array(dv400_l005_non_inc))
     print 'Detection fraction for 0.01 L mean inc: ', bmean(np.array(dv400_l01_det_inc)), ', ',bmean(np.array(dv400_l01_non_inc))
@@ -537,429 +569,139 @@ def main():
 #     yb = 1/np.arange(1, n+1)[:, None] * np.cumsum(xb, axis=0)
 #     upper, lower = np.percentile(yb, [2.5, 97.5], axis=1)
 
-
-    print 'dv400_l001_det_lstar: ',dv400_l001_det_lstar
-    print
-    print 'dv400_l005_det_lstar: ',dv400_l005_det_lstar
-    print
-    print 'dv400_l01_det_lstar: ',dv400_l01_det_lstar
-    print
-    print 'dv400_l05_det_lstar: ',dv400_l05_det_lstar
-    print
-    print 'dv400_l1_det_lstar: ',dv400_l1_det_lstar
-    print
-    print 'dv400_l5_det_lstar: ',dv400_l5_det_lstar
-    print
-    print 'dv400_l75_det_lstar: ',dv400_l75_det_lstar
-    print
-    print 'dv400_l75_non_lstar: ',dv400_l75_non_lstar
-    print
-
-
-    x0001 = np.array(dv400_l0001_det_lstar)
-    x0005 = np.array(dv400_l0005_det_lstar)
-    x001 = np.array(dv400_l001_det_lstar)
-    x005 = np.array(dv400_l005_det_lstar)
-    x01 = np.array(dv400_l01_det_lstar)
-    x05 = np.array(dv400_l05_det_lstar)
-    x1 = np.array(dv400_l1_det_lstar)
-    x5 = np.array(dv400_l5_det_lstar)
-    x75 = np.array(dv400_l75_det_lstar)
-
-    n0001 = len(x0001)
-    n0005 = len(x0005)
-    n001 = len(x001)
-    n005 = len(x005)
-    n01 = len(x01)
-    n05 = len(x05)
-    n1 = len(x1)
-    n5 = len(x5)
-    n75 = len(x75)
-
     reps = 10000
-    xb0001 = np.random.choice(x0001, (reps, n0001), replace=True)
-    xb0005 = np.random.choice(x0005, (reps, n0005), replace=True)
-    xb001 = np.random.choice(x001, (reps, n001), replace=True)
-    xb005 = np.random.choice(x005, (reps, n005), replace=True)
-    xb01 = np.random.choice(x01, (reps, n01), replace=True)
-    xb05 = np.random.choice(x05, (reps, n05), replace=True)
-    xb1 = np.random.choice(x1, (reps, n1), replace=True)
-    xb5 = np.random.choice(x5, (reps, n5), replace=True)
-    xb75 = np.random.choice(x75, (reps, n75), replace=True)
-
-
-    meds0001 = []
-    for i in xb0001:
-        med = np.median(i)
-        meds0001.append(med)
-
-    meds0005 = []
-    for i in xb0005:
-        med = np.median(i)
-        meds0005.append(med)
-
-    meds001 = []
-    for i in xb001:
-        med = np.median(i)
-        meds001.append(med)
-
-    meds005 = []
-    for i in xb005:
-        med = np.median(i)
-        meds005.append(med)
-        
-    meds01 = []
-    for i in xb01:
-        med = np.median(i)
-        meds01.append(med)
-        
-    meds05 = []
-    for i in xb05:
-        med = np.median(i)
-        meds05.append(med)
-        
-    meds1 = []
-    for i in xb1:
-        med = np.median(i)
-        meds1.append(med)
-        
-    meds5 = []
-    for i in xb001:
-        med = np.median(i)
-        meds5.append(med)
-        
-    meds75 = []
-    for i in xb75:
-        med = np.median(i)
-        meds75.append(med)
     
-    print
-    print 'dv400_l001_det_lstar - median(meds, std(meds): ',median(meds001), ', ',std(meds001)
-    print 'dv400_l005_det_lstar - median(meds, std(meds): ',median(meds005), ', ',std(meds005)
-    print 'dv400_l01_det_lstar - median(meds, std(meds): ',median(meds01), ', ',std(meds01)
-    print 'dv400_l05_det_lstar - median(meds, std(meds): ',median(meds05), ', ',std(meds05)
-    print 'dv400_l1_det_lstar - median(meds, std(meds): ',median(meds1), ', ',std(meds1)
-    print 'dv400_l5_det_lstar - median(meds, std(meds): ',median(meds5), ', ',std(meds5)
-    print 'dv400_l75_det_lstar - median(meds, std(meds): ',median(meds75), ', ',std(meds75)
-    print
-    print
-
-
-    x0001 = np.array(dv400_l0001_non_lstar)
-    x0005 = np.array(dv400_l0005_non_lstar)
-    x001 = np.array(dv400_l001_non_lstar)
-    x005 = np.array(dv400_l005_non_lstar)
-    x01 = np.array(dv400_l01_non_lstar)
-    x05 = np.array(dv400_l05_non_lstar)
-    x1 = np.array(dv400_l1_non_lstar)
-    x5 = np.array(dv400_l5_non_lstar)
-    x75 = np.array(dv400_l75_non_lstar)
-
-    n0001 = len(x0001)
-    n0005 = len(x0005)
-    n001 = len(x001)
-    n005 = len(x005)
-    n01 = len(x01)
-    n05 = len(x05)
-    n1 = len(x1)
-    n5 = len(x5)
-    n75 = len(x75)
-
-    reps = 10000
-    xb0001 = np.random.choice(x0001, (reps, n0001), replace=True)
-    xb0005 = np.random.choice(x0005, (reps, n0005), replace=True)
-    xb001 = np.random.choice(x001, (reps, n001), replace=True)
-    xb005 = np.random.choice(x005, (reps, n005), replace=True)
-    xb01 = np.random.choice(x01, (reps, n01), replace=True)
-    xb05 = np.random.choice(x05, (reps, n05), replace=True)
-    xb1 = np.random.choice(x1, (reps, n1), replace=True)
-    xb5 = np.random.choice(x5, (reps, n5), replace=True)
-    xb75 = np.random.choice(x75, (reps, n75), replace=True)
-
-    meds0001 = []
-    for i in xb0001:
-        med = np.median(i)
-        meds0001.append(med)
-
-    meds0005 = []
-    for i in xb0005:
-        med = np.median(i)
-        meds0005.append(med)
-
-    meds001 = []
-    for i in xb001:
-        med = np.median(i)
-        meds001.append(med)
-
-    meds005 = []
-    for i in xb005:
-        med = np.median(i)
-        meds005.append(med)
-        
-    meds01 = []
-    for i in xb01:
-        med = np.median(i)
-        meds01.append(med)
-        
-    meds05 = []
-    for i in xb05:
-        med = np.median(i)
-        meds05.append(med)
-        
-    meds1 = []
-    for i in xb1:
-        med = np.median(i)
-        meds1.append(med)
-        
-    meds5 = []
-    for i in xb001:
-        med = np.median(i)
-        meds5.append(med)
-        
-    meds75 = []
-    for i in xb75:
-        med = np.median(i)
-        meds75.append(med)
+    # detection fraction - likelihood
+    dv400_l0001_det_meanerr, dv400_l0001_det_medianerr = return_bootstrap_errors(dv400_l0001_det, reps)
+    dv400_l0005_det_meanerr, dv400_l0005_det_medianerr = return_bootstrap_errors(dv400_l0005_det, reps)
+    dv400_l001_det_meanerr, dv400_l001_det_medianerr = return_bootstrap_errors(dv400_l001_det, reps)
+    dv400_l005_det_meanerr, dv400_l005_det_medianerr = return_bootstrap_errors(dv400_l005_det, reps)
+    dv400_l01_det_meanerr, dv400_l01_det_medianerr = return_bootstrap_errors(dv400_l01_det, reps)
+    dv400_l05_det_meanerr, dv400_l05_det_medianerr = return_bootstrap_errors(dv400_l05_det, reps)
+    dv400_l1_det_meanerr, dv400_l1_det_medianerr = return_bootstrap_errors(dv400_l1_det, reps)
+    dv400_l5_det_meanerr, dv400_l5_det_medianerr = return_bootstrap_errors(dv400_l5_det, reps)
+    dv400_l75_det_meanerr, dv400_l75_det_medianerr = return_bootstrap_errors(dv400_l75_det, reps)
     
-    print
-    print 'dv400_l001_non_lstar - median(meds, std(meds): ',median(meds001), ', ',std(meds001)
-    print 'dv400_l005_non_lstar - median(meds, std(meds): ',median(meds005), ', ',std(meds005)
-    print 'dv400_l01_non_lstar - median(meds, std(meds): ',median(meds01), ', ',std(meds01)
-    print 'dv400_l05_non_lstar - median(meds, std(meds): ',median(meds05), ', ',std(meds05)
-    print 'dv400_l1_non_lstar - median(meds, std(meds): ',median(meds1), ', ',std(meds1)
-    print 'dv400_l5_non_lstar - median(meds, std(meds): ',median(meds5), ', ',std(meds5)
-    print 'dv400_l75_non_lstar - median(meds, std(meds): ',median(meds75), ', ',std(meds75)
-    print
-    print
-
-
-
-##########################################################################################
-##########################################################################################
+    dv400_l0001_non_meanerr, dv400_l0001_non_medianerr = return_bootstrap_errors(dv400_l0001_non, reps)
+    dv400_l0005_non_meanerr, dv400_l0005_non_medianerr = return_bootstrap_errors(dv400_l0005_non, reps)
+    dv400_l001_non_meanerr, dv400_l001_non_medianerr = return_bootstrap_errors(dv400_l001_non, reps)
+    dv400_l005_non_meanerr, dv400_l005_non_medianerr = return_bootstrap_errors(dv400_l005_non, reps)
+    dv400_l01_non_meanerr, dv400_l01_non_medianerr = return_bootstrap_errors(dv400_l01_non, reps)
+    dv400_l05_non_meanerr, dv400_l05_non_medianerr = return_bootstrap_errors(dv400_l05_non, reps)
+    dv400_l1_non_meanerr, dv400_l1_non_medianerr = return_bootstrap_errors(dv400_l1_non, reps)
+    dv400_l5_non_meanerr, dv400_l5_non_medianerr = return_bootstrap_errors(dv400_l5_non, reps)
+    dv400_l75_non_meanerr, dv400_l75_non_medianerr = return_bootstrap_errors(dv400_l75_non, reps)
     
-    if plot_detection_fraction_impact:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
 
-        alpha_likelihood = 0.8
-        alpha_impact = 0.8
-        markerSize = 15
-        lw = 2.
-        
-        label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_impact = r'$\rm \rho - Detection~Fraction$'
-
-        symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting 
-        frac_imp1000 = float(dv400_imp1000_det) / float(dv400_imp1000_det + dv400_imp1000_non)
-        frac_imp750 = float(dv400_imp750_det) / float(dv400_imp750_det + dv400_imp750_non)
-        frac_imp500 = float(dv400_imp500_det) / float(dv400_imp500_det + dv400_imp500_non)
-        frac_imp400 = float(dv400_imp400_det) / float(dv400_imp400_det + dv400_imp400_non)
-        frac_imp300 = float(dv400_imp300_det) / float(dv400_imp300_det + dv400_imp300_non)
-        frac_imp200 = float(dv400_imp200_det) / float(dv400_imp200_det + dv400_imp200_non)
-        
-        try:
-            frac_imp100 = float(dv400_imp100_det) / float(dv400_imp100_det + dv400_imp100_non)
-        except Exception, e:
-            print 'error: ',e
-            frac_imp100 = 0.
-            
-        try:
-            frac_imp50  = float(dv400_imp50_det)  / float(dv400_imp50_det  + dv400_imp50_non)
-        except Exception, e:
-            print 'error: ',e
-            frac_imp50 = 0.
-
-        impact_x = [50, 100, 200, 300, 400, 500, 750, 1000]
-        impact_y = [frac_imp50, frac_imp100, frac_imp200, frac_imp300, frac_imp400, frac_imp500, frac_imp750, frac_imp1000]
-
-
-        # impact detection fraction
-        ax1.plot(impact_x,
-                impact_y,
-                marker=symbol_impact,
-                c=color_impact,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_impact,
-                label=label_impact)
-
-
-        # x-axis
-        majorLocator   = MultipleLocator(100)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
-        ax1.xaxis.set_major_locator(majorLocator)
-        ax1.xaxis.set_major_formatter(majorFormatter)
-        ax1.xaxis.set_minor_locator(minorLocator)
-        
-        # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-
-        ax1.set_xlabel(r'$\rm \rho ~[kpc]$')
-        
-        ax1.set_ylabel(r'$\rm Detection~Fraction$')
-
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0, 1.)
-        xlim(0, 1000.)
-
-        if plot_detection_fraction_impact_save:
-            savefig('{0}/detection_fraction_impact_lstarcut_{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-
-##########################################################################################
-##########################################################################################
+    # detection fraction - impact
+    dv400_imp1000_det_meanerr, dv400_imp1000_det_medianerr = return_bootstrap_errors(dv400_imp1000_det_lstar, reps)
+    dv400_imp750_det_meanerr, dv400_imp750_det_medianerr = return_bootstrap_errors(dv400_imp750_det_lstar, reps)
+    dv400_imp500_det_meanerr, dv400_imp500_det_medianerr = return_bootstrap_errors(dv400_imp500_det_lstar, reps)
+    dv400_imp400_det_meanerr, dv400_imp400_det_medianerr = return_bootstrap_errors(dv400_imp400_det_lstar, reps)
+    dv400_imp300_det_meanerr, dv400_imp300_det_medianerr = return_bootstrap_errors(dv400_imp300_det_lstar, reps)
+    dv400_imp200_det_meanerr, dv400_imp200_det_medianerr = return_bootstrap_errors(dv400_imp200_det_lstar, reps)
+    dv400_imp100_det_meanerr, dv400_imp100_det_medianerr = return_bootstrap_errors(dv400_imp100_det_lstar, reps)
+    dv400_imp50_det_meanerr, dv400_imp50_det_medianerr = return_bootstrap_errors(dv400_imp50_det_lstar, reps)
+    dv400_imp25_det_meanerr, dv400_imp25_det_medianerr = return_bootstrap_errors(dv400_imp25_det_lstar, reps)
     
-    if plot_detection_fraction_likelihood:
-        fig = figure(figsize=(7.7,5.7))
-        ax1 = fig.add_subplot(111)
-        
-        countb = 0
-        countr = 0
-        count = -1
-        
-        color_purple = '#7570b3'
-        color_purple2 = '#984ea3'
-        
-        color_green = '#1b9e77'
-        color_orange = '#d95f02'
-        color_purple3 = '#7570b3'
-        color_pink = '#e7298a'
-        color_lime = '#66a61e'
-        color_yellow = '#e6ab02'
-        color_brown = '#a6761d'
-        color_coal = '#666666'
-        
+    dv400_imp1000_non_meanerr, dv400_imp1000_non_medianerr = return_bootstrap_errors(dv400_imp1000_non_lstar, reps)
+    dv400_imp750_non_meanerr, dv400_imp750_non_medianerr = return_bootstrap_errors(dv400_imp750_non_lstar, reps)
+    dv400_imp500_non_meanerr, dv400_imp500_non_medianerr = return_bootstrap_errors(dv400_imp500_non_lstar, reps)
+    dv400_imp400_non_meanerr, dv400_imp400_non_medianerr = return_bootstrap_errors(dv400_imp400_non_lstar, reps)
+    dv400_imp300_non_meanerr, dv400_imp300_non_medianerr = return_bootstrap_errors(dv400_imp300_non_lstar, reps)
+    dv400_imp200_non_meanerr, dv400_imp200_non_medianerr = return_bootstrap_errors(dv400_imp200_non_lstar, reps)
+    dv400_imp100_non_meanerr, dv400_imp100_non_medianerr = return_bootstrap_errors(dv400_imp100_non_lstar, reps)
+    dv400_imp50_non_meanerr, dv400_imp50_non_medianerr = return_bootstrap_errors(dv400_imp50_non_lstar, reps)
+    dv400_imp25_non_meanerr, dv400_imp25_non_medianerr = return_bootstrap_errors(dv400_imp25_non_lstar, reps)
+    
+    
+    
+    # likelihood - Lstars
+    dv400_l0001_det_lstar_meanerr, dv400_l0001_det_lstar_medianerr = return_bootstrap_errors(dv400_l0001_det_lstar, reps)
+    dv400_l0005_det_lstar_meanerr, dv400_l0005_det_lstar_medianerr = return_bootstrap_errors(dv400_l0005_det_lstar, reps)
+    dv400_l001_det_lstar_meanerr, dv400_l001_det_lstar_medianerr = return_bootstrap_errors(dv400_l001_det_lstar, reps)
+    dv400_l005_det_lstar_meanerr, dv400_l005_det_lstar_medianerr = return_bootstrap_errors(dv400_l005_det_lstar, reps)
+    dv400_l01_det_lstar_meanerr, dv400_l01_det_lstar_medianerr = return_bootstrap_errors(dv400_l01_det_lstar, reps)
+    dv400_l05_det_lstar_meanerr, dv400_l05_det_lstar_medianerr = return_bootstrap_errors(dv400_l05_det_lstar, reps)
+    dv400_l1_det_lstar_meanerr, dv400_l1_det_lstar_medianerr = return_bootstrap_errors(dv400_l1_det_lstar, reps)
+    dv400_l5_det_lstar_meanerr, dv400_l5_det_lstar_medianerr = return_bootstrap_errors(dv400_l5_det_lstar, reps)
+    dv400_l75_det_lstar_meanerr, dv400_l75_det_lstar_medianerr = return_bootstrap_errors(dv400_l75_det_lstar, reps)
 
-        alpha_likelihood = 0.8
-        alpha_impact = 0.8
-        markerSize = 15
-        lw = 2.
-        
-        binSize = 100
-        bins = arange(0, 600, binSize)
+    dv400_l0001_non_lstar_meanerr, dv400_l0001_non_lstar_medianerr = return_bootstrap_errors(dv400_l0001_non_lstar, reps)
+    dv400_l0005_non_lstar_meanerr, dv400_l0005_non_lstar_medianerr = return_bootstrap_errors(dv400_l0005_non_lstar, reps)
+    dv400_l001_non_lstar_meanerr, dv400_l001_non_lstar_medianerr = return_bootstrap_errors(dv400_l001_non_lstar, reps)
+    dv400_l005_non_lstar_meanerr, dv400_l005_non_lstar_medianerr = return_bootstrap_errors(dv400_l005_non_lstar, reps)
+    dv400_l01_non_lstar_meanerr, dv400_l01_non_lstar_medianerr = return_bootstrap_errors(dv400_l01_non_lstar, reps)
+    dv400_l05_non_lstar_meanerr, dv400_l05_non_lstar_medianerr = return_bootstrap_errors(dv400_l05_non_lstar, reps)
+    dv400_l1_non_lstar_meanerr, dv400_l1_non_lstar_medianerr = return_bootstrap_errors(dv400_l1_non_lstar, reps)
+    dv400_l5_non_lstar_meanerr, dv400_l5_non_lstar_medianerr = return_bootstrap_errors(dv400_l5_non_lstar, reps)
+    dv400_l75_non_lstar_meanerr, dv400_l75_non_lstar_medianerr = return_bootstrap_errors(dv400_l75_non_lstar, reps)
 
-        
-        label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_impact = r'$\rm \rho - Detection~Fraction$'
+    # likelihood - inclinations
+    dv400_l0001_det_inc_meanerr, dv400_l0001_det_inc_medianerr = return_bootstrap_errors(dv400_l0001_det_inc, reps)
+    dv400_l0005_det_inc_meanerr, dv400_l0005_det_inc_medianerr = return_bootstrap_errors(dv400_l0005_det_inc, reps)
+    dv400_l001_det_inc_meanerr, dv400_l001_det_inc_medianerr = return_bootstrap_errors(dv400_l001_det_inc, reps)
+    dv400_l005_det_inc_meanerr, dv400_l005_det_inc_medianerr = return_bootstrap_errors(dv400_l005_det_inc, reps)
+    dv400_l01_det_inc_meanerr, dv400_l01_det_inc_medianerr = return_bootstrap_errors(dv400_l01_det_inc, reps)
+    dv400_l05_det_inc_meanerr, dv400_l05_det_inc_medianerr = return_bootstrap_errors(dv400_l05_det_inc, reps)
+    dv400_l1_det_inc_meanerr, dv400_l1_det_inc_medianerr = return_bootstrap_errors(dv400_l1_det_inc, reps)
+    dv400_l5_det_inc_meanerr, dv400_l5_det_inc_medianerr = return_bootstrap_errors(dv400_l5_det_inc, reps)
+    dv400_l75_det_inc_meanerr, dv400_l75_det_inc_medianerr = return_bootstrap_errors(dv400_l75_det_inc, reps)
 
-        symbol_likelihood = 'D'
-        symbol_impact = 'o'
-        
-        color_likelihood = color_blue
-        color_impact = color_coal
-
-        maxEW = 15000.
-
-##########################################################################################
-        # do the plotting
-        
-        frac_l001 = float(dv400_l001_det) / float(dv400_l001_det + dv400_l001_non)
-        frac_l005 = float(dv400_l005_det) / float(dv400_l005_det + dv400_l005_non)
-        frac_l01  = float(dv400_l01_det)  / float(dv400_l01_det  + dv400_l01_non)
-        frac_l05  = float(dv400_l05_det)  / float(dv400_l05_det  + dv400_l05_non)
-        frac_l1   = float(dv400_l1_det)   / float(dv400_l1_det   + dv400_l1_non)
-        
-        try:
-            frac_l5   = float(dv400_l5_det)   / float(dv400_l5_det   + dv400_l5_non)
-        except Exception,e:
-            print 'error: ',e
-            frac_l5 = 0.
-            
-        try:
-            frac_l75   = float(dv400_l75_det)   / float(dv400_l75_det   + dv400_l75_non)
-        except Exception,e:
-            print 'error: ',e
-            frac_l75 = 0.
-
-        likelihood_x = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
-        likelihood_y = [frac_l001, frac_l005, frac_l01, frac_l05, frac_l1, frac_l5, frac_l75]
+    dv400_l0001_non_inc_meanerr, dv400_l0001_non_inc_medianerr = return_bootstrap_errors(dv400_l0001_non_inc, reps)
+    dv400_l0005_non_inc_meanerr, dv400_l0005_non_inc_medianerr = return_bootstrap_errors(dv400_l0005_non_inc, reps)
+    dv400_l001_non_inc_meanerr, dv400_l001_non_inc_medianerr = return_bootstrap_errors(dv400_l001_non_inc, reps)
+    dv400_l005_non_inc_meanerr, dv400_l005_non_inc_medianerr = return_bootstrap_errors(dv400_l005_non_inc, reps)
+    dv400_l01_non_inc_meanerr, dv400_l01_non_inc_medianerr = return_bootstrap_errors(dv400_l01_non_inc, reps)
+    dv400_l05_non_inc_meanerr, dv400_l05_non_inc_medianerr = return_bootstrap_errors(dv400_l05_non_inc, reps)
+    dv400_l1_non_inc_meanerr, dv400_l1_non_inc_medianerr = return_bootstrap_errors(dv400_l1_non_inc, reps)
+    dv400_l5_non_inc_meanerr, dv400_l5_non_inc_medianerr = return_bootstrap_errors(dv400_l5_non_inc, reps)
+    dv400_l75_non_inc_meanerr, dv400_l75_non_inc_medianerr = return_bootstrap_errors(dv400_l75_non_inc, reps)
 
 
-        # likelihood detection fraction
-        ax1.plot(likelihood_x,
-                likelihood_y,
-                marker=symbol_likelihood,
-                c=color_likelihood,
-                ms=markerSize,
-                markeredgecolor='black',
-                lw = lw,
-                alpha=alpha_likelihood,
-                label=label_likelihood)
+    # impact - Lstars
+    dv400_imp1000_det_lstar_meanerr, dv400_imp1000_det_lstar_medianerr = return_bootstrap_errors(dv400_imp1000_det_lstar, reps)
+    dv400_imp750_det_lstar_meanerr, dv400_imp750_det_lstar_medianerr = return_bootstrap_errors(dv400_imp750_det_lstar, reps)
+    dv400_imp500_det_lstar_meanerr, dv400_imp500_det_lstar_medianerr = return_bootstrap_errors(dv400_imp500_det_lstar, reps)
+    dv400_imp400_det_lstar_meanerr, dv400_imp400_det_lstar_medianerr = return_bootstrap_errors(dv400_imp400_det_lstar, reps)
+    dv400_imp300_det_lstar_meanerr, dv400_imp300_det_lstar_medianerr = return_bootstrap_errors(dv400_imp300_det_lstar, reps)
+    dv400_imp200_det_lstar_meanerr, dv400_imp200_det_lstar_medianerr = return_bootstrap_errors(dv400_imp200_det_lstar, reps)
+    dv400_imp100_det_lstar_meanerr, dv400_imp100_det_lstar_medianerr = return_bootstrap_errors(dv400_imp100_det_lstar, reps)
+    dv400_imp50_det_lstar_meanerr, dv400_imp50_det_lstar_medianerr = return_bootstrap_errors(dv400_imp50_det_lstar, reps)
+    dv400_imp25_det_lstar_meanerr, dv400_imp25_det_lstar_medianerr = return_bootstrap_errors(dv400_imp25_det_lstar, reps)
 
-        ax1.set_xlabel(r'$\rm \mathcal{L}$')
-        ax1.set_xscale("log")
+    dv400_imp1000_non_lstar_meanerr, dv400_imp1000_non_lstar_medianerr = return_bootstrap_errors(dv400_imp1000_non_lstar, reps)
+    dv400_imp750_non_lstar_meanerr, dv400_imp750_non_lstar_medianerr = return_bootstrap_errors(dv400_imp750_non_lstar, reps)
+    dv400_imp500_non_lstar_meanerr, dv400_imp500_non_lstar_medianerr = return_bootstrap_errors(dv400_imp500_non_lstar, reps)
+    dv400_imp400_non_lstar_meanerr, dv400_imp400_non_lstar_medianerr = return_bootstrap_errors(dv400_imp400_non_lstar, reps)
+    dv400_imp300_non_lstar_meanerr, dv400_imp300_non_lstar_medianerr = return_bootstrap_errors(dv400_imp300_non_lstar, reps)
+    dv400_imp200_non_lstar_meanerr, dv400_imp200_non_lstar_medianerr = return_bootstrap_errors(dv400_imp200_non_lstar, reps)
+    dv400_imp100_non_lstar_meanerr, dv400_imp100_non_lstar_medianerr = return_bootstrap_errors(dv400_imp100_non_lstar, reps)
+    dv400_imp50_non_lstar_meanerr, dv400_imp50_non_lstar_medianerr = return_bootstrap_errors(dv400_imp50_non_lstar, reps)
+    dv400_imp25_non_lstar_meanerr, dv400_imp25_non_lstar_medianerr = return_bootstrap_errors(dv400_imp25_non_lstar, reps)
 
-        
-        # x-axis
-#         majorLocator   = MultipleLocator(0.01)
-#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-#         minorLocator   = MultipleLocator()
-#         ax1.xaxis.set_major_locator(majorLocator)
-#         ax1.xaxis.set_major_formatter(majorFormatter)
-#         ax1.xaxis.set_minor_locator(minorLocator)
+    # impact - inclinations
+    dv400_imp1000_det_inc_meanerr, dv400_imp1000_det_inc_medianerr = return_bootstrap_errors(dv400_imp1000_det_inc, reps)
+    dv400_imp750_det_inc_meanerr, dv400_imp750_det_inc_medianerr = return_bootstrap_errors(dv400_imp750_det_inc, reps)
+    dv400_imp500_det_inc_meanerr, dv400_imp500_det_inc_medianerr = return_bootstrap_errors(dv400_imp500_det_inc, reps)
+    dv400_imp400_det_inc_meanerr, dv400_imp400_det_inc_medianerr = return_bootstrap_errors(dv400_imp400_det_inc, reps)
+    dv400_imp300_det_inc_meanerr, dv400_imp300_det_inc_medianerr = return_bootstrap_errors(dv400_imp300_det_inc, reps)
+    dv400_imp200_det_inc_meanerr, dv400_imp200_det_inc_medianerr = return_bootstrap_errors(dv400_imp200_det_inc, reps)
+    dv400_imp100_det_inc_meanerr, dv400_imp100_det_inc_medianerr = return_bootstrap_errors(dv400_imp100_det_inc, reps)
+    dv400_imp50_det_inc_meanerr, dv400_imp50_det_inc_medianerr = return_bootstrap_errors(dv400_imp50_det_inc, reps)
+    dv400_imp25_det_inc_meanerr, dv400_imp25_det_inc_medianerr = return_bootstrap_errors(dv400_imp25_det_inc, reps)
 
-        # y-axis
-        majorLocator   = MultipleLocator(0.2)
-        majorFormatter = FormatStrFormatter(r'$\rm %.1f$')
-        minorLocator   = MultipleLocator(0.1)
-        ax1.yaxis.set_major_locator(majorLocator)
-        ax1.yaxis.set_major_formatter(majorFormatter)
-        ax1.yaxis.set_minor_locator(minorLocator)
-        
-        ax1.set_ylabel(r'$\rm Detection~Fraction$')
+    dv400_imp1000_non_inc_meanerr, dv400_imp1000_non_inc_medianerr = return_bootstrap_errors(dv400_imp1000_non_inc, reps)
+    dv400_imp750_non_inc_meanerr, dv400_imp750_non_inc_medianerr = return_bootstrap_errors(dv400_imp750_non_inc, reps)
+    dv400_imp500_non_inc_meanerr, dv400_imp500_non_inc_medianerr = return_bootstrap_errors(dv400_imp500_non_inc, reps)
+    dv400_imp400_non_inc_meanerr, dv400_imp400_non_inc_medianerr = return_bootstrap_errors(dv400_imp400_non_inc, reps)
+    dv400_imp300_non_inc_meanerr, dv400_imp300_non_inc_medianerr = return_bootstrap_errors(dv400_imp300_non_inc, reps)
+    dv400_imp200_non_inc_meanerr, dv400_imp200_non_inc_medianerr = return_bootstrap_errors(dv400_imp200_non_inc, reps)
+    dv400_imp100_non_inc_meanerr, dv400_imp100_non_inc_medianerr = return_bootstrap_errors(dv400_imp100_non_inc, reps)
+    dv400_imp50_non_inc_meanerr, dv400_imp50_non_inc_medianerr = return_bootstrap_errors(dv400_imp50_non_inc, reps)
+    dv400_imp25_non_inc_meanerr, dv400_imp25_non_inc_medianerr = return_bootstrap_errors(dv400_imp25_non_inc, reps)
+    
 
-        leg = ax1.legend(scatterpoints=1,prop={'size':12},loc=1,fancybox=True)
-#         leg.get_frame().set_alpha(0.5)
-
-        ax1.grid(b=None,which='major',axis='both')
-        ylim(0., 1.)
-        xlim(0.0001, 1.)
-
-        if plot_detection_fraction_likelihood_save:
-            savefig('{0}/detection_fraction_likelihood_lstarcut_{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
-        else:
-            show()
-
-##########################################################################################
-##########################################################################################
 
 
 ##########################################################################################
@@ -1021,42 +763,109 @@ def main():
         print            
             
 
-        x = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
-        if use_mean:
-            y_det = [bmean(dv400_l001_det_inc),
+        x = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.75]
+        y_det_mean = [bmean(dv400_l0001_det_inc),
+                    bmean(dv400_l0005_det_inc),
+                    bmean(dv400_l001_det_inc),
                     bmean(dv400_l005_det_inc),
                     bmean(dv400_l01_det_inc),
                     bmean(dv400_l05_det_inc),
                     bmean(dv400_l1_det_inc),
                     bmean(dv400_l5_det_inc),
                     bmean(dv400_l75_det_inc)]
-                
-                
-            y_non = [bmean(dv400_l001_non_inc),
+                    
+        # bootstrap errors in MEAN detection inclination
+        y_det_err_mean = [dv400_l0001_det_inc_meanerr,
+                        dv400_l0005_det_inc_meanerr,
+                        dv400_l001_det_inc_meanerr,
+                        dv400_l005_det_inc_meanerr,
+                        dv400_l01_det_inc_meanerr,
+                        dv400_l05_det_inc_meanerr,
+                        dv400_l1_det_inc_meanerr,
+                        dv400_l5_det_inc_meanerr,
+                        dv400_l75_det_inc_meanerr]
+            
+        
+        y_non_mean = [bmean(dv400_l0001_non_inc),
+                    bmean(dv400_l0005_non_inc),
+                    bmean(dv400_l001_non_inc),
                     bmean(dv400_l005_non_inc), 
                     bmean(dv400_l01_non_inc),
                     bmean(dv400_l05_non_inc),
                     bmean(dv400_l1_non_inc),
                     bmean(dv400_l5_non_inc),
                     bmean(dv400_l75_non_inc)]
+        
+        # bootstrap errors in MEAN non-detection inclination
+        y_non_err_mean = [dv400_l0001_non_inc_meanerr,
+                        dv400_l0005_non_inc_meanerr,
+                        dv400_l001_non_inc_meanerr,
+                        dv400_l005_non_inc_meanerr,
+                        dv400_l01_non_inc_meanerr,
+                        dv400_l05_non_inc_meanerr,
+                        dv400_l1_non_inc_meanerr,
+                        dv400_l5_non_inc_meanerr,
+                        dv400_l75_non_inc_meanerr]
                     
-        else:
-            y_det = [bmedian(dv400_l001_det_inc),
+                
+        y_det_median = [bmedian(dv400_l0001_det_inc),
+                    bmedian(dv400_l0005_det_inc),
+                    bmedian(dv400_l001_det_inc),
                     bmedian(dv400_l005_det_inc), 
                     bmedian(dv400_l01_det_inc),
                     bmedian(dv400_l05_det_inc),
                     bmedian(dv400_l1_det_inc),
                     bmedian(dv400_l5_det_inc),
                     bmedian(dv400_l75_det_inc)]
-                
-                
-            y_non = [bmedian(dv400_l001_non_inc),
+                    
+        # bootstrap errors in MEDIAN detection inclination
+        y_det_err_median = [dv400_l0001_det_inc_medianerr,
+                        dv400_l0005_det_inc_medianerr,
+                        dv400_l001_det_inc_medianerr,
+                        dv400_l005_det_inc_medianerr,
+                        dv400_l01_det_inc_medianerr,
+                        dv400_l05_det_inc_medianerr,
+                        dv400_l1_det_inc_medianerr,
+                        dv400_l5_det_inc_medianerr,
+                        dv400_l75_det_inc_medianerr]
+                    
+            
+        y_non_median = [bmedian(dv400_l0001_non_inc),
+                    bmedian(dv400_l0005_non_inc),
+                    bmedian(dv400_l001_non_inc),
                     bmedian(dv400_l005_non_inc), 
                     bmedian(dv400_l01_non_inc),
                     bmedian(dv400_l05_non_inc),
                     bmedian(dv400_l1_non_inc),
                     bmedian(dv400_l5_non_inc),
                     bmedian(dv400_l75_non_inc)]
+
+        # bootstrap errors in MEDIAN non-detection inclination
+        y_det_err_median = [dv400_l0001_non_inc_medianerr,
+                        dv400_l0005_non_inc_medianerr,
+                        dv400_l001_non_inc_medianerr,
+                        dv400_l005_non_inc_medianerr,
+                        dv400_l01_non_inc_medianerr,
+                        dv400_l05_non_inc_medianerr,
+                        dv400_l1_non_inc_medianerr,
+                        dv400_l5_non_inc_medianerr,
+                        dv400_l75_non_inc_medianerr]
+                    
+
+
+
+
+        # MEAN inclination for detections with errors
+        ax1.errorbar(x,
+                    y_det_mean,
+                    yerr=y_det_meanerr,
+                    marker=symbol_det_mean,
+                    c=color_det_mean,
+                    ms=markerSize,
+                    markeredgecolor='black',
+                    lw = lw,
+                    alpha=alpha_det_mean,
+                    label=label_det_mean)
 
 
 
@@ -1114,7 +923,7 @@ def main():
 
 
         if plot_detection_fraction_likelihood_inc_save:
-            savefig('{0}/detection_fraction_likelihood_inc_median_lstarcut_{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_likelihood_inc_median_lstarcut{1}_2.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1186,7 +995,7 @@ def main():
             y_det = [bmean(dv400_imp1000_det_inc),
                     bmean(dv400_imp750_det_inc),
                     bmean(dv400_imp500_det_inc),
-                    bmean(dv400_imp400_det_inc), 
+                    bmean(dv400_imp400_det_inc),
                     bmean(dv400_imp300_det_inc),
                     bmean(dv400_imp200_det_inc),
                     bmean(dv400_imp100_det_inc),
@@ -1197,7 +1006,7 @@ def main():
             y_non = [bmean(dv400_imp1000_non_inc),
                     bmean(dv400_imp750_non_inc),
                     bmean(dv400_imp500_non_inc),
-                    bmean(dv400_imp400_non_inc), 
+                    bmean(dv400_imp400_non_inc),
                     bmean(dv400_imp300_non_inc),
                     bmean(dv400_imp200_non_inc),
                     bmean(dv400_imp100_non_inc),
@@ -1208,7 +1017,7 @@ def main():
             y_det = [bmedian(dv400_imp1000_det_inc),
                     bmedian(dv400_imp750_det_inc),
                     bmedian(dv400_imp500_det_inc),
-                    bmedian(dv400_imp400_det_inc), 
+                    bmedian(dv400_imp400_det_inc),
                     bmedian(dv400_imp300_det_inc),
                     bmedian(dv400_imp200_det_inc),
                     bmedian(dv400_imp100_det_inc),
@@ -1279,7 +1088,7 @@ def main():
         xlim(0, 1000)
 
         if plot_detection_fraction_impact_inc_save:
-            savefig('{0}/detection_fraction_impact_inc_median_lstarcut_all.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_impact_inc_median_lstarcut{1}_2.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1455,7 +1264,7 @@ def main():
 #         xlim(0, 2.5)
 
         if plot_detection_fraction_both_save:
-            savefig('{0}/detection_fraction_both_lstarcut_{1}_new.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_both_lstarcut_{1}_new2.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1676,7 +1485,7 @@ def main():
 
 
         if plot_detection_fraction_likelihood_lstar_save:
-            savefig('{0}/detection_fraction_likelihood_lstar_median_lstarcut_{1}.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_likelihood_lstar_median_lstarcut{1}_2.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 
@@ -1857,7 +1666,7 @@ def main():
         xlim(0, 1000)
 
         if plot_detection_fraction_impact_lstar_save:
-            savefig('{0}/detection_fraction_impact_lstar_median_lstarcut_all.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
+            savefig('{0}/detection_fraction_impact_lstar_median_lstarcut{1}_2.pdf'.format(saveDirectory, lstar_cut),format='pdf',bbox_inches='tight')
         else:
             show()
 

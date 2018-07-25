@@ -89,7 +89,7 @@ def main():
     minVcorr = 450.
     minSize = 0.
     max_deltav = 400.
-    rigor = 5
+#     rigor = 5
     
     Lstar_min = 0.
     Lstar_max = 10000.
@@ -118,7 +118,7 @@ def main():
 
         # pickle files
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_include.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_include2.p'
 
     else:
         print 'Could not determine username. Exiting.'
@@ -265,7 +265,6 @@ def main():
     dv400_l5_det = 0
     dv400_l75_det = 0
     
-    
     # count of non-detections within each likelihood window
     dv400_l0001_non = 0
     dv400_l0005_non = 0
@@ -276,6 +275,7 @@ def main():
     dv400_l1_non = 0
     dv400_l5_non = 0
     dv400_l75_non = 0
+    
     
     # inclinations of galaxies near detections within each likelihood window
     dv400_l0001_det_inc = []
@@ -390,6 +390,8 @@ def main():
             b = 'x'
         
         proceed = False
+        # 'lya' are properly identified lines, 'maybe' are for possible lines, not yet
+        # identified, and 'yes' are for identified targets with no Lya in the spectra
         if bfind(identified.lower(), 'lya') or bfind(identified.lower(), 'maybe') or bfind(identified.lower(), 'yes'):
             proceed = True
 
@@ -518,7 +520,7 @@ def main():
             
 
             if proceed:
-                # if there's a galaxy within 500 kpc, search for a line 
+                # if there's a galaxy within 1000 kpc, search for a line 
                 if float(impact) <= 1000:
                     detection = False
                     for Lya_v in Lya_vs:
@@ -526,7 +528,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_1000.append(dv)
                         
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -538,7 +540,7 @@ def main():
                         dv400_imp1000_non_inc.append(adjustedInc)
                         dv400_imp1000_non_lstar.append(Lstar)
 
-                # if there's a galaxy within 500 kpc, search for a line 
+                # if there's a galaxy within 750 kpc, search for a line 
                 if float(impact) <= 750:
                     detection = False
                     for Lya_v in Lya_vs:
@@ -546,7 +548,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_750.append(dv)
                         
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -566,7 +568,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_500.append(dv)
                         
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -586,7 +588,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_400.append(dv)
             
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -606,7 +608,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_300.append(dv)
                         
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -626,7 +628,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_200.append(dv)
 
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -646,7 +648,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_100.append(dv)
                         
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -666,17 +668,18 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_50.append(dv)
             
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
                         dv400_imp50_det +=1
                         dv400_imp50_det_inc.append(adjustedInc)
+                        dv400_imp50_det_lstar.append(Lstar)
 
                     else:
                         dv400_imp50_non +=1
                         dv400_imp50_non_inc.append(adjustedInc)
-
+                        dv400_imp50_non_lstar.append(Lstar)
                     
                 # if there's a galaxy within 25 kpc, search for a line 
                 if float(impact) <= 25:
@@ -686,7 +689,7 @@ def main():
                             dv = float(Lya_v) - Vhel
                             dv_25.append(dv)
             
-                            if abs(dv) <= 400:
+                            if abs(dv) <= max_deltav:
                                 detection = True
                             
                     if detection:
@@ -704,7 +707,7 @@ def main():
     ##########################################################################################            
                 # now do it for likelihood
 
-                if isNumber(MajDiam) and MajDiam != -99.99 and MajDiam != '-99.99':
+                if isNumber(MajDiam) and MajDiam != -99.99 and str(MajDiam) != '-99.99':
                     # "sphere of influence" value for likelihood_custom
                     MajDiam = float(MajDiam)
                     impact = float(impact)
@@ -730,7 +733,7 @@ def main():
                             l_used = l_used * 2
                             
 
-                    # if the likelihood is greater than 0.0001, see if there's a corresponding
+                    # if the likelihood is greater than 0.0001, see if there's a corresponding absorber
                     if l_used >= 0.0001:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -738,7 +741,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l0001.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -750,7 +753,7 @@ def main():
                             dv400_l0001_non_inc.append(adjustedInc)
                             dv400_l0001_non_lstar.append(Lstar)
 
-                    # if the likelihood is greater than 0.0005, see if there's a corresponding
+                    # if the likelihood is greater than 0.0005, see if there's a corresponding absorber
                     if l_used >= 0.0005:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -758,7 +761,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l0005.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -770,7 +773,7 @@ def main():
                             dv400_l0005_non_inc.append(adjustedInc)
                             dv400_l0005_non_lstar.append(Lstar)
             
-                    # if the likelihood is greater than 0.001, see if there's a corresponding
+                    # if the likelihood is greater than 0.001, see if there's a corresponding absorber
                     if l_used >= 0.001:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -778,7 +781,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l001.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -790,7 +793,7 @@ def main():
                             dv400_l001_non_inc.append(adjustedInc)
                             dv400_l001_non_lstar.append(Lstar)
 
-                    # if the likelihood is greater than 0.005, see if there's a corresponding
+                    # if the likelihood is greater than 0.005, see if there's a corresponding absorber
                     if l_used >= 0.005:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -798,7 +801,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l005.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -810,7 +813,7 @@ def main():
                             dv400_l005_non_inc.append(adjustedInc)
                             dv400_l005_non_lstar.append(Lstar)
 
-                    # if the likelihood is greater than 0.01, see if there's a corresponding
+                    # if the likelihood is greater than 0.01, see if there's a corresponding absorber
                     if l_used >= 0.01:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -818,7 +821,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l01.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -830,7 +833,7 @@ def main():
                             dv400_l01_non_inc.append(adjustedInc)
                             dv400_l01_non_lstar.append(Lstar)
                         
-                    # if the likelihood is greater than 0.05, see if there's a corresponding
+                    # if the likelihood is greater than 0.05, see if there's a corresponding absorber
                     if l_used >= 0.05:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -838,7 +841,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l05.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -850,7 +853,7 @@ def main():
                             dv400_l05_non_inc.append(adjustedInc)
                             dv400_l05_non_lstar.append(Lstar)
                         
-                    # if the likelihood is greater than 0.1, see if there's a corresponding
+                    # if the likelihood is greater than 0.1, see if there's a corresponding absorber
                     if l_used >= 0.1:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -858,7 +861,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l1.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -878,7 +881,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l5.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -898,7 +901,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_l75.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -923,7 +926,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir025.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -939,7 +942,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir05.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -956,7 +959,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir075.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -974,7 +977,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir1.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -991,7 +994,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir15.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -1008,7 +1011,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir2.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:
@@ -1017,7 +1020,7 @@ def main():
                             dv400_rvir2_non +=1
                         
                         
-                    # if the imp/Rvir is greater than 1.5, see if there's a corresponding line
+                    # if the imp/Rvir is greater than 2.5, see if there's a corresponding line
                     if l_used >= 2.5:
                         detection = False
                         for Lya_v in Lya_vs:
@@ -1025,7 +1028,7 @@ def main():
                                 dv = float(Lya_v) - Vhel
                                 dv_rvir25.append(dv)
                         
-                                if abs(dv) <= 400:
+                                if abs(dv) <= max_deltav:
                                     detection = True
                             
                         if detection:

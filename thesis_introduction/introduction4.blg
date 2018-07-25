@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: introduction4.aux
+The style file: apj.bst
+Database file #1: /Users/frenchd/Research/inclination/git_inclination/bib.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 43 entries,
+            3010 wiz_defined-function locations,
+            895 strings with 13724 characters,
+and the built_in function-call counts, 21559 in all, are:
+= -- 1792
+> -- 1681
+< -- 11
++ -- 572
+- -- 626
+* -- 1903
+:= -- 4118
+add.period$ -- 43
+call.type$ -- 43
+change.case$ -- 320
+chr.to.int$ -- 41
+cite$ -- 43
+duplicate$ -- 807
+empty$ -- 1155
+format.name$ -- 665
+if$ -- 4198
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 43
+newline$ -- 133
+num.names$ -- 172
+pop$ -- 333
+preamble$ -- 1
+purify$ -- 320
+quote$ -- 0
+skip$ -- 664
+stack$ -- 0
+substring$ -- 882
+swap$ -- 4
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 387
+warning$ -- 0
+while$ -- 165
+width$ -- 0
+write$ -- 433

@@ -43,7 +43,7 @@ from scipy.interpolate import Rbf, InterpolatedUnivariateSpline
 
 
 from matplotlib import rc
-fontScale = 14
+fontScale = 18
 rc('text', usetex=True)
 rc('font', size=fontScale,family='serif',weight='medium')
 rc('xtick.major',size=8,width=0.6)
@@ -145,8 +145,8 @@ def main():
 
 
     # which thing to plot?
-    plot_velocity = False
-    plot_3Dmodel = True
+    plot_velocity = True
+    plot_3Dmodel = False
 
 
     if plot_velocity:
@@ -160,7 +160,9 @@ def main():
         
 
         # do the plotting
-        fig = plt.figure(figsize=(6.7,7.7))
+#         fig = plt.figure(figsize=(6.7,7.7))
+        fig = plt.figure(figsize=(8.0, 6.7))
+
         ax = fig.add_subplot(1,1,1)
 
 
@@ -209,7 +211,7 @@ def main():
         ylim(-160, 0)
         xlim(-30, 30)
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot2.pdf'.format(directory),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -346,7 +348,7 @@ def main():
 
         tight_layout()
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_3Dmodel_plot3.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/NGC3633-RX_J1121.2+0326_3Dmodel_plot4.pdf'.format(directory),format='pdf',bbox_inches='tight')
 
 
     

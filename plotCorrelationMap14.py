@@ -431,8 +431,11 @@ def main():
 #     targets = [('NGC3633',2587,True)]
 #     targets = [('SDSSJ080838.80+051440.0',8738,True)]
 #     targets = [('HE2258-5524',1000,True)]
-    targets = [('LBQS1230-0015',3279,True)]
-    
+#     targets = [('LBQS1230-0015',3279,True)]
+#     targets = [('LBQS1230-0015',3279,True)]
+    targets = [('HS1543+5921',2889,True)]
+
+
 
     
     # or build up a custom list of AGN names and absorption velocities here:

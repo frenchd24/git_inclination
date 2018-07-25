@@ -89,7 +89,7 @@ def main():
     
     # which data set to use? Options are '', '_min001', '_cus','_min001_cus',
     # '_min001_double', '_min005_v150', '_min005_v250'
-    data_set = ''
+    data_set = '_double'
     
     min_EW = 50
     max_EW = 15000
@@ -479,7 +479,7 @@ def main():
             color='black',
             lw=1.5,
             alpha=alpha_black,
-            label=r'$\rm All$')
+            label=r'$All$')
          
             min_n, min_bins, min_p = hist(np.array(all_Lya_Ws_cut) - np.array(all_e_Lya_Ws_cut),
                                             bins=bins,
@@ -513,7 +513,7 @@ def main():
                 color='grey',
                 lw=1.5,
                 alpha=alpha_black,
-                label=r'$\rm Isolated$')
+                label=r'$Isolated$')
 
                 min_n, min_bins, min_p = hist(np.array(isolated_Lya_Ws_cut) - np.array(isolated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -547,7 +547,7 @@ def main():
                 color=color_brown,
                 lw=1.5,
                 alpha=alpha_brown,
-                label=r'$\rm \mathcal{L}-Isolated$')
+                label=r'$\mathcal{L}-isolated$')
         
                 min_n, min_bins, min_p = hist(np.array(L_isolated_Lya_Ws_cut) - np.array(L_isolated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -582,7 +582,7 @@ def main():
                 color=color_green,
                 lw=1.5,
                 alpha=alpha_green,
-                label=r'$\rm \mathcal{L}-Isolated-Assoc.$')
+                label=r'$\mathcal{L}-associated-isolated$')
         
                 min_n, min_bins, min_p = hist(np.array(L_isolated_associated_Lya_Ws_cut) - np.array(L_isolated_associated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -617,7 +617,7 @@ def main():
                 color=color_orange,
                 lw=1.5,
                 alpha=alpha_orange,
-                label=r'$\rm \mathcal{L}-Assoc.$')
+                label=r'$\mathcal{L}-associated$')
         
                 min_n, min_bins, min_p = hist(np.array(L_associated_Lya_Ws_cut) - np.array(L_associated_e_Lya_Ws_cut),
                                                 bins=bins,
@@ -689,7 +689,7 @@ def main():
                 color=color_purple3,
                 lw=1.5,
                 alpha=alpha_purple,
-                label=r'$\rm \mathcal{L}-Two+$')
+                label=r'$\mathcal{L}-two+$')
         
                 min_n, min_bins, min_p = hist(np.array(two_plus_Lya_Ws_cut) - np.array(two_plus_e_Lya_Ws_cut),
                                                 bins=bins,

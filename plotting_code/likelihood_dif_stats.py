@@ -76,6 +76,20 @@ def main():
         L_summed_filename = '/Users/frenchd/Research/inclination/git_inclination/L_summed8.p'
         all_filename = '/Users/frenchd/Research/inclination/git_inclination/all8.p'
 
+
+        # double 
+        isolated_filename_double = '/Users/frenchd/Research/inclination/git_inclination/isolated8_double.p'
+        L_isolated_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8_double.p'
+        L_associated_isolated_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8_double.p'
+        L_associated_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_associated8_double.p'
+        L_nonassociated_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8_double.p'
+        L_two_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_two8_double.p'
+        L_three_plus_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8_double.p'
+        L_group_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_group8_double.p'
+        L_summed_filename_double = '/Users/frenchd/Research/inclination/git_inclination/L_summed8_double.p'
+        all_filename_double = '/Users/frenchd/Research/inclination/git_inclination/all8_double.p'
+
+
         # min001
         data_set = '_min001'
         isolated_filename_min001 = '/Users/frenchd/Research/inclination/git_inclination/isolated8{0}.p'.format(data_set)
@@ -235,6 +249,42 @@ def main():
     
 ##########################################################################################
 ##########################################################################################
+    # double
+
+    # open all the pickle files
+    isolated_file_double = open(isolated_filename_double,'r')
+    L_isolated_file_double = open(L_isolated_filename_double,'r')
+    L_associated_isolated_file_double = open(L_associated_isolated_filename_double,'r')
+    L_associated_file_double = open(L_associated_filename_double,'r')
+    L_nonassociated_file_double = open(L_nonassociated_filename_double,'r')
+    L_two_file_double = open(L_two_filename_double,'r')
+    L_three_plus_file_double = open(L_three_plus_filename_double,'r')
+    L_group_file_double = open(L_group_filename_double,'r')
+
+    # unload the data from them
+    isolated_double = pickle.load(isolated_file_double)
+    L_isolated_double = pickle.load(L_isolated_file_double)
+    L_associated_isolated_double = pickle.load(L_associated_isolated_file_double)
+    L_associated_double = pickle.load(L_associated_file_double)
+    L_nonassociated_double = pickle.load(L_nonassociated_file_double)
+    L_two_double = pickle.load(L_two_file_double)
+    L_three_plus_double = pickle.load(L_three_plus_file_double)
+    L_group_double = pickle.load(L_group_file_double)
+    
+    # close the files
+    isolated_file_double.close()
+    L_isolated_file_double.close()
+    L_associated_isolated_file_double.close()
+    L_associated_file_double.close()
+    L_nonassociated_file_double.close()
+    L_two_file_double.close()
+    L_three_plus_file_double.close()
+    L_group_file_double.close()
+    
+##########################################################################################
+##########################################################################################
+
+
     # _min001
     # open all the pickle files
     isolated_file_min001 = open(isolated_filename_min001,'r')
@@ -560,6 +610,34 @@ def main():
     bs_two_plus = np.array(list(L_two['bs']) + list(L_three_plus['bs']))
     
     ############################################################
+    # double
+    
+    # associated-isolated
+    Lya_Ws_associated_isolated_double = L_associated_isolated_double['Lya_Ws']
+    Nas_associated_isolated_double = L_associated_isolated_double['Nas']
+    bs_associated_isolated_double = L_associated_isolated_double['bs']
+    
+    # associated
+    Lya_Ws_associated_double = L_associated_double['Lya_Ws']
+    Nas_associated_double = L_associated_double['Nas']
+    bs_associated_double = L_associated_double['bs']
+
+    # isolated
+    Lya_Ws_isolated_double = isolated_double['Lya_Ws']
+    Nas_isolated_double = isolated_double['Nas']
+    bs_isolated_double = isolated_double['bs']
+    
+    # L-isolated
+    Lya_Ws_L_isolated_double = L_isolated_double['Lya_Ws']
+    Nas_L_isolated_double = L_isolated_double['Nas']
+    bs_L_isolated_double = L_isolated_double['bs']
+    
+    # two_plus
+    Lya_Ws_two_plus_double = np.array(list(L_two_double['Lya_Ws']) + list(L_three_plus_double['Lya_Ws']))
+    Nas_two_plus_double = np.array(list(L_two_double['Nas']) + list(L_three_plus_double['Lya_Ws']))
+    bs_two_plus_double = np.array(list(L_two_double['bs']) + list(L_three_plus_double['bs']))
+    
+    ############################################################
     # min001
     
     # associated-isolated
@@ -865,15 +943,14 @@ def main():
 ##########################################################################################
 ##########################################################################################
     
-    
     # Standard stats
     print '---------------------------- Standard ----------------------------'
     print
-    print 'stats.stats(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated)
-    print 'stats.stats(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated)
-    print 'stats.stats(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated)
-    print 'stats.stats(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated)
-    print 'stats.stats(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus)
+    print 'stats.stats(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated)
+    print 'stats.stats(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated)
+    print 'stats.stats(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated)
+    print 'stats.stats(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated)
+    print 'stats.stats(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus)
     print
     print
     # associated vs associated_isolated
@@ -908,14 +985,57 @@ def main():
 
 ###############################################################################
 
+    
+    # double stats
+    print '---------------------------- Double ----------------------------'
+    print
+    print 'stats.stats(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_double)
+    print 'stats.stats(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_double)
+    print 'stats.stats(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_double)
+    print 'stats.stats(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_double)
+    print 'stats.stats(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_double)
+    print
+    print
+    # associated vs associated_isolated
+    ans1 = stats.ks_2samp(Lya_Ws_associated_isolated_double, Lya_Ws_associated_double)
+    ans1a = stats.anderson_ksamp([Lya_Ws_associated_isolated_double, Lya_Ws_associated_double])
+    z_stat, p_val = stats.ranksums(Lya_Ws_associated_isolated_double, Lya_Ws_associated_double)
+
+    print 'KS Lya_Ws: L_associated_isolated vs L_associated: ',ans1
+    print 'AD Lya_Ws: L_associated_isolated vs L_associated: ',ans1a
+    print 'Ranksum Lya_Ws: L_associated_isolated vs L_associated: ', p_val
+    print
+    print
+    
+    # associated_isolated vs two_plus
+    ans1 = stats.ks_2samp(Lya_Ws_associated_isolated_double, Lya_Ws_two_plus_double)
+    ans1a = stats.anderson_ksamp([Lya_Ws_associated_isolated_double, Lya_Ws_two_plus_double])
+    z_stat, p_val = stats.ranksums(Lya_Ws_associated_isolated_double, Lya_Ws_two_plus_double)
+
+    print 'KS Lya_Ws: L_associated_isolated vs L_two_plus: ',ans1
+    print 'AD Lya_Ws: L_associated_isolated vs L_two_plus: ',ans1a
+    print 'Ranksum Lya_Ws: L_associated_isolated vs L_two_plus: ', p_val
+    print
+    
+    # b-parameters
+    ans1 = stats.ks_2samp(bs_associated_isolated_double, bs_two_plus_double)
+    ans1a = stats.anderson_ksamp([bs_associated_isolated_double, bs_two_plus_double])
+    z_stat, p_val = stats.ranksums(bs_associated_isolated_double, bs_two_plus_double)
+    print 'KS bs: L_associated_isolated vs L_two_plus: ',ans1
+    print 'AD bs: L_associated_isolated vs L_two_plus: ',ans1a
+    print 'Ranksum bs: L_associated_isolated vs L_two_plus: ', p_val
+    print
+
+###############################################################################
+
     # min001 stats
     print '---------------------------- min001 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001)
     print
     print
     # associated vs associated_isolated
@@ -954,11 +1074,11 @@ def main():
     # min001, rigor6 stats
     print '---------------------------- min001, rigor6 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001_rigor6)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001_rigor6)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001_rigor6)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001_rigor6)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001_rigor6)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001_rigor6)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001_rigor6)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001_rigor6)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001_rigor6)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001_rigor6)
     print
     print
     # associated vs associated_isolated
@@ -997,11 +1117,11 @@ def main():
     # min001, rigor7 stats
     print '---------------------------- min001, rigor7 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001_rigor7)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001_rigor7)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001_rigor7)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001_rigor7)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001_rigor7)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001_rigor7)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001_rigor7)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001_rigor7)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001_rigor7)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001_rigor7)
     print
     print
     # associated vs associated_isolated
@@ -1040,11 +1160,11 @@ def main():
     # min001, rigor8 stats
     print '---------------------------- min001, rigor8 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001_rigor8)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001_rigor8)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001_rigor8)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001_rigor8)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001_rigor8)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001_rigor8)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001_rigor8)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001_rigor8)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001_rigor8)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001_rigor8)
     print
     print
     # associated vs associated_isolated
@@ -1083,11 +1203,11 @@ def main():
     # min001, cus stats
     print '---------------------------- min001, cus ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001_cus)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001_cus)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001_cus)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001_cus)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001_cus)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001_cus)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001_cus)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001_cus)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001_cus)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001_cus)
     print
     print
     # associated vs associated_isolated
@@ -1126,11 +1246,11 @@ def main():
     # min001, double stats
     print '---------------------------- min001, double ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min001_double)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min001_double)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min001_double)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min001_double)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min001_double)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min001_double)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min001_double)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min001_double)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min001_double)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min001_double)
     print
     print
     # associated vs associated_isolated
@@ -1169,11 +1289,11 @@ def main():
     # min001, v150 stats
     print '---------------------------- min005, v150 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min005_v150)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min005_v150)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min005_v150)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min005_v150)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min005_v150)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min005_v150)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min005_v150)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min005_v150)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min005_v150)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min005_v150)
     print
     print
     # associated vs associated_isolated
@@ -1212,11 +1332,11 @@ def main():
     # min001, v250 stats
     print '---------------------------- min005, v250 ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_min005_v250)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_min005_v250)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_min005_v250)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_min005_v250)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_min005_v250)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_min005_v250)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_min005_v250)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_min005_v250)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_min005_v250)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_min005_v250)
     print
     print
     # associated vs associated_isolated
@@ -1255,11 +1375,11 @@ def main():
     # cus stats
     print '---------------------------- cus ----------------------------'
     print
-    print 'stats.sem(Lya_Ws_isolated): ',stats.sem(Lya_Ws_isolated_cus)
-    print 'stats.sem(Lya_Ws_L_isolated): ',stats.sem(Lya_Ws_L_isolated_cus)
-    print 'stats.sem(Lya_Ws_L_associated_isolated): ',stats.sem(Lya_Ws_associated_isolated_cus)
-    print 'stats.sem(Lya_Ws_L_associated): ',stats.sem(Lya_Ws_associated_cus)
-    print 'stats.sem(Lya_Ws_L_two_plus): ',stats.sem(Lya_Ws_two_plus_cus)
+    print 'stats.describe(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_cus)
+    print 'stats.describe(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_cus)
+    print 'stats.describe(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_cus)
+    print 'stats.describe(Lya_Ws_L_associated): ',stats.describe(Lya_Ws_associated_cus)
+    print 'stats.describe(Lya_Ws_L_two_plus): ',stats.describe(Lya_Ws_two_plus_cus)
     print
     print
     # associated vs associated_isolated
