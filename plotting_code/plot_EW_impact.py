@@ -2134,6 +2134,9 @@ def main():
         color_brown = '#a6761d'
         color_coal = '#666666'
         
+        color_purple4 = '#810f7c'
+
+        
         include_histograms = False
         include_fit = True
 
@@ -2177,13 +2180,13 @@ def main():
 
         color_E = color_red
         color_S = color_blue
-        color_S0 = color_purple2
+        color_S0 = color_purple4
         color_I = color_green
         color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
-        color_two = color_purple2
+        color_two = color_purple4
         color_group = color_orange
         
         # define the x and y data for the isolated set
@@ -2726,6 +2729,8 @@ def main():
         color_brown = '#a6761d'
         color_coal = '#666666'
         
+        color_purple4 = '#810f7c'
+        
         include_histograms = False
         include_fit = True
 
@@ -2771,13 +2776,13 @@ def main():
 
         color_E = color_red
         color_S = color_blue
-        color_S0 = color_purple2
+        color_S0 = color_purple4
         color_I = color_green
         color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
-        color_two = color_purple2
+        color_two = color_purple4
         color_group = color_orange
         
         # define the x and y data for the isolated set

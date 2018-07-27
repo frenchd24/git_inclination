@@ -79,8 +79,6 @@ def main():
     # put all the measurements in a dictionary
     target_measurement_dict = {}
     for target, lya_v, lya_w, lya_b in zip(targets, Lya_vs, Lya_Ws, Lya_bs):
-        if target == 'KAZ238':
-            print 'here: ',target
         target_measurement_dict[target] = {'Lya_v':lya_v,
                                             'Lya_W':lya_w,
                                             'Lya_b':lya_b}

@@ -365,7 +365,7 @@ WCom  &                    12 21 31.7  &         $+$28 13 58.0  &       0.10200 
 Zw535.012  &               00 36 21.0  &         $+$45 39 54.0  &       0.04764  & 14268  &   5234  &       18.9  &      5153.0  &  178.0  &  40.9  \\
 \enddata
 %\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
-\tablecomments{Summary of COS targets in this study. \textbf{SORT THIS TABLE -- EDIT R.A. AND DEC ALSO}}
+\tablecomments{Summary of COS targets and each measured $\rm Ly\alpha$ absorption line in this study.}
 \end{deluxetable*}
 
 
@@ -466,27 +466,43 @@ First we explore the $\rm Ly\alpha$ detection fraction as a function of galaxy p
         \centering
         \vspace{0pt}
 %        \includegraphics[width=0.49\textwidth]{detection_fraction_both_err.pdf}
-        \includegraphics[width=0.45\textwidth]{detection_fraction_min0_50_100_200_300_both_alt2.pdf}
+        \includegraphics[width=0.45\textwidth]{detection_fraction_min0_50_100_200_300_both_alt3.pdf}
         \caption{\small{The detection fraction as a function of impact parameter (grey-circles) and $\mathcal{L}$ (blue-diamonds). Note that the impact parameter and $\mathcal{L}$ $x$-axis scales are quite different; the lowest $\mathcal{L}$ bin (0.0001) corresponds to $\sim 3 R_{\rm vir}$, whereas the largest impact parameter bin (1000 kpc) is generally $\gg 3 R_{\rm vir}$. Error bars show the $1\sigma$ Poisson errors.}}
         \vspace{0pt}
         \label{detection_fraction}
 \end{figure}
 
+
 \begin{figure}[ht!]
         \centering
         \vspace{15pt}
-        \includegraphics[width=0.48\textwidth]{hist(EW)_bins10_6_EWcut50-15000_err_dataset_double.pdf}
-        \caption{\small{The equivalent width (EW) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
-        \vspace{0pt}
-        \label{cdf_ew}
+        \subfigure[]{\includegraphics[width=0.49\textwidth]{hist(EW)_bins10_6_EWcut50-15000_err_dataset_double.pdf}\label{cdf_ew}}
+        
+        \subfigure[]{\includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset_double.pdf}\label{cdf_b}}
+        \caption{\small{The equivalent width (a) and Doppler $b$-parameter (b) cumulative distribution functions for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW ($b$-parameter) measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
+        \vspace{5pt}
+        \label{ew_both}
 \end{figure}
 
 
-We have plotted the detection fraction as a function of both impact parameter and $\mathcal{L}$ in Figure \ref{detection_fraction}. We also display the detection fraction for minimum $\rm Ly\alpha$ EWs of 50, 100, 200, and 300 $\rm m\AA$ in purple, green, orange, and red (respectively). As expected, the detection fraction clearly increases with decreasing impact parameter and increasing $\mathcal{L}$. However, while the detection fraction as a function of impact parameter continues to rise all the way to the 25 kpc mark, it levels off at $\sim 1.5 R_{\rm vir}$ ($\sim 0.1 \mathcal{L}$) as a function of likelihood. \textbf{WHY? MORE}. While the detection fraction does not fall below $\sim 50\%$ when including all absorbers, it falls off more quickly for stronger absorbers (e.g., to below $\sim 20\%$ for EW$\rm \ge 300 m\AA$ absorbers). \textbf{MORE}
-
-
-
-\subsection{Equivalent Width}
+%\begin{figure}[ht!]
+%        \centering
+%        \vspace{15pt}
+%        \includegraphics[width=0.48\textwidth]{hist(EW)_bins10_6_EWcut50-15000_err_dataset_double.pdf}
+%        \caption{\small{The equivalent width (EW) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the EW measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
+%        \vspace{0pt}
+%        \label{cdf_ew}
+%\end{figure}
+%
+%\begin{figure}[t!]
+%        \centering
+%        \vspace{0pt}
+%%        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset.pdf}
+%        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset_double.pdf}
+%        \caption{\small{The Doppler $b$-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the $b$-parameter measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
+%        \vspace{5pt}
+%        \label{cdf_b}
+%\end{figure}
 
 \begin{figure*}[ht!]
         \centering
@@ -498,11 +514,28 @@ We have plotted the detection fraction as a function of both impact parameter an
         \label{ew_both}
 \end{figure*}
 
+We have plotted the detection fraction as a function of both impact parameter and $\mathcal{L}$ in Figure \ref{detection_fraction}. We also display the detection fraction for minimum $\rm Ly\alpha$ EWs of 50, 100, 200, and 300 $\rm m\AA$ in purple, green, orange, and red (respectively). As expected, the detection fraction clearly increases with decreasing impact parameter and increasing $\mathcal{L}$. However, while the detection fraction as a function of impact parameter continues to rise all the way to the 25 kpc mark, it levels off at $\sim 1.5 R_{\rm vir}$ ($\sim 0.1 \mathcal{L}$) as a function of likelihood. \textbf{WHY? MORE}. While the detection fraction does not fall below $\sim 50\%$ when including all absorbers, it falls off more quickly for stronger absorbers (e.g., to below $\sim 20\%$ for EW$\rm \ge 300 m\AA$ absorbers). \textbf{MORE}
+
+
+\subsection{Equivalent Width}
+
 
 Here we explore the effect of environment on the equivalent width of our $\rm Ly\alpha$ absorber sample. Figure \ref{cdf_ew} shows the cumulative distribution function of equivalent widths for each of our 5 likelihood-separated subsets, along with that of the entire sample in black). We have only included $\rm EW \ge 50~m\AA$ here to mitigate any bias due to the detection limit of lower-SN targets. We find that each subset occupies a distinct space aside from the $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ sets, which are essentially indistinguishable. The physical result of this is that the strength EW of $\rm Ly\alpha$ absorption depends strongly on environment. Stronger absorption lines are preferentially found near to galaxies, and the strongest lines are found near multiple galaxy systems. The result of Anderson-Darling statistical distribution tests between each subset indicate that our $isolated$ and $\mathcal{L}-isolated$ subsets are distinct from each of $\mathcal{L}-two+$, and $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ at a $>95\%$ confidence level. Because $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ are found to be nearly indistinguishable via these test and by-eye, we will combine them for the remainder of this analysis.
 
 
 This separation between EW distributions based on galaxy proximity is likely an effect of the distribution of the cosmic web; multiple galaxies should form from denser sections and intersections of intergalactic filaments, and these environments should thus also produce a stronger absorption profile. 
+
+\begin{figure*}[ht!]
+        \centering
+        \vspace{0pt}
+        \subfigure[]{\includegraphics[width=0.47\textwidth]{b(impact)_MType_binSize50_EWcut0-10000_dataset_double.pdf}\label{b_impact}}
+        \subfigure[]{\includegraphics[width=0.47\textwidth]{b(impact)_MType_binSize50_EWcut0-400_dataset_double.pdf}\label{b_impact_maxEW}}
+        \subfigure[]{\includegraphics[width=0.47\textwidth]{b(dv)_MType_binSize50_EWcut0-10000_dataset_double.pdf}\label{b_dv}}
+        \subfigure[]{\includegraphics[width=0.47\textwidth]{b(dv)_MType_binSize50_EWcut0-400_dataset_double.pdf}\label{b_dv_maxEW}}
+        \caption{\small{(a) The median inclination of galaxies is shown as a function of likelihood $\mathcal{L}$ for both detection (blue-diamonds) and non-detections (red-crosses) of associated absorbers. Detection and non-detection median inclinations are also shown for minimum EW $\rm \ge 200~ m\AA$ absorber equivalent widths by the thinner, semi-transparent lines. (b) The detection fraction plotted directly as a function of inclination for systems inside (blue-diamonds) and outside (red-crosses) $1.5 \rho / R_{\rm vir}$.}}
+        \vspace{5pt}
+        \label{b_all}
+\end{figure*}
 
 
 This result on it's own does not however illuminate any deeper connection or relationship between the individual galaxies and absorbers. Let us now consider the dependence of EW on galaxy impact parameter, as illustrated in Figure \ref{ew_impact}. We have also plotted EW as a function of virial radius normalized impact parameter ($\rho/ R_{\rm vir}$) in Figure \ref{ew_impact_rvir}. Firstly, we notice that weak ($\rm EW \lesssim 400~m\AA$) absorbers are found at all impact parameters and $\rho / R_{\rm vir}$, which agrees with our findings above from Figure \ref{cdf_ew}. Moreover, absorbers stronger than $\rm EW \sim 400~m\AA$ are preferentially found close to galaxies, and absorbers with $\rm EW \sim 800~m\AA$ are \emph{only} found within 100 kpc and $1 R_{\rm vir}$. Hence, weak $\rm EW \lesssim 400~m\AA$ absorbers are most likely $\rm Ly\alpha$-forest material, while the stronger absorbers are associated with the galaxies.
@@ -517,17 +550,9 @@ Finally, we also see that elliptical and S0 galaxies are associated with mostly 
 
 \subsection{Doppler b-parameter}
 
-Here we explore the effect of environment on the Doppler $b$-parameter of our $\rm Ly\alpha$ absorber sample. In an analogous fashion as above, Figure \ref{cdf_b} shows the cumulative distribution functions for the Doppler $b$-parameters of each subset of absorbers. Similar to the EW result, the Doppler $b$-parameters trend toward larger values based on their proximity to galaxies. The separation here however is far weaker. While the separation between, e.g., $isolated$ and $\mathcal{L}-two+$ samples, remains statistically significant, we cannot claim any further significance between the other subsets. Because our $b$-parameters are derived via the second moment of the apparent optical depth profile, these $b$-parameter estimates become highly uncertain for EW$\rm \gtrsim 350~m\AA$. For these stronger lines the profile becomes saturated, producing a degeneracy between EW and $b$. Unfortunately these are the very lines we expect to be most associated with near or multiple galaxy galaxy systems. A careful profile fitting analysis is the best way forward here, which we will reserve for a future work.
+Here we explore the effect of environment on the Doppler $b$-parameter of our $\rm Ly\alpha$ absorber sample. In an analogous fashion as above, Figure \ref{cdf_b} shows the cumulative distribution functions for the Doppler $b$-parameters of each subset of absorbers. Similar to the EW result, the Doppler $b$-parameters trend toward larger values based on their proximity to galaxies. The separation here however is far weaker. While the separation between, e.g., $isolated$ and $\mathcal{L}-two+$ samples, remains statistically significant, we cannot claim any further significance between the other subsets. 
 
-\begin{figure}[t!]
-        \centering
-        \vspace{0pt}
-%        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset.pdf}
-        \includegraphics[width=0.49\textwidth]{hist(b)_all6_bins1_EWcut50-10000_errTrue_dataset_double.pdf}
-        \caption{\small{The Doppler $b$-parameter ($b$) cumulative distribution function for each subset of our Ly$\alpha$ absorber sample. From the top-left corner to the bottom-right the curves are the fully isolated absorbers (grey), the absorbers isolated enough from any galaxy to not be likelihood-matched (brown), the full distribution (black), the absorbers likelihood-matched to a single, non-isolated galaxy (orange), the absorbers matched to a single, isolated galaxy (green), and the absorbers likelihood-matched with two or more galaxies (purple). The shaded region around each curve gives the $b$-parameter measurement errors. Only $\rm EW \ge 50~m\AA$ absorbers are included to mitigate any bias due to the detection limit of lower-SN targets.}}
-        \vspace{5pt}
-        \label{cdf_b}
-\end{figure}
+Our $b$-parameters are derived via the second moment of the apparent optical depth profile, and therefore these $b$-parameter estimates become highly uncertain for EW $\rm \gtrsim 350~m\AA$. For these stronger lines the profile becomes saturated, producing a degeneracy between EW and $b$. Unfortunately these are the very lines we expect to be most associated with near or multiple galaxy galaxy systems. This issue is illustrated by Figure \ref{b_all}, where we have show the $b$-parameters as a function of impact parameter and $\Delta v$  for the full sample (Figures \ref{b_impact} and \ref{b_dv}) and for only those systems with EW $\rm \leq 400 m\AA$ (Figures \ref{b_impact_maxEW} and \ref{b_dv_maxEW}). While a strong correlation is implied between $b$ and $\rho$ without any cuts, this completely disappears once the stronger absorbers are removed. A similar albeit less extreme effect is seen for $b$ as a function of $\Delta v$. A careful profile fitting analysis is the best way forward here, which we will reserve for a future work.
 
 
 %\begin{figure*}[t!]
@@ -543,27 +568,44 @@ Here we explore the effect of environment on the Doppler $b$-parameter of our $\
 
 \subsection{Inclination}
 
-Here we investigate the inclination dependence of $\rm Ly\alpha$ absorber properties. In Figure \ref{inc_hist} we display the distribution of all associated galaxies alongside the distribution of all galaxy inclinations in the survey volume (again, $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ subsets are combined here; see Chapter 1 for a full discussion of our galaxy dataset). As we first discovered in \cite{french2017}, there is an overabundance of absorbers associated with high-inclination galaxies. To test the significance of this overabundance we used the Anderson-Darling statistical distribution test, which yields a $p$-value of $AD_p = 7.2 \times 10^{-6}$. For a normal distribution this corresponds to $\sim 4.5 \sigma$, indicating with a high confidence limit that these associated galaxies are \emph{not} drawn from the same distribution as the all-sky galaxy population.
-
 \begin{figure}
 \centering
-  \includegraphics[width=0.99\linewidth]{hist(adjustedInc)_associated_group_all_overlaid_double.pdf}
+  \includegraphics[width=0.9\linewidth]{hist(adjustedInc)_associated_group_all_overlaid_double.pdf}
   \caption{\small{\textbf{Top:} The distribution of all associated galaxy inclinations is shown in blue. The overlaid red histogram shows the distribution of the highest $\mathcal{L}$-galaxy inclinations from the $\mathcal{L}-two+$ subset. \textbf{Bottom:} The distribution of all galaxies in the survey volume (i.e., $cz \leq 10,000$ \kms).}}
 \label{inc_hist}
 \vspace{0pt}
 \end{figure}
 
+\begin{figure}[ht!]
+        \centering
+        \vspace{0pt}
+        \subfigure[]{\includegraphics[width=0.45\textwidth]{detection_fraction_like_inc_errors_minEW0_200.pdf}\label{detection_fraction_inc}}
+        \subfigure[]{\includegraphics[width=0.45\textwidth]{detection_fraction_vs_inc_like_sep15Rvir.pdf}\label{detection_fraction_inc_rvirsep}}
+        \caption{\small{(a) The median inclination of galaxies is shown as a function of likelihood $\mathcal{L}$ for both detection (blue-diamonds) and non-detections (red-crosses) of associated absorbers. Detection and non-detection median inclinations are also shown for minimum EW $\rm \ge 200~ m\AA$ absorber equivalent widths by the thinner, semi-transparent lines. (b) The detection fraction plotted directly as a function of inclination for systems inside (blue-diamonds) and outside (red-crosses) $1.5 \rho / R_{\rm vir}$.}}
+        \vspace{0pt}
+        \label{detection_fraction_inc_both}
+\end{figure}
+
+Here we investigate the inclination dependence of $\rm Ly\alpha$ absorber properties. In Figure \ref{inc_hist} we display the distribution of all associated galaxies alongside the distribution of all galaxy inclinations in the survey volume (again, $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ subsets are combined here; see Chapter 1 for a full discussion of our galaxy dataset). As we first discovered in \cite{french2017}, there is an overabundance of absorbers associated with high-inclination galaxies. To test the significance of this overabundance we used the Anderson-Darling statistical distribution test, which yields a $p$-value of $AD_p = 7.2 \times 10^{-6}$. For a normal distribution this corresponds to $\sim 4.5 \sigma$, indicating with a high confidence limit that these associated galaxies are \emph{not} drawn from the same distribution as the all-sky galaxy population.
+
+
 To further explore this phenomenon we have also calculated the detection fraction as a function of inclination and likelihood $\mathcal{L}$. Figure \ref{detection_fraction_inc} shows the median inclination as a function of $\mathcal{L}$ for galaxies. For a galaxy at a given value of $\mathcal{L}$, the solid blue-diamond line gives the median inclination if we detect an absorber within $\Delta v \leq 400$ \kms, and the dashed blue-cross line gives the same for systems \emph{without} a $\rm Ly\alpha$ detection. The error bars shown are calculated by a 10,000 repetition bootstrap analysis with replacement (i.e., we randomly resample the distribution of inclinations while allowing for duplicate entries, and then compute the standard deviation of the resulting sample distribution). Figure \ref{detection_fraction_inc} shows that at very low $\mathcal{L}$ both detections and non-detections have the same median inclination, but the distributions then split at higher $\mathcal{L}$ where the sightline is closer to the galaxy halos. Thus, we are more likely to detect an absorber near a highly inclined galaxy. 
 
-This result is most easily explained by evoking a non-spherical \HI~galaxy halo. For example, if absorbers are distributed in a perfectly spherical manner around galaxies, then we would expect just as many non-detections as detections at any given galaxy inclination and impact parameter (or likelihood) from a sightline. We do not find this. Thus, the distribution of $\rm Ly\alpha$ absorbers around galaxies must be non-spherical, with a flattened, disk-like $\rm Ly\alpha$ halo fitting the bill nicely.
 
-\begin{figure}
-\centering
-  \includegraphics[width=0.99\linewidth]{detection_fraction_like_inc_errors_minEW0_200.pdf}
-  \caption{\small{The median inclination of galaxies is shown as a function of likelihood $\mathcal{L}$ for both detection (blue-diamonds) and non-detections (red-crosses) of associated absorbers. Detection and non-detection median inclinations are also shown for EW$\rm = 200~ m\AA$ minimum absorber equivalent widths by the thinner, semi-transparent lines.}}
-\label{detection_fraction_inc}
-\vspace{0pt}
-\end{figure}
+This result is most easily explained by evoking a non-spherical \HI~galaxy halo. For example, if absorbers are distributed in a perfectly spherical manner around galaxies, then we would expect just as many non-detections as detections at any given galaxy inclination and impact parameter (or likelihood) from a sightline. We do not find this. Thus, the distribution of $\rm Ly\alpha$ absorbers around galaxies must be non-spherical, with a flattened, disk-like $\rm Ly\alpha$ halo fitting the bill nicely. Additionally, Figure \ref{detection_fraction_inc_rvirsep} shows the detection fraction directly as a function of inclination, where we have separated our sample into near ($\rho / R_{\rm vir} \leq 1.5$) and far distributions. Here we can see that the detection fraction is more strongly dependent on inclination for the near systems, where we would expect a stronger effect due to a non-spherical halo.
+
+
+
+
+
+
+%\begin{figure}
+%\centering
+%  \includegraphics[width=0.99\linewidth]{detection_fraction_like_inc_errors_minEW0_200.pdf}
+%  \caption{\small{The median inclination of galaxies is shown as a function of likelihood $\mathcal{L}$ for both detection (blue-diamonds) and non-detections (red-crosses) of associated absorbers. Detection and non-detection median inclinations are also shown for EW$\rm = 200~ m\AA$ minimum absorber equivalent widths by the thinner, semi-transparent lines.}}
+%\label{detection_fraction_inc}
+%\vspace{0pt}
+%\end{figure}
 
 
 %\begin{figure*}
@@ -575,24 +617,39 @@ This result is most easily explained by evoking a non-spherical \HI~galaxy halo.
 %\vspace{0pt}
 %\end{figure*}
 
+\begin{figure}[ht!]
+        \centering
+        \vspace{0pt}
+        \subfigure[]{\includegraphics[width=0.45\textwidth]{hist(azimuth)_all_assoc_vs_not_dataset_double.pdf}\label{azimuth_dist}}
+        
+        \subfigure[]{\includegraphics[width=0.45\textwidth]{detection_fraction_vs_az_like_sep15Rvir.pdf}\label{detection_fraction_az}}
+        \caption{\small{(a) The distribution of azimuth angles for the combined $\mathcal{L}-associated$ and $\mathcal{L}-associated-isolated$ subsets is shown in blue, with the $\mathcal{L}-two+$ subset shown in red. (b) The detection fraction plotted as a function of azimuth for systems inside (blue-diamonds) and outside (red-crosses) $1.5 \rho / R_{\rm vir}$.}}
+        \vspace{5pt}
+        \label{detection_fraction_inc_both}
+\end{figure}
+
 
 \subsection{Azimuth}
 Here we investigate the dependence of $\rm Ly\alpha$ absorber properties on their orientation with respect to the major axis of nearby galaxies. Figure \ref{azimuth_dist} shows the distribution of azimuth angles for systems from the combined $\mathcal{L}-associated$ and $\mathcal{L}-associated-isolated$ subsets in blue, along with the distribution for the $\mathcal{L}-two+$ subset in red. There appears to be a bimodal distribution here, with an excess of absorbers near low (major-axis) and high (minor-axis) azimuth angles. The same is not seen for the 
-$\mathcal{L}-two+$ subset, suggesting the presence of other nearby galaxies may be stirring up the $\rm Ly\alpha$ absorbing material in these galaxies' halos. It is commonly expected that gas found near the major axis of a galaxy represents accreting material, while material around the minor axis represents outflows \textbf{CITE??}. 
+$\mathcal{L}-two+$ subset, suggesting the presence of other nearby galaxies may be stirring up the $\rm Ly\alpha$ absorbing material in these galaxies' halos. 
 
-\textbf{MORE}
+Again, we can check the detection fraction as a function of azimuth. Figure \ref{detection_fraction_az} shows this, with the sample split into near ($\rho / R_{\rm vir} \leq 1.5$) and far distributions shown by blue-diamonds and red-crosses. This detection fraction further backs up the bimodal distribution suggested above, with an elevated detection fraction at both low (major-axis) and high (minor-axis) azimuth angles. The systems beyond $1.5 \rho / R_{\rm vir}$ show a much weaker trend, as expected for systems beyond the direct influence of galaxy halos. This result also agrees with the expectation that gas found near the major axis of a galaxy represents accreting material, while material around the minor axis represents outflows \textbf{CITE??}. While we cannot tell whether this material is actively inflowing or outflowing, simply the heightened presence of material in the expected regions provides tantalizing hints.
 
-\begin{figure}
-\centering
-  \includegraphics[width=0.99\linewidth]{hist(azimuth)_all_assoc_vs_not_dataset_double.pdf}
-  \caption{\small{The distribution of azimuth angles for the combined $\mathcal{L}-associated$ and $\mathcal{L}-associated-isolated$ subsets is shown in blue, with the $\mathcal{L}-two+$ subset shown in red.}}
-\label{azimuth_dist}
-\vspace{0pt}
-\end{figure}
+
+
+%\begin{figure}
+%\centering
+%  \includegraphics[width=0.99\linewidth]{hist(azimuth)_all_assoc_vs_not_dataset_double.pdf}
+%  \caption{\small{The distribution of azimuth angles for the combined $\mathcal{L}-associated$ and $\mathcal{L}-associated-isolated$ subsets is shown in blue, with the $\mathcal{L}-two+$ subset shown in red.}}
+%\label{azimuth_dist}
+%\vspace{0pt}
+%\end{figure}
 
 
 
 \section{SUMMARY}
+
+
 1. $\rm Ly\alpha$ absorbers with $\rm EW \lesssim 100 m\AA$ are ubiquitous, making up nearly $50\%$ of all $\rm Ly\alpha$ systems in the nearby Universe, and do not correlate strongly with environment ($70\%$ of these weak absorbers are isolated). 
 
 2. 

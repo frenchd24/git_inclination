@@ -866,21 +866,21 @@ def main():
 
         
         label_likelihood = r'$\rm \mathcal{L}-Detection~Fraction$'
-        label_likelihood_min50 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 50~m\AA)$'
-        label_likelihood_min100 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 100~m\AA)$'
-        label_likelihood_min200 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 200~m\AA)$'
-        label_likelihood_min300 = r'$\rm \mathcal{L}-Detection~Fraction~(EW_{{min}} = 300~m\AA)$'
+        label_likelihood_min50 = r'$\rm \mathcal{L}-Detection~Fraction~(EW \ge 50~m\AA)$'
+        label_likelihood_min100 = r'$\rm \mathcal{L}-Detection~Fraction~(EW \ge= 100~m\AA)$'
+        label_likelihood_min200 = r'$\rm \mathcal{L}-Detection~Fraction~(EW \ge= 200~m\AA)$'
+        label_likelihood_min300 = r'$\rm \mathcal{L}-Detection~Fraction~(EW \ge= 300~m\AA)$'
 
         label_impact = r'$\rm \rho - Detection~Fraction$'
-        label_impact_min50 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 50~m\AA)$'
-        label_impact_min100 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 100~m\AA)$'
-        label_impact_min200 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 200~m\AA)$'
-        label_impact_min300 = r'$\rm \rho - Detection~Fraction~(EW_{{min}} = 300~m\AA)$'
+        label_impact_min50 = r'$\rm \rho - Detection~Fraction~(EW \ge 50~m\AA)$'
+        label_impact_min100 = r'$\rm \rho - Detection~Fraction~(EW \ge 100~m\AA)$'
+        label_impact_min200 = r'$\rm \rho - Detection~Fraction~(EW \ge 200~m\AA)$'
+        label_impact_min300 = r'$\rm \rho - Detection~Fraction~(EW \ge 300~m\AA)$'
 
-        label_min50 = r'$\rm EW_{{min}} = 50~m\AA$'
-        label_min100 = r'$\rm EW_{{min}} = 100~m\AA$'
-        label_min200 = r'$\rm EW_{{min}} = 200~m\AA$'
-        label_min300 = r'$\rm EW_{{min}} = 300~m\AA$'
+        label_min50 = r'$\rm EW \ge 50~m\AA$'
+        label_min100 = r'$\rm EW \ge 100~m\AA$'
+        label_min200 = r'$\rm EW \ge 200~m\AA$'
+        label_min300 = r'$\rm EW \ge 300~m\AA$'
 
 
         symbol_likelihood = 'D'
@@ -898,13 +898,13 @@ def main():
         color_likelihood = color_blue
         color_likelihood_min50 = color_purple2
         color_likelihood_min100 = color_green
-        color_likelihood_min200 = color_orange
+        color_likelihood_min200 = color_yellow
         color_likelihood_min300 = color_red
 
         color_impact = color_coal
         color_impact_min50 = color_purple2
         color_impact_min100 = color_green
-        color_impact_min200 = color_orange
+        color_impact_min200 = color_yellow
         color_impact_min300 = color_red
 
 

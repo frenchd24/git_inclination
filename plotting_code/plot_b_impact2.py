@@ -90,8 +90,8 @@ def main():
     plot_b_impact_MType = True
     plot_b_impact_MType_save = True
     
-    min_EW = 50
-    max_EW = 400
+    min_EW = 0
+    max_EW = 10000
     
     # which data set to use
     data_set = '_double'
@@ -296,28 +296,32 @@ def main():
         color_brown = '#a6761d'
         color_coal = '#666666'
         
+        color_purple4 = '#810f7c'
+        
         include_histograms = False
         include_fit = True
 
-        alpha_S = 0.6
+        alpha_S = 0.4
         alpha_S0 = 0.99
         alpha_E = 0.99
         alpha_I = 0.99
         alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize_S = 35
-        markerSize_E = 45
-        markerSize_I = 40
-        markerSize_S0 = 40
-        markerSize_other = 40
-                
-#         binSize = 50
-#         bins = arange(0, 550, binSize)
-        binSize = 0.5
-        bins = arange(0, 3.0, binSize)
+        markerSize_S = 25
+        markerSize_E = 55
+        markerSize_I = 55
+        markerSize_S0 = 55
+        markerSize_other = 55
+
 
         lw = 0.6
         lw_other = 1.2
+        
+        binSize = 50
+        bins = arange(0, 550, binSize)
+#         binSize = 0.5
+#         bins = arange(0, 3.0, binSize)
+
         
         label_isolated = r'$\rm Isolated$'
         label_assoc = r'$\rm Associated$'
@@ -339,13 +343,13 @@ def main():
 
         color_E = color_red
         color_S = color_blue
-        color_S0 = color_purple2
+        color_S0 = color_purple4
         color_I = color_green
         color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
-        color_two = color_purple2
+        color_two = color_purple4
         color_group = color_orange
         
         # define the x and y data for the isolated set
@@ -912,20 +916,22 @@ def main():
         color_brown = '#a6761d'
         color_coal = '#666666'
         
+        color_purple4 = '#810f7c'
+        
         include_histograms = False
         include_fit = True
 
-        alpha_S = 0.6
+        alpha_S = 0.4
         alpha_S0 = 0.99
         alpha_E = 0.99
         alpha_I = 0.99
         alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize_S = 35
-        markerSize_E = 45
-        markerSize_I = 40
-        markerSize_S0 = 40
-        markerSize_other = 40
+        markerSize_S = 25
+        markerSize_E = 55
+        markerSize_I = 55
+        markerSize_S0 = 55
+        markerSize_other = 55
 
 
         lw = 0.6
@@ -957,13 +963,13 @@ def main():
 
         color_E = color_red
         color_S = color_blue
-        color_S0 = color_purple2
+        color_S0 = color_purple4
         color_I = color_green
         color_other = 'black'
 
         color_isolated = 'black'
         color_assoc = color_green
-        color_two = color_purple2
+        color_two = color_purple4
         color_group = color_orange
         
         # define the x and y data for the isolated set
