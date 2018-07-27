@@ -92,10 +92,10 @@ def main():
     # which data set to use?
     data_set = '_double'
     
-    plot_errors = True
+    plot_errors = False
 
-    min_EW = 50
-    max_EW = 10000
+    min_EW = 0
+    max_EW = 400
     
     # some colors
     color_blue = '#436bad'      # french blue
@@ -486,7 +486,7 @@ def main():
         for count in count_list:
             print 'Plotting number {0}'.format(count)
             
-            fig = figure(figsize=(7.7,5.7))
+            fig = figure(figsize=(10.7,5.7))
             ax = fig.add_subplot(111)
         
         
@@ -805,7 +805,7 @@ def main():
             ylim(0,1)
 
             legend(scatterpoints=1, prop={'size':14}, loc='lower right', fancybox=True)
-            xlabel(r'$\rm b ~[km s^{{-1}}]$')
+            xlabel(r'$\rm \emph{b} ~[km s^{{-1}}]$')
             ylabel(r'$\rm CDF$')
 
             # grid

@@ -3,13 +3,11 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: final_chapter.aux
 The style file: apj.bst
 Database file #1: /Users/frenchd/Research/inclination/git_inclination/bib.bib
-Warning--I didn't find a database entry for "rubin2010"
-Warning--I didn't find a database entry for "rubin2012"
 Warning--I didn't find a database entry for "prochaska2011b"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 You've used 9 entries,
             3010 wiz_defined-function locations,
-            714 strings with 6389 characters,
+            712 strings with 6371 characters,
 and the built_in function-call counts, 4314 in all, are:
 = -- 381
 > -- 298
@@ -48,4 +46,4 @@ warning$ -- 0
 while$ -- 36
 width$ -- 0
 write$ -- 93
-(There were 3 warnings)
+(There was 1 warning)

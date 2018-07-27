@@ -87,8 +87,8 @@ def main():
     # This one plots two histograms. The top one has red and blue shifted absorbers
     # overlaid, with a combined black outline histogram. The bottom plot is the full 
     # galaxy table
-    plot_adjustedInc_redblue_overlaid_all = True
-    plot_adjustedInc_redblue_overlaid_all_save = True
+    plot_adjustedInc_redblue_overlaid_all = False
+    plot_adjustedInc_redblue_overlaid_all_save = False
     
     # This one plots a CDF for red, blue and all galaxy inclinations all in the same frame
     plot_CDF_red_blue_all = False
@@ -96,8 +96,8 @@ def main():
     
     # this plots histograms of inclination for the L_associated_isolated, L_associated,
     # and L_group all at once
-    plot_adjustedInc_all_associated_isolated_group = True
-    plot_adjustedInc_all_associated_isolated_group_save = True
+    plot_adjustedInc_all_associated_group = True
+    plot_adjustedInc_all_associated_group_save = True
     
     # 
     plot_CDF_adjustedInc_all_associated_isolated_group = False
@@ -107,6 +107,7 @@ def main():
     color_blue = '#436bad'      # french blue
     color_red = '#ec2d01'     # tomato red
     
+    dataset = '_double'
     
     if getpass.getuser() == 'frenchd':
 
@@ -120,14 +121,14 @@ def main():
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/'
         
         
-        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8.p'
-        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8.p'
-        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8.p'
-        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8.p'
-        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8.p'
-        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8.p'
-        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8.p'
-        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8.p'
+        isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/isolated8{0}.p'.format(dataset)
+        L_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_isolated8{0}.p'.format(dataset)
+        L_associated_isolated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated_isolated8{0}.p'.format(dataset)
+        L_associated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_associated8{0}.p'.format(dataset)
+        L_nonassociated_filename = '/Users/frenchd/Research/inclination/git_inclination/L_nonassociated8{0}.p'.format(dataset)
+        L_two_filename = '/Users/frenchd/Research/inclination/git_inclination/L_two8{0}.p'.format(dataset)
+        L_three_plus_filename = '/Users/frenchd/Research/inclination/git_inclination/L_three_plus8{0}.p'.format(dataset)
+        L_group_filename = '/Users/frenchd/Research/inclination/git_inclination/L_group8{0}.p'.format(dataset)
 
 
     else:
@@ -588,7 +589,7 @@ def main():
     # plotted together and separately all in one, then the whole table as a subplot
     #
     
-    if plot_adjustedInc_all_associated_isolated_group:
+    if plot_adjustedInc_all_associated_group:
     
         fig = figure(figsize=(7.7, 5.7))
         subplots_adjust(hspace=0.200)
@@ -598,27 +599,42 @@ def main():
         blue = []
         red = []
         
-        alpha_L_associated_isolated = 0.7
-        alpha_L_associated = 0.7
-        alpha_L_two = 0.7
-        alpha_L_three_plus = 0.7
-        alpha_L_group = 0.7
-        alpha_all = 0.8
+        alpha_assoc = 0.99
+        alpha_two = 0.99
+        alpha_three = 0.99
+        alpha_group = 0.99
+        alpha_all = 0.9
                 
-        color_L_associated_isolated = '#e41a1c'
-        color_L_associated = '#377eb8'
-        color_L_two = '#4daf4a'
-        color_L_three_plus = '#984ea3'
-        color_L_group = '#ff7f00'
+#         color_associated_isolated = '#e41a1c'
+#         color_associated = '#377eb8'
+#         color_two = '#4daf4a'
+#         color_three_plus = '#984ea3'
+#         color_group = '#ff7f00'
+
+        color_purple = '#7570b3'
+        color_purple2 = '#984ea3'
         
-        color_L_associated_isolated = color_blue
-        color_L_associated = color_red
-        color_L_group = 'black'
+        color_green = '#1b9e77'
+        color_orange = '#d95f02'
+        color_purple3 = '#7570b3'
+        color_pink = '#e7298a'
+        color_lime = '#66a61e'
+        color_yellow = '#e6ab02'
+        color_brown = '#a6761d'
+        color_coal = '#666666'
+        
+        color_assoc = color_blue
+        color_three = color_red
+        color_group = color_yellow
                 
         adjustedIncs_associated_isolated = L_associated_isolated['adjustedIncs']
         adjustedIncs_associated = L_associated['adjustedIncs']
+        adjustedIncs_two = L_two['adjustedIncs']
+        adjustedIncs_three_plus = L_three_plus['adjustedIncs']
         adjustedIncs_group = L_group['adjustedIncs']
         group_mems = L_group['group_mems']
+        
+        three_plus = np.array(list(adjustedIncs_two) + list(adjustedIncs_three_plus))
         
         group_incs = []
         for inc, group_mem in zip(adjustedIncs_group, group_mems):
@@ -651,40 +667,63 @@ def main():
 #         hist(red,bins=bins,histtype='bar',color='red',hatch='\\',lw=1.5,alpha = alpha,label=r'$\rm Redshifted$')        
 #         hist(blue,bins=bins,histtype='bar',color='Blue',lw=1.5,alpha = alpha,label=r'$\rm Blueshifted$')
 
-        # adjustedIncs_associated_isolated
-        hist(adjustedIncs_associated_isolated,
-        bins=bins,
-        histtype='step',
-        color=color_L_associated_isolated,
-        lw=1.5,
-        alpha=alpha_L_associated_isolated,
-        label=r'$\rm Associated-isolated$')
 
-        # adjustedIncs_associated
-        hist(adjustedIncs_associated,
+        all_assoc = np.array(list(adjustedIncs_associated_isolated) + list(adjustedIncs_associated))
+
+
+        # associated
+        hist(all_assoc,
         bins=bins,
-        histtype='step',
-        color=color_L_associated,
-        lw=1.5,
-        alpha=alpha_L_associated,
+        histtype='bar',
+        edgecolor='black',
+        color=color_assoc,
+        lw=1.7,
+        alpha=alpha_assoc,
         label=r'$\rm Associated$')
-
-        # together
-        hist(group_incs,
+        
+        
+        hist(three_plus,
         bins=bins,
         histtype='step',
-        color=color_L_group,
-        lw=1.5,
-        alpha=alpha_L_group,
-        label=r'$\rm Group$')
+        color=color_three,
+        lw=2.0,
+        alpha=alpha_three,
+        label=r'$\rm Two+$')
+        
+        # together
+#         hist(group_incs,
+#         bins=bins,
+#         histtype='step',
+#         color=color_group,
+#         lw=2.0,
+#         alpha=alpha_group,
+#         label=r'$\rm Group$')
         
 #         hist(blue, bins=bins,histtype='bar',color=color_blue, hatch='\\',lw=1.7,alpha = alpha+0.25,label=r'$\rm v_{{Ly\alpha}} < v_{{sys}}$')
 #         hist(red, bins=bins,histtype='bar',color=color_red, lw=1.7,alpha = alpha,label=r'$\rm v_{{Ly\alpha}} \ge v_{{sys}}$')        
 #         hist(adjustedIncs, bins=bins,histtype='step',color='Black',lw=2.1,alpha = 0.9,label=r'$\rm All ~ Associated$')
         
+        # x-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+        
+        # y-axis
+        majorLocator   = MultipleLocator(10)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+        
+        
         legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
         ylabel(r'$\rm Number$')
-        
+        xlim(0,90)
+
 
         # full table
         ax = fig.add_subplot(212)
@@ -705,7 +744,6 @@ def main():
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
         
-        
         # full galaxy table
         hist(allAdjustedIncs,
         bins=bins,
@@ -721,10 +759,11 @@ def main():
         legend(scatterpoints=1,prop={'size':12},loc=2,fancybox=True)
         xlabel(r'$\rm Galaxy ~ Inclination ~ [deg]$')
         ylabel(r'$\rm Number$')
-#         tight_layout()
+        tight_layout()
+        xlim(0,90)
 
-        if plot_adjustedInc_all_associated_isolated_group_save:
-            savefig('{0}/hist(adjustedInc)_associtated_isolated_group_all_overlaid.pdf'.format(saveDirectory),format='pdf',bbox_inches='tight')
+        if plot_adjustedInc_all_associated_group_save:
+            savefig('{0}/hist(adjustedInc)_associated_group_all_overlaid{1}.pdf'.format(saveDirectory, dataset),format='pdf',bbox_inches='tight')
         else:
             show()
             

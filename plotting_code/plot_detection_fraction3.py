@@ -38,9 +38,9 @@ from matplotlib import rc
 # #rc('font',**{'family':'serif','serif':['Palatino']})
 # rc('text', usetex=True)
 
-fontScale = 14
+fontScale = 18
 rc('text', usetex=True)
-rc('font', size=14, family='serif', weight='normal')
+rc('font', size=18, family='serif', weight='normal')
 rc('xtick.major',size=8,width=0.6)
 rc('xtick.minor',size=5,width=0.6)
 rc('ytick.major',size=8,width=0.6)
@@ -133,13 +133,13 @@ def return_bootstrap_errors(x, reps):
 def main():
     # plot detection fraction as a function of both impact parameter and likelihood - 
     # does not work right now
-    plot_detection_fraction_both = True
-    plot_detection_fraction_both_save = True
+    plot_detection_fraction_both = False
+    plot_detection_fraction_both_save = False
     
     # plot detection fraction as a function of both impact parameter and likelihood - 
     # does not work right now
-    plot_detection_fraction_velcut_both = False
-    plot_detection_fraction_velcut_both_save = False
+    plot_detection_fraction_velcut_both = True
+    plot_detection_fraction_velcut_both_save = True
     
     
     # plot_number = 1 for just the isolated sample, =2 adds the associated, =3 adds two+
@@ -159,9 +159,9 @@ def main():
 
         saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/detection_fraction_figs/'
         
-#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_{0}.p'.format(lstar_cut)
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_{0}.p'.format(lstar_cut)
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW0_closestonly.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_strictbins.p'
+#         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_strictbins.p'
 
 #         detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_vcut2500.p'
 #         detection_fraction_vcut_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut01_vcut2500.p'

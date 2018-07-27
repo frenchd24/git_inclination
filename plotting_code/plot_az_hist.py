@@ -123,8 +123,8 @@ def main():
     plot_az_hist_dif_save = False
     
     # plot all azimuth distributions for each subset (e.g., L_associated, L_two, etc)
-    plot_az_all_subsets = True
-    plot_az_all_subsets_save = True
+    plot_az_all_subsets = False
+    plot_az_all_subsets_save = False
     
     # plot azimuth distributions for L_isolated_associated
     plot_az_isolated = False
@@ -139,12 +139,12 @@ def main():
     plot_az_two_save = False
     
     # plot azimuth distributions for L_isolated_associated and L_associated
-    plot_az_isolated_vs_assoc = True
-    plot_az_isolated_vs_assoc_save = True
+    plot_az_isolated_vs_assoc = False
+    plot_az_isolated_vs_assoc_save = False
     
     # plot azimuth distributions for L_isolated_associated and L_two
-    plot_az_isolated_vs_two = True
-    plot_az_isolated_vs_two_save = True
+    plot_az_isolated_vs_two = False
+    plot_az_isolated_vs_two_save = False
     
     # plot azimuth distributions for L_isolated_associated + L_associated vs L_two + L_two_plus
     plot_az_all_assoc_vs_not = True
@@ -156,7 +156,7 @@ def main():
     plot_az_assoc_MType_save = False
     
     # which data set to use?
-    data_set = '_v250'
+    data_set = '_double'
 
     color_blue = '#436bad'      # french blue
     color_red = '#ec2d01'     # tomato red
@@ -1277,7 +1277,7 @@ def main():
 #########################################################################################    
     if plot_az_all_assoc_vs_not:
     
-        fig = figure(figsize=(10,6))
+        fig = figure(figsize=(8.7,4.7))
         subplots_adjust(hspace=0.200)
         bins = arange(0,100,10)
         
@@ -1287,25 +1287,18 @@ def main():
         L_three_plus_azimuths = L_three_plus['azimuths']
         L_group_azimuths = L_group['azimuths']
         
-        alpha_L_associated_isolated = 1.0
-        alpha_L_associated = 0.8
-        alpha_L_two = 1.0
-        alpha_L_three_plus = 1.0
-        alpha_L_group = 1.0
+        alpha_assoc = 0.99
+        alpha_two = 1.0
+        alpha_three_plus = 1.0
         
-        lw = 3.0
+        lw_assoc = 1.8
+        lw_three_plus = 1.8
         
-        color_blue = '#377eb8' # blue
-        color_black = 'black'
-        color_orange = '#ff7f00' # orange
+#         color_blue = '#377eb8' # blue
+#         color_black = 'black'
+#         color_orange = '#ff7f00' # orange
 #         color_L_three_plus = '#984ea3'
-        color_grey = 'grey'
-
-#         color_L_associated_isolated = '#e41a1c' # red
-#         color_L_associated = '#377eb8' # blue
-#         color_L_two = '#4daf4a' # green
-#         color_L_three_plus = '#984ea3' # purple
-#         color_L_group = '#ff7f00' # orange
+#         color_grey = 'grey'
         
 
         ax = fig.add_subplot(111)
@@ -1316,20 +1309,23 @@ def main():
         # all associated
         hist(all_associated_azimuths,
         bins=bins,
-        histtype='step',
-        color='black',
-        lw=lw,
-        alpha=alpha_L_two,
-        label=r'$\rm All~ Assoc.$')
+        histtype='bar',
+        color=color_blue,
+        edgecolor='black',
+        lw=lw_assoc,
+        alpha=alpha_assoc,
+        label=r'$\rm Associated$')
 
 
         # Two plus
         hist(all_not_azimuths,
         bins=bins,
-        histtype='step',
+        histtype='bar',
         color=color_red,
-        lw=lw,
-        alpha=alpha_L_associated,
+        edgecolor='black',
+        hatch="/",
+        lw=lw_three_plus,
+        alpha=alpha_three_plus,
         label=r'$\rm Two+$')
 
 

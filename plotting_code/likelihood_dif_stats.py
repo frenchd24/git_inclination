@@ -581,6 +581,7 @@ def main():
     L_group_file_min005_v250.close()
     
     
+    
 ############################################################################################################
     # standard
     
@@ -616,11 +617,13 @@ def main():
     Lya_Ws_associated_isolated_double = L_associated_isolated_double['Lya_Ws']
     Nas_associated_isolated_double = L_associated_isolated_double['Nas']
     bs_associated_isolated_double = L_associated_isolated_double['bs']
-    
+    incs_associated_isolated_double = L_associated_isolated_double['adjustedIncs']
+
     # associated
     Lya_Ws_associated_double = L_associated_double['Lya_Ws']
     Nas_associated_double = L_associated_double['Nas']
     bs_associated_double = L_associated_double['bs']
+    incs_associated_double = L_associated_double['adjustedIncs']
 
     # isolated
     Lya_Ws_isolated_double = isolated_double['Lya_Ws']
@@ -636,7 +639,8 @@ def main():
     Lya_Ws_two_plus_double = np.array(list(L_two_double['Lya_Ws']) + list(L_three_plus_double['Lya_Ws']))
     Nas_two_plus_double = np.array(list(L_two_double['Nas']) + list(L_three_plus_double['Lya_Ws']))
     bs_two_plus_double = np.array(list(L_two_double['bs']) + list(L_three_plus_double['bs']))
-    
+    incs_two_plus_double = np.array(list(L_two_double['adjustedIncs']) + list(L_three_plus_double['adjustedIncs']))
+
     ############################################################
     # min001
     
@@ -1025,6 +1029,47 @@ def main():
     print 'AD bs: L_associated_isolated vs L_two_plus: ',ans1a
     print 'Ranksum bs: L_associated_isolated vs L_two_plus: ', p_val
     print
+    
+    # inclinations
+    ans1 = stats.ks_2samp(incs_associated_isolated_double, allAdjustedIncs)
+    ans1a = stats.anderson_ksamp([incs_associated_isolated_double, allAdjustedIncs])
+    z_stat, p_val = stats.ranksums(incs_associated_isolated_double, allAdjustedIncs)
+    print 'KS adjustedIncs: L_associated_isolated vs all: ',ans1
+    print 'AD adjustedIncs: L_associated_isolated vs all: ',ans1a
+    print 'Ranksum adjustedIncs: L_associated_isolated vs all: ', p_val
+    print
+    ans1 = stats.ks_2samp(incs_associated_double, allAdjustedIncs)
+    ans1a = stats.anderson_ksamp([incs_associated_double, allAdjustedIncs])
+    z_stat, p_val = stats.ranksums(incs_associated_double, allAdjustedIncs)
+    print 'KS adjustedIncs: L_associated vs all: ',ans1
+    print 'AD adjustedIncs: L_associated vs all: ',ans1a
+    print 'Ranksum adjustedIncs: L_associated vs all: ', p_val
+    print
+    ans1 = stats.ks_2samp(incs_two_plus_double, allAdjustedIncs)
+    ans1a = stats.anderson_ksamp([incs_two_plus_double, allAdjustedIncs])
+    z_stat, p_val = stats.ranksums(incs_two_plus_double, allAdjustedIncs)
+    print 'KS adjustedIncs: L_two+ vs all: ',ans1
+    print 'AD adjustedIncs: L_two+ vs all: ',ans1a
+    print 'Ranksum adjustedIncs: L_two+ vs all: ', p_val
+    print
+
+    all_assoc_incs = np.array(list(incs_associated_isolated_double) + list(incs_associated_double))
+    ans1 = stats.ks_2samp(all_assoc_incs, allAdjustedIncs)
+    ans1a = stats.anderson_ksamp([all_assoc_incs, allAdjustedIncs])
+    z_stat, p_val = stats.ranksums(all_assoc_incs, allAdjustedIncs)
+    print 'KS adjustedIncs: all_assoc_incs vs all: ',ans1
+    print 'AD adjustedIncs: all_assoc_incs vs all: ',ans1a
+    print 'Ranksum adjustedIncs: all_assoc_incs vs all: ', p_val
+    print
+
+    ans1 = stats.ks_2samp(all_assoc_incs, incs_two_plus_double)
+    ans1a = stats.anderson_ksamp([all_assoc_incs, incs_two_plus_double])
+    z_stat, p_val = stats.ranksums(all_assoc_incs, incs_two_plus_double)
+    print 'KS adjustedIncs: all_assoc_incs vs incs_two_plus_double: ',ans1
+    print 'AD adjustedIncs: all_assoc_incs vs incs_two_plus_double: ',ans1a
+    print 'Ranksum adjustedIncs: all_assoc_incs vs incs_two_plus_double: ', p_val
+    print
+
 
 ###############################################################################
 

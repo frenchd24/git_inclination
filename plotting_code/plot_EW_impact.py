@@ -2137,17 +2137,17 @@ def main():
         include_histograms = False
         include_fit = True
 
-        alpha_S = 0.6
+        alpha_S = 0.4
         alpha_S0 = 0.99
         alpha_E = 0.99
         alpha_I = 0.99
         alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize_S = 35
-        markerSize_E = 45
-        markerSize_I = 40
-        markerSize_S0 = 40
-        markerSize_other = 40
+        markerSize_S = 30
+        markerSize_E = 50
+        markerSize_I = 50
+        markerSize_S0 = 50
+        markerSize_other = 50
                 
 #         binSize = 50
 #         bins = arange(0, 550, binSize)
@@ -2729,17 +2729,17 @@ def main():
         include_histograms = False
         include_fit = True
 
-        alpha_S = 0.6
+        alpha_S = 0.4
         alpha_S0 = 0.99
         alpha_E = 0.99
         alpha_I = 0.99
         alpha_other = 0.99
         alpha_bins = 0.99
-        markerSize_S = 35
-        markerSize_E = 45
-        markerSize_I = 40
-        markerSize_S0 = 40
-        markerSize_other = 40
+        markerSize_S = 25
+        markerSize_E = 55
+        markerSize_I = 55
+        markerSize_S0 = 55
+        markerSize_other = 55
 
 
         lw = 0.6

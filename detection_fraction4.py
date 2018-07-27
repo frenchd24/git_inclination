@@ -108,7 +108,7 @@ def main():
     
     vcut = False
     
-    min_EW = 0
+    min_EW = 300
     
     d_min = 0
     
@@ -137,14 +137,14 @@ def main():
         # pickle files
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_lstarcut_all-1.p'
 #         detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_dmin75_vcut2500_minEW50.p'
-        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW0_closestonly.p'
+        detection_fraction_filename = '/Users/frenchd/Research/inclination/git_inclination/detection_fraction_minEW300_closestonly2.p'
 
     else:
         print 'Could not determine username. Exiting.'
         sys.exit()
     
     
-    theFile = open(filename,'rU')    
+    theFile = open(filename,'rU')
     reader = csv.DictReader(theFile)
     
     # open the pickle files
@@ -222,7 +222,6 @@ def main():
     dv400_imp50_det_inc = []
     dv400_imp25_det_inc = []
     
-    
     # inclinations of galaxies near non-detections within each impact parameter window
     dv400_imp1000_non_inc = []
     dv400_imp750_non_inc = []
@@ -246,7 +245,6 @@ def main():
     dv400_imp50_det_lstar = []
     dv400_imp25_det_lstar = []
     
-    
     # Lstars of galaxies near non-detections within each impact parameter window
     dv400_imp1000_non_lstar = []
     dv400_imp750_non_lstar = []
@@ -259,6 +257,27 @@ def main():
     dv400_imp25_non_lstar = []
     
     
+    # az of galaxies near detections within each impact parameter window
+    dv400_imp1000_det_az = []
+    dv400_imp750_det_az = []
+    dv400_imp500_det_az = []
+    dv400_imp400_det_az = []
+    dv400_imp300_det_az = []
+    dv400_imp200_det_az = []
+    dv400_imp100_det_az = []
+    dv400_imp50_det_az = []
+    dv400_imp25_det_az = []
+    
+    # az of galaxies near non-detections within each impact parameter window
+    dv400_imp1000_non_az = []
+    dv400_imp750_non_az = []
+    dv400_imp500_non_az = []
+    dv400_imp400_non_az = []
+    dv400_imp300_non_az = []
+    dv400_imp200_non_az = []
+    dv400_imp100_non_az = []
+    dv400_imp50_non_az = []
+    dv400_imp25_non_az = []
 
 ##########################################################################################
     # now for likelihood thresholds
@@ -341,6 +360,28 @@ def main():
     dv400_l5_non_lstar = []
     dv400_l75_non_lstar = []
     
+    
+    # az of galaxies near detections within each likelihood window
+    dv400_l0001_det_az = []
+    dv400_l0005_det_az = []
+    dv400_l001_det_az = []
+    dv400_l005_det_az = []
+    dv400_l01_det_az = []
+    dv400_l05_det_az = []
+    dv400_l1_det_az = []
+    dv400_l5_det_az = []
+    dv400_l75_det_az = []
+    
+    # az of galaxies near non-detections within each likelihood window
+    dv400_l0001_non_az = []
+    dv400_l0005_non_az = []
+    dv400_l001_non_az = []
+    dv400_l005_non_az = []
+    dv400_l01_non_az = []
+    dv400_l05_non_az = []
+    dv400_l1_non_az = []
+    dv400_l5_non_az = []
+    dv400_l75_non_az = []
     
     
 ##########################################################################################
@@ -539,7 +580,7 @@ def main():
             RAdeg = correlation[c]['RAdeg']
             DEdeg = correlation[c]['DEdeg']
             impact = correlation[c]['impact']
-            azimuths = correlation[c]['azimuth']
+            azimuth = correlation[c]['azimuth']
             PA = correlation[c]['PA']
             inc = correlation[c]['inc']
             adjustedInc = correlation[c]['adjustedInc']
@@ -578,6 +619,7 @@ def main():
             Vhel = float(Vhel)
             impact = float(impact)
             adjustedInc = float(adjustedInc)
+            azimuth = float(azimuth)
             
             # restrict galaxies based on velocity?
             if vcut:
@@ -598,6 +640,7 @@ def main():
                         if other_name != Name:
                             proceed = False
                             break
+
             if proceed:
                 # if there's a galaxy within 1000 kpc, search for a line 
                 if float(impact) <= 1000:
@@ -617,6 +660,9 @@ def main():
                             
                         if not is_null(Lstar):
                             dv400_imp1000_det_lstar.append(Lstar)
+
+                        if not is_null(azimuth):
+                            dv400_imp1000_det_az.append(azimuth)
                     else:
                         dv400_imp1000_non +=1
                         if not is_null(adjustedInc):
@@ -624,6 +670,9 @@ def main():
                             
                         if not is_null(Lstar):
                             dv400_imp1000_non_lstar.append(Lstar)
+
+                        if not is_null(azimuth):
+                            dv400_imp1000_non_az.append(azimuth)
 
                 # if there's a galaxy within 750 kpc, search for a line 
                 if float(impact) <= 750:
@@ -643,6 +692,9 @@ def main():
                             
                         if not is_null(Lstar):
                             dv400_imp750_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp750_det_az.append(azimuth)
                     else:
                         dv400_imp750_non +=1
                         if not is_null(adjustedInc):
@@ -650,7 +702,11 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp750_non_lstar.append(Lstar)
-
+                            
+                        if not is_null(azimuth):
+                            dv400_imp750_non_az.append(azimuth)
+                            
+                            
                 # if there's a galaxy within 500 kpc, search for a line 
                 if float(impact) <= 500:
                     detection = False
@@ -669,6 +725,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp500_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp500_det_az.append(azimuth)
                     else:
                         dv400_imp500_non +=1
                         if not is_null(adjustedInc):
@@ -676,6 +735,9 @@ def main():
                          
                         if not is_null(Lstar):
                             dv400_imp500_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp500_non_az.append(azimuth)
             
                 # if there's a galaxy within 400 kpc, search for a line 
                 if float(impact) <= 400:
@@ -695,6 +757,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp400_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp400_det_az.append(azimuth)
                     else:
                         dv400_imp400_non +=1
                         if not is_null(adjustedInc):
@@ -702,6 +767,9 @@ def main():
                             
                         if not is_null(Lstar):
                             dv400_imp400_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp400_non_az.append(azimuth)
 
                 # if there's a galaxy within 300 kpc, search for a line 
                 if float(impact) <= 300:
@@ -721,6 +789,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp300_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp300_det_az.append(azimuth)
                     else:
                         dv400_imp300_non +=1
                         if not is_null(adjustedInc):
@@ -728,6 +799,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp300_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp300_non_az.append(azimuth)
 
                 # if there's a galaxy within 200 kpc, search for a line 
                 if float(impact) <= 200:
@@ -747,6 +821,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp200_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp200_det_az.append(azimuth)
                     else:
                         dv400_imp200_non +=1
                         if not is_null(adjustedInc):
@@ -754,6 +831,9 @@ def main():
                             
                         if not is_null(Lstar):
                             dv400_imp200_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp200_non_az.append(azimuth)
 
                 # if there's a galaxy within 100 kpc, search for a line 
                 if float(impact) <= 100:
@@ -773,6 +853,9 @@ def main():
                         
                         if not is_null(Lstar): 
                             dv400_imp100_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth): 
+                            dv400_imp100_det_az.append(azimuth)
                     else:
                         dv400_imp100_non +=1
                         if not is_null(adjustedInc):
@@ -780,7 +863,10 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp100_non_lstar.append(Lstar)
-
+                            
+                        if not is_null(azimuth): 
+                            dv400_imp100_non_az.append(azimuth)
+                            
                 # if there's a galaxy within 50 kpc, search for a line 
                 if float(impact) <= 50:
                     detection = False
@@ -799,7 +885,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp50_det_lstar.append(Lstar)
-
+                            
+                        if not is_null(azimuth):
+                            dv400_imp50_det_az.append(azimuth)
                     else:
                         dv400_imp50_non +=1
                         if not is_null(adjustedInc):
@@ -807,6 +895,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp50_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp50_non_az.append(azimuth)
                     
                 # if there's a galaxy within 25 kpc, search for a line 
                 if float(impact) <= 25:
@@ -826,6 +917,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp25_det_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp25_det_az.append(azimuth)
                     else:
                         dv400_imp25_non +=1
                         if not is_null(adjustedInc):
@@ -833,6 +927,9 @@ def main():
                         
                         if not is_null(Lstar):
                             dv400_imp25_non_lstar.append(Lstar)
+                            
+                        if not is_null(azimuth):
+                            dv400_imp25_non_az.append(azimuth)
 
                         print 'non-detection within 25: {0} - {1}'.format(target, Name)
                     
@@ -884,6 +981,9 @@ def main():
                             
                             if not is_null(Lstar): 
                                 dv400_l0001_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth): 
+                                dv400_l0001_det_az.append(azimuth)
                         else:
                             dv400_l0001_non +=1
                             if not is_null(adjustedInc):
@@ -891,6 +991,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l0001_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth): 
+                                dv400_l0001_non_az.append(azimuth)
 
                     # if the likelihood is greater than 0.0005, see if there's a corresponding absorber
                     if l_used >= 0.0005:
@@ -910,6 +1013,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l0005_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l0005_det_az.append(azimuth)
                         else:
                             dv400_l0005_non +=1
                             if not is_null(adjustedInc):
@@ -917,6 +1023,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l0005_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l0005_non_az.append(azimuth)
             
                     # if the likelihood is greater than 0.001, see if there's a corresponding absorber
                     if l_used >= 0.001:
@@ -936,6 +1045,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l001_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l001_det_az.append(azimuth)
                         else:
                             dv400_l001_non +=1
                             if not is_null(adjustedInc):
@@ -943,6 +1055,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l001_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l001_non_az.append(azimuth)
 
                     # if the likelihood is greater than 0.005, see if there's a corresponding absorber
                     if l_used >= 0.005:
@@ -962,6 +1077,9 @@ def main():
                             
                             if not is_null(Lstar): 
                                 dv400_l005_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth): 
+                                dv400_l005_det_az.append(azimuth)
                         else:
                             dv400_l005_non +=1
                             if not is_null(adjustedInc):
@@ -969,6 +1087,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l005_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth): 
+                                dv400_l005_non_az.append(azimuth)
 
                     # if the likelihood is greater than 0.01, see if there's a corresponding absorber
                     if l_used >= 0.01:
@@ -988,6 +1109,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l01_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l01_det_az.append(azimuth)
                         else:
                             dv400_l01_non +=1
                             if not is_null(adjustedInc):
@@ -995,6 +1119,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l01_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l01_non_az.append(azimuth)
                         
                     # if the likelihood is greater than 0.05, see if there's a corresponding absorber
                     if l_used >= 0.05:
@@ -1014,6 +1141,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l05_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l05_det_az.append(azimuth)
                         else:
                             dv400_l05_non +=1
                             if not is_null(adjustedInc):
@@ -1021,7 +1151,10 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l05_non_lstar.append(Lstar)
-                        
+                                
+                            if not is_null(azimuth):
+                                dv400_l05_non_az.append(azimuth)
+                                
                     # if the likelihood is greater than 0.1, see if there's a corresponding absorber
                     if l_used >= 0.1:
                         detection = False
@@ -1040,6 +1173,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l1_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l1_det_az.append(azimuth)
                         else:
                             dv400_l1_non +=1
                             if not is_null(adjustedInc):
@@ -1047,6 +1183,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l1_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l1_non_az.append(azimuth)
                         
                     # if the likelihood is greater than 0.5, see if there's a corresponding
                     if l_used >= 0.5:
@@ -1066,6 +1205,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l5_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l5_det_az.append(azimuth)
                         else:
                             dv400_l5_non +=1
                             if not is_null(adjustedInc):
@@ -1073,6 +1215,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l5_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l5_non_az.append(azimuth)
                         
                     # if the likelihood is greater than 0.75, see if there's a corresponding
                     if l_used >= 0.75:
@@ -1092,6 +1237,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l75_det_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l75_det_az.append(azimuth)
                         else:
                             dv400_l75_non +=1
                             if not is_null(adjustedInc):
@@ -1099,6 +1247,9 @@ def main():
                             
                             if not is_null(Lstar):
                                 dv400_l75_non_lstar.append(Lstar)
+                                
+                            if not is_null(azimuth):
+                                dv400_l75_non_az.append(azimuth)
                         
     ##########################################################################################            
                 # now do it for imp/R_vir
@@ -1393,6 +1544,30 @@ def main():
     full_dict['dv400_imp25_non_lstar'] = dv400_imp25_non_lstar
 
 
+    # now impact parameter detection az 
+    full_dict['dv400_imp1000_det_az'] = dv400_imp1000_det_az
+    full_dict['dv400_imp750_det_az'] = dv400_imp750_det_az
+    full_dict['dv400_imp500_det_az'] = dv400_imp500_det_az
+    full_dict['dv400_imp400_det_az'] = dv400_imp400_det_az
+    full_dict['dv400_imp300_det_az'] = dv400_imp300_det_az
+    full_dict['dv400_imp200_det_az'] = dv400_imp200_det_az
+    full_dict['dv400_imp100_det_az'] = dv400_imp100_det_az
+    full_dict['dv400_imp50_det_az'] = dv400_imp50_det_az
+    full_dict['dv400_imp25_det_az'] = dv400_imp25_det_az
+    
+    # now impact parameter non-detection az
+    full_dict['dv400_imp1000_non_az'] = dv400_imp1000_non_az
+    full_dict['dv400_imp750_non_az'] = dv400_imp750_non_az
+    full_dict['dv400_imp500_non_az'] = dv400_imp500_non_az
+    full_dict['dv400_imp400_non_az'] = dv400_imp400_non_az
+    full_dict['dv400_imp300_non_az'] = dv400_imp300_non_az
+    full_dict['dv400_imp200_non_az'] = dv400_imp200_non_az
+    full_dict['dv400_imp100_non_az'] = dv400_imp100_non_az
+    full_dict['dv400_imp50_non_az'] = dv400_imp50_non_az
+    full_dict['dv400_imp25_non_az'] = dv400_imp25_non_az
+
+
+
 
 
     # now for likelihood thresholds
@@ -1471,6 +1646,29 @@ def main():
     full_dict['dv400_l1_non_lstar'] = dv400_l1_non_lstar
     full_dict['dv400_l5_non_lstar'] = dv400_l5_non_lstar
     full_dict['dv400_l75_non_lstar'] = dv400_l75_non_lstar
+    
+    # now for likelihood detection az
+    full_dict['dv400_l0001_det_az'] = dv400_l0001_det_az
+    full_dict['dv400_l0005_det_az'] = dv400_l0005_det_az
+    full_dict['dv400_l001_det_az'] = dv400_l001_det_az
+    full_dict['dv400_l005_det_az'] = dv400_l005_det_az
+    full_dict['dv400_l01_det_az'] = dv400_l01_det_az
+    full_dict['dv400_l05_det_az'] = dv400_l05_det_az
+    full_dict['dv400_l1_det_az'] = dv400_l1_det_az
+    full_dict['dv400_l5_det_az'] = dv400_l5_det_az
+    full_dict['dv400_l75_det_az'] = dv400_l75_det_az
+    
+    # now for likelihood non-detection az
+    full_dict['dv400_l0001_non_az'] = dv400_l0001_non_az
+    full_dict['dv400_l0005_non_az'] = dv400_l0005_non_az
+    full_dict['dv400_l001_non_az'] = dv400_l001_non_az
+    full_dict['dv400_l005_non_az'] = dv400_l005_non_az
+    full_dict['dv400_l01_non_az'] = dv400_l01_non_az
+    full_dict['dv400_l05_non_az'] = dv400_l05_non_az
+    full_dict['dv400_l1_non_az'] = dv400_l1_non_az
+    full_dict['dv400_l5_non_az'] = dv400_l5_non_az
+    full_dict['dv400_l75_non_az'] = dv400_l75_non_az
+    
     
     
     
