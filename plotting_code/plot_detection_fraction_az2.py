@@ -159,7 +159,7 @@ def main():
     # =4 adds groups with 2 or more members
     Lstar_min = 0.5
     
-    bootstrap = True
+    bootstrap = False
     
     # only consider galaxies within this velocity limit
     cut = 'minEW200'
@@ -2388,10 +2388,10 @@ def main():
         lw_l1_outside = 1.5
         lw_l1_inside = 1.5
 
-        symbol_l1_outside = 'X'
+        symbol_l1_outside = 'P'
         symbol_l1_inside = 'D'
 
-        color_l1_outside = color_red
+        color_l1_outside = color_orange
         color_l1_inside = color_blue
 
         ls_l1_outside = 'dashed'
@@ -2979,12 +2979,28 @@ def main():
         print
         print
         
+        
+        def detection_fraction_error(det, non):
+            first_term = (non * det**2)/(non + det)**4
+        
+            second_term = det * (-det/(non + det)**2 + 1/(non + det))**2
+            
+            err = np.sqrt(first_term + second_term)
+            
+            return err
+        
         detection_fraction_l1_outside = np.array(y_l1_det_outside) / np.array(np.array(y_l1_det_outside) + np.array(y_l1_non_outside))
         detection_fraction_l1_inside = np.array(y_l1_det_inside) / np.array(np.array(y_l1_det_inside) + np.array(y_l1_non_inside))
 
-        detection_fraction_l1_outside_err = np.sqrt(y_l1_det_outside) / np.array(np.array(y_l1_det_outside) + np.array(y_l1_non_outside))
-        detection_fraction_l1_inside_err = np.sqrt(y_l1_det_inside) / np.array(np.array(y_l1_det_inside) + np.array(y_l1_non_inside))
 
+        detection_fraction_l1_outside_err = [detection_fraction_error(det, non) for det, non in zip(y_l1_det_outside, y_l1_non_outside)]
+        detection_fraction_l1_inside_err = [detection_fraction_error(det, non) for det, non in zip(y_l1_det_inside, y_l1_non_inside)]
+
+        print
+        print 'detection_fraction_l1_outside_err: ',detection_fraction_l1_outside_err
+        print 'detection_fraction_l1_inside_err: ',detection_fraction_l1_inside_err
+        print
+        print
 
 
         ##########
@@ -2993,8 +3009,10 @@ def main():
         print 'detection_fraction_l1_inside: ',detection_fraction_l1_inside
         ax1.errorbar(x,
                     detection_fraction_l1_outside,
-#                     yerr=detection_fraction_l1_outside_err,
+                    yerr=detection_fraction_l1_outside_err,
                     marker=symbol_l1_outside,
+                    capsize=3,
+                    capthick=1,
                     c=color_l1_outside,
                     ms=markerSize_l1_outside,
                     markeredgecolor='black',
@@ -3005,7 +3023,7 @@ def main():
 
         ax1.errorbar(x,
                     detection_fraction_l1_inside,
-#                     yerr=detection_fraction_l1_inside_err,
+                    yerr=detection_fraction_l1_inside_err,
                     marker=symbol_l1_inside,
                     c=color_l1_inside,
                     ms=markerSize_l1_inside,

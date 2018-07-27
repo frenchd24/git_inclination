@@ -365,8 +365,8 @@ def main():
     AGNsize = 50
 
     # color map: 
-    colmap = cm.RdBu_r
-#     colmap = cm.inferno
+#     colmap = cm.RdBu_r
+    colmap = cm.plasma
 
     # which way to plot RA axis? RAeastLeft = True puts east to the left, matching
     # the standard. I.e., RA increases toward the left
@@ -409,7 +409,7 @@ def main():
 #         outputFile = '/Users/frenchd/Research/test/target_maps/target_maps.csv'
         targetFile = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements_copy.csv'
 
-        saveDirectory = '/Users/frenchd/Research/test/all_targets/'
+        saveDirectory = '/Users/frenchd/Research/test/all_targets_alt/'
         outputFile = '/Users/frenchd/Research/test/test.csv'
 
     else:
@@ -625,7 +625,7 @@ def main():
                         averageSize = 2
                         inclination = 0
                         noSize = True
-                                            
+
 #                     if not isNumber(galaxyVcorr):
 #                         galaxyVcorr = 0
 #                         galaxyVel = 0
@@ -713,7 +713,8 @@ def main():
             print 'starting first plot...'
             
             x = arange(len(galaxyNames))+1
-            fig = figure(figsize=(9,7))
+#             fig = figure(figsize=(9,7))
+            fig = figure(figsize=(7.5,5.7))
             ax = fig.add_subplot(111)
             width = 0.30
             
@@ -740,15 +741,17 @@ def main():
             
             # scale sizes and velocities
             maxSize = 300
-            minSize = 80
+            minSize = 50
             largest = float(max(plotSizes))
             smallest = float(min(plotSizes))
-            
+            largest = 50
+            smallest = 0.1
             newSizes = []
         
             # multiply sizes of galaxies by 10
             for s in plotSizes:
-                new = s*10
+                new = (((s - smallest)/(largest-smallest)) * (maxSize-minSize)) + minSize
+#                 new = s*10
                 newSizes.append(new)
             
             vmaxVal = velocityWindow
@@ -1187,22 +1190,22 @@ def main():
 #             ax.yaxis.set_ticklabels(['%.2f' % 0.1/100*i for i in np.arange(0,100,10)]) 
             cbar.set_label(r'$\rm \Delta v ~[km ~s^{-1}]$')
         
-            ax.grid(b=None,which='major',axis='both')
+            ax.grid(b=True,which='both',axis='both', alpha=0.6)
             ax.set_ylim(-maxSep,maxSep)
             ax.set_xlim(-maxSep,maxSep)
             
             if RAeastLeft:
                 ax.invert_xaxis()
             
-            ax.set_xlabel(r'$\rm R.A. ~Separation ~[kpc]$')
-            ax.set_ylabel(r'$\rm Dec. ~Separation ~[kpc]$')
+            ax.set_xlabel(r'$\rm R.A. ~[kpc]$')
+            ax.set_ylabel(r'$\rm Dec. ~[kpc]$')
             if includeTitle:
                 if bfind(targetName,'_') and not bfind(targetName,'\_'):
                     newTargetName = targetName.replace('_','\\_')
                 else:
                     newTargetName = targetName
 #                 title("{0} centered velocity = {1} +/- {2} km/s".format(targetName,center,velocityWindow))
-                title(r'$\rm {0} ~ : ~ {1} \pm {2}~ km s^{{-1}}$'.format(targetName,center,velocityWindow))
+                title(r'$\rm {0} ~ : ~ {1} \pm {2}~ km s^{{-1}}$'.format(targetName, center, velocityWindow), fontsize=18)
 
             # now write it all to file, or display the finished figure
             if saveMaps:

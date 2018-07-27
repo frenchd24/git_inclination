@@ -3,47 +3,45 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: final_chapter2.aux
 The style file: apj.bst
 Database file #1: /Users/frenchd/Research/inclination/git_inclination/bib.bib
-Warning--I didn't find a database entry for "prochaska2011b"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 9 entries,
+You've used 10 entries,
             3010 wiz_defined-function locations,
-            712 strings with 6373 characters,
-and the built_in function-call counts, 4314 in all, are:
-= -- 381
-> -- 298
+            717 strings with 6593 characters,
+and the built_in function-call counts, 4854 in all, are:
+= -- 427
+> -- 344
 < -- 3
-+ -- 101
-- -- 111
-* -- 361
-:= -- 808
-add.period$ -- 9
-call.type$ -- 9
-change.case$ -- 68
-chr.to.int$ -- 9
-cite$ -- 9
-duplicate$ -- 171
-empty$ -- 243
-format.name$ -- 125
-if$ -- 850
++ -- 117
+- -- 130
+* -- 410
+:= -- 910
+add.period$ -- 10
+call.type$ -- 10
+change.case$ -- 77
+chr.to.int$ -- 10
+cite$ -- 10
+duplicate$ -- 190
+empty$ -- 269
+format.name$ -- 143
+if$ -- 954
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 9
-newline$ -- 31
-num.names$ -- 36
-pop$ -- 76
+missing$ -- 10
+newline$ -- 34
+num.names$ -- 40
+pop$ -- 85
 preamble$ -- 1
-purify$ -- 68
+purify$ -- 77
 quote$ -- 0
-skip$ -- 139
+skip$ -- 154
 stack$ -- 0
-substring$ -- 186
+substring$ -- 204
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 81
+type$ -- 90
 warning$ -- 0
-while$ -- 36
+while$ -- 40
 width$ -- 0
-write$ -- 93
-(There was 1 warning)
+write$ -- 103

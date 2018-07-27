@@ -313,14 +313,14 @@ def main():
     # scale EWs here:
     largestEW = max(all_Lya_Ws)
     smallestEW = min(all_Lya_Ws)
-    maxSize = 1500
-    minSize = 20
+    maxSize = 1600
+    minSize = 30
 
     new_Ws = []
     for w in all_Lya_Ws:
         # cut off the super large outlier EWs so they don't mess up all the scaling
-        if w > 1000:
-            w = 1000
+        if w > 1200:
+            w = 1200
             
         new_W = ((float(w) - smallestEW)/(largestEW - smallestEW)) * (maxSize - minSize) + minSize
         new_Ws.append(new_W)
@@ -359,13 +359,12 @@ def main():
             Lya_ra4.append(ra)
             Lya_dec4.append(dec)
             Lya_W4.append(W)
-
             
             
 ##########################################################################################
 ##########################################################################################
 
-    saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/all_sky_map/'
+    saveDirectory = '/Users/frenchd/Research/inclination/git_inclination/plotting_code/figs/all_sky_map_12h/'
 
 
     # plot it
@@ -379,9 +378,9 @@ def main():
 #     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
 #     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
 
-    alpha_galaxy = 0.5
-    alpha_Lya = 0.9
-    lw = 0.45
+    alpha_galaxy = 0.48
+    alpha_Lya = 0.99
+    lw = 0.48
     size_galaxy = 2
 #     colmap = cm.cool
 #     colmap = cm.viridis
@@ -392,20 +391,29 @@ def main():
 ##########################################################################################
     # 0 - 2500 km/s
     # Now plot the data in Aitoff projection with a grid.
-    fig = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize=(12,6.65))
     ax = lab.subplot(111, projection="aitoff")
         
     colors = numpy.array(v1)
     vmaxVal = max(colors)
     vminVal = min(colors)
+    
+    ra_shift = -180.0
+#     xlabels = ['20h','22h','0h','2h','4h','6h','8h','10h','14h','16h','18h']
+#     xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
+
+    xlab = ['2h','4h','6h','8h','10h','12h','14h','16h','18h','20h','22h']
+    
 
     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
 
     # galaxies first
     
-    if include_galaxies:
-        ras = numpy.array(ra1)
+    if include_galaxies:    
+        ras1 = numpy.array(ra1)
+        ras = np.array(ras1) + ra_shift
+        
         decs = numpy.array(dec1)
     #     colors = numpy.array(v1)
         # Transform the data into a SkyCoord object.
@@ -423,7 +431,9 @@ def main():
     
     
     # now absorbers
-    ras = numpy.array(Lya_ra1)
+    ras1 = numpy.array(Lya_ra1)
+    ras = np.array(ras1) + ra_shift
+    
     decs = numpy.array(Lya_dec1)
     colors = numpy.array(Lya_v1)
     sizes = numpy.array(Lya_W1)
@@ -444,24 +454,30 @@ def main():
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
     cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
     
-    xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
-    ax.set_xticklabels(xlab, weight=530)
+    ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}2500kms_galaxies-{1}.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}2500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
 
 ##########################################################################################
     # 2500 - 5000 km/s
 
     # Now plot the data in Aitoff projection with a grid.
-    fig = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize=(12,6.65))
     ax = lab.subplot(111,projection="aitoff")
     
     colors = numpy.array(v2)
     vmaxVal = max(colors)
     vminVal = min(colors)
+
+    ra_shift = -180.0
+#     xlabels = ['20h','22h','0h','2h','4h','6h','8h','10h','14h','16h','18h']
+#     xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
+
+    xlab = ['2h','4h','6h','8h','10h','12h','14h','16h','18h','20h','22h']
+    
 
     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
@@ -469,7 +485,9 @@ def main():
     
     # first galaxies
     if include_galaxies:
-        ras = numpy.array(ra2)
+        ras2 = numpy.array(ra2)
+        ras = np.array(ras2) + ra_shift
+    
         decs = numpy.array(dec2)
     #     colors = numpy.array(v2)
         # Transform the data into a SkyCoord object.
@@ -489,7 +507,9 @@ def main():
     
     
     # now absorbers
-    ras = numpy.array(Lya_ra2)
+    ras2 = numpy.array(Lya_ra2)
+    ras = np.array(ras2) + ra_shift
+    
     decs = numpy.array(Lya_dec2)
     colors = numpy.array(Lya_v2)
     sizes = numpy.array(Lya_W2)
@@ -510,31 +530,38 @@ def main():
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
     cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
     
-    xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
-    ax.set_xticklabels(xlab, weight=530)
+    ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}5000kms_galaxies-{1}.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}5000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
     
 ##########################################################################################
     # 5000 - 7500 km/s
 
     # Now plot the data in Aitoff projection with a grid.
-    fig = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize=(12,6.65))
     ax = lab.subplot(111,projection="aitoff")
     
     colors = numpy.array(v3)
     vmaxVal = max(colors)
     vminVal = min(colors)
 
+    ra_shift = -180.0
+#     xlabels = ['20h','22h','0h','2h','4h','6h','8h','10h','14h','16h','18h']
+#     xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
+
+    xlab = ['2h','4h','6h','8h','10h','12h','14h','16h','18h','20h','22h']
+
     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
     
     # first galaxies
     if include_galaxies:
-        ras = numpy.array(ra3)
+        ras3 = numpy.array(ra3)
+        ras = np.array(ras3) + ra_shift
+    
         decs = numpy.array(dec3)
     #     colors = numpy.array(v3)
         # Transform the data into a SkyCoord object.
@@ -554,7 +581,9 @@ def main():
     
     
     # now absorbers
-    ras = numpy.array(Lya_ra3)
+    ras3 = numpy.array(Lya_ra3)
+    ras = np.array(ras3) + ra_shift
+    
     decs = numpy.array(Lya_dec3)
     colors = numpy.array(Lya_v3)
     sizes = numpy.array(Lya_W3)
@@ -575,31 +604,38 @@ def main():
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
     cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
     
-    xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
-    ax.set_xticklabels(xlab, weight=530)
+    ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}7500kms_galaxies-{1}.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}7500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
 
 ##########################################################################################
     # 7500 - 10000 km/s
     
     # Now plot the data in Aitoff projection with a grid.
-    fig = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize=(12,6.65))
     ax = lab.subplot(111,projection="aitoff")
     
     colors = numpy.array(v4)
     vmaxVal = max(colors)
     vminVal = min(colors)
+    
+    ra_shift = -180.0
+#     xlabels = ['20h','22h','0h','2h','4h','6h','8h','10h','14h','16h','18h']
+#     xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
+
+    xlab = ['2h','4h','6h','8h','10h','12h','14h','16h','18h','20h','22h']
 
     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
     
     # first galaxies
     if include_galaxies:
-        ras = numpy.array(ra4)
+        ras4 = numpy.array(ra4)
+        ras = np.array(ras4) + ra_shift
+    
         decs = numpy.array(dec4)
     #     colors = numpy.array(v4)
         # Transform the data into a SkyCoord object.
@@ -619,7 +655,9 @@ def main():
     
     
     # now absorbers
-    ras = numpy.array(Lya_ra4)
+    ras4 = numpy.array(Lya_ra4)
+    ras = np.array(ras4) + ra_shift
+    
     decs = numpy.array(Lya_dec4)
     colors = numpy.array(Lya_v4)
     sizes = numpy.array(Lya_W4)
@@ -640,13 +678,13 @@ def main():
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
     cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
     
-    xlab = ['14h','16h','18h','20h','22h','0h','2h','4h','6h','8h','10h']
-    ax.set_xticklabels(xlab, weight=530)
+    ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}10000kms_galaxies-{1}.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}10000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+#     bbox_inches='tight'
 
 ##########################################################################################
 ##########################################################################################

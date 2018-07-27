@@ -618,12 +618,42 @@ def main():
     Nas_associated_isolated_double = L_associated_isolated_double['Nas']
     bs_associated_isolated_double = L_associated_isolated_double['bs']
     incs_associated_isolated_double = L_associated_isolated_double['adjustedIncs']
+    azimuths_associated_isolated_double = L_associated_isolated_double['azimuths']
+    
+    azimuths_associated_isolated_double_min300 = []
+    incs_associated_isolated_double_min300 = []
+    for az, inc, W in zip(azimuths_associated_isolated_double, incs_associated_isolated_double,Lya_Ws_associated_isolated_double):
+        W = float(W)
+        az = float(az)
+        inc = float(inc)
+        if W >= 300:
+            if az >= 0:
+                azimuths_associated_isolated_double_min300.append(az)
+            
+            if inc >= 0:
+                incs_associated_isolated_double_min300.append(inc)
+
 
     # associated
     Lya_Ws_associated_double = L_associated_double['Lya_Ws']
     Nas_associated_double = L_associated_double['Nas']
     bs_associated_double = L_associated_double['bs']
     incs_associated_double = L_associated_double['adjustedIncs']
+    azimuths_associated_double = L_associated_double['azimuths']
+
+    azimuths_associated_double_min300 = []
+    incs_associated_double_min300 = []
+    for az, inc, W in zip(azimuths_associated_double, incs_associated_double, Lya_Ws_associated_double):
+        W = float(W)
+        az = float(az)
+        inc = float(inc)
+        if W >= 300:
+            if az >= 0:
+                azimuths_associated_double_min300.append(az)
+            
+            if inc >= 0:
+                incs_associated_double_min300.append(inc)
+
 
     # isolated
     Lya_Ws_isolated_double = isolated_double['Lya_Ws']
@@ -640,6 +670,7 @@ def main():
     Nas_two_plus_double = np.array(list(L_two_double['Nas']) + list(L_three_plus_double['Lya_Ws']))
     bs_two_plus_double = np.array(list(L_two_double['bs']) + list(L_three_plus_double['bs']))
     incs_two_plus_double = np.array(list(L_two_double['adjustedIncs']) + list(L_three_plus_double['adjustedIncs']))
+    azimuths_two_plus_double = np.array(list(L_two_double['azimuths']) + list(L_three_plus_double['azimuths']))
 
     ############################################################
     # min001
@@ -993,6 +1024,14 @@ def main():
     # double stats
     print '---------------------------- Double ----------------------------'
     print
+    print 'len(Lya_Ws_isolated_double): ',len(Lya_Ws_isolated_double)
+    print 'len(Lya_Ws_L_isolated_double): ',len(Lya_Ws_L_isolated_double)
+    print 'len(Lya_Ws_associated_isolated_double): ',len(Lya_Ws_associated_isolated_double)
+    print 'len(Lya_Ws_associated_double): ',len(Lya_Ws_associated_double)
+    print 'len(Lya_Ws_two_plus_double): ',len(Lya_Ws_two_plus_double)
+    print
+    
+    print
     print 'stats.stats(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_double)
     print 'stats.stats(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_double)
     print 'stats.stats(Lya_Ws_L_associated_isolated): ',stats.describe(Lya_Ws_associated_isolated_double)
@@ -1038,6 +1077,7 @@ def main():
     print 'AD adjustedIncs: L_associated_isolated vs all: ',ans1a
     print 'Ranksum adjustedIncs: L_associated_isolated vs all: ', p_val
     print
+    
     ans1 = stats.ks_2samp(incs_associated_double, allAdjustedIncs)
     ans1a = stats.anderson_ksamp([incs_associated_double, allAdjustedIncs])
     z_stat, p_val = stats.ranksums(incs_associated_double, allAdjustedIncs)
@@ -1045,6 +1085,7 @@ def main():
     print 'AD adjustedIncs: L_associated vs all: ',ans1a
     print 'Ranksum adjustedIncs: L_associated vs all: ', p_val
     print
+    
     ans1 = stats.ks_2samp(incs_two_plus_double, allAdjustedIncs)
     ans1a = stats.anderson_ksamp([incs_two_plus_double, allAdjustedIncs])
     z_stat, p_val = stats.ranksums(incs_two_plus_double, allAdjustedIncs)
@@ -1054,6 +1095,8 @@ def main():
     print
 
     all_assoc_incs = np.array(list(incs_associated_isolated_double) + list(incs_associated_double))
+    all_assoc_incs_min300 = np.array(list(incs_associated_isolated_double_min300) + list(incs_associated_double_min300))
+    
     ans1 = stats.ks_2samp(all_assoc_incs, allAdjustedIncs)
     ans1a = stats.anderson_ksamp([all_assoc_incs, allAdjustedIncs])
     z_stat, p_val = stats.ranksums(all_assoc_incs, allAdjustedIncs)
@@ -1069,7 +1112,79 @@ def main():
     print 'AD adjustedIncs: all_assoc_incs vs incs_two_plus_double: ',ans1a
     print 'Ranksum adjustedIncs: all_assoc_incs vs incs_two_plus_double: ', p_val
     print
+    ans1 = stats.ks_2samp(all_assoc_incs_min300, allAdjustedIncs)
+    ans1a = stats.anderson_ksamp([all_assoc_incs_min300, allAdjustedIncs])
+    z_stat, p_val = stats.ranksums(all_assoc_incs_min300, allAdjustedIncs)
+    print 'KS adjustedIncs: all_aall_assoc_incs_min300ssoc_incs vs all: ',ans1
+    print 'AD adjustedIncs: all_assoc_incs_min300 vs all: ',ans1a
+    print 'Ranksum adjustedIncs: all_assoc_incs_min300 vs all: ', p_val
+    print
 
+    ans1 = stats.ks_2samp(all_assoc_incs_min300, incs_two_plus_double)
+    ans1a = stats.anderson_ksamp([all_assoc_incs_min300, incs_two_plus_double])
+    z_stat, p_val = stats.ranksums(all_assoc_incs_min300, incs_two_plus_double)
+    print 'KS adjustedIncs: all_assoc_incs_min300 vs incs_two_plus_double: ',ans1
+    print 'AD adjustedIncs: all_assoc_incs_min300 vs incs_two_plus_double: ',ans1a
+    print 'Ranksum adjustedIncs: all_assoc_incs_min300 vs incs_two_plus_double: ', p_val
+    print
+
+
+    # azimuths
+    number_az = 216
+    
+    flat_az = np.ones(9)*24
+
+    all_assoc_azimuths = np.array(list(azimuths_associated_isolated_double) + list(azimuths_associated_double))
+    all_assoc_azimuths_min300 = np.array(list(azimuths_associated_isolated_double_min300) + list(azimuths_associated_double_min300))
+
+    ans1 = stats.ks_2samp(all_assoc_azimuths, azimuths_two_plus_double)
+    ans1a = stats.anderson_ksamp([all_assoc_azimuths, azimuths_two_plus_double])
+    z_stat, p_val = stats.ranksums(all_assoc_azimuths, azimuths_two_plus_double)
+    print 'KS Azimuths: all_assoc_azimuths vs azimuths_two_plus_double: ',ans1
+    print 'AD Azimuths: all_assoc_azimuths vs azimuths_two_plus_double: ',ans1a
+    print 'Ranksum Azimuths: all_assoc_azimuths vs azimuths_two_plus_double: ', p_val
+    print
+    
+    ans1 = stats.ks_2samp(all_assoc_azimuths, flat_az)
+    ans1a = stats.anderson_ksamp([all_assoc_azimuths, flat_az])
+    z_stat, p_val = stats.ranksums(all_assoc_azimuths, flat_az)
+    print 'KS Azimuths: all_assoc_azimuths vs flat_az: ',ans1
+    print 'AD Azimuths: all_assoc_azimuths vs flat_az: ',ans1a
+    print 'Ranksum Azimuths: all_assoc_azimuths vs flat_az: ', p_val
+    print
+    
+    ans1 = stats.ks_2samp(azimuths_two_plus_double, flat_az)
+    ans1a = stats.anderson_ksamp([azimuths_two_plus_double, flat_az])
+    z_stat, p_val = stats.ranksums(azimuths_two_plus_double, flat_az)
+    print 'KS Azimuths: azimuths_two_plus_double vs flat_az: ',ans1
+    print 'AD Azimuths: azimuths_two_plus_double vs flat_az: ',ans1a
+    print 'Ranksum Azimuths: azimuths_two_plus_double vs flat_az: ', p_val
+    print
+    
+    ans1 = stats.ks_2samp(all_assoc_azimuths_min300, azimuths_two_plus_double)
+    ans1a = stats.anderson_ksamp([all_assoc_azimuths_min300, azimuths_two_plus_double])
+    z_stat, p_val = stats.ranksums(all_assoc_azimuths_min300, azimuths_two_plus_double)
+    print 'KS Azimuths: all_assoc_azimuths_min300 vs azimuths_two_plus_double: ',ans1
+    print 'AD Azimuths: all_assoc_azimuths_min300 vs azimuths_two_plus_double: ',ans1a
+    print 'Ranksum Azimuths: all_assoc_azimuths_min300 vs azimuths_two_plus_double: ', p_val
+    print
+    
+    ans1 = stats.ks_2samp(all_assoc_azimuths_min300, flat_az)
+    ans1a = stats.anderson_ksamp([all_assoc_azimuths_min300, flat_az])
+    z_stat, p_val = stats.ranksums(all_assoc_azimuths_min300, flat_az)
+    print 'KS Azimuths: all_assoc_azimuths_min300 vs flat_az: ',ans1
+    print 'AD Azimuths: all_assoc_azimuths_min300 vs flat_az: ',ans1a
+    print 'Ranksum Azimuths: all_assoc_azimuths_min300 vs flat_az: ', p_val
+    print
+    
+    ans1 = stats.ks_2samp(all_assoc_azimuths_min300, all_assoc_azimuths)
+    ans1a = stats.anderson_ksamp([all_assoc_azimuths_min300, all_assoc_azimuths])
+    z_stat, p_val = stats.ranksums(azimuths_two_plus_double, all_assoc_azimuths)
+    print 'KS Azimuths: all_assoc_azimuths_min300 vs all_assoc_azimuths: ',ans1
+    print 'AD Azimuths: all_assoc_azimuths_min300 vs all_assoc_azimuths: ',ans1a
+    print 'Ranksum Azimuths: all_assoc_azimuths_min300 vs all_assoc_azimuths: ', p_val
+    print
+    
 
 ###############################################################################
 

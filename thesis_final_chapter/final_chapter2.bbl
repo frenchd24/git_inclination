@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{10}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{{Bowen} {et~al.}(2002){Bowen}, {Pettini}, \& {Blades}}]{bowen2002}
@@ -25,6 +25,11 @@
   {Webb}}]{lanzetta1995}
 {Lanzetta}, K.~M., {Bowen}, D.~V., {Tytler}, D., \& {Webb}, J.~K. 1995, \apj,
   442, 538
+
+\bibitem[{{Prochaska} {et~al.}(2011){Prochaska}, {Weiner}, {Chen}, {Mulchaey},
+  \& {Cooksey}}]{prochaska2011b}
+{Prochaska}, J.~X., {Weiner}, B., {Chen}, H.-W., {Mulchaey}, J., \& {Cooksey},
+  K. 2011, \apj, 740, 91
 
 \bibitem[{{Steidel} {et~al.}(2010){Steidel}, {Erb}, {Shapley}, {Pettini},
   {Reddy}, {Bogosavljevi{\'c}}, {Rudie}, \& {Rakic}}]{steidel2010}
