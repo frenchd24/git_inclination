@@ -622,6 +622,7 @@ def main():
     
     azimuths_associated_isolated_double_min300 = []
     incs_associated_isolated_double_min300 = []
+    
     for az, inc, W in zip(azimuths_associated_isolated_double, incs_associated_isolated_double,Lya_Ws_associated_isolated_double):
         W = float(W)
         az = float(az)
@@ -1031,6 +1032,8 @@ def main():
     print 'len(Lya_Ws_two_plus_double): ',len(Lya_Ws_two_plus_double)
     print
     
+    
+    
     print
     print 'stats.stats(Lya_Ws_isolated): ',stats.describe(Lya_Ws_isolated_double)
     print 'stats.stats(Lya_Ws_L_isolated): ',stats.describe(Lya_Ws_L_isolated_double)
@@ -1059,6 +1062,41 @@ def main():
     print 'AD Lya_Ws: L_associated_isolated vs L_two_plus: ',ans1a
     print 'Ranksum Lya_Ws: L_associated_isolated vs L_two_plus: ', p_val
     print
+    
+    # associated_isolated vs L_isolated
+    ans1 = stats.ks_2samp(Lya_Ws_associated_isolated_double, Lya_Ws_isolated_double)
+    ans1a = stats.anderson_ksamp([Lya_Ws_associated_isolated_double, Lya_Ws_isolated_double])
+    z_stat, p_val = stats.ranksums(Lya_Ws_associated_isolated_double, Lya_Ws_isolated_double)
+
+    print 'KS Lya_Ws: L_associated_isolated vs Lya_Ws_isolated_double: ',ans1
+    print 'AD Lya_Ws: L_associated_isolated vs Lya_Ws_isolated_double: ',ans1a
+    print 'Ranksum Lya_Ws: L_associated_isolated vs Lya_Ws_isolated_double: ', p_val
+    print
+    print
+
+    # associated vs L_isolated
+    ans1 = stats.ks_2samp(Lya_Ws_associated_double, Lya_Ws_isolated_double)
+    ans1a = stats.anderson_ksamp([Lya_Ws_associated_double, Lya_Ws_isolated_double])
+    z_stat, p_val = stats.ranksums(Lya_Ws_associated_double, Lya_Ws_isolated_double)
+
+    print 'KS Lya_Ws: Lya_Ws_associated_double vs Lya_Ws_isolated_double: ',ans1
+    print 'AD Lya_Ws: Lya_Ws_associated_double vs Lya_Ws_isolated_double: ',ans1a
+    print 'Ranksum Lya_Ws: Lya_Ws_associated_double vs Lya_Ws_isolated_double: ', p_val
+    print
+    print
+    
+    # associated vs L_isolated
+    ans1 = stats.ks_2samp(Lya_Ws_two_plus_double, Lya_Ws_isolated_double)
+    ans1a = stats.anderson_ksamp([Lya_Ws_two_plus_double, Lya_Ws_isolated_double])
+    z_stat, p_val = stats.ranksums(Lya_Ws_two_plus_double, Lya_Ws_isolated_double)
+
+    print 'KS Lya_Ws: Lya_Ws_two_plus_double vs Lya_Ws_isolated_double: ',ans1
+    print 'AD Lya_Ws: Lya_Ws_two_plus_double vs Lya_Ws_isolated_double: ',ans1a
+    print 'Ranksum Lya_Ws: Lya_Ws_two_plus_double vs Lya_Ws_isolated_double: ', p_val
+    print
+    print
+    
+    
     
     # b-parameters
     ans1 = stats.ks_2samp(bs_associated_isolated_double, bs_two_plus_double)

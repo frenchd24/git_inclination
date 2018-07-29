@@ -207,6 +207,23 @@ def main():
     morph_dict = pickle.load(morph_dict_file)
     morph_dict_file.close()
     
+    morph_counts = {}
+    morph_values = morph_dict.values()
+    for morph in morph_values:
+        if morph_counts.has_key(morph):
+            c = morph_counts[morph]
+            c+=1
+            morph_counts[morph] = c
+        else:
+            morph_counts[morph] = 1
+            
+    k = morph_counts.keys()
+    v = morph_counts.values()
+    for k, v in zip(k, v):
+        print '{0} = {1}'.format(k,v)
+        
+    print 'done'
+    
     
     # open all the pickle files
     isolated_file = open(isolated_filename,'r')
@@ -2670,9 +2687,18 @@ def main():
             plt.plot(x, line_func(x, *popt), ls='dashed', color='black', alpha = 0.9, label=r'$\rm Fit = {0}(\rho/R_{{vir}}) + {1}$'.format(m, b))
 
             from scipy.stats import linregress
-            print "rho/rvir linregress(a, b) = ",linregress(x_all,y_all)
+            
+            EW_min300 = []
+            impact_vir_min300 = []
+            for w, imp in zip(y_all, x_all):
+                if w >= 300:
+                    EW_min300.append(w)
+                    impact_vir_min300.append(imp)
+            
+            print "rho/rvir linregress(a, b) = ",linregress(x_all, y_all)
             print
-    
+            print "min300 rho/rvir linregress(a, b) = ",linregress(impact_vir_min300, EW_min300)
+            print
         
         # x-axis
         majorLocator   = MultipleLocator(0.5)
@@ -3249,6 +3275,21 @@ def main():
             from scipy.stats import linregress
             print "impact only linregress(a, b) = ",linregress(x_all,y_all)
             print
+            
+            EW_min300 = []
+            impact_min300 = []
+            for w, imp in zip(y_all, x_all):
+                if w >= 300:
+                    EW_min300.append(w)
+                    impact_min300.append(imp)
+            
+            print "impact linregress(a, b) = ",linregress(x_all, y_all)
+            print
+            print "min300 impact linregress(a, b) = ",linregress(impact_min300, EW_min300)
+            print
+
+
+
 
         # x-axis
         majorLocator   = MultipleLocator(100)

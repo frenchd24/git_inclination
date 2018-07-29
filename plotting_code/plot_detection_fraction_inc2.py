@@ -2375,8 +2375,8 @@ def main():
         label_l1_outside = r'$\rm \mathcal{L} < 0.1; \rho/R_{vir} > 1.5$'
         label_l1_inside= r'$\rm \mathcal{L} \ge 0.1; \rho/R_{vir} \leq 1.5$'
 
-        alpha_l1_outside = 0.9
-        alpha_l1_inside = 0.9
+        alpha_l1_outside = 0.99
+        alpha_l1_inside = 0.99
 
 
         legend_size = 12

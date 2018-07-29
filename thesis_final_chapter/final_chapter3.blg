@@ -4,44 +4,44 @@ The top-level auxiliary file: final_chapter3.aux
 The style file: apj.bst
 Database file #1: /Users/frenchd/Research/inclination/git_inclination/bib.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 16 entries,
+You've used 26 entries,
             3010 wiz_defined-function locations,
-            750 strings with 9136 characters,
-and the built_in function-call counts, 8745 in all, are:
-= -- 681
-> -- 785
-< -- 3
-+ -- 265
-- -- 290
-* -- 815
-:= -- 1689
-add.period$ -- 16
-call.type$ -- 16
-change.case$ -- 122
-chr.to.int$ -- 16
-cite$ -- 16
-duplicate$ -- 304
-empty$ -- 427
-format.name$ -- 305
-if$ -- 1675
+            804 strings with 11720 characters,
+and the built_in function-call counts, 13954 in all, are:
+= -- 1108
+> -- 1214
+< -- 5
++ -- 410
+- -- 451
+* -- 1286
+:= -- 2689
+add.period$ -- 26
+call.type$ -- 26
+change.case$ -- 198
+chr.to.int$ -- 26
+cite$ -- 26
+duplicate$ -- 494
+empty$ -- 694
+format.name$ -- 477
+if$ -- 2685
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 16
-newline$ -- 52
-num.names$ -- 64
-pop$ -- 131
+missing$ -- 26
+newline$ -- 82
+num.names$ -- 104
+pop$ -- 211
 preamble$ -- 1
-purify$ -- 122
+purify$ -- 198
 quote$ -- 0
-skip$ -- 245
+skip$ -- 400
 stack$ -- 0
-substring$ -- 318
+substring$ -- 519
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 144
+type$ -- 234
 warning$ -- 0
-while$ -- 62
+while$ -- 99
 width$ -- 0
-write$ -- 163
+write$ -- 263
