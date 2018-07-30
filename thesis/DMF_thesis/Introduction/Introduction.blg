@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Introduction.aux
+The style file: thesis.bst
+Database file #1: /Users/clairemurray/Desktop/DMF_thesis/bib.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 43 entries,
+            3088 wiz_defined-function locations,
+            952 strings with 14617 characters,
+and the built_in function-call counts, 21644 in all, are:
+= -- 1792
+> -- 1681
+< -- 11
++ -- 572
+- -- 626
+* -- 1901
+:= -- 4118
+add.period$ -- 43
+call.type$ -- 43
+change.case$ -- 320
+chr.to.int$ -- 41
+cite$ -- 43
+duplicate$ -- 807
+empty$ -- 1198
+format.name$ -- 665
+if$ -- 4241
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 43
+newline$ -- 134
+num.names$ -- 172
+pop$ -- 333
+preamble$ -- 1
+purify$ -- 320
+quote$ -- 0
+skip$ -- 664
+stack$ -- 0
+substring$ -- 882
+swap$ -- 4
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 387
+warning$ -- 0
+while$ -- 165
+width$ -- 0
+write$ -- 434
