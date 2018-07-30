@@ -59,6 +59,29 @@ from astropy.io import fits
 # from vo.table import parse
 # import vo.tree
 
+
+from matplotlib import rc
+# rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+# ## for Palatino and other serif fonts use:
+# #rc('font',**{'family':'serif','serif':['Palatino']})
+# rc('text', usetex=True)
+
+fontScale = 14
+rc('text', usetex=True)
+rc('font', size=14, family='serif', weight='normal')
+rc('xtick.major',size=8,width=0.6)
+rc('xtick.minor',size=5,width=0.6)
+rc('ytick.major',size=8,width=0.6)
+rc('ytick.minor',size=5,width=0.6)
+rc('xtick',labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+rc('axes',labelsize = fontScale)
+rc('xtick', labelsize = fontScale)
+rc('ytick',labelsize = fontScale)
+# rc('font', weight = 450)
+# rc('axes',labelweight = 'bold')
+rc('axes',linewidth = 1)
+
 ###########################################################################
 
 def median_low(l):
@@ -378,13 +401,18 @@ def main():
 #     norm = matplotlib.colors.Normalize(vmin = vminVal, vmax = vmaxVal)
 #     m = matplotlib.cm.ScalarMappable(norm=norm, cmap=colmap)
 
-    alpha_galaxy = 0.48
+#     alpha_galaxy = 0.48
+#     alpha_Lya = 0.99
+#     lw = 0.48
+#     size_galaxy = 1.2
+    alpha_galaxy = 0.5
     alpha_Lya = 0.99
     lw = 0.48
-    size_galaxy = 2
+    size_galaxy = 1.5
+    
 #     colmap = cm.cool
 #     colmap = cm.viridis
-    colmap = cm.plasma
+    colmap = cm.plasma_r
 
     include_galaxies = True
 
@@ -452,14 +480,14 @@ def main():
     
     
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
-    cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
+    cbar.set_label(r'$\rm Heliocentric~Velocity ~[km ~s^{{-1}}]$')
     
     ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}2500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}2500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf', bbox_inches='tight')
 
 ##########################################################################################
     # 2500 - 5000 km/s
@@ -528,14 +556,14 @@ def main():
     
     
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
-    cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
+    cbar.set_label(r'$\rm Heliocentric~Velocity ~[km ~s^{{-1}}]$')
     
     ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}5000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}5000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf', bbox_inches='tight')
     
 ##########################################################################################
     # 5000 - 7500 km/s
@@ -602,14 +630,14 @@ def main():
     
     
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
-    cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
+    cbar.set_label(r'$\rm Heliocentric~Velocity ~[km ~s^{{-1}}]$')
     
     ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}7500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}7500kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf', bbox_inches='tight')
 
 ##########################################################################################
     # 7500 - 10000 km/s
@@ -676,14 +704,14 @@ def main():
     
     
     cbar = plt.colorbar(plot2,format=r'$\rm %d$',cmap=colmap,orientation='vertical',fraction=0.024, pad=0.03)
-    cbar.set_label(r'$\rm Heliocentric Velocity ~[km ~s^{-1}]$')
+    cbar.set_label(r'$\rm Heliocentric~Velocity ~[km ~s^{{-1}}]$')
     
     ax.set_xticklabels(xlab, weight=546)
     ax.grid(color='k', linestyle='solid', linewidth=0.5)
     tight_layout()
     
 #     plt.show()
-    plt.savefig('{0}10000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf')
+    plt.savefig('{0}10000kms_galaxies-{1}_12h.pdf'.format(saveDirectory, include_galaxies),format='pdf', bbox_inches='tight')
 #     bbox_inches='tight'
 
 ##########################################################################################

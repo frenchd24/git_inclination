@@ -8,7 +8,75 @@
 %\vfil\eject\clearpage
 \clearpage
 
-The conclusion!
+Evidence that galaxies and $\rm Ly\alpha$ absorbers are spatially correlated has been strong for some time. Exploring this relationship further to understand if the galaxies and absorbers actually \emph{care} about each others' presence has proven far more challenging. Absorption line spectroscopy with single sightlines probing a galaxy's halo at a fixed location is the only feasible way to measure this diffuse gas, but finding more than 1 or 2 sightlines close to any particular galaxy is rare. The only way forward is to build a large sample of such galaxy-QSO systems and study this galaxy-absorber relationship in an aggregate manner, accepting the benefits of multiple systems over the disadvantages of eschewing individual system details. For this thesis work I have leveraged the volume of available archival data and and built one of the largest-yet samples in hopes of further enlightening this galaxy-$\rm Ly\alpha$ absorber relationship beyond simple spatial correlations. In what follows I will summarize my findings.
+
+\section{SUMMARY}
+Here I summarize the results of our study of the $\rm Ly\alpha$ absorber-galaxy connection in the nearby, $cz \leq 10,000$ \kms, Universe.
+
+\subsection{Chapter 2}
+In Chapter 2 I presented a new nearby galaxy catalog compiled from public data available on the NASA Extragalactic Database, the NASA/IPAC Infrared Science Archive (IRSA), the Third Reference Catalogue of Bright Galaxies (RC3), and the Tully (2015) 2MASS galaxy group catalogue. We homogenized this data by converting diameter measurements to 2MASS values, and employing outlier rejection algorithms to choose representative values for position angle, inclination, redshift-independent distance, and $B$-band magnitude. We use these values to estimate galaxy $B$-band luminosities and virial radii. This dataset is mostly complete to $\sim 0.1 L^{\**}$, and contains data for 130,819 objects.
+
+\subsection{Chapter 3}
+In Chapter 3 I presented a pilot-study of 33 QSO sightlines located near to large ($D \ge 25$ kpc) galaxies. Our findings were:
+1. We introduced a novel likelihood parameter, $\mathcal{L}$ based on Gaussian profiles around $\rho / R_{\rm eff}$ and $\Delta v / v_{\rm norm}$ to automate the matching of absorbers with associated galaxies. The response of $\mathcal{L}$ can be tailored by choosing different values for $R_{\rm eff}$ and $v_{\rm norm}$ (we used $R_{\rm eff} = [R_{\rm vir}, D^{\rm 1.5}$ and $v_{\rm norm} = 200$ \kms here, and will explore other parameterizations in a future work).
+
+2. Equivalent width (EW) anti-correlates most strongly with $\rho$ when normalized by $R_{\rm vir}$. It follows that EW weakly correlates and anti-correlates with $R_{\rm vir}$ and $\rho$, respectively.
+
+3. The mean and maximal EWs of absorbers increase with decreasing $\Delta v$. The strongest absorbers are nearly all found within $\Delta v = \pm 100$ \kms~of their associated galaxies.
+
+4. $\rm Ly\alpha$ absorbers are most commonly associated with inclined galaxies. $73\%$ of blueshifted and $77\%$ of redshifted absorbers are associated with galaxies with $i \ge 50$ deg, whereas $56\%$ of all galaxies in the survey volume have similarly high inclinations. The distributions of associated versus all galaxy inclinations differ at a greater than $99\%$ confidence, or $\sim 3.6 \sigma$, level, according to the Anderson-Darling distribution test.
+
+5. We find no strong evidence for azimuth preference for absorption $-\rm Ly\alpha$ absorbers appear to be distributed nearly uniformly around galaxy major and minor axes.
+
+\subsection{Chapter 4}
+In Chapter 4 I presented an analysis of the kinematic connection between $\rm Ly\alpha$ absorbers and associated nearby galaxies. Our complimentary COS Ly$\alpha$ absorption-line and nearby galaxy rotation curve analysis for a sample of 42 galaxy-QSO pairs produced the following findings:
+
+1. The fraction of Ly$\alpha$ absorbers appearing to co-rotate with the nearby galaxy smoothly declines as a function galaxy luminosity ($L^{\**}$). Our overall co-rotation fraction is consistent with the simulation results of \cite{stewart2011b, stewart2013}, and effect of galaxy luminosity on halo gas co-rotation is consistent with predicted cold-mode filamentary accretion schemes. 
+
+2. Based on our NFW halo model, 92\% of absorbers co-rotate around $\rm \leq 0.6 L^{\**}$ galaxies, which falls to 77\% around $\rm \leq 1.5 L^{\**}$ galaxies, and down to 63\% around all galaxies at $z \sim 0$.
+
+3. Two thirds of all $\rm Ly\alpha$ absorbers are found with velocity separations less than or equal to the nearby galaxy rotation velocity ($\Delta v \leq \lvert v_{\rm rot} \rvert \pm 10$ \kms). This includes systems with multiple galaxies and undoubtedly complex velocity fields. Restricting this study to only isolated galaxy-QSO systems would likely result in an even higher fraction.
+
+4. A simple cylindrical halo model with rotation velocities smoothly declining based on an NFW rotation curve fit results in the highest co-rotation fraction for $\rm Ly\alpha$ absorbers ($63\%$).
+
+5. Co-rotating absorbers (when chosen from the sample restricted to $\Delta v \leq \lvert v_{\rm rot} \rvert \pm 10$ \kms) occupy a wide range in Doppler $b$-parameter, while anti-rotators have mostly $b \leq 50$ \kms. A remarkably similar split is found for absorbers near $L \leq 0.6 L^{\**}$ vs $L > 0.6 L^{\**}$ galaxies. This could add further evidence for our proposed cold-mode accretion explanation if these enhanced $b$-parameters are caused by the blending of multiple absorption components close in velocity space within a filament.
+
+
+\subsection{Chapter 5}
+1. The equivalent width of $\rm Ly\alpha$ absorbers depends strongly on environment. The most isolated absorbers are the weakest, with a smooth transition to the strongest absorbers residing very near to multiple galaxies. The separation between the EWs of isolated and non-isolated absorbers is significant at a $> 5\sigma$ level. A similar but far weaker trend is seen for the absorber Doppler $b$-parameters, which will require a dedicated fitting analysis program to overcome blending and saturation issues.
+
+2. $\rm Ly\alpha$ absorber EW correlates most strongly with impact parameter when normalized by the associated galaxy virial radii. We find evidence for a lack of strong absorbers within $\sim 0.5 R_{\rm vir}$ of elliptical or S0 type galaxies, but we lack enough systems of these types to report strong limits on this observation.
+
+3. $\rm Ly\alpha$ absorbers with $\rm EW \lesssim 100~m\AA$ are ubiquitous, making up nearly $50\%$ of all $\rm Ly\alpha$ systems in the nearby Universe, and do not correlate strongly with environment ($70\%$ of these weak absorbers are isolated by at least 500 kpc and 400 \kms~from any $L \gtrsim0.1 L^{\**}$ galaxy). 
+
+4. We confirm the \cite{french2017} findings of an overabundance of absorbers located near highly inclined galaxies, and improve the significance of this finding to $4.5\sigma$. We correspondingly find that the $\rm Ly\alpha$ detection fraction increases with increasing galaxy inclination, and that this trend is strongest for systems separated by $1.5 R_{\rm vir}$ or less.
+
+5. We report the first detection of a $\rm Ly\alpha$ azimuth angle dependence, finding that absorbers tend to be associated with galaxy major and minor axes at a $3.3\sigma$ significance. We correspondingly find that the $\rm Ly\alpha$ detection fraction is double peaked around the major and minor axes within $1.5 R_{\rm vir}$, but mostly flat outside of this distance.
+
+
+The key questions we set out to answer with this work were:
+
+1. \emph{How strongly is intergalactic gas concentrated near galaxies, and does the presence of galaxies affect the physical properties of absorbers?}
+We have found that high EW absorbers correlate strongly with galaxy proximity, while weaker absorption appears to be associated with the overall Cosmic Web density structure. The physical cause of this relationship remains unclear. Are these high-EW absorbers the result of multiple cloudlets clustered together (i.e., spatial density), an increased physical density of material, or due to the broadening of saturated lines due to thermal or non-thermal mechanisms? A detailed Voigt profile fitting analysis will provide some additional clarification here.
+
+\vspace{10pt}
+
+2. \emph{Do the physical properties of absorbers depend on their orientation with respect to nearby galaxies?}
+We have detected the first strong evidence that $\rm Ly\alpha$ absorbers have a preferred orientation with respect to galaxies.  Both the detection fraction and distribution of absorbers suggests a bimodal, major-and-minor axis preference for absorption. Additionally, an overabundance of absorption near high-inclination galaxies suggests a flattened halo, with the detected overabundance being a product of increased sightline pathlength through a $<100\%$ covering-fraction inclined halo causing a heightened detection probabilty.
+
+\vspace{10pt}
+
+3. \emph{Does intergalactic gas ``know" about the rotation of the galaxies embedded within it?}
+We have discovered a luminosity dependent co-rotating component for $\rm Ly\alpha$ absorbers. Based on the predictions of simulations of accretion onto galaxies, we attribute this to evidence of cold-mode accretion. In this regime, low-luminosity galaxies lack a shock capable of breaking up infalling cold filaments, which then can carry additional angular momentum directly to galaxy disks.
+
+
+\section{Future Work}
+
+We have established large, rich dataset with which to explore the relationship between circumgalactic material and the galaxies that reside in it. Much can still be learned by continuing to delving deeper into this data. The first future goal we have is to produce galaxy-$\rm Ly\alpha$ two-point cross-correlation functions, as has been demonstrated by, e.g., \cite{chen2005}, among others. This will be our first goal as it does not involve any significant additions to the data already presented here.
+
+Our next goal will be to produce Voigt profile fits for each absorber. While equivalent widths and second-moment derived $b$-parameters are an incredibly convenient and powerful tool to study absorption, a careful fitting analysis could provide more acute column density and $b$-parameter measurements for saturated and blended components.
+
+Finally, many of the sightlines included in this study have metal lines associated with the $\rm Ly\alpha$ components. A complimentary metal line analysis here could provide powerful new constraints on the enrichment of galaxy halos, as well as further clarify the presence of inflowing and outflowing material. 
 
 \clearpage
 \phantomsection % Fixes references link in hyperref/PDF index
