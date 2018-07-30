@@ -249,7 +249,7 @@ We also note that while the detection fraction as a function of impact parameter
 Here we explore the effect of environment on the equivalent width of our $\rm Ly\alpha$ absorber sample. Figure \ref{cdf_ew} shows the cumulative distribution function of equivalent widths for each of our 5 likelihood-separated subsets, along with that of the entire sample in black). We have only included $\rm EW \ge 50~m\AA$ here to mitigate any bias due to the detection limit of lower-SN targets. We find that each subset occupies a distinct space aside from the $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ sets, which are essentially indistinguishable. The physical result of this is that the strength EW of $\rm Ly\alpha$ absorption depends strongly on environment. Stronger absorption lines are preferentially found near to galaxies, and the strongest lines are found near multiple galaxy systems. The result of Anderson-Darling statistical distribution tests between each subset indicate that our $isolated$ and $\mathcal{L}-isolated$ subsets are distinct from each of $\mathcal{L}-two+$, and $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ at a $\gg 5 \sigma$ level. Because $\mathcal{L}-associated-isolated$ and $\mathcal{L}-associated$ are found to be nearly indistinguishable via these test and by-eye, we will combine them for the remainder of this analysis.
 
 
-This separation between EW distributions based on galaxy proximity is likely an effect of the distribution of the cosmic web; multiple galaxies should form from denser sections and intersections of intergalactic filaments, and these environments should thus also produce a stronger absorption profile. Indeed, many previous studies have found similar results, with weak $\rm Ly\alpha$ correlating only weakly with the positions of galaxies compared to either the strong absorber-galaxy or galaxy-galaxy correlations (see e.g., \citealt{chen2005, morris2006, wilman2007, chen2009}). These weak $\rm Ly\alpha$ lines are thus likely tracing the underlying larges-scale filamentary structures, and \emph{not} individual galaxy halos (see \citealt{tripp1998, wakker2015} also).
+This separation between EW distributions based on galaxy proximity is likely an effect of the distribution of the cosmic web; multiple galaxies should form from denser sections and intersections of intergalactic filaments, and these environments should thus also produce a stronger absorption profile. Indeed, many previous studies have found similar results, with weak $\rm Ly\alpha$ correlating only weakly with the positions of galaxies compared to either the strong absorber-galaxy or galaxy-galaxy correlations (see e.g., \citealt{chen2005, morris2006, wilman2007, chen2009}). Here we find that nearly $\rm 95\%$ of EW $\rm \leq 400~m\AA$ are found farther than 500 kpc and $\rm 400$ \kms~ from any $L \gtrsim 0.1$\Lstar~galaxy. These weak $\rm Ly\alpha$ lines are thus likely tracing the underlying larges-scale filamentary structures, and \emph{not} individual galaxy halos (see \citealt{tripp1998, wakker2015} also).
 
 
 \begin{figure}[ht!]
@@ -377,7 +377,7 @@ Here we summarize the results of our study of the $\rm Ly\alpha$ absorber-galaxy
 
 2. $\rm Ly\alpha$ absorber EW correlates most strongly with impact parameter when normalized by the associated galaxy virial radii. We find evidence for a lack of strong absorbers within $\sim 0.5 R_{\rm vir}$ of elliptical or S0 type galaxies, but we lack enough systems of these types to report strong limits on this observation.
 
-3. $\rm Ly\alpha$ absorbers with $\rm EW \lesssim 100~m\AA$ are ubiquitous, making up nearly $50\%$ of all $\rm Ly\alpha$ systems in the nearby Universe, and do not correlate strongly with environment ($70\%$ of these weak absorbers are isolated by at least 500 kpc and 400 \kms~from any $L \gtrsim0.1 L^{\**}$ galaxy). 
+3. $\rm Ly\alpha$ absorbers with $\rm EW \lesssim 100~m\AA$ are ubiquitous, making up nearly $50\%$ of all $\rm Ly\alpha$ systems in the nearby Universe, and do not correlate strongly with environment ($\sim95\%$ of these weak absorbers are isolated by at least 500 kpc and 400 \kms~from any $L \gtrsim0.1 L^{\**}$ galaxy). 
 
 4. We confirm the \cite{french2017} findings of an overabundance of absorbers located near highly inclined galaxies, and improve the significance of this finding to $4.5\sigma$. We correspondingly find that the $\rm Ly\alpha$ detection fraction increases with increasing galaxy inclination, and that this trend is strongest for systems separated by $1.5 R_{\rm vir}$ or less.
 
@@ -410,16 +410,118 @@ This research has made use of the NASA/IPAC Extragalactic Database (NED) which i
 \chapappendix
 %Here we provide the observation and measurement data for all targets included in this work.
 
+
+% original table header
+
 %\startlongtable
-\begin{deluxetable}{l c c c c c c c c c}
-\tabletypesize{\scriptsize}
-\tablewidth{0pt}
-\tablecaption{Summary of QSO Sample\label{QSOsample}}
-\tablehead{
-\colhead{Target}  		&  \colhead{R.A.}  	&  \colhead{Dec.}	& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{\rm exp}}$}	&  \colhead{S/N}			&  \colhead{$v_{\rm Ly\alpha}$}	 &  \colhead{$EW_{\rm Ly\alpha}$}	& \colhead{$b$} \\
-					&  			 	& 		  		& 		     	&				  & \colhead{(ks)}			&  \colhead{(1238 $\rm \AA$)}	&  \colhead{(\kms)}			 &  \colhead{($\rm m\AA$)}		& \colhead{(\kms)} \\
-\colhead{(1)}			& \colhead{(2)}		& \colhead{(3)}		& \colhead{(4)}	& \colhead{(5)}		  & \colhead{(6)}			&  \colhead{(7)}				&  \colhead{(8)}			 	 &  \colhead{(9)}				& \colhead{(10)} }
-\startdata
+%\begin{deluxetable}{l c c c c c c c c c}
+%\tabletypesize{\scriptsize}
+%\tablewidth{0pt}
+%\tablecaption{Summary of QSO Sample\label{QSOsample}}
+%\tablehead{
+%\colhead{Target}  		&  \colhead{R.A.}  	&  \colhead{Dec.}	& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{\rm exp}}$}	&  \colhead{S/N}			&  \colhead{$v_{\rm Ly\alpha}$}	 &  \colhead{$EW_{\rm Ly\alpha}$}	& \colhead{$b$} \\
+%					&  			 	& 		  		& 		     	&				  & \colhead{(ks)}			&  \colhead{(1238 $\rm \AA$)}	&  \colhead{(\kms)}			 &  \colhead{($\rm m\AA$)}		& \colhead{(\kms)} \\
+%\colhead{(1)}			& \colhead{(2)}		& \colhead{(3)}		& \colhead{(4)}	& \colhead{(5)}		  & \colhead{(6)}			&  \colhead{(7)}				&  \colhead{(8)}			 	 &  \colhead{(9)}				& \colhead{(10)} }
+%\startdata
+
+
+
+%\colhead{Target}  		&  \colhead{R.A.}  	&  \colhead{Dec.}	& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{\rm exp}}$}	&  \colhead{S/N}			&  \colhead{$v_{\rm Ly\alpha}$}	 &  \colhead{$EW_{\rm Ly\alpha}$}	& \colhead{$b$} \\
+%					&  			 	& 		  		& 		     	&				  & \colhead{(ks)}			&  \colhead{(1238 $\rm \AA$)}	&  \colhead{(\kms)}			 &  \colhead{($\rm m\AA$)}		& \colhead{(\kms)} \\
+%\colhead{(1)}			& \colhead{(2)}		& \colhead{(3)}		& \colhead{(4)}	& \colhead{(5)}		  & \colhead{(6)}			&  \colhead{(7)}				&  \colhead{(8)}			 	 &  \colhead{(9)}				& \colhead{(10)} }
+
+
+
+\begin{landscape}
+
+% Change the footnote style to lowercase letters
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+\scriptsize
+\begin{center}
+\begin{longtable}{l c c c c c c c c c}
+\caption[Summary of QSO Sample]{Summary of QSO Sample} \label{QSO:sample} \\
+\hline \hline \\[-2ex]
+  \multicolumn{1}{c}{Target} & 
+  \multicolumn{1}{c}{R.A.} &
+  \multicolumn{1}{c}{Dec.} &
+  \multicolumn{1}{c}{z} &
+  \multicolumn{1}{c}{Program} &
+  \multicolumn{1}{c}{${T_{\rm exp}}$\tablenotemark{a}} &
+  \multicolumn{1}{c}{S/N} &
+  \multicolumn{1}{c}{$v_{\rm Ly\alpha}$} &
+  \multicolumn{1}{c}{$EW_{\rm Ly\alpha}$} &
+  \multicolumn{1}{c}{$b$} \\
+  
+  % Units
+  \multicolumn{1}{c}{} & 
+  \multicolumn{1}{c}{(J2000)} &
+  \multicolumn{1}{c}{(J2000)} &
+  \multicolumn{1}{c}{} &
+  \multicolumn{1}{c}{} &
+  \multicolumn{1}{c}{(ks)}&
+  \multicolumn{1}{c}{(1238 $\rm \AA$)} &
+  \multicolumn{1}{c}{(\kms)} &
+  \multicolumn{1}{c}{($\rm m\AA$)} &
+  \multicolumn{1}{c}{(\kms)} \\
+  
+  % column numbers
+  \multicolumn{1}{c}{(1)} & 
+  \multicolumn{1}{c}{(2)} &
+  \multicolumn{1}{c}{(3)} &
+  \multicolumn{1}{c}{(4)} &
+  \multicolumn{1}{c}{(5)} &
+  \multicolumn{1}{c}{(6)} &
+  \multicolumn{1}{c}{(7)} &
+  \multicolumn{1}{c}{(8)} &
+  \multicolumn{1}{c}{(9)} &
+  \multicolumn{1}{c}{(10)} \\[0.5ex] \hline \\[-1.8ex]
+\endfirsthead
+
+% Second page
+\multicolumn{10}{c}{{\tablename} \thetable{} -- Continued} \\[0.5ex]
+\hline \hline \\[-2ex]
+  \multicolumn{1}{c}{Target} & 
+  \multicolumn{1}{c}{R.A.} &
+  \multicolumn{1}{c}{Dec.} &
+  \multicolumn{1}{c}{z} &
+  \multicolumn{1}{c}{Program} &
+  \multicolumn{1}{c}{${T_{\rm exp}}$\tablenotemark{a}} &
+  \multicolumn{1}{c}{S/N} &
+  \multicolumn{1}{c}{$v_{\rm Ly\alpha}$} &
+  \multicolumn{1}{c}{$EW_{\rm Ly\alpha}$} &
+  \multicolumn{1}{c}{$b$} \\
+  
+  % Units
+  \multicolumn{1}{c}{} & 
+  \multicolumn{1}{c}{(J2000)} &
+  \multicolumn{1}{c}{(J2000)} &
+  \multicolumn{1}{c}{} &
+  \multicolumn{1}{c}{} &
+  \multicolumn{1}{c}{(ks)}&
+  \multicolumn{1}{c}{(1238 $\rm \AA$)} &
+  \multicolumn{1}{c}{(\kms)} &
+  \multicolumn{1}{c}{($\rm m\AA$)} &
+  \multicolumn{1}{c}{(\kms)} \\
+  
+  % column numbers
+  \multicolumn{1}{c}{(1)} & 
+  \multicolumn{1}{c}{(2)} &
+  \multicolumn{1}{c}{(3)} &
+  \multicolumn{1}{c}{(4)} &
+  \multicolumn{1}{c}{(5)} &
+  \multicolumn{1}{c}{(6)} &
+  \multicolumn{1}{c}{(7)} &
+  \multicolumn{1}{c}{(8)} &
+  \multicolumn{1}{c}{(9)} &
+  \multicolumn{1}{c}{(10)} \\[0.5ex] \hline \\[-1.8ex]
+  \endhead
+
+\multicolumn{10}{l}{{Continued on Next Page\ldots}} \\
+\endfoot
+
+\\[-1.8ex] \hline \hline
+\endlastfoot
 1H0419-577  &              04 26 00.8  &         $-$57 12 01.0  &       0.10400  & 11686  &   20429  &      58.4  &      1075.0  &  249.0  &  28.2  \\
 1H0419-577  &              04 26 00.8  &         $-$57 12 01.0  &       0.10400  & 11686  &   20429  &      58.4  &      1123.0  &  269.0  &  26.8  \\
 1H0419-577  &              04 26 00.8  &         $-$57 12 01.0  &       0.10400  & 11686  &   20429  &      58.4  &      1188.0  &  240.0  &  29.7  \\
@@ -1555,8 +1657,20 @@ WCom  &                    12 21 31.7  &         $+$28 13 58.0  &       0.10200 
 WCom  &                    12 21 31.7  &         $+$28 13 58.0  &       0.10200  & 14772  &   2141  &       9.1  &       4383.0  &  123.0  &  33.3  \\
 Zw535.012  &               00 36 21.0  &         $+$45 39 54.0  &       0.04764  & 14268  &   5234  &       18.9  &      5071.0  &  50.0  &   29.7  \\
 Zw535.012  &               00 36 21.0  &         $+$45 39 54.0  &       0.04764  & 14268  &   5234  &       18.9  &      5153.0  &  178.0  &  40.9  \\
-\enddata
-%\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
-\tablecomments{Summary of COS targets and each measured $\rm Ly\alpha$ absorption line in this study.}
-\end{deluxetable}
+\footnotetext[1]{$T_{\rm exp}$ gives the total G130M integration time if multiple exposures were taken.}
 
+\end{longtable}
+\end{center}
+\normalsize
+
+% Reset the footnotes back to numbers
+\renewcommand{\thefootnote}{\arabic{}}
+
+\end{landscape}
+
+% Original table footer
+
+%\enddata
+%%\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
+%\tablecomments{Summary of COS targets and each measured $\rm Ly\alpha$ absorption line in this study.}
+%\end{deluxetable}
