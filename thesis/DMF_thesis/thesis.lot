@@ -14,21 +14,21 @@
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-6}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces COS Targets in this Sample}}{55}{table.3.1}
-\contentsline {table}{\numberline {3.2}{\ignorespaces All Associated Systems Galaxy-absorber Systems}}{59}{table.3.2}
+\contentsline {table}{\numberline {3.1}{\ignorespaces Pilot Sample: COS Targets}}{55}{table.3.1}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Pilot Sample: Associated Galaxy-Absorber Systems}}{59}{table.3.2}
 \contentsline {table}{\numberline {3.3}{\ignorespaces Average properties of the associated galaxy sample split into red and blue-shifted bins based on $\Delta v$\relax }}{73}{table.caption.31}
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-7}
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces SALT Galaxy Observations\relax }}{83}{table.caption.33}
-\contentsline {table}{\numberline {4.2}{\ignorespaces Summary of QSO Sample}}{86}{table.4.2}
-\contentsline {table}{\numberline {4.3}{\ignorespaces Halo Model Results and Ly$\alpha $ Absorption Properties}}{92}{table.4.3}
-\contentsline {table}{\numberline {4.4}{\ignorespaces Summary of Results\relax }}{104}{table.caption.40}
+\contentsline {table}{\numberline {4.2}{\ignorespaces CGM Rotation: Summary of QSO Sample}}{86}{table.4.2}
+\contentsline {table}{\numberline {4.3}{\ignorespaces CGM Rotation: Halo Model Results and Ly$\alpha $ Absorption Properties}}{92}{table.4.3}
+\contentsline {table}{\numberline {4.4}{\ignorespaces CGM Rotation: Summary of Results\relax }}{104}{table.caption.40}
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-8}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Summary of Results\relax }}{147}{table.caption.58}
-\contentsline {table}{\numberline {5.2}{\ignorespaces Summary of QSO Sample}}{166}{table.5.2}
+\contentsline {table}{\numberline {5.1}{\ignorespaces Summary of $\mathcal {L}$-Variants \relax }}{147}{table.caption.58}
+\contentsline {table}{\numberline {5.2}{\ignorespaces Summary of Full QSO Sample and Measurements}}{167}{table.5.2}
 \gdef \the@ipfilectr {}
 \gdef \the@ipfilectr {@-9}
 \addvspace {10\p@ }
