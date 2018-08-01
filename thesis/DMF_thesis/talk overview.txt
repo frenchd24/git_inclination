@@ -1,0 +1,15 @@
+Talk overview:
+
+Show a cool simulation or something to illustrate all the gas-galaxy interactions
+
+What is going on here? Why do we care - accretion!
+
+How do we measure this gas? - QSO absorption. Maybe show first Gunn-Peterson trough?
+
+What have we learned since then? - A majority of the baryons in the universe exist in the IGM. Increased absorption near galaxies, increased line width near galaxies, but no information about orientation or rotation.
+
+Thesis overview -> fix this.
+Step 1. Get galaxy information
+Step 2. Likelihood method -> inclination hints
+Step 3. Rotation
+Step 4. All the rest
