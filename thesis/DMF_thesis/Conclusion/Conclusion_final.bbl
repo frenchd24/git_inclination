@@ -1,0 +1,23 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\fixspacing
+
+\bibitem[{{Chen} {et~al.}(2005){Chen}, {Prochaska}, {Weiner}, {Mulchaey}, \&
+  {Williger}}]{chen2005}
+{Chen}, H.-W., {Prochaska}, J.~X., {Weiner}, B.~J., {Mulchaey}, J.~S., \&
+  {Williger}, G.~M. 2005, \apjl, 629, L25
+
+\bibitem[{{French} \& {Wakker}(2017)}]{french2017}
+{French}, D.~M., \& {Wakker}, B.~P. 2017, \apj, 837, 138
+
+\bibitem[{{Stewart} {et~al.}(2013){Stewart}, {Brooks}, {Bullock}, {Maller},
+  {Diemand}, {Wadsley}, \& {Moustakas}}]{stewart2013}
+{Stewart}, K.~R., {Brooks}, A.~M., {Bullock}, J.~S., {et~al.} 2013, \apj, 769,
+  74
+
+\bibitem[{{Stewart} {et~al.}(2011){Stewart}, {Kaufmann}, {Bullock}, {Barton},
+  {Maller}, {Diemand}, \& {Wadsley}}]{stewart2011b}
+{Stewart}, K.~R., {Kaufmann}, T., {Bullock}, J.~S., {et~al.} 2011, \apj, 738,
+  39
+
+\end{thebibliography}

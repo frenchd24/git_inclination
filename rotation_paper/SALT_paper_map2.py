@@ -183,7 +183,7 @@ def main():
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = False
+    only_close_velocities = True
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -191,7 +191,7 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-    Lstar_range = [0.0, 100.0]
+    Lstar_range = [0.0, 1.5]
 #     Lstar_range = [0.0, 0.5]
 #     Lstar_range = [0.50001, 100.0]
 
@@ -206,7 +206,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = 20.0
+    min_separation = False
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0

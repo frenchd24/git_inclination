@@ -1,0 +1,198 @@
+\gdef \the@ipfilectr {@-1}
+\contentsline {section}{Abstract}{i}{chapter*.1}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-2}
+\contentsline {section}{Dedication}{iv}{chapter*.2}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-3}
+\contentsline {section}{Acknowledgments}{v}{chapter*.3}
+\gdef \the@ipfilectr {}
+\contentsline {section}{Contents}{vi}{chapter*.4}
+\contentsline {section}{List of Tables}{xiv}{chapter*.5}
+\contentsline {section}{List of Figures}{xv}{chapter*.6}
+\gdef \the@ipfilectr {@-4}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Overview of the Circumgalactic Medium}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Science Goals}{7}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Galaxy Proximity}{8}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Galaxy Orientation}{8}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}Galaxy Rotation}{9}{subsection.1.2.3}
+\contentsline {section}{\numberline {1.3}Summary of Thesis}{10}{section.1.3}
+\contentsline {section}{\numberline {\ }References}{12}{Item.5}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-5}
+\contentsline {chapter}{\numberline {2}A Catalogue of Nearby ($cz \leq 10,000$ $\rm km\tmspace +\thinmuskip {.1667em} s^{-1}$) Galaxies}{15}{chapter.2}
+\contentsline {section}{\numberline {\ }Abstract}{16}{section*.11}
+\contentsline {section}{\numberline {2.1}Introduction}{17}{section.2.1}
+\contentsline {section}{\numberline {2.2}Data}{18}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Data Retrieval}{18}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Completeness}{19}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}The Catalogue}{25}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Name}{25}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}NEDname}{26}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}z}{26}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}RAdeg}{26}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2.3.5}DEdeg}{26}{subsection.2.3.5}
+\contentsline {subsection}{\numberline {2.3.6}RAh}{26}{subsection.2.3.6}
+\contentsline {subsection}{\numberline {2.3.7}RAm}{26}{subsection.2.3.7}
+\contentsline {subsection}{\numberline {2.3.8}RAs}{26}{subsection.2.3.8}
+\contentsline {subsection}{\numberline {2.3.9}DE-}{26}{subsection.2.3.9}
+\contentsline {subsection}{\numberline {2.3.10}DEd}{26}{subsection.2.3.10}
+\contentsline {subsection}{\numberline {2.3.11}DEm}{27}{subsection.2.3.11}
+\contentsline {subsection}{\numberline {2.3.12}DEs}{27}{subsection.2.3.12}
+\contentsline {subsection}{\numberline {2.3.13}GLON}{27}{subsection.2.3.13}
+\contentsline {subsection}{\numberline {2.3.14}GLAT}{27}{subsection.2.3.14}
+\contentsline {subsection}{\numberline {2.3.15}Vhel}{27}{subsection.2.3.15}
+\contentsline {subsection}{\numberline {2.3.16}vcorr}{27}{subsection.2.3.16}
+\contentsline {subsection}{\numberline {2.3.17}distvcorr}{27}{subsection.2.3.17}
+\contentsline {subsection}{\numberline {2.3.18}RID\_mean}{28}{subsection.2.3.18}
+\contentsline {subsection}{\numberline {2.3.19}RID\_median}{28}{subsection.2.3.19}
+\contentsline {subsection}{\numberline {2.3.20}RID\_std}{28}{subsection.2.3.20}
+\contentsline {subsection}{\numberline {2.3.21}RID\_min}{28}{subsection.2.3.21}
+\contentsline {subsection}{\numberline {2.3.22}RID\_max}{28}{subsection.2.3.22}
+\contentsline {subsection}{\numberline {2.3.23}bestDist}{28}{subsection.2.3.23}
+\contentsline {subsection}{\numberline {2.3.24}e\_bestDist}{29}{subsection.2.3.24}
+\contentsline {subsection}{\numberline {2.3.25}distIndicator}{29}{subsection.2.3.25}
+\contentsline {subsection}{\numberline {2.3.26}MajDiam\_ang}{29}{subsection.2.3.26}
+\contentsline {subsection}{\numberline {2.3.27}MinDiam\_ang}{34}{subsection.2.3.27}
+\contentsline {subsection}{\numberline {2.3.28}e\_MajDiam\_ang}{34}{subsection.2.3.28}
+\contentsline {subsection}{\numberline {2.3.29}e\_MinDiam\_ang}{34}{subsection.2.3.29}
+\contentsline {subsection}{\numberline {2.3.30}MajDiam}{35}{subsection.2.3.30}
+\contentsline {subsection}{\numberline {2.3.31}MinDiam}{35}{subsection.2.3.31}
+\contentsline {subsection}{\numberline {2.3.32}e\_MajDiam}{35}{subsection.2.3.32}
+\contentsline {subsection}{\numberline {2.3.33}e\_MinDiam}{35}{subsection.2.3.33}
+\contentsline {subsection}{\numberline {2.3.34}R\_vir}{35}{subsection.2.3.34}
+\contentsline {subsection}{\numberline {2.3.35}inc}{36}{subsection.2.3.35}
+\contentsline {subsection}{\numberline {2.3.36}adjustedInc}{36}{subsection.2.3.36}
+\contentsline {subsection}{\numberline {2.3.37}e\_inc}{36}{subsection.2.3.37}
+\contentsline {subsection}{\numberline {2.3.38}PA}{37}{subsection.2.3.38}
+\contentsline {subsection}{\numberline {2.3.39}diam\_key}{37}{subsection.2.3.39}
+\contentsline {subsection}{\numberline {2.3.40}ratio\_key}{37}{subsection.2.3.40}
+\contentsline {subsection}{\numberline {2.3.41}pa\_key}{37}{subsection.2.3.41}
+\contentsline {subsection}{\numberline {2.3.42}RC3\_type}{37}{subsection.2.3.42}
+\contentsline {subsection}{\numberline {2.3.43}RC3\_d25}{37}{subsection.2.3.43}
+\contentsline {subsection}{\numberline {2.3.44}RC3\_r25}{38}{subsection.2.3.44}
+\contentsline {subsection}{\numberline {2.3.45}RC3\_pa}{38}{subsection.2.3.45}
+\contentsline {subsection}{\numberline {2.3.46}group\_num}{38}{subsection.2.3.46}
+\contentsline {subsection}{\numberline {2.3.47}group\_mem}{38}{subsection.2.3.47}
+\contentsline {subsection}{\numberline {2.3.48}group\_dist}{38}{subsection.2.3.48}
+\contentsline {subsection}{\numberline {2.3.49}MType}{38}{subsection.2.3.49}
+\contentsline {subsection}{\numberline {2.3.50}flag}{38}{subsection.2.3.50}
+\contentsline {subsection}{\numberline {2.3.51}lumClass}{39}{subsection.2.3.51}
+\contentsline {subsection}{\numberline {2.3.52}E(B-V)}{40}{subsection.2.3.52}
+\contentsline {subsection}{\numberline {2.3.53}Bmag}{40}{subsection.2.3.53}
+\contentsline {subsection}{\numberline {2.3.54}Bmag\_key}{40}{subsection.2.3.54}
+\contentsline {subsection}{\numberline {2.3.55}Bmag\_max}{40}{subsection.2.3.55}
+\contentsline {subsection}{\numberline {2.3.56}Bmag\_max\_key}{41}{subsection.2.3.56}
+\contentsline {subsection}{\numberline {2.3.57}Bmag\_min}{41}{subsection.2.3.57}
+\contentsline {subsection}{\numberline {2.3.58}Bmag\_min\_key}{41}{subsection.2.3.58}
+\contentsline {subsection}{\numberline {2.3.59}Bmag\_sdss}{41}{subsection.2.3.59}
+\contentsline {subsection}{\numberline {2.3.60}gmag\_sdss}{41}{subsection.2.3.60}
+\contentsline {subsection}{\numberline {2.3.61}rmag\_sdss}{41}{subsection.2.3.61}
+\contentsline {subsection}{\numberline {2.3.62}zmag\_sdss}{41}{subsection.2.3.62}
+\contentsline {subsection}{\numberline {2.3.63}Lstar\_med}{42}{subsection.2.3.63}
+\contentsline {subsection}{\numberline {2.3.64}e\_Lstar\_med}{42}{subsection.2.3.64}
+\contentsline {subsection}{\numberline {2.3.65}Lstar\_max}{42}{subsection.2.3.65}
+\contentsline {subsection}{\numberline {2.3.66}e\_Lstar\_max}{42}{subsection.2.3.66}
+\contentsline {subsection}{\numberline {2.3.67}Lstar\_min}{42}{subsection.2.3.67}
+\contentsline {subsection}{\numberline {2.3.68}e\_Lstar\_min}{43}{subsection.2.3.68}
+\contentsline {subsection}{\numberline {2.3.69}Lstar\_sdss}{43}{subsection.2.3.69}
+\contentsline {subsection}{\numberline {2.3.70}e\_Lstar\_sdss}{43}{subsection.2.3.70}
+\contentsline {subsection}{\numberline {2.3.71}altNames}{43}{subsection.2.3.71}
+\contentsline {section}{\numberline {2.4}Limitations \& Future}{43}{section.2.4}
+\contentsline {section}{\numberline {\ }References}{44}{Item.8}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-6}
+\contentsline {chapter}{\numberline {3}Probing Large Galaxy Halos at $z\sim 0$ with Automated $\rm Ly\alpha $-Absorption Matching}{46}{chapter.3}
+\contentsline {section}{\numberline {\ }Abstract}{47}{section*.20}
+\contentsline {section}{\numberline {3.1}Introduction}{48}{section.3.1}
+\contentsline {section}{\numberline {3.2}Data and Analysis}{51}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Galaxy Data}{51}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Spectra}{54}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Results}{57}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}EW-$\rho $ Anti-correlation}{61}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Inclination}{64}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Velocity Difference \rm ($\Delta v$\rm )}{67}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Azimuth}{69}{subsection.3.3.4}
+\contentsline {section}{\numberline {3.4}Discussion}{72}{section.3.4}
+\contentsline {section}{\numberline {3.5}Summary}{74}{section.3.5}
+\contentsline {section}{\numberline {\ }References}{75}{Item.13}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-7}
+\contentsline {chapter}{\numberline {4}Evidence for a Rotational Component in the CGM of Nearby Galaxies}{78}{chapter.4}
+\contentsline {section}{\numberline {\ }Abstract}{79}{section*.32}
+\contentsline {section}{\numberline {4.1}Introduction}{80}{section.4.1}
+\contentsline {section}{\numberline {4.2}Data and Analysis}{82}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}SALT Data}{82}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}COS Spectra}{88}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Halo Rotation Model}{88}{section.4.3}
+\contentsline {section}{\numberline {4.4}Discussion}{95}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Co-rotation Fraction}{96}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Co-rotation as a function of $L^*$}{102}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Doppler $b$-parameters}{105}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.5}Summary}{108}{section.4.5}
+\contentsline {section}{\numberline {\ }References}{110}{section.4.5}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-8}
+\contentsline {chapter}{\numberline {5}The Environmental Dependence of Low-$z$ $\rm Ly\alpha $ Absorption}{113}{chapter.5}
+\contentsline {section}{\numberline {\ }Abstract}{114}{section*.43}
+\contentsline {section}{\numberline {5.1}Introduction}{115}{section.5.1}
+\contentsline {section}{\numberline {5.2}Data and Analysis}{117}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Sub-sample selection}{120}{subsection.5.2.1}
+\contentsline {section}{\numberline {5.3}Results \& Discussion}{123}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Detection Fraction}{123}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Equivalent Width}{125}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}Doppler $b$-parameter}{131}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Inclination}{133}{subsection.5.3.4}
+\contentsline {subsection}{\numberline {5.3.5}Azimuth}{135}{subsection.5.3.5}
+\contentsline {section}{\numberline {5.4}Summary}{137}{section.5.4}
+\contentsline {section}{\numberline {\ }References}{139}{section.5.4}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-9}
+\contentsline {chapter}{\numberline {6}Conclusions}{141}{chapter.6}
+\contentsline {section}{\numberline {6.1}SUMMARY}{142}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Chapter 2}{142}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Chapter 3}{143}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Chapter 4}{144}{subsection.6.1.3}
+\contentsline {subsection}{\numberline {6.1.4}Chapter 5}{145}{subsection.6.1.4}
+\contentsline {section}{\numberline {6.2}Future Work}{147}{section.6.2}
+\contentsline {section}{\numberline {\ }References}{148}{section*.55}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-10}
+\contentsline {chapter}{\numberline {A}Rotation Curve Sample}{149}{Appendix.a.A}
+\contentsline {section}{\numberline {A.1}SALT Galaxies}{150}{section.a.A.1}
+\contentsline {subsection}{\numberline {A.1.1}CGCG039-137}{150}{subsection.a.A.1.1}
+\contentsline {subsection}{\numberline {A.1.2}ESO343-G014}{150}{subsection.a.A.1.2}
+\contentsline {subsection}{\numberline {A.1.3}IC5325}{151}{subsection.a.A.1.3}
+\contentsline {subsection}{\numberline {A.1.4}MCG-03-58-009}{152}{subsection.a.A.1.4}
+\contentsline {subsection}{\numberline {A.1.5}NGC1566}{153}{subsection.a.A.1.5}
+\contentsline {subsection}{\numberline {A.1.6}NGC3513}{155}{subsection.a.A.1.6}
+\contentsline {subsection}{\numberline {A.1.7}NGC3633}{156}{subsection.a.A.1.7}
+\contentsline {subsection}{\numberline {A.1.8}NGC4536}{157}{subsection.a.A.1.8}
+\contentsline {subsection}{\numberline {A.1.9}NGC4939}{158}{subsection.a.A.1.9}
+\contentsline {subsection}{\numberline {A.1.10}NGC5364}{159}{subsection.a.A.1.10}
+\contentsline {subsection}{\numberline {A.1.11}NGC5786}{160}{subsection.a.A.1.11}
+\contentsline {subsection}{\numberline {A.1.12}UGC09760}{161}{subsection.a.A.1.12}
+\contentsline {section}{\numberline {A.2}Ancillary Data}{163}{section.a.A.2}
+\contentsline {subsection}{\numberline {A.2.1}NGC3198}{164}{subsection.a.A.2.1}
+\contentsline {subsection}{\numberline {A.2.2}NGC3351}{164}{subsection.a.A.2.2}
+\contentsline {subsection}{\numberline {A.2.3}NGC5907}{165}{subsection.a.A.2.3}
+\contentsline {subsection}{\numberline {A.2.4}NGC4565}{165}{subsection.a.A.2.4}
+\contentsline {subsection}{\numberline {A.2.5}UGC06446}{166}{subsection.a.A.2.5}
+\contentsline {subsection}{\numberline {A.2.6}NGC3631}{166}{subsection.a.A.2.6}
+\contentsline {subsection}{\numberline {A.2.7}NGC3726}{167}{subsection.a.A.2.7}
+\contentsline {subsection}{\numberline {A.2.8}NGC3067}{168}{subsection.a.A.2.8}
+\contentsline {subsection}{\numberline {A.2.9}NGC6140}{169}{subsection.a.A.2.9}
+\contentsline {subsection}{\numberline {A.2.10}NGC4529}{169}{subsection.a.A.2.10}
+\contentsline {subsection}{\numberline {A.2.11}UGC04238}{170}{subsection.a.A.2.11}
+\contentsline {subsection}{\numberline {A.2.12}NGC2770}{170}{subsection.a.A.2.12}
+\contentsline {subsection}{\numberline {A.2.13}NGC3432}{172}{subsection.a.A.2.13}
+\contentsline {subsection}{\numberline {A.2.14}NGC3666}{172}{subsection.a.A.2.14}
+\contentsline {subsection}{\numberline {A.2.15}NGC5951}{173}{subsection.a.A.2.15}
+\contentsline {subsection}{\numberline {A.2.16}NGC7817}{173}{subsection.a.A.2.16}
+\contentsline {subsection}{\numberline {A.2.17}UGC08146}{174}{subsection.a.A.2.17}
+\contentsline {section}{\numberline {\ }References}{174}{subsection.a.A.2.17}
+\gdef \the@ipfilectr {}
+\gdef \the@ipfilectr {@-11}
+\contentsline {chapter}{\numberline {B}Summary of Full QSO Sample and Measurements}{176}{Appendix.a.B}
+\gdef \the@ipfilectr {}

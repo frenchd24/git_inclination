@@ -1,0 +1,14 @@
+Overview:
+
+Detection fraction overall:
+Decreases steadily to 1000, possibly past?
+Decreases steadily also to 0.0001L, which is about 3Rvir
+
+This is a blind detection fraction however; each galaxy is treated as if isolated, which means that at any particular bin there could be other, closer galaxies also. Hence, this is an upper limit on the detection fraction.
+
+What does this mean? 50% of the time a Lya absorber can be found at nearly any distance from a galaxy. Lya absorbers are ubiquitous. What about stronger absorbers? 50 mA minimum? 100? 300?
+
+EW vs Impact parameter:
+
+A few things are obvious: Weak, low EW absorbers are found everywhere, at all distances and \rho/R_vir. Absorbers stronger than ~400 mA are preferentially found close to galaxies however, with absorbers with EW > 800 mA only found within 100 kpc and 1Rvir. So, Lay below about 400 mA is likely Lya-forest material, and stronger absorbers are associated with galaxies.
+

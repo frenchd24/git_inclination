@@ -1,0 +1,27 @@
+check local group galaxies in galaxy table
+
+--
+echo "HImodel gives measurements - vel, FWHM, column density (10^18), error in NHI, deuterium abundance, component classification, notes, notes about where it comes from
+
+model comes from:
+1. 21cm  components when things are strong, sometimes use Lybeta wings to make those fit - lots of degeneracy between FWHM and NHI - this gives the basic profile
+2. Sometimes you can see the components in the FUV spectra
+3. Current measurements are by fitting the model by eye
+4. metal lines and other things sometimes makes it more difficult, have to fit those as well (mostly a widening of the HI profile is a result of metals). In other words you may not actually see an HI component, but can't fit without adding a component there
+
+Galactic absorption also has deuterium (abundance 10^-5) so 10^20 HI -> 10^15 deuterium occurs at -80 km/s, may get covered by an HI component that is also at this velocity
+
+5. Fit the 923 line continuum then copy that 
+6. y is fit continuum
+7. h is read in continuum and add HI model and H2 model
+8. for stronger components look at CII and SiIII to see if you can find any component structure (such as what is the width? - HI profiles tend to be wider though)
+9. Sometimes COS data helps, H2 is already fit in Bart's 2006 paper ('h' command already includes that and lists its' value)
+
+I need to:
+reassess the component structure (need to add or remove any components? probably 85%  need to stay that are already there)
+reassess the continuum fit
+use night only data (put capital 'N' at end of source name e.g., MRK335 -> MRK335N)
+try to do a real fit
+
+Pay attention to Oxygen lines which have a similar set of transitions (outer electrons of O, lines shift around a bit, tend to be around -400km/s relative to HI)
+Lya continuum goes all the way to ~3500 km/s from 0, there is the damping wings
