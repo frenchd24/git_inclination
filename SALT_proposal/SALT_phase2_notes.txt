@@ -1,9 +1,0 @@
-Christian Hettlege - send an email about the diffuse RSS part - doesn’t ask for a size (assuming mag/arc^2) Otherwise check if I need to convert 
-
-Larger slit and grating setting for E, S0’s -> use Calcium H & K pg3000 -> check sky lines
-
-Check the block probability
-
-2 or 3 exposures per target for cosmic ray rejections
-
-freedman’s law- most disks have the same surface brightness
