@@ -5,6 +5,17 @@
 \usepackage{subfigure}
 \usepackage{amsmath}
 
+%\usepackage{dblfloatfix}    % To enable figures at the bottom of page
+
+%\usepackage{dblfloatfix}
+%\usepackage{stfloats}
+
+%\usepackage{lipsum}
+
+%\usepackage[breaklinks=true]{hyperref}
+\usepackage{breakcites}
+\usepackage{microtype}
+
 
 \newcommand{\degrees}{\ensuremath{^{\circ}}}
 \newcommand{\NII}{[\ion{N}{ii}]}
@@ -33,11 +44,12 @@
 
 \begin{document}
 
-\title{Evidence for a Rotational Component in the CGM of Nearby Galaxies}
+\title{Evidence for a Rotational Component in the CGM of Nearby Galaxies\footnote{Based on observations made with the Southern African Large Telescope (SALT).}}
 
 
 \author{David M. French}
 \affil{Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218}
+\affil{Department of Astronomy, University of Wisconsin, Madison, WI 53706, USA}
 
 \author{Bart P. Wakker}
 \affil{Department of Astronomy, University of Wisconsin, Madison, WI 53706, USA}
@@ -58,7 +70,7 @@ We present results of a study comparing the velocity of $\rm Ly\alpha$ absorbers
 
 
 \section{Introduction}
-Our current Lambda Cold-Dark-Matter ($\Lambda$CDM) cosmology picture describes galaxies forming hierarchically out of overdensities in the underlying dark matter distribution. As the surrounding intergalactic medium (IGM) is funneled toward a growing galaxy, simulations predict the angular momentum of the inflowing gas is redistributed onto the disk and seeds the overall rotation of the galaxy (e.g., \citealt{stewart2011a, chen2003, sharma2005, brook2011, kimm2011, pichon2011, stewart2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies throughout their lifetimes, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. 
+Our current Lambda Cold-Dark-Matter ($\Lambda$CDM) cosmology picture describes galaxies forming hierarchically out of overdensities in the underlying dark matter distribution. As the surrounding intergalactic medium (IGM) is funneled toward a growing galaxy, simulations predict the angular momentum of the inflowing gas is redistributed onto the disk and seeds the overall rotation of the galaxy (e.g., \citealt{stewart2011a, chen2003, sharma2005, brook2011, kimm2011, pichon2011, stewart2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies throughout their lifetimes, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos.  
 
 In the $\Lambda$CDM picture, accretion falls broadly into two types. In the so-called ``hot-mode", gas shock-heats at the virial radius as it encounters the galaxy halo. The inner, more dense region of this hot gaseous halo then rains down onto the disk as it radiatively cools (e.g., \citealt{fillmore1984, bertschinger1985, danovich2012, shen2013}). However, most gas arrives cold ($T\sim 10^{4}$ K) from the IGM, and the proposed radiative shock is unstable to cooling. Thus this hot-halo scenario may not actually be created \citep{birnboim2003, keres2005, ocvirk2008, brooks2009, dekel2009}.
 
@@ -73,33 +85,7 @@ In contrast, as part of  the alternative ``cold-mode" accretion model, filaments
 
 %Galaxy rotation curves have been observed to extend at constant velocity out to... (cite...). It becomes increasingly difficult to measure gas rotation much farther from this however as the density rapidly decreases. Within this region the galaxy disks transition into circumgalactic medium (CGM), and eventually the CGM merges with the intergalactic medium (IGM). At what point, however, does the surrounding medium cease to circulate with the galaxy? A standard tool for probing gas at large radii from galaxies is QSO absorption line spectroscopy. 
 
-
-
-Some observational evidence of cold-mode accretion has been obtained at higher redshifts. In pioneering studies focusing on the Mg\II~absorber kinematics and their connection with neighboring galaxies, \cite{charlton1998} and \cite{steidel2002} (and later \citealt{kacprzak2010, ho2017}) found tantalizing evidence that a significant fraction of Mg\II~absorbers have velocities that can be explained by an extended gaseous disk. Additionally, \cite{diamond-stanic2016} detect co-rotating H$\alpha$ emission and Mg\,{\sc ii} and Fe\,{\sc ii} absorption toward a Milky Way-like galaxy at $z=0.413$. However, as noted by \cite{steidel2002}, a simple extended disk model is insufficient to explain the observed bulk motion implied by their sample of 5 Mg\II~absorber-galaxy systems, and a rotating \emph{halo} may be a better model.
-
-%However, as noted by Steidel 2002, a rotating \emph{halo} may be a better model than a simple extended thick disk model based on . 
-
-Additionally, the picture may have changed since $z \sim 0.5$, the epoch 5 Gyr ago that most of these Mg\II~systems are probing. By $z \sim 0$ simulations (e.g., \citealt{keres2005, stewart2017}) predict a drop-off in cold-mode accretion and a decrease in the density of IGM filaments. Observational confirmation has been even more inconclusive in this low-redshift regime. In the largest such study, involving Ly$\rm \alpha$ absorber-galaxy kinematics, \cite{cote2005} probed the halos of nine galaxies using \emph{HST} observed background QSOs, and found that large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. \cite{wakker2009} compiled a sample of 76 sightlines, which included only 4 galaxy-QSO systems for which the galaxy's rotation curve was known from the literature, and finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Similarly, \cite{kacprzak2011_kinematics} claim a reduction in Mg\II~co-rotation around $\rm \sim $\Lstar~ galaxies between $z\sim 0.5$ and $z\sim 0.1$. Approaching the question from a different angle, \cite{bowen2016} probed the halo of a single galaxy, NGC1097, with 4 nearby QSO sightlines, and suggests that an extended, slowly rotating disk with additional inflowing IGM material best matches observations. 
-
-%The largest study of low-redshift, Ly$\rm \alpha$ absorber-galaxy kinematics was \cite{cote2005}, which worked with a  sample of 5 galaxy-absorber systems. 
-
-%This cold-mode accretion should dominate the global growth of all galaxies at high redshifts (z ? 3) and the growth of low-mass (Mhalo ? 5 × 1011 M) objects at late times (Dekel & Birnboim 2006).
-
-%his infalling gas is shock-heated and slowly cools (\cite{danovich2012}, \cite{shen2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. 
-
-%As matter is funneled toward a growing galaxy, simulations predict conservation of angular momentum redistributes the angular momentum in this gas to match that of the halo and underlying dark matter as the gas is shock-heated and slowly cools (\cite{danovich2012}, \cite{shen2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. 
-
-%There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
-
-
-%Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., \citealt{french2017}, MORE).
-
-To significantly improve observational statistics in this low-redshift regime, we have obtained rotation curves from the Souther African Large Telescope (SALT) for 12 nearby spiral galaxies which are located within $3 R_{\rm vir}$ kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. A literature search yielded an additional 17 galaxies with published rotation curves and known orientations. Each of these is probed by at least one QSO within $3 R_{\rm vir}$.
-
-In Section \ref{data} we describe the selection and reduction of both SALT and COS spectra. In Section \ref{model} we present a new rotating halo model we have developed to aid in the interpretation of our observations. In Section \ref{discussion} we discuss the overall results of this exercise and present a physically-motivated interpretation of these results. See Section \ref{summary} for a summary of our results and conclusions. Each galaxy-QSO system is discussed in detail in Appendix A.
-
-
-\begin{deluxetable*}{l l l l l l l l l l}[bt]
+\begin{deluxetable*}{l l l l l l l l l l}
 %\rotate
 \tablewidth{0pt}
 \tabletypesize{\footnotesize}
@@ -143,7 +129,36 @@ In Section \ref{data} we describe the selection and reduction of both SALT and C
 \end{deluxetable*}
 
 
-\begin{deluxetable*}{l l l l l l l}
+Some observational evidence of cold-mode accretion has been obtained at higher redshifts. In pioneering studies focusing on the Mg\II~absorber kinematics and their connection with neighboring galaxies, \cite{charlton1998} and \cite{steidel2002} (and later \citealt{kacprzak2010, ho2017}) found tantalizing evidence that a significant fraction of Mg\II~absorbers have velocities that can be explained by an extended gaseous disk. Additionally, \cite{diamond-stanic2016} detect co-rotating H$\alpha$ emission and Mg\,{\sc ii} and Fe\,{\sc ii} absorption toward a Milky Way-like galaxy at $z=0.413$. However, as noted by \cite{steidel2002}, a simple extended disk model is insufficient to explain the observed bulk motion implied by their sample of 5 Mg\II~absorber-galaxy systems, and a rotating \emph{halo} may be a better model.
+
+
+%However, as noted by Steidel 2002, a rotating \emph{halo} may be a better model than a simple extended thick disk model based on . 
+
+Additionally, the picture may have changed since $z \sim 0.5$, the epoch 5 Gyr ago that most of these Mg\II~systems are probing. By $z \sim 0$ simulations (e.g., \citealt{keres2005, stewart2017}) predict a drop-off in cold-mode accretion and a decrease in the density of IGM filaments. Observational confirmation has been even more inconclusive in this low-redshift regime. In the largest such study, involving Ly$\rm \alpha$ absorber-galaxy kinematics, \cite{cote2005} probed the halos of nine galaxies using \emph{HST} observed background QSOs, and found that large warps would be needed to explain the velocity of \HI~absorbers by an extended rotating disk. \cite{wakker2009} compiled a sample of 76 sightlines, which included only 4 galaxy-QSO systems for which the galaxy's rotation curve was known from the literature, and finding only 1/4 of Ly$\alpha$ absorbers appeared to co-rotate with the associated galaxy disk. Similarly, \cite{kacprzak2011_kinematics} claim a reduction in Mg\II~co-rotation around $\rm \sim $\Lstar~ galaxies between $z\sim 0.5$ and $z\sim 0.1$. Approaching the question from a different angle, \cite{bowen2016} probed the halo of a single galaxy, NGC1097, with 4 nearby QSO sightlines, and suggests that an extended, slowly rotating disk with additional inflowing IGM material best matches observations. 
+
+
+
+%The largest study of low-redshift, Ly$\rm \alpha$ absorber-galaxy kinematics was \cite{cote2005}, which worked with a  sample of 5 galaxy-absorber systems. 
+
+%This cold-mode accretion should dominate the global growth of all galaxies at high redshifts (z ? 3) and the growth of low-mass (Mhalo ? 5 × 1011 M) objects at late times (Dekel & Birnboim 2006).
+
+%his infalling gas is shock-heated and slowly cools (\cite{danovich2012}, \cite{shen2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. 
+
+%As matter is funneled toward a growing galaxy, simulations predict conservation of angular momentum redistributes the angular momentum in this gas to match that of the halo and underlying dark matter as the gas is shock-heated and slowly cools (\cite{danovich2012}, \cite{shen2013}). As this infalling gas is responsible for birthing and continuing to feed the galaxies, it is expected that the extended gaseous halos should rotate in the same sense as both the galactic disks and dark matter halos. 
+
+%There have been several studies with a sample size of one or a few aiming to compare the kinematics of the galaxy disk to absorption detected in it's CGM halo (e.g., C\^{o}t\'{e} et al. 2005; Wakker \& Savage 2009; Bowen et al. 2016; \textbf{MORE}). With these individual results we may be missing the forest for the sake of the individual trees. There has yet to be a more systematic search for observational evidence that the CGM is kinematically associated with galaxies in general.
+
+
+%Numerous studies have shown a correlation between equivalent width and decreasing velocity difference between galaxies and IGM absorbers (e.g., \citealt{french2017}, MORE).
+
+To significantly improve observational statistics in this low-redshift regime, we have obtained rotation curves from the Souther African Large Telescope (SALT) for 12 nearby spiral galaxies which are located within $3 R_{\rm vir}$ kpc of a background QSO observed by the Cosmic Origins Spectrograph (COS) on \textit{HST}. A literature search yielded an additional 17 galaxies with published rotation curves and known orientations. Each of these is probed by at least one QSO within $3 R_{\rm vir}$.
+
+In Section \ref{data} we describe the selection and reduction of both SALT and COS spectra. In Section \ref{model} we present a new rotating halo model we have developed to aid in the interpretation of our observations. In Section \ref{discussion} we discuss the overall results of this exercise and present a physically-motivated interpretation of these results. See Section \ref{summary} for a summary of our results and conclusions. Each galaxy-QSO system is discussed in detail in Appendix A.
+
+
+
+
+\begin{deluxetable*}{l l l l r r r}
 \tablewidth{0pt}
 \tabletypesize{\footnotesize}
 \setlength{\tabcolsep}{0.15in}
@@ -151,7 +166,7 @@ In Section \ref{data} we describe the selection and reduction of both SALT and C
 %\tablewidth{2.0pt}
 \tablecaption{Summary of QSO Sample\label{tab:params}}
 \tablehead{
-\colhead{Target}  		&  \colhead{Galaxy} 			&  \colhead{R.A.}  		&  \colhead{Dec.}		& \colhead{z} 	&  \colhead{Program} &  \colhead{${T_{\rm exp}}$}	\\
+\colhead{Target}  		&  \colhead{Galaxy} 			&  \colhead{R.A.}  		&  \colhead{Dec.}		& \colhead{z} 	&  \colhead{Program} &  \colhead{\tablenotemark{a} ${T_{\rm exp}}$}	\\
 			  		&          					&  			 		& 		  			& 		     	&				  & \colhead{(ks)}}
 %\colnumbers
 \startdata
@@ -213,7 +228,8 @@ TON1015					&	NGC2770			&	09 10 37.0		&	+33 29 24.0		&   0.35400	& 14240		&  477
 \hline
 \enddata
 %\tablenotetext{a}{Total exposure time and S/N ratio is given for multi-orbit exposures.}
-\tablecomments{Summary of COS targets in this sample. $T_{\rm exp}$ gives the total G130M integration time if multiple exposures were taken.}
+\tablecomments{
+\tablenotetext{a}{$T_{\rm exp}$ gives the total G130M integration time if multiple exposures were taken.}}
 \end{deluxetable*}
 
 
@@ -289,12 +305,13 @@ In order to better understand how QSO sightlines probe the intervening velocity 
 \end{figure*}
 
 
-For the first, purely cylindrical model, the input rotation curve is interpolated via linear spline and extended out to 3$R_{vir}$ based on the average velocity of the outer 1/2 radius (see Figure \ref{model_fits}). For the second model, we fit an NFW rotation velocity profile to the input rotation curve. The form of this fit is as follows:
+For the first, purely cylindrical model, the input rotation curve is interpolated via linear spline and extended out to 3$R_{vir}$ based on the average velocity of the outer 1/2 radius (see Figure \ref{model_fits}). For the second model, we fit a NFW rotation velocity profile to the input rotation curve. The form of this fit is as follows:
 
 \begin{equation}
 	V(R) = V_{200} \left [\frac{\ln(1 + c x) - c x / (1 + c x)}{x [ \ln(1 + c) - c / (1 + c)]} \right]^{\frac{1}{2}},
 \end{equation}
-where $x = R / R_{200}$, with $R_{200}$ being the radius at which the density contrast with respect to the critical density of the universe exceeds 200, $c = R_{200} / R_s$, with $R_s$ being the characteristic radius of the halo, and $V_{200}$ being the characteristic velocity at $R_{200}$. We have taken this form from \cite{deblok2008}. The resulting NFW fits tend to be somewhat poor toward the inner parts of the rotation curve (as has been noted by others, e.g., \citealt{cote2005}). Regardless, we are most interested in achieving a physically-motivated velocity profile in the outer halo regions, for which these fits are certainly adequate.
+
+\noindent where $x = R / R_{200}$, with $R_{200}$ being the radius at which the density contrast with respect to the critical density of the universe exceeds 200, $c = R_{200} / R_s$, with $R_s$ being the characteristic radius of the halo, and $V_{200}$ being the characteristic velocity at $R_{200}$. We have taken this form from \cite{deblok2008}. The resulting NFW fits tend to be somewhat poor toward the inner parts of the rotation curve (as has been noted by others, e.g., \citealt{cote2005}). Regardless, we are most interested in achieving a physically-motivated velocity profile in the outer halo regions, for which these fits are certainly adequate.
 
 
 %\begin{figure}[h!]
@@ -438,19 +455,49 @@ Table \ref{results} summarizes our galaxy-absorber sample and the predicted velo
 
 For the remaining sample we designate each system as co-rotating or anti-rotating firstly based on the on-sky apparent velocity orientation. For example, an absorber with positive $\Delta v$ which is detected on the receding side of a galaxy is labeled ``co-rotating" (recall $\Delta v = v_{\rm absorber} - v_{\rm galaxy}$, hence a positive value corresponds to absorption with velocity higher than the galaxy systemic). Next, we compare $\Delta v$ of each absorber to our cylindrical and NFW profile fit model predictions. For example, an absorber with $\Delta v = 50$ and model ranges of (cylindrical = [0, 35], NFW = [10, 55]) would be labeled ``anti-rotating" for the cylindrical and ``co-rotating" for the NFW models, because $\Delta v = 50$ \kms~is inside the NFW range and outside the cylindrical range. In order to broadly account for both velocity uncertainties and absorber linewidth, we allow for an $\pm 10$ \kms~error with respect to these model ranges (i.e., if $\Delta v$ is within 10 \kms~of the edge of either model velocity range we count it as ``co-rotating"). This is a conservative underestimate of the true errors in the sense that larger errors would allow for \emph{more} absorbers to be labeled ``co-rotating." The majority of our ``co-rotating" sample fall well within the model ranges, so few would be thrown into uncertainty with a larger error, whereas many ``anti-rotators" are close to the allowed ranges.
 
+\begin{figure*}[h]
+        \centering
+%        \vspace{15pt}
+        \includegraphics[width=0.96\linewidth]{SALTmap_velstrict_False_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}
+        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius, with \emph{no} additional constraints. The color and style of each point indicates the line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. Concentric rings indicate distances of 1, 2, and 3 $R_{\rm vir}$. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%        \vspace{-5pt}
+        \label{full_map}
+%        \vspace{-5pt}
+\end{figure*}
+
+\begin{figure*}[ht]
+\centering
+  \includegraphics[width=0.96\linewidth]{SALTmap_velstrict_False_non_True_Lstar_0-100_minsep_False_zoom_1_inclim_0.pdf}
+  \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. A zoom in showing only those systems within $1 R_{\rm vir}$ (exactly the same as Figure \ref{full_map} within $1 R_{\rm vir}$). The color and style of each point indicates the line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%\vspace{0pt}
+\label{zoom_map}
+\vspace{2pt}
+\end{figure*}
+
+
+
 \subsection{Co-rotation Fraction}
 Here we consider in aggregate our sample of Ly$\alpha$ absorbers, and the fraction consistent with co-rotation under various cuts and constraints. 
 
 To start we consider the fraction of absorbers which appear to be rotating in the same sense as the nearby galaxy. With no cuts of any kind, we find 54\% of absorbers to be co-rotating with the nearby galaxy based on apparent velocity only. Figure \ref{full_map} presents an map of the locations of each absorber relative to it's assumed host galaxy. In this figure we have rotated every system such that the galaxy major axes are horizontal with the approaching side on the left. Blue-diamonds indicate the absorber has the appropriate velocity sign for co-rotation, red-crosses indicate an anti-alignment, grey circles indicate uncertain systems due to their high azimuth angles, and open grey circles indicate non-detections. We have also scaled the size of each marker according to it's relative EW, and annotated each with a number corresponding to the appropriate system number given in Column (1) of Table \ref{models}. Figure \ref{zoom_map} shows the same map zoomed in to a radius of $1 R_{\rm vir}$.
 
+
 \begin{figure*}[ht!]
-        \centering
-        \vspace{0pt}
-        \includegraphics[width=0.9\linewidth]{SALTmap_velstrict_False_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}
-        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius, with \emph{no} additional constraints. The color and style of each point indicates the line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. Concentric rings indicate distances of 1, 2, and 3 $R_{\rm vir}$. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
-%        \vspace{5pt}
-        \label{full_map}
+\centering
+ \includegraphics[width=0.49\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}\label{nfw_map}
+  \includegraphics[width=0.49\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-06_minsep_False_inclim_0.pdf}\label{nfw_lstar_map}
+  \caption{\small{Maps of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with a $v_{\rm Ly\alpha} \leq v_{\rm rot}$ constraint imposed. The \textbf{\textit{right}} panel includes only those absorbers near \Lstar $\leq 0.6$ galaxies. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%\vspace{5pt}
 \end{figure*}
+
+
+%\begin{figure*}[ht!]
+%\centering
+%  \subfigure[]{\includegraphics[width=0.4\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}}\label{nfw_map}
+%  \subfigure[]{\includegraphics[width=0.4\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-06_minsep_False_inclim_0.pdf}}\label{nfw_lstar_map}
+%  \caption{\small{Maps of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with a $v_{\rm Ly\alpha} \leq v_{\rm rot}$ constraint imposed. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}. \textbf{b)} Same, but here only showing those absorbers near \Lstar $\leq 0.6$ galaxies.}}
+%%\vspace{5pt}
+%\end{figure*}
 
 %\begin{figure}[ht!]
 %        \centering
@@ -470,13 +517,6 @@ To start we consider the fraction of absorbers which appear to be rotating in th
 %\end{figure}
 
 
-\begin{figure}[ht!]
-\centering
-  \includegraphics[width=1.\linewidth]{SALTmap_velstrict_False_non_True_Lstar_0-100_minsep_False_zoom_1_inclim_0.pdf}
-  \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. A zoom in showing only those systems within $1 R_{\rm vir}$ (exactly the same as Figure \ref{full_map} within $1 R_{\rm vir}$). The color and style of each point indicates the line-of-sight velocity compared to that of the rotation of the nearby galaxy. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
-%\vspace{0pt}
-\label{zoom_map}
-\end{figure}
 
 
 A cursory look at Figures \ref{full_map} and \ref{zoom_map} reveals several interesting results. First, the highest EW absorbers are all found within $1 R_{\rm vir}$. This is not surprising, given the results by numerous groups claiming an impact parameter - equivalent width anti-correlation (see e.g., \citealt{french2017}, and references therein). Second, many of our absorbers, and many co-rotating ones, lie in the $1 - 2 R_{\rm vir}$ region. Previously, most groups have concentrated on studying the sub-$1 R_{\rm vir}$ regime, but doing so clearly does not reveal the whole physical picture. Third, most ($52\%$) of galaxy-QSO systems reveal multiple distinct velocity components, and they tend to be oriented such that one component is co- and one anti-rotating with the nearby galaxy.
@@ -485,13 +525,32 @@ However, a more in-depth look at the underlying data reveals that many of these 
 
 Let us now instead consider only absorbers with $\Delta v \leq v_{\rm rot} \pm 10$ \kms, or absorbers with velocities differences no greater than the maximal galaxy rotation velocity (including a $\pm$10 \kms~buffer to account for velocity and linewidth uncertainties; in other words the we are only considering absorbers where $|v_{\rm Ly\alpha} - v_{\rm sys}| \leq v_{\rm rot}~\pm 10$ \kms~, which are those absorbers within the velocity range of $\pm$ rotation $-$ this constraint removes 22 from our original sample of 65 absorbers). This constraint thus focuses only on absorbers whose velocity falls within the range of possible rotation-related velocities. While this could be interpreted as a bias in the sample, we are really only setting the $\Delta v$ velocity separation limit on a case-by case basis instead of globally given the additional information available to us. We could just as easily have started this study by looking for only absorbers within $\Delta v = 150$ \kms~of a galaxy instead of $\Delta v = 400$ \kms, which would have a similar overall effect. This criteria instead narrows the focus to only those absorbers kinematically close enough to a galaxy to test for a co-rotation fraction with minimal contamination from $\rm Ly\alpha$ forest lines.
 
-\begin{figure}[ht!]
-\centering
-  \includegraphics[width=0.96\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}
-  \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with a $v_{\rm Ly\alpha} \leq v_{\rm rot}$ constraint imposed. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
-%\vspace{5pt}
-\label{nfw_map}
-\end{figure}
+
+
+
+%\begin{figure}[ht!]
+%        \centering
+%        \includegraphics[width=0.98\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-06_minsep_False_inclim_0.pdf}
+%        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with $\Delta v \leq v_{rot}$ and \Lstar $\leq 0.6$ constraints imposed. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%\end{figure}
+
+
+
+%\begin{figure}[ht!]
+%\centering
+%  \includegraphics[width=0.96\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-100_minsep_False_inclim_0.pdf}
+%  \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with a $v_{\rm Ly\alpha} \leq v_{\rm rot}$ constraint imposed. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%%\vspace{5pt}
+%\label{nfw_map}
+%\end{figure}
+%\begin{figure}[ht!]
+%        \centering
+%        \vspace{0pt}
+%        \includegraphics[width=0.98\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-06_minsep_False_inclim_0.pdf}
+%        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with $\Delta v \leq v_{rot}$ and \Lstar $\leq 0.6$ constraints imposed. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
+%        \vspace{5pt}
+%        \label{nfw_lstar_map}
+%\end{figure}
 
 
 With this rotation-based velocity constraint in place the co-rotating fractions for our cylindrical and NFW models increase to 58\% and 63\%, while the apparent co-rotation fraction decreases slightly to 50\%. Consistently, we find our cylindrical model to predict an $\sim 8-10 \%$ higher co-rotation fraction than the straight apparent velocity analysis yields, and our NFW model tends to predict an additional $\sim 5\%$ increase. This is a not wholly unexpected, and yet refreshing result; simulations have predicted that galaxies are strongly linked to their surroundings and share angular momentum, which should result in a higher than $50\%$ halo-gas co-rotation fraction. However, the simple apparent on-sky velocity method ignores the complexities of sampling a 3-dimensional structure with a 1-dimensional QSO sightline. It appears then that the NFW model, the most physically motivated of the three, systematically recovers a higher fraction of this co-rotating gas. For brevity's sake we will concentrate only on the NFW model results from here onwards. Figure \ref{nfw_map} shows another absorber location map, this time colored according to our NFW model results.
@@ -520,6 +579,26 @@ In Figure \ref{Lstar_fraction_cdf} we consider the co-rotation fraction as a fun
 \vspace{0pt}
 \label{Lstar_fraction}
 \end{figure}
+
+
+
+Given recent simulation results suggesting that co-rotating accretion gas is predominately cold-mode for low-mass galaxies in the local Universe, this may be a signature of this co-rotating, cold-mode accreting gas. Additionally, \cite{lutz2018} find that galaxies with high \HI mass compared to their stellar mass have higher halo angular momentum, which may be impeding their ability to efficiently form stars. While we do not have independent measures of \HI and stellar mass for our galaxies, it may not be unreasonable to think that these high angular momentum galaxies reside toward the lower luminosity end of our sample.
+
+\subsection{Doppler $b$-parameters}
+Finally, we consider the Doppler $b$-parameters of our absorber sample. Figure \ref{b_hist} shows the distribution of $b$-parameters for all velocity-constrained Ly$\alpha$ absorbers ($\Delta v \leq v_{\rm rot} \pm 10$ \kms). In the top panel of Figure \ref{b_hist} we separate them into co-rotating and anti-rotating subsets, in the middle panel we do the same but only for $\rho \leq 1 R_{\rm vir}$, and on the bottom we separate based on absorbers near \Lstar $\leq 0.6$ and \Lstar $ > 0.6$ galaxies. Interestingly, we find that \emph{lower} $b$-parameter absorbers tend to be both anti-rotating and found near \Lstar $> 0.6$ galaxies. As previously discussed however, the picture described by the simulations of \cite{stewart2011b} and others describes a scenario where co-rotating gas is predominately the product of cold-mode accretion. Hotter, outflowing gas would likely carry angular momentum from the disk with it, but this would be quickly lost as the outflows expand into the halo and result in negligible observable rotation. 
+
+In Figure \ref{b_vs_dv2}(b) we show how the $b$-parameters vary as a function of $\Delta v$ for co-rotating versus anti-rotating absorbers. We would expect the co-rotating sample to occupy a narrower $\Delta v$ space based on their definition ($\Delta v$ fitting within the velocity bounds given by our NFW model), but the elevated $b$-parameters for these compared to the relatively flat distribution for anti-rotators is intriguing. Aside from a single $\rm Ly\alpha$ line toward SDSSJ104335.90+115129.0 and NGC3351, all the anti-rotators have $b \lesssim 50$ \kms. As these are higher than expected for purely thermal motions within a single $\rm Ly\alpha$ structure, we may be observing either a number of clouds that are close in velocity space or a filament with a range of turbulent, internal velocities. In this scenario these high $b$-parameters would be consistent with filamentary inflows versus around higher \Lstar~ galaxies where virial shocks are perhaps breaking larger structures into smaller, more isolated cloudlets and producing lower $b$-parameter absorption.
+
+
+\begin{figure}[ht!]
+\centering
+  \subfigure[]{\includegraphics[width=0.9\linewidth]{SALT_bhist_NFW_velstrict_True_non_True_Lstar_06_minsep_False_fits_True.pdf}\label{b_hist}}
+  \subfigure[]{\includegraphics[width=0.9\linewidth]{SALT_b_vs_dv_NFW_velstrict_True_non_True_Lstar_False_minsep_False_fits_True.pdf}}\label{b_vs_dv2}
+  \caption{\small{\textbf{Top:} The distributions of Doppler $b$-parameters for all Ly$\alpha$ absorbers with $\Delta v \leq v_{\rm rot} \pm 10$ \kms. The co-rotating versus anti-rotating designation here is based on NFW results. In the middle we do the same but only for $\rho \leq 1 R_{vir}$, and on the bottom we separate based on absorbers near \Lstar $\leq 0.6$ (blue) and \Lstar $ > 0.6$ (red-hatched) galaxies.  \textbf{Bottom:} The Doppler $b$-parameters of each absorber as a function of $\Delta v$, split into co-rotating (blue diamonds) and anti-rotating (red crosses). The data point for the NGC3067-3C232 LLS ($b = 245.2 \pm 25.9,  ~\Delta v = -68.0 \pm 11$ \kms, co-rotating) is not shown in order to highlight the majority distribution in greater detail.}}
+\vspace{5pt}
+\label{b_vs_dv2}
+\end{figure}
+
 
 
 
@@ -556,37 +635,6 @@ $[$\Lstar $ > 0.6]$				&						&						&					&						&						&						&					\\
 %\tablecomments{Comments.}
 %\vspace{-5pt}
 \end{deluxetable*}
-
-Given recent simulation results suggesting that co-rotating accretion gas is predominately cold-mode for low-mass galaxies in the local Universe, this may be a signature of this co-rotating, cold-mode accreting gas. Additionally, \cite{lutz2018} find that galaxies with high \HI mass compared to their stellar mass have higher halo angular momentum, which may be impeding their ability to efficiently form stars. While we do not have independent measures of \HI and stellar mass for our galaxies, it may not be unreasonable to think that these high angular momentum galaxies reside toward the lower luminosity end of our sample.
-
-\begin{figure}[ht!]
-        \centering
-        \vspace{0pt}
-        \includegraphics[width=0.98\linewidth]{SALTmap_NFW_model_velstrict_True_non_True_Lstar_0-06_minsep_False_inclim_0.pdf}
-        \caption{\small{A map of the locations of each absorber normalized with respect to the galaxy virial radius. The color and style of each point indicates the NFW rotation model results for each absorber with $\Delta v \leq v_{rot}$ and \Lstar $\leq 0.6$ constraints imposed. Blue diamonds indicate co-rotation, red crosses indicate anti-rotation, and grey circles indicate cases where either is possible due to a combination of orientation and velocity uncertainties. The size of each point is scaled to reflect the EW of the absorber. Concentric rings indicate distances of 1, 2, and 3 $R_{vir}$. All galaxies are rotated to PA = $90^{\circ}$ or $270^{\circ}$, such that their major axis' are horizontal and their approaching side is on the left as indicated. The number identifiers correspond to the system number given in column (1) of Table \ref{model}.}}
-        \vspace{5pt}
-        \label{nfw_lstar_map}
-\end{figure}
-
-\begin{figure}[ht!]
-\centering
-  \subfigure[]{\includegraphics[width=0.98\linewidth]{SALT_bhist_NFW_velstrict_True_non_True_Lstar_06_minsep_False_fits_True.pdf}\label{b_hist}}
-  \subfigure[]{\includegraphics[width=0.98\linewidth]{SALT_b_vs_dv_NFW_velstrict_True_non_True_Lstar_False_minsep_False_fits_True.pdf}}\label{b_vs_dv2}
-  \caption{\small{\textbf{Top:} The distributions of Doppler $b$-parameters for all Ly$\alpha$ absorbers with $\Delta v \leq v_{\rm rot} \pm 10$ \kms. The co-rotating versus anti-rotating designation here is based on NFW results. In the middle we do the same but only for $\rho \leq 1 R_{vir}$, and on the bottom we separate based on absorbers near \Lstar $\leq 0.6$ (blue) and \Lstar $ > 0.6$ (red-hatched) galaxies.  \textbf{Bottom:} The Doppler $b$-parameters of each absorber as a function of $\Delta v$, split into co-rotating (blue diamonds) and anti-rotating (red crosses). The data point for the NGC3067-3C232 LLS ($b = 245.2 \pm 25.9,  ~\Delta v = -68.0 \pm 11$ \kms, co-rotating) is not shown in order to highlight the majority distribution in greater detail.}}
-\vspace{5pt}
-\label{b_vs_dv2}
-\end{figure}
-
-
-\subsection{Doppler $b$-parameters}
-Finally, we consider the Doppler $b$-parameters of our absorber sample. Figure \ref{b_hist} shows the distribution of $b$-parameters for all velocity-constrained Ly$\alpha$ absorbers ($\Delta v \leq v_{\rm rot} \pm 10$ \kms). In the top panel of Figure \ref{b_hist} we separate them into co-rotating and anti-rotating subsets, in the middle panel we do the same but only for $\rho \leq 1 R_{\rm vir}$, and on the bottom we separate based on absorbers near \Lstar $\leq 0.6$ and \Lstar $ > 0.6$ galaxies. Interestingly, we find that \emph{lower} $b$-parameter absorbers tend to be both anti-rotating and found near \Lstar $> 0.6$ galaxies. As previously discussed however, the picture described by the simulations of \cite{stewart2011b} and others describes a scenario where co-rotating gas is predominately the product of cold-mode accretion. Hotter, outflowing gas would likely carry angular momentum from the disk with it, but this would be quickly lost as the outflows expand into the halo and result in negligible observable rotation. 
-
-In Figure \ref{b_vs_dv2}(b) we show how the $b$-parameters vary as a function of $\Delta v$ for co-rotating versus anti-rotating absorbers. We would expect the co-rotating sample to occupy a narrower $\Delta v$ space based on their definition ($\Delta v$ fitting within the velocity bounds given by our NFW model), but the elevated $b$-parameters for these compared to the relatively flat distribution for anti-rotators is intriguing. Aside from a single $\rm Ly\alpha$ line toward SDSSJ104335.90+115129.0 and NGC3351, all the anti-rotators have $b \lesssim 50$ \kms. As these are higher than expected for purely thermal motions within a single $\rm Ly\alpha$ structure, we may be observing either a number of clouds that are close in velocity space or a filament with a range of turbulent, internal velocities. In this scenario these high $b$-parameters would be consistent with filamentary inflows versus around higher \Lstar~ galaxies where virial shocks are perhaps breaking larger structures into smaller, more isolated cloudlets and producing lower $b$-parameter absorption.
-
-%\textbf{MORE}
-
-%Could some of this double red/blue separated sets be infall?
-
 
 \section{Summary} \label{summary}
 We have presented complimentary COS Ly$\alpha$ absorption-line and nearby galaxy rotation curve analysis for a sample of 42 galaxy-QSO pairs, resulting in the largest yet sample of its kind. Our main conclusions are the following:
