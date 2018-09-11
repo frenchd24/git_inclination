@@ -59,7 +59,8 @@ rc('ytick',labelsize = fontScale)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
 rc('axes',titlesize='small')
-
+rc('xtick',direction='in')
+rc('ytick',direction='in')
 
 ##########################################################################################
 ##########################################################################################
@@ -171,7 +172,7 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe6/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
     
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -1528,7 +1529,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(10)
+        minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -1536,7 +1537,7 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -1673,7 +1674,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(10)
+        minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -1681,7 +1682,7 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -1817,7 +1818,7 @@ def main():
         # x-axis
         majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(10)
+        minorLocator   = MultipleLocator(25)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -1825,7 +1826,7 @@ def main():
         # y-axis
         majorLocator   = MultipleLocator(10)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(5)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)

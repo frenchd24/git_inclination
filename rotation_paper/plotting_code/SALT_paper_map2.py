@@ -68,7 +68,8 @@ rc('ytick',labelsize = fontScale)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
 rc('axes',titlesize='small')
-
+rc('xtick',direction='in')
+rc('ytick',direction='in')
 
 ##########################################################################################
 ##########################################################################################
@@ -179,7 +180,9 @@ def main():
     hubbleConstant = 71.0
     
     # where to write to?
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
+#     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe6/'
+
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
@@ -191,7 +194,7 @@ def main():
     # what range of Lstar systems to include?
 #     Lstar_range = [0.0, 0.6]
 #     Lstar_range = [0.60001, 100.0]
-    Lstar_range = [0.0, 1.5]
+    Lstar_range = [0.0, 100]
 #     Lstar_range = [0.0, 0.5]
 #     Lstar_range = [0.50001, 100.0]
 
@@ -1027,22 +1030,21 @@ def main():
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
 
-
         # x-axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
+        majorLocator   = MultipleLocator(1)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(0.5)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
 
         # y axis
-    #     majorLocator   = MultipleLocator(0.5)
-    #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
-    #     minorLocator   = MultipleLocator(0.25)
-    #     ax.yaxis.set_major_locator(majorLocator)
-    #     ax.yaxis.set_major_formatter(majorFormatter)
-    #     ax.yaxis.set_minor_locator(minorLocator)
+        majorLocator   = MultipleLocator(1)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(0.5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
 
 
         import matplotlib.patches as mpatches
