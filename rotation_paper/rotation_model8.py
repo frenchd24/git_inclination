@@ -49,6 +49,9 @@ from matplotlib.animation import FuncAnimation
 from scipy.optimize import curve_fit
 import matplotlib.ticker as ticker
 
+from astropy.table import Table
+
+
 from matplotlib import rc
 fontScale = 14
 rc('text', usetex=True)
@@ -66,7 +69,8 @@ rc('ytick',labelsize = fontScale)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
 rc('axes',titlesize='small')
-
+rc('xtick',direction='in')
+rc('ytick',direction='in')
 
 
 '''
@@ -274,7 +278,7 @@ def plot_NFW(xData, yData, popt, x_lim):
     plot(x_fit, NFW(x_fit, *popt), 'r-', color='green', alpha=0.7, lw=2, \
     label='NFW Fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
     
-    legend()
+    legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
     
     xlim(0, x_lim)
     ylim(0, round(np.nanmax(yData),-1) + 15)
@@ -296,10 +300,36 @@ def plot_NFW(xData, yData, popt, x_lim):
     ax.yaxis.set_minor_locator(minorLocator)
 
     xlabel(r'$\rm R ~[kpc]$')
-    ylabel(r'$\rm V_{{rot}} ~[km s^{{-1}}]$')
+    ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
     
     return fig
     
+    
+
+def writeout_fits(xData, yData, popt, x_lim, filename):
+    '''
+    This function creates a text file containing the rotation curve data and
+    fit parameters for both NFW and cylindrical fits
+    
+    xData - the x values for the observed rotation curve 
+    yData - the y values for the observed rotation curve
+    popt - the fit values
+    x_lim - the maximum x value to plot to
+    
+    '''
+    
+    v200, c, r200 = popt
+    
+    t = Table()
+    t.meta['comment'] = ['Fit info: ',
+    'NFW Fit:','V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2))]
+    
+    pass
+    
+
+
+
+
     
     
 def main():

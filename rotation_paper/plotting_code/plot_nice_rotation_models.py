@@ -7,6 +7,8 @@ $Id:  plot_nice_rotation_models.py, v1.0 07/12/18
 
 Plot NFW and regular rotation models all in one in a publication quality plot
 
+v1.1:
+Re-plot with inward-facing tick marks
 
 '''
 
@@ -59,11 +61,28 @@ rc('ytick',labelsize = fontScale)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1,labelweight='normal')
 rc('axes',titlesize='small')
+rc('xtick',direction='in')
+rc('ytick',direction='in')
 
 
 '''
 ========================================================
 '''
+
+
+
+def NFW(r,v200,c,r200):
+
+    x = r/r200
+    top = (np.log(1 + c*x) - c*x / (1 + c*x))
+
+    bottom = x * (np.log(1 + c) - c / (1 + c))
+
+    vr = v200 * np.sqrt(top/bottom)
+
+    return vr
+
+
 
 def plot_cylinder(p0,p1,R):
     #   I totally jacked this code from here:
@@ -147,12 +166,100 @@ def main():
     # which thing to plot?
     plot_velocity = False
     plot_3Dmodel = False
-    plot_3Dmodel_movie = True
+    plot_3Dmodel_movie = False
+    
+    plot_NFW_fit = True
+    plot_rotation_curve = True
     
     movie_directory = '/Users/frenchd/Research/inclination/git_inclination/thesis/DMF_thesis/NGC3633_movie/'
 
+    
+##########################################################################################
+    # get the data from the JSON files
+##########################################################################################
+    # fields in JSON file are:
+    #
+    # 'name': galaxy name
+    # 'vsys_published': Vhel as found on NED
+    # 'dvsys_published': error in Vhel as found in NED
+    # 'inclination': inclination
+    # 'di': inclination error
+    # 'centerTrace': center of spectrum
+    # 'distance': best distance to galaxy
+    # 'vsys_measured': measured Vhel
+    # 'vsys_measured_err': measured error in Vhel
+    # 'left_vrot_incCorrected_avg': average left wing velocity, corrected for inc
+    # 'left_vrot_incCorrected_avg_err': error in average left wing velocity corrected for inc
+    # 'right_vrot_incCorrected_avg': average right wing velocity, corrected for inc
+    # 'right_vrot_incCorrected_avg_err':  error in average right wing velocity corrected for inc
+    # 'left_vrot_avg': average left wing velocity (redshift subtracted)
+    # 'left_vrot_avg_err': error in average left wing velocity (redshift subtracted)
+    # 'right_vrot_avg': average right wing velocity (redshift subtracted)
+    # 'right_vrot_avg_err': error in average right wing velocity (redshift subtracted)
+    # 'vrot_vals': observed velocities (redshift but not inc corrected)
+    # 'vrot_errs': errors in observed velocities (redshift but not inc corrected)
+    # 'vrot_incCorrected_vals': inclination corrected velocities (redshift subtracted)
+    # 'vrot_incCorrected_errs': errors in inclination corrected velocities
+    # 'vrot_observed': observed velocities (Vhel + rotation)
+    # 'agn': include any information about AGN here
+    # 'xVals': physical (kpc) x axis along the slit
+
+    directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
+    galaxyName = 'NGC3633'
+    
+#     filename = 'CGCG039-137-summary4.json'
+#     filename = 'ESO343-G014-summary4.json'
+#     filename = 'RFGC3781-summary4.json'
+#     filename = 'IC5325-summary4.json'
+#     filename = 'MCG-03-58-009-summary4.json'
+#     filename = 'NGC1566-summary4.json'
+#     filename = 'NGC3513-summary4.json'
+#     filename = 'NGC3633-summary4.json'
+#     filename = 'NGC4536-summary4.json'
+#     filename = 'NGC4939-summary4.json'
+#     filename = 'NGC5364-summary4.json'
+
+    filename = '{0}-summary4.json'.format(galaxyName)
+
+    
+    with open(directory+filename) as data_file:
+        data = json.load(data_file)    
+        
+        vrot_vals = data['vrot_vals']
+        vrot_incCorrected_vals = data['vrot_incCorrected_vals']
+        vrot_incCorrected_errs = data['vrot_incCorrected_errs']
+        
+        right_vrot_incCorrected_avg = data['right_vrot_incCorrected_avg']
+        right_vrot_incCorrected_avg_err = data['right_vrot_incCorrected_avg_err']
+
+        left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
+        left_vrot_incCorrected_avg_err = data['left_vrot_incCorrected_avg_err']
 
 
+        xVals = data['xVals']
+        inc = data['inclination']
+        vsys_measured = data['vsys_measured']
+        vsys_measured_err = data['vsys_measured_err']
+
+        
+        RA_galaxy = data['RAdeg']
+        Dec_galaxy = data['DEdeg']
+        dist = data['dist']
+        majDiam = data['majDiam']
+        inc = data['inclination']
+        PA = data['PA']
+        agn = data['agn']
+        
+        R_vir = calculateVirialRadius(majDiam)
+
+
+
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
     if plot_velocity:
 
         # get the data
@@ -188,8 +295,8 @@ def main():
                     label = r'$\rm NFW$')
                 
                 
-        ylabel(r'$\rm V_{proj} ~[km~s^{-1}]$')
-        xlabel(r'$\rm Intersect ~[km~s^{-1}]$')
+        ylabel(r'$\rm Projected~Rotation~Vel. ~[km~s^{-1}]$')
+        xlabel(r'$\rm Vel.~Along~Sightline ~[km~s^{-1}]$')
             
         # x-axis
         majorLocator   = MultipleLocator(10)
@@ -208,16 +315,108 @@ def main():
         ax.yaxis.set_minor_locator(minorLocator)
     
     
-        leg = ax.legend(scatterpoints=1,prop={'size':12},loc='lower right',fancybox=True)
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
     #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
         ylim(-160, 0)
         xlim(-30, 30)
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot2.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot3.pdf'.format(directory),format='pdf',bbox_inches='tight')
 
 
+##########################################################################################
+##########################################################################################
+
+    if plot_NFW_fit:
+        # do the plotting
+        fig = plt.figure(figsize=(8.0, 6.7))
+        fig = plt.figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(1,1,1)
+        
+        
+        '''
+        This function makes a nice looking plot showing the NFW fit and data
+    
+        xData - the x values for the observed rotation curve 
+        yData - the y values for the observed rotation curve
+        popt - the fit values
+        x_lim - the maximum x value to plot to
+    
+        returns the figure object, to be shown or saved
+        '''
+
+        xData = []
+        yData = []
+        yErrs = []
+        yData_abs = []
+        xData_abs = []
+        
+        
+        for v, e, x in zip(vrot_incCorrected_vals, vrot_incCorrected_errs, xVals):
+            xData.append(x)
+            yData.append(v)
+            yErrs.append(e)
+            
+            
+            # fold it over for NFW plotting
+            xData_abs.append(abs(x))
+            yData_abs.append(abs(v))
+            
+        # turn them into numpy arrays
+        xData_abs = np.array(xData_abs)
+        yData_abs = np.array(yData_abs)
+        yErrs = np.array(yErrs)
+
+    
+        v200 = 111.91
+        c = 21.4
+        r200 = 60.03
+    
+        x_fit = linspace(0, round(R_vir,0)+10, num=1000)
+    
+        scatter(xData, yData, color='black', s=40, lw=0, label = r'$\rm Data$')
+    #     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
+        plot(x_fit, NFW(x_fit, *popt), 'r-', color='green', alpha=0.7, lw=2, \
+        label='NFW Fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
+    
+        legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
+    
+        xlim(0, x_lim)
+        ylim(0, round(np.nanmax(yData),-1) + 15)
+
+        # x-axis
+        majorLocator   = MultipleLocator(25)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(5)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        # y axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(10)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        xlabel(r'$\rm R ~[kpc]$')
+        ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
+    
+    
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
+    #         leg.get_frame().set_alpha(0.5)
+
+        ax.grid(b=None,which='major',axis='both')
+        ylim(-160, 0)
+        xlim(-30, 30)
+
+        savefig('{0}/NGC3633-NFW_fit_Rvir10.pdf'.format(directory),format='pdf',bbox_inches='tight')
+
+
+##########################################################################################
+##########################################################################################
 ##########################################################################################
 
 
