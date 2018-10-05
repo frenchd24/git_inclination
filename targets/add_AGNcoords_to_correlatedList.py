@@ -30,9 +30,8 @@ def main():
 
     hubbleC = 71
 
-    measuredList_filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_12_17_17_finished.csv'
-    newList_filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_data.csv'
-    out_filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements.csv'
+    targetlist_filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
+    out_filename = '/Users/frenchd/Research/inclination/git_inclination/targets/correlatedTargetList_5_29_18_measurements2.csv'
     
     fieldnames = ('target', 'identified', 'v_limits', 'e_v_center', 'Lya_v', 'Lya_W',\
     'e_Lya_W', 'Na', 'e_Na', 'b', 'e_b', 'W', 'e_W', 'comment', 'z_target', 'RAdeg_target',\

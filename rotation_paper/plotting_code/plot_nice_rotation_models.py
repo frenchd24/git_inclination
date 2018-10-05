@@ -69,6 +69,36 @@ rc('ytick',direction='in')
 ========================================================
 '''
 
+def cot(x):
+    # cotangent
+    return 1/math.tan(x)
+    
+    
+def csc(x):
+    # cosecant
+    return 1/math.sin(x)
+    
+
+def inclination_error(v,dv,i,di):
+    # calculates the quadrature error in the final velocity value
+    # w = observed wavelength of Halpha line center
+    # dw = error in wavelength of line center
+    # v = systemic velocity
+    # dv = error in systemic velocity
+
+    i = i*math.pi/180.
+    di = di*math.pi/180
+    
+    # wavelength term
+    incTerm = (v * cot(i) * csc(i) * di)**2
+
+    # v_sys term
+    vsysTerm = (csc(i) * dv)**2
+
+    totalError = math.sqrt(vsysTerm + incTerm)
+
+    return totalError
+
 
 
 def NFW(r,v200,c,r200):
@@ -148,10 +178,9 @@ def plot_cylinder(p0,p1,R):
 
 def main():
     # open the data files
-    directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/SALT/NGC3633/'
-
-    cyl_model_filename = '{0}/NGC3633-RX_J1121.2+0326_model_NFWFalse.p'.format(directory)
-    NFW_model_filename = '{0}/NGC3633-RX_J1121.2+0326_model_NFWTrue.p'.format(directory)
+    model_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/SALT/NGC3633/'
+    cyl_model_filename = '{0}/NGC3633-RX_J1121.2+0326_model_NFWFalse.p'.format(model_directory)
+    NFW_model_filename = '{0}/NGC3633-RX_J1121.2+0326_model_NFWTrue.p'.format(model_directory)
 
     cyl_model_file = open(cyl_model_filename,'r')
     cyl_model = pickle.load(cyl_model_file)
@@ -172,7 +201,13 @@ def main():
     plot_rotation_curve = True
     
     movie_directory = '/Users/frenchd/Research/inclination/git_inclination/thesis/DMF_thesis/NGC3633_movie/'
+    
+    save_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
+    
+    color_blue = '#436bad'     # french blue
+    color_red = '#ec2d01'     # tomato red
+    
     
 ##########################################################################################
     # get the data from the JSON files
@@ -231,13 +266,15 @@ def main():
         
         right_vrot_incCorrected_avg = data['right_vrot_incCorrected_avg']
         right_vrot_incCorrected_avg_err = data['right_vrot_incCorrected_avg_err']
-
         left_vrot_incCorrected_avg = data['left_vrot_incCorrected_avg']
         left_vrot_incCorrected_avg_err = data['left_vrot_incCorrected_avg_err']
 
+        right_vrot_avg = data['right_vrot_avg']
+        right_vrot_avg_err = data['right_vrot_avg_err']
+        left_vrot_avg = data['left_vrot_avg']
+        left_vrot_avg_err = data['left_vrot_avg_err']
 
         xVals = data['xVals']
-        inc = data['inclination']
         vsys_measured = data['vsys_measured']
         vsys_measured_err = data['vsys_measured_err']
 
@@ -246,14 +283,12 @@ def main():
         Dec_galaxy = data['DEdeg']
         dist = data['dist']
         majDiam = data['majDiam']
-        inc = data['inclination']
+        inclination = data['inclination']
+        di = data['di']
         PA = data['PA']
         agn = data['agn']
         
         R_vir = calculateVirialRadius(majDiam)
-
-
-
 
 
 ##########################################################################################
@@ -322,33 +357,24 @@ def main():
         ylim(-160, 0)
         xlim(-30, 30)
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot3.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot3.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
 ##########################################################################################
 
-    if plot_NFW_fit:
+    if plot_NFW_fit:    
         # do the plotting
-        fig = plt.figure(figsize=(8.0, 6.7))
+#         fig = plt.figure(figsize=(8.0, 6.7))
         fig = plt.figure(figsize=(7.7,5.7))
         ax = fig.add_subplot(1,1,1)
-        
-        
-        '''
-        This function makes a nice looking plot showing the NFW fit and data
-    
-        xData - the x values for the observed rotation curve 
-        yData - the y values for the observed rotation curve
-        popt - the fit values
-        x_lim - the maximum x value to plot to
-    
-        returns the figure object, to be shown or saved
-        '''
 
+        # lists for data
         xData = []
         yData = []
         yErrs = []
+        
+        # lists for absolute values of data (folded over rotation curve)
         yData_abs = []
         xData_abs = []
         
@@ -357,7 +383,6 @@ def main():
             xData.append(x)
             yData.append(v)
             yErrs.append(e)
-            
             
             # fold it over for NFW plotting
             xData_abs.append(abs(x))
@@ -368,22 +393,53 @@ def main():
         yData_abs = np.array(yData_abs)
         yErrs = np.array(yErrs)
 
-    
+        # NFW fit for this rotation curve (NGC3633)
         v200 = 111.91
         c = 21.4
         r200 = 60.03
+        
+        popt = v200, c, r200
     
-        x_fit = linspace(0, round(R_vir,0)+10, num=1000)
+        # how far to plot/extrapolate the NFW curve?
+        x_lim = round(R_vir,0)+10
+        x_fit = linspace(0, x_lim, num=1000)
     
-        scatter(xData, yData, color='black', s=40, lw=0, label = r'$\rm Data$')
+#         scatter(xData, yData, color='black', s=40, lw=0, label = r'$\rm Data$')
+#         scatter(xData_abs,
+#                 yData_abs,
+#                 color='black',
+#                 s=40,
+#                 lw=0,
+#                 label = r'$\rm Observed~Rotation~Curve$')
+                
+        errorbar(xData_abs,
+                yData_abs,
+                yerr=yErrs,
+                fmt='o',
+                color='black',
+                elinewidth=1,
+                ms=6,
+                label = r'$\rm Observed~Rotation~Curve$')
+
     #     plot(x_fit, NFW(x_fit, *popt), 'r-',label='fit: a={0}, rho={1}'.format(*popt))
-        plot(x_fit, NFW(x_fit, *popt), 'r-', color='green', alpha=0.7, lw=2, \
-        label='NFW Fit: V200={0}, c={1}, R200={2}'.format(round(v200,2),round(c,2),round(r200,2)))
     
+        # plot the NFW fit
+        plot(x_fit,
+            NFW(x_fit, *popt),
+            'r-',
+            color='green',
+            alpha=0.7,
+            lw=2,
+            label=r'$\rm NFW~Fit:~V200={0},~c={1},~R200={2}$'.format(round(v200,2),round(c,2),round(r200,2)))
+        
+        # plot the location of R_Vir
+#         axvline(x=R_vir, 
+#                 linewidth=3,
+#                 alpha = 0.7,
+#                 c=color_blue,
+#                 label=r'$\rm 1 \emph{R}_{vir}$')
+        
         legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
-    
-        xlim(0, x_lim)
-        ylim(0, round(np.nanmax(yData),-1) + 15)
 
         # x-axis
         majorLocator   = MultipleLocator(25)
@@ -409,10 +465,205 @@ def main():
     #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
-        ylim(-160, 0)
-        xlim(-30, 30)
+#         ylim(-160, 0)
+#         xlim(-30, 30)
 
-        savefig('{0}/NGC3633-NFW_fit_Rvir10.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        xlim(0, R_vir)
+#         ylim(0, round(np.nanmax(yData),-1) + 15)
+        ylim(0, 200)
+
+        savefig('{0}/NGC3633-NFW_fit_Rvir.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
+
+
+##########################################################################################
+##########################################################################################
+
+    if plot_rotation_curve:    
+        # do the plotting
+#         fig = plt.figure(figsize=(8.0, 6.7))
+        fig = plt.figure(figsize=(7.7,5.7))
+        ax = fig.add_subplot(1,1,1)
+
+        # lists for data
+        xData = []
+        yData = []
+        yErrs = []
+        
+        xRight = []
+        xLeft = []
+        
+        yRight = []
+        yLeft = []
+        
+        for v, e, x in zip(vrot_incCorrected_vals, vrot_incCorrected_errs, xVals):
+            xData.append(x)
+            yData.append(v)
+            yErrs.append(e)
+            
+            if x > 0:
+                xRight.append(x)
+                yRight.append(v)
+            if x <0:
+                xLeft.append(x)
+                yLeft.append(v)
+                
+            if x == 0:
+                if mean(yRight) > 0:
+                    if v > 0:
+                        xRight.append(x)
+                        yRight.append(y)
+                    else:
+                        xLeft.append(x)
+                        yLeft.append(y)
+                
+                if mean(yRight) <0:
+                    if v < 0:
+                        xRight.append(x)
+                        yRight.append(y)
+                    else:
+                        xLeft.append(x)
+                        yLeft.append(y)
+                        
+                        
+        # recalculate inclination error                
+        inc_err_right = inclination_error(right_vrot_avg, right_vrot_avg_err, inclination, di)
+        inc_err_left = inclination_error(left_vrot_avg, left_vrot_avg_err, inclination, di)
+
+        
+        left_vrot_err_final = np.sqrt(inc_err_left**2 + left_vrot_avg_err**2)
+        right_vrot_err_final = np.sqrt(inc_err_right**2 + right_vrot_avg_err**2)
+
+        print 'vsys_measured, vsys_measured_err,inclination, di: ',vsys_measured, vsys_measured_err,inclination, di
+        print 'inc_err_right: ',inc_err_right
+        print 'inc_err_left: ',inc_err_left
+        print 'left_vrot_err_final: ',left_vrot_err_final
+        print 'right_vrot_err_final: ',right_vrot_err_final
+        print
+        
+        vrot_final = int(round(right_vrot_incCorrected_avg, 0))
+        vrot_err_final = int(round(right_vrot_incCorrected_avg_err, 0))
+            
+            
+        # turn them into numpy arrays
+        xData = np.array(xData)
+        yData = np.array(yData)
+        yErrs = np.array(yErrs)
+    
+        # how far to plot/extrapolate the NFW curve?
+        x_lim = 6
+    
+#         scatter(xData_abs,
+#                 yData_abs,
+#                 color='black',
+#                 s=40,
+#                 lw=0,
+#                 label = r'$\rm Observed~Rot.~Curve$')
+        
+        errorbar(xData,
+                yData,
+                yerr=yErrs,
+                fmt='o',
+                color='black',
+                elinewidth=1,
+                ms=6)
+        
+        
+        # plot the average velocities with errors        
+        len_right = int(math.ceil(len(yRight)/2.))
+        len_left = int(math.floor(len(yLeft)/2.))
+    
+        # define the outer 1/2 radius y values - observed
+        outerRightX = xRight[:len_right]
+        outerLeftX = xLeft[len_left:]
+        
+        print 'outerRightX, outerRightX[-1]: ',outerRightX, outerRightX[-1]
+        print 'outerLeftX, outerLeftX[0]: ',outerLeftX, outerLeftX[0]
+        print 'right_vrot_avg: ',right_vrot_avg
+        print 
+        print 'right_vrot_incCorrected_avg = ', right_vrot_incCorrected_avg, right_vrot_incCorrected_avg_err
+        print 'left_vrot_incCorrected_avg = ', left_vrot_incCorrected_avg, left_vrot_incCorrected_avg_err
+        print
+    
+        vrot_plot_label = r'$\rm \overline{{\emph{{v}}_{{rot}}}}={0}\pm{1}~km s^{{-1}}$'.format(vrot_final, vrot_err_final)
+    
+    
+        # old label:
+#         r'$\rm Inc.~Corrected~\overline{{\emph{{v}}_{{rot}}}}={0}\pm{1}$'.format(int(round(right_vrot_incCorrected_avg, 0)), right_vrot_avg_err)
+        
+        # plot the average on the right
+        plot((outerRightX[-1], outerRightX[0]),
+            (right_vrot_incCorrected_avg, right_vrot_incCorrected_avg),
+            lw=2,
+            c='green',
+            solid_capstyle="butt",
+            label=vrot_plot_label)
+            
+        x_err = np.array([outerRightX[-1], outerRightX[0]])
+        y_err = np.array([right_vrot_incCorrected_avg, right_vrot_incCorrected_avg])
+        fill_between(x_err, 
+                    y_err - right_vrot_err_final,
+                    y_err + right_vrot_err_final,
+                    color='green',
+                    alpha=0.2,
+                    linewidth=0)
+            
+        
+        # plot the std on the right
+#         plot((outerRightX[-1], outerRightX[0]), (right_vrot_incCorrected_avg, right_vrot_incCorrected_avg),\
+#         lw=2*right_vrot_incCorrected_avg_err,c='green',alpha=0.2,solid_capstyle="butt")
+        
+        # plot the average on the left
+        plot((outerLeftX[0], outerLeftX[-1]), 
+            (left_vrot_incCorrected_avg, left_vrot_incCorrected_avg),
+            lw=2,
+            c='green',
+            solid_capstyle="butt")
+        
+        # plot the std on the left
+#         plot((outerLeftX[0], outerLeftX[-1]), (left_vrot_incCorrected_avg, left_vrot_incCorrected_avg),\
+#         lw=2*left_vrot_incCorrected_avg_err,c='green',alpha=0.2,solid_capstyle="butt")
+
+        x_err = np.array([outerLeftX[0], outerLeftX[-1]])
+        y_err = np.array([left_vrot_incCorrected_avg, left_vrot_incCorrected_avg])
+        fill_between(x_err, 
+                    y_err - left_vrot_err_final,
+                    y_err + left_vrot_err_final,
+                    color='green',
+                    alpha=0.2,
+                    linewidth=0)
+
+        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+
+
+        # x-axis
+        majorLocator   = MultipleLocator(2)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(1)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
+
+        # y axis
+        majorLocator   = MultipleLocator(50)
+        majorFormatter = FormatStrFormatter(r'$\rm %d$')
+        minorLocator   = MultipleLocator(25)
+        ax.yaxis.set_major_locator(majorLocator)
+        ax.yaxis.set_major_formatter(majorFormatter)
+        ax.yaxis.set_minor_locator(minorLocator)
+
+        xlabel(r'$\rm R ~[kpc]$')
+        ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
+    
+    
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
+    #         leg.get_frame().set_alpha(0.5)
+
+        ax.grid(b=None,which='major',axis='both')
+        xlim(-x_lim, x_lim)
+#         ylim(-(round(np.nanmax(yData),-1) + 20), round(np.nanmax(yData),-1) + 20)
+        ylim(-200, 200)
+
+        savefig('{0}/NGC3633-rotation_curve_nice3.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -551,7 +802,7 @@ def main():
 
         tight_layout()
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_3Dmodel_plot4.pdf'.format(directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/NGC3633-RX_J1121.2+0326_3Dmodel_plot4.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
 
 
 
