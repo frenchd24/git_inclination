@@ -200,8 +200,9 @@ def main():
     plot_NFW_fit = True
     plot_rotation_curve = True
     
-    movie_directory = '/Users/frenchd/Research/inclination/git_inclination/thesis/DMF_thesis/NGC3633_movie/'
-    
+#     movie_directory = '/Users/frenchd/Research/inclination/git_inclination/thesis/DMF_thesis/NGC3633_movie/'
+    movie_directory = '/Users/frenchd/Research/test/'
+
     save_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
     
@@ -240,7 +241,17 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-    galaxyName = 'NGC3633'
+#     galaxyName = 'NGC3633'
+#     agnName = 'RX_J1121.2+0326'
+
+#     galaxyName = 'ESO343-G014'
+#     galaxyName = 'CGCG039-137'
+#     galaxyName = 'IC5325'
+    galaxyName = 'MCG-03-58-009'
+#     galaxyName = 'NGC1566'
+
+    agnName = 'RX_J1121.2+0326'
+
     
 #     filename = 'CGCG039-137-summary4.json'
 #     filename = 'ESO343-G014-summary4.json'
@@ -254,11 +265,12 @@ def main():
 #     filename = 'NGC4939-summary4.json'
 #     filename = 'NGC5364-summary4.json'
 
-    filename = '{0}-summary4.json'.format(galaxyName)
+#     filename = '{0}-summary4.json'.format(galaxyName)
+    filename = '{0}-summary7.json'.format(galaxyName)
 
     
     with open(directory+filename) as data_file:
-        data = json.load(data_file)    
+        data = json.load(data_file)
         
         vrot_vals = data['vrot_vals']
         vrot_incCorrected_vals = data['vrot_incCorrected_vals']
@@ -288,6 +300,10 @@ def main():
         PA = data['PA']
         agn = data['agn']
         
+        v200 = data['v200']
+        c = data['c']
+        r200 = data['r200']
+        
         R_vir = calculateVirialRadius(majDiam)
 
 
@@ -307,7 +323,8 @@ def main():
 
         # do the plotting
 #         fig = plt.figure(figsize=(6.7,7.7))
-        fig = plt.figure(figsize=(8.0, 6.7))
+#         fig = plt.figure(figsize=(8.0, 6.7))
+        fig = plt.figure(figsize=(7.7,5.7))
 
         ax = fig.add_subplot(1,1,1)
 
@@ -330,8 +347,8 @@ def main():
                     label = r'$\rm NFW$')
                 
                 
-        ylabel(r'$\rm Projected~Rotation~Vel. ~[km~s^{-1}]$')
-        xlabel(r'$\rm Vel.~Along~Sightline ~[km~s^{-1}]$')
+        ylabel(r'$\rm Projected~\emph{v}_{rot} ~[km~s^{-1}]$')
+        xlabel(r'$\rm Velocity~Along~Sightline ~[km~s^{-1}]$')
             
         # x-axis
         majorLocator   = MultipleLocator(10)
@@ -357,7 +374,7 @@ def main():
         ylim(-160, 0)
         xlim(-30, 30)
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_model_plot3.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/{1}-{2}_model_plot3.pdf'.format(save_directory, galaxyName, agnName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -394,9 +411,9 @@ def main():
         yErrs = np.array(yErrs)
 
         # NFW fit for this rotation curve (NGC3633)
-        v200 = 111.91
-        c = 21.4
-        r200 = 60.03
+#         v200 = 111.91
+#         c = 21.4
+#         r200 = 60.03
         
         popt = v200, c, r200
     
@@ -442,12 +459,12 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
 
         # x-axis
-        majorLocator   = MultipleLocator(25)
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
+        minorLocator   = MultipleLocator(50)
+        ax.xaxis.set_major_locator(majorLocator)
+        ax.xaxis.set_major_formatter(majorFormatter)
+        ax.xaxis.set_minor_locator(minorLocator)
 
         # y axis
         majorLocator   = MultipleLocator(50)
@@ -470,9 +487,11 @@ def main():
 
         xlim(0, R_vir)
 #         ylim(0, round(np.nanmax(yData),-1) + 15)
-        ylim(0, 200)
+#         ylim(0, 250)
+        ylim(0, 250)
 
-        savefig('{0}/NGC3633-NFW_fit_Rvir.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
+
+        savefig('{0}/{1}-NFW_fit_Rvir.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -550,7 +569,7 @@ def main():
         yErrs = np.array(yErrs)
     
         # how far to plot/extrapolate the NFW curve?
-        x_lim = 6
+        x_lim = int(round(max(max(xRight), max(xLeft)),0)) + 1
     
 #         scatter(xData_abs,
 #                 yData_abs,
@@ -583,6 +602,8 @@ def main():
         print 'right_vrot_incCorrected_avg = ', right_vrot_incCorrected_avg, right_vrot_incCorrected_avg_err
         print 'left_vrot_incCorrected_avg = ', left_vrot_incCorrected_avg, left_vrot_incCorrected_avg_err
         print
+        
+        vrot_final = abs(vrot_final)
     
         vrot_plot_label = r'$\rm \overline{{\emph{{v}}_{{rot}}}}={0}\pm{1}~km s^{{-1}}$'.format(vrot_final, vrot_err_final)
     
@@ -636,9 +657,9 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(4)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(2)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -655,15 +676,17 @@ def main():
         ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
     
     
-        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower left',fancybox=True)
     #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')
         xlim(-x_lim, x_lim)
 #         ylim(-(round(np.nanmax(yData),-1) + 20), round(np.nanmax(yData),-1) + 20)
-        ylim(-200, 200)
+#         ylim(-200, 200)
+        ylim(-(round(np.nanmax(yData),-1) + 50), round(np.nanmax(yData),-1) + 50)
+        tight_layout()
 
-        savefig('{0}/NGC3633-rotation_curve_nice3.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/{1}-rotation_curve_nice3.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -802,7 +825,7 @@ def main():
 
         tight_layout()
 
-        savefig('{0}/NGC3633-RX_J1121.2+0326_3Dmodel_plot4.pdf'.format(save_directory),format='pdf',bbox_inches='tight')
+        savefig('{0}/{1}-RX_J1121.2+0326_3Dmodel_plot4.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 

@@ -267,7 +267,7 @@
     "vrot_incCorrected_errs": [
     ],
     "inclination": 71.0,
-    "di": 2.0,
+    "di": 5.0,
     "vsys_measured": 1476.0,
     "right_vrot_avg_err": -99,
     "vsys_published": 1476.0,

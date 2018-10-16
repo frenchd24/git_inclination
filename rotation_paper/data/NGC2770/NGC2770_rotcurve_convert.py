@@ -58,7 +58,7 @@ def main():
 
     filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC2770/NGC2770_rotation_curve_redo.csv'
     # outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC2770/NGC2770_rotation_curve_redo2.csv'
-    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC2770/NGC2770_rotation_curve_redo3.csv'
+    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC2770/NGC2770_rotation_curve_redo4.csv'
 
     inFile = open(filename,'rU')
     reader = csv.DictReader(inFile)
@@ -72,8 +72,8 @@ def main():
 
     dist = 29.2
     dist_err = 4.18
-    vsys = 1947.
-    vsys_err = 2
+    vsys = 1948.
+    vsys_err = 4
     inclination = 80.
     inc_err = 2.
 
@@ -91,9 +91,13 @@ def main():
     print 'sem inclination: ',stats.sem(incs)
     print
     
-    inclination = np.mean(incs)
-    inc_err = stats.sem(incs)
     
+    
+#     inclination = np.mean(incs)
+#     inc_err = stats.sem(incs)
+    inc_err = round(np.std(incs),0)
+    print 'new inc_err: ',inc_err
+
     for i in reader:
     #     r = i['R (arcsec)']
         r = i['R (arcmin)']
@@ -108,9 +112,16 @@ def main():
 
         r2_lin, r2_lin = calculateLinearDiameters(r2, r2, dist)
         
-        err = inclination_error(vsys,vsys_err, inclination, inc_err)
+#         err = inclination_error(vsys,vsys_err, inclination, inc_err)
+        err = inclination_error(v2, vsys_err, inclination, inc_err)
+        print 'err_form: ', err
+        
+#         err = (v2/np.sin(inclination*np.pi/180.) - v2/np.sin((inclination-inc_err) * np.pi/180.))
+#         print 'err: ',err
+
                 
         # write info to file
+        
         objectInfoList = [round(r2_lin,4),v3, round(err,2)]
         row = dict((f,o) for f,o in zip(fieldnames,objectInfoList))
         writer.writerow(row)

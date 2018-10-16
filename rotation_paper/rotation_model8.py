@@ -328,8 +328,6 @@ def writeout_fits(xData, yData, popt, x_lim, filename):
     
 
 
-
-
     
     
 def main():
@@ -352,9 +350,9 @@ def main():
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
 #     galaxyName = 'MCG-03-58-009'
-#     galaxyName = 'NGC1566'
+    galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-    galaxyName = 'NGC3633'
+#     galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -428,7 +426,8 @@ def main():
 #     filename = 'NGC4939-summary4.json'
 #     filename = 'NGC5364-summary4.json'
 
-    filename = '{0}-summary4.json'.format(galaxyName)
+#     filename = '{0}-summary4.json'.format(galaxyName)
+    filename = '{0}-summary5.json'.format(galaxyName)
 
     
     with open(directory+filename) as data_file:
@@ -517,10 +516,10 @@ def main():
 
         
         # NGC3633
-        flipInclination = False
-        reverse = False
+#         flipInclination = False
+#         reverse = False
 #         agnName = 'SDSSJ112005.00+041323.0'
-        agnName = 'RX_J1121.2+0326'
+#         agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
 
@@ -674,7 +673,7 @@ def main():
 
         # NGC3432
 #         flipInclination = True
-#         NFW_fit = 'tightest'
+#         NFW_fit = 'tighter'
         # reverse for NFW, not for 2x3R_vir
 #         reverse = True
 #         agnName = 'MS1047.3+3518'
@@ -684,8 +683,8 @@ def main():
 
         # NGC3666
 #         flipInclination = True
-        # reverse for NFW, not for 2x3R_vir
-#         reverse = True
+#         reverse for NFW, not for 2x3R_vir
+#         reverse = False
 #         NFW_fit = 'tighter'
 #         agnName = 'SDSSJ112439.50+113117.0'
 #         agnName = 'SDSSJ112632.90+120437.0'

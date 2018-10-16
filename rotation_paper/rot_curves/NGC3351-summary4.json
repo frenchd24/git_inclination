@@ -201,5 +201,8 @@
     ],
     "left_vrot_avg_err": -99,
     "dvsys_published": 4.0,
-    "right_vrot_incCorrected_avg_err": 10.0
+    "right_vrot_incCorrected_avg_err": 10.0,
+    "v200": 134.37,
+    "c": 24.56,
+    "r200": 47.89
 }

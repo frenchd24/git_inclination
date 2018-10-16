@@ -1,0 +1,9 @@
+Galaxy name: NGC1566
+Target name: 1H0419-577
+flipInclination: True
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [11.7133368168, 15.0953341651]
+Allowed X-velocity range: [-19.5477169301, 12.2315796645]
+Combined velocity range: [-7.83438011324, 24.7364626705]

@@ -150,9 +150,9 @@ def main():
 
     # which thing to plot?
     plot_velocity = False
-    plot_NFW_fit = False
+    plot_NFW_fit = True
     plot_rotation_curve = True
-        
+    
     save_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
     color_blue = '#436bad'     # french blue
@@ -190,8 +190,23 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-    galaxyName = 'NGC2770'
-    
+#     galaxyName = 'NGC2770'
+#     galaxyName = 'NGC3067'
+#     galaxyName = 'NGC3198'
+    galaxyName = 'NGC3351'
+#     galaxyName = 'NGC3432'
+#     galaxyName = 'NGC3631'
+#     galaxyName = 'NGC3666'
+#     galaxyName = 'NGC3726'
+#     galaxyName = 'NGC4529'
+#     galaxyName = 'NGC4565'
+#     galaxyName = 'ESO343-G014'
+#     galaxyName = 'CGCG039-137'
+#     galaxyName = 'IC5325'
+#     galaxyName = 'MCG-03-58-009'
+#     galaxyName = 'NGC1566'
+
+
 #     filename = 'CGCG039-137-summary4.json'
 #     filename = 'ESO343-G014-summary4.json'
 #     filename = 'RFGC3781-summary4.json'
@@ -204,7 +219,7 @@ def main():
 #     filename = 'NGC4939-summary4.json'
 #     filename = 'NGC5364-summary4.json'
 
-    filename = '{0}-summary5.json'.format(galaxyName)
+    filename = '{0}-summary6.json'.format(galaxyName)
 
     
     with open(directory+filename) as data_file:
@@ -240,6 +255,10 @@ def main():
         PA = data['PA']
         agn = data['agn']
         
+        v200 = data['v200']
+        c = data['c']
+        r200 = data['r200']
+        
         R_vir = calculateVirialRadius(majDiam)
 
 
@@ -259,7 +278,7 @@ def main():
 
         # do the plotting
 #         fig = plt.figure(figsize=(6.7,7.7))
-        fig = plt.figure(figsize=(8.0, 6.7))
+        fig = plt.figure(figsize=(7.7, 5.7))
 
         ax = fig.add_subplot(1,1,1)
 
@@ -346,14 +365,14 @@ def main():
         yErrs = np.array(yErrs)
 
         # NFW fit for this rotation curve (NGC3633)
-        v200 = 111.91
-        c = 21.4
-        r200 = 60.03
+#         v200 = 111.91
+#         c = 21.4
+#         r200 = 60.03
         
         popt = v200, c, r200
     
         # how far to plot/extrapolate the NFW curve?
-        x_lim = round(R_vir,0)+10
+        x_lim = 3*round(R_vir,0)+10
         x_fit = linspace(0, x_lim, num=1000)
     
 #         scatter(xData, yData, color='black', s=40, lw=0, label = r'$\rm Data$')
@@ -421,9 +440,10 @@ def main():
 #         xlim(-30, 30)
 
         xlim(0, R_vir*3)
-        ylim(0, round(np.nanmax(yData),-1) + 15)
+#         ylim(0, round(np.nanmax(yData),-2) + 50)
+        ylim(0, 250)
 
-        savefig('{0}/{1}-NFW_fit_Rvir_times3.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
+        savefig('{0}/{1}-NFW_fit_Rvir_times3_2.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################
@@ -495,8 +515,9 @@ def main():
         yData_abs = abs(yData)
     
         # how far to plot? Rounds by 5's
-        x_lim = round(max(abs(xData)/5.),0)*5+5
-        
+#         x_lim = round(max(abs(xData)/5.),0)*5+5
+        x_lim = round(max(abs(xData)/5.),0)*5+1
+
         # rounds to 50's
         y_lim = round(np.nanmax(yData),-1) + 50
         
@@ -525,9 +546,15 @@ def main():
         len_left = int(math.floor(len(yLeft)/2.))
         
         # adjust a bit
-        len_right -=1
-        len_left +=1
-    
+#         len_right -=2
+#         len_left +=2
+#         len_right -=5
+#         len_left +=5
+        
+        print
+        print 'len_right = {0}, len_left = {1}'.format(len_right, len_left)
+        print
+            
         # define the outer 1/2 radius y and x values and errors - observed
         x_outer_right = xRight[:len_right]
         x_outer_left = xLeft[len_left:]
@@ -537,7 +564,7 @@ def main():
         y_outer_left = yLeft[len_left:]
         y_outer_left_err = yLeft_err[len_left:]
         
-        # compute the weighted mean of that outside 1/2 rotation velocity
+        # compute the weighted mean of that outside 1/2 rotation velocity        
         y_outer_right_mean = weightedMean(y_outer_right, y_outer_right_err)
         y_outer_left_mean = weightedMean(y_outer_left, y_outer_left_err)
         
@@ -562,9 +589,22 @@ def main():
         left_final_werr = int(round(left_final_werr,0))
         
         
+        print 'x_outer_right: ',len(x_outer_right)
+        print
+        print 'x_outer_left: ',len(x_outer_left)
+        print
+        
+        
         #####
         # now the overall mean
-        x_outer_half_val = (max(xData_abs) - min(xData_abs))/2.
+        if galaxyName == 'NGC3067':
+            region_size = 1.5
+        else:
+            region_size = 2.
+        
+        
+        x_outer_half_val = (max(xData_abs) - min(xData_abs))/region_size
+                
         y_outer_half = []
         x_outer_half = []
         for x,y in zip(xData_abs, yData_abs):
@@ -659,7 +699,7 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(5)
+        majorLocator   = MultipleLocator(2)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
         minorLocator   = MultipleLocator(1)
         ax.xaxis.set_major_locator(majorLocator)
@@ -704,9 +744,13 @@ def main():
 #         ylim(-(round(np.nanmax(yData),-1) + 25), round(np.nanmax(yData),-1) + 25)
 
         xlim(0, x_lim)
-        ylim(0, y_lim)
+#         xlim(0, 40.)
 
-        savefig('{0}/{1}-rotation_curve_nice3.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
+        ylim(0, y_lim)
+#         ylim(0, 200.)
+
+
+        savefig('{0}/{1}-rotation_curve_nice_2.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################

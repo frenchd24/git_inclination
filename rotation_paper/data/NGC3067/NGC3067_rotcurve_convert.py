@@ -53,13 +53,16 @@ def inclination_error(v,dv,i,di):
 
 
 def main():
-    filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rotation_curve.csv'
-    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rotation_curve2.csv'
+#     filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rotation_curve.csv'
+#     outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rotation_curve2.csv'
+
+    filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rubin_rotation_curve_redo2.csv'
+    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3067/NGC3067_rubin_rotation_curve_redo4.csv'
 
     inFile = open(filename,'rU')
     reader = csv.DictReader(inFile)
 
-    fieldnames = ('R (kpc)','vel')
+    fieldnames = ('R (kpc)','vel', 'err')
 
     outFile = open(outfile,'wt')
     writer = csv.DictWriter(outFile, fieldnames=fieldnames)
@@ -67,22 +70,44 @@ def main():
     writer.writerow(headers)
 
     dist = 20.4
+    dist_err = 2.68
+    vsys = 1465.
+    vsys_err = 5.
+    inclination = 71.
+    inc_err = 2.
+    
+    vsys_err +=2
+
+    # list of axis ratios b/a
+    ratios = [0.35, 0.35, 0.36, 0.36, 0.38, 0.38, 0.38, 0.5, 0.57]
+    incs = []
+    for r in ratios:
+        q0 = 0.2
+        inc = calculateFancyInclination(1,r,q0)
+        incs.append(inc)
+    
+    print 'mean inclination: ',np.mean(incs)
+    print 'median inclination: ',np.median(incs)
+    print 'std inclination: ',np.std(incs)
+    print 'sem inclination: ',stats.sem(incs)
+    print
+    
+#     inclination = np.mean(incs)
+#     inc_err = stats.sem(incs)
+    inc_err = round(np.std(incs),0)
+
 
     for i in reader:
-        r = i['R (arcsec)']
-    #     r = i['R (arcmin)']
-        v = i['vel']
-    
-    #     r2 = float(r) * 60.
-        r2 = float(r)
-
-        r2_lin, r2_lin = calculateLinearDiameters(r2, r2, dist)
+        r = float(i['R (kpc)'])
+        v = float(i['vel'])
         
-                
+        err = inclination_error(v, vsys_err, inclination, inc_err)
+        
         # write info to file
-        objectInfoList = [round(r2_lin,4),v]
+        objectInfoList = [round(r, 4), v, round(err,2)]
         row = dict((f,o) for f,o in zip(fieldnames,objectInfoList))
         writer.writerow(row)
+    
     
     print 'Done.'
     
