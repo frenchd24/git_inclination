@@ -73,8 +73,8 @@ def main():
     dist_err = 4.01
     vsys = 1230.
     vsys_err = 5.0
-    inclination = 75.0
-    inc_err = 1.0
+    inclination = 86.0
+    inc_err = 7.0
     
     vsys_err +=2
 

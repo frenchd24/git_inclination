@@ -193,7 +193,7 @@ def main():
 #     galaxyName = 'NGC2770'
 #     galaxyName = 'NGC3067'
 #     galaxyName = 'NGC3198'
-    galaxyName = 'NGC3351'
+#     galaxyName = 'NGC3351'
 #     galaxyName = 'NGC3432'
 #     galaxyName = 'NGC3631'
 #     galaxyName = 'NGC3666'
@@ -205,6 +205,12 @@ def main():
 #     galaxyName = 'IC5325'
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
+#     galaxyName = 'NGC3513'
+#     galaxyName = 'NGC3633'
+#     galaxyName = 'NGC4536'
+#     galaxyName = 'NGC4939'
+#     galaxyName = 'NGC5364'
+    galaxyName = 'NGC5907'
 
 
 #     filename = 'CGCG039-137-summary4.json'
@@ -413,12 +419,12 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
 
         # x-axis
-        majorLocator   = MultipleLocator(25)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(5)
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
+#         majorLocator   = MultipleLocator(25)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(5)
+#         ax.yaxis.set_major_locator(majorLocator)
+#         ax.yaxis.set_major_formatter(majorFormatter)
+#         ax.yaxis.set_minor_locator(minorLocator)
 
         # y axis
         majorLocator   = MultipleLocator(50)
@@ -440,8 +446,8 @@ def main():
 #         xlim(-30, 30)
 
         xlim(0, R_vir*3)
-#         ylim(0, round(np.nanmax(yData),-2) + 50)
-        ylim(0, 250)
+        ylim(0, round(np.nanmax(yData),-2) + 50)
+#         ylim(0,200)
 
         savefig('{0}/{1}-NFW_fit_Rvir_times3_2.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
@@ -599,6 +605,10 @@ def main():
         # now the overall mean
         if galaxyName == 'NGC3067':
             region_size = 1.5
+        elif galaxyName == 'NGC3666':
+            region_size = 1.5
+        elif galaxyName == 'NGC4529':
+            region_size = 1.5
         else:
             region_size = 2.
         
@@ -699,9 +709,9 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(5)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(2.5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)

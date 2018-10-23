@@ -57,7 +57,7 @@ def main():
 #     outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC3726/NGC3726_rotation_curve2.csv'
 
     filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC4529/NGC4529_rotation_curve_redo.csv'
-    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC4529/NGC4529_rotation_curve_redo2.csv'
+    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/NGC4529/NGC4529_rotation_curve_redo3.csv'
 
     inFile = open(filename,'rU')
     reader = csv.DictReader(inFile)
@@ -73,7 +73,7 @@ def main():
     dist_err = 5.7
     vsys = 2536
     vsys_err = 11.
-    inclination = 72.
+    inclination = 80.
     inc_err = 2
     
     vsys_err +=2

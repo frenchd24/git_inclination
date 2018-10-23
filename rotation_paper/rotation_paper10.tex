@@ -788,7 +788,7 @@ NGC3513 a mostly face-on SB(rs)c galaxy with measured systemic velocity $v_{\rm 
 
 
 \subsection{NGC3633}
-NGC3633 is an isolated, edge-on SAa type galaxy with a measured systemic velocity $v_{\rm sys} = 2587 \pm 7$ \kms. Several locations along the disk of NGC3633 show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. 
+NGC3633 is an isolated, edge-on ($i = 72^{\circ}$) SAa type galaxy with a measured systemic velocity $v_{\rm sys} = 2587 \pm 7$ \kms. Several locations along the disk of NGC3633 show two velocities for emission. We have combined these into a single velocity measurement via a weighted average. 
 
 The background QSO RX\_J1121.2+0326 is located southeast at $\rho = 184$ kpc and $58^{\circ}$ azimuth on the approaching side of NGC3633. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 2605$ \kms~($\Delta v = 18$ \kms) toward RX\_J1121.2+0326. While close to $v_{\rm sys}$, this absorber velocity is just outside our predicted model velocities (cylindrical = [-153, -14], NFW = [-77, 10] \kms). However, this absorber is also very weak and broad, making the velocity center uncertain by at least $\sim 10$ \kms. Taking this along with the uncertainty in $V_{\rm sys}$, this absorber could still be consistent with co-rotation.
 
@@ -802,7 +802,7 @@ The background QSO RX\_J1121.2+0326 is located southeast at $\rho = 184$ kpc and
 
 
 \subsection{NGC4536}
-NGC4536 is a SAB(rs)bc type galaxy located in the Virgo Cluster at a measured systemic velocity of $v_{sys} = 1867 \pm 33$ \kms~and inclination $i = 61^{\circ}$. The data on the receding side of NGC4536 is quite messy, and may include contamination from background sources. Hence, our measured systemic velocity, and thus rotation velocity of $139 \pm 37$ \kms, have relatively high uncertainty. Other published redshift values available from NED and rotation velocities from the HyperLEDA database are broadly consistent with our values, albeit biased slightly lower and higher in velocity, respectively.
+NGC4536 is a SAB(rs)bc type galaxy located in the Virgo Cluster at a measured systemic velocity of $v_{sys} = 1867 \pm 33$ \kms~and inclination $i = 61^{\circ}$. The data on the receding side of NGC4536 is messy, and may include contamination from background sources. Hence, our measured systemic velocity, and thus rotation velocity of $139 \pm 37$ \kms, have relatively high uncertainty. Other published redshift values available from NED and rotation velocities from the HyperLEDA database are broadly consistent with our values, albeit biased slightly lower and higher in velocity, respectively.
 
 There are 2 sightlines to the southwest of NGC4536, both on the receding side of the galaxy. HE1228+0131 at $ \rho = 338$ kpc and $86^{\circ}$ azimuth has 5 Ly$\rm \alpha$ lines: $v_{\rm Ly\alpha} =$ 1495, 1571, 1686, 1721, 1854 \kms~($\Delta v = -$372, -296, -181, -146, -13 \kms). None of these are of the correct orientation for co-rotation relative to our model predictions (cylindrical = [18, 51], NFW = [2, 32] \kms), and all are more likely to be associated with other nearby galaxies, such as NGC4517A, which is slightly closer to these absorbers in impact parameter and velocity than is NGC4536. At $v_{\rm Ly\alpha}  = 1686$ \kms~we also detect C\,{\sc ii}, C\,{\sc iv}, Si\,{\sc ii}, Si\,{\sc iii}, and Si\,{\sc iv}, and at $v_{\rm Ly\alpha}  = 1721$ \kms~we detect Lyman series from Ly$\rm \alpha$ to Ly$\rm \theta$ as well as C\,{\sc ii}, C\,{\sc iii}, C\,{\sc iv}, Si\,{\sc ii}, Si\,{\sc iii}, and Si\,{\sc iv}.
 
@@ -816,9 +816,11 @@ The second nearby sightline is toward 3C273 at $\rho = 344$ kpc and $46^{\circ}$
 \vspace{0pt}
 \end{figure}
 
+% I removed this weird data on the left side in NGC4536-summary.json, which I then used for the model and NFW fit. 
+
 
 \subsection{NGC4939}
-NGC4939 is a large SA(s)bc type galaxy with measured systemic velocity $v_{\rm sys} = 3093 \pm 33$ \kms~and inclination $i = 48^{\circ}$. The background QSO PG1302-102 is located southeast at $\rho = 254$ kpc and $61^{\circ}$ azimuth angle on the approaching side of NGC4939. We detect a Ly$\rm \alpha$ absorber at $v_{\rm Ly\alpha} = 3448$ \kms~($\Delta v = 355$\kms) towards PG1302-102. As this absorber is located on the approaching side, we can easily rule out co-rotation in this case. NGC4939 does not have any close neighbors, so represents an intriguing case against co-rotation for gas past $1 R_{\rm vir}$.
+NGC4939 is a large SA(s)bc type galaxy with measured systemic velocity $v_{\rm sys} = 3093 \pm 33$ \kms~and inclination $i = 61^{\circ}$. The background QSO PG1302-102 is located southeast at $\rho = 254$ kpc and $61^{\circ}$ azimuth angle on the approaching side of NGC4939. We detect a Ly$\rm \alpha$ absorber at $v_{\rm Ly\alpha} = 3448$ \kms~($\Delta v = 355$\kms) towards PG1302-102. As this absorber is located on the approaching side, we can easily rule out co-rotation in this case. NGC4939 does not have any close neighbors, so represents an intriguing case against co-rotation for gas past $1 R_{\rm vir}$.
 
 \begin{figure}[ht!]
 \centering
@@ -827,6 +829,8 @@ NGC4939 is a large SA(s)bc type galaxy with measured systemic velocity $v_{\rm s
   \caption{\small{a) Rotation curve of NGC4939. The solid green line indicates the weighted mean velocity over the corresponding x-axis region, and the shaded green indicates the 1$\sigma$ error in the mean. b) SALT finder chart for NGC4939 showing the position of the slit in red.}}
 \vspace{0pt}
 \end{figure}
+
+% Originally used an inclination of 48, seems too low.
 
 
 \subsection{NGC5364}
@@ -873,72 +877,8 @@ It is worth noting that there are several small satellite galaxies nearby, inclu
 To increase our sample size we have also searched the literature for galaxies with published rotation curves and orientations. Unfortunately, while the rotation velocity is available for thousands of galaxies, only a handful of publications also include the \emph{orientation} of the rotation on the sky. Of these, we were able to find 18 additional galaxies which have a systemic velocity greater than $\sim 500$ \kms, and are near to a COS or STIS sightline with available data. We have included 3 of the galaxy-QSO systems analyzed by \cite{cote2005}. We briefly summarize each of these systems here (see Sections \ref{NGC6140} - \ref{UGC04238}), and refer the reader to \cite{cote2005} for a more complete discussion. As new spectra and redshift-independent distances are available for these systems our results, while similar, are not identical.
 
 
-\subsection{NGC3198}
-NGC3198 is a SB(rs)c type galaxy with systemic velocity $v_{\rm sys} = 661 \pm 3$ \kms and inclination = $i = 70^{\circ}$. It is a well studied galaxy, and is included in the detailed THINGS rotation curve study of \cite{deblok2008}. We extracted the raw rotation curve derived by \cite{deblok2008} using the plot digitization software WebPlotDigitizer\footnote{WebPlotDigitizer; http://arohatgi.info/WebPlotDigitizer}. NGC3198 has an even and flat rotation curve, with an average velocity of $v_{\rm rot} = 152$ \kms. The background QSO RX\_1017.5+4702 is located northeast at $\rho = 370$ kpc and $55^{\circ}$ azimuth angle on the approaching side of NGC3198. We detect Ly$\rm \alpha$ toward RX\_1017.5+4702 at $v_{\rm Ly\alpha} = 629$ \kms~($\Delta v = -32$ \kms), which can nicely be described by a co-rotating disk based on our model predicted velocity range (cylindrical = [-153, -21], NFW = [-91, 6] \kms). We note that the small dwarf galaxy SDSSJ101848.77+452137.0 is located 65 kpc away from NGC3198 toward the southwest.
-
-
-\subsection{NGC3351}
-NGC3351 is a mostly face-on ($i = 42^{\circ}$) SB(r)b type galaxy with systemic velocity  $v_{\rm sys} = 778 \pm 4$ \kms. It is located $\sim200$ kpc southwest of the core of the Leo I group. We take the rotation curve and orientation produced by \cite{dicaire2008}. While we expect any extended disk rotation to be quickly disrupted due to the complex Leo I environment, this galaxy also has one of the closest sightlines in our sample with SDSSJ104335.90+115129.0 at $\rho = 31$ kpc and $13^{\circ}$ azimuth on the northwest, approaching side. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 717, 882, 1030$ \kms ($\Delta v = -61, 104, 252$ \kms) toward this sightline. The lowest velocity absorber agrees nicely with both models for co-rotation, while the other two are above our model predictions (cylindrical = [-99, 12], NFW = [-68, 20] \kms). We also detect multiple metal ions associated with the $v_{\rm Ly\alpha} = 717$ \kms~line, including C\,{\sc ii}, N\,{\sc i}, N\,{\sc v}, O\,{\sc i}, Si\,{\sc ii}, Si\,{\sc iii}, Si\,{\sc iv}, S\,{\sc ii}, and Fe\,{\sc ii}.
-
-
-
-\subsection{NGC5907}
-NGC5907 is a large, edge-on SA(s)c type galaxy with systemic velocity $v_{\rm sys} = 670 \pm 3$ \kms. We take the rotation curve and orientation produced by \cite{yim2014}. The background QSO SBS1503+570 is located northwest at $\rho = 413$ kpc and $47^{\circ}$ azimuth angle on the receding side of NGC5907. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 708$ \kms~($\Delta v = 38$ \kms), which falls within the model predictions for co-rotation (cylindrical = [31, 228], NFW = [-24, 101] \kms). Unfortunately there are several other nearby galaxies, the largest of which being NGC5866 (diameter $D = 20.8$ and impact parameter $\rho = 208$ kpc, versus for NGC5907 - $D = 50.6$ and $\rho = 413$ kpc). Hence, it is difficult to assign this absorber to NGC5907 alone.
-
-
-\subsection{NGC4565}
-NGC4565 is an edge-on SA(s)b type galaxy with systemic velocity $v_{\rm sys} = 1230 \pm 5$ \kms. We take the rotation curve and orientation produced by \cite{sofue1996}. The background QSO RX\_J1236.0+2641 is located directly north at $\rho = 147$ kpc and $41^{\circ}$ azimuth angle on receding side of NGC4565. We detect Ly$\rm \alpha$ absorption at $v_{\rm Ly\alpha} = 1009, 1166, 1254$ \kms~($\Delta v = -221, -64, 24$ \kms) toward RX\_J1236.0+2641. Only the $v_{\rm Ly\alpha}=1254$ \kms~line is consistent with co-rotating gas relative to our model predictions (cylindrical = [-2, 246], NFW = [-30, 144] \kms). However, the presence of several other nearby galaxies (e.g., NGC4559, NGC4562) surely disrupts any possible extended disk rotation that would otherwise be detectable via sightline absorption.
-
-
-\subsection{UGC06446} \label{UGC06446}
-UGC06446 is a Sd type galaxy with systemic velocity $v_{\rm sys} = 644 \pm 1$ \kms~and inclination $i = 48^{\circ}$ on the far northwest edge of the Ursa Major cluster of galaxies. We take the rotation curve and orientation information produced by \cite{verheijen2001} and  \cite{swaters2009}. The background QSO SDSSJ112448.30+531818.0 is located southwest at $\rho = 143$ kpc and $22^{\circ}$ azimuth angle on the receding side of UGC06446. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 664, 1019$ \kms~($\Delta v = 20, 375$ \kms). The absorber at $v_{\rm Ly\alpha} = 664$ falls well within our model predicted co-rotation range (cylindrical = [-9, 65], NFW = [-15, 61] \kms), but the absorber at $v_{\rm Ly\alpha} = 1019$ is far more likely to be associated with NGC3631 ($\rho = 86$ kpc, $v_{\rm sys} = 1156$ \kms). We therefore treat these as separate systems.
-
-
-\subsection{NGC3631}
-NGC3631 is a mostly face-on ($i = 17^{\circ}$) SA(s)c type galaxy with systemic velocity $v_{\rm sys} = 1156 \pm 1$ \kms. We take the rotation curve and orientation information produced by \cite{knapen1997}. There are 4 nearby QSOs, which we will present in order of increasing impact parameter.
-
-First, the closest background QSO RX\_J1117.6+5301 is located southwest at $\rho = 78$ kpc and $75^{\circ}$ azimuth angle on the receding side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1131, 1259$ \kms~($\Delta v = -25, 103$ \kms). Both of these lines fall outside of our model predicted velocities (cylindrical = [10, 24], NFW = [1, 21] \kms).
-
-Second, background QSO SDSSJ112448.30+531818.0 is located northeast at $\rho = 86$ kpc and $74^{\circ}$ azimuth angle on the approaching side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1019, 1141$ \kms~($\Delta v = -137, -15$ \kms). Only the higher velocity absorber falls within our model predicted velocity range (cylindrical = [-26, -11], NFW = [-22, 1] \kms).
-
-Third, the background QSO SDSSJ111443.70+525834.0 is located in the same direction but farther than RX\_J1117.6+5301, at $\rho = 145$ kpc and $72^{\circ}$ azimuth angle on the receding side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1163$ \kms~($\Delta v = 7$ \kms). This absorber appears to agree well with our model predicted velocity range (cylindrical = [8, 29], NFW = [-5, 24] \kms).
-
-Finally, the background QSO SBS1116+523 is located south at $\rho = 163$ kpc and $40^{\circ}$ azimuth angle on the approaching side of NGC3631, but we do not detect any Ly$\rm \alpha$ within $\pm400$ of NGC3631.
-
-
-\subsection{NGC3726}
-NGC3726 is a SAB(r)c type galaxy with systemic velocity $v_{\rm sys}= 866 \pm 1$ \kms~and inclination $i = 52^{\circ}$ on the southwestern edge of the Ursa Major galaxy cluster \citep{verheijen2001}. The closest background QSO, CSO1208, is located southeast at $\rho = 369$ kpc and $88^{\circ}$ azimuth angle on the receding side of NGC3726. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 731, 874$ \kms~($\Delta v = -135, 8$ \kms) toward CSO1208. Only the higher velocity absorber falls within our predicted velocity range (cylindrical = [-27, 29], NFW = [-28, 21] \kms). A more distant QSO, RX\_J1142.7+4625, is located in the same direction as CSO1208 at $\rho = 440$ kpc and $86^{\circ}$ azimuth angle on the approaching side of NGC3726. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 818$ \kms~($\Delta v = -48$ \kms), which falls just outside our predicted velocity range (cylindrical = [-34, -14], NFW = [-30, -7] \kms). 
-
-These two QSOs lie very close to and on opposing sides of the minor axis, such that CSO1208 samples the receding side and RX\_J1142.7+4625 the approaching. Unfortunately, both are also closer to a small group of dwarf galaxies, including NGC3782 and MCG+08-21-092, $\sim 100$ \kms~blueward of NGC3726. The $v_{\rm sys} = 731$ \kms~line toward CSO1208 is likely associated with this dwarf group, and the other lines may also be.
-
-
-\subsection{NGC3067}
-NGC3067 is a mostly edge-on ($i = 71^{\circ}$) SAB(s)ab type galaxy with systemic velocity $v_{\rm sys} = 1465 \pm 5$ \kms. This galaxy and the nearby QSO sightline toward 3C232 is a particularly well studied system. They are separated by only $\rho = 11$ kpc ($74^{\circ}$ azimuth angle on the northwest, receding side) and a Lyman Limit System (LLS) with column density $N_{\scriptsize \HI} = 1 \times 10^{20}$ $\rm cm^{-2}$ is detected toward 3C232 at $v_{\rm Ly\alpha} = 1408$ \kms, which has been postulated as a high velocity cloud (HVC) orbiting NGC3067 \citep{carilli1989, keeney2005}. 
-
-We obtained the rotation curve for NGC3067 from \cite{rubin1982} and the orientation from \cite{carilli1989}. While \HI~measurements of this LLS fit a single component (at $v_{\rm H\I} =1421$ \kms), we have fit 3 separate components at $v_{\rm Ly\alpha} = 1408, 1510, 1641$ \kms~($\Delta v = -57, 45, 176$ \kms) to match the associated metal lines (namely, C\,{\sc iv}, Si\,{\sc ii}, Si\,{\sc iii}, Si\,{\sc iv}, Mg\,{\sc ii}, Fe\,{\sc ii}, and N\,{\sc i} all show at least 2 separate components). This splitting has been analyzed in detail most recently by \cite{keeney2005} and \cite{stocke2010}, who find similar but slightly lower $v_{\rm Ly\alpha}$ for all three absorbers. Only the lowest velocity component can strictly be described by our model velocity range (cylindrical = [-121, 25], NFW = [-139, 26] \kms), however the $v_{\rm Ly\alpha} = 1510$ \kms~component is also very close to this range. The $v_{\rm Ly\alpha} = 1641$ \kms~component, however, must be either a counter-rotating cloudlet or an outflow directed away from our line of sight.
-
-A second QSO SDSSJ095914.80+320357.0 is located farther away, to the southeast at $\rho = 128$ kpc and $43^{\circ}$ azimuth angle on the receding side of NGC3067. We detect Ly$\rm \alpha$ at v$_{\rm Ly\alpha} = 1493$ \kms~($\Delta v = 28$ \kms), which agrees well with our model predicted velocity range (cylindrical = [11, 138], NFW = [-12, 81] \kms).
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\subsection{NGC6140} \label{NGC6140}
-NGC6140 is a small SB(s)cd type galaxy with systemic velocity $v_{\rm sys} = 910 \pm 4$ \kms~and inclination $i = 45^{\circ}$. We take the rotation curve and orientation information produced by \cite{cote2005}. A background QSO Mrk876 is located northwest at $\rho = 113$ kpc and azimuth angle $21^{\circ}$ (although this is somewhat uncertain; the position angle for NGC6140 could be closer to $60^{\circ}$ than our adopted value of $94^{\circ}$ due to it being mostly face on, faint, and strongly barred). We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} =  939$ \kms~($\Delta v = 29$ \kms) toward MRK876. This absorber velocity is of the correct \emph{sign}, but just under the the model predicted velocity range (cylindrical = [40, 101], NFW = [35, 102] \kms) for co-rotation. However, this absorber is still likely co-rotating given both the velocity and position angle uncertainties. Additionally, we detect Ly$\rm \beta$ and O\,{\sc vi} associated with this Ly$\rm \alpha$ absorber (see \cite{narayanan2010}).
-
-
-\subsection{NGC4529} \label{NGC4529}
-NGC4529 is an edge-on and isolated Scd type galaxy with systemic velocity $v_{\rm sys} = 2536 \pm 11$ \kms. We take the rotation curve and orientation information produced by \cite{cote2005}. The QSO MRK771 is located west at $\rho = 159$ kpc and $23^{\circ}$ azimuth angle on the approaching side of NGC4529. We detect Ly$\rm \alpha$ at $v_{\rm sys} = 2553$ \kms~($\Delta v = 17$ \kms), which is anti-rotating relative to our model predictions (cylindrical = [-103, -40], NFW = [-87, -25] \kms). As \cite{cote2005} conclude, ``there is simply no physical way to produce such a velocity with an extending co-rotating disk." \\
-
-
-\subsection{UGC04238} \label{UGC04238}
-UGC04238 is an isolated and edge-on SBd type galaxy with systemic velocity $v_{\rm sys} = 1544 \pm 7$ \kms. We take the rotation curve and orientation information produced by \cite{cote2005}. The background QSO PG0804+761 is located directly south at $\rho = 148$ kpc and $59^{\circ}$ azimuth on the receding side of UGC04238. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1526, 1593$ \kms~($\Delta v = -18, 49$ \kms) toward PG0804+761. Relative to our model predictions (cylindrical = [-3, 86], NFW = [-10, 75] \kms), although both are close, only the absorber at 1593 \kms~(the lower EW of the two) falls within the expected velocity range for co-rotation.
-
-
 \subsection{NGC2770}
-NGC2770 is a large, edge-on Sc type galaxy with systemic velocity $v_{\rm sys} = 1948 \pm 2$ \kms. It is mostly isolated except for two nearby small dwarfs MCG+06-20-036NED02 and GALEXASCJ090946.88+330840.4 (both 25 kpc away, on opposite sides of NGC2770). We take the rotation curve and orientation information produced by \cite{rhee1996}.  There are five nearby QSOs, which we present in order of increasing impact parameter. 
+NGC2770 is a large, edge-on ($i = 80^{\circ}$) Sc type galaxy with systemic velocity $v_{\rm sys} = 1948 \pm 2$ \kms. It is mostly isolated except for two nearby small dwarfs MCG+06-20-036NED02 and GALEXASCJ090946.88+330840.4 (both 25 kpc away, on opposite sides of NGC2770). We take the rotation curve and orientation information produced by \cite{rhee1996}.  There are five nearby QSOs, which we present in order of increasing impact parameter. 
 
 First, the QSO FBQSJ0908+3246 is located south at $\rho = 204$ kpc and $59^{\circ}$ azimuth angle on the approaching side of NGC2770. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1915, 1982$ \kms~($\Delta v = -33, 34$ \kms). Relative to our model predictions (cylindrical = [-146, -4], NFW = [-117, 10] \kms), only the lower velocity line can be described as co-rotating.
 
@@ -953,6 +893,26 @@ Finally, the QSO TON1009 is located south at $\rho = 267$ kpc and $41^{\circ}$ a
 Interestingly, we appear to be detecting extended gas structures in these 5 sightlines. Toward the northeast we find TON1015 and SDSSJ091052.80+333008.0 and a set of absorber pairs at $v_{\rm Ly\alpha} =1833, 1824$ \kms~and $v_{\rm Ly\alpha} = 1985, 1975$ \kms~each having very similar EW and $N_{\rm \HI}$, and remarkably similar appearing line-structure. Adopting a distance of 28.6 Mpc to this cloud, we calculate a linear separation between TON1015 and SDSSJ091052.80+333008.0 of 28 kpc. Hence, there appears to be two distinct clouds of at least 28 kpc in physical extent sandwiched around the systemic velocity of NGC2770. Toward the south we find TON1009 and FBQSJ0908+3246 and a set of absorber pairs at $v_{\rm Ly\alpha} =1908, 1915$ \kms~and $v_{\rm Ly\alpha} = 1980, 1982$ \kms, again with similar EW, $N_{\rm \HI}$ and line-shapes.
 
 
+
+\subsection{NGC3067}
+NGC3067 is a mostly edge-on ($i = 71^{\circ}$) SAB(s)ab type galaxy with systemic velocity $v_{\rm sys} = 1465 \pm 5$ \kms. This galaxy and the nearby QSO sightline toward 3C232 is a particularly well studied system. They are separated by only $\rho = 11$ kpc ($74^{\circ}$ azimuth angle on the northwest, receding side) and a Lyman Limit System (LLS) with column density $N_{\scriptsize \HI} = 1 \times 10^{20}$ $\rm cm^{-2}$ is detected toward 3C232 at $v_{\rm Ly\alpha} = 1408$ \kms, which has been postulated as a high velocity cloud (HVC) orbiting NGC3067 \citep{carilli1989, keeney2005}. 
+
+We obtained the rotation curve for NGC3067 from \cite{rubin1982} and the orientation from \cite{carilli1989}. While \HI~measurements of this LLS fit a single component (at $v_{\rm H\I} =1421$ \kms), we have fit 3 separate components at $v_{\rm Ly\alpha} = 1408, 1510, 1641$ \kms~($\Delta v = -57, 45, 176$ \kms) to match the associated metal lines (namely, C\,{\sc iv}, Si\,{\sc ii}, Si\,{\sc iii}, Si\,{\sc iv}, Mg\,{\sc ii}, Fe\,{\sc ii}, and N\,{\sc i} all show at least 2 separate components). This splitting has been analyzed in detail most recently by \cite{keeney2005} and \cite{stocke2010}, who find similar but slightly lower $v_{\rm Ly\alpha}$ for all three absorbers. Only the lowest velocity component can strictly be described by our model velocity range (cylindrical = [-121, 25], NFW = [-139, 26] \kms), however the $v_{\rm Ly\alpha} = 1510$ \kms~component is also very close to this range. The $v_{\rm Ly\alpha} = 1641$ \kms~component, however, must be either a counter-rotating cloudlet or an outflow directed away from our line of sight.
+
+A second QSO SDSSJ095914.80+320357.0 is located farther away, to the southeast at $\rho = 128$ kpc and $43^{\circ}$ azimuth angle on the receding side of NGC3067. We detect Ly$\rm \alpha$ at v$_{\rm Ly\alpha} = 1493$ \kms~($\Delta v = 28$ \kms), which agrees well with our model predicted velocity range (cylindrical = [11, 138], NFW = [-12, 81] \kms).
+
+
+
+\subsection{NGC3198}
+NGC3198 is a SB(rs)c type galaxy with systemic velocity $v_{\rm sys} = 661 \pm 3$ \kms and inclination = $i = 73^{\circ}$. It is a well studied galaxy, and is included in the detailed THINGS rotation curve study of \cite{deblok2008}. We extracted the raw rotation curve derived by \cite{deblok2008} using the plot digitization software WebPlotDigitizer\footnote{WebPlotDigitizer; http://arohatgi.info/WebPlotDigitizer}. NGC3198 has an even and flat rotation curve, with an average velocity of $v_{\rm rot} = 152$ \kms. The background QSO RX\_1017.5+4702 is located northeast at $\rho = 370$ kpc and $55^{\circ}$ azimuth angle on the approaching side of NGC3198. We detect Ly$\rm \alpha$ toward RX\_1017.5+4702 at $v_{\rm Ly\alpha} = 629$ \kms~($\Delta v = -32$ \kms), which can nicely be described by a co-rotating disk based on our model predicted velocity range (cylindrical = [-153, -21], NFW = [-91, 6] \kms). We note that the small dwarf galaxy SDSSJ101848.77+452137.0 is located 65 kpc away from NGC3198 toward the southwest.
+
+
+
+\subsection{NGC3351}
+NGC3351 is a mostly face-on ($i = 42^{\circ}$) SB(r)b type galaxy with systemic velocity  $v_{\rm sys} = 778 \pm 4$ \kms. It is located $\sim200$ kpc southwest of the core of the Leo I group. We take the rotation curve and orientation produced by \cite{dicaire2008}. While we expect any extended disk rotation to be quickly disrupted due to the complex Leo I environment, this galaxy also has one of the closest sightlines in our sample with SDSSJ104335.90+115129.0 at $\rho = 31$ kpc and $13^{\circ}$ azimuth on the northwest, approaching side. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 717, 882, 1030$ \kms ($\Delta v = -61, 104, 252$ \kms) toward this sightline. The lowest velocity absorber agrees nicely with both models for co-rotation, while the other two are above our model predictions (cylindrical = [-99, 12], NFW = [-68, 20] \kms). We also detect multiple metal ions associated with the $v_{\rm Ly\alpha} = 717$ \kms~line, including C\,{\sc ii}, N\,{\sc i}, N\,{\sc v}, O\,{\sc i}, Si\,{\sc ii}, Si\,{\sc iii}, Si\,{\sc iv}, S\,{\sc ii}, and Fe\,{\sc ii}.
+
+
+
 \subsection{NGC3432}
 NGC3432 is an edge-on SB(s)m type galaxy with systemic velocity $v_{\rm sys} = 616 \pm 4$ \kms. It is interacting with the nearby dwarf galaxy UGC05983 located 11 kpc away and at $v_{\rm sys} = 765$ \kms. We take a rotation curve and orientation for NGC3432 from \cite{rhee1996}. The QSO CSO295 is located just 20 kpc away and just to the receding side of the minor axis ($82^{\circ}$ azimuth angle). This is the second closest pair in our sample, after the 11 kpc separated NGC3067-3C232 system. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 600, 662$ \kms~($\Delta v = -16, 46$ \kms) toward CSO295. Relative to our model predictions (cylindrical = [-37, 48], NFW = [-37, 134] \kms) both of these absorbers are consistent with co-rotation. In fact, this orientation would represent the lower-velocity cloud existing toward the near-edge of the halo and the higher velocity cloud lying very close to the plane of the stellar disk. We also detect C\,{\sc ii}, Si\,{\sc ii}, Si\,{\sc iii}, and Si\,{\sc iv} associated with this absorption system.
 
@@ -962,16 +922,73 @@ A second QSO RX\_J1054.2+3511 is located south at $\rho = 290$ kpc and $57^{\cir
 % MS1047.3+3518 has no usable data
 
 
+
+\subsection{NGC3631}
+NGC3631 is a mostly face-on ($i = 17^{\circ}$) SA(s)c type galaxy with systemic velocity $v_{\rm sys} = 1156 \pm 1$ \kms. We take the rotation curve and orientation information produced by \cite{knapen1997}. There are 4 nearby QSOs, which we will present in order of increasing impact parameter.
+
+First, the closest background QSO RX\_J1117.6+5301 is located southwest at $\rho = 78$ kpc and $75^{\circ}$ azimuth angle on the receding side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1131, 1259$ \kms~($\Delta v = -25, 103$ \kms). Both of these lines fall outside of our model predicted velocities (cylindrical = [10, 24], NFW = [1, 21] \kms).
+
+Second, background QSO SDSSJ112448.30+531818.0 is located northeast at $\rho = 86$ kpc and $74^{\circ}$ azimuth angle on the approaching side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1019, 1141$ \kms~($\Delta v = -137, -15$ \kms). Only the higher velocity absorber falls within our model predicted velocity range (cylindrical = [-26, -11], NFW = [-22, 1] \kms).
+
+Third, the background QSO SDSSJ111443.70+525834.0 is located in the same direction but farther than RX\_J1117.6+5301, at $\rho = 145$ kpc and $72^{\circ}$ azimuth angle on the receding side of NGC3631. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1163$ \kms~($\Delta v = 7$ \kms). This absorber appears to agree well with our model predicted velocity range (cylindrical = [8, 29], NFW = [-5, 24] \kms).
+
+Finally, the background QSO SBS1116+523 is located south at $\rho = 163$ kpc and $40^{\circ}$ azimuth angle on the approaching side of NGC3631, but we do not detect any Ly$\rm \alpha$ within $\pm400$ of NGC3631.
+
+
+
 \subsection{NGC3666}
-NGC3666 is a mostly isolated and edge-on SA(rs)c type galaxy with systemic velocity $v_{\rm sys}=1060 \pm 1$ \kms. We take the rotation curve and orientation information produced by \cite{rhee1996}. The QSO SDSSJ112439.50+113117.0 is located north at $\rho = 58$ kpc and $83^{\circ}$ azimuth angle on the approaching side of NGC3666. We detect Ly$\rm \alpha$ at $v_{\rm sys} = 1047, 1099$ \kms~($\Delta v = -13, 39$ \kms) toward SDSSJ112439.50+113117.0. Relative to our model predictions (cylindrical = [-87, 20], NFW = [-136, 20] \kms) the lower velocity absorber is consistent with co-rotation, while the other is slightly too high in velocity.
+NGC3666 is a mostly isolated and edge-on ($i = 78^{\circ}$) SA(rs)c type galaxy with systemic velocity $v_{\rm sys}=1060 \pm 1$ \kms. We take the rotation curve and orientation information produced by \cite{rhee1996}. The QSO SDSSJ112439.50+113117.0 is located north at $\rho = 58$ kpc and $83^{\circ}$ azimuth angle on the approaching side of NGC3666. We detect Ly$\rm \alpha$ at $v_{\rm sys} = 1047, 1099$ \kms~($\Delta v = -13, 39$ \kms) toward SDSSJ112439.50+113117.0. Relative to our model predictions (cylindrical = [-87, 20], NFW = [-136, 20] \kms) the lower velocity absorber is consistent with co-rotation, while the other is slightly too high in velocity.
+
+
+
+\subsection{NGC3726}
+NGC3726 is a SAB(r)c type galaxy with systemic velocity $v_{\rm sys}= 866 \pm 1$ \kms~and inclination $i = 53^{\circ}$ on the southwestern edge of the Ursa Major galaxy cluster \citep{verheijen2001}. The closest background QSO, CSO1208, is located southeast at $\rho = 369$ kpc and $88^{\circ}$ azimuth angle on the receding side of NGC3726. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 731, 874$ \kms~($\Delta v = -135, 8$ \kms) toward CSO1208. Only the higher velocity absorber falls within our predicted velocity range (cylindrical = [-27, 29], NFW = [-28, 21] \kms). A more distant QSO, RX\_J1142.7+4625, is located in the same direction as CSO1208 at $\rho = 440$ kpc and $86^{\circ}$ azimuth angle on the approaching side of NGC3726. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 818$ \kms~($\Delta v = -48$ \kms), which falls just outside our predicted velocity range (cylindrical = [-34, -14], NFW = [-30, -7] \kms). 
+
+These two QSOs lie very close to and on opposing sides of the minor axis, such that CSO1208 samples the receding side and RX\_J1142.7+4625 the approaching. Unfortunately, both are also closer to a small group of dwarf galaxies, including NGC3782 and MCG+08-21-092, $\sim 100$ \kms~blueward of NGC3726. The $v_{\rm sys} = 731$ \kms~line toward CSO1208 is likely associated with this dwarf group, and the other lines may also be.
+
+
+
+\subsection{UGC04238} \label{UGC04238}
+UGC04238 is an isolated and edge-on SBd type galaxy with systemic velocity $v_{\rm sys} = 1544 \pm 7$ \kms. We take the rotation curve and orientation information produced by \cite{cote2005}. The background QSO PG0804+761 is located directly south at $\rho = 148$ kpc and $59^{\circ}$ azimuth on the receding side of UGC04238. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1526, 1593$ \kms~($\Delta v = -18, 49$ \kms) toward PG0804+761. Relative to our model predictions (cylindrical = [-3, 86], NFW = [-10, 75] \kms), although both are close, only the absorber at 1593 \kms~(the lower EW of the two) falls within the expected velocity range for co-rotation.
+
+
+
+\subsection{NGC4529} \label{NGC4529}
+NGC4529 is an edge-on ($i = 80^{\circ}$) and isolated Scd type galaxy with systemic velocity $v_{\rm sys} = 2536 \pm 11$ \kms. We take the rotation curve and orientation information produced by \cite{cote2005}. The QSO MRK771 is located west at $\rho = 159$ kpc and $23^{\circ}$ azimuth angle on the approaching side of NGC4529. We detect Ly$\rm \alpha$ at $v_{\rm sys} = 2553$ \kms~($\Delta v = 17$ \kms), which is anti-rotating relative to our model predictions (cylindrical = [-103, -40], NFW = [-87, -25] \kms). As \cite{cote2005} conclude, ``there is simply no physical way to produce such a velocity with an extending co-rotating disk." \\
+
+
+
+\subsection{NGC4565}
+NGC4565 is an edge-on SA(s)b type galaxy with systemic velocity $v_{\rm sys} = 1230 \pm 5$ \kms. We take the rotation curve and orientation produced by \cite{sofue1996}. The background QSO RX\_J1236.0+2641 is located directly north at $\rho = 147$ kpc and $41^{\circ}$ azimuth angle on receding side of NGC4565. We detect Ly$\rm \alpha$ absorption at $v_{\rm Ly\alpha} = 1009, 1166, 1254$ \kms~($\Delta v = -221, -64, 24$ \kms) toward RX\_J1236.0+2641. Only the $v_{\rm Ly\alpha}=1254$ \kms~line is consistent with co-rotating gas relative to our model predictions (cylindrical = [-2, 246], NFW = [-30, 144] \kms). However, the presence of several other nearby galaxies (e.g., NGC4559, NGC4562) surely disrupts any possible extended disk rotation that would otherwise be detectable via sightline absorption.
+
+
+
+\subsection{NGC5907}
+NGC5907 is a large, edge-on ($i = 86^{\circ}$) SA(s)c type galaxy with systemic velocity $v_{\rm sys} = 670 \pm 3$ \kms. We take the rotation curve and orientation produced by \cite{yim2014}. The background QSO SBS1503+570 is located northwest at $\rho = 413$ kpc and $47^{\circ}$ azimuth angle on the receding side of NGC5907. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 708$ \kms~($\Delta v = 38$ \kms), which falls within the model predictions for co-rotation (cylindrical = [31, 228], NFW = [-24, 101] \kms). Unfortunately there are several other nearby galaxies, the largest of which being NGC5866 (diameter $D = 20.8$ and impact parameter $\rho = 208$ kpc, versus for NGC5907 - $D = 50.6$ and $\rho = 413$ kpc). Hence, it is difficult to assign this absorber to NGC5907 alone.
+
 
 
 \subsection{NGC5951}
 NGC5951 is a large, edge-on SBc type galaxy with systemic velocity $v_{\rm sys} = 1780 \pm 1$ \kms. We take the rotation curve and orientation for NGC5951 from \cite{rhee1996}. The QSO 2E1530+1511 is located east at $\rho = 55$ kpc and $85^{\circ}$ azimuth angle on the receding side of NGC5951. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 1795, 1953$ \kms~($\Delta v = 15, 173$ \kms) toward 2E1530+1511. Relative to our model predictions (cylindrical = [-31, 114], NFW = [-32, 125] \kms), the lower velocity absorber is consistent with co-rotation while the other is a bit outside of the upper range. The pair of galaxies NGC5954 and NGC5953 are nearby ($\sim 100$ kpc), but the sightline toward 2E1530+1511 is closer and on the opposite side of NGC5951. Given the systemic velocity for the nearby galaxies NGC5954 and NGC5953 ($v_{\rm sys} = 1959, 1965$ \kms), this absorber is likely also linked with that system.
 
 
+
+\subsection{NGC6140} \label{NGC6140}
+NGC6140 is a small SB(s)cd type galaxy with systemic velocity $v_{\rm sys} = 910 \pm 4$ \kms~and inclination $i = 45^{\circ}$. We take the rotation curve and orientation information produced by \cite{cote2005}. A background QSO Mrk876 is located northwest at $\rho = 113$ kpc and azimuth angle $21^{\circ}$ (although this is somewhat uncertain; the position angle for NGC6140 could be closer to $60^{\circ}$ than our adopted value of $94^{\circ}$ due to it being mostly face on, faint, and strongly barred). We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} =  939$ \kms~($\Delta v = 29$ \kms) toward MRK876. This absorber velocity is of the correct \emph{sign}, but just under the the model predicted velocity range (cylindrical = [40, 101], NFW = [35, 102] \kms) for co-rotation. However, this absorber is still likely co-rotating given both the velocity and position angle uncertainties. Additionally, we detect Ly$\rm \beta$ and O\,{\sc vi} associated with this Ly$\rm \alpha$ absorber (see \cite{narayanan2010}).
+
+
+
+\subsection{UGC06446} \label{UGC06446}
+UGC06446 is a Sd type galaxy with systemic velocity $v_{\rm sys} = 644 \pm 1$ \kms~and inclination $i = 48^{\circ}$ on the far northwest edge of the Ursa Major cluster of galaxies. We take the rotation curve and orientation information produced by \cite{verheijen2001} and  \cite{swaters2009}. The background QSO SDSSJ112448.30+531818.0 is located southwest at $\rho = 143$ kpc and $22^{\circ}$ azimuth angle on the receding side of UGC06446. We detect Ly$\rm \alpha$ at $v_{\rm Ly\alpha} = 664, 1019$ \kms~($\Delta v = 20, 375$ \kms). The absorber at $v_{\rm Ly\alpha} = 664$ falls well within our model predicted co-rotation range (cylindrical = [-9, 65], NFW = [-15, 61] \kms), but the absorber at $v_{\rm Ly\alpha} = 1019$ is far more likely to be associated with NGC3631 ($\rho = 86$ kpc, $v_{\rm sys} = 1156$ \kms). We therefore treat these as separate systems.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \subsection{NGC7817}
 NGC7817 is an edge-on SAbc type galaxy with systemic velocity $v_{\rm sys} = 2309 \pm 4$ \kms. We take the rotation curve and orientation information produced by \cite{rhee1996}. The background QSO MRK335 is located southeast at $\rho = 343$ kpc and almost directly along the minor axis of NGC7817 ($90^{\circ}$ azimuth angle). We detect Ly$\rm \alpha$ at $v_{\rm sys} = 1954, 2274$ \kms~($\Delta v = -355, -35$ \kms) toward MRK335. Because these absorbers lie almost exactly along the minor axis, our model predicts a very narrow velocity range for co-rotation (cylindrical = [-26, -24], NFW = [-26, -24] \kms). While the higher velocity line falls a mere 9 \kms~outside this predicted range, the absorption at 1954 \kms~is likely not directly associated with NGC7817 given the large velocity difference. Additionally, the neighboring dwarf galaxy ESDOF538-02 ($v_{\rm sys} = 2175$  \kms) appears in the same direction as MRK335 and only $\rho = 57$ kpc away from NGC7817, and NSA126180 ($v_{\rm sys} = 1950$ \kms) appears only $\rho = 83$ kpc away from MRK335.
+
 
 
 \subsection{UGC08146} \label{UGC08146}

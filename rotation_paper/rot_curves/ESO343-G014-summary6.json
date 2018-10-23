@@ -157,7 +157,7 @@
     "right_vrot_avg_err": 5.6,
     "vsys_published": 9162.0,
     "vsys_measured_err": 31.7,
-    "left_vrot_incCorrected_avg_err": 31.7,
+    "left_vrot_incCorrected_avg_err": 32,
     "right_vrot_avg": 202.57454942976256,
     "dist": 126.07,
     "name": "ESO343-G014",
@@ -198,7 +198,7 @@
     ],
     "left_vrot_avg_err": 31.2,
     "dvsys_published": 45.0,
-    "right_vrot_incCorrected_avg_err": 31.7,
+    "right_vrot_incCorrected_avg_err": 32,
     "v200": 155.58,
     "c": 13.62,
     "r200": 197.4

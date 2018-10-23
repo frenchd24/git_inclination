@@ -247,8 +247,14 @@ def main():
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'CGCG039-137'
 #     galaxyName = 'IC5325'
-    galaxyName = 'MCG-03-58-009'
+#     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
+#     galaxyName = 'NGC3513'
+#     galaxyName = 'NGC3633'
+#     galaxyName = 'NGC4536'
+#     galaxyName = 'NGC4939'
+    galaxyName = 'NGC5364'
+
 
     agnName = 'RX_J1121.2+0326'
 
@@ -266,7 +272,7 @@ def main():
 #     filename = 'NGC5364-summary4.json'
 
 #     filename = '{0}-summary4.json'.format(galaxyName)
-    filename = '{0}-summary7.json'.format(galaxyName)
+    filename = '{0}-summary6.json'.format(galaxyName)
 
     
     with open(directory+filename) as data_file:
@@ -459,9 +465,9 @@ def main():
         legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
 
         # x-axis
-        majorLocator   = MultipleLocator(100)
+        majorLocator   = MultipleLocator(25)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(12.5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
@@ -488,7 +494,7 @@ def main():
         xlim(0, R_vir)
 #         ylim(0, round(np.nanmax(yData),-1) + 15)
 #         ylim(0, 250)
-        ylim(0, 250)
+        ylim(0, 200)
 
 
         savefig('{0}/{1}-NFW_fit_Rvir.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
@@ -657,17 +663,17 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(4)
+        majorLocator   = MultipleLocator(5)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2)
+        minorLocator   = MultipleLocator(2.5)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
 
         # y axis
-        majorLocator   = MultipleLocator(50)
+        majorLocator   = MultipleLocator(100)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(50)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)

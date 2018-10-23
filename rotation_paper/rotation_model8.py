@@ -335,7 +335,7 @@ def main():
     
     # fit an NFW profile to the rotation curve and use that? Otherwise it takes the maximal
     # rotation value and extends it forever. NFW decreases with distance
-    fit_NFW = True
+    fit_NFW = False
     
     # Makes the halo 3x4 R_vir if true. 2x3R_vir if false
     extendedHalo = False
@@ -350,9 +350,9 @@ def main():
 #     galaxyName = 'ESO343-G014'
 #     galaxyName = 'IC5325'
 #     galaxyName = 'MCG-03-58-009'
-    galaxyName = 'NGC1566'
+#     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-#     galaxyName = 'NGC3633'
+    galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -427,7 +427,8 @@ def main():
 #     filename = 'NGC5364-summary4.json'
 
 #     filename = '{0}-summary4.json'.format(galaxyName)
-    filename = '{0}-summary5.json'.format(galaxyName)
+    filename = '{0}-summary6.json'.format(galaxyName)
+#     filename = '{0}-summary7.json'.format(galaxyName)
 
     
     with open(directory+filename) as data_file:
@@ -511,19 +512,22 @@ def main():
         # NGC3513
 #         flipInclination = False
         # reverse true for NFW, false for cylindrical
-#         reverse = True
+#         reverse = False
 #         agnName = 'H1101-232'
 
         
         # NGC3633
-#         flipInclination = False
-#         reverse = False
+        flipInclination = False
+        reverse = False
 #         agnName = 'SDSSJ112005.00+041323.0'
-#         agnName = 'RX_J1121.2+0326'
+        agnName = 'RX_J1121.2+0326'
 #         agnName = 'SDSSJ112224.10+031802.0'
 
 
         # NGC4536
+        # use NGC4536-summary7.json for NFW fits (this file has the weird data on the 
+        # (left of NGC4536 removed, resulting in a much better NFW fit)
+        # NGC4536-summary6.json has all the original data intact
 #         flipInclination = False
 #         reverse = False
 #         agnName = '3C273.0'
@@ -866,7 +870,7 @@ def main():
         # for UGC04238
         if NFW_fit == 'tightester2':
             r200_lowerbound = 10
-            r200_upperbound = 200
+            r200_upperbound = 250
             v200_lowerbound = 10
             v200_upperbound = 75
             c_lowerbound = 1
@@ -874,6 +878,18 @@ def main():
             
             v200 = 50
             c = 10
+            r200 = R_vir
+            
+        if NFW_fit == 'NGC4536':
+            r200_lowerbound = 20
+            r200_upperbound = 200
+            v200_lowerbound = 150
+            v200_upperbound = 350
+            c_lowerbound = 1
+            c_upperbound = 50
+            
+            v200 = 150
+            c = 30
             r200 = R_vir
         
         try:
