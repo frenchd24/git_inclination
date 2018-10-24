@@ -126,7 +126,7 @@
     -5.268678445
     ],
     "centerTrace": 513.0,
-    "right_vrot_incCorrected_avg": 143,
+    "right_vrot_incCorrected_avg": 143.0,
     "vrot_vals": [
     ],
     "vrot_incCorrected_vals": [
@@ -255,7 +255,7 @@
     -150.15,
     -145.225
     ],
-    "left_vrot_incCorrected_avg": -143,
+    "left_vrot_incCorrected_avg": -143.0,
     "vrot_errs": [
     ],
     "agn": {
@@ -396,7 +396,7 @@
     "right_vrot_avg_err": -99,
     "vsys_published": 1476.0,
     "vsys_measured_err": 5.0,
-    "left_vrot_incCorrected_avg_err": 9,
+    "left_vrot_incCorrected_avg_err": 9.0,
     "right_vrot_avg":-99,
     "dist": 20.4,
     "name": "NGC3067",
@@ -410,7 +410,7 @@
     ],
     "left_vrot_avg_err": -99,
     "dvsys_published": 4.0,
-    "right_vrot_incCorrected_avg_err": 9,
+    "right_vrot_incCorrected_avg_err": 9.0,
     "v200": 105.52,
     "c": 18.55,
     "r200": 69.52

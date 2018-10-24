@@ -205,7 +205,7 @@
     "agn": {
     "RBS2000":{"RAdeg":351.18625,"DEdeg":-40.68027778}
     },
-    "left_vrot_avg": -52.85540038366935,
+    "left_vrot_avg": -53.0,
     "vrot_incCorrected_errs": [
         57.99215066422752,
         40.83086092242263,
@@ -267,7 +267,7 @@
     "vsys_published": 1502.0,
     "vsys_measured_err": 8.0,
     "left_vrot_incCorrected_avg_err": 27.0,
-    "right_vrot_avg": 52.85540038366935,
+    "right_vrot_avg": 53.0,
     "dist": 18.1,
     "name": "IC5325",
     "Lstar": 0.9,

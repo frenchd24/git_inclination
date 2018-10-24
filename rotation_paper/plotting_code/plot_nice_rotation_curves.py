@@ -210,7 +210,9 @@ def main():
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
-    galaxyName = 'NGC5907'
+#     galaxyName = 'NGC5907'
+#     galaxyName = 'NGC5951'
+    galaxyName = 'NGC6140'
 
 
 #     filename = 'CGCG039-137-summary4.json'
@@ -519,13 +521,14 @@ def main():
         # folded over
         xData_abs = abs(xData)
         yData_abs = abs(yData)
+        yErrs_abs = abs(yErrs)
     
         # how far to plot? Rounds by 5's
 #         x_lim = round(max(abs(xData)/5.),0)*5+5
         x_lim = round(max(abs(xData)/5.),0)*5+1
 
         # rounds to 50's
-        y_lim = round(np.nanmax(yData),-1) + 50
+        y_lim = round(np.nanmax(yData),-2) + 50
         
         
 #         errorbar(xData,
@@ -609,6 +612,8 @@ def main():
             region_size = 1.5
         elif galaxyName == 'NGC4529':
             region_size = 1.5
+        elif galaxyName == 'NGC6140':
+            region_size = 1.5
         else:
             region_size = 2.
         
@@ -617,18 +622,36 @@ def main():
                 
         y_outer_half = []
         x_outer_half = []
-        for x,y in zip(xData_abs, yData_abs):
+        err_outer_half = []
+        for x,y,e in zip(xData_abs, yData_abs, yErrs_abs):
             if x >= x_outer_half_val:
                 print 'x: ',x
                 y_outer_half.append(y)
                 x_outer_half.append(x)
+                err_outer_half.append(e)
         
         
-        vrot, vrot_err = weightedMean(y_outer_half, x_outer_half)
+#         vrot, vrot_err = weightedMean(y_outer_half, x_outer_half)
+        print 'y_outer_half : ',y_outer_half
+        print
+        print 'err_outer_half: ',err_outer_half
+        print
+        print
+        print 'stats.sem(y_outer_half): ',stats.sem(y_outer_half)
+        print 'std(y_outer_half): ',std(y_outer_half)
+        print
+        
+        vrot, vrot_err = weightedMean(y_outer_half, err_outer_half)
+
+        
+        print 'vrot_err from weightedMean: ',vrot_err
+        print
         vrot = int(round(vrot,0))
         vrot_err = int(round(vrot_err,0))
         
-        vrot_err_final = np.sqrt(vrot_err**2 + yErrs[0]**2)
+#         vrot_err_final = np.sqrt(vrot_err**2 + yErrs[0]**2)
+        vrot_err_final = np.sqrt(vrot_err**2 + mean(yErrs)**2)
+
         vrot_err_final = int(round(vrot_err_final,0))
         
         

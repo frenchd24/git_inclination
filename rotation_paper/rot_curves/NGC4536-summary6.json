@@ -60,7 +60,7 @@
         -16.382906629850652
     ],
     "centerTrace": 507.5,
-    "right_vrot_incCorrected_avg": 147.55290372169773,
+    "right_vrot_incCorrected_avg": 148.0,
     "vrot_vals": [
         148.39841737358734,
         143.51817347621295,
@@ -181,7 +181,7 @@
         -139.74128595694742,
         -152.0360121775748
     ],
-    "left_vrot_incCorrected_avg": -147.55290372169748,
+    "left_vrot_incCorrected_avg": -148.0,
     "vrot_errs": [
         32.91429581257818,
         33.07135229079622,
@@ -247,7 +247,7 @@
         "HE1228+0131":{"RAdeg":187.708333333,"DEdeg":1.25583333333},
         "LBQS1230-0015":{"RAdeg":188.267083333,"DEdeg":-0.526111111111}
     },
-    "left_vrot_avg": -129.0526774406385,
+    "left_vrot_avg": -129.0,
     "vrot_incCorrected_errs": [
         39.28137597382265,
         39.34934581173414,
@@ -314,8 +314,8 @@
     "right_vrot_avg_err": 31.8,
     "vsys_published": 1808.0,
     "vsys_measured_err": 32.9,
-    "left_vrot_incCorrected_avg_err": 38.6,
-    "right_vrot_avg": 129.05267744063872,
+    "left_vrot_incCorrected_avg_err": 39.0,
+    "right_vrot_avg": 129.0,
     "dist": 14.9,
     "name": "NGC4536",
     "RAdeg":188.61271,
@@ -386,7 +386,7 @@
     ],
     "left_vrot_avg_err": 8.5,
     "dvsys_published": 1.0,
-    "right_vrot_incCorrected_avg_err": 38.6,
+    "right_vrot_incCorrected_avg_err": 39.0,
     "v200": 97.94,
     "c": 29.94,
     "r200": 23.62

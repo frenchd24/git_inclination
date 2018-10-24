@@ -29,7 +29,7 @@
         -20.587502614006933
     ],
     "centerTrace": 516.0,
-    "right_vrot_incCorrected_avg": 202.57454942976256,
+    "right_vrot_incCorrected_avg": 203.0,
     "vrot_vals": [
         201.44179602848635,
         196.3993874299831,
@@ -88,7 +88,7 @@
         -180.0475569199607,
         -151.4583312480172
     ],
-    "left_vrot_incCorrected_avg": -202.57454942976437,
+    "left_vrot_incCorrected_avg": -203.0,
     "vrot_errs": [
         31.728485069916122,
         31.71208746938958,
@@ -121,7 +121,7 @@
     "agn": {
         "RBS1768":{"RAdeg":324.7079167,"DEdeg":-38.47777778}
     },
-    "left_vrot_avg": -202.57454942976437,
+    "left_vrot_avg": -203.0,
     "vrot_incCorrected_errs": [
         31.728485069916122,
         31.71208746938958,
@@ -157,8 +157,8 @@
     "right_vrot_avg_err": 5.6,
     "vsys_published": 9162.0,
     "vsys_measured_err": 31.7,
-    "left_vrot_incCorrected_avg_err": 32,
-    "right_vrot_avg": 202.57454942976256,
+    "left_vrot_incCorrected_avg_err": 32.0,
+    "right_vrot_avg": 203.0,
     "dist": 126.07,
     "name": "ESO343-G014",
     "RAdeg":324.43825,
@@ -198,7 +198,7 @@
     ],
     "left_vrot_avg_err": 31.2,
     "dvsys_published": 45.0,
-    "right_vrot_incCorrected_avg_err": 32,
+    "right_vrot_incCorrected_avg_err": 32.0,
     "v200": 155.58,
     "c": 13.62,
     "r200": 197.4

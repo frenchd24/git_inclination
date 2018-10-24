@@ -267,11 +267,11 @@
     "right_vrot_avg_err": -99,
     "vsys_published": 778.0,
     "vsys_measured_err": 4.0,
-    "left_vrot_incCorrected_avg_err": 16,
+    "left_vrot_incCorrected_avg_err": 16.0,
     "right_vrot_avg":-99,
     "dist": 10.0,
     "name": "NGC3351",
-    "RAdeg":160.99042,
+    "RAdeg":160.99042,s
     "DEdeg":11.70381,
     "majDiam":21.35,
     "PA":13.0,
@@ -281,7 +281,7 @@
     ],
     "left_vrot_avg_err": -99,
     "dvsys_published": 4.0,
-    "right_vrot_incCorrected_avg_err": 16,
+    "right_vrot_incCorrected_avg_err": 16.0,
     "v200": 134.37,
     "c": 24.56,
     "r200": 47.89

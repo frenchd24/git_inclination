@@ -386,7 +386,7 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
 
 
     # define the save directories
-    saveDirectory = '/Users/frenchd/Research/test/{0}/{1}'.format(galaxyName, agnName)
+    saveDirectory = '/Users/frenchd/Research/test/rotation_models/{0}/{1}'.format(galaxyName, agnName)
     
     
     if fit_NFW == True:
@@ -810,6 +810,7 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
             flipInclination = False
             reverse = True
             NFW_fit = 'tightest'
+#             NFW_fit = 'NGC5951'
 #             agnName = '2E1530+1511'
 
 
@@ -1004,6 +1005,20 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
             v200 = 150
             c = 30
             r200 = R_vir
+            
+        # tighter bounds (e.g., for UGC09760)
+        if NFW_fit == 'NGC5951':
+            r200_lowerbound = 10
+            r200_upperbound = 300
+            v200_lowerbound = 10
+            v200_upperbound = 115
+            c_lowerbound = 1
+            c_upperbound = 35
+            
+            v200 = 50
+            c = 10
+            r200 = R_vir
+            
         
         try:
             print 'v200,c,r200 = ',v200,c,r200
@@ -1870,26 +1885,30 @@ def main():
 #     galaxyName = 'NGC5951'
 #     galaxyName = 'NGC7817'
 #     galaxyName = 'UGC08146'
-
-
-
-
     
     
     include_err_list = ['+', '-', False]
 #     include_err_list = [False]
     fit_NFW_list = [True, False]
-    galaxyName_list = ['NGC3633',\
+    galaxyName_list = ['CGCG039-137',\
+    'ESO343-G014',\
+    'IC5325',\
+    'MCG-03-58-009',\
+    'NGC1566',\
+    'NGC3513',\
+    'NGC3633',\
     'NGC4536',\
     'NGC4939',\
     'NGC5364',\
-    'NGC5786']
+    'NGC5786',\
+    'UGC09760']
+    
     
     for galaxyName in galaxyName_list:
         # CGCG039-137
         if galaxyName == 'CGCG039-137':
-    #         agnName = 'RX_J1121.2+0326'
-            agnName = 'SDSSJ112224.10+031802.0'
+            agnName = 'RX_J1121.2+0326'
+#             agnName = 'SDSSJ112224.10+031802.0'
 
 
         # RFGC3781 or ESO343-G014

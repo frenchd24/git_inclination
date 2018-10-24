@@ -22,7 +22,7 @@
         -5.074730920927185
     ],
     "centerTrace": 523.0,
-    "right_vrot_incCorrected_avg": 157.12587462869107,
+    "right_vrot_incCorrected_avg": 157.0,
     "vrot_vals": [
         149.97020049011326,
         151.818192879045,
@@ -67,7 +67,7 @@
         -165.51525387218146,
         -164.2256214673153
     ],
-    "left_vrot_incCorrected_avg": -157.12587462869107,
+    "left_vrot_incCorrected_avg": -157.0,
     "vrot_errs": [
         6.679774196781203,
         6.66784139598286,
@@ -95,7 +95,7 @@
     "SDSSJ112224.10+031802.0":{"RAdeg":170.600416667,"DEdeg":3.30055555556},
     "RX_J1121.2+0326":{"RAdeg":170.309166667,"DEdeg":3.42944444444}
     },
-    "left_vrot_avg": -149.43558694419198,
+    "left_vrot_avg": -149.0,
     "vrot_incCorrected_errs": [
         8.451743682164368,
         8.473720368845184,
@@ -125,7 +125,7 @@
     "vsys_published": 2600.0,
     "vsys_measured_err": 6.6,
     "left_vrot_incCorrected_avg_err": 9.0,
-    "right_vrot_avg": 149.43558694419198,
+    "right_vrot_avg": 149.0,
     "dist": 41.725,
     "name": "NGC3633",
     "RAdeg":170.10924,

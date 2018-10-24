@@ -230,7 +230,7 @@
     ],
     "inclination": 89.9,
     "di": 2.0,
-    "vsys_measured": 667,
+    "vsys_measured": 667.0,
     "right_vrot_avg_err": -99,
     "vsys_published": 667.0,
     "vsys_measured_err": 3.0,
@@ -249,7 +249,7 @@
     "left_vrot_avg_err": -99,
     "dvsys_published": 3.0,
     "right_vrot_incCorrected_avg_err": 6.0,
-    "v200": 171.85,
-    "c": 16.34,
-    "r200": 75.56
+    "v200": 163.09,
+    "c": 19.76,
+    "r200": 91.45
 }

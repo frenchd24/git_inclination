@@ -587,7 +587,7 @@
     "right_vrot_avg_err": -99,
     "vsys_published": 660.0,
     "vsys_measured_err": 1.0,
-    "left_vrot_incCorrected_avg_err": 5,
+    "left_vrot_incCorrected_avg_err": 5.0,
     "right_vrot_avg":-99,
     "dist": 13.7,
     "name": "NGC3198",
@@ -601,7 +601,7 @@
     ],
     "left_vrot_avg_err": -99,
     "dvsys_published": 1.0,
-    "right_vrot_incCorrected_avg_err": 5,
+    "right_vrot_incCorrected_avg_err": 5.0,
     "v200": 124.26,
     "c": 11.68,
     "r200": 110.68

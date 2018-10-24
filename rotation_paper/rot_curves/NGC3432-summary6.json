@@ -73,7 +73,7 @@
     6
     ],
     "inclination": 89.9,
-    "di": 2.0,
+    "di": 4.0,
     "vsys_measured": 616.0,
     "right_vrot_avg_err": -99,
     "vsys_published": 616.0,

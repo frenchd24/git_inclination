@@ -188,7 +188,7 @@
     ],
     "agn": {"PG1302-102":{"RAdeg":196.3875,"DEdeg":-10.55555556}
     },
-    "left_vrot_avg": -204.31755741079996,
+    "left_vrot_avg": -204.0,
     "vrot_incCorrected_errs": [
         40.488855661732444,
         39.926354271884925,
@@ -241,8 +241,8 @@
     "right_vrot_avg_err": 22.4,
     "vsys_published": 3110.0,
     "vsys_measured_err": 33.2,
-    "left_vrot_incCorrected_avg_err": 39.1,
-    "right_vrot_avg": 204.31755741080042,
+    "left_vrot_incCorrected_avg_err": 39.0,
+    "right_vrot_avg": 204.0,
     "dist": 37.5,
     "name": "NGC4939",
     "RAdeg":196.05996,
@@ -299,7 +299,7 @@
     ],
     "left_vrot_avg_err": 24.5,
     "dvsys_published": 4.0,
-    "right_vrot_incCorrected_avg_err": 39.1,
+    "right_vrot_incCorrected_avg_err": 39.0,
     "v200": 169.5,
     "c": 19.68,
     "r200": 102.8

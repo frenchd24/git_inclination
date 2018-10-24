@@ -23,7 +23,7 @@
         -14.449925500335862
     ],
     "centerTrace": 513.5,
-    "right_vrot_incCorrected_avg": -171.442298747671,
+    "right_vrot_incCorrected_avg": -171.0,
     "vrot_vals": [
         -136.99306357918067,
         -161.3377309818461,
@@ -70,7 +70,7 @@
         191.68780182887096,
         185.90159976144008
     ],
-    "left_vrot_incCorrected_avg": 171.442298747671,
+    "left_vrot_incCorrected_avg": 171.0,
     "vrot_errs": [
         19.109754839990003,
         18.68255857587894,
@@ -97,7 +97,7 @@
     "agn": {
     "MRC2251-178":{"RAdeg":343.5245833,"DEdeg":-17.58194444}
     },
-    "left_vrot_avg": 149.94681312199282,
+    "left_vrot_avg": 150.0,
     "vrot_incCorrected_errs": [
         22.921970026535135,
         22.866965724247187,
@@ -131,9 +131,9 @@
     "right_vrot_avg_err": 14.8,
     "vsys_published": 9030.0,
     "vsys_measured_err": 18.6,
-    "left_vrot_incCorrected_avg_err": 22.3,
-    "right_vrot_avg": -149.94681312199282,
-    "dist": 133.66,
+    "left_vrot_incCorrected_avg_err": 22.0,
+    "right_vrot_avg": -150.0,
+    "dist": 142.0,
     "name": "MCG-03-58-009",
     "Lstar": 2.9,
     "e_Lstar": 1.4,
@@ -162,7 +162,7 @@
     ],
     "left_vrot_avg_err": 11.2,
     "dvsys_published": 10.0,
-    "right_vrot_incCorrected_avg_err": 22.3,
+    "right_vrot_incCorrected_avg_err": 22.0,
     "v200": 130.34,
     "c": 18.96,
     "r200": 220.36

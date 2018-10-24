@@ -31,7 +31,7 @@
     -19.1148
     ],
     "centerTrace": 513.0,
-    "right_vrot_incCorrected_avg": -148,
+    "right_vrot_incCorrected_avg": -148.0,
     "vrot_vals": [
     ],
     "vrot_incCorrected_vals": [
@@ -65,7 +65,7 @@
     149.6449429,
     149.6062552
     ],
-    "left_vrot_incCorrected_avg": 148,
+    "left_vrot_incCorrected_avg": 148.0,
     "vrot_errs": [
     ],
     "agn": {
@@ -113,7 +113,7 @@
     "right_vrot_avg_err": -99,
     "vsys_published": 1947,
     "vsys_measured_err": 4,
-    "left_vrot_incCorrected_avg_err": 6,
+    "left_vrot_incCorrected_avg_err": 6.0,
     "right_vrot_avg":-99,
     "dist": 29.2,
     "name": "NGC2770",
@@ -127,7 +127,7 @@
     ],
     "left_vrot_avg_err": -99,
     "dvsys_published": 2,
-    "right_vrot_incCorrected_avg_err": 6,
+    "right_vrot_incCorrected_avg_err": 6.0,
     "v200": 115.0,
     "c": 15.17,
     "r200": 250

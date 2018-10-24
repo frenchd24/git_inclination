@@ -249,11 +249,13 @@ def main():
 #     galaxyName = 'IC5325'
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
-#     galaxyName = 'NGC3513'
+    galaxyName = 'NGC3513'
 #     galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
-    galaxyName = 'NGC5364'
+#     galaxyName = 'NGC5364'
+#     galaxyName = 'NGC5786'
+#     galaxyName = 'UGC09760'
 
 
     agnName = 'RX_J1121.2+0326'
@@ -494,7 +496,7 @@ def main():
         xlim(0, R_vir)
 #         ylim(0, round(np.nanmax(yData),-1) + 15)
 #         ylim(0, 250)
-        ylim(0, 200)
+        ylim(0, 100)
 
 
         savefig('{0}/{1}-NFW_fit_Rvir.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
@@ -520,6 +522,9 @@ def main():
         yRight = []
         yLeft = []
         
+        yErr_right = []
+        yErr_left = []
+        
         for v, e, x in zip(vrot_incCorrected_vals, vrot_incCorrected_errs, xVals):
             xData.append(x)
             yData.append(v)
@@ -528,26 +533,35 @@ def main():
             if x > 0:
                 xRight.append(x)
                 yRight.append(v)
+                yErr_right.append(e)
             if x <0:
                 xLeft.append(x)
                 yLeft.append(v)
-                
+                yErr_left.append(e)
             if x == 0:
                 if mean(yRight) > 0:
                     if v > 0:
                         xRight.append(x)
                         yRight.append(y)
+                        yErr_right.append(e)
+
                     else:
                         xLeft.append(x)
                         yLeft.append(y)
+                        yErr_left.append(e)
+
                 
                 if mean(yRight) <0:
                     if v < 0:
                         xRight.append(x)
                         yRight.append(y)
+                        yErr_right.append(e)
+
                     else:
                         xLeft.append(x)
                         yLeft.append(y)
+                        yErr_left.append(e)
+
                         
                         
         # recalculate inclination error                
@@ -594,12 +608,18 @@ def main():
         
         
         # plot the average velocities with errors        
-        len_right = int(math.ceil(len(yRight)/2.))
-        len_left = int(math.floor(len(yLeft)/2.))
+        len_right = int(math.ceil(len(yRight)/2.0))
+        len_left = int(math.floor(len(yLeft)/2.0))
     
         # define the outer 1/2 radius y values - observed
         outerRightX = xRight[:len_right]
         outerLeftX = xLeft[len_left:]
+        
+        outerRightY = yRight[:len_right]
+        outerLeftY = yLeft[len_left:]
+        err_outerRightY = yErr_right[:len_right]
+        err_outerLeftY = yErr_left[len_left:]
+
         
         print 'outerRightX, outerRightX[-1]: ',outerRightX, outerRightX[-1]
         print 'outerLeftX, outerLeftX[0]: ',outerLeftX, outerLeftX[0]
@@ -608,6 +628,17 @@ def main():
         print 'right_vrot_incCorrected_avg = ', right_vrot_incCorrected_avg, right_vrot_incCorrected_avg_err
         print 'left_vrot_incCorrected_avg = ', left_vrot_incCorrected_avg, left_vrot_incCorrected_avg_err
         print
+        
+        # try recalculating the average rotation velocity
+        new_vrot_right, new_vrot_right_err = weightedMean(outerRightY, err_outerRightY)
+        new_vrot_left, new_vrot_left_err = weightedMean(outerLeftY, err_outerLeftY)
+        
+#         vrot_final = int(round(mean([abs(new_vrot_right), abs(new_vrot_left)]), 0))
+        
+        
+#         vrot_err_final = int(round(mean([abs(new_vrot_right_err), abs(new_vrot_left_err)]), 0))
+        
+        print 'new_vrot_right = {0} pm {1} ; new_vrot_left = {2} pm {3}'.format(new_vrot_right, new_vrot_right_err, new_vrot_left, new_vrot_left_err)
         
         vrot_final = abs(vrot_final)
     
@@ -618,15 +649,23 @@ def main():
 #         r'$\rm Inc.~Corrected~\overline{{\emph{{v}}_{{rot}}}}={0}\pm{1}$'.format(int(round(right_vrot_incCorrected_avg, 0)), right_vrot_avg_err)
         
         # plot the average on the right
+        right_vel_final = vrot_final
+        left_vel_final = vrot_final
+
+        if right_vrot_incCorrected_avg < 0:
+            right_vel_final *= -1
+        if left_vrot_incCorrected_avg < 0:
+            left_vel_final *= -1
+        
         plot((outerRightX[-1], outerRightX[0]),
-            (right_vrot_incCorrected_avg, right_vrot_incCorrected_avg),
+            (right_vel_final, right_vel_final),
             lw=2,
             c='green',
             solid_capstyle="butt",
             label=vrot_plot_label)
             
         x_err = np.array([outerRightX[-1], outerRightX[0]])
-        y_err = np.array([right_vrot_incCorrected_avg, right_vrot_incCorrected_avg])
+        y_err = np.array([right_vel_final, right_vel_final])
         fill_between(x_err, 
                     y_err - right_vrot_err_final,
                     y_err + right_vrot_err_final,
@@ -641,7 +680,7 @@ def main():
         
         # plot the average on the left
         plot((outerLeftX[0], outerLeftX[-1]), 
-            (left_vrot_incCorrected_avg, left_vrot_incCorrected_avg),
+            (left_vel_final, left_vel_final),
             lw=2,
             c='green',
             solid_capstyle="butt")
@@ -651,7 +690,7 @@ def main():
 #         lw=2*left_vrot_incCorrected_avg_err,c='green',alpha=0.2,solid_capstyle="butt")
 
         x_err = np.array([outerLeftX[0], outerLeftX[-1]])
-        y_err = np.array([left_vrot_incCorrected_avg, left_vrot_incCorrected_avg])
+        y_err = np.array([left_vel_final, left_vel_final])
         fill_between(x_err, 
                     y_err - left_vrot_err_final,
                     y_err + left_vrot_err_final,
@@ -663,17 +702,17 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(5)
+        majorLocator   = MultipleLocator(2)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(2.5)
+        minorLocator   = MultipleLocator(1)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
 
         # y axis
-        majorLocator   = MultipleLocator(100)
+        majorLocator   = MultipleLocator(50)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(50)
+        minorLocator   = MultipleLocator(25)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -682,7 +721,7 @@ def main():
         ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
     
     
-        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower left',fancybox=True)
+        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
     #         leg.get_frame().set_alpha(0.5)
 
         ax.grid(b=None,which='major',axis='both')

@@ -21,7 +21,7 @@
         -8.578494588739648
     ],
     "centerTrace": 513.0,
-    "right_vrot_incCorrected_avg": 139.0,
+    "right_vrot_incCorrected_avg": 143.0,
     "vrot_vals": [
         145.55725132052248,
         138.01362350923046,
@@ -64,7 +64,7 @@
         -114.39942708949899,
         -142.09765716135465
     ],
-    "left_vrot_incCorrected_avg": -139.0,
+    "left_vrot_incCorrected_avg": -143.0,
     "vrot_errs": [
         24.310894425734887,
         23.74540396494285,

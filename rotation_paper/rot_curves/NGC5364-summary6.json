@@ -221,7 +221,7 @@
     "agn": {
         "SDSSJ135726.27+043541.4":{"RAdeg":209.359166667,"DEdeg":4.59472222222}
     },
-    "left_vrot_avg": 130.25974514623294,
+    "left_vrot_avg": 130.0,
     "vrot_incCorrected_errs": [
         22.574645516456798,
         27.222677673337017,
@@ -282,8 +282,8 @@
     "right_vrot_avg_err": 10.8,
     "vsys_published": 1241.0,
     "vsys_measured_err": 16.9,
-    "left_vrot_incCorrected_avg_err": 22.8,
-    "right_vrot_avg": -130.25974514623294,
+    "left_vrot_incCorrected_avg_err": 23.0,
+    "right_vrot_avg": -130.0,
     "dist": 18.1,
     "name": "NGC5364",
     "RAdeg":209.05,
@@ -348,7 +348,7 @@
     ],
     "left_vrot_avg_err": 13.0,
     "dvsys_published": 4.0,
-    "right_vrot_incCorrected_avg_err": 22.7,
+    "right_vrot_incCorrected_avg_err": 23.0,
     "v200": 107.3,
     "c": 18.05,
     "r200": 101.69
