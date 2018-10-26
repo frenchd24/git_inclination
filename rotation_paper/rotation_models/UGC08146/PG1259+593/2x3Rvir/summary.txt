@@ -1,0 +1,9 @@
+Galaxy name: UGC08146
+Target name: PG1259+593
+flipInclination: False
+reverse: True
+fit_NFW: False
+
+Allowed Y-velocity range: [14.1846365343, 80.2081003277]
+Allowed X-velocity range: [-28.6152293017, 31.2515821846]
+Combined velocity range: [-14.4303604189, 81.7069711042]

@@ -1,0 +1,9 @@
+Galaxy name: NGC3666
+Target name: SDSSJ112756.70+115427.0
+flipInclination: True
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [-128.250188423, -93.5764790879]
+Allowed X-velocity range: [-0.434276925345, 13.0170590192]
+Combined velocity range: [-128.684465348, -80.5594200687]

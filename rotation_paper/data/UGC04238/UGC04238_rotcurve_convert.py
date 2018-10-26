@@ -54,7 +54,7 @@ def inclination_error(v,dv,i,di):
 def main():
 
     filename = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/UGC04238/UGC04238_rotation_curve_redo.csv'
-    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/UGC04238/UGC04238_rotation_curve_redo2.csv'
+    outfile = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/data/UGC04238/UGC04238_rotation_curve_redo3.csv'
 
     inFile = open(filename,'rU')
     reader = csv.DictReader(inFile)
@@ -70,7 +70,9 @@ def main():
     dist_err = 4.21
     vsys = 1544.0
     vsys_err = 7.0
-    inclination = 62.0
+#     inclination = 62.0 -> UGC04238_rotation_curve_redo2.csv
+    inclination = 75.0 # -> UGC04238_rotation_curve_redo3.csv
+
     inc_err = 2.0
     
     vsys_err +=2

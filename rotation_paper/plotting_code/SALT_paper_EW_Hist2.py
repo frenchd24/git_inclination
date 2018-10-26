@@ -3,10 +3,11 @@
 '''
 By David French (frenchd@astro.wisc.edu)
 
-$Id: SALT_paper_EW_hist.py, v1.0 05/10/18
+$Id: SALT_paper_EW_hist4.py, v4.0 10/26/18
 
 Plot EW histograms for co-rotating and anti-rotating absorbers
 
+v4: Final version for (hopefully submitted) paper (10/26/18)
 '''
 
 
@@ -214,7 +215,8 @@ def main():
     # collect data
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/'
 #     filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary.csv'.format(directory)    
-    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'.format(directory)    
+#     filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'.format(directory)    
+    filename = '{0}salt_galaxy_sightlines_cut_plus_ancillary_fits_newerrs.csv'.format(directory)    
 
     theFile = open(filename,'rU')
     tableReader = csv.DictReader(theFile)
@@ -274,10 +276,12 @@ def main():
         
         include_tag = t['include']
         
+        if 
         model_range = eval(t['model_range'])
         NFW_range = eval(t['NFW_range'])
         
-        gfilename = directory + 'rot_curves/' + name + '-summary4.json'
+#         gfilename = directory + 'rot_curves/' + name + '-summary4.json'
+        gfilename = directory + 'rot_curves/' + name + '-summary6.json'
         vsys_measured, right_vrot_avg, right_vrot_incCorrected_avg, left_vrot_avg, left_vrot_incCorrected_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
 #         vsys_measured, right_vrot_avg, left_vrot_avg, inc, PA, dist, majDiam, Lstar, e_Lstar = get_data(gfilename)
         

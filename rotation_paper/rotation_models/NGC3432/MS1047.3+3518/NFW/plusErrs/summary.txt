@@ -1,0 +1,9 @@
+Galaxy name: NGC3432
+Target name: MS1047.3+3518
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [55.3163550181, 115.645732081]
+Allowed X-velocity range: [-31.5721452676, 31.6080001577]
+Combined velocity range: [23.755185408, 117.243402582]

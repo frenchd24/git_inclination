@@ -1,0 +1,9 @@
+Galaxy name: ESO343-G014
+Target name: RBS1768
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [-153.788247794, -26.222768317]
+Allowed X-velocity range: [-50.2778337983, 50.3889538326]
+Combined velocity range: [-154.066827025, 24.1661855156]

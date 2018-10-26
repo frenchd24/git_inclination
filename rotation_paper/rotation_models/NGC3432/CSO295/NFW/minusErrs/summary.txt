@@ -1,0 +1,9 @@
+Galaxy name: NGC3432
+Target name: CSO295
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [0.480017189163, 125.58247782]
+Allowed X-velocity range: [-37.7780985639, 37.7728421893]
+Combined velocity range: [-37.2980813747, 125.579849633]

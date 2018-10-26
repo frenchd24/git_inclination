@@ -92,7 +92,7 @@
     "name": "UGC08146",
     "RAdeg": 195.53375,
     "DEdeg": 58.70131,
-    "majDiam": 6.018,
+    "majDiam": 20.5,
     "PA": 30.0,
     "Lstar": 0.31,
     "e_Lstar": 0.22,
@@ -101,7 +101,7 @@
     "left_vrot_avg_err": 3.0,
     "dvsys_published": 1.0,
     "right_vrot_incCorrected_avg_err": 3.0,
-    "v200": 74.93,
-    "c": 10.61,
+    "v200": 75.0,
+    "c": 10.62,
     "r200": 159.77
 }

@@ -1,0 +1,9 @@
+Galaxy name: NGC2770
+Target name: FBQSJ0908+3246
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [-118.925911466, -22.7304697169]
+Allowed X-velocity range: [-28.1130035623, 32.4737537613]
+Combined velocity range: [-117.116202136, 9.74328404431]

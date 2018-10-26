@@ -1,0 +1,9 @@
+Galaxy name: MCG-03-58-009
+Target name: MRC2251-178
+flipInclination: False
+reverse: True
+fit_NFW: False
+
+Allowed Y-velocity range: [14.6436814717, 130.31833635]
+Allowed X-velocity range: [-57.3919683459, 69.7362226512]
+Combined velocity range: [-30.3233534563, 117.44186138]

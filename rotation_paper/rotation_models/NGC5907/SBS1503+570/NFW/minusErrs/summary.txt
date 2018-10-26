@@ -1,0 +1,9 @@
+Galaxy name: NGC5907
+Target name: SBS1503+570
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [25.5892250305, 93.4747797695]
+Allowed X-velocity range: [-51.7664656064, 51.6909716775]
+Combined velocity range: [-26.1772405759, 95.3307633531]

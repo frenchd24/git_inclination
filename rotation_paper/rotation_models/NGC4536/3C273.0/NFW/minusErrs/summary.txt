@@ -1,0 +1,9 @@
+Galaxy name: NGC4536
+Target name: 3C273.0
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [-4.92049168567, -2.07723065261]
+Allowed X-velocity range: [-20.7046485471, 29.3165535645]
+Combined velocity range: [-25.6251402327, 25.9133493337]

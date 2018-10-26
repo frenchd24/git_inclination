@@ -32,8 +32,11 @@ def main():
     
     if getpass.getuser() == 'frenchd':
         filename = '/Users/frenchd/Research/correlation/TARGETLIST_10_17_17_TOTAL.csv'
-        resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'
-        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table3.txt'
+#         resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut_plus_ancillary_fits.csv'
+#         outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table3.txt'
+
+        resultsName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/salt_galaxy_sightlines_cut_plus_ancillary_fits_newerrs.csv'
+        outName = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/model_table_redo.txt'
         
     else:
         print 'Could not determine username. Exiting.'
@@ -84,8 +87,10 @@ def main():
         Lya_w = l['Lya_W']
         Vhel_measured = l['Vhel_measured']
         Vrot_corrected = l['Vrot_corrected']
-        model_range = eval(l['model_range'])
-        NFW_range = eval(l['NFW_range'])
+#         model_range = eval(l['model_range'])
+#         NFW_range = eval(l['NFW_range'])
+        model_range = eval(l['model_range_err'])
+        NFW_range = eval(l['NFW_range_err'])
         azimuth = int(round(float(l['azimuth']),0))
         sysNumber = l['number']
         

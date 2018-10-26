@@ -1,0 +1,9 @@
+Galaxy name: CGCG039-137
+Target name: RX_J1121.2+0326
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [3.42780436147, 189.984902668]
+Allowed X-velocity range: [-39.4466355103, 34.9223487795]
+Combined velocity range: [-36.0188311489, 187.72847099]

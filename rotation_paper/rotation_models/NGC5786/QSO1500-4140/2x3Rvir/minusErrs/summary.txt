@@ -1,0 +1,9 @@
+Galaxy name: NGC5786
+Target name: QSO1500-4140
+flipInclination: True
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [110.456660029, 133.227244691]
+Allowed X-velocity range: [-23.732869341, 24.1236996503]
+Combined velocity range: [86.7237906878, 138.449557944]

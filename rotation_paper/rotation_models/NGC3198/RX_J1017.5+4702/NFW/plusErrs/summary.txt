@@ -1,0 +1,9 @@
+Galaxy name: NGC3198
+Target name: RX_J1017.5+4702
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [-88.1515893943, -28.3224625224]
+Allowed X-velocity range: [-20.4939705899, 32.3944921108]
+Combined velocity range: [-95.4468761338, 4.0720295884]

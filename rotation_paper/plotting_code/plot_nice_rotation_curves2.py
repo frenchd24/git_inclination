@@ -206,7 +206,7 @@ def main():
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-    galaxyName = 'NGC3633'
+#     galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -217,7 +217,7 @@ def main():
 #     galaxyName = 'NGC7817'
 #     galaxyName = 'UGC04238'
 #     galaxyName = 'UGC06446'
-#     galaxyName = 'UGC08146'
+    galaxyName = 'UGC08146'
 #     galaxyName = 'UGC09760'
 
 
@@ -456,7 +456,7 @@ def main():
         xlim(0, R_vir*3)
 #         ylim(0, round(np.nanmax(yData),-2) + 50)
 
-        ylim(0,100)
+        ylim(0,150)
 
         savefig('{0}/{1}-NFW_fit_Rvir_times3_2.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
@@ -627,6 +627,8 @@ def main():
             region_size = 1.5
         elif galaxyName == 'UGC08146':
             region_size = 1.5
+        elif galaxyName == 'UGC04238':
+            region_size = 1.5
         else:
             region_size = 2.
         
@@ -747,9 +749,9 @@ def main():
 
 
         # x-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(4)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(2)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)

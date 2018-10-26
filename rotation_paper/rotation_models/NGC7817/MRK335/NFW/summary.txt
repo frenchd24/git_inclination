@@ -1,0 +1,9 @@
+Galaxy name: NGC7817
+Target name: MRK335
+flipInclination: True
+reverse: True
+fit_NFW: True
+
+Allowed Y-velocity range: [0.118684629451, 0.12449604605]
+Allowed X-velocity range: [-25.7034854219, -24.5259320335]
+Combined velocity range: [-25.5848007925, -24.4014359875]

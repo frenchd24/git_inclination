@@ -1,0 +1,9 @@
+Galaxy name: CGCG039-137
+Target name: SDSSJ112224.10+031802.0
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [-117.181492609, -91.6599685652]
+Allowed X-velocity range: [-15.6840398132, 13.6426320688]
+Combined velocity range: [-115.011144882, -98.5182710354]

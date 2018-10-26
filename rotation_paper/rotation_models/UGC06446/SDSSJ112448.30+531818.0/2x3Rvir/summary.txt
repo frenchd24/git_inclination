@@ -1,0 +1,9 @@
+Galaxy name: UGC06446
+Target name: SDSSJ112448.30+531818.0
+flipInclination: False
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [21.826759803, 62.2528479341]
+Allowed X-velocity range: [-28.8601145899, 24.1308574093]
+Combined velocity range: [-7.0333547869, 66.3994563254]

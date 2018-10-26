@@ -1,0 +1,9 @@
+Galaxy name: NGC5907
+Target name: SDSSJ152053.59+571122.1
+flipInclination: False
+reverse: False
+fit_NFW: True
+
+Allowed Y-velocity range: [12.5088432287, 113.369105614]
+Allowed X-velocity range: [-54.7403125682, 54.8028563206]
+Combined velocity range: [-42.2269838506, 113.735192374]

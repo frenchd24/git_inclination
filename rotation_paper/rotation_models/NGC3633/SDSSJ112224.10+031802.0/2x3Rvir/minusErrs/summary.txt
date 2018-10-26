@@ -1,0 +1,9 @@
+Galaxy name: NGC3633
+Target name: SDSSJ112224.10+031802.0
+flipInclination: False
+reverse: False
+fit_NFW: False
+
+Allowed Y-velocity range: [-104.976627836, -96.6695585153]
+Allowed X-velocity range: [10.3186720731, 13.5789781998]
+Combined velocity range: [-94.6579557629, -83.0905803156]

@@ -827,7 +827,7 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
         if galaxyName == 'UGC08146':
             flipInclination = False
             reverse = True
-            NFW_fit = 'tightester2'
+            NFW_fit = 'UGC08146'
 #             agnName = 'PG1259+593'
 
         # grab the coordinates for this target
@@ -986,7 +986,8 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
             r200_lowerbound = 10
             r200_upperbound = 250
             v200_lowerbound = 10
-            v200_upperbound = 75
+#             v200_upperbound = 75
+            v200_upperbound = 80
             c_lowerbound = 1
             c_upperbound = 35
             
@@ -1019,6 +1020,19 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
             c = 10
             r200 = R_vir
             
+            
+        if NFW_fit == 'UGC08146':
+            r200_lowerbound = 10
+            r200_upperbound = 159.77
+            v200_lowerbound = 74.9
+#             v200_upperbound = 75
+            v200_upperbound = 79.0
+            c_lowerbound = 10.6
+            c_upperbound = 10.62
+            
+            v200 = 74.93
+            c = 10.61
+            r200 = R_vir
         
         try:
             print 'v200,c,r200 = ',v200,c,r200
@@ -1314,6 +1328,8 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
         s = 0.01
     elif inc <= 87:
         s = 0.005
+    elif inc <= 89:
+        s = 0.001
     else:
         s = 0.0001
         
@@ -1890,25 +1906,14 @@ def main():
     include_err_list = ['+', '-', False]
 #     include_err_list = [False]
     fit_NFW_list = [True, False]
-    galaxyName_list = ['CGCG039-137',\
-    'ESO343-G014',\
-    'IC5325',\
-    'MCG-03-58-009',\
-    'NGC1566',\
-    'NGC3513',\
-    'NGC3633',\
-    'NGC4536',\
-    'NGC4939',\
-    'NGC5364',\
-    'NGC5786',\
-    'UGC09760']
-    
+    galaxyName_list = ['UGC08146']
+
     
     for galaxyName in galaxyName_list:
         # CGCG039-137
         if galaxyName == 'CGCG039-137':
-            agnName = 'RX_J1121.2+0326'
-#             agnName = 'SDSSJ112224.10+031802.0'
+#             agnName = 'RX_J1121.2+0326'
+            agnName = 'SDSSJ112224.10+031802.0'
 
 
         # RFGC3781 or ESO343-G014
@@ -1930,11 +1935,12 @@ def main():
         if galaxyName == 'NGC1566':
             #extendedHalo for HE0439-5254, RBS567
             #extendedHalo = True
-    #             agnName = 'HE0439-5254'
-            agnName = 'HE0435-5304'
-    #             agnName = 'RBS567'
-    #             agnName = 'HE0429-5343'
-    #             agnName = '1H0419-577'
+#             agnName = 'HE0439-5254'
+#             agnName = 'RBS567'
+
+#             agnName = 'HE0435-5304'
+#             agnName = 'HE0429-5343'
+            agnName = '1H0419-577'
 
 
         # NGC3513
@@ -1947,8 +1953,8 @@ def main():
         # this one is too distant
 #             agnName = 'SDSSJ112005.00+041323.0'
 
-            agnName = 'RX_J1121.2+0326'
-#             agnName = 'SDSSJ112224.10+031802.0'
+#             agnName = 'RX_J1121.2+0326'
+            agnName = 'SDSSJ112224.10+031802.0'
 
 
         # NGC4536
@@ -1956,8 +1962,8 @@ def main():
         # use NGC4536-summary7.json for NFW fits (this file has the weird data on the 
         # (left of NGC4536 removed, resulting in a much better NFW fit)
         # NGC4536-summary6.json has all the original data intact
-            agnName = '3C273.0'
-    #             agnName = 'HE1228+0131'
+#             agnName = '3C273.0'
+            agnName = 'HE1228+0131'
 
 
         # NGC4939
@@ -1984,11 +1990,11 @@ def main():
 
 
     ##########################################################################################
-
+    
         # NGC3198
         if galaxyName == 'NGC3198':
-            agnName = 'RX_J1017.5+4702'
-    #             agnName = 'SDSSJ101622.60+470643.0'
+#             agnName = 'RX_J1017.5+4702'
+                agnName = 'SDSSJ101622.60+470643.0'
 
 
         # NGC4565
@@ -2026,64 +2032,64 @@ def main():
 
         # NGC5907
         if galaxyName == 'NGC5907':
-            agnName = 'SBS1503+570'
-    #         agnName = 'SDSSJ152053.59+571122.1'
-    #         agnName = 'RBS1503'
+#             agnName = 'SBS1503+570'
+#             agnName = 'SDSSJ152053.59+571122.1'
+            agnName = 'RBS1503'
 
 
         # UGC06446
         if galaxyName == 'UGC06446':
-            agnName = 'SDSSJ112448.30+531818.0'
-    #             agnName = 'RX_J1117.6+5301'
+#             agnName = 'SDSSJ112448.30+531818.0'
+            agnName = 'RX_J1117.6+5301'
 
 
         # NGC3631
         if galaxyName == 'NGC3631':
-            agnName = 'SDSSJ111443.70+525834.0'
-    #             agnName = 'RX_J1117.6+5301'
-    #             agnName = 'SBS1116+523'
-    #             agnName = 'SDSSJ112448.30+531818.0'
+#             agnName = 'SDSSJ111443.70+525834.0'
+#             agnName = 'RX_J1117.6+5301'
+#             agnName = 'SBS1116+523'
+            agnName = 'SDSSJ112448.30+531818.0'
 
 
-        # UGC06399
-        if galaxyName == 'UGC06399':
-            agnName = 'SBS1116+523'
+        # UGC06399 - agn is too far away
+#         if galaxyName == 'UGC06399':
+#             agnName = 'SBS1116+523'
 
 
         # NGC3726
         if galaxyName == 'NGC3726':
-            agnName = 'CSO1208'
-    #             agnName = 'RX_J1142.7+4625'
+#             agnName = 'CSO1208'
+            agnName = 'RX_J1142.7+4625'
 
 
         # NGC3067
         if galaxyName == 'NGC3067':
-            agnName = '3C232'
-    #             agnName = 'RX_J1002.9+3240'
-    #             agnName = 'SDSSJ095914.80+320357.0'
+#             agnName = '3C232'
+#             agnName = 'RX_J1002.9+3240'
+            agnName = 'SDSSJ095914.80+320357.0'
 
 
         # NGC2770
         if galaxyName == 'NGC2770':
-            agnName = 'FBQSJ0908+3246'
-    #             agnName = 'TON1009'
-    #             agnName = 'TON1015'
-    #             agnName = 'SDSSJ091052.80+333008.0'
-    #             agnName = 'SDSSJ091127.30+325337.0'
+#             agnName = 'FBQSJ0908+3246'
+#             agnName = 'TON1009'
+#             agnName = 'TON1015'
+#             agnName = 'SDSSJ091052.80+333008.0'
+            agnName = 'SDSSJ091127.30+325337.0'
 
 
         # NGC3432
         if galaxyName == 'NGC3432':
-            agnName = 'MS1047.3+3518'
-    #             agnName = 'CSO295'
-    #             agnName = 'RX_J1054.2+3511'
+#             agnName = 'MS1047.3+3518'
+#             agnName = 'CSO295'
+            agnName = 'RX_J1054.2+3511'
 
 
         # NGC3666
         if galaxyName == 'NGC3666':
-            agnName = 'SDSSJ112439.50+113117.0'
-    #         agnName = 'SDSSJ112632.90+120437.0'
-    #         agnName = 'SDSSJ112756.70+115427.0'
+#             agnName = 'SDSSJ112439.50+113117.0'
+#             agnName = 'SDSSJ112632.90+120437.0'
+            agnName = 'SDSSJ112756.70+115427.0'
 
 
         # NGC5951
