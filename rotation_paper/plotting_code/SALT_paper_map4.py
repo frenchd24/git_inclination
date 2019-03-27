@@ -184,12 +184,12 @@ def main():
     # where to write to?
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe5/'
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes_maybe6/'
-    out_directory = '/Users/frenchd/Research/test/SALT_maps_redo/'
+    out_directory = '/Users/frenchd/Research/test/SALT_maps_redo2/'
 
 #     out_directory = '/Users/frenchd/Research/test/SALT_maps_yes/'
 
     # only include absorbers that have dv less than or equal to the maximal rotation velocity?
-    only_close_velocities = True
+    only_close_velocities = False
     
     # include open circles for sightlines with no absorption detected?
     include_nondetection = True
@@ -201,6 +201,8 @@ def main():
 #     Lstar_range = [0.0, 0.5]
 #     Lstar_range = [0.50001, 100.0]
 
+    # if true, makes a L <= 0.6L* note on maps 
+    Lstar_note = False
 
     # azimuth limit for "maybe" trigger
     az_limit = 85.
@@ -212,7 +214,7 @@ def main():
     legend_font = 12
     
     # minimum distance to another galaxy
-    min_separation = 20.0
+    min_separation = False
 
     # how far to zoom in for zoom-in plot? Units of R_vir
     zoom_limit = 1.0
@@ -1044,22 +1046,34 @@ def main():
         annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
+        annotate(r'$\rm Apparent~Vel.$', xy=(2.92, 2.84),\
+        xytext=(0.0,0.0), textcoords='offset points', size=12, weight='bold')
+        
+        if only_close_velocities:
+            annotate(r'$\rm | \Delta v | \leq v_{\rm rot}$', xy=(2.92, 2.6),\
+            xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+        
+            if Lstar_note:
+                annotate(r'$\rm L \leq 0.6 L^{\**}$', xy=(2.92, 2.36),\
+                xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+            
 
-        # x-axis
-        majorLocator   = MultipleLocator(1)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(0.5)
-        ax.xaxis.set_major_locator(majorLocator)
-        ax.xaxis.set_major_formatter(majorFormatter)
-        ax.xaxis.set_minor_locator(minorLocator)
 
-        # y axis
-        majorLocator   = MultipleLocator(1)
-        majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(0.5)
-        ax.yaxis.set_major_locator(majorLocator)
-        ax.yaxis.set_major_formatter(majorFormatter)
-        ax.yaxis.set_minor_locator(minorLocator)
+#         x-axis
+#         majorLocator   = MultipleLocator(1)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(0.5)
+#         ax.xaxis.set_major_locator(majorLocator)
+#         ax.xaxis.set_major_formatter(majorFormatter)
+#         ax.xaxis.set_minor_locator(minorLocator)
+# 
+#         y axis
+#         majorLocator   = MultipleLocator(1)
+#         majorFormatter = FormatStrFormatter(r'$\rm %d$')
+#         minorLocator   = MultipleLocator(0.5)
+#         ax.yaxis.set_major_locator(majorLocator)
+#         ax.yaxis.set_major_formatter(majorFormatter)
+#         ax.yaxis.set_minor_locator(minorLocator)
 
 
         import matplotlib.patches as mpatches
@@ -1305,7 +1319,17 @@ def main():
         annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
-
+        annotate(r'$\rm Cyl.~Model$', xy=(2.92, 2.84),\
+        xytext=(0.0,0.0), textcoords='offset points', size=12, weight='bold')
+        
+        if only_close_velocities:
+            annotate(r'$\rm | \Delta v | \leq v_{\rm rot}$', xy=(2.92, 2.6),\
+            xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+        
+            if Lstar_note:
+                annotate(r'$\rm L \leq 0.6 L^{\**}$', xy=(2.92, 2.36),\
+                xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+            
         # x-axis
     #     majorLocator   = MultipleLocator(0.5)
     #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
@@ -1570,7 +1594,17 @@ def main():
         annotate(r'$\rm Approaching~ Side$',xy=(2.97, 0.06),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
 
-
+        annotate(r'$\rm NFW~Model$', xy=(2.92, 2.84),\
+        xytext=(0.0,0.0), textcoords='offset points', size=12, weight='bold')
+        
+        if only_close_velocities:
+            annotate(r'$\rm | \Delta v | \leq v_{\rm rot}$', xy=(2.92, 2.6),\
+            xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+        
+            if Lstar_note:
+                annotate(r'$\rm L \leq 0.6 L^{\**}$', xy=(2.92, 2.36),\
+                xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+            
         # x-axis
     #     majorLocator   = MultipleLocator(0.5)
     #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
@@ -1817,8 +1851,19 @@ def main():
     
         annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.06, 0.02),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
+        
+        annotate(r'$\rm Apparent~Vel.~(zoom-in)$', xy=(0.98, 0.94),\
+        xytext=(0.0,0.0), textcoords='offset points', size=12, weight='bold')
+        
+        if only_close_velocities:
+            annotate(r'$\rm | \Delta v | \leq v_{\rm rot}$', xy=(0.98, 0.87),\
+            xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+        
+            if Lstar_note:
+                annotate(r'$\rm L \leq 0.6 L^{\**}$', xy=(0.98, 0.8),\
+                xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+            
+            
         # x-axis
     #     majorLocator   = MultipleLocator(0.5)
     #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')
@@ -2032,8 +2077,18 @@ def main():
     
         annotate(r'$\rm Approaching~ Side$',xy=(zoom_limit-0.06, 0.02),\
         xytext=(0.0,0.0),textcoords='offset points',size=9)
-
-
+        
+        annotate(r'$\rm NFW~model~(zoom-in)$', xy=(0.98, 0.94),\
+        xytext=(0.0,0.0), textcoords='offset points', size=12, weight='bold')
+        
+        if only_close_velocities:
+            annotate(r'$\rm | \Delta v | \leq v_{\rm rot}$', xy=(0.98, 0.87),\
+            xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+        
+            if Lstar_note:
+                annotate(r'$\rm L \leq 0.6 L^{\**}$', xy=(0.98, 0.8),\
+                xytext=(0.0,0.0), textcoords='offset points', size=11, weight='bold')
+            
         # x-axis
     #     majorLocator   = MultipleLocator(0.5)
     #     majorFormatter = FormatStrFormatter(r'$\rm %0.1f$')

@@ -197,7 +197,7 @@ def main():
     plot_3Dmodel = False
     plot_3Dmodel_movie = False
     
-    plot_NFW_fit = True
+    plot_NFW_fit = False
     plot_rotation_curve = True
     
 #     movie_directory = '/Users/frenchd/Research/inclination/git_inclination/thesis/DMF_thesis/NGC3633_movie/'
@@ -241,21 +241,66 @@ def main():
     # 'xVals': physical (kpc) x axis along the slit
 
     directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/rot_curves/'
-#     galaxyName = 'NGC3633'
-#     agnName = 'RX_J1121.2+0326'
 
 #     galaxyName = 'ESO343-G014'
+#     legend_loc = 'lower right'
+#     x_ticks = 5.
+#     y_ticks = 50.
+
 #     galaxyName = 'CGCG039-137'
+#     legend_loc = 'lower right'
+#     x_ticks = 5.
+#     y_ticks = 50.
+
 #     galaxyName = 'IC5325'
+#     legend_loc = 'lower right'
+#     x_ticks = 2.
+#     y_ticks = 50.
+
 #     galaxyName = 'MCG-03-58-009'
+#     legend_loc = 'lower left'
+#     x_ticks = 5.
+#     y_ticks = 50.
+
 #     galaxyName = 'NGC1566'
-    galaxyName = 'NGC3513'
+#     legend_loc = 'lower right'
+#     x_ticks = 2.
+#     y_ticks = 100.
+
+#     galaxyName = 'NGC3513'
+#     legend_loc = 'lower left'
+#     x_ticks = 2.
+#     y_ticks = 50.
+    
 #     galaxyName = 'NGC3633'
+#     legend_loc = 'lower right'
+#     x_ticks = 2.
+#     y_ticks = 50.
+    
 #     galaxyName = 'NGC4536'
+#     legend_loc = 'lower right'
+#     x_ticks = 4.
+#     y_ticks = 100.
+    
 #     galaxyName = 'NGC4939'
+#     legend_loc = 'lower right'
+#     x_ticks = 10.
+#     y_ticks = 100.
+    
 #     galaxyName = 'NGC5364'
+#     legend_loc = 'lower left'
+#     x_ticks = 4.
+#     y_ticks = 50.
+    
 #     galaxyName = 'NGC5786'
-#     galaxyName = 'UGC09760'
+#     legend_loc = 'lower right'
+#     x_ticks = 2.
+#     y_ticks = 100.
+    
+    galaxyName = 'UGC09760'
+    legend_loc = 'lower left'
+    x_ticks = 3.
+    y_ticks = 50.
 
 
     agnName = 'RX_J1121.2+0326'
@@ -295,8 +340,8 @@ def main():
         left_vrot_avg_err = data['left_vrot_avg_err']
 
         xVals = data['xVals']
-        vsys_measured = data['vsys_measured']
-        vsys_measured_err = data['vsys_measured_err']
+        vsys_measured = int(round(data['vsys_measured'],0))
+        vsys_measured_err = int(round(data['vsys_measured_err'],0))
 
         
         RA_galaxy = data['RAdeg']
@@ -657,6 +702,10 @@ def main():
         if left_vrot_incCorrected_avg < 0:
             left_vel_final *= -1
         
+        # make a legend  for vhel
+        plot(0, 0, lw=0, label=r'$\rm v_{{\rm hel}} = {0}\pm{1}~km s^{{-1}}$'.format(vsys_measured, vsys_measured_err))
+        
+        
         plot((outerRightX[-1], outerRightX[0]),
             (right_vel_final, right_vel_final),
             lw=2,
@@ -698,21 +747,21 @@ def main():
                     alpha=0.2,
                     linewidth=0)
 
-        legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
+#         legend(scatterpoints=1,prop={'size':12},loc='upper left',fancybox=True)
 
 
         # x-axis
-        majorLocator   = MultipleLocator(2)
+        majorLocator   = MultipleLocator(x_ticks)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(1)
+        minorLocator   = MultipleLocator(x_ticks/2)
         ax.xaxis.set_major_locator(majorLocator)
         ax.xaxis.set_major_formatter(majorFormatter)
         ax.xaxis.set_minor_locator(minorLocator)
 
         # y axis
-        majorLocator   = MultipleLocator(50)
+        majorLocator   = MultipleLocator(y_ticks)
         majorFormatter = FormatStrFormatter(r'$\rm %d$')
-        minorLocator   = MultipleLocator(25)
+        minorLocator   = MultipleLocator(y_ticks/2)
         ax.yaxis.set_major_locator(majorLocator)
         ax.yaxis.set_major_formatter(majorFormatter)
         ax.yaxis.set_minor_locator(minorLocator)
@@ -721,8 +770,19 @@ def main():
         ylabel(r'$\rm \emph{v}_{{rot}} ~[km s^{{-1}}]$')
     
     
-        leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
+#         leg = ax.legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
     #         leg.get_frame().set_alpha(0.5)
+    
+        # make the legend
+        leg = ax.legend(title=r'$\rm {0}$'.format(galaxyName),
+                        scatterpoints=1,
+                        prop={'size':12},
+                        loc=legend_loc,
+                        fancybox=True)
+
+        leg.get_frame().set_alpha(1.0)
+        leg._legend_box.align = "left"
+            
 
         ax.grid(b=None,which='major',axis='both')
         xlim(-x_lim, x_lim)
@@ -731,7 +791,7 @@ def main():
         ylim(-(round(np.nanmax(yData),-1) + 50), round(np.nanmax(yData),-1) + 50)
         tight_layout()
 
-        savefig('{0}/{1}-rotation_curve_nice3.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
+        savefig('{0}/{1}-rotation_curve_nice4.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 
 
 ##########################################################################################

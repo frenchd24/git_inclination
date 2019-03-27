@@ -151,7 +151,7 @@ def main():
     # which thing to plot?
     plot_velocity = False
     plot_NFW_fit = True
-    plot_rotation_curve = True
+    plot_rotation_curve = False
     
     save_directory = '/Users/frenchd/Research/inclination/git_inclination/rotation_paper/figures/'
 
@@ -206,7 +206,7 @@ def main():
 #     galaxyName = 'MCG-03-58-009'
 #     galaxyName = 'NGC1566'
 #     galaxyName = 'NGC3513'
-#     galaxyName = 'NGC3633'
+    galaxyName = 'NGC3633'
 #     galaxyName = 'NGC4536'
 #     galaxyName = 'NGC4939'
 #     galaxyName = 'NGC5364'
@@ -217,7 +217,7 @@ def main():
 #     galaxyName = 'NGC7817'
 #     galaxyName = 'UGC04238'
 #     galaxyName = 'UGC06446'
-    galaxyName = 'UGC08146'
+#     galaxyName = 'UGC08146'
 #     galaxyName = 'UGC09760'
 
 
@@ -424,6 +424,9 @@ def main():
                 c=color_blue,
                 label=r'$\rm 1 \emph{R}_{vir}$')
         
+#         ax.set_xscale('log')
+
+        
         legend(scatterpoints=1,prop={'size':14},loc='lower right',fancybox=True)
 
         # x-axis
@@ -456,7 +459,7 @@ def main():
         xlim(0, R_vir*3)
 #         ylim(0, round(np.nanmax(yData),-2) + 50)
 
-        ylim(0,150)
+        ylim(0,200)
 
         savefig('{0}/{1}-NFW_fit_Rvir_times3_2.pdf'.format(save_directory, galaxyName),format='pdf',bbox_inches='tight')
 

@@ -58,6 +58,7 @@ def calculate_likelihood(impact, R_vir, vel_dif):
     
     return likelihood
     
+    
 
 def calculate_cusLikelihood(impact, MajDiam, vel_dif):
     # try this "sphere of influence" value

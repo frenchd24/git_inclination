@@ -1504,6 +1504,16 @@ def model(galaxyName, agnName, fit_NFW = True, include_errs = '+'):
         # number of actual intercept elements to take for each step
         len_step = len(intersect_list)/steps
         
+        print '##################################################################'
+        print
+        print
+        print
+        print 'intersect_list: ',intersect_list
+        print
+        print
+        print
+        print '##################################################################'
+
         intersect_v_list = (np.array(intersect_list)/1000)*hubbleConstant
         
         print 'len_step: ',len_step
@@ -1904,8 +1914,9 @@ def main():
     
     
     include_err_list = ['+', '-', False]
-#     include_err_list = [False]
-    fit_NFW_list = [True, False]
+    include_err_list = [False]
+#     fit_NFW_list = [True, False]
+    fit_NFW_list = [True]
     galaxyName_list = ['UGC08146']
 
     

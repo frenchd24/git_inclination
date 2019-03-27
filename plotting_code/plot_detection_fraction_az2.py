@@ -53,7 +53,9 @@ rc('ytick',labelsize = fontScale)
 # rc('font', weight = 450)
 # rc('axes',labelweight = 'bold')
 rc('axes',linewidth = 1)
-    
+rc('xtick',direction='in')
+rc('ytick',direction='in')
+
 
 ###########################################################################
 

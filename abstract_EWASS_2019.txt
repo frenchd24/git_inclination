@@ -1,0 +1,39 @@
+High Velocity Clouds (HVCs) are a likely source of circumgalactic medium (CGM) associated with our own Galaxy, and have been posited to represent a fuel source for both past and future Galactic star formation. Numerous ultraviolet studies have probed the CGM of other galaxies down to HI columns of N(HI)< 10^13 cm^2, but a similar survey of HI in Galactic HVCs has proven difficult due to confusion with ISM disk gas. 
+
+I will present initial results from the deepest-to-date HI absorption survey of high velocity clouds in the Milky Way halo. We have performed multi-component Voigt-profile fits to the complete HI Lyman series for a sample of 67 archival sightlines originally observed with the Far-Ultraviolet Spectroscopic Explorer. This process allows us to constrain the column density distribution  of absorption down to N(HI) ~ 10^14 cm^2, nearly 4 orders of magnitude deeper than results from 21cm absorption studies. I will discuss the resulting sky covering fraction, the spatial distribution of absorption, and the column density distribution of Galactic HI, together with a comparison of how these results fit within the context of extragalactic CGM surveys.
+
+
+----
+
+
+High Velocity Clouds (HVCs) are a likely source of circumgalactic medium (CGM) associated with our own Galaxy, and have been posited to represent a fuel source for both past and future Galactic star formation. Numerous ultraviolet studies have probed the CGM of other galaxies down to HI columns of N(HI)< 10^13 cm^2, but a similar survey of HI in Galactic HVCs has proven difficult due to confusion with ISM disk gas. However, we are now tackling this problem by performing multi-component Voigt-profile fits to the complete HI Lyman series for a sample of 67 archival sightlines originally observed with the Far-Ultraviolet Spectroscopic Explorer. This simultaneous fitting of both high and low-order Lyman lines allows us to separate the high-velocity absorption components from intervening low-velocity ISM, and thus allows us to constrain the column density distribution of absorption down to N(HI) ~ 10^14 cm^2, nearly 4 orders of magnitude deeper than results from 21cm absorption studies. I will present initial results from this, the deepest-to-date HI absorption survey of high velocity clouds in the Milky Way halo. I will discuss the resulting sky covering fraction, the spatial distribution of absorption, and the column density distribution of Galactic HI, together with a comparison of how these results fit within the context of extragalactic CGM surveys.
+
+
+----- Final
+
+
+
+The HI content of HVCs have been well studied in 21 cm emission down to N(HI) ~ 10^18 cm^2, but a metal-independent survey 
+
+
+While well studied in 21 cm emission down to N(HI) ~ 10^18 cm^2, we do not yet have an accurate measure of the total HI content independent of 
+
+a fully metal-independent census of 
+
+
+Despite being well studied in 21 cm emission, a fully metal-independent census of the HI content has 
+
+but a metal-independent survey
+
+
+
+Ultraviolet studies have probed the CGM of other galaxies down to HI columns of N(HI)< 10^13 cm^2, but a complimentary survey of HI in Galactic HVCs has proven difficult due to confusion with ISM disk gas. 
+
+
+The HI Column Density Distribution of High Velocity Clouds
+
+
+High Velocity Clouds (HVCs) trace the circumgalactic medium (CGM) of our own Galaxy, and represent a fuel source for both past and future Galactic star formation. Ultraviolet studies have probed the CGM of other galaxies many orders of magnitude more deeply than our own, as a complementary survey of HI in Galactic HVCs has proven difficult due to confusion with ISM disk gas. However, we are now tackling this problem by performing multi-component Voigt-profile fits to the complete HI Lyman series for a sample of 67 archival sightlines originally observed with the Far-Ultraviolet Spectroscopic Explorer. This simultaneous fitting of both high and low-order Lyman lines allows us to separate the high-velocity absorption components from intervening low-velocity ISM in a metal-independent way, and thus allows us to constrain the column density distribution of baryons in the Milky Way halo down to N(HI) ~ 10^14 cm^2, nearly 4 orders of magnitude deeper than results from 21 cm emission studies. I will present initial results from this, the deepest-to-date HI absorption survey of high velocity clouds in the Milky Way halo. Furthermore, I will discuss the resulting sky covering fraction and the spatial distribution of absorption, together with a comparison of how these results fit within the context of extragalactic CGM surveys.
+
+
+

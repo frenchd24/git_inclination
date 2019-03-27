@@ -1439,6 +1439,35 @@ def main():
         stats_file.write('\n')
         
         
+        # Statistical distribution tests
+        #
+        # corotate_b vs anti-rotate_b
+        ks = stats.ks_2samp(corotate_b, antirotate_b)
+        ad = stats.anderson_ksamp([corotate_b, antirotate_b])
+        rs, p_val = stats.ranksums(corotate_b, antirotate_b)
+
+        stats_file.write('------------------------------------\n')
+        stats_file.write('Statistical tests:\n')
+        stats_file.write('Co- vs anti-rotating:\n')
+        stats_file.write('KS : corotate_b vs antirotate_b: {0}\n'.format(ks))
+        stats_file.write('AD : corotate_b vs antirotate_b: {0}\n'.format(ad))
+        stats_file.write('Ranksum : corotate_b vs antirotate_b: {0}, pval={1}\n'.format(rs,p_val))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        
+        # Lstar_high vs Lstar_low
+        ks = stats.ks_2samp(Lstar_high, Lstar_low)
+        ad = stats.anderson_ksamp([Lstar_high, Lstar_low])
+        rs, p_val = stats.ranksums(Lstar_high, Lstar_low)
+
+        stats_file.write('-----------\n')
+        stats_file.write('Lstar_high vs Lstar_low :\n')
+        stats_file.write('KS : Lstar_high vs Lstar_low: {0}\n'.format(ks))
+        stats_file.write('AD : Lstar_high vs Lstar_low: {0}\n'.format(ad))
+        stats_file.write('Ranksum : Lstar_high vs Lstar_low: {0}, pval={1}\n'.format(rs, p_val))
+        stats_file.write('\n')
+        stats_file.write('\n')
+        
         stats_file.close()    
 
 
