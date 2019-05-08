@@ -1,9 +1,0 @@
-Galaxy name: NGC3513
-Target name: H1101-232
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [2.26527402428, 22.9999999623]
-Allowed X-velocity range: [-21.8160240375, 26.3740172911]
-Combined velocity range: [-16.8821910317, 28.6392913154]

@@ -1,9 +1,0 @@
-Galaxy name: NGC3631
-Target name: SBS1116+523
-flipInclination: False
-reverse: False
-fit_NFW: True
-
-Allowed Y-velocity range: [-16.5501781439, -8.94848560117]
-Allowed X-velocity range: [-15.0574907196, 19.5773887929]
-Combined velocity range: [-31.1640316343, 10.6289031917]

@@ -1,9 +1,0 @@
-Galaxy name: NGC3198
-Target name: SDSSJ101622.60+470643.0
-flipInclination: True
-reverse: True
-fit_NFW: True
-
-Allowed Y-velocity range: [-85.820632691, -25.7322528592]
-Allowed X-velocity range: [-9.44397886071, 31.8536563241]
-Combined velocity range: [-94.0936644488, 6.12140346483]

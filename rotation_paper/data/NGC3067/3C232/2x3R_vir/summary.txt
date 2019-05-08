@@ -1,9 +1,0 @@
-Galaxy name: NGC3067
-Target name: 3C232
-flipInclination: False
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [-120.803256836, -1.23207825032]
-Allowed X-velocity range: [-25.731462315, 26.2436150023]
-Combined velocity range: [-120.547539433, 25.0115063864]

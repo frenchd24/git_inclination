@@ -1,9 +1,0 @@
-Galaxy name: NGC3633
-Target name: RX_J1121.2+0326
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [-149.315871838, -37.8624804798]
-Allowed X-velocity range: [-24.7760796272, 24.1974405204]
-Combined velocity range: [-153.10602705, -13.6650399593]

@@ -1,9 +1,0 @@
-Galaxy name: NGC5364
-Target name: SDSSJ135726.27+043541.4
-flipInclination: False
-reverse: False
-fit_NFW: True
-
-Allowed Y-velocity range: [0.855645949532, 54.743630901]
-Allowed X-velocity range: [-33.0868327295, 42.0926850201]
-Combined velocity range: [-31.2007665188, 47.2479853938]

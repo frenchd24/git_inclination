@@ -1,9 +1,0 @@
-Galaxy name: IC5325
-Target name: RBS2000
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [-32.1512963919, -17.4687213438]
-Allowed X-velocity range: [-23.4917653655, 12.5288895014]
-Combined velocity range: [-40.9604867093, -19.6224068905]

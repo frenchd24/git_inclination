@@ -1,9 +1,0 @@
-Galaxy name: UGC06446
-Target name: RX_J1117.6+5301
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [45.5351020665, 52.2184456473]
-Allowed X-velocity range: [-6.90232525737, -0.536489230478]
-Combined velocity range: [38.6327768091, 51.6819564168]

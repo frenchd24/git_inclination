@@ -1,9 +1,0 @@
-Galaxy name: NGC4939
-Target name: PG1302-102
-flipInclination: False
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [-238.771179686, -42.6331663277]
-Allowed X-velocity range: [-38.4521761536, 46.0094935202]
-Combined velocity range: [-247.731441345, 3.37632719252]

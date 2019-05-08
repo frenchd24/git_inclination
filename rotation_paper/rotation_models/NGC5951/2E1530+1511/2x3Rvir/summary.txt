@@ -1,9 +1,0 @@
-Galaxy name: NGC5951
-Target name: 2E1530+1511
-flipInclination: False
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [1.33068571087, 114.225361664]
-Allowed X-velocity range: [-32.9288674048, 35.1585293283]
-Combined velocity range: [-31.5981644442, 115.341121912]

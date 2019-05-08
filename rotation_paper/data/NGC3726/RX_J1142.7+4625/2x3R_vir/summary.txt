@@ -1,9 +1,0 @@
-Galaxy name: NGC3726
-Target name: RX_J1142.7+4625
-flipInclination: True
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [-16.8096203781, -6.86250233797]
-Allowed X-velocity range: [-26.7332746248, 2.5588859608]
-Combined velocity range: [-33.5957769628, -14.2507344173]

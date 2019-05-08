@@ -1,9 +1,0 @@
-Galaxy name: NGC3631
-Target name: RX_J1117.6+5301
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [6.40889888016, 45.6242461034]
-Allowed X-velocity range: [-15.6764902778, 18.9583892347]
-Combined velocity range: [12.3650902907, 29.9477558256]

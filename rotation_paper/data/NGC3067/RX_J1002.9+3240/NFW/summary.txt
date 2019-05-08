@@ -1,9 +1,0 @@
-Galaxy name: NGC3067
-Target name: RX_J1002.9+3240
-flipInclination: False
-reverse: True
-fit_NFW: True
-
-Allowed Y-velocity range: [50.2093860321, 58.0985227406]
-Allowed X-velocity range: [-7.85983148465, 10.219025183]
-Combined velocity range: [42.3495545475, 65.4653170532]

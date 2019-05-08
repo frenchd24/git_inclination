@@ -1,9 +1,0 @@
-Galaxy name: NGC3432
-Target name: RX_J1054.2+3511
-flipInclination: True
-reverse: True
-fit_NFW: True
-
-Allowed Y-velocity range: [27.2462533855, 110.884655198]
-Allowed X-velocity range: [-36.0227484653, 36.0825942469]
-Combined velocity range: [-8.76640958657, 111.450030955]

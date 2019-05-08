@@ -1,9 +1,0 @@
-Galaxy name: NGC3067
-Target name: SDSSJ095914.80+320357.0
-flipInclination: False
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [37.6684275421, 140.125852033]
-Allowed X-velocity range: [-27.1625956641, 22.9020982467]
-Combined velocity range: [10.5067017787, 138.169782852]

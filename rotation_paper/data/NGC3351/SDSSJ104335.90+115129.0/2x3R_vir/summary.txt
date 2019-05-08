@@ -1,9 +1,0 @@
-Galaxy name: NGC3351
-Target name: SDSSJ104335.90+115129.0
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [-98.1903724176, -11.7682887286]
-Allowed X-velocity range: [-22.6055173689, 24.322539868]
-Combined velocity range: [-100.887530619, 12.5542511395]

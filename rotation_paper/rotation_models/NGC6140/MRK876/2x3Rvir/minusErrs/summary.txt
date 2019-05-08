@@ -1,9 +1,0 @@
-Galaxy name: NGC6140
-Target name: MRK876
-flipInclination: False
-reverse: True
-fit_NFW: False
-
-Allowed Y-velocity range: [55.2016516159, 100.376374145]
-Allowed X-velocity range: [-12.8079528259, 10.7736142532]
-Combined velocity range: [42.39369879, 103.311137763]

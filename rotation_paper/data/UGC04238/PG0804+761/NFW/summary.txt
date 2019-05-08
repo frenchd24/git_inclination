@@ -1,9 +1,0 @@
-Galaxy name: UGC04238
-Target name: PG0804+761
-flipInclination: False
-reverse: False
-fit_NFW: True
-
-Allowed Y-velocity range: [30.6859651179, 144.93748107]
-Allowed X-velocity range: [-21.114897449, 23.1618760195]
-Combined velocity range: [9.99573817759, 146.043757309]

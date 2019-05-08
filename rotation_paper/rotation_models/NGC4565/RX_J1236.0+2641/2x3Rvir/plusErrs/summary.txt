@@ -1,9 +1,0 @@
-Galaxy name: NGC4565
-Target name: RX_J1236.0+2641
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [46.1904132127, 264.354473148]
-Allowed X-velocity range: [-44.1224374419, 45.07480356]
-Combined velocity range: [2.06797577083, 264.951471925]

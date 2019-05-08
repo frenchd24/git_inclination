@@ -1,9 +1,0 @@
-Galaxy name: NGC3631
-Target name: SDSSJ112448.30+531818.0
-flipInclination: False
-reverse: False
-fit_NFW: False
-
-Allowed Y-velocity range: [-29.1644683398, -5.28337311217]
-Allowed X-velocity range: [-19.1225287553, 15.5123507572]
-Combined velocity range: [-24.4059018675, -8.05072752506]
